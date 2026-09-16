@@ -58,23 +58,71 @@ async function initDb(){await run(`CREATE TABLE IF NOT EXISTS users(id BIGSERIAL
 
 async function mediamtxAuth(req,res){try{const b=await body(req);const rawPath=String(b.path||'').replace(/^\/+|\/+$/g,'');const slug=rawPath.replace(/\/(?:whip|publish)$/,'');const c=await channelBySlug(slug);const supplied=String(b.token||b.password||b.streamKey||'');if(!c||!supplied)return json(res,401,{error:'unauthorized'});const stored=String(c.stream_key_hash||'');const suppliedHash=hashStreamKey(supplied);let valid=stored===suppliedHash;if(!valid&&/^[a-f0-9]{64}$/i.test(stored)){const a=Buffer.from(supplied),b=Buffer.from(stored);valid=a.length===b.length&&crypto.timingSafeEqual(a,b);if(valid)await run('UPDATE channels SET stream_key_hash=$1 WHERE id=$2',[suppliedHash,c.id])}if(!valid)return json(res,401,{error:'invalid stream key'});return json(res,200,{})}catch{return json(res,401,{error:'unauthorized'})}}
 
+// Heroes: OpenDota heroStats already includes a usable `name` field per hero, so a raw pass-through is fine.
+// Items: OpenDota constants/items objects do NOT include a `name` field (only `dname` + an internal object
+// key) -- passing that straight through used to make the client's normalizeItems() (which requires
+// raw.id && raw.name) drop every single item, i.e. an empty item list once deployed. Mirrors the
+// Valve -> OpenDota -> dotaconstants merge that preview-server.js already does (see CLAUDE.md "Карта данных").
+function officialItems(j){return j?.result?.data?.itemabilities||j?.result?.data?.items||j?.data?.itemabilities||j?.data?.items||[];}
+function objectValues(j){if(Array.isArray(j))return j;if(j&&typeof j==='object')return Object.values(j);return [];}
+function normalizeItems(source){
+  let arr=officialItems(source);if(!arr.length)arr=objectValues(source);
+  const out=[],seen=new Set();
+  for(const raw of arr){if(!raw||!raw.id||!raw.name)continue;const x={...raw,id:Number(raw.id),dname:raw.dname||raw.name_loc||raw.name_english_loc||raw.name};if(seen.has(x.id))continue;seen.add(x.id);out.push(x);}
+  return out;
+}
+function mergeItems(base,constants){
+  const m=new Map(constants.map(x=>[Number(x.id),x]));
+  return base.map(x=>({...m.get(Number(x.id)),...x,dname:x.dname||m.get(Number(x.id))?.dname||x.name}));
+}
+async function fetchJsonSafe(url){const r=await fetch(url,{headers:{Accept:'application/json'}});if(!r.ok) throw new Error('HTTP '+r.status+' for '+url);return r.json();}
+async function fetchItemsList(){
+  const [o,s,c]=await Promise.allSettled([
+    fetchJsonSafe('https://www.dota2.com/datafeed/itemlist?language=english'),
+    fetchJsonSafe('https://api.opendota.com/api/constants/items'),
+    fetchJsonSafe('https://raw.githubusercontent.com/odota/dotaconstants/master/build/items.json')
+  ]);
+  const official=o.status==='fulfilled'?normalizeItems(o.value):[];
+  const constants=s.status==='fulfilled'?objectValues(s.value):[];
+  const staticItems=c.status==='fulfilled'?normalizeItems(c.value):[];
+  const base=official.length?official:(constants.length?constants:staticItems);
+  if(!base.length) throw new Error('No item source available');
+  const merged=mergeItems(base,constants);
+  if(merged.length<100) throw new Error('Item source incomplete: '+merged.length);
+  return merged;
+}
+async function getItemsList(){
+  const cacheKey='dota:items:list:v2';
+  try{const cached=await redis.get(cacheKey);if(cached) return JSON.parse(cached);}catch{}
+  const merged=await fetchItemsList();
+  try{await redis.set(cacheKey,JSON.stringify(merged),{EX:60*60*6});}catch{}
+  return merged;
+}
 async function dotaProxy(req,res,u){
-  const target = u.pathname === '/api/dota/heroes'
-    ? 'https://api.opendota.com/api/heroStats'
-    : u.pathname === '/api/dota/items'
-      ? 'https://api.opendota.com/api/constants/items'
-      : null;
-  if(!target || req.method!=='GET') return json(res,404,{error:'not found'});
-  try{
-    const r=await fetch(target,{headers:{'Accept':'application/json','User-Agent':'Dota2-Helper/1.0'}});
-    if(!r.ok) throw new Error(`upstream ${r.status}`);
-    const text=await r.text();
-    res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'public, max-age=300'});
-    return res.end(text);
-  }catch(e){
-    console.error('Dota data proxy:',e.message);
-    return json(res,502,{error:'Dota data source unavailable',source:target});
+  if(req.method!=='GET') return json(res,404,{error:'not found'});
+  if(u.pathname==='/api/dota/heroes'){
+    try{
+      const r=await fetch('https://api.opendota.com/api/heroStats',{headers:{'Accept':'application/json','User-Agent':'Dota2-Helper/1.0'}});
+      if(!r.ok) throw new Error(`upstream ${r.status}`);
+      const text=await r.text();
+      res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'public, max-age=300'});
+      return res.end(text);
+    }catch(e){
+      console.error('Dota data proxy (heroes):',e.message);
+      return json(res,502,{error:'Dota data source unavailable',source:'heroes'});
+    }
   }
+  if(u.pathname==='/api/dota/items'){
+    try{
+      const items=await getItemsList();
+      res.writeHead(200,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'public, max-age=300'});
+      return res.end(JSON.stringify(items));
+    }catch(e){
+      console.error('Dota data proxy (items):',e.message);
+      return json(res,502,{error:'Dota data source unavailable',source:'items'});
+    }
+  }
+  return json(res,404,{error:'not found'});
 }
 
 // --- RU translation of official (English) Dota text, with Redis caching (falls back in-memory if Redis is down). ---
