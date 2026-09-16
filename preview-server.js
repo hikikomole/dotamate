@@ -12,7 +12,7 @@ const TTL = 1000 * 60 * 60 * 12;
 const ITEM_DETAIL_TTL = 1000 * 60 * 60 * 24 * 30;
 fs.mkdirSync(CACHE_DIR, { recursive: true });
 
-// Minimal .env loader (no dependency) so local preview can pick up DEEPL_API_KEY etc.
+// Minimal .env loader (no dependency) so local preview can pick up env vars from .env.
 try {
   const envPath = path.join(ROOT, '.env');
   if (fs.existsSync(envPath)) {
@@ -22,8 +22,6 @@ try {
     }
   }
 } catch {}
-const DEEPL_API_KEY = process.env.DEEPL_API_KEY || '';
-const DEEPL_API_URL = DEEPL_API_KEY.endsWith(':fx') ? 'https://api-free.deepl.com/v2/translate' : 'https://api.deepl.com/v2/translate';
 
 
 const SOURCES = {
@@ -151,33 +149,13 @@ async function getItem(id,force=false){
 async function refreshHeroItems(id){const d=await fetchJson(`https://api.opendota.com/api/heroes/${encodeURIComponent(id)}/itemPopularity`);writeCache('hero-items-'+id,d,'OpenDota');return d;}
 async function getHeroItems(id){const c=readCache('hero-items-'+id);try{return await refreshHeroItems(id);}catch{if(c?.data)return c.data;throw new Error('Hero item popularity unavailable');}}
 
-async function translateToRu(text){
-  const t=String(text||'').trim();
-  if(!t) return {text:t,translated:false};
-  if(!DEEPL_API_KEY) return {text:t,translated:false};
-  const key='translate-ru-'+crypto.createHash('sha1').update(t).digest('hex');
-  const cached=readCache(key);
-  if(cached?.data) return cached.data;
-  try{
-    const params=new URLSearchParams();params.set('text',t);params.set('target_lang','RU');params.set('source_lang','EN');
-    const resp=await fetch(DEEPL_API_URL,{method:'POST',headers:{'Authorization':'DeepL-Auth-Key '+DEEPL_API_KEY,'Content-Type':'application/x-www-form-urlencoded'},body:params});
-    if(!resp.ok) throw new Error('DeepL HTTP '+resp.status);
-    const data=await resp.json();
-    const out=data?.translations?.[0]?.text;
-    if(!out) throw new Error('DeepL: empty translation');
-    const result={text:out,translated:true};
-    writeCache(key,result,'DeepL');
-    return result;
-  }catch(e){
-    console.warn('translateToRu:',e.message);
-    return {text:t,translated:false};
-  }
-}
-
 // --- Official Valve Russian text (extracted from the real game files by dotabuff/d2vpkr, no API key,
-// no cost). Preferred over DeepL whenever a token exists and every %placeholder% in it can be resolved
-// from the ability/item's own attrib values -- falls back to translateToRu() (and ultimately to the
-// original English) otherwise. See CLAUDE.md "Карта данных" -- server.js has the same functions on purpose.
+// no cost, no DeepL/English fallback -- русский язык основной на этом этапе). Если для способности/предмета
+// нет токена, или в тексте остался нерешённый %placeholder%, возвращаем пустую строку -- фронтенд уже
+// показывает нейтральную заглушку в этом случае. Локализационный файл кэшируется на 7 дней (обновление раз
+// в неделю): первый показ тянет свежий файл с GitHub, все последующие -- из дискового кэша. See CLAUDE.md
+// "Карта данных" -- server.js has the same functions on purpose.
+const VDF_TTL=1000*60*60*24*7;
 const VDF_RU_URL='https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
 function parseVdfTokens(text){
   if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
@@ -206,7 +184,7 @@ function fillPlaceholders(text,attribMap){
 function hasUnresolvedPlaceholder(text){return /%[a-zA-Z0-9_]+%/.test(text);}
 async function getOfficialRuMap(){
   const cached=readCache('vdf-ru');
-  if(cached?.data&&Date.now()-cached.ts<TTL)return new Map(cached.data);
+  if(cached?.data&&Date.now()-cached.ts<VDF_TTL)return new Map(cached.data);
   try{
     const text=await fetchText(VDF_RU_URL);
     const map=parseVdfTokens(text);
@@ -217,20 +195,20 @@ async function getOfficialRuMap(){
     throw e;
   }
 }
-async function resolveRuText(internalKey,isItem,fallbackEn,attribArr){
-  const fallback=async()=>{const tr=await translateToRu(fallbackEn);return {text:tr.text,source:tr.translated?'deepl':'en'};};
-  if(!internalKey)return fallback();
+async function resolveRuText(internalKey,isItem,attribArr){
+  const none={text:'',source:'none'};
+  if(!internalKey)return none;
   try{
     const vdf=await getOfficialRuMap();
     const tokenKey=('DOTA_Tooltip_ability_'+(isItem?'item_':'')+internalKey+'_Description').toLowerCase();
     let text=vdf.get(tokenKey);
-    if(!text)return fallback();
+    if(!text)return none;
     text=fillPlaceholders(text,buildAttribMap(attribArr));
-    if(hasUnresolvedPlaceholder(text))return fallback();
+    if(hasUnresolvedPlaceholder(text))return none;
     return {text,source:'official-ru'};
   }catch(e){
     console.warn('resolveRuText:',e.message);
-    return fallback();
+    return none;
   }
 }
 async function getHeroAbilities(heroInternalName){
@@ -248,9 +226,8 @@ async function getHeroAbilities(heroInternalName){
   for(const key of keys){
     const a=abilitiesMap[key];if(!a) continue;
     const dname=a.dname||key;
-    const descEn=a.desc||a.description||a.lore||'';
-    const r=await resolveRuText(key,false,descEn,a.attrib);
-    out.push({key,dname,desc:r.text,desc_original_en:descEn,translated:r.source!=='en',source:r.source,behavior:a.behavior||''});
+    const r=await resolveRuText(key,false,a.attrib);
+    out.push({key,dname,desc:r.text,source:r.source,behavior:a.behavior||''});
   }
   return out;
 }
@@ -263,7 +240,7 @@ const server=http.createServer(async(req,res)=>{
     if(req.method==='GET'&&u.pathname==='/api/health')return send(res,200,{ok:true,version:'v43',sources:sourceState});
     if(req.method==='GET'&&u.pathname==='/api/dota/heroes'){try{return send(res,200,await getHeroes(u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'heroes_unavailable',message:e.message});}}
     if(req.method==='GET'&&u.pathname==='/api/dota/items'){try{return send(res,200,await getItems(u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'items_unavailable',message:e.message});}}
-    const im=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/);if(req.method==='GET'&&im){try{const id=Number(im[1]);const d=await getItem(id,u.searchParams.get('refresh')==='1');const rawDesc=d.desc_loc||d.description||(Array.isArray(d.abilities)?d.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');const internalKey=String(d.name||'').replace(/^item_/,'');let attrib=[];try{const list=await getItems();attrib=list.find(x=>Number(x.id)===id)?.attrib||[];}catch{}const r=await resolveRuText(internalKey,true,rawDesc,attrib);return send(res,200,{...d,desc_loc:r.text,desc_original_en:rawDesc,translated:r.source!=='en',source:r.source});}catch(e){return send(res,503,{error:'item_unavailable',message:e.message});}}
+    const im=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/);if(req.method==='GET'&&im){try{const id=Number(im[1]);const d=await getItem(id,u.searchParams.get('refresh')==='1');const internalKey=String(d.name||'').replace(/^item_/,'');let attrib=[];try{const list=await getItems();attrib=list.find(x=>Number(x.id)===id)?.attrib||[];}catch{}const r=await resolveRuText(internalKey,true,attrib);return send(res,200,{...d,desc_loc:r.text,description:r.text,source:r.source});}catch(e){return send(res,503,{error:'item_unavailable',message:e.message});}}
     const ham=u.pathname.match(/^\/api\/dota\/hero\/([a-zA-Z0-9_]+)\/abilities$/);if(req.method==='GET'&&ham){try{return send(res,200,await getHeroAbilities(ham[1]));}catch(e){return send(res,503,{error:'hero_abilities_unavailable',message:e.message});}}
     const hm=u.pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/);if(req.method==='GET'&&hm){try{return send(res,200,await getHeroItems(Number(hm[1])));}catch(e){return send(res,503,{error:'hero_items_unavailable',message:e.message});}}
     return serveStatic(req,res,u);

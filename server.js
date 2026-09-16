@@ -15,9 +15,6 @@ const WEBRTC_PORT=Number(process.env.MEDIAMTX_WEBRTC_PORT||8889), HLS_PORT=Numbe
 const PUBLIC_ORIGIN=(process.env.PUBLIC_ORIGIN||'').replace(/\/$/,'');
 const isProd=process.env.NODE_ENV==='production';
 if(isProd&&!PUBLIC_ORIGIN) throw new Error('PUBLIC_ORIGIN is required in production');
-const DEEPL_API_KEY=secret('DEEPL_API_KEY');
-const DEEPL_API_URL=DEEPL_API_KEY.endsWith(':fx')?'https://api-free.deepl.com/v2/translate':'https://api.deepl.com/v2/translate';
-
 const pool=new Pool({connectionString:DATABASE_URL,max:Number(process.env.DB_POOL_MAX||20),idleTimeoutMillis:30000,connectionTimeoutMillis:5000,ssl:process.env.DB_SSL==='true'?{rejectUnauthorized:process.env.DB_SSL_REJECT_UNAUTHORIZED!=='false'}:undefined});
 const redis=createClient({url:REDIS_URL});
 const pub=createClient({url:REDIS_URL});
@@ -125,31 +122,6 @@ async function dotaProxy(req,res,u){
   return json(res,404,{error:'not found'});
 }
 
-// --- RU translation of official (English) Dota text, with Redis caching (falls back in-memory if Redis is down). ---
-// Never blocks the page: on any failure it returns the original English text with translated:false.
-const localTranslateFallback=new Map();
-async function translateToRu(text){
-  const t=String(text||'').trim();
-  if(!t) return {text:t,translated:false};
-  if(!DEEPL_API_KEY) return {text:t,translated:false};
-  const cacheKey='tr:ru:'+crypto.createHash('sha1').update(t).digest('hex');
-  try{const cached=await redis.get(cacheKey);if(cached) return JSON.parse(cached);}
-  catch{const v=localTranslateFallback.get(cacheKey);if(v) return v;}
-  try{
-    const params=new URLSearchParams();params.set('text',t);params.set('target_lang','RU');params.set('source_lang','EN');
-    const r=await fetch(DEEPL_API_URL,{method:'POST',headers:{'Authorization':'DeepL-Auth-Key '+DEEPL_API_KEY,'Content-Type':'application/x-www-form-urlencoded'},body:params});
-    if(!r.ok) throw new Error('DeepL HTTP '+r.status);
-    const data=await r.json();
-    const out=data?.translations?.[0]?.text;
-    if(!out) throw new Error('DeepL: empty translation');
-    const result={text:out,translated:true};
-    try{await redis.set(cacheKey,JSON.stringify(result),{EX:60*60*24*90});}catch{localTranslateFallback.set(cacheKey,result);}
-    return result;
-  }catch(e){
-    console.warn('translateToRu:',e.message);
-    return {text:t,translated:false};
-  }
-}
 async function getConstantsMap(url,cacheKey,ttlSec){
   try{const cached=await redis.get(cacheKey);if(cached) return JSON.parse(cached);}catch{}
   const r=await fetch(url,{headers:{Accept:'application/json'}});
@@ -160,10 +132,13 @@ async function getConstantsMap(url,cacheKey,ttlSec){
 }
 
 // --- Official Valve Russian text (extracted from the real game files by dotabuff/d2vpkr, no API key,
-// no cost). Preferred over DeepL whenever a token exists and every %placeholder% in it can be resolved
-// from the ability/item's own attrib values -- falls back to translateToRu() (and ultimately to the
-// original English) otherwise. Same function names as preview-server.js on purpose, see CLAUDE.md
-// "Карта данных" -- if you change this logic, check the other file too.
+// no cost, no DeepL/English fallback -- русский язык основной на этом этапе). Если для способности/предмета
+// нет токена, или в тексте остался нерешённый %placeholder%, возвращаем пустую строку -- фронтенд уже
+// показывает нейтральную заглушку ("Описание пока недоступно"/"Описание отсутствует в официальном feed.")
+// в этом случае, ничего придумывать не нужно. Карта локализации кэшируется в Redis на 7 дней (обновление
+// раз в неделю): первый показ на сайте тянет свежий файл с GitHub, все последующие -- из кэша. Same
+// function names as preview-server.js on purpose, see CLAUDE.md "Карта данных" -- if you change this
+// logic, check the other file too.
 const VDF_RU_URL='https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
 function parseVdfTokens(text){
   if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
@@ -191,29 +166,29 @@ function fillPlaceholders(text,attribMap){
 }
 function hasUnresolvedPlaceholder(text){return /%[a-zA-Z0-9_]+%/.test(text);}
 async function getOfficialRuMap(){
-  const cacheKey='dota:vdf-ru:v1';
+  const cacheKey='dota:vdf-ru:v2';
   try{const cached=await redis.get(cacheKey);if(cached) return new Map(JSON.parse(cached));}catch{}
   const r=await fetch(VDF_RU_URL,{headers:{Accept:'text/plain'}});
   if(!r.ok) throw new Error('VDF HTTP '+r.status);
   const text=await r.text();
   const map=parseVdfTokens(text);
-  try{await redis.set(cacheKey,JSON.stringify([...map]),{EX:60*60*24});}catch{}
+  try{await redis.set(cacheKey,JSON.stringify([...map]),{EX:60*60*24*7});}catch{}
   return map;
 }
-async function resolveRuText(internalKey,isItem,fallbackEn,attribArr){
-  const fallback=async()=>{const tr=await translateToRu(fallbackEn);return {text:tr.text,source:tr.translated?'deepl':'en'};};
-  if(!internalKey) return fallback();
+async function resolveRuText(internalKey,isItem,attribArr){
+  const none={text:'',source:'none'};
+  if(!internalKey) return none;
   try{
     const vdf=await getOfficialRuMap();
     const tokenKey=('DOTA_Tooltip_ability_'+(isItem?'item_':'')+internalKey+'_Description').toLowerCase();
     let text=vdf.get(tokenKey);
-    if(!text) return fallback();
+    if(!text) return none;
     text=fillPlaceholders(text,buildAttribMap(attribArr));
-    if(hasUnresolvedPlaceholder(text)) return fallback();
+    if(hasUnresolvedPlaceholder(text)) return none;
     return {text,source:'official-ru'};
   }catch(e){
     console.warn('resolveRuText:',e.message);
-    return fallback();
+    return none;
   }
 }
 async function fetchOfficialItem(itemId){
@@ -232,12 +207,11 @@ async function getItemDetail(itemId){
     raw=await fetchOfficialItem(itemId);
     try{await redis.set(cacheKey,JSON.stringify(raw),{EX:60*60*24*30});}catch{}
   }
-  const rawDesc=raw.desc_loc||raw.description||(Array.isArray(raw.abilities)?raw.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');
   const internalKey=String(raw.name||'').replace(/^item_/,'');
   let attrib=[];
   try{const list=await getItemsList();attrib=list.find(x=>Number(x.id)===Number(itemId))?.attrib||[];}catch{}
-  const r=await resolveRuText(internalKey,true,rawDesc,attrib);
-  return {...raw,desc_loc:r.text,desc_original_en:rawDesc,translated:r.source!=='en',source:r.source};
+  const r=await resolveRuText(internalKey,true,attrib);
+  return {...raw,desc_loc:r.text,description:r.text,source:r.source};
 }
 async function getHeroAbilities(heroInternalName){
   const [heroAbilitiesMap,abilitiesMap]=await Promise.all([
@@ -251,12 +225,8 @@ async function getHeroAbilities(heroInternalName){
   for(const key of keys){
     const a=abilitiesMap[key];if(!a) continue;
     const dname=a.dname||key;
-    const descEn=a.desc||a.description||a.lore||'';
-    const cacheKey='ability-ru:v2:'+key;
-    let r=null;
-    try{const cached=await redis.get(cacheKey);r=cached?JSON.parse(cached):null;}catch{}
-    if(!r){r=await resolveRuText(key,false,descEn,a.attrib);try{await redis.set(cacheKey,JSON.stringify(r),{EX:60*60*24*90});}catch{}}
-    out.push({key,dname,desc:r.text,desc_original_en:descEn,translated:r.source!=='en',source:r.source,behavior:a.behavior||''});
+    const r=await resolveRuText(key,false,a.attrib);
+    out.push({key,dname,desc:r.text,source:r.source,behavior:a.behavior||''});
   }
   return out;
 }
