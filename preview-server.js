@@ -2,6 +2,7 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { URL } = require('url');
 
 const ROOT = __dirname;
@@ -88,7 +89,7 @@ function normalizeHeroes(source){
 function normalizeItems(source){
   let arr=officialItems(source); if(!arr.length)arr=objectValues(source);
   const out=[];const seen=new Set();
-  for(const raw of arr){if(!raw||!raw.id||!raw.name||isRecipe(raw))continue;const x={...raw,id:Number(raw.id),dname:raw.dname||raw.name_loc||raw.name_english_loc||raw.name};if(seen.has(x.id))continue;seen.add(x.id);out.push(x);}
+  for(const raw of arr){if(!raw||!raw.id||!raw.name)continue;const x={...raw,id:Number(raw.id),dname:raw.dname||raw.name_loc||raw.name_english_loc||raw.name};if(seen.has(x.id))continue;seen.add(x.id);out.push(x);}
   return out;
 }
 function mergeHeroStats(base,stats){

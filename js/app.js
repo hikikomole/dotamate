@@ -54,8 +54,6 @@ function normalizeItems(list){
   const out=[],seen=new Set();
   for(const raw of list||[]){
     if(!raw||!raw.id||!raw.name)continue;
-    const n=String(raw.name).toLowerCase();
-    if(n.startsWith('item_recipe_')||n.startsWith('recipe_'))continue;
     const x={...raw,id:Number(raw.id),dname:raw.dname||raw.name_loc||raw.name_english_loc||raw.name};
     if(seen.has(x.id))continue;seen.add(x.id);out.push(x);
   }
