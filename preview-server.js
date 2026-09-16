@@ -152,10 +152,10 @@ async function getHeroItems(id){const c=readCache('hero-items-'+id);try{return a
 // --- Official Valve Russian text (extracted from the real game files by dotabuff/d2vpkr, no API key,
 // no cost, no DeepL/English fallback -- русский язык основной на этом этапе). Если для способности/предмета
 // нет токена, или в тексте остался нерешённый %placeholder%, возвращаем пустую строку -- фронтенд уже
-// показывает нейтральную заглушку в этом случае. Локализационный файл кэшируется на 7 дней (обновление раз
-// в неделю): первый показ тянет свежий файл с GitHub, все последующие -- из дискового кэша. See CLAUDE.md
-// "Карта данных" -- server.js has the same functions on purpose.
-const VDF_TTL=1000*60*60*24*7;
+// показывает нейтральную заглушку в этом случае. Локализационный файл кэшируется на 12 часов: первый
+// показ после истечения кэша тянет свежий файл с GitHub, все последующие -- из дискового кэша. See
+// CLAUDE.md "Карта данных" -- server.js has the same functions on purpose.
+const VDF_TTL=1000*60*60*12;
 const VDF_RU_URL='https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
 function parseVdfTokens(text){
   if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);

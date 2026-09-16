@@ -135,8 +135,8 @@ async function getConstantsMap(url,cacheKey,ttlSec){
 // no cost, no DeepL/English fallback -- русский язык основной на этом этапе). Если для способности/предмета
 // нет токена, или в тексте остался нерешённый %placeholder%, возвращаем пустую строку -- фронтенд уже
 // показывает нейтральную заглушку ("Описание пока недоступно"/"Описание отсутствует в официальном feed.")
-// в этом случае, ничего придумывать не нужно. Карта локализации кэшируется в Redis на 7 дней (обновление
-// раз в неделю): первый показ на сайте тянет свежий файл с GitHub, все последующие -- из кэша. Same
+// в этом случае, ничего придумывать не нужно. Карта локализации кэшируется в Redis на 24 часа: первый
+// показ на сайте после истечения кэша тянет свежий файл с GitHub, все последующие -- из кэша. Same
 // function names as preview-server.js on purpose, see CLAUDE.md "Карта данных" -- if you change this
 // logic, check the other file too.
 const VDF_RU_URL='https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
@@ -166,13 +166,13 @@ function fillPlaceholders(text,attribMap){
 }
 function hasUnresolvedPlaceholder(text){return /%[a-zA-Z0-9_]+%/.test(text);}
 async function getOfficialRuMap(){
-  const cacheKey='dota:vdf-ru:v2';
+  const cacheKey='dota:vdf-ru:v3';
   try{const cached=await redis.get(cacheKey);if(cached) return new Map(JSON.parse(cached));}catch{}
   const r=await fetch(VDF_RU_URL,{headers:{Accept:'text/plain'}});
   if(!r.ok) throw new Error('VDF HTTP '+r.status);
   const text=await r.text();
   const map=parseVdfTokens(text);
-  try{await redis.set(cacheKey,JSON.stringify([...map]),{EX:60*60*24*7});}catch{}
+  try{await redis.set(cacheKey,JSON.stringify([...map]),{EX:60*60*24});}catch{}
   return map;
 }
 async function resolveRuText(internalKey,isItem,attribArr){

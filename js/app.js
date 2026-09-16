@@ -412,7 +412,6 @@ async function openItem(name){
         <section class="item-profile-panel item-profile-description">
           <div class="item-panel-head"><div><span>OFFICIAL</span><h3>Описание предмета</h3></div><small id="itemCacheAge">${cached?(cacheAge===0?'кэш сохранён сегодня':`кэш ${cacheAge} дн. назад`):'данные ещё не сохранены'}</small></div>
           <p id="officialItemDesc">${escapeHtml(description)}</p>
-          <div class="item-official-note">Источник текста: Valve Datafeed. Если официальное описание недоступно, сайт не заменяет его собственной рекомендацией.</div>
         </section>
         <section class="item-profile-panel" id="officialItemDetails"><div class="item-pop-loading">${cached?'Проверяем свежесть официальных данных…':'Получаем официальные данные…'}</div></section>
       </div>
