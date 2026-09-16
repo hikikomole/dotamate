@@ -282,6 +282,14 @@ input,select,textarea{background:#0f151e!important;color:#f4f6fa!important;borde
   .topbar .nav nav{margin-left:clamp(100px,9vw,190px)!important}
 }
 
+/* v18 — переносим гибкий отступ между брендом и меню, чтобы пункты меню стояли рядом со значком уведомлений */
+@media(min-width:761px){
+  .topbar .nav-spacer{order:1!important}
+  .topbar .nav nav{order:2!important;margin-left:0!important}
+  .topbar .notify-wrap{order:3!important;margin-left:14px!important}
+  .topbar .menu{order:4!important}
+}
+
 
 /* Dota 2 Companion v17 — unified visual palette
    Primary: clean white / cool gray / Dota purple.
