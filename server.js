@@ -15,6 +15,8 @@ const WEBRTC_PORT=Number(process.env.MEDIAMTX_WEBRTC_PORT||8889), HLS_PORT=Numbe
 const PUBLIC_ORIGIN=(process.env.PUBLIC_ORIGIN||'').replace(/\/$/,'');
 const isProd=process.env.NODE_ENV==='production';
 if(isProd&&!PUBLIC_ORIGIN) throw new Error('PUBLIC_ORIGIN is required in production');
+const DEEPL_API_KEY=secret('DEEPL_API_KEY');
+const DEEPL_API_URL=DEEPL_API_KEY.endsWith(':fx')?'https://api-free.deepl.com/v2/translate':'https://api.deepl.com/v2/translate';
 
 const pool=new Pool({connectionString:DATABASE_URL,max:Number(process.env.DB_POOL_MAX||20),idleTimeoutMillis:30000,connectionTimeoutMillis:5000,ssl:process.env.DB_SSL==='true'?{rejectUnauthorized:process.env.DB_SSL_REJECT_UNAUTHORIZED!=='false'}:undefined});
 const redis=createClient({url:REDIS_URL});
@@ -75,10 +77,97 @@ async function dotaProxy(req,res,u){
   }
 }
 
+// --- RU translation of official (English) Dota text, with Redis caching (falls back in-memory if Redis is down). ---
+// Never blocks the page: on any failure it returns the original English text with translated:false.
+const localTranslateFallback=new Map();
+async function translateToRu(text){
+  const t=String(text||'').trim();
+  if(!t) return {text:t,translated:false};
+  if(!DEEPL_API_KEY) return {text:t,translated:false};
+  const cacheKey='tr:ru:'+crypto.createHash('sha1').update(t).digest('hex');
+  try{const cached=await redis.get(cacheKey);if(cached) return JSON.parse(cached);}
+  catch{const v=localTranslateFallback.get(cacheKey);if(v) return v;}
+  try{
+    const params=new URLSearchParams();params.set('text',t);params.set('target_lang','RU');params.set('source_lang','EN');
+    const r=await fetch(DEEPL_API_URL,{method:'POST',headers:{'Authorization':'DeepL-Auth-Key '+DEEPL_API_KEY,'Content-Type':'application/x-www-form-urlencoded'},body:params});
+    if(!r.ok) throw new Error('DeepL HTTP '+r.status);
+    const data=await r.json();
+    const out=data?.translations?.[0]?.text;
+    if(!out) throw new Error('DeepL: empty translation');
+    const result={text:out,translated:true};
+    try{await redis.set(cacheKey,JSON.stringify(result),{EX:60*60*24*90});}catch{localTranslateFallback.set(cacheKey,result);}
+    return result;
+  }catch(e){
+    console.warn('translateToRu:',e.message);
+    return {text:t,translated:false};
+  }
+}
+async function getConstantsMap(url,cacheKey,ttlSec){
+  try{const cached=await redis.get(cacheKey);if(cached) return JSON.parse(cached);}catch{}
+  const r=await fetch(url,{headers:{Accept:'application/json'}});
+  if(!r.ok) throw new Error('HTTP '+r.status+' for '+url);
+  const data=await r.json();
+  try{await redis.set(cacheKey,JSON.stringify(data),{EX:ttlSec});}catch{}
+  return data;
+}
+async function fetchOfficialItem(itemId){
+  const r=await fetch(`https://www.dota2.com/datafeed/itemdata?language=english&item_id=${encodeURIComponent(itemId)}`,{headers:{Accept:'application/json'}});
+  if(!r.ok) throw new Error('Valve itemdata HTTP '+r.status);
+  const payload=await r.json();
+  const d=payload?.result?.data?.itemability||payload?.result?.data?.itemabilities?.[0]||payload?.result?.data?.items?.[0]||payload?.result?.data?.item||payload?.data?.itemability||payload?.data?.itemabilities?.[0]||payload?.data?.items?.[0]||payload?.data?.item;
+  if(!d) throw new Error('Official item detail missing');
+  return d;
+}
+async function getItemDetail(itemId){
+  const cacheKey='item-detail:'+itemId;
+  let raw=null;
+  try{const cached=await redis.get(cacheKey);if(cached) raw=JSON.parse(cached);}catch{}
+  if(!raw){
+    raw=await fetchOfficialItem(itemId);
+    try{await redis.set(cacheKey,JSON.stringify(raw),{EX:60*60*24*30});}catch{}
+  }
+  const rawDesc=raw.desc_loc||raw.description||(Array.isArray(raw.abilities)?raw.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');
+  const tr=await translateToRu(rawDesc);
+  return {...raw,desc_loc:tr.text,desc_original_en:rawDesc,translated:tr.translated};
+}
+async function getHeroAbilities(heroInternalName){
+  const [heroAbilitiesMap,abilitiesMap]=await Promise.all([
+    getConstantsMap('https://api.opendota.com/api/constants/hero_abilities','const:hero_abilities',60*60*24),
+    getConstantsMap('https://api.opendota.com/api/constants/abilities','const:abilities',60*60*24)
+  ]);
+  const entry=heroAbilitiesMap[heroInternalName];
+  if(!entry||!Array.isArray(entry.abilities)) return [];
+  const keys=entry.abilities.filter(k=>k&&k!=='generic_hidden').slice(0,6);
+  const out=[];
+  for(const key of keys){
+    const a=abilitiesMap[key];if(!a) continue;
+    const dname=a.dname||key;
+    const descEn=a.desc||a.description||a.lore||'';
+    const cacheKey='ability-tr:'+key;
+    let tr=null;
+    try{const cached=await redis.get(cacheKey);tr=cached?JSON.parse(cached):null;}catch{}
+    if(!tr){tr=await translateToRu(descEn);try{await redis.set(cacheKey,JSON.stringify(tr),{EX:60*60*24*90});}catch{}}
+    out.push({key,dname,desc:tr.text,desc_original_en:descEn,translated:tr.translated,behavior:a.behavior||''});
+  }
+  return out;
+}
+async function getHeroItemPopularity(heroId){
+  const cacheKey='hero-items:'+heroId;
+  try{const cached=await redis.get(cacheKey);if(cached) return JSON.parse(cached);}catch{}
+  const r=await fetch(`https://api.opendota.com/api/heroes/${encodeURIComponent(heroId)}/itemPopularity`,{headers:{Accept:'application/json'}});
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const data=await r.json();
+  try{await redis.set(cacheKey,JSON.stringify(data),{EX:60*60*12});}catch{}
+  return data;
+}
+
 async function api(req,res,u){
  if(req.method==='GET'&&u.pathname==='/api/health')return json(res,200,{ok:true,version:'v43'});
  if(req.method==='GET'&&u.pathname==='/api/stream/ice'){const secretKey=secret('TURN_SECRET');const host=process.env.TURN_HOST||process.env.TURN_REALM||PUBLIC_MEDIA_HOST;if(!secretKey)return json(res,200,{iceServers:[]});const username=`${Math.floor(Date.now()/1000)+3600}:${String((auth(req)?.username)||'guest').slice(0,24)}`;const credential=crypto.createHmac('sha1',secretKey).update(username).digest('base64');return json(res,200,{iceServers:[{urls:[`turn:${host}:3478?transport=udp`,`turn:${host}:3478?transport=tcp`],username,credential}]});}
  if(u.pathname==='/api/dota/heroes'||u.pathname==='/api/dota/items') return dotaProxy(req,res,u);
+ { const m=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/); if(req.method==='GET'&&m){try{return json(res,200,await getItemDetail(Number(m[1])));}catch(e){return json(res,502,{error:'item_unavailable',message:e.message});}} }
+ { const m=u.pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/); if(req.method==='GET'&&m){try{return json(res,200,await getHeroItemPopularity(Number(m[1])));}catch(e){return json(res,502,{error:'hero_items_unavailable',message:e.message});}} }
+ { const m=u.pathname.match(/^\/api\/dota\/hero\/([a-zA-Z0-9_]+)\/abilities$/); if(req.method==='GET'&&m){try{return json(res,200,await getHeroAbilities(m[1]));}catch(e){return json(res,502,{error:'hero_abilities_unavailable',message:e.message});}} }
  if(u.pathname==='/api/security/csrf'&&req.method==='GET'){const t=crypto.randomBytes(32).toString('hex');res.setHeader('Set-Cookie',`${csrfCookie}=${encodeURIComponent(t)}; Path=/; SameSite=Strict${isProd?'; Secure':''}`);return json(res,200,{csrfToken:t})}
  if(req.method==='POST'&&u.pathname==='/api/auth/register'){const rl=await rateLimit(req,'register:'+req.socket.remoteAddress,8,900);if(!rl.ok)return json(res,429,{error:'Слишком много попыток. Попробуйте позже.'},{'Retry-After':'900'});const b=await body(req),username=String(b.username||'').trim().slice(0,24),email=String(b.email||'').trim().toLowerCase(),pw=String(b.password||'');if(!/^[\w-]{3,24}$/i.test(username)||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||pw.length<8)return json(res,400,{error:'Проверьте ник, email и пароль (минимум 8 символов).'});try{const hash=await bcrypt.hash(pw,12),r=await run('INSERT INTO users(username,email,password_hash,created_at) VALUES($1,$2,$3,$4) RETURNING id',[username,email,hash,now()]);const user=await userById(r.rows[0].id);return json(res,201,{token:token(user),user})}catch{return json(res,409,{error:'Пользователь или email уже существует.'})}}
  if(req.method==='POST'&&u.pathname==='/api/auth/login'){const rl=await rateLimit(req,'login:'+req.socket.remoteAddress,12,900);if(!rl.ok)return json(res,429,{error:'Слишком много попыток входа.'},{'Retry-After':'900'});const b=await body(req),login=String(b.login||''),user=await one('SELECT * FROM users WHERE lower(email)=lower($1) OR username=$2',[login,login]);if(!user||!(await bcrypt.compare(String(b.password||''),user.password_hash)))return json(res,401,{error:'Неверный логин или пароль'});return json(res,200,{token:token(user),user:{id:user.id,username:user.username,email:user.email,role:user.role}})}

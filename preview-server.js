@@ -11,6 +11,20 @@ const TTL = 1000 * 60 * 60 * 12;
 const ITEM_DETAIL_TTL = 1000 * 60 * 60 * 24 * 30;
 fs.mkdirSync(CACHE_DIR, { recursive: true });
 
+// Minimal .env loader (no dependency) so local preview can pick up DEEPL_API_KEY etc.
+try {
+  const envPath = path.join(ROOT, '.env');
+  if (fs.existsSync(envPath)) {
+    for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/i);
+      if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+    }
+  }
+} catch {}
+const DEEPL_API_KEY = process.env.DEEPL_API_KEY || '';
+const DEEPL_API_URL = DEEPL_API_KEY.endsWith(':fx') ? 'https://api-free.deepl.com/v2/translate' : 'https://api.deepl.com/v2/translate';
+
+
 const SOURCES = {
   heroes: [
     {name:'Valve', url:'https://www.dota2.com/datafeed/herolist?language=english'},
@@ -130,6 +144,51 @@ async function getItem(id,force=false){
 }
 async function refreshHeroItems(id){const d=await fetchJson(`https://api.opendota.com/api/heroes/${encodeURIComponent(id)}/itemPopularity`);writeCache('hero-items-'+id,d,'OpenDota');return d;}
 async function getHeroItems(id){const c=readCache('hero-items-'+id);try{return await refreshHeroItems(id);}catch{if(c?.data)return c.data;throw new Error('Hero item popularity unavailable');}}
+
+async function translateToRu(text){
+  const t=String(text||'').trim();
+  if(!t) return {text:t,translated:false};
+  if(!DEEPL_API_KEY) return {text:t,translated:false};
+  const key='translate-ru-'+crypto.createHash('sha1').update(t).digest('hex');
+  const cached=readCache(key);
+  if(cached?.data) return cached.data;
+  try{
+    const params=new URLSearchParams();params.set('text',t);params.set('target_lang','RU');params.set('source_lang','EN');
+    const resp=await fetch(DEEPL_API_URL,{method:'POST',headers:{'Authorization':'DeepL-Auth-Key '+DEEPL_API_KEY,'Content-Type':'application/x-www-form-urlencoded'},body:params});
+    if(!resp.ok) throw new Error('DeepL HTTP '+resp.status);
+    const data=await resp.json();
+    const out=data?.translations?.[0]?.text;
+    if(!out) throw new Error('DeepL: empty translation');
+    const result={text:out,translated:true};
+    writeCache(key,result,'DeepL');
+    return result;
+  }catch(e){
+    console.warn('translateToRu:',e.message);
+    return {text:t,translated:false};
+  }
+}
+async function getHeroAbilities(heroInternalName){
+  const heroAbilitiesCache=readCache('const-hero-abilities');
+  const abilitiesCache=readCache('const-abilities');
+  const fresh=async(key,url)=>{const cached=key==='const-hero-abilities'?heroAbilitiesCache:abilitiesCache;if(cached?.data&&Date.now()-cached.ts<TTL)return cached.data;try{const data=await fetchJson(url);writeCache(key,data,'OpenDota');return data;}catch{if(cached?.data)return cached.data;throw new Error('constants unavailable: '+key);}};
+  const [heroAbilitiesMap,abilitiesMap]=await Promise.all([
+    fresh('const-hero-abilities','https://api.opendota.com/api/constants/hero_abilities'),
+    fresh('const-abilities','https://api.opendota.com/api/constants/abilities')
+  ]);
+  const entry=heroAbilitiesMap[heroInternalName];
+  if(!entry||!Array.isArray(entry.abilities)) return [];
+  const keys=entry.abilities.filter(k=>k&&k!=='generic_hidden').slice(0,6);
+  const out=[];
+  for(const key of keys){
+    const a=abilitiesMap[key];if(!a) continue;
+    const dname=a.dname||key;
+    const descEn=a.desc||a.description||a.lore||'';
+    const tr=await translateToRu(descEn);
+    out.push({key,dname,desc:tr.text,desc_original_en:descEn,translated:tr.translated,behavior:a.behavior||''});
+  }
+  return out;
+}
+
 function serveStatic(req,res,u){let p=decodeURIComponent(u.pathname);if(!p||p==='/')p='/index.html';const full=path.resolve(ROOT,'.'+p);if(!full.startsWith(path.resolve(ROOT)))return send(res,403,{error:'forbidden'});fs.stat(full,(e,st)=>{if(e||!st.isFile())return send(res,404,{error:'not found'});const ext=path.extname(full).toLowerCase();res.writeHead(200,{'Content-Type':MIME[ext]||'application/octet-stream','Cache-Control':ext==='.html'||ext==='.js'?'no-cache':'public, max-age=3600'});fs.createReadStream(full).pipe(res);});}
 
 const server=http.createServer(async(req,res)=>{
@@ -138,7 +197,8 @@ const server=http.createServer(async(req,res)=>{
     if(req.method==='GET'&&u.pathname==='/api/health')return send(res,200,{ok:true,version:'v43',sources:sourceState});
     if(req.method==='GET'&&u.pathname==='/api/dota/heroes'){try{return send(res,200,await getHeroes(u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'heroes_unavailable',message:e.message});}}
     if(req.method==='GET'&&u.pathname==='/api/dota/items'){try{return send(res,200,await getItems(u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'items_unavailable',message:e.message});}}
-    const im=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/);if(req.method==='GET'&&im){try{return send(res,200,await getItem(Number(im[1]),u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'item_unavailable',message:e.message});}}
+    const im=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/);if(req.method==='GET'&&im){try{const d=await getItem(Number(im[1]),u.searchParams.get('refresh')==='1');const rawDesc=d.desc_loc||d.description||(Array.isArray(d.abilities)?d.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');const tr=await translateToRu(rawDesc);return send(res,200,{...d,desc_loc:tr.text,desc_original_en:rawDesc,translated:tr.translated});}catch(e){return send(res,503,{error:'item_unavailable',message:e.message});}}
+    const ham=u.pathname.match(/^\/api\/dota\/hero\/([a-zA-Z0-9_]+)\/abilities$/);if(req.method==='GET'&&ham){try{return send(res,200,await getHeroAbilities(ham[1]));}catch(e){return send(res,503,{error:'hero_abilities_unavailable',message:e.message});}}
     const hm=u.pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/);if(req.method==='GET'&&hm){try{return send(res,200,await getHeroItems(Number(hm[1])));}catch(e){return send(res,503,{error:'hero_items_unavailable',message:e.message});}}
     return serveStatic(req,res,u);
   }catch(e){return send(res,500,{error:'server_error',message:String(e.message||e)});}

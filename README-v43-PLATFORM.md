@@ -30,6 +30,11 @@ v43 сохраняет существующую структуру сайта и
 - `GET /api/security/csrf`
 - `GET /api/stream/ice`
 - `GET /api/health`
+- `GET /api/dota/heroes`
+- `GET /api/dota/items`
+- `GET /api/dota/item/:id` — официальное описание предмета (Valve datafeed), с автопереводом на RU через DeepL (см. `DEEPL_API_KEY` в `.env`)
+- `GET /api/dota/hero/:id/items` — реальная популярность предметов у героя (OpenDota)
+- `GET /api/dota/hero/:internal_name/abilities` — способности героя (OpenDota constants), с автопереводом на RU
 
 ## Проверки
 Перед публикацией выполните:
