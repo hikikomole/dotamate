@@ -267,6 +267,12 @@ async function loadHeroItemPopularity(heroId){
   if(data) renderHeroItemPopularity(heroId,data,'online');
   else box.innerHTML='<div class="item-pop-loading">Статистика покупок временно недоступна. Профиль героя и база предметов продолжают работать.</div>';
 }
+function sourceLabel(source,translatedFallback){
+  if(source==='official-ru')return 'Официальный текст Valve (RU)';
+  if(source==='deepl')return 'Переведено автоматически';
+  if(source==='en')return 'Официальный текст (EN)';
+  return translatedFallback?'Переведено автоматически':'Официальный текст (EN)';
+}
 async function loadHeroAbilities(h){
   const box=document.getElementById('heroAbilities');if(!box)return;
   try{
@@ -274,7 +280,7 @@ async function loadHeroAbilities(h){
     if(!r.ok)throw new Error('HTTP '+r.status);
     const list=await r.json();
     if(!Array.isArray(list)||!list.length){box.innerHTML='<div class="item-pop-loading">Способности героя временно недоступны.</div>';return;}
-    box.innerHTML=list.map((x,i)=>`<article class="ability-card"><div class="ability-art"><img src="${imageUrl(h)}" alt=""><span>${i+1}</span></div><div><b>${escapeHtml(x.dname)}</b><p>${escapeHtml(x.desc||'Описание пока недоступно.')}</p><small>${x.translated?'Переведено автоматически':'Официальный текст (EN)'}</small></div></article>`).join('');
+    box.innerHTML=list.map((x,i)=>`<article class="ability-card"><div class="ability-art"><img src="${imageUrl(h)}" alt=""><span>${i+1}</span></div><div><b>${escapeHtml(x.dname)}</b><p>${escapeHtml(x.desc||'Описание пока недоступно.')}</p><small>${sourceLabel(x.source,x.translated)}</small></div></article>`).join('');
   }catch(e){
     box.innerHTML='<div class="item-pop-loading">Способности героя временно недоступны. Профиль героя продолжает работать.</div>';
   }
@@ -429,7 +435,7 @@ async function openItem(name){
   if(official){
     const desc=cleanOfficialHtml(official.desc_loc||official.description||official.name_loc||'Описание отсутствует в официальном feed.');
     document.getElementById('officialItemDesc').textContent=desc||'Описание отсутствует в официальном feed.';
-    const langNote=document.getElementById('officialItemLangNote');if(langNote)langNote.textContent=official.translated?'Переведено на русский автоматически.':(official.desc_original_en?'Официальный текст на английском (перевод пока недоступен).':'');
+    const langNote=document.getElementById('officialItemLangNote');if(langNote)langNote.textContent=official.source==='official-ru'?'Официальный текст Valve на русском.':(official.source==='deepl'?'Переведено на русский автоматически.':(official.desc_original_en?'Официальный текст на английском (перевод пока недоступен).':''));
     const facts=officialItemFacts(official),flags=itemOfficialUseFlags(official);
     const notes=Array.isArray(official.notes_loc)?official.notes_loc:[];
     document.getElementById('officialItemDetails').innerHTML=`

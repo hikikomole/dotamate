@@ -158,6 +158,64 @@ async function getConstantsMap(url,cacheKey,ttlSec){
   try{await redis.set(cacheKey,JSON.stringify(data),{EX:ttlSec});}catch{}
   return data;
 }
+
+// --- Official Valve Russian text (extracted from the real game files by dotabuff/d2vpkr, no API key,
+// no cost). Preferred over DeepL whenever a token exists and every %placeholder% in it can be resolved
+// from the ability/item's own attrib values -- falls back to translateToRu() (and ultimately to the
+// original English) otherwise. Same function names as preview-server.js on purpose, see CLAUDE.md
+// "Карта данных" -- if you change this logic, check the other file too.
+const VDF_RU_URL='https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
+function parseVdfTokens(text){
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  const map=new Map();
+  const re=/^\s*"((?:[^"\\]|\\.)*)"\s*"((?:[^"\\]|\\.)*)"/;
+  for(const raw of text.split(/\r?\n/)){
+    const line=raw.trim();
+    if(!line||line.startsWith('//'))continue;
+    const m=line.match(re);
+    if(m)map.set(m[1].toLowerCase(),m[2].replace(/\\"/g,'"'));
+  }
+  return map;
+}
+function buildAttribMap(attribArr){
+  const m=new Map();
+  for(const a of attribArr||[]){
+    if(!a||!a.key)continue;
+    let v=a.value;if(Array.isArray(v))v=v.join('/');
+    m.set(String(a.key).toLowerCase(),String(v));
+  }
+  return m;
+}
+function fillPlaceholders(text,attribMap){
+  return text.replace(/%([a-zA-Z0-9_]+)%/g,(full,name)=>{const v=attribMap.get(name.toLowerCase());return v===undefined?full:v;});
+}
+function hasUnresolvedPlaceholder(text){return /%[a-zA-Z0-9_]+%/.test(text);}
+async function getOfficialRuMap(){
+  const cacheKey='dota:vdf-ru:v1';
+  try{const cached=await redis.get(cacheKey);if(cached) return new Map(JSON.parse(cached));}catch{}
+  const r=await fetch(VDF_RU_URL,{headers:{Accept:'text/plain'}});
+  if(!r.ok) throw new Error('VDF HTTP '+r.status);
+  const text=await r.text();
+  const map=parseVdfTokens(text);
+  try{await redis.set(cacheKey,JSON.stringify([...map]),{EX:60*60*24});}catch{}
+  return map;
+}
+async function resolveRuText(internalKey,isItem,fallbackEn,attribArr){
+  const fallback=async()=>{const tr=await translateToRu(fallbackEn);return {text:tr.text,source:tr.translated?'deepl':'en'};};
+  if(!internalKey) return fallback();
+  try{
+    const vdf=await getOfficialRuMap();
+    const tokenKey=('DOTA_Tooltip_ability_'+(isItem?'item_':'')+internalKey+'_Description').toLowerCase();
+    let text=vdf.get(tokenKey);
+    if(!text) return fallback();
+    text=fillPlaceholders(text,buildAttribMap(attribArr));
+    if(hasUnresolvedPlaceholder(text)) return fallback();
+    return {text,source:'official-ru'};
+  }catch(e){
+    console.warn('resolveRuText:',e.message);
+    return fallback();
+  }
+}
 async function fetchOfficialItem(itemId){
   const r=await fetch(`https://www.dota2.com/datafeed/itemdata?language=english&item_id=${encodeURIComponent(itemId)}`,{headers:{Accept:'application/json'}});
   if(!r.ok) throw new Error('Valve itemdata HTTP '+r.status);
@@ -175,8 +233,11 @@ async function getItemDetail(itemId){
     try{await redis.set(cacheKey,JSON.stringify(raw),{EX:60*60*24*30});}catch{}
   }
   const rawDesc=raw.desc_loc||raw.description||(Array.isArray(raw.abilities)?raw.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');
-  const tr=await translateToRu(rawDesc);
-  return {...raw,desc_loc:tr.text,desc_original_en:rawDesc,translated:tr.translated};
+  const internalKey=String(raw.name||'').replace(/^item_/,'');
+  let attrib=[];
+  try{const list=await getItemsList();attrib=list.find(x=>Number(x.id)===Number(itemId))?.attrib||[];}catch{}
+  const r=await resolveRuText(internalKey,true,rawDesc,attrib);
+  return {...raw,desc_loc:r.text,desc_original_en:rawDesc,translated:r.source!=='en',source:r.source};
 }
 async function getHeroAbilities(heroInternalName){
   const [heroAbilitiesMap,abilitiesMap]=await Promise.all([
@@ -191,11 +252,11 @@ async function getHeroAbilities(heroInternalName){
     const a=abilitiesMap[key];if(!a) continue;
     const dname=a.dname||key;
     const descEn=a.desc||a.description||a.lore||'';
-    const cacheKey='ability-tr:'+key;
-    let tr=null;
-    try{const cached=await redis.get(cacheKey);tr=cached?JSON.parse(cached):null;}catch{}
-    if(!tr){tr=await translateToRu(descEn);try{await redis.set(cacheKey,JSON.stringify(tr),{EX:60*60*24*90});}catch{}}
-    out.push({key,dname,desc:tr.text,desc_original_en:descEn,translated:tr.translated,behavior:a.behavior||''});
+    const cacheKey='ability-ru:v2:'+key;
+    let r=null;
+    try{const cached=await redis.get(cacheKey);r=cached?JSON.parse(cached):null;}catch{}
+    if(!r){r=await resolveRuText(key,false,descEn,a.attrib);try{await redis.set(cacheKey,JSON.stringify(r),{EX:60*60*24*90});}catch{}}
+    out.push({key,dname,desc:r.text,desc_original_en:descEn,translated:r.source!=='en',source:r.source,behavior:a.behavior||''});
   }
   return out;
 }

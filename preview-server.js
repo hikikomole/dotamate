@@ -72,6 +72,11 @@ async function fetchJson(url,timeout=12000){
   }
   return fetchWithHttps(url,timeout);
 }
+async function fetchText(url,timeout=15000){
+  const c=new AbortController();const t=setTimeout(()=>c.abort(),timeout);
+  try{const r=await fetch(url,{cache:'no-store',headers:{Accept:'text/plain','User-Agent':'Dota2-Companion/2.0'},signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);return await r.text();}
+  finally{clearTimeout(t);}
+}
 async function firstSource(sources,validator){
   const results=await Promise.allSettled(sources.map(s=>fetchJson(s.url).then(data=>({source:s.name,data}))));
   for(const r of results){if(r.status==='fulfilled'&&validator(r.value.data))return r.value;}
@@ -168,6 +173,66 @@ async function translateToRu(text){
     return {text:t,translated:false};
   }
 }
+
+// --- Official Valve Russian text (extracted from the real game files by dotabuff/d2vpkr, no API key,
+// no cost). Preferred over DeepL whenever a token exists and every %placeholder% in it can be resolved
+// from the ability/item's own attrib values -- falls back to translateToRu() (and ultimately to the
+// original English) otherwise. See CLAUDE.md "Карта данных" -- server.js has the same functions on purpose.
+const VDF_RU_URL='https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
+function parseVdfTokens(text){
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  const map=new Map();
+  const re=/^\s*"((?:[^"\\]|\\.)*)"\s*"((?:[^"\\]|\\.)*)"/;
+  for(const raw of text.split(/\r?\n/)){
+    const line=raw.trim();
+    if(!line||line.startsWith('//'))continue;
+    const m=line.match(re);
+    if(m)map.set(m[1].toLowerCase(),m[2].replace(/\\"/g,'"'));
+  }
+  return map;
+}
+function buildAttribMap(attribArr){
+  const m=new Map();
+  for(const a of attribArr||[]){
+    if(!a||!a.key)continue;
+    let v=a.value;if(Array.isArray(v))v=v.join('/');
+    m.set(String(a.key).toLowerCase(),String(v));
+  }
+  return m;
+}
+function fillPlaceholders(text,attribMap){
+  return text.replace(/%([a-zA-Z0-9_]+)%/g,(full,name)=>{const v=attribMap.get(name.toLowerCase());return v===undefined?full:v;});
+}
+function hasUnresolvedPlaceholder(text){return /%[a-zA-Z0-9_]+%/.test(text);}
+async function getOfficialRuMap(){
+  const cached=readCache('vdf-ru');
+  if(cached?.data&&Date.now()-cached.ts<TTL)return new Map(cached.data);
+  try{
+    const text=await fetchText(VDF_RU_URL);
+    const map=parseVdfTokens(text);
+    writeCache('vdf-ru',[...map],'d2vpkr');
+    return map;
+  }catch(e){
+    if(cached?.data)return new Map(cached.data);
+    throw e;
+  }
+}
+async function resolveRuText(internalKey,isItem,fallbackEn,attribArr){
+  const fallback=async()=>{const tr=await translateToRu(fallbackEn);return {text:tr.text,source:tr.translated?'deepl':'en'};};
+  if(!internalKey)return fallback();
+  try{
+    const vdf=await getOfficialRuMap();
+    const tokenKey=('DOTA_Tooltip_ability_'+(isItem?'item_':'')+internalKey+'_Description').toLowerCase();
+    let text=vdf.get(tokenKey);
+    if(!text)return fallback();
+    text=fillPlaceholders(text,buildAttribMap(attribArr));
+    if(hasUnresolvedPlaceholder(text))return fallback();
+    return {text,source:'official-ru'};
+  }catch(e){
+    console.warn('resolveRuText:',e.message);
+    return fallback();
+  }
+}
 async function getHeroAbilities(heroInternalName){
   const heroAbilitiesCache=readCache('const-hero-abilities');
   const abilitiesCache=readCache('const-abilities');
@@ -184,8 +249,8 @@ async function getHeroAbilities(heroInternalName){
     const a=abilitiesMap[key];if(!a) continue;
     const dname=a.dname||key;
     const descEn=a.desc||a.description||a.lore||'';
-    const tr=await translateToRu(descEn);
-    out.push({key,dname,desc:tr.text,desc_original_en:descEn,translated:tr.translated,behavior:a.behavior||''});
+    const r=await resolveRuText(key,false,descEn,a.attrib);
+    out.push({key,dname,desc:r.text,desc_original_en:descEn,translated:r.source!=='en',source:r.source,behavior:a.behavior||''});
   }
   return out;
 }
@@ -198,7 +263,7 @@ const server=http.createServer(async(req,res)=>{
     if(req.method==='GET'&&u.pathname==='/api/health')return send(res,200,{ok:true,version:'v43',sources:sourceState});
     if(req.method==='GET'&&u.pathname==='/api/dota/heroes'){try{return send(res,200,await getHeroes(u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'heroes_unavailable',message:e.message});}}
     if(req.method==='GET'&&u.pathname==='/api/dota/items'){try{return send(res,200,await getItems(u.searchParams.get('refresh')==='1'));}catch(e){return send(res,503,{error:'items_unavailable',message:e.message});}}
-    const im=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/);if(req.method==='GET'&&im){try{const d=await getItem(Number(im[1]),u.searchParams.get('refresh')==='1');const rawDesc=d.desc_loc||d.description||(Array.isArray(d.abilities)?d.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');const tr=await translateToRu(rawDesc);return send(res,200,{...d,desc_loc:tr.text,desc_original_en:rawDesc,translated:tr.translated});}catch(e){return send(res,503,{error:'item_unavailable',message:e.message});}}
+    const im=u.pathname.match(/^\/api\/dota\/item\/(\d+)$/);if(req.method==='GET'&&im){try{const id=Number(im[1]);const d=await getItem(id,u.searchParams.get('refresh')==='1');const rawDesc=d.desc_loc||d.description||(Array.isArray(d.abilities)?d.abilities.map(a=>a.description).filter(Boolean).join('\n\n'):'');const internalKey=String(d.name||'').replace(/^item_/,'');let attrib=[];try{const list=await getItems();attrib=list.find(x=>Number(x.id)===id)?.attrib||[];}catch{}const r=await resolveRuText(internalKey,true,rawDesc,attrib);return send(res,200,{...d,desc_loc:r.text,desc_original_en:rawDesc,translated:r.source!=='en',source:r.source});}catch(e){return send(res,503,{error:'item_unavailable',message:e.message});}}
     const ham=u.pathname.match(/^\/api\/dota\/hero\/([a-zA-Z0-9_]+)\/abilities$/);if(req.method==='GET'&&ham){try{return send(res,200,await getHeroAbilities(ham[1]));}catch(e){return send(res,503,{error:'hero_abilities_unavailable',message:e.message});}}
     const hm=u.pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/);if(req.method==='GET'&&hm){try{return send(res,200,await getHeroItems(Number(hm[1])));}catch(e){return send(res,503,{error:'hero_items_unavailable',message:e.message});}}
     return serveStatic(req,res,u);
