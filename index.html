@@ -32,7 +32,7 @@
   <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="assets/dota2-companion-icon.png" alt=""></span>
   <span>Dota 2 <b>Companion</b></span>
 </a>
-    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="#meta">Мета</a><a href="stream.html">Стримы</a><a href="#builds">Билды</a><a href="#match-assistant">Матч</a><a href="#draft">Драфт</a><a href="#tools">Инструменты</a><a href="#guides">Гайды</a><a href="#about">О сайте</a><a href="#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="stream.html">Стримы</a><a href="#guides">Гайды</a><a href="#about">О сайте</a><a href="#profile">Профиль</a></nav>
     <div class="nav-spacer"></div><div class="notify-wrap"><button class="notify-bell" id="notifyBell" aria-label="Уведомления">🔔<span id="notifyCount" class="notify-count">0</span></button><div id="notifyPanel" class="notify-panel"></div></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
@@ -150,52 +150,10 @@
   </div>
 </section>
 
-<section class="section v43-meta-section" id="meta">
-  <div class="container">
-    <div class="section-head companion-section-head"><div><div class="eyebrow">META NOW</div><h2>Мета Dota 2</h2><p>Автоматический рейтинг героев на основе доступных профессиональных показателей. Переключай роль и смотри лидеров.</p></div><button class="btn ghost" id="metaRefresh">↻ Пересчитать</button></div>
-    <div class="v43-tabs" id="metaRoles"><button class="active" data-meta-role="all">Все</button><button data-meta-role="Carry">Carry</button><button data-meta-role="Mid">Mid</button><button data-meta-role="Offlane">Offlane</button><button data-meta-role="Support">Support</button><button data-meta-role="Hard Support">Hard Support</button></div>
-    <div id="metaGrid" class="v43-meta-grid"></div>
-  </div>
-</section>
-
-<section class="section v43-builder-section" id="builds">
-  <div class="container">
-    <div class="section-head companion-section-head"><div><div class="eyebrow">BUILD LAB</div><h2>Конструктор билда</h2><p>Собери собственный набор предметов для героя и сохрани его в профиле.</p></div></div>
-    <div class="v43-builder">
-      <div class="v43-builder-controls"><label>Герой<select id="buildHeroSelect"></select></label><label>Название билда<input id="buildName" placeholder="Мой билд"></label><button class="btn red" id="saveBuildV43">Сохранить билд</button></div>
-      <div class="v43-build-columns"><div><h3>Доступные предметы</h3><input class="search" id="buildItemSearch" placeholder="Поиск предмета…"><div id="buildItemPool" class="v43-item-pool"></div></div><div><h3>Мой билд <span id="buildCount">0/6</span></h3><div id="selectedBuildItems" class="v43-selected-build"></div><button class="btn ghost" id="clearBuild">Очистить</button></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="section v43-match-section" id="match-assistant">
-  <div class="container">
-    <div class="section-head companion-section-head"><div><div class="eyebrow">MATCH ASSISTANT</div><h2>Помощник матча</h2><p>Заполни обе команды — Companion оценит роли, контроль, темп и уязвимости состава.</p></div></div>
-    <div class="v43-match-grid"><div><h3>Ваша команда</h3><div id="matchMyTeam" class="v43-match-slots"></div></div><div><h3>Соперники</h3><div id="matchEnemyTeam" class="v43-match-slots"></div></div><div class="v43-match-result" id="matchResult"><div class="empty">Добавь хотя бы двух героев, чтобы получить анализ.</div></div></div>
-  </div>
-</section>
-
-<section class="section draft-section" id="draft">
-  <div class="container">
-    <div class="section-head companion-section-head"><div><div class="eyebrow">DRAFT ASSISTANT</div><h2>Помощник перед пиком</h2><p>Собери составы и получи локальную рекомендацию по контрпикам, синергии и предметам.</p></div><span class="data-source">Preview heuristic · без выдуманной статистики</span></div>
-    <div class="draft-layout">
-      <div class="draft-side"><h3>Моя команда</h3><div class="role-slots" id="myTeam"></div></div>
-      <div class="draft-side"><h3>Команда противника</h3><div class="enemy-slots" id="enemyTeam"></div><button class="btn ghost" id="clearDraft">Очистить</button></div>
-      <div class="draft-center"><div class="draft-picker"><input id="draftSearch" class="draft-input" placeholder="Поиск героя для драфта..."><div id="draftHeroGrid" class="draft-hero-grid"></div></div><div id="draftResults" class="draft-results"><div class="empty">Выбери героев противника, чтобы получить рекомендации.</div></div></div>
-    </div>
-  </div>
-</section>
-
 <section class="section guides-section" id="guides">
   <div class="container">
     <div class="section-head companion-section-head">
       <div><div class="eyebrow">GUIDES</div><h2>Гайды и база знаний</h2><p>Практические мини-гайды, которые ведут к героям, предметам и инструментам. Это каркас для будущих авторских гайдов сообщества.</p></div>
-    </div>
-    <div class="guide-articles-grid">
-      <a class="guide-article-card" href="guides/vybor-roli-dota-2.html"><h3>Как выбрать роль в Dota 2</h3><p>Carry, mid, offlane, support — задачи каждой роли и как понять, что подходит вам.</p></a>
-      <a class="guide-article-card" href="guides/kontrol-karty-vardy.html"><h3>Варды и контроль карты</h3><p>Observer против Sentry, куда ставить варды и зачем девардить соперника.</p></a>
-      <a class="guide-article-card" href="guides/draft-kontrpiki-sinergiya.html"><h3>Как читать драфт</h3><p>Контрпики по категориям, синергия состава и типичные ошибки в драфте.</p></a>
-      <a class="guide-article-card" href="guides/taimingi-predmetov.html"><h3>Тайминги предметов</h3><p>Как планировать билд по ситуации, а не по шаблону из чужого гайда.</p></a>
     </div>
     <div class="v43-guide-feed"><div class="v43-card-head"><h3>🌐 Гайды сообщества</h3><button class="btn ghost" id="loadCommunityGuides">Обновить</button></div><div id="communityGuides" class="v43-list"><span class="muted">Загружаем опубликованные гайды…</span></div></div><div class="guide-filter-row">
       <button class="chip active guide-filter" data-guide-filter="all">Все</button>
@@ -205,20 +163,6 @@
       <button class="chip guide-filter" data-guide-filter="tools">Инструменты</button>
     </div>
     <div id="guidesGrid" class="guides-grid guides-rich"></div>
-  </div>
-</section>
-
-<section class="section dark-section" id="tools">
-  <div class="container">
-    <div class="section-head companion-section-head"><div><div class="eyebrow">TOOLS</div><h2>Инструменты</h2><p>Небольшие помощники для драфта, MMR и подготовки к матчу.</p></div></div>
-    <div class="tools-grid tools-rich">
-      <article class="tool"><div class="tool-icon">🎲</div><h3>Случайный герой</h3><p id="randomToolText">Пусть судьба решит, кого пикать.</p><button class="btn red" id="randomBtn2">Выбрать героя</button></article>
-      <article class="tool"><div class="tool-icon">🧮</div><h3>Калькулятор MMR</h3><p>Оценка побед до цели с учётом серии игр.</p><button class="btn ghost" id="mmrBtn">Рассчитать</button></article>
-      <article class="tool"><div class="tool-icon">🛡</div><h3>Тренер драфта</h3><p>Выбери героя и получи простые подсказки по роли, типу атаки и старту.</p><button class="btn ghost" id="draftBtn">Запустить</button></article>
-      <article class="tool"><div class="tool-icon">🧭</div><h3>Таймер варда</h3><p>Удобный обратный отсчёт для Observer/Sentry и контроль карты.</p><button class="btn ghost" id="wardBtn">60 секунд</button><strong class="tool-timer" id="wardTimer">Готов</strong></article>
-      <article class="tool"><div class="tool-icon">📦</div><h3>Подбор предмета</h3><p>Назови ситуацию — Companion предложит тип предмета.</p><button class="btn ghost" id="itemSuggestBtn">Подсказать</button><strong id="itemSuggestion" class="tool-result">—</strong></article>
-      <article class="tool"><div class="tool-icon">😂</div><h3>Отмазка после катки</h3><p id="excuse">Нажми кнопку — найдём виноватого.</p><button class="btn ghost" id="excuseBtn">Найти</button></article>
-    </div>
   </div>
 </section>
 
@@ -237,7 +181,7 @@
 <section class="section about" id="about">
   <div class="container about-box">
     <div><div class="eyebrow">Dota 2 Companion</div><h2>Связанные разделы вместо набора отдельных страниц.</h2><p>Герой → статистика → предметы → гайд → инструмент. Следующий этап — серверные сохранения, пользовательские гайды, рейтинги, история меты и полноценный стриминговый архив.</p></div>
-    <div class="roadmap"><span>01</span> Герои → <span>02</span> Предметы → <span>03</span> Статистика → <span>04</span> Гайды → <span>05</span> Инструменты</div>
+    <div class="roadmap"><span>01</span> Герои → <span>02</span> Предметы → <span>03</span> Статистика → <span>04</span> Гайды</div>
   </div>
 </section>
 </main>
