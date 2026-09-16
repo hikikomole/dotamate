@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: заменить YOUR-DOMAIN.example на реальный домен после покупки хостинга -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://YOUR-DOMAIN.example/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://YOUR-DOMAIN.example/stream.html</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+</urlset>
