@@ -16,6 +16,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dota 2 Companion — герои, предметы, статистика и гайды">
 <meta name="twitter:description" content="Dota 2 Companion — герои, предметы, статистика, гайды и инструменты Dota 2 в одной связанной базе.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
 <link rel="stylesheet" href="css/style.css">
 <script src="security.js"></script>
 
@@ -36,24 +39,54 @@
     <div class="nav-spacer"></div><div class="notify-wrap"><button class="notify-bell" id="notifyBell" aria-label="Уведомления">🔔<span id="notifyCount" class="notify-count">0</span></button><div id="notifyPanel" class="notify-panel"></div></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
+<div class="meta-pulse" id="metaPulse" aria-label="Живая статистика меты">
+  <div class="mp-track" id="metaPulseTrack"><span class="mp-item">Загружаем live-статистику меты…</span></div>
+</div>
+
 <main>
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <div class="eyebrow">НЕОФИЦИАЛЬНЫЙ ПОМОЩНИК ДЛЯ DOTA 2</div>
+      <div class="eyebrow-row">
+        <div class="eyebrow">НЕОФИЦИАЛЬНЫЙ ПОМОЩНИК ДЛЯ DOTA 2</div>
+        <span class="fresh-badge" id="freshBadge">🟢 Live-данные · OpenDota</span>
+      </div>
       <h1>Твой Dota 2<br><span>Companion.</span></h1>
-      <p>Герои, предметы, статистика, гайды и инструменты — связанная база знаний для подготовки к каждой игре.</p>
+      <p>126 героев, 250+ предметов и live pro-статистика с OpenDota — одна связанная база вместо десятка открытых вкладок перед игрой.</p>
       <div class="hero-actions">
         <a class="btn red" href="#heroes">Открыть героев</a>
         <button class="btn ghost" id="randomBtn">🎲 Случайный герой</button>
       </div>
       <div class="hero-stats">
-        <div><strong id="heroCount">—</strong><small>героев</small></div>
-        <div><strong id="heroRoleCount">—</strong><small>ролей</small></div>
-        <div><strong id="itemCountHero">—</strong><small>предметов</small></div>
+        <div><strong id="heroCount">124</strong><small>героев</small></div>
+        <div><strong id="heroRoleCount">5</strong><small>ролей</small></div>
+        <div><strong id="itemCountHero">250+</strong><small>предметов</small></div>
       </div>
     </div>
-    <div class="featured" id="featured"></div>
+    <div class="featured" id="featured">
+      <div class="featured-fallback">
+        <small>HERO SPOTLIGHT</small>
+        <h3>Подбираем героя дня…</h3>
+        <p>Секунду — открываем карточку с ролью, статистикой и предметами.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container hero-quickprep" id="quickPrep">
+    <div class="hero-quickprep-head">
+      <div class="eyebrow">⚡ 60 СЕКУНД ДО ПИКА</div>
+      <h2>Выбери героя — получи контрпики и билд мгновенно</h2>
+    </div>
+    <div class="quick-prep-panel">
+      <div class="quick-prep-picker">
+        <label class="search">⌕ <input id="quickPrepInput" list="quickPrepHeroes" placeholder="Начни вводить имя героя…" autocomplete="off"></label>
+        <datalist id="quickPrepHeroes"></datalist>
+        <div class="quick-prep-chips" id="quickPrepChips"></div>
+      </div>
+      <div id="quickPrepResult" class="quick-prep-result">
+        <div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, билд и pro winrate за секунду.</div>
+      </div>
+    </div>
   </div>
 </section>
 

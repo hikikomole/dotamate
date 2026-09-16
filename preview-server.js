@@ -232,7 +232,7 @@ async function getHeroAbilities(heroInternalName){
   return out;
 }
 
-function serveStatic(req,res,u){let p=decodeURIComponent(u.pathname);if(!p||p==='/')p='/index.html';const full=path.resolve(ROOT,'.'+p);if(!full.startsWith(path.resolve(ROOT)))return send(res,403,{error:'forbidden'});fs.stat(full,(e,st)=>{if(e||!st.isFile())return send(res,404,{error:'not found'});const ext=path.extname(full).toLowerCase();res.writeHead(200,{'Content-Type':MIME[ext]||'application/octet-stream','Cache-Control':ext==='.html'||ext==='.js'?'no-cache':'public, max-age=3600'});fs.createReadStream(full).pipe(res);});}
+function serveStatic(req,res,u){let p=decodeURIComponent(u.pathname);if(!p||p==='/')p='/index.html';const full=path.resolve(ROOT,'.'+p);if(!full.startsWith(path.resolve(ROOT)))return send(res,403,{error:'forbidden'});fs.stat(full,(e,st)=>{if(e||!st.isFile())return send(res,404,{error:'not found'});const ext=path.extname(full).toLowerCase();const noCacheExt=['.html','.js','.css'];res.writeHead(200,{'Content-Type':MIME[ext]||'application/octet-stream','Cache-Control':noCacheExt.includes(ext)?'no-cache':'public, max-age=3600'});fs.createReadStream(full).pipe(res);});}
 
 const server=http.createServer(async(req,res)=>{
   try{
