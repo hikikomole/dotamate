@@ -1,0 +1,5 @@
+secrets/*.txt
+.env
+*.log
+
+.d2h-data-cache-v43/

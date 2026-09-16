@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dota 2 Companion — герои, предметы, статистика и гайды</title>
+<meta name="description" content="Dota 2 Companion — герои, предметы, статистика, гайды и инструменты Dota 2 в одной связанной базе.">
+<link rel="stylesheet" href="css/style.css">
+<script src="security.js"></script>
+
+
+  
+<link rel="stylesheet" href="css/v43-platform.css">
+</head>
+<body id="top">
+<div class="bg"></div>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Dota 2 Companion">
+  <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="assets/dota2-companion-icon.png" alt=""></span>
+  <span>Dota 2 <b>Companion</b></span>
+</a>
+    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="#meta">Мета</a><a href="stream.html">Стримы</a><a href="#tools">Инструменты</a><a href="#guides">Гайды</a><a href="#profile">Профиль</a></nav>
+    <div class="nav-spacer"></div><div class="notify-wrap"><button class="notify-bell" id="notifyBell" aria-label="Уведомления">🔔<span id="notifyCount" class="notify-count">0</span></button><div id="notifyPanel" class="notify-panel"></div></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+  </div></header>
+
+<main>
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">НЕОФИЦИАЛЬНЫЙ ПОМОЩНИК ДЛЯ DOTA 2</div>
+      <h1>Твой Dota 2<br><span>Companion.</span></h1>
+      <p>Герои, предметы, статистика, гайды и инструменты — связанная база знаний для подготовки к каждой игре.</p>
+      <div class="hero-actions">
+        <a class="btn red" href="#heroes">Открыть героев</a>
+        <button class="btn ghost" id="randomBtn">🎲 Случайный герой</button>
+      </div>
+      <div class="hero-stats">
+        <div><strong id="heroCount">—</strong><small>героев</small></div>
+        <div><strong id="heroRoleCount">—</strong><small>ролей</small></div>
+        <div><strong id="itemCountHero">—</strong><small>предметов</small></div>
+      </div>
+    </div>
+    <div class="featured" id="featured"></div>
+  </div>
+</section>
+
+<section class="section" id="heroes">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">HERO DATABASE</div><h2>Все герои Dota 2</h2><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
+      <span class="data-source">Valve Datafeed + OpenDota + Steam CDN</span>
+    </div>
+    <div class="toolbar">
+      <label class="search">⌕ <input id="search" placeholder="Поиск героя..." autocomplete="off"></label>
+      <div class="chips">
+        <button class="chip active" data-filter="all">Все</button>
+        <button class="chip" data-filter="str">💪 Сила</button>
+        <button class="chip" data-filter="agi">🏹 Ловкость</button>
+        <button class="chip" data-filter="int">🧠 Интеллект</button>
+        <button class="chip" data-filter="universal">✦ Универсальные</button>
+        <button class="chip" id="resetChip">↻ Сброс</button>
+      </div>
+    </div>
+    <div id="status" class="status">Загружаем героев…</div>
+    <div id="heroesGrid" class="heroes-grid"></div>
+  </div>
+</section>
+
+<section class="section companion-featured" id="featuredHeroes">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">HERO SPOTLIGHT</div><h2>Быстрый выбор героя</h2><p>Открывай профиль героя и переходи прямо к его статистике, предметам и гайдам.</p></div>
+      <a class="section-link" href="#stats">К статистике →</a>
+    </div>
+    <div id="featuredHeroesGrid" class="featured-heroes-grid"></div>
+  </div>
+</section>
+
+<section class="section quick-stats-section" id="stats">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">STATISTICS</div><h2>Статистика и аналитика</h2><p>Сравни характеристики героев, скорость, атрибуты и профессиональные показатели, если они доступны.</p></div>
+      <button class="btn ghost" id="statsRefresh">↻ Обновить</button>
+    </div>
+    <div class="quick-stats-grid">
+      <article class="stat-card"><span class="stat-icon">⚔</span><strong id="quickHeroCount">—</strong><span>героев в базе</span></article>
+      <article class="stat-card"><span class="stat-icon">◈</span><strong id="quickItemCount">—</strong><span>предметов в базе</span></article>
+      <article class="stat-card"><span class="stat-icon">📈</span><strong id="bestWinrate">—</strong><span>лучший pro winrate</span></article>
+      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>pro picks в базе</span></article>
+    </div>
+    <div class="stats-extra" id="statsExtra"></div>
+    <div id="itemAnalytics" class="item-analytics-wrap"></div>
+    <div class="stats-panel">
+      <div class="stats-toolbar">
+        <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
+        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="Carry">Carry</option><option value="Mid">Mid</option><option value="Offlane">Offlane</option><option value="Support">Support</option><option value="Hard Support">Hard Support</option></select>
+        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
+      </div>
+      <div class="table-wrap">
+        <table class="stats-table"><thead><tr><th>Герой</th><th>Атрибут</th><th>Роли</th><th>Pro pick</th><th>Pro win</th><th>Winrate</th><th>Pro ban</th><th>Move</th><th>Attack</th></tr></thead><tbody id="statsBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section v43-global-search" id="globalSearchSection"><div class="container"><div class="v43-search-shell"><span>⌕</span><input id="globalSearch" placeholder="Быстрый поиск героя, предмета или раздела…" autocomplete="off"><kbd>Ctrl K</kbd></div><div id="globalSearchResults" class="v43-search-results"></div></div></section>
+
+<section class="section items-section items-section-v3" id="items">
+  <div class="container">
+    <div class="items-v3-head">
+      <div>
+        <div class="eyebrow">ITEM DATABASE</div>
+        <h2>Арсенал Dota 2</h2>
+        <p>Полная витрина предметов. Открывай любой предмет, чтобы увидеть официальные данные Valve и реальные связи с героями.</p>
+      </div>
+      <div class="items-v3-summary"><strong id="itemVisibleCount">0</strong><span>показывается</span><small><b id="itemCountHero2">0</b> в базе</small></div>
+    </div>
+    <div class="items-v3-toolbar">
+      <label class="search item-search-v3">⌕ <input id="itemSearch" placeholder="Найти предмет по названию или описанию…"></label>
+      <div class="items-v3-price">
+        <button class="chip item-filter active" data-item-filter="all">Все</button>
+        <button class="chip item-filter" data-item-filter="cheap">До 1000</button>
+        <button class="chip item-filter" data-item-filter="mid">1000–2500</button>
+        <button class="chip item-filter" data-item-filter="expensive">2500+</button>
+      </div>
+    </div>
+    <div class="items-v3-categories">
+      <button class="item-category active" data-item-category="all"><span>◈</span>Все</button>
+      <button class="item-category" data-item-category="shop"><span>◆</span>Магазин</button>
+      <button class="item-category" data-item-category="component"><span>◇</span>Компоненты</button>
+      <button class="item-category" data-item-category="consumable"><span>✦</span>Расходники</button>
+      <button class="item-category" data-item-category="neutral"><span>✧</span>Нейтральные</button>
+      <button class="item-category" data-item-category="recipe"><span>▱</span>Рецепты</button>
+    </div>
+    <div id="itemStatus" class="items-v3-status">Загружаем предметы…</div>
+    <div id="itemsGrid" class="items-grid items-all-grid items-grid-v3"></div>
+  </div>
+</section>
+
+<section class="section v43-meta-section" id="meta">
+  <div class="container">
+    <div class="section-head companion-section-head"><div><div class="eyebrow">META NOW</div><h2>Мета Dota 2</h2><p>Автоматический рейтинг героев на основе доступных профессиональных показателей. Переключай роль и смотри лидеров.</p></div><button class="btn ghost" id="metaRefresh">↻ Пересчитать</button></div>
+    <div class="v43-tabs" id="metaRoles"><button class="active" data-meta-role="all">Все</button><button data-meta-role="Carry">Carry</button><button data-meta-role="Mid">Mid</button><button data-meta-role="Offlane">Offlane</button><button data-meta-role="Support">Support</button><button data-meta-role="Hard Support">Hard Support</button></div>
+    <div id="metaGrid" class="v43-meta-grid"></div>
+  </div>
+</section>
+
+<section class="section v43-builder-section" id="builds">
+  <div class="container">
+    <div class="section-head companion-section-head"><div><div class="eyebrow">BUILD LAB</div><h2>Конструктор билда</h2><p>Собери собственный набор предметов для героя и сохрани его в профиле.</p></div></div>
+    <div class="v43-builder">
+      <div class="v43-builder-controls"><label>Герой<select id="buildHeroSelect"></select></label><label>Название билда<input id="buildName" placeholder="Мой билд"></label><button class="btn red" id="saveBuildV43">Сохранить билд</button></div>
+      <div class="v43-build-columns"><div><h3>Доступные предметы</h3><input class="search" id="buildItemSearch" placeholder="Поиск предмета…"><div id="buildItemPool" class="v43-item-pool"></div></div><div><h3>Мой билд <span id="buildCount">0/6</span></h3><div id="selectedBuildItems" class="v43-selected-build"></div><button class="btn ghost" id="clearBuild">Очистить</button></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section v43-match-section" id="match-assistant">
+  <div class="container">
+    <div class="section-head companion-section-head"><div><div class="eyebrow">MATCH ASSISTANT</div><h2>Помощник матча</h2><p>Заполни обе команды — Companion оценит роли, контроль, темп и уязвимости состава.</p></div></div>
+    <div class="v43-match-grid"><div><h3>Ваша команда</h3><div id="matchMyTeam" class="v43-match-slots"></div></div><div><h3>Соперники</h3><div id="matchEnemyTeam" class="v43-match-slots"></div></div><div class="v43-match-result" id="matchResult"><div class="empty">Добавь хотя бы двух героев, чтобы получить анализ.</div></div></div>
+  </div>
+</section>
+
+<section class="section draft-section" id="draft">
+  <div class="container">
+    <div class="section-head companion-section-head"><div><div class="eyebrow">DRAFT ASSISTANT</div><h2>Помощник перед пиком</h2><p>Собери составы и получи локальную рекомендацию по контрпикам, синергии и предметам.</p></div><span class="data-source">Preview heuristic · без выдуманной статистики</span></div>
+    <div class="draft-layout">
+      <div class="draft-side"><h3>Моя команда</h3><div class="role-slots" id="myTeam"></div></div>
+      <div class="draft-side"><h3>Команда противника</h3><div class="enemy-slots" id="enemyTeam"></div><button class="btn ghost" id="clearDraft">Очистить</button></div>
+      <div class="draft-center"><div class="draft-picker"><input id="draftSearch" class="draft-input" placeholder="Поиск героя для драфта..."><div id="draftHeroGrid" class="draft-hero-grid"></div></div><div id="draftResults" class="draft-results"><div class="empty">Выбери героев противника, чтобы получить рекомендации.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section guides-section" id="guides">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">GUIDES</div><h2>Гайды и база знаний</h2><p>Практические мини-гайды, которые ведут к героям, предметам и инструментам. Это каркас для будущих авторских гайдов сообщества.</p></div>
+    </div>
+    <div class="v43-guide-feed"><div class="v43-card-head"><h3>🌐 Гайды сообщества</h3><button class="btn ghost" id="loadCommunityGuides">Обновить</button></div><div id="communityGuides" class="v43-list"><span class="muted">Загружаем опубликованные гайды…</span></div></div><div class="guide-filter-row">
+      <button class="chip active guide-filter" data-guide-filter="all">Все</button>
+      <button class="chip guide-filter" data-guide-filter="gameplay">Геймплей</button>
+      <button class="chip guide-filter" data-guide-filter="heroes">Герои</button>
+      <button class="chip guide-filter" data-guide-filter="items">Предметы</button>
+      <button class="chip guide-filter" data-guide-filter="tools">Инструменты</button>
+    </div>
+    <div id="guidesGrid" class="guides-grid guides-rich"></div>
+  </div>
+</section>
+
+<section class="section dark-section" id="tools">
+  <div class="container">
+    <div class="section-head companion-section-head"><div><div class="eyebrow">TOOLS</div><h2>Инструменты</h2><p>Небольшие помощники для драфта, MMR и подготовки к матчу.</p></div></div>
+    <div class="tools-grid tools-rich">
+      <article class="tool"><div class="tool-icon">🎲</div><h3>Случайный герой</h3><p id="randomToolText">Пусть судьба решит, кого пикать.</p><button class="btn red" id="randomBtn2">Выбрать героя</button></article>
+      <article class="tool"><div class="tool-icon">🧮</div><h3>Калькулятор MMR</h3><p>Оценка побед до цели с учётом серии игр.</p><button class="btn ghost" id="mmrBtn">Рассчитать</button></article>
+      <article class="tool"><div class="tool-icon">🛡</div><h3>Тренер драфта</h3><p>Выбери героя и получи простые подсказки по роли, типу атаки и старту.</p><button class="btn ghost" id="draftBtn">Запустить</button></article>
+      <article class="tool"><div class="tool-icon">🧭</div><h3>Таймер варда</h3><p>Удобный обратный отсчёт для Observer/Sentry и контроль карты.</p><button class="btn ghost" id="wardBtn">60 секунд</button><strong class="tool-timer" id="wardTimer">Готов</strong></article>
+      <article class="tool"><div class="tool-icon">📦</div><h3>Подбор предмета</h3><p>Назови ситуацию — Companion предложит тип предмета.</p><button class="btn ghost" id="itemSuggestBtn">Подсказать</button><strong id="itemSuggestion" class="tool-result">—</strong></article>
+      <article class="tool"><div class="tool-icon">😂</div><h3>Отмазка после катки</h3><p id="excuse">Нажми кнопку — найдём виноватого.</p><button class="btn ghost" id="excuseBtn">Найти</button></article>
+    </div>
+  </div>
+</section>
+
+<section class="section profile-section" id="profile">
+  <div class="container">
+    <div class="section-head companion-section-head"><div><div class="eyebrow">MY COMPANION</div><h2>Личный Companion-профиль</h2><p>Избранные герои, билды и пользовательские заметки сохраняются в браузере. Авторизация сайта остаётся доступной для стриминга и сообщества.</p></div><button class="btn ghost" id="clearProfile">Сбросить локальные данные</button></div>
+    <div class="profile-grid">
+      <article class="profile-card"><div class="profile-avatar">D2</div><div><h3 id="profileName">Игрок</h3><p>Профиль аккаунта · данные синхронизируются с сервером</p></div><button class="btn ghost" id="renameProfile">Изменить имя</button></article>
+      <article class="profile-card"><h3>❤️ Избранные герои</h3><div id="favoritesGrid" class="mini-grid"></div></article>
+      <article class="profile-card"><h3>📖 Мои гайды</h3><div id="myGuides" class="my-guides"></div><button class="btn red" id="newGuideBtn">+ Создать гайд</button></article>
+      <article class="profile-card"><h3>🛠 Сохранённые билды</h3><div id="savedBuilds" class="my-guides"></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="section about" id="about">
+  <div class="container about-box">
+    <div><div class="eyebrow">Dota 2 Companion</div><h2>Связанные разделы вместо набора отдельных страниц.</h2><p>Герой → статистика → предметы → гайд → инструмент. Следующий этап — серверные сохранения, пользовательские гайды, рейтинги, история меты и полноценный стриминговый архив.</p></div>
+    <div class="roadmap"><span>01</span> Герои → <span>02</span> Предметы → <span>03</span> Статистика → <span>04</span> Гайды → <span>05</span> Инструменты</div>
+  </div>
+</section>
+</main>
+
+<footer><div class="container">Dota 2 Companion · неофициальный проект</div></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
+<script src="js/local-preview.js"></script>
+<script src="js/reliable-data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/v43-features.js"></script>
+<script src="js/v43-platform.js"></script>
+</body>
+</html>

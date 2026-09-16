@@ -1,0 +1,8 @@
+{
+  "name":"dota2-helper-streaming",
+  "version":"43.0.0",
+  "private":true,
+  "type":"commonjs",
+  "scripts":{"start":"node server.js"},
+  "dependencies":{"bcryptjs":"^2.4.3","jsonwebtoken":"^9.0.2","pg":"^8.16.3","redis":"^5.8.2","ws":"^8.18.0"}
+}

@@ -1,0 +1,141 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL_FILE: /run/secrets/database_url
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET_FILE: /run/secrets/jwt_secret
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:?set PUBLIC_ORIGIN in .env}
+      PUBLIC_MEDIA_HOST: ${PUBLIC_MEDIA_HOST:?set PUBLIC_MEDIA_HOST in .env}
+      PUBLIC_MEDIA_BASE: https://${PUBLIC_MEDIA_HOST}
+      PUBLIC_HLS_BASE: https://hls.${DOMAIN}
+      MEDIA_SCHEME: https
+      MEDIAMTX_WEBRTC_PORT: 8889
+      MEDIAMTX_HLS_PORT: 8888
+      CLOUDPAYMENTS_PUBLIC_ID: ${CLOUDPAYMENTS_PUBLIC_ID:-}
+      TURN_REALM: ${TURN_REALM:?set TURN_REALM in .env}
+      TURN_SECRET: ${TURN_SECRET:?set TURN_SECRET in .env}
+      CLOUDPAYMENTS_API_SECRET_FILE: /run/secrets/cloudpayments_api_secret
+      DB_POOL_MAX: 20
+    secrets: [database_url, jwt_secret, cloudpayments_api_secret]
+    expose: ["3000"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mediamtx:
+        condition: service_started
+    read_only: true
+    tmpfs:
+      - /tmp
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dota2helper}
+      POSTGRES_USER: ${POSTGRES_USER:-dota2helper}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server","--appendonly","yes","--save","60","1000"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backup:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: ${POSTGRES_DB:-dota2helper}
+      PGUSER: ${POSTGRES_USER:-dota2helper}
+      PGPASSWORD_FILE: /run/secrets/postgres_password
+      BACKUP_INTERVAL_SECONDS: ${BACKUP_INTERVAL_SECONDS:-21600}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-7}
+    secrets: [postgres_password]
+    volumes:
+      - backups:/backups
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        set -eu
+        export PGPASSWORD="$$(cat $$PGPASSWORD_FILE)"
+        while true; do
+          stamp=$$(date -u +%Y%m%dT%H%M%SZ)
+          pg_dump --format=custom --file="/backups/dota2helper-$$stamp.dump"
+          find /backups -type f -name '*.dump' -mtime +$$BACKUP_RETENTION_DAYS -delete
+          sleep $$BACKUP_INTERVAL_SECONDS
+        done
+
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    restart: unless-stopped
+    ports:
+      - "1935:1935"
+      - "8888:8888"
+      - "8889:8889"
+      - "8189:8189/udp"
+      - "8189:8189/tcp"
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+
+  turn:
+    image: coturn/coturn:latest
+    restart: unless-stopped
+    command: ["-n","--log-file=stdout","--realm=${TURN_REALM:?set TURN_REALM in .env}","--use-auth-secret","--static-auth-secret=${TURN_SECRET:?set TURN_SECRET in .env}","--listening-port=3478","--min-port=49152","--max-port=49252","--no-cli"]
+    ports:
+      - "3478:3478/tcp"
+      - "3478:3478/udp"
+      - "49152-49252:49152-49252/udp"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env}
+    ports: ["80:80","443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [app]
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  database_url:
+    file: ./secrets/database_url.txt
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt
+  cloudpayments_api_secret:
+    file: ./secrets/cloudpayments_api_secret.txt
+
+volumes:
+  postgres_data:
+  redis_data:
+  backups:
+  caddy_data:
+  caddy_config:

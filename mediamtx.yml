@@ -1,0 +1,25 @@
+logLevel: info
+authMethod: http
+authHTTPAddress: http://app:3000/api/mediamtx/auth
+authHTTPExclude:
+  - action: read
+  - action: api
+  - action: metrics
+rtmp: yes
+hls: yes
+hlsAddress: :8888
+webrtc: yes
+webrtcAddress: :8889
+webrtcLocalUDPAddress: :8189
+webrtcLocalTCPAddress: :8189
+webrtcAllowOrigins: ['*']
+webrtcAdditionalHosts: ["${PUBLIC_MEDIA_HOST}"]
+# For production, configure TURN in this file (or via a generated config) using the real TURN host.
+# The TURN shared secret must never be exposed to the browser.
+# webrtcICEServers2:
+#   - url: turn:${TURN_REALM}:3478?transport=udp
+#     username: <short-lived TURN username>
+#     password: <short-lived TURN credential>
+paths:
+  all_others:
+    source: publisher

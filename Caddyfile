@@ -1,0 +1,21 @@
+{$DOMAIN} {
+  encode zstd gzip
+  header {
+    -Server
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    Permissions-Policy "camera=(self), microphone=(self), display-capture=(self)"
+  }
+  reverse_proxy app:3000
+}
+
+media.{$DOMAIN} {
+  encode zstd gzip
+  reverse_proxy mediamtx:8889
+}
+
+hls.{$DOMAIN} {
+  encode zstd gzip
+  reverse_proxy mediamtx:8888
+}
