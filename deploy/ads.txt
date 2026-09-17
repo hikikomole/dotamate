@@ -1,0 +1,8 @@
+# ads.txt for dotamate.ru
+#
+# No ad network is active on this site yet. Once an ad network
+# (e.g. Yandex Advertising Network / RSYA) account is set up, its
+# required seller entry will be added here, e.g.:
+#   yandex.ru, XXXXXXX, DIRECT
+#
+# See https://iabtechlab.com/ads-txt/ for the spec.

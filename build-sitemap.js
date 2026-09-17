@@ -13,11 +13,12 @@ const guideUrls = readUrls('guide-urls.json');       // 10 long-form articles
 const roleGuideUrls = readUrls('role-guide-urls.json'); // 7 role/comparison guides
 const heroUrls = readUrls('hero-urls.json');         // 127 heroes
 const itemUrls = readUrls('item-urls.json');         // 400 items
+const privacyUrls = readUrls('privacy-urls.json');   // privacy policy
 
 const entries = [];
 entries.push({ loc: 'https://dotamate.ru/', changefreq: 'daily', priority: '1.0' });
 
-for (const g of [...guideUrls, ...roleGuideUrls]) {
+for (const g of [...guideUrls, ...roleGuideUrls, ...privacyUrls]) {
   entries.push({ loc: g.loc, lastmod: today, changefreq: 'monthly', priority: '0.8' });
 }
 for (const h of heroUrls) {

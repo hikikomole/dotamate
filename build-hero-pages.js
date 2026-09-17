@@ -123,7 +123,7 @@ async function main(){
     </div>
   </div>
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект</div></footer>
+<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;

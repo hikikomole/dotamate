@@ -87,6 +87,7 @@ ${analyticsSnippet}
   <h1 style="margin:6px 0 20px;">${escapeHtml(g.title)}</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">${escapeHtml(g.excerpt)}</p>
   ${bodyHtml}
+  <div class="ad-slot" id="ad-slot-article" data-ad-slot="guide-article-mid" aria-hidden="true"></div>
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="/#${g.action}">Открыть раздел «${escapeHtml(actionLabels[g.action]||g.action)}» →</a>
   </div>
@@ -95,7 +96,7 @@ ${analyticsSnippet}
     <div class="linked-list">${relatedHtml}</div>
   </div>
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект</div></footer>
+<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;

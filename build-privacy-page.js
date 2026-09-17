@@ -1,0 +1,125 @@
+#!/usr/bin/env node
+// Generates the site's privacy policy at deploy/privacy/index.html.
+// Hand-written content (no external API data needed), reusing the same
+// page shell markup/CSS as the other generated guide pages.
+
+const fs = require('fs');
+const path = require('path');
+
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+
+const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->`;
+
+const title = 'Политика конфиденциальности | Dota 2 Companion';
+const desc = 'Какие данные собирает Dota 2 Companion, как используется локальное хранилище браузера, веб-аналитика и что изменится, если на сайте появится реклама.';
+const canonical = 'https://dotamate.ru/privacy/';
+const updated = new Date().toISOString().slice(0,10);
+
+const ldjson = JSON.stringify({
+  "@context":"https://schema.org","@type":"WebPage","name":title,
+  "description":desc,"url":canonical
+});
+const breadcrumb = JSON.stringify({
+  "@context":"https://schema.org","@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},
+    {"@type":"ListItem","position":2,"name":"Политика конфиденциальности","item":canonical}
+  ]
+});
+
+const bodyHtml = `<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / Политика конфиденциальности</nav>
+<div class="eyebrow">LEGAL</div>
+<h1 style="margin:6px 0 8px;">Политика конфиденциальности</h1>
+<p style="font-size:13px;opacity:.6;margin:0 0 26px;">Обновлено: ${updated}</p>
+
+<section class="detail-section">
+<h2>О проекте</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Dota 2 Companion (dotamate.ru) — неофициальный фанатский проект, посвящённый Dota 2. Мы не связаны с Valve Corporation. Названия, изображения героев и предметов принадлежат их правообладателям и используются в справочных целях.</p>
+</section>
+
+<section class="detail-section">
+<h2>Какие данные мы собираем</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 10px;"><b>Локальное хранилище браузера.</b> Избранные герои, сохранённые билды и настройки интерфейса хранятся прямо в вашем браузере (localStorage) и никуда не отправляются. Вы можете очистить эти данные в любой момент через настройки браузера или кнопку «Сбросить локальные данные» в профиле.</p>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 10px;"><b>Регистрация аккаунта.</b> Если вы создаёте аккаунт для стриминга или функций сообщества, мы сохраняем никнейм, email и пароль. Пароль хранится только в виде необратимого хеша — в открытом виде мы его не видим и не храним. После входа в браузере сохраняется токен сессии.</p>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><b>Веб-аналитика.</b> Для понимания посещаемости страниц мы используем Cloudflare Web Analytics — она не использует cookies, не отслеживает пользователей между сайтами и не собирает данные, по которым можно установить личность посетителя. Это агрегированная статистика: сколько человек открыли страницу, откуда пришли, с какого устройства.</p>
+</section>
+
+<section class="detail-section">
+<h2>Cookies</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">На данный момент сайт не использует рекламные или маркетинговые cookies. Технические cookies могут применяться только для работы авторизации. Если это изменится (см. следующий раздел), мы обновим этот пункт с описанием конкретных cookies и способом отказаться от них.</p>
+</section>
+
+<section class="detail-section">
+<h2>Реклама и партнёрские ссылки</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Сейчас сайт не показывает рекламу и не содержит партнёрских (affiliate) ссылок. Если в будущем на сайте появится реклама (например, через рекламную сеть) или партнёрские ссылки на товары/сервисы, мы заранее обновим эту политику: укажем, какие рекламные сети используются, какие данные они могут собирать (обычно — обезличенные данные об устройстве и cookies для показа релевантной рекламы) и как от этого отказаться. Партнёрские ссылки, если появятся, будут явно помечены как таковые.</p>
+</section>
+
+<section class="detail-section">
+<h2>Передача данных третьим лицам</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Мы не продаём и не передаём личные данные пользователей третьим лицам, за исключением сервисов, необходимых для работы сайта (например, хостинг), и случаев, предусмотренных законом.</p>
+</section>
+
+<section class="detail-section">
+<h2>Ваши права</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Вы можете в любой момент очистить локальные данные браузера. Если у вас есть аккаунт и вы хотите удалить его или узнать, какие данные о вас хранятся, свяжитесь с администрацией проекта.</p>
+</section>
+
+<section class="detail-section">
+<h2>Изменения политики</h2>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Мы можем время от времени обновлять эту страницу — например, при добавлении рекламы или новых функций. Дата последнего обновления указана в начале страницы.</p>
+</section>
+`;
+
+const html = `<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(title)}</title>
+<meta name="description" content="${escapeHtml(desc)}">
+<link rel="canonical" href="${canonical}">
+<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${escapeHtml(title)}">
+<meta property="og:description" content="${escapeHtml(desc)}">
+<meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
+<meta property="og:url" content="${canonical}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${escapeHtml(title)}">
+<meta name="twitter:description" content="${escapeHtml(desc)}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/security.js"></script>
+<link rel="stylesheet" href="/css/v43-platform.css">
+<script type="application/ld+json">${ldjson}</script>
+<script type="application/ld+json">${breadcrumb}</script>
+${analyticsSnippet}
+</head>
+<body id="top">
+<div class="bg"></div>
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Dota 2 Companion">
+      <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
+      <span>Dota 2 <b>Companion</b></span>
+    </a>
+    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/stream.html">Стримы</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <div class="nav-spacer"></div>
+    <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+  </div>
+</header>
+<main class="container" style="padding-top:24px;padding-bottom:48px;max-width:820px;">
+${bodyHtml}
+</main>
+<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+</body>
+</html>
+`;
+
+const dir = path.join('deploy','privacy');
+fs.mkdirSync(dir,{recursive:true});
+fs.writeFileSync(path.join(dir,'index.html'), html, 'utf8');
+fs.writeFileSync('privacy-urls.json', JSON.stringify([{loc:canonical,name:'Политика конфиденциальности'}],null,1));
+console.log('Generated privacy policy page.');

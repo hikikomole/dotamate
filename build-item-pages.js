@@ -135,7 +135,7 @@ async function main(){
     ${componentsHtml?`<section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>RECIPE</span><h3>Собирается из</h3></div></div><div class="linked-list">${componentsHtml}</div></section>`:''}
   </div>
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект</div></footer>
+<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;
