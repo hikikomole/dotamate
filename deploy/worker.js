@@ -14,10 +14,26 @@ function jsonResponse(data, status = 200) {
   });
 }
 
+async function sleep(ms) { return new Promise(res => setTimeout(res, ms)); }
+
+// OpenDota's free API is shared across every Cloudflare Worker on the
+// planet, so its rate limits get hit from our egress IP far more often
+// than from a normal browser/device IP. A couple of short retries absorb
+// most of those transient 429/5xx blips without the caller noticing.
 async function fetchJson(url) {
-  const r = await fetch(url, { headers: { Accept: 'application/json' } });
-  if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + url);
-  return r.json();
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const r = await fetch(url, { headers: { Accept: 'application/json' } });
+      if (r.ok) return await r.json();
+      lastErr = new Error('HTTP ' + r.status + ' for ' + url);
+      if (r.status !== 429 && r.status < 500) break; // don't retry real client errors
+    } catch (e) {
+      lastErr = e;
+    }
+    if (attempt < 2) await sleep(400 * (attempt + 1));
+  }
+  throw lastErr;
 }
 
 async function fetchJsonSafe(url) { return fetchJson(url); }
@@ -93,16 +109,33 @@ async function resolveRuText(internalKey, isItem, attribArr) {
   }
 }
 
-async function getConstantsMap(url, cacheKey, ttlSec) {
-  return cachedJson(cacheKey, ttlSec, () => fetchJson(url));
+async function fetchStaticJson(env, path) {
+  const res = await env.ASSETS.fetch(new Request('https://internal.assets' + path));
+  if (!res.ok) throw new Error('static asset ' + path + ' HTTP ' + res.status);
+  return res.json();
+}
+
+// OpenDota's hero/ability constants change only with game patches, so a
+// bundled static snapshot (data/hero_abilities.json, data/abilities.json --
+// fetched once at deploy time) is a safe fallback when the live call gets
+// rate-limited (see fetchJson's comment above the retry loop).
+async function getConstantsMap(url, cacheKey, ttlSec, fallbackPath, env) {
+  try {
+    return await cachedJson(cacheKey, ttlSec, () => fetchJson(url));
+  } catch (e) {
+    if (fallbackPath && env) {
+      try { return await fetchStaticJson(env, fallbackPath); } catch (e2) { /* fall through to original error */ }
+    }
+    throw e;
+  }
 }
 
 // --- Hero abilities: OpenDota constants (which abilities a hero has + their
 // English metadata/attrib) + Valve's own RU localization for the description text.
-async function getHeroAbilities(heroInternalName) {
+async function getHeroAbilities(heroInternalName, env) {
   const [heroAbilitiesMap, abilitiesMap] = await Promise.all([
-    getConstantsMap('https://api.opendota.com/api/constants/hero_abilities', 'const-hero-abilities-v1', 60 * 60 * 24),
-    getConstantsMap('https://api.opendota.com/api/constants/abilities', 'const-abilities-v1', 60 * 60 * 24)
+    getConstantsMap('https://api.opendota.com/api/constants/hero_abilities', 'const-hero-abilities-v1', 60 * 60 * 24, '/data/hero_abilities.json', env),
+    getConstantsMap('https://api.opendota.com/api/constants/abilities', 'const-abilities-v1', 60 * 60 * 24, '/data/abilities.json', env)
   ]);
   const entry = heroAbilitiesMap[heroInternalName];
   if (!entry || !Array.isArray(entry.abilities)) return [];
@@ -178,14 +211,14 @@ async function getItemDetail(itemId) {
   return { ...raw, desc_loc: r.text, description: r.text, source: r.source };
 }
 
-async function handleApi(pathname) {
+async function handleApi(pathname, env) {
   let m;
   if ((m = pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/))) {
     try { return jsonResponse(await getHeroItemPopularity(Number(m[1]))); }
     catch (e) { return jsonResponse({ error: 'hero_items_unavailable', message: e.message }, 502); }
   }
   if ((m = pathname.match(/^\/api\/dota\/hero\/([a-zA-Z0-9_]+)\/abilities$/))) {
-    try { return jsonResponse(await getHeroAbilities(m[1])); }
+    try { return jsonResponse(await getHeroAbilities(m[1], env)); }
     catch (e) { return jsonResponse({ error: 'hero_abilities_unavailable', message: e.message }, 502); }
   }
   if ((m = pathname.match(/^\/api\/dota\/item\/(\d+)$/))) {
@@ -200,7 +233,7 @@ export default {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/dota/')) {
       if (request.method !== 'GET') return jsonResponse({ error: 'method_not_allowed' }, 405);
-      return handleApi(url.pathname);
+      return handleApi(url.pathname, env);
     }
     return env.ASSETS.fetch(request);
   }
