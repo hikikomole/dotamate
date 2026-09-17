@@ -611,6 +611,16 @@
   canvas.addEventListener('pointercancel', releasePointer);
   canvas.addEventListener('contextmenu', e => e.preventDefault());
 
+  // Suppress the browser's own right-click "mouse gestures" (back/forward/
+  // close-tab swipes) while the cursor is over the game canvas -- scoped to
+  // this element only, so the browser's gesture feature stays exactly as the
+  // player configured it everywhere else on the page and site. The gesture
+  // recognizer keys off the native mousedown event rather than Pointer
+  // Events, so pointerdown's own preventDefault() above isn't enough on its
+  // own; calling it here too is what actually stops a frantic right-click
+  // drag mid-game from firing a browser gesture instead of an in-game move.
+  canvas.addEventListener('mousedown', e => e.preventDefault());
+
   window.addEventListener('blur', () => { isPointerDown = false; activePointerId = null; });
 
   startClassicBtn.addEventListener('click', () => startGame('CLASSIC'));
