@@ -37,7 +37,7 @@
   <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="assets/dota2-companion-icon.png" alt=""></span>
   <span>Dota 2 <b>Companion</b></span>
 </a>
-    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="#guides">Гайды</a></nav>
+    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="#guides">Гайды</a><a href="#game">Игра</a></nav>
     <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
@@ -197,6 +197,51 @@
   </div>
 </section>
 
+<section class="section dg-section" id="game">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">MINI-GAME</div><h2>Hook &amp; Hit</h2><p>Уклоняйся от крюков, добивай крипов и отбивай красные хуки атакой — прямо в браузере, без установки.</p></div>
+    </div>
+    <div class="dg-wrap">
+      <p class="dg-note">Клик или тап по полю — движение с ускорением. Клик по крипу или красному хуку — атака.</p>
+      <div class="dg-container" id="dgStage">
+        <div class="dg-ui-bar">
+          <div class="dg-ui-group">
+            <div class="dg-stat">ВРЕМЯ: <span id="dgTimer" class="dg-time">00:00</span></div>
+            <div class="dg-stat">ЗОЛОТО: <span id="dgGold" class="dg-gold">0</span></div>
+          </div>
+          <div class="dg-ui-group">
+            <div class="dg-stat" id="dgLivesBox">ЖИЗНИ: <span id="dgLives" class="dg-lives">♥♥♥</span></div>
+            <button id="dgEndBtn" type="button" class="dg-btn-small dg-hide">Закончить игру</button>
+          </div>
+        </div>
+
+        <div id="dgStart" class="dg-overlay">
+          <h1>HOOK &amp; HIT</h1>
+          <p>Кликайте по карте для движения с <b style="color:#64b5f6">ускорением</b>.<br><b style="color:#ff5252">Красные хуки можно отбивать атакой!</b><br>Скорость хуков растёт каждые 20 секунд.</p>
+          <div class="dg-btn-group">
+            <button id="dgStartClassic" type="button" class="dg-btn">КЛАССИКА (3 ЖИЗНИ)</button>
+            <button id="dgStartEndless" type="button" class="dg-btn dg-btn-secondary">БЕСКОНЕЧНЫЙ</button>
+          </div>
+        </div>
+
+        <div id="dgOver" class="dg-overlay dg-hide">
+          <h1 id="dgOverTitle">РЕЗУЛЬТАТЫ ИГРЫ</h1>
+          <div class="dg-stats-summary">
+            <div>Время игры: <span id="dgFinalTime" class="dg-time">00:00</span></div>
+            <div>Добито крипов: <span id="dgFinalLh" style="color:#fff">0</span></div>
+            <div>Отбито хуков: <span id="dgFinalDeflect" style="color:#ff5252">0</span></div>
+            <div>Заработано золота: <span id="dgFinalGold" class="dg-gold">0</span></div>
+          </div>
+          <button id="dgRestart" type="button" class="dg-btn">В ГЛАВНОЕ МЕНЮ</button>
+        </div>
+
+        <canvas id="dgCanvas" class="dg-canvas" width="800" height="600"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 
@@ -208,6 +253,7 @@
 <script src="js/local-preview.js"></script>
 <script src="js/reliable-data.js"></script>
 <script src="js/app.js"></script>
+<script src="js/game.js"></script>
 <script src="js/v43-features.js"></script>
 </body>
 </html>
