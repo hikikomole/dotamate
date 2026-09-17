@@ -506,15 +506,6 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
 .featured-fallback p{margin:0;color:#9ba2ae;font-size:13px}
 .hero-grid{background:radial-gradient(circle at 78% 15%,rgba(139,92,246,.16),transparent 38%),radial-gradient(circle at 12% 85%,rgba(224,90,73,.10),transparent 42%),radial-gradient(circle at 72% 20%,rgba(139,92,246,.10),transparent 34%);border-radius:24px}
 
-/* --- Meta Pulse ticker (live facts strip under header) --- */
-.meta-pulse{position:relative;z-index:5;overflow:hidden;white-space:nowrap;background:#0d0f16;border-bottom:1px solid #1c222d}
-.meta-pulse .mp-track{display:inline-flex;gap:46px;padding:10px 0;animation:mpScroll 34s linear infinite}
-.meta-pulse:hover .mp-track{animation-play-state:paused}
-.meta-pulse .mp-item{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#aab1bc;letter-spacing:.1px}
-.meta-pulse .mp-item b{color:#fff;font-weight:700;font-family:inherit}
-@keyframes mpScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.meta-pulse .mp-track{animation:none;flex-wrap:wrap;gap:20px 46px}}
-
 /* --- Quick Prep: "60 секунд до пика" (встроен в hero) --- */
 .hero-quickprep{margin-top:42px;padding-top:30px;border-top:1px solid var(--comp-border,#e1e5ed)}
 .hero-quickprep-head{margin-bottom:20px}
@@ -546,4 +537,4 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
 .ad-slot{display:none}
 .ad-slot.ad-active{display:block;margin:28px auto;max-width:728px;min-height:90px;text-align:center}
 .ad-slot.ad-active::before{content:"Реклама";display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.45;margin-bottom:6px}
-@media(max-width:480px){.topbar{z-index:100!important}.meta-pulse{z-index:1!important}}
+@media(max-width:480px){.topbar{z-index:100!important}}
