@@ -1,8 +1,11 @@
 # ads.txt for dotamate.ru
-#
-# No ad network is active on this site yet. Once an ad network
-# (e.g. Yandex Advertising Network / RSYA) account is set up, its
-# required seller entry will be added here, e.g.:
-#   yandex.ru, XXXXXXX, DIRECT
-#
+# Yandex Advertising Network (RSYA) - from Yandex Partner dashboard
 # See https://iabtechlab.com/ads-txt/ for the spec.
+yandex.com, 4746007, DIRECT
+google.com, pub-5533854580432370, RESELLER, f08c47fec0942fa0
+improvedigital.com, 2031, RESELLER
+uis.mobfox.com, 165, RESELLER
+hyperad.tech, 215, RESELLER
+betweendigital.com, 43554, RESELLER
+Contextweb.com, 562899, RESELLER, 89ff185a4c4e857c
+hyperad.tech, 150, RESELLER
