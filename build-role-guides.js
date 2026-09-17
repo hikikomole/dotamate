@@ -18,7 +18,7 @@ function itemImage(key,img){
   return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${itemSlug(key)}.png`;
 }
 
-const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->`;
+const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->`;
 
 function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
   return `<!doctype html>
@@ -104,7 +104,8 @@ async function main(){
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(r.excerpt)}</p>
 <p style="line-height:1.7;color:#c7cbd4;margin:0 0 26px;">${escapeHtml(r.intro)}</p>
 ${stagesHtml}
-<div class="ad-slot" id="ad-slot-role" data-ad-slot="guide-role-mid" aria-hidden="true"></div>
+<div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-role-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 <div class="hero-detail-actions" style="margin-top:26px;"><a class="btn red" href="/#heroes">Подобрать героя на роль «${escapeHtml(r.role)}» →</a></div>
 <div class="detail-section" style="margin-top:34px;"><h3>Другие роли</h3><div class="linked-list">${relatedHtml}</div></div>`;
 
@@ -141,7 +142,8 @@ ${stagesHtml}
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(c.excerpt)}</p>
 <p style="line-height:1.7;color:#c7cbd4;margin:0 0 26px;">${escapeHtml(c.intro)}</p>
 <div class="item-profile-panel" style="background:transparent;border:0;padding:0;">${rowsHtml}</div>
-<div class="ad-slot" id="ad-slot-compare" data-ad-slot="guide-compare-mid" aria-hidden="true"></div>
+<div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-compare-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 <div class="detail-section" style="margin-top:34px;"><h3>Другие гайды</h3><div class="linked-list">${relatedHtml}</div></div>`;
 
     const html=pageShell({title,desc:c.excerpt,canonical,ldjsonList:[ldjson,breadcrumb],bodyHtml});

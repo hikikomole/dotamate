@@ -9,7 +9,7 @@ const guides = require('./guide-content.js');
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 const actionLabels={heroes:"Герои",items:"Предметы",stats:"Статистика",tools:"Инструменты"};
 
-const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->`;
+const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->`;
 
 async function main(){
   const outRoot=path.join(__dirname,'deploy','guide');
@@ -87,7 +87,8 @@ ${analyticsSnippet}
   <h1 style="margin:6px 0 20px;">${escapeHtml(g.title)}</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">${escapeHtml(g.excerpt)}</p>
   ${bodyHtml}
-  <div class="ad-slot" id="ad-slot-article" data-ad-slot="guide-article-mid" aria-hidden="true"></div>
+  <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="/#${g.action}">Открыть раздел «${escapeHtml(actionLabels[g.action]||g.action)}» →</a>
   </div>

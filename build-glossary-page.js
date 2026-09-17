@@ -11,7 +11,7 @@ const terms = require('./glossary-content.js');
 
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 
-const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->`;
+const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->`;
 
 const title = 'Словарь терминов Dota 2 | Dota 2 Companion';
 const desc = 'Что значат ластхит, денай, ганк, керри, MMR и другие термины Dota 2 — короткий словарь с понятными объяснениями и ссылками на подробные гайды.';
@@ -44,7 +44,8 @@ const bodyHtml = `<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;
 <p style="font-size:13px;opacity:.6;margin:0 0 20px;">Обновлено: ${updated}</p>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">Короткие объяснения ${terms.length} терминов, которые чаще всего сбивают с толку новичков — от «ластхита» до MMR. Где нужно — ссылка на подробный гайд.</p>
 ${termsHtml}
-<div class="ad-slot" id="ad-slot-glossary" data-ad-slot="glossary-mid" aria-hidden="true"></div>
+<div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="glossary-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 <div class="hero-detail-actions" style="margin-top:26px;"><a class="btn red" href="/#guides">Смотреть все гайды →</a></div>
 `;
 
