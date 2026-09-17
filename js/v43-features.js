@@ -25,5 +25,4 @@
   }
   function boot(){bind();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-  const oldRenderProfile=window.renderProfile; if(typeof oldRenderProfile==='function'){window.renderProfile=function(){oldRenderProfile();};}
 })();
