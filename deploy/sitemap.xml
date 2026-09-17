@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dotamate.ru/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://dotamate.ru/guide/hero-picking-basics/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/last-hitting-denying/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/warding-map-control/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/itemization-basics/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/magic-vs-physical-resistance/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/countering-invisibility/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/roles-explained/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/draft-fundamentals/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/reading-hero-stats/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dotamate.ru/guide/mmr-climbing-mindset/</loc><lastmod>2026-09-17</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://dotamate.ru/hero/antimage/</loc><lastmod>2026-09-17</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://dotamate.ru/hero/axe/</loc><lastmod>2026-09-17</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://dotamate.ru/hero/bane/</loc><lastmod>2026-09-17</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
