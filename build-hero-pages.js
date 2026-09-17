@@ -77,6 +77,7 @@ async function main(){
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <script type="application/ld+json">${ldjson}</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
 <body id="top">
 <div class="bg"></div>
