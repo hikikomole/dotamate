@@ -202,13 +202,39 @@ async function fetchOfficialItem(itemId) {
   if (!d) throw new Error('Official item detail missing');
   return d;
 }
+// Valve's own desc_loc (English) still has unresolved %placeholder% tokens --
+// fill those from the item's own special_values so the English fallback reads
+// like a real tooltip instead of leftover template syntax.
+function fillItemPlaceholders(text, specialValues) {
+  const clean = String(text || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!clean) return '';
+  const map = new Map();
+  for (const sv of specialValues || []) {
+    if (!sv || !sv.name) continue;
+    const vals = Array.isArray(sv.values_float) && sv.values_float.length ? sv.values_float
+      : (Array.isArray(sv.values) && sv.values.length ? sv.values : null);
+    if (vals) map.set(String(sv.name).toLowerCase(), vals.join('/'));
+  }
+  return clean.replace(/%([a-zA-Z0-9_]+)%/g, (full, name) => {
+    const v = map.get(name.toLowerCase());
+    return v === undefined ? full : v;
+  });
+}
+
 async function getItemDetail(itemId) {
   const raw = await cachedJson('item-detail-' + itemId, 60 * 60 * 24 * 30, () => fetchOfficialItem(itemId));
   const internalKey = String(raw.name || '').replace(/^item_/, '');
   let attrib = [];
   try { const list = await getItemsList(); attrib = list.find(x => Number(x.id) === Number(itemId))?.attrib || []; } catch { }
   const r = await resolveRuText(internalKey, true, attrib);
-  return { ...raw, desc_loc: r.text, description: r.text, source: r.source };
+  // Official Russian text first; if Valve hasn't localized this item (true for
+  // some hidden/internal objects), fall back to the English datafeed text
+  // with its own placeholders filled in -- never fall back further to the
+  // item's own name, which reads as nonsense ("description: Item Name").
+  const englishDesc = fillItemPlaceholders(raw.desc_loc, raw.special_values);
+  const desc = r.text || englishDesc;
+  const source = r.text ? r.source : (englishDesc ? 'official-en' : 'none');
+  return { ...raw, desc_loc: desc, description: desc, source };
 }
 
 async function handleApi(pathname, env) {

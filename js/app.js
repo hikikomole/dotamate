@@ -345,7 +345,7 @@ async function loadReverseItemPopularity(itemId){
   return rows;
 }
 function renderItemHeroLinks(itemId,rows,status='real'){
-  const box=document.getElementById('itemHeroPopularity');if(!box)return;
+  const box=document.getElementById('itemPurchaseUse');if(!box)return;
   const phaseNames={start:'Старт',early:'Ранняя',mid:'Середина',late:'Поздняя'};
   box.innerHTML=`<div class="item-pop-head"><div><h3>👥 Популярен у героев</h3><p>OpenDota · ${status==='real'?'реальные игровые данные':'данные из локального сеанса'} · покупки по фазам</p></div></div>${rows.length?`<div class="item-hero-links">${rows.slice(0,8).map(r=>`<button data-hero-open="${r.hero.id}"><img src="${imageUrl(r.hero)}"><span><b>${escapeHtml(r.hero.localized_name)}</b><small>${statValue(r.games)} покупок${r.wins>0?` · ${((r.wins/r.games)*100).toFixed(1)}% побед`:''} · чаще: ${phaseNames[r.bestPhase]||r.bestPhase}</small></span></button>`).join('')}</div><div class="item-phase-bars">${['start','early','mid','late'].map(ph=>{const n=rows.reduce((s,r)=>s+(r.phases||[]).filter(x=>x.phase===ph).reduce((a,x)=>a+x.games,0),0);return `<div><span>${phaseNames[ph]}</span><b>${statValue(n)}</b></div>`}).join('')}</div>`:'<div class="item-pop-loading">Пока не найдено достаточно реальных данных для этого предмета.</div>'}`;
   box.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));
@@ -413,15 +413,28 @@ async function fetchOfficialItemData(itemId){
   return refreshOfficialItemData(itemId);
 }
 function cleanOfficialHtml(v){return String(v||'').replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/\s+/g,' ').trim();}
+function humanizeStatName(name){
+  const s=String(name||'').replace(/^bonus_/,'').replace(/_/g,' ').trim();
+  if(!s)return '';
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
 function officialItemFacts(d){
   if(!d)return [];
   const out=[];
   const push=(label,val)=>{if(val!==undefined&&val!==null&&String(val)!=='')out.push(`<div><small>${escapeHtml(label)}</small><strong>${escapeHtml(String(val))}</strong></div>`)};
-  push('Стоимость',d.item_cost??d.cost);
-  if(Array.isArray(d.cooldowns)&&d.cooldowns.length)push('Перезарядка',d.cooldowns.join(' / ')+' сек');
-  if(Array.isArray(d.mana_costs)&&d.mana_costs.length)push('Мана',d.mana_costs.join(' / '));
-  if(Array.isArray(d.cast_ranges)&&d.cast_ranges.length)push('Дальность',d.cast_ranges.join(' / '));
-  if(Array.isArray(d.special_values)) d.special_values.forEach(v=>{const vals=Array.isArray(v.values_float)?v.values_float.join(' / '):(Array.isArray(v.values)?v.values.join(' / '):''); if(v.heading_loc&&vals)push(cleanOfficialHtml(v.heading_loc),vals+(v.is_percentage?'%':''));});
+  const cost=Number(d.item_cost??d.cost??0);if(cost>0)push('Стоимость',cost);
+  const cds=(Array.isArray(d.cooldowns)?d.cooldowns:[]).filter(v=>Number(v)>0);if(cds.length)push('Перезарядка',cds.join(' / ')+' сек');
+  const manas=(Array.isArray(d.mana_costs)?d.mana_costs:[]).filter(v=>Number(v)>0);if(manas.length)push('Мана',manas.join(' / '));
+  const ranges=(Array.isArray(d.cast_ranges)?d.cast_ranges:[]).filter(v=>Number(v)>0);if(ranges.length)push('Дальность',ranges.join(' / '));
+  if(Array.isArray(d.special_values)) d.special_values.forEach(v=>{
+    const vals=Array.isArray(v.values_float)?v.values_float.join(' / '):(Array.isArray(v.values)?v.values.join(' / '):'');
+    if(!vals)return;
+    const rawHeading=String(v.heading_loc||'');
+    if(!rawHeading||/^[+%$]*$/.test(rawHeading))return;
+    let heading=cleanOfficialHtml(rawHeading);
+    if(/[%$][a-zA-Z_]/.test(heading))heading=humanizeStatName(v.name);
+    if(heading)push(heading,vals+(v.is_percentage?'%':''));
+  });
   return out;
 }
 function itemOfficialUseFlags(d){
@@ -429,6 +442,38 @@ function itemOfficialUseFlags(d){
   const flags=[]; if(d.is_pregame_suggested)flags.push('Рекомендуется на старте'); if(d.is_earlygame_suggested)flags.push('Рекомендуется для ранней игры'); if(d.is_lategame_suggested)flags.push('Рекомендуется для поздней игры');
   if(d.neutral_item_tier!==undefined && d.neutral_item_tier>=0 && d.neutral_item_tier<10)flags.push(`Нейтральный предмет · тир ${Number(d.neutral_item_tier)+1}`);
   return flags;
+}
+// --- Item counters: what commonly beats/negates this item, by mechanic. This
+// is a curated, editorial list (not derived from OpenDota/Valve data — there
+// is no public feed for "counters"), so it stays short and only lists
+// well-established, uncontroversial mechanics rather than guessing at every
+// possible interaction. Keyed by the item's internal name with any leading
+// "item_" stripped (itemKey()), same normalization itemSlug() already uses,
+// since different data sources disagree on whether that prefix is present.
+function itemKey(x){return String((typeof x==='string'?x:x?.name)||'').replace(/^item_/,'').toLowerCase();}
+const ITEM_COUNTERS={
+  black_king_bar:[{k:'silver_edge',why:'Break не даёт активировать новую неуязвимость к магии на время действия'},{k:'abyssal_blade',why:'тот же эффект Break, что и у Silver Edge, плюс стан следом'},{k:'bloodthorn',why:'заглушение мешает активировать BKB до того, как эффект сработает'},{k:'orchid',why:'заглушение мешает активировать BKB до того, как эффект сработает'}],
+  blink:[{k:'force_staff',why:'мгновенно отбрасывает инициатора сразу после блинка, разрывая комбо'},{k:'hurricane_pike',why:'отталкивает противника на дальность, не давая продолжить атаку в упор'}],
+  invis_sword:[{k:'ward_sentry',why:'страж наблюдения раскрывает невидимость в своём радиусе'},{k:'gem',why:'даёт истинный взгляд, невидимость больше не скрывает'},{k:'dust',why:'подсвечивает и замедляет невидимого противника'}],
+  silver_edge:[{k:'ward_sentry',why:'страж наблюдения раскрывает невидимость Silver Edge'},{k:'gem',why:'истинный взгляд снимает невидимость'},{k:'dust',why:'подсвечивает невидимого противника'}],
+  heart:[{k:'urn_of_shadows',why:'дебафф на лечение резко снижает восстановление здоровья от Heart'},{k:'spirit_vessel',why:'сильнее снижает лечение и дополнительно наносит урон от здоровья'}],
+  satanic:[{k:'orchid',why:'заглушение не даёт активировать лечение Satanic вовремя'},{k:'bloodthorn',why:'заглушение не даёт активировать лечение Satanic вовремя'}],
+  butterfly:[{k:'monkey_king_bar',why:'гарантированное попадание игнорирует уклонение Butterfly'},{k:'bloodthorn',why:'атака после применения активки всегда попадает, игнорируя уклонение'}],
+  manta:[{k:'radiance',why:'периодический урон по площади убивает иллюзии почти мгновенно'},{k:'mjollnir',why:'цепной удар молнии выкашивает иллюзии за один прок'},{k:'maelstrom',why:'цепной удар молнии выкашивает иллюзии за один прок'}],
+  necronomicon:[{k:'radiance',why:'урон по площади быстро убивает призванных существ'},{k:'mjollnir',why:'цепной урон быстро убивает призванных существ'},{k:'bfury',why:'сплеш-урон от каждой атаки выкашивает слабых существ'}],
+  sphere:[{k:'shivas_guard',why:'Linken’s Sphere блокирует только одноцелевые эффекты — площадные проходят'},{k:'radiance',why:'постоянный урон по площади не является «одиночным эффектом» и не блокируется сферой'}],
+  lotus_orb:[{k:'shivas_guard',why:'Lotus Orb отражает только одноцелевые способности — площадные не блокируются'},{k:'radiance',why:'урон по площади не отражается Lotus Orb'}]
+};
+function itemCounterEntries(x){
+  const list=ITEM_COUNTERS[itemKey(x)];if(!Array.isArray(list)||!list.length)return [];
+  return list.map(e=>({item:items.find(i=>itemKey(i)===e.k),why:e.why})).filter(e=>e.item);
+}
+function renderItemCounters(x){
+  const entries=itemCounterEntries(x);
+  if(!entries.length){
+    return `<div class="item-pop-loading">Мы пока не собрали проверенные контрпики для этого предмета — это не значит, что их нет, просто мы указываем только то, в чём уверены.</div>`;
+  }
+  return `<div class="item-counters-list">${entries.map(e=>`<button class="item-counter-row" data-item-open="${escapeHtml(e.item.name)}"><img src="${itemImage(e.item)}" alt=""><span><b>${escapeHtml(e.item.dname)}</b><small>${escapeHtml(e.why)}</small></span></button>`).join('')}</div>`;
 }
 async function openItem(name){
   const x=items.find(i=>i.name===name);if(!x)return;
@@ -461,6 +506,10 @@ async function openItem(name){
         <section class="item-profile-panel" id="officialItemDetails"><div class="item-pop-loading">${cached?'Проверяем свежесть официальных данных…':'Получаем официальные данные…'}</div></section>
       </div>
       <section class="item-profile-panel item-use-panel" id="itemPurchaseUse"><div class="item-pop-loading">Загружаем реальные связи предмета с героями…</div></section>
+      <section class="item-profile-panel item-counters-panel">
+        <div class="item-panel-head"><div><span>MATCHUPS</span><h3>Контрпики предмета</h3></div></div>
+        ${renderItemCounters(x)}
+      </section>
       <section class="item-profile-panel item-why-panel">
         <div class="item-panel-head"><div><span>HOW TO READ</span><h3>Для чего этот предмет</h3></div></div>
         <p>Здесь мы не придумываем назначение предмета. Ориентиром служит официальное описание и реальные покупки игроков. Конкретные герои ниже — это статистическая связь, а не субъективная рекомендация сайта.</p>
@@ -468,10 +517,11 @@ async function openItem(name){
     </div>`;
   document.getElementById('modal').classList.add('show');document.getElementById('close').focus();
   document.getElementById('itemRefreshBtn')?.addEventListener('click',async()=>{try{localStorage.removeItem(officialItemCacheKey(x.id));}catch(e){} openItem(name);});
+  document.querySelectorAll('[data-item-open]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemOpen));
   const official=await fetchOfficialItemData(x.id);
   if(!document.getElementById('officialItemDesc'))return;
   if(official){
-    const desc=cleanOfficialHtml(official.desc_loc||official.description||official.name_loc||'Описание отсутствует в официальном feed.');
+    const rawDesc=official.desc_loc||official.description||'';const filled=rawDesc.replace(/%([a-zA-Z0-9_]+)%/g,(full,pname)=>{const sv=(official.special_values||[]).find(v=>String(v.name||'').toLowerCase()===pname.toLowerCase());const vals=sv&&(Array.isArray(sv.values_float)?sv.values_float:sv.values);return Array.isArray(vals)&&vals.length?vals.join('/'):full;});const desc=cleanOfficialHtml(filled)||'Описание отсутствует в официальном feed.';
     document.getElementById('officialItemDesc').textContent=desc||'Описание отсутствует в официальном feed.';
     const facts=officialItemFacts(official),flags=itemOfficialUseFlags(official);
     const notes=Array.isArray(official.notes_loc)?official.notes_loc:[];
