@@ -3,3 +3,4 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.webvisor.org https://mc.yandex.ru https://yandex.ru https://*.yandex.ru https://*.yandex.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.opendota.com https://www.dota2.com https://cdn.akamai.steamstatic.com https://cdn.cloudflare.steamstatic.com https://cdn.dota2.com https://cdn.steamstatic.com https://raw.githubusercontent.com https://mc.yandex.ru https://mc.webvisor.org https://*.yandex.ru https://*.yandex.net; frame-src https://*.yandex.ru https://*.yandex.net; object-src 'none'; base-uri 'self'; frame-ancestors 'self'

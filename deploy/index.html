@@ -37,8 +37,8 @@
   <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="assets/dota2-companion-icon.png" alt=""></span>
   <span>Dota 2 <b>Companion</b></span>
 </a>
-    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="stream.html">Стримы</a><a href="#guides">Гайды</a><a href="#about">О сайте</a><a href="#profile">Профиль</a></nav>
-    <div class="nav-spacer"></div><div class="notify-wrap"><button class="notify-bell" id="notifyBell" aria-label="Уведомления">🔔<span id="notifyCount" class="notify-count">0</span></button><div id="notifyPanel" class="notify-panel"></div></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="#guides">Гайды</a><a href="#about">О сайте</a><a href="#profile">Профиль</a></nav>
+    <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
 <div class="meta-pulse" id="metaPulse" aria-label="Живая статистика меты">
@@ -190,7 +190,7 @@
     <div class="section-head companion-section-head">
       <div><div class="eyebrow">GUIDES</div><h2>Гайды и база знаний</h2><p>Практические мини-гайды, которые ведут к героям, предметам и инструментам. Это каркас для будущих авторских гайдов сообщества.</p></div>
     </div>
-    <div class="v43-guide-feed"><div class="v43-card-head"><h3>🌐 Гайды сообщества</h3><button class="btn ghost" id="loadCommunityGuides">Обновить</button></div><div id="communityGuides" class="v43-list"><span class="muted">Загружаем опубликованные гайды…</span></div></div><div class="guide-filter-row">
+    <div class="guide-filter-row">
       <button class="chip active guide-filter" data-guide-filter="all">Все</button>
       <button class="chip guide-filter" data-guide-filter="gameplay">Геймплей</button>
       <button class="chip guide-filter" data-guide-filter="heroes">Герои</button>
@@ -207,7 +207,7 @@
   <div class="container">
     <div class="section-head companion-section-head"><div><div class="eyebrow">MY COMPANION</div><h2>Личный Companion-профиль</h2><p>Избранные герои, билды и пользовательские заметки сохраняются в браузере. Авторизация сайта остаётся доступной для стриминга и сообщества.</p></div><button class="btn ghost" id="clearProfile">Сбросить локальные данные</button></div>
     <div class="profile-grid">
-      <article class="profile-card"><div class="profile-avatar">D2</div><div><h3 id="profileName">Игрок</h3><p>Профиль аккаунта · избранное и билды сохраняются в этом браузере, вход нужен для синхронизации между устройствами</p></div><button class="btn ghost" id="renameProfile">Изменить имя</button></article>
+      <article class="profile-card"><div class="profile-avatar">D2</div><div><h3 id="profileName">Игрок</h3><p>Профиль аккаунта · избранное, билды и гайды сохраняются локально в этом браузере</p></div><button class="btn ghost" id="renameProfile">Изменить имя</button></article>
       <article class="profile-card"><h3>❤️ Избранные герои</h3><div id="favoritesGrid" class="mini-grid"></div></article>
       <article class="profile-card"><h3>📖 Мои гайды</h3><div id="myGuides" class="my-guides"></div><button class="btn red" id="newGuideBtn">+ Создать гайд</button></article>
       <article class="profile-card"><h3>🛠 Сохранённые билды</h3><div id="savedBuilds" class="my-guides"></div></article>
@@ -230,6 +230,5 @@
 <script src="js/reliable-data.js"></script>
 <script src="js/app.js"></script>
 <script src="js/v43-features.js"></script>
-<script src="js/v43-platform.js"></script>
 </body>
 </html>
