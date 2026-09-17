@@ -537,3 +537,6 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
 .qp-cols h4{margin:0 0 10px;font-size:13px;color:#aab1bc;text-transform:uppercase;letter-spacing:.6px}
 .qp-full{margin-top:20px}
 @media(max-width:760px){.hero-quickprep{margin-top:38px;padding-top:28px}.quick-prep-panel{padding:18px}.qp-cols{grid-template-columns:1fr}}
+.linked-list a{display:flex;align-items:center;gap:9px;width:100%;border:1px solid rgba(95,85,150,.1);background:#fff;border-radius:12px;padding:8px;text-align:left;text-decoration:none;color:inherit}
+.linked-list a:hover{background:#f2effa}
+.build-list div{display:flex;align-items:center;gap:9px;width:100%;border:1px solid rgba(95,85,150,.1);background:#fff;border-radius:12px;padding:8px}

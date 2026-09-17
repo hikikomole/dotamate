@@ -1,0 +1,510 @@
+[
+  {
+    "loc": "https://dotamate.ru/hero/antimage/",
+    "name": "Anti-Mage"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/axe/",
+    "name": "Axe"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bane/",
+    "name": "Bane"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bloodseeker/",
+    "name": "Bloodseeker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/crystal_maiden/",
+    "name": "Crystal Maiden"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/drow_ranger/",
+    "name": "Drow Ranger"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/earthshaker/",
+    "name": "Earthshaker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/juggernaut/",
+    "name": "Juggernaut"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/mirana/",
+    "name": "Mirana"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/morphling/",
+    "name": "Morphling"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/nevermore/",
+    "name": "Shadow Fiend"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/phantom_lancer/",
+    "name": "Phantom Lancer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/puck/",
+    "name": "Puck"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/pudge/",
+    "name": "Pudge"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/razor/",
+    "name": "Razor"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/sand_king/",
+    "name": "Sand King"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/storm_spirit/",
+    "name": "Storm Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/sven/",
+    "name": "Sven"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tiny/",
+    "name": "Tiny"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/vengeful_spirit/",
+    "name": "Vengeful Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/windrunner/",
+    "name": "Windranger"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/zuus/",
+    "name": "Zeus"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/kunkka/",
+    "name": "Kunkka"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lina/",
+    "name": "Lina"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lion/",
+    "name": "Lion"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/shadow_shaman/",
+    "name": "Shadow Shaman"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/slardar/",
+    "name": "Slardar"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tidehunter/",
+    "name": "Tidehunter"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/witch_doctor/",
+    "name": "Witch Doctor"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lich/",
+    "name": "Lich"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/riki/",
+    "name": "Riki"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/enigma/",
+    "name": "Enigma"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tinker/",
+    "name": "Tinker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/sniper/",
+    "name": "Sniper"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/necrolyte/",
+    "name": "Necrophos"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/warlock/",
+    "name": "Warlock"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/beastmaster/",
+    "name": "Beastmaster"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/queenofpain/",
+    "name": "Queen of Pain"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/venomancer/",
+    "name": "Venomancer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/faceless_void/",
+    "name": "Faceless Void"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/skeleton_king/",
+    "name": "Wraith King"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/death_prophet/",
+    "name": "Death Prophet"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/phantom_assassin/",
+    "name": "Phantom Assassin"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/pugna/",
+    "name": "Pugna"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/templar_assassin/",
+    "name": "Templar Assassin"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/viper/",
+    "name": "Viper"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/luna/",
+    "name": "Luna"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dragon_knight/",
+    "name": "Dragon Knight"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dazzle/",
+    "name": "Dazzle"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/rattletrap/",
+    "name": "Clockwerk"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/leshrac/",
+    "name": "Leshrac"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/furion/",
+    "name": "Nature's Prophet"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/life_stealer/",
+    "name": "Lifestealer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dark_seer/",
+    "name": "Dark Seer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/clinkz/",
+    "name": "Clinkz"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/omniknight/",
+    "name": "Omniknight"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/enchantress/",
+    "name": "Enchantress"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/huskar/",
+    "name": "Huskar"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/night_stalker/",
+    "name": "Night Stalker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/broodmother/",
+    "name": "Broodmother"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bounty_hunter/",
+    "name": "Bounty Hunter"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/weaver/",
+    "name": "Weaver"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/jakiro/",
+    "name": "Jakiro"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/batrider/",
+    "name": "Batrider"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/chen/",
+    "name": "Chen"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/spectre/",
+    "name": "Spectre"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ancient_apparition/",
+    "name": "Ancient Apparition"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/doom_bringer/",
+    "name": "Doom"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ursa/",
+    "name": "Ursa"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/spirit_breaker/",
+    "name": "Spirit Breaker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/gyrocopter/",
+    "name": "Gyrocopter"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/alchemist/",
+    "name": "Alchemist"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/invoker/",
+    "name": "Invoker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/silencer/",
+    "name": "Silencer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/obsidian_destroyer/",
+    "name": "Outworld Devourer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lycan/",
+    "name": "Lycan"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/brewmaster/",
+    "name": "Brewmaster"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/shadow_demon/",
+    "name": "Shadow Demon"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lone_druid/",
+    "name": "Lone Druid"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/chaos_knight/",
+    "name": "Chaos Knight"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/meepo/",
+    "name": "Meepo"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/treant/",
+    "name": "Treant Protector"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ogre_magi/",
+    "name": "Ogre Magi"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/undying/",
+    "name": "Undying"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/rubick/",
+    "name": "Rubick"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/disruptor/",
+    "name": "Disruptor"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/nyx_assassin/",
+    "name": "Nyx Assassin"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/naga_siren/",
+    "name": "Naga Siren"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/keeper_of_the_light/",
+    "name": "Keeper of the Light"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/wisp/",
+    "name": "Io"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/visage/",
+    "name": "Visage"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/slark/",
+    "name": "Slark"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/medusa/",
+    "name": "Medusa"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/troll_warlord/",
+    "name": "Troll Warlord"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/centaur/",
+    "name": "Centaur Warrunner"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/magnataur/",
+    "name": "Magnus"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/shredder/",
+    "name": "Timbersaw"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bristleback/",
+    "name": "Bristleback"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tusk/",
+    "name": "Tusk"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/skywrath_mage/",
+    "name": "Skywrath Mage"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/abaddon/",
+    "name": "Abaddon"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/elder_titan/",
+    "name": "Elder Titan"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/legion_commander/",
+    "name": "Legion Commander"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/techies/",
+    "name": "Techies"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ember_spirit/",
+    "name": "Ember Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/earth_spirit/",
+    "name": "Earth Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/abyssal_underlord/",
+    "name": "Underlord"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/terrorblade/",
+    "name": "Terrorblade"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/phoenix/",
+    "name": "Phoenix"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/oracle/",
+    "name": "Oracle"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/winter_wyvern/",
+    "name": "Winter Wyvern"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/arc_warden/",
+    "name": "Arc Warden"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/monkey_king/",
+    "name": "Monkey King"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dark_willow/",
+    "name": "Dark Willow"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/pangolier/",
+    "name": "Pangolier"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/grimstroke/",
+    "name": "Grimstroke"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/hoodwink/",
+    "name": "Hoodwink"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/void_spirit/",
+    "name": "Void Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/snapfire/",
+    "name": "Snapfire"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/mars/",
+    "name": "Mars"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ringmaster/",
+    "name": "Ring Master"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dawnbreaker/",
+    "name": "Dawnbreaker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/marci/",
+    "name": "Marci"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/primal_beast/",
+    "name": "Primal Beast"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/muerta/",
+    "name": "Muerta"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/kez/",
+    "name": "Kez"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/largo/",
+    "name": "Largo"
+  }
+]

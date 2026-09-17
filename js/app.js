@@ -459,9 +459,13 @@ document.addEventListener('error',e=>{const img=e.target;if(!(img instanceof HTM
 // This keeps file:// preview usable even if a non-critical control is missing.
 try{
   renderGuides();
-  loadHeroes();
+  const heroBootPromise=loadHeroes();
   loadItems();
   renderProfile();
+  // SEO deep link: static hero pages (/hero/<slug>/) link back here with ?openHero=<id>
+  // so visitors coming from search results land straight on the interactive profile.
+  const openHeroParam=new URLSearchParams(location.search).get("openHero");
+  if(openHeroParam){heroBootPromise.then(()=>{const id=Number(openHeroParam);if(heroes.some(h=>Number(h.id)===id))openHero(id);});}
 }catch(err){
   console.error('Dota 2 Companion boot error:',err);
   try{
