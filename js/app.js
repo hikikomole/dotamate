@@ -307,6 +307,11 @@ async function loadHeroItemPopularity(heroId){
   if(data) renderHeroItemPopularity(heroId,data,'online');
   else box.innerHTML='<div class="item-pop-loading">Статистика покупок временно недоступна. Профиль героя и база предметов продолжают работать.</div>';
 }
+// Иконка способности на CDN Valve: имя файла совпадает с внутренним ключом способности.
+function abilityIcon(key){return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/abilities/${encodeURIComponent(key)}.png`;}
+// В текстах Valve встречаются литералы \n, теги <br> и двойные %% — чистим их и режем текст на абзацы.
+// Служебную строку «ТИП РАЗВЕИВАНИЯ: …» выносим из текста отдельной меткой, чтобы карточки читались ровнее.
+function abilityParts(raw){const lines=String(raw||'').replace(/<\s*br\s*\/?\s*>/gi,'\n').replace(/\\n/g,'\n').replace(/<[^>]*>/g,'').replace(/%%/g,'%').replace(/[ \t]+/g,' ').split('\n').map(s=>s.trim()).filter(Boolean);let dispel='';if(lines.length){const m=lines[lines.length-1].match(/^ТИП\s+РАЗВЕИВАНИЯ\s*:\s*(.+)$/i);if(m){dispel=m[1];lines.pop();}}return{paras:lines,dispel};}
 async function loadHeroAbilities(h){
   const box=document.getElementById('heroAbilities');if(!box)return;
   try{
@@ -314,7 +319,7 @@ async function loadHeroAbilities(h){
     if(!r.ok)throw new Error('HTTP '+r.status);
     const list=await r.json();
     if(!Array.isArray(list)||!list.length){box.innerHTML='<div class="item-pop-loading">Способности героя временно недоступны.</div>';return;}
-    box.innerHTML=list.map((x,i)=>`<article class="ability-card"><div class="ability-art"><img src="${imageUrl(h)}" alt=""><span>${i+1}</span></div><div><b>${escapeHtml(x.dname)}</b><p>${escapeHtml(x.desc||'Описание пока недоступно.')}</p></div></article>`).join('');
+    box.innerHTML=list.map((x,i)=>{const {paras,dispel}=abilityParts(x.desc);const body=(paras.length?paras:['Описание пока недоступно.']).map(p=>`<p>${escapeHtml(p)}</p>`).join('');return `<article class="ability-card"><div class="ability-art"><img loading="lazy" src="${abilityIcon(x.key)}" alt=""><span>${i+1}</span></div><div class="ability-body"><b>${escapeHtml(x.dname)}</b>${body}${dispel?`<span class="ability-tag">Развеивание: ${escapeHtml(dispel.toLowerCase())}</span>`:''}</div></article>`;}).join('');
   }catch(e){
     box.innerHTML='<div class="item-pop-loading">Способности героя временно недоступны. Профиль героя продолжает работать.</div>';
   }
