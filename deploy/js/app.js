@@ -70,6 +70,40 @@ function normalizeItems(list){
   }
   return out.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
 }
+// Pro-stat enrichment: some hero-list sources in the loadHeroes() race (Valve's
+// official datafeed, the dotaconstants GitHub mirror) don't include pro_pick/
+// pro_win/pro_ban at all — only OpenDota's heroStats endpoint has them. If one
+// of those lighter sources wins the race, the stats table would otherwise show
+// every hero as 0 picks / 0 bans / — winrate. This always tops up whichever
+// hero list is currently loaded with OpenDota's live pro stats, without
+// blocking the initial paint and without breaking the race's resilience.
+async function enrichProStats(){
+  try{
+    const data=await d2hFetchJSON(OPENDOTA_HEROES,{timeout:8000});
+    const list=unwrapHeroes(data);
+    if(!Array.isArray(list)||!list.length||!heroes.length)return;
+    const byId=new Map(list.map(h=>[Number(h.id),h]));
+    let changed=false;
+    heroes=heroes.map(h=>{
+      const src=byId.get(Number(h.id));
+      if(!src)return h;
+      if(src.pro_pick==null&&src.pro_win==null&&src.pro_ban==null)return h;
+      changed=true;
+      return {...h,
+        pro_pick:src.pro_pick??h.pro_pick,
+        pro_win:src.pro_win??h.pro_win,
+        pro_ban:src.pro_ban??h.pro_ban,
+        move_speed:h.move_speed??src.move_speed,
+        base_attack_min:h.base_attack_min??src.base_attack_min,
+        base_attack_max:h.base_attack_max??src.base_attack_max
+      };
+    });
+    if(changed){
+      d2hWriteCache('heroes',heroes);
+      renderStats();renderFeaturedHeroes();renderMetaPulse();quickPrepOptions();
+    }
+  }catch(err){console.warn('Pro stats enrich:',err);}
+}
 async function loadHeroes(force=false){
   const status=document.getElementById('status');
   try{
@@ -81,13 +115,14 @@ async function loadHeroes(force=false){
       ()=>d2hFetchJSON(STATIC_HEROES)
     ]);
     const list=unwrapHeroes(data);
-    if(list.length>=100){heroes=normalizeHeroes(list);d2hWriteCache('heroes',heroes);updateHeroUI('актуальный источник');return;}
+    if(list.length>=100){heroes=normalizeHeroes(list);d2hWriteCache('heroes',heroes);updateHeroUI('актуальный источник');enrichProStats();return;}
     const cached=d2hReadCache('heroes');if(cached?.length){heroes=normalizeHeroes(cached);updateHeroUI('кэш');}
   }catch(err){
     console.warn('Hero loader:',err);
     const cached=d2hReadCache('heroes');if(cached?.length){heroes=normalizeHeroes(cached);updateHeroUI('кэш');}
   }
   if(status&&heroes.length)status.textContent=`Загружено ${heroes.length} героев`;
+  enrichProStats();
 }
 function updateItemCounters(){document.getElementById('quickItemCount').textContent=items.length;document.getElementById('itemCountHero').textContent=items.length;document.getElementById('itemCountHero2')?.replaceChildren(document.createTextNode(items.length));renderMetaPulse();}
 async function loadItems(force=false){
