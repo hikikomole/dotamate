@@ -9,6 +9,7 @@ const OPENDOTA_ITEM_POPULARITY="https://api.opendota.com/api/heroes/";
 const LOCAL_MODE=location.protocol==="file:";
 const FALLBACK_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125"><rect width="100" height="125" fill="#ececf2"/><text x="50" y="66" font-size="12" fill="#777" text-anchor="middle" font-family="sans-serif">DOTA</text></svg>');
 let heroes=[],items=[],filter="all",itemFilter="all",guideFilter="all",lastFocusedEl=null,spotlightHeroId=null,spotlightTimer=null;
+const heroItemPopularityCache=new Map();
 const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер",Disabler:"Дизейблер",Jungler:"Лесник",Durable:"Танк",Escape:"Эскейп",Pusher:"Пушер",Initiator:"Инициация"};
 const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠","Интеллект"],all:["✦","Универсальный"],universal:["✦","Универсальный"]};
 const guideData=[
