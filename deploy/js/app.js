@@ -460,12 +460,15 @@ document.addEventListener('error',e=>{const img=e.target;if(!(img instanceof HTM
 try{
   renderGuides();
   const heroBootPromise=loadHeroes();
-  loadItems();
+  const itemBootPromise=loadItems();
   renderProfile();
   // SEO deep link: static hero pages (/hero/<slug>/) link back here with ?openHero=<id>
   // so visitors coming from search results land straight on the interactive profile.
   const openHeroParam=new URLSearchParams(location.search).get("openHero");
   if(openHeroParam){heroBootPromise.then(()=>{const id=Number(openHeroParam);if(heroes.some(h=>Number(h.id)===id))openHero(id);});}
+  // Same deep link for static item pages (/item/<slug>/) via ?openItem=<internal_name>
+  const openItemParam=new URLSearchParams(location.search).get("openItem");
+  if(openItemParam){itemBootPromise.then(()=>{if(items.some(i=>i.name===openItemParam))openItem(openItemParam);});}
 }catch(err){
   console.error('Dota 2 Companion boot error:',err);
   try{
