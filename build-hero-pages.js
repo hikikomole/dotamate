@@ -6,6 +6,16 @@
 const fs = require('fs');
 const path = require('path');
 
+// Заранее сгенерированные уникальные meta description (tools/gen-hero-meta.py).
+// Раньше всем героям подставлялся один шаблон с заменой имени — поисковик
+// склеивает такие дубли. Шаблон оставлен запасным путём: если описания для
+// слага нет или Valve переименовала героя, страница соберётся со старым
+// текстом, а не с чужим именем в описании.
+const seoDesc = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'seo', 'hero-descriptions.json'), 'utf8')); }
+  catch { return {}; }
+})();
+
 const heroSlug={"Anti-Mage":"antimage","Ancient Apparition":"ancient_apparition","Arc Warden":"arc_warden","Batrider":"batrider","Beastmaster":"beastmaster","Bloodseeker":"bloodseeker","Bounty Hunter":"bounty_hunter","Brewmaster":"brewmaster","Bristleback":"bristleback","Broodmother":"broodmother","Centaur Warrunner":"centaur","Chaos Knight":"chaos_knight","Clockwerk":"rattletrap","Crystal Maiden":"crystal_maiden","Dawnbreaker":"dawnbreaker","Death Prophet":"death_prophet","Dragon Knight":"dragon_knight","Drow Ranger":"drow_ranger","Earth Spirit":"earth_spirit","Earthshaker":"earthshaker","Elder Titan":"elder_titan","Ember Spirit":"ember_spirit","Enchantress":"enchantress","Faceless Void":"faceless_void","Grimstroke":"grimstroke","Gyrocopter":"gyrocopter","Hoodwink":"hoodwink","Huskar":"huskar","Invoker":"invoker","Io":"wisp","Jakiro":"jakiro","Juggernaut":"juggernaut","Keeper of the Light":"keeper_of_the_light","Kez":"kez","Kunkka":"kunkka","Largo":"largo","Legion Commander":"legion_commander","Leshrac":"leshrac","Lich":"lich","Lifestealer":"life_stealer","Lina":"lina","Lion":"lion","Lone Druid":"lone_druid","Luna":"luna","Lycan":"lycan","Magnus":"magnataur","Marci":"marci","Mars":"mars","Medusa":"medusa","Meepo":"meepo","Mirana":"mirana","Monkey King":"monkey_king","Morphling":"morphling","Muerta":"muerta","Naga Siren":"naga_siren","Nature's Prophet":"furion","Necrophos":"necrolyte","Night Stalker":"night_stalker","Nyx Assassin":"nyx_assassin","Ogre Magi":"ogre_magi","Omniknight":"omniknight","Oracle":"oracle","Outworld Destroyer":"obsidian_destroyer","Pangolier":"pangolier","Phantom Assassin":"phantom_assassin","Phantom Lancer":"phantom_lancer","Phoenix":"phoenix","Primal Beast":"primal_beast","Puck":"puck","Pudge":"pudge","Pugna":"pugna","Queen of Pain":"queenofpain","Razor":"razor","Riki":"riki","Ringmaster":"ringmaster","Rubick":"rubick","Sand King":"sand_king","Shadow Demon":"shadow_demon","Shadow Fiend":"nevermore","Shadow Shaman":"shadow_shaman","Silencer":"silencer","Skywrath Mage":"skywrath_mage","Slardar":"slardar","Slark":"slark","Snapfire":"snapfire","Sniper":"sniper","Spectre":"spectre","Spirit Breaker":"spirit_breaker","Storm Spirit":"storm_spirit","Sven":"sven","Techies":"techies","Templar Assassin":"templar_assassin","Terrorblade":"terrorblade","Tidehunter":"tidehunter","Timbersaw":"shredder","Tinker":"tinker","Tiny":"tiny","Treant Protector":"treant","Troll Warlord":"troll_warlord","Tusk":"tusk","Underlord":"abyssal_underlord","Undying":"undying","Ursa":"ursa","Vengeful Spirit":"vengeful_spirit","Venomancer":"venomancer","Viper":"viper","Visage":"visage","Void Spirit":"void_spirit","Warlock":"warlock","Weaver":"weaver","Windranger":"windrunner","Winter Wyvern":"winter_wyvern","Witch Doctor":"witch_doctor","Wraith King":"skeleton_king","Zeus":"zuus"};
 
 const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер",Disabler:"Дизейблер",Jungler:"Лесник",Durable:"Танк",Escape:"Эскейп",Pusher:"Пушер",Initiator:"Инициация"};
@@ -48,7 +58,9 @@ async function main(){
     const build=heroBuild(h);
     const a=attrInfo(h.primary_attr);
     const title=`${h.localized_name} — гайд, статы и контрпики | Dota 2 Companion`;
-    const desc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
+    const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
+    const storedDesc=seoDesc[slug];
+    const desc=(typeof storedDesc==='string'&&storedDesc.includes(h.localized_name))?storedDesc:fallbackDesc;
     const canonical=`https://dotamate.ru/hero/${slug}/`;
     const img=imageUrl(h);
     const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":h.localized_name,"item":canonical}]});
