@@ -671,6 +671,7 @@
     const finalStreak = document.getElementById('dgFinalStreak');
     if (finalStreak) finalStreak.innerText = bestStreak;
     endGameBtn.classList.add('dg-hide');
+    livesBox.classList.add('dg-hide');
 
     // Рекорд считаем по заработанному, иначе стартовый запас бесконечного
     // режима попадал бы в результат и завышал его на ровном месте.

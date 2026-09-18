@@ -552,7 +552,7 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
 #game .dg-ui-group,#game .dg-stat{display:flex;align-items:center;gap:15px}
 #game .dg-gold{color:#ffd700}#game .dg-lives{color:#ff5d6c}#game .dg-time{color:#64b5f6}
 #game .dg-canvas{display:block;width:100%;height:100%;cursor:crosshair;touch-action:none;user-select:none;-webkit-user-select:none}
-#game .dg-overlay{position:absolute;inset:0;background:rgba(10,14,19,.94);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:20;color:#fff;text-align:center;padding:20px}
+#game .dg-overlay{position:absolute;inset:50px 0 0 0;background:rgba(10,14,19,.94);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:20;color:#fff;text-align:center;padding:18px;overflow-y:auto}
 #game .dg-overlay h1{font-size:clamp(24px,5vw,36px);color:#e54e42;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
 #game .dg-overlay p{font-size:14px;color:#a3b1c2;margin-bottom:22px;max-width:500px;line-height:1.6}
 #game .dg-btn-group{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
@@ -585,13 +585,16 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
    с курсором: координаты считаются от прямоугольника холста, а не контейнера. */
 #game .dg-container:fullscreen{border-radius:0;border:0;box-shadow:none;background:#080b0f}
 #game .dg-container:-webkit-full-screen{border-radius:0;border:0;box-shadow:none;background:#080b0f}
-#game .dg-container:fullscreen .dg-canvas{width:auto;height:100%;max-width:100%;aspect-ratio:4/3;margin:0 auto}
-#game .dg-container:-webkit-full-screen .dg-canvas{width:auto;height:100%;max-width:100%;aspect-ratio:4/3;margin:0 auto}
+#game .dg-container:fullscreen{display:flex;align-items:center;justify-content:center}
+#game .dg-container:-webkit-full-screen{display:flex;align-items:center;justify-content:center}
+#game .dg-container:fullscreen .dg-canvas{width:min(100%,calc(100dvh * 4 / 3));height:auto;margin:auto}
+#game .dg-container:-webkit-full-screen .dg-canvas{width:min(100%,calc(100dvh * 4 / 3));height:auto;margin:auto}
 #game .dg-container:fullscreen::backdrop{background:#080b0f}
 /* Запасной путь для iOS Safari, где развернуть произвольный элемент нельзя:
    тот же контейнер поверх страницы средствами CSS. */
 #game .dg-container.dg-fs{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;border:0;box-shadow:none;background:#080b0f;z-index:9999}
-#game .dg-container.dg-fs .dg-canvas{width:auto;height:100%;max-width:100%;aspect-ratio:4/3;margin:0 auto}
+#game .dg-container.dg-fs{display:flex;align-items:center;justify-content:center}
+#game .dg-container.dg-fs .dg-canvas{width:min(100%,calc(100dvh * 4 / 3));height:auto;margin:auto}
 body.dg-fs-lock{overflow:hidden}
 
 /* Узкая строка состояния. На экране 390px подписи кнопок не помещались:
@@ -604,4 +607,28 @@ body.dg-fs-lock{overflow:hidden}
   #game #dgStreak::before{content:''}
   #game #dgFullscreen::before{content:'⛶';font-size:15px;line-height:1}
   #game #dgFullscreen[data-state="on"]::before{content:'✕';font-size:13px}
+}
+
+/* Экран результатов на телефоне. Контейнер 4:3 при ширине 390px даёт всего
+   ~290px высоты, а строк на экране итогов стало больше (рекорд, лучшая серия) —
+   кнопка "Играть снова" уезжала за нижний край. Ужимаем шрифты и отступы. */
+@media(max-width:560px){
+  #game .dg-overlay{inset:42px 0 0 0;padding:12px}
+  #game .dg-overlay h1{font-size:19px;margin-bottom:7px}
+  #game .dg-overlay p{margin-bottom:12px;line-height:1.45}
+  #game .dg-record{font-size:12.5px;margin-bottom:9px}
+  #game .dg-stats-summary{padding:10px 16px;font-size:12px;gap:5px;margin-bottom:13px}
+  #game .dg-best{margin-top:10px;font-size:11.5px}
+  #game .dg-btn-group{gap:9px}
+}
+
+/* Развёрнутый вид в портрете: поле честно держит пропорцию и занимает лишь
+   треть экрана, поэтому подсказываем повернуть телефон. Замок ориентации на
+   iOS не работает, повернуть может только сам игрок. */
+@media(orientation:portrait){
+  #game .dg-container.dg-fs::after,#game .dg-container:fullscreen::after{
+    content:'Поверните телефон — так поле будет крупнее';
+    position:absolute;left:0;right:0;bottom:14%;text-align:center;
+    font-size:13px;font-weight:700;color:#8fa3ba;padding:0 24px;pointer-events:none
+  }
 }
