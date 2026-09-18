@@ -7,6 +7,16 @@
 const fs = require('fs');
 const path = require('path');
 
+// Заранее сгенерированные русские meta description (tools/gen-item-meta.py).
+// Раньше описание склеивалось из цены и сырого текста OpenDota — то есть на
+// русскоязычном сайте в выдачу уходил английский абзац, обрезанный по 300
+// символов на полуслове. Склейка ниже оставлена запасным путём на случай,
+// если у предмета нет заготовленного описания.
+const seoDesc = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'seo', 'item-descriptions.json'), 'utf8')); }
+  catch { return {}; }
+})();
+
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 function itemSlug(name){return String(name||"").replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');}
 function itemImage(key,img){
@@ -76,7 +86,9 @@ async function main(){
     const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
     const abilitiesText=clean((x.abilities||[]).map(a=>a.description).filter(Boolean).join(' '));
     const descSource=abilitiesText||clean(x.notes)||clean(x.lore)||'';
-    const desc=clean(`${x.dname}: цена ${x.cost||'—'} золота. ${descSource}`).slice(0,300);
+    const fallbackDesc=clean(`${x.dname}: цена ${x.cost||'—'} золота. ${descSource}`).slice(0,300);
+    const storedDesc=seoDesc[slug];
+    const desc=(typeof storedDesc==='string'&&storedDesc.includes(x.dname))?storedDesc:fallbackDesc;
     const canonical=`https://dotamate.ru/item/${slug}/`;
     const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/#items"},{"@type":"ListItem","position":3,"name":x.dname,"item":canonical}]});
 
