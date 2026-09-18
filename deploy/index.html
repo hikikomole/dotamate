@@ -209,28 +209,33 @@
           <div class="dg-ui-group">
             <div class="dg-stat">ВРЕМЯ: <span id="dgTimer" class="dg-time">00:00</span></div>
             <div class="dg-stat">ЗОЛОТО: <span id="dgGold" class="dg-gold">0</span></div>
+            <div class="dg-stat dg-streak dg-hide" id="dgStreak"></div>
           </div>
           <div class="dg-ui-group">
             <div class="dg-stat" id="dgLivesBox">ЖИЗНИ: <span id="dgLives" class="dg-lives">♥♥♥</span></div>
-            <button id="dgEndBtn" type="button" class="dg-btn-small dg-hide">Закончить игру</button>
+            <button id="dgFullscreen" type="button" class="dg-btn-small dg-btn-ghost" data-state="off" aria-pressed="false" aria-label="Развернуть игру на весь экран"></button>
+            <button id="dgEndBtn" type="button" class="dg-btn-small dg-hide">Закончить</button>
           </div>
         </div>
 
         <div id="dgStart" class="dg-overlay">
           <h1>HOOK &amp; HIT</h1>
-          <p>Кликайте по карте для движения с <b style="color:#64b5f6">ускорением</b>.<br><b style="color:#ff5252">Красные хуки можно отбивать атакой!</b><br>Скорость хуков растёт каждые 20 секунд.</p>
+          <p>Кликайте по карте для движения с <b style="color:#64b5f6">ускорением</b>.<br><b style="color:#ff5252">Красные хуки можно отбивать атакой!</b><br>Скорость хуков растёт каждые 20 секунд.<br>Добивайте крипов подряд — награда за серию растёт до <b style="color:#ffb300">x2</b>.<br>В бесконечном режиме на старте <b class="dg-gold">200 золота</b>, каждый пропущенный хук стоит <b style="color:#ff5252">20</b>: на нуле игра заканчивается.</p>
           <div class="dg-btn-group">
             <button id="dgStartClassic" type="button" class="dg-btn">КЛАССИКА (3 ЖИЗНИ)</button>
             <button id="dgStartEndless" type="button" class="dg-btn dg-btn-secondary">БЕСКОНЕЧНЫЙ</button>
           </div>
+          <div id="dgBest" class="dg-best dg-hide"></div>
         </div>
 
         <div id="dgOver" class="dg-overlay dg-hide">
           <h1 id="dgOverTitle">РЕЗУЛЬТАТЫ ИГРЫ</h1>
+          <div id="dgRecord" class="dg-record dg-hide"></div>
           <div class="dg-stats-summary">
             <div>Время игры: <span id="dgFinalTime" class="dg-time">00:00</span></div>
             <div>Добито крипов: <span id="dgFinalLh" style="color:#fff">0</span></div>
             <div>Отбито хуков: <span id="dgFinalDeflect" style="color:#ff5252">0</span></div>
+            <div>Лучшая серия: <span id="dgFinalStreak" style="color:#ffb300">0</span></div>
             <div>Заработано золота: <span id="dgFinalGold" class="dg-gold">0</span></div>
           </div>
           <button id="dgRestart" type="button" class="dg-btn">В ГЛАВНОЕ МЕНЮ</button>

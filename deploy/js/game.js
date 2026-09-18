@@ -20,6 +20,9 @@
   const startEndlessBtn = document.getElementById('dgStartEndless');
   const restartBtn = document.getElementById('dgRestart');
   const stage = document.getElementById('dgStage');
+  const fullscreenBtn = document.getElementById('dgFullscreen');
+  const streakDisplay = document.getElementById('dgStreak');
+  const bestLine = document.getElementById('dgBest');
 
   let gameState = 'START';
   let gameMode = 'CLASSIC';
@@ -28,6 +31,19 @@
   let skillSpawnTimer = 0, creepSpawnTimer = 0;
   let lastSpeedStage = 0;
   let autoPaused = false;
+
+  // Бесконечный режим: попадание хука стоит золота, на нуле игра заканчивается.
+  // Стартовый запас обязателен — без него первый же хук завершал бы игру при
+  // счёте 0, ещё до того как игрок успел добить хоть одного крипа.
+  const ENDLESS_START_GOLD = 200;
+  const HOOK_GOLD_PENALTY = 20;
+  const LOW_GOLD_AT = HOOK_GOLD_PENALTY * 3;
+  const BEST_STORAGE_KEY = 'dgBest.v1';
+
+  let goldEarned = 0;   // заработано за игру, без стартового запаса
+  let streak = 0;       // добиваний подряд, промах обнуляет
+  let bestStreak = 0;
+  let lowGoldOn = false;
 
   let isPointerDown = false, isLockingTarget = false, activePointerId = null;
   let mousePos = { x: 400, y: 300 };
@@ -55,6 +71,40 @@
 
   function formatTime(s) {
     return `${Math.floor(s / 60).toString().padStart(2, '0')}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
+  }
+
+  function vibrate(pattern) {
+    // Вибрации нет на десктопе и запрещена в iOS Safari — молча пропускаем.
+    try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (_) {}
+  }
+
+  // Серия добиваний: каждый следующий крип подряд дороже, на шестом множитель
+  // упирается в потолок x2. Пропущенный хук серию обнуляет.
+  function streakMultiplier() {
+    return 1 + Math.min(Math.max(streak - 1, 0), 5) * 0.2;
+  }
+
+  function loadBest() {
+    // Приватный режим и запрет хранилища кидают исключение — рекорд не критичен.
+    try {
+      const raw = localStorage.getItem(BEST_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (_) { return {}; }
+  }
+
+  function saveBest(data) {
+    try { localStorage.setItem(BEST_STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
+  }
+
+  function renderBestOnStart() {
+    if (!bestLine) return;
+    const best = loadBest();
+    const parts = [];
+    if (best.classic) parts.push(`классика — ${best.classic.gold}`);
+    if (best.endless) parts.push(`бесконечный — ${best.endless.gold}`);
+    if (!parts.length) { bestLine.classList.add('dg-hide'); return; }
+    bestLine.innerText = 'Ваш рекорд по заработанному золоту: ' + parts.join(', ');
+    bestLine.classList.remove('dg-hide');
   }
 
   function spawnParticlesBatch(x, y, color, count, speedMult = 1) {
@@ -129,7 +179,8 @@
     s.deflected = true;
     s.vx = -s.vx * 1.5; s.vy = -s.vy * 1.5;
     s.color = '#ff9800';
-    gold += 30; deflectedCount++;
+    gold += 30; goldEarned += 30; deflectedCount++;
+    vibrate(25);
     updateUI();
     spawnParticlesBatch(s.x, s.y, '#ff5252', 10);
     spawnParticlesBatch(s.x, s.y, '#ffd700', 8);
@@ -145,6 +196,22 @@
     goldDisplay.innerText = gold;
     timerDisplay.innerText = formatTime(gameTime);
     if (gameMode === 'CLASSIC') livesDisplay.innerText = '♥'.repeat(Math.max(0, lives));
+
+    // Золото на исходе — подсвечиваем счётчик, чтобы конец не был внезапным.
+    const low = gameMode === 'ENDLESS' && gameState === 'PLAYING' && gold <= LOW_GOLD_AT;
+    if (low !== lowGoldOn) {
+      lowGoldOn = low;
+      goldDisplay.classList.toggle('dg-gold-low', low);
+    }
+
+    if (streakDisplay) {
+      if (streak >= 2) {
+        streakDisplay.innerText = `x${streakMultiplier().toFixed(1)}`;
+        streakDisplay.classList.remove('dg-hide');
+      } else {
+        streakDisplay.classList.add('dg-hide');
+      }
+    }
   }
 
   function getCanvasPoint(clientX, clientY) {
@@ -325,10 +392,19 @@
         } else {
           target.hp -= hero.damage;
           if (target.hp <= 0 && target.active) {
-            target.active = false; gold += target.bounty; lastHits++;
+            target.active = false; lastHits++;
+            streak++;
+            if (streak > bestStreak) bestStreak = streak;
+            const mult = streakMultiplier();
+            const reward = Math.round(target.bounty * mult);
+            gold += reward; goldEarned += reward;
             updateUI();
             spawnParticlesBatch(target.x, target.y, '#ffd700', 8);
-            floatingTexts.push({ x: target.x, y: target.y - 10, text: `+${target.bounty}`, color: '#ffd700', alpha: 1.0 });
+            floatingTexts.push({
+              x: target.x, y: target.y - 10,
+              text: mult > 1 ? `+${reward} x${mult.toFixed(1)}` : `+${reward}`,
+              color: '#ffd700', alpha: 1.0
+            });
 
             if (hero.targetUnit === target) {
               hero.targetUnit = null; isLockingTarget = false;
@@ -372,9 +448,16 @@
         if (getDistSq(oldX + stepX * t, oldY + stepY * t, hero.x, hero.y) <= hitRadius * hitRadius) {
           s.active = false;
           spawnParticlesBatch(hero.x, hero.y, '#ff1744', 15);
+          streak = 0;
+          vibrate(60);
           if (gameMode === 'CLASSIC') {
             lives--; updateUI();
             if (lives <= 0) endGame();
+          } else {
+            gold = Math.max(0, gold - HOOK_GOLD_PENALTY);
+            floatingTexts.push({ x: hero.x, y: hero.y - 35, text: `-${HOOK_GOLD_PENALTY}`, color: '#ff5252', alpha: 1.2 });
+            updateUI();
+            if (gold <= 0) endGame();
           }
           if (hero.targetUnit === s) { hero.targetUnit = null; isLockingTarget = false; }
           continue;
@@ -542,6 +625,11 @@
 
     gold = lastHits = deflectedCount = gameTime = skillSpawnTimer = creepSpawnTimer = lastSpeedStage = 0;
     lives = 3;
+    goldEarned = streak = bestStreak = 0;
+    lowGoldOn = false;
+    goldDisplay.classList.remove('dg-gold-low');
+    if (streakDisplay) streakDisplay.classList.add('dg-hide');
+    if (gameMode === 'ENDLESS') gold = ENDLESS_START_GOLD;
 
     if (gameMode === 'ENDLESS') {
       livesBox.classList.add('dg-hide');
@@ -579,7 +667,34 @@
     document.getElementById('dgFinalTime').innerText = formatTime(gameTime);
     document.getElementById('dgFinalLh').innerText = lastHits;
     document.getElementById('dgFinalDeflect').innerText = deflectedCount;
-    document.getElementById('dgFinalGold').innerText = gold;
+    document.getElementById('dgFinalGold').innerText = goldEarned;
+    const finalStreak = document.getElementById('dgFinalStreak');
+    if (finalStreak) finalStreak.innerText = bestStreak;
+    endGameBtn.classList.add('dg-hide');
+
+    // Рекорд считаем по заработанному, иначе стартовый запас бесконечного
+    // режима попадал бы в результат и завышал его на ровном месте.
+    const best = loadBest();
+    const key = (gameMode === 'ENDLESS') ? 'endless' : 'classic';
+    const prev = best[key] || null;
+    const isRecord = goldEarned > 0 && (!prev || goldEarned > prev.gold);
+    if (isRecord) {
+      best[key] = { gold: goldEarned, time: Math.round(gameTime), lastHits, streak: bestStreak };
+      saveBest(best);
+    }
+    const recordLine = document.getElementById('dgRecord');
+    if (recordLine) {
+      if (isRecord) {
+        recordLine.innerText = 'НОВЫЙ РЕКОРД!';
+        recordLine.classList.remove('dg-hide');
+      } else if (prev) {
+        recordLine.innerText = `Рекорд этого режима: ${prev.gold} золота`;
+        recordLine.classList.remove('dg-hide');
+      } else {
+        recordLine.classList.add('dg-hide');
+      }
+    }
+    renderBestOnStart();
 
     gameoverScreen.classList.remove('dg-hide');
   }
@@ -614,6 +729,82 @@
   window.addEventListener('blur', () => { isPointerDown = false; activePointerId = null; });
 
   startClassicBtn.addEventListener('click', () => startGame('CLASSIC'));
+  // Полный экран. iOS Safari разворачивает только видео, произвольный div —
+  // нет, поэтому при отказе включаем CSS-подмену: тот же контейнер на весь
+  // вьюпорт, без обращения к Fullscreen API.
+  function nativeFsElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement || null;
+  }
+
+  function fsActive() {
+    return !!nativeFsElement() || stage.classList.contains('dg-fs');
+  }
+
+  function syncFsButton() {
+    if (!fullscreenBtn) return;
+    const on = fsActive();
+    // Текст подписи рисует CSS: на узком экране он ужимается до значка, и
+    // менять его из скрипта пришлось бы с дублированием медиазапроса.
+    fullscreenBtn.dataset.state = on ? 'on' : 'off';
+    fullscreenBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    fullscreenBtn.setAttribute('aria-label', on ? 'Свернуть игру' : 'Развернуть игру на весь экран');
+    document.body.classList.toggle('dg-fs-lock', on);
+  }
+
+  function lockLandscape() {
+    // Работает только внутри полного экрана и только на части устройств;
+    // отказ штатный, поэтому ошибку глушим.
+    try {
+      if (screen.orientation && screen.orientation.lock) {
+        const r = screen.orientation.lock('landscape');
+        if (r && typeof r.catch === 'function') r.catch(() => {});
+      }
+    } catch (_) {}
+  }
+
+  function enterFullscreen() {
+    const req = stage.requestFullscreen || stage.webkitRequestFullscreen;
+    const fallback = () => { stage.classList.add('dg-fs'); syncFsButton(); };
+    if (!req) return fallback();
+    try {
+      const r = req.call(stage);
+      if (r && typeof r.then === 'function') {
+        r.then(() => { lockLandscape(); syncFsButton(); }).catch(fallback);
+      } else {
+        lockLandscape(); syncFsButton();
+      }
+    } catch (_) { fallback(); }
+  }
+
+  function exitFullscreen() {
+    stage.classList.remove('dg-fs');
+    try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (_) {}
+    const ex = document.exitFullscreen || document.webkitExitFullscreen;
+    if (nativeFsElement() && ex) {
+      try {
+        const r = ex.call(document);
+        if (r && typeof r.catch === 'function') r.catch(() => {});
+      } catch (_) {}
+    }
+    syncFsButton();
+  }
+
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', () => {
+      if (fsActive()) exitFullscreen(); else enterFullscreen();
+    });
+  }
+
+  document.addEventListener('fullscreenchange', syncFsButton);
+  document.addEventListener('webkitfullscreenchange', syncFsButton);
+  // Esc закрывает встроенный полный экран сам, а CSS-подмену — нет.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && stage.classList.contains('dg-fs')) exitFullscreen();
+  });
+
+  renderBestOnStart();
+  syncFsButton();
+
   startEndlessBtn.addEventListener('click', () => startGame('ENDLESS'));
   endGameBtn.addEventListener('click', endGame);
   restartBtn.addEventListener('click', () => {
