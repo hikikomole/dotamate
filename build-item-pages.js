@@ -18,6 +18,28 @@ function itemImage(key,img){
 const qualLabels={component:'Компонент',consumable:'Расходник','consumable;laning':'Расходник',rare:'Редкий',epic:'Эпический',artifact:'Артефакт',common:'Обычный',secret_shop:'Магазин загадок',legendary:'Легендарный'};
 function qualLabel(x){return qualLabels[x?.qual]||'Предмет';}
 
+// Same curated exclusion as js/app.js's isRealCatalogItem() -- keep the two in
+// sync. Without this, OpenDota's raw constants/items dump a courier, seven
+// cosmetic Diretide river-coloring vials, two standalone ward sub-entries
+// that duplicate the one real shop "Wards" item, and ~140 hidden internal
+// objects Valve uses to represent hero innates/talent bonuses (this is what
+// generated the broken "Ancient Guardian" page) straight into the SEO'd
+// static item pages -- indexable nonsense is worse than an internal list
+// glitch, since it's what a search result would actually show someone.
+// EXCLUDED_ITEM_INTERNAL_IDS is a point-in-time snapshot of that hidden-
+// internal bucket; refresh it against a fresh constants/items pull if a
+// future patch's item pages start looking similarly broken.
+const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1639,1641,1645,1647,1648,1649,1650,1651,1652,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
+function isRealCatalogItem(key,x){
+  const k=String(key||'').toLowerCase();
+  if(k.startsWith('recipe_'))return false;
+  if(k==='courier'||k==='flying_courier')return false;
+  if(k.startsWith('river_painter'))return false;
+  if(k==='ward_observer'||k==='ward_sentry')return false;
+  if(EXCLUDED_ITEM_INTERNAL_IDS.has(Number(x?.id)))return false;
+  return true;
+}
+
 function attribLine(a){
   if(a.display)return escapeHtml(a.display.replace('{value}',a.value));
   return escapeHtml(`${a.key}: ${a.value}`);
@@ -30,7 +52,7 @@ async function main(){
 
   const entries=Object.entries(data).filter(([key,x])=>{
     if(!x||!x.dname||!x.id) return false;
-    if(key.startsWith('recipe_')) return false;
+    if(!isRealCatalogItem(key,x)) return false;
     const hasContent=(Array.isArray(x.abilities)&&x.abilities.length)||x.lore||( Array.isArray(x.attrib)&&x.attrib.length)||x.notes;
     return Boolean(hasContent);
   });

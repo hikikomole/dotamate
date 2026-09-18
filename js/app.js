@@ -61,12 +61,43 @@ function unwrapItems(data){
   }
   return [];
 }
+// Both live sources this site loads from (Valve's own datafeed and OpenDota's
+// constants/dotaconstants mirrors) lump a lot of non-shop entries in with the
+// real, purchasable items: combine recipes (not a thing you "use"), the
+// couriers (pet units, not hero gear), a handful of leftover Diretide river-
+// coloring cosmetics, and -- the one that actually broke the item page
+// earlier (the "Ancient Guardian" bug) -- ~140 hidden internal objects Valve
+// represents as items in its data files for hero innates/talent bonuses that
+// were never meant to be seen outside a tooltip lookup. None of that belongs
+// in a database of "items players use", so it's filtered out here, once, for
+// every consumer of the global items[] list (grid, counts, search, the item-
+// counters feature) instead of patched per display.
+//
+// The name-based rules below stay correct on their own as new patches ship.
+// EXCLUDED_ITEM_INTERNAL_IDS is a point-in-time snapshot (from OpenDota's
+// constants/items, 140 ids) of that hidden-internal bucket specifically --
+// it's the one part of this filter that isn't derivable from a stable rule,
+// so a future patch introducing new hero innates of the same kind won't be
+// caught automatically and this list would need refreshing against a fresh
+// /api/constants/items pull.
+const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1639,1641,1645,1647,1648,1649,1650,1651,1652,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
+function isRealCatalogItem(x){
+  const key=String(x?.name||'').replace(/^item_/,'').toLowerCase();
+  if(key.startsWith('recipe_'))return false;
+  if(key==='courier'||key==='flying_courier')return false;
+  if(key.startsWith('river_painter'))return false;
+  if(key==='ward_observer'||key==='ward_sentry')return false;
+  if(EXCLUDED_ITEM_INTERNAL_IDS.has(Number(x?.id)))return false;
+  return true;
+}
 function normalizeItems(list){
   const out=[],seen=new Set();
   for(const raw of list||[]){
     if(!raw||!raw.id||!raw.name)continue;
     const x={...raw,id:Number(raw.id),dname:raw.dname||raw.name_loc||raw.name_english_loc||raw.name};
-    if(seen.has(x.id))continue;seen.add(x.id);out.push(x);
+    if(seen.has(x.id))continue;
+    if(!isRealCatalogItem(x))continue;
+    seen.add(x.id);out.push(x);
   }
   return out.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
 }
@@ -559,7 +590,7 @@ try{
   console.error('Dota 2 Companion boot error:',err);
   try{
     if(typeof localHeroes==='function'){heroes=normalizeHeroes(localHeroes());updateHeroUI('локальная база');}
-    if(typeof localItems==='function'){items=localItems();renderItems();updateItemCounters();}
+    if(typeof localItems==='function'){items=normalizeItems(localItems());renderItems();updateItemCounters();}
   }catch(fallbackErr){console.error('Fallback boot error:',fallbackErr);}
 }
 
