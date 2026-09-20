@@ -37,6 +37,10 @@ const PAGES = [
     title: 'Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion',
     desc: 'Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.',
     sections: ['heroes', 'featuredHeroes'],
+    // Тёмное оформление пока включено только здесь — смотрим, как оно живёт
+    // на реальном каталоге, прежде чем трогать остальные разделы.
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
   },
   {
     key: 'items', dir: 'items',
@@ -134,6 +138,8 @@ function build() {
     const canonical = page.dir ? `${ORIGIN}/${page.dir}/` : `${ORIGIN}/`;
     const content = page.sections.map(id => sections[id]).join('\n\n');
     const scripts = (page.scripts || []).map(s => `<script src="${s}"></script>`).join('\n');
+    const styles = (page.styles || []).map(s => `<link rel="stylesheet" href="${s}">`).join('\n');
+    const bodyClass = page.bodyClass ? ` class="${page.bodyClass}"` : '';
 
     const html = shell
       .replace(/\{\{TITLE\}\}/g, escapeAttr(page.title))
@@ -142,7 +148,9 @@ function build() {
       .replace('{{NAV}}', navHtml(page.key))
       .replace('{{BREADCRUMBS}}', breadcrumbs(page))
       .replace('{{CONTENT}}', content)
-      .replace('{{PAGE_SCRIPTS}}', scripts);
+      .replace('{{PAGE_SCRIPTS}}', scripts)
+      .replace('{{PAGE_STYLES}}', styles)
+      .replace('{{BODY_CLASS}}', bodyClass);
 
     for (const base of [ROOT, path.join(ROOT, 'deploy')]) {
       const dir = page.dir ? path.join(base, page.dir) : base;

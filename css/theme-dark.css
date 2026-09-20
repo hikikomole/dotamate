@@ -1,0 +1,151 @@
+/* Тёмная тема в духе официального сайта Dota 2.
+   Подключается только к тем страницам, где включена в build-pages.js, и
+   действует лишь внутри body.d2-dark — чтобы остальные разделы остались как
+   были и всё откатывалось одним коммитом.
+
+   Значения подобраны свои: приёмы (тёмный фон, нулевые скругления, капслок с
+   разрядкой, золото на подписях, увеличение карточки при наведении) не
+   охраняются, а шрифт, логотип и вёрстку Valve мы не копируем. */
+
+body.d2-dark{
+  --d2-bg:#07080a;
+  --d2-panel:#101216;
+  --d2-panel-2:#171a20;
+  --d2-line:#23272f;
+  --d2-line-soft:#1a1e24;
+  --d2-text:#eef1f5;
+  --d2-muted:#98a1ae;
+  --d2-muted-2:#6d7683;
+  --d2-gold:#d9c187;
+  --d2-gold-dim:#8d7b4f;
+  --d2-str:#e4575a;
+  --d2-agi:#6fc46f;
+  --d2-int:#5aa9e6;
+  --d2-uni:#c98cf0;
+  background:var(--d2-bg)!important;
+  color:var(--d2-text)!important;
+}
+html:has(body.d2-dark){background:#07080a!important}
+
+/* Фоновая подсветка страницы: вместо светлых градиентов — холодное свечение */
+body.d2-dark .bg{
+  background:
+    radial-gradient(circle at 12% 0%,rgba(90,169,230,.07),transparent 26%),
+    radial-gradient(circle at 88% 8%,rgba(217,193,135,.05),transparent 24%),
+    #07080a!important;
+}
+
+/* --- шапка --- */
+body.d2-dark .topbar{background:rgba(7,8,10,.74)!important;border-bottom:1px solid var(--d2-line)!important;backdrop-filter:blur(16px)!important}
+body.d2-dark .topbar nav a{position:relative!important;color:var(--d2-muted)!important;font-size:12.5px!important;font-weight:700!important;letter-spacing:1.4px!important;text-transform:uppercase!important}
+body.d2-dark .topbar nav a:hover{color:var(--d2-text)!important}
+body.d2-dark .topbar nav a.active{color:#fff!important}
+body.d2-dark .topbar nav a.active::before{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:-26px!important;height:2px!important;background:var(--d2-gold)!important}
+body.d2-dark .brand{color:var(--d2-text)!important}
+
+body.d2-dark .breadcrumbs{color:var(--d2-muted-2)!important}
+body.d2-dark .breadcrumbs a{color:var(--d2-muted-2)!important}
+body.d2-dark .breadcrumbs a:hover{color:var(--d2-gold)!important}
+body.d2-dark .breadcrumbs span[aria-current]{color:var(--d2-muted)!important}
+
+/* --- заголовки разделов --- */
+body.d2-dark .section{padding:56px 0!important}
+body.d2-dark .eyebrow{color:var(--d2-gold)!important;letter-spacing:2.6px!important;font-size:10.5px!important}
+body.d2-dark .section h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .section-head p,
+body.d2-dark .companion-section-head p{color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.7!important}
+body.d2-dark .data-source{color:var(--d2-muted-2)!important;font-size:10px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+
+/* --- панель фильтров --- */
+body.d2-dark .toolbar{gap:10px!important;margin:26px 0 18px!important;padding:12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .search{height:44px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-muted-2)!important}
+body.d2-dark .search input{color:var(--d2-text)!important}
+body.d2-dark .chip{height:44px!important;border-radius:0!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;font-size:12px!important;font-weight:700!important;letter-spacing:.6px!important;transition:background .18s,color .18s,border-color .18s!important}
+body.d2-dark .chip:hover{background:#1e232b!important;color:var(--d2-text)!important}
+body.d2-dark .chip.active{background:var(--d2-gold)!important;border-color:var(--d2-gold)!important;color:#14110a!important}
+body.d2-dark .status{color:var(--d2-muted-2)!important;font-size:12px!important;letter-spacing:.4px!important;padding:10px 0 16px!important}
+
+/* --- сетка героев: главная часть оформления ---
+   Карточка увеличивается при наведении и всплывает над соседями. Соседи при
+   этом не сдвигаются: масштабирование идёт через transform, а он не меняет
+   поток. Поэтому сетке нужен overflow:visible, иначе увеличенная карточка
+   обрежется краем. */
+body.d2-dark .heroes-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(158px,1fr))!important;
+  gap:7px!important;
+  overflow:visible!important;
+}
+body.d2-dark .hero-card{
+  position:relative!important;display:block!important;min-height:0!important;aspect-ratio:16/9!important;
+  border:0!important;border-radius:0!important;overflow:hidden!important;background:#0c0e12!important;cursor:pointer!important;
+  text-decoration:none!important;color:inherit!important;
+  /* В style.css у .hero-card стоят transform и transition с !important —
+     перебить их можно только тем же. Отсюда !important ниже. */
+  transform:scale(1)!important;
+  transition:transform .3s ease-out,box-shadow .3s ease-out!important;
+  will-change:transform!important;
+}
+body.d2-dark .hero-card::after{content:none!important}
+body.d2-dark .hero-card img{
+  width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;
+  filter:saturate(.92) brightness(.82)!important;
+  transition:filter .3s ease-out!important;
+}
+body.d2-dark .hero-card:hover,
+body.d2-dark .hero-card:focus-visible{
+  transform:scale(1.4)!important;z-index:6!important;outline:0!important;
+  box-shadow:0 20px 45px rgba(0,0,0,.7),0 0 0 1px rgba(217,193,135,.35)!important;
+}
+body.d2-dark .hero-card:hover img,
+body.d2-dark .hero-card:focus-visible img{filter:saturate(1.05) brightness(1)!important}
+
+/* Подпись проявляется только на наведённой карточке: в спокойном состоянии
+   сетка — сплошной арт, как на сайте Valve. */
+body.d2-dark .hero-info{
+  position:absolute!important;inset:auto 0 0 0!important;z-index:2!important;margin:0!important;padding:22px 8px 7px!important;
+  background:linear-gradient(transparent,rgba(4,5,7,.92))!important;
+  opacity:0!important;transform:translateY(6px)!important;
+  transition:opacity .25s ease-out,transform .25s ease-out!important;
+}
+body.d2-dark .hero-card:hover .hero-info,
+body.d2-dark .hero-card:focus-visible .hero-info{opacity:1!important;transform:none!important}
+body.d2-dark .hero-name{font-size:10.5px!important;font-weight:800!important;letter-spacing:1.1px!important;text-transform:uppercase!important;color:#fff!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+body.d2-dark .hero-role{display:none!important}
+body.d2-dark .attr{margin-top:3px!important;padding:0!important;background:none!important;font-size:8.5px!important;letter-spacing:.8px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+
+body.d2-dark .empty{color:var(--d2-muted-2)!important;border:1px dashed var(--d2-line)!important;padding:44px!important}
+
+/* Подборка героев ниже каталога — те же карточки, но спокойнее */
+body.d2-dark .featured-hero-card{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;text-decoration:none!important;transition:border-color .2s,transform .2s!important}
+body.d2-dark .featured-hero-card:hover{border-color:var(--d2-gold-dim)!important;transform:translateY(-2px)!important}
+body.d2-dark .featured-hero-card small{color:var(--d2-muted)!important}
+body.d2-dark .featured-hero-card span{color:var(--d2-gold)!important}
+body.d2-dark .section-link{color:var(--d2-gold)!important}
+
+body.d2-dark footer{border-top:1px solid var(--d2-line)!important;color:var(--d2-muted-2)!important}
+
+/* Телефон: наведения нет, увеличивать нечего — подпись показываем всегда */
+@media(hover:none){
+  body.d2-dark .hero-info{opacity:1!important;transform:none!important}
+  body.d2-dark .hero-card:hover{transform:none!important;box-shadow:none!important}
+}
+@media(max-width:560px){
+  body.d2-dark .heroes-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))!important;gap:5px!important}
+  body.d2-dark .toolbar{padding:9px!important}
+}
+/* Уважение к системной настройке «меньше движения» */
+@media(prefers-reduced-motion:reduce){
+  body.d2-dark .hero-card,body.d2-dark .hero-card img,body.d2-dark .hero-info{transition:none!important}
+  body.d2-dark .hero-card:hover,body.d2-dark .hero-card:focus-visible{transform:none!important;box-shadow:0 0 0 1px var(--d2-gold)!important}
+}
+
+/* Остатки светлой темы, которые всплыли на тёмном фоне */
+body.d2-dark .brand{color:var(--d2-text)!important}
+body.d2-dark .brand b{color:var(--d2-gold)!important}
+body.d2-dark .brand span{color:inherit!important}
+body.d2-dark .topbar nav a.active{background:none!important;box-shadow:none!important}
+body.d2-dark .search input{background:none!important;border:0!important;box-shadow:none!important;color:var(--d2-text)!important;border-radius:0!important}
+body.d2-dark .search input::placeholder{color:var(--d2-muted-2)!important}
+body.d2-dark .data-source{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-muted-2)!important;padding:8px 13px!important;box-shadow:none!important}
+body.d2-dark .companion-section-head{align-items:flex-end!important}
