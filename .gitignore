@@ -5,3 +5,6 @@ secrets/*.txt
 .d2h-data-cache-v43/
 .wrangler/
 node_modules/
+
+# Рабочие файлы Claude: снимки экрана и черновики, в репозитории не нужны
+Claude outputs/

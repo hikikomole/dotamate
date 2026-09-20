@@ -15,9 +15,15 @@ const heroUrls = readUrls('hero-urls.json');         // 127 heroes
 const itemUrls = readUrls('item-urls.json');         // 400 items
 const privacyUrls = readUrls('privacy-urls.json');   // privacy policy
 const glossaryUrls = readUrls('glossary-urls.json'); // terms glossary
+const pageUrls = readUrls('page-urls.json');         // разделы сайта: главная, герои, предметы…
 
 const entries = [];
-entries.push({ loc: 'https://dotamate.ru/', changefreq: 'daily', priority: '1.0' });
+// Главная и страницы разделов идут первыми: это точки входа в каталоги.
+for (const p of pageUrls) {
+  const isHome = p.loc === 'https://dotamate.ru/';
+  entries.push({ loc: p.loc, lastmod: today, changefreq: 'daily', priority: isHome ? '1.0' : '0.9' });
+}
+if (!pageUrls.length) entries.push({ loc: 'https://dotamate.ru/', changefreq: 'daily', priority: '1.0' });
 
 for (const g of [...guideUrls, ...roleGuideUrls, ...privacyUrls, ...glossaryUrls]) {
   entries.push({ loc: g.loc, lastmod: today, changefreq: 'monthly', priority: '0.8' });

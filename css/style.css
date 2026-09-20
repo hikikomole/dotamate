@@ -632,3 +632,23 @@ body.dg-fs-lock{overflow:hidden}
     font-size:13px;font-weight:700;color:#8fa3ba;padding:0 24px;pointer-events:none
   }
 }
+
+/* --- разделение сайта на страницы: карточки разделов, хлебные крошки --- */
+/* Оформление повторяет карточки предметов: сайт в светлой теме, белая
+   поверхность с мягкой тенью. Тёмный фон здесь давал бы серое пятно с
+   нечитаемым текстом. */
+.home-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:26px}
+.home-card{display:flex;flex-direction:column;gap:7px;padding:20px;border:1px solid var(--comp-border);border-radius:18px;background:var(--comp-surface);color:var(--comp-text);text-decoration:none;box-shadow:0 8px 25px rgba(42,31,91,.055);transition:transform .18s,box-shadow .18s,border-color .18s}
+.home-card:hover{transform:translateY(-4px);border-color:rgba(102,84,207,.35);box-shadow:0 18px 35px rgba(42,31,91,.11)}
+.home-card-icon{font-size:26px;line-height:1}
+.home-card strong{font-size:17px;font-weight:800;letter-spacing:-.4px}
+.home-card p{margin:0;flex:1;font-size:12.5px;line-height:1.55;color:var(--comp-muted)}
+.home-card b{font-size:11px;font-weight:800;color:var(--comp-accent)}
+.breadcrumbs{padding:16px 0 0;font-size:12px;color:var(--comp-muted-2)}
+.breadcrumbs a{color:var(--comp-muted);text-decoration:none}
+.breadcrumbs a:hover{color:var(--comp-accent)}
+.breadcrumbs span[aria-current]{color:var(--comp-text-2);font-weight:700}
+.topbar nav a.active{color:var(--comp-text)!important;font-weight:800}
+.guide-mini-open{display:inline-block;margin-top:8px;font-size:12px;font-weight:800;color:var(--comp-accent);text-decoration:none}
+.guide-mini-open:hover{text-decoration:underline}
+@media(max-width:560px){.home-cards-grid{grid-template-columns:1fr;gap:11px}.home-card{padding:16px}}

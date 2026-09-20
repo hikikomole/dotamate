@@ -1,0 +1,26 @@
+[
+ {
+  "loc": "https://dotamate.ru/",
+  "name": "Dota 2 Companion"
+ },
+ {
+  "loc": "https://dotamate.ru/heroes/",
+  "name": "Все герои Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/items/",
+  "name": "Все предметы Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/stats/",
+  "name": "Статистика героев Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/guides/",
+  "name": "Гайды по Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/game/",
+  "name": "Hook & Hit"
+ }
+]

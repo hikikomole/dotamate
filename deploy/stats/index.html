@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion</title>
+<meta name="description" content="Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.">
+<link rel="canonical" href="https://dotamate.ru/stats/">
+<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion">
+<meta property="og:description" content="Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.">
+<meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
+<meta property="og:url" content="https://dotamate.ru/stats/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion">
+<meta name="twitter:description" content="Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/security.js"></script>
+
+
+  
+<link rel="stylesheet" href="/css/v43-platform.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->
+<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+</head>
+<body id="top">
+<div class="bg"></div>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Dota 2 Companion">
+  <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
+  <span>Dota 2 <b>Companion</b></span>
+</a>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/" aria-current="page" class="active">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
+    <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+  </div></header>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Статистика","item":"https://dotamate.ru/stats/"}]}</script>
+<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> <span aria-current="page">Статистика</span></div>
+<main>
+<section class="section quick-stats-section" id="stats">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">STATISTICS</div><h2>Статистика и аналитика</h2><p>Сравни характеристики героев, скорость, атрибуты и профессиональные показатели, если они доступны.</p></div>
+      <button class="btn ghost" id="statsRefresh">↻ Обновить</button>
+    </div>
+    <div class="quick-stats-grid">
+      <article class="stat-card"><span class="stat-icon">⚔</span><strong id="quickHeroCount">—</strong><span>героев в базе</span></article>
+      <article class="stat-card"><span class="stat-icon">◈</span><strong id="quickItemCount">—</strong><span>предметов в базе</span></article>
+      <article class="stat-card"><span class="stat-icon">📈</span><strong id="bestWinrate">—</strong><span>лучший pro winrate</span></article>
+      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>pro picks в базе</span></article>
+    </div>
+    <div class="stats-extra" id="statsExtra"></div>
+    <div id="itemAnalytics" class="item-analytics-wrap"></div>
+    <div class="stats-panel">
+      <div class="stats-toolbar">
+        <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
+        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="Carry">Carry</option><option value="Mid">Mid</option><option value="Offlane">Offlane</option><option value="Support">Support</option><option value="Hard Support">Hard Support</option></select>
+        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
+      </div>
+      <div class="table-wrap">
+        <table class="stats-table"><thead><tr><th>Герой</th><th>Атрибут</th><th>Роли</th><th>Pro pick</th><th>Pro win</th><th>Winrate</th><th>Pro ban</th><th>Move</th><th>Attack</th></tr></thead><tbody id="statsBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
+
+</main>
+
+<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
+<script src="/js/local-preview.js"></script>
+<script src="/js/reliable-data.js"></script>
+<script src="/js/app.js"></script>
+
+<script src="/js/v43-features.js"></script>
+</body>
+</html>

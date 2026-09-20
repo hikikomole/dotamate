@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion</title>
+<meta name="description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.">
+<link rel="canonical" href="https://dotamate.ru/heroes/">
+<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion">
+<meta property="og:description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.">
+<meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
+<meta property="og:url" content="https://dotamate.ru/heroes/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion">
+<meta name="twitter:description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/security.js"></script>
+
+
+  
+<link rel="stylesheet" href="/css/v43-platform.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->
+<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+</head>
+<body id="top">
+<div class="bg"></div>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Dota 2 Companion">
+  <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
+  <span>Dota 2 <b>Companion</b></span>
+</a>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
+    <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+  </div></header>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/heroes/"}]}</script>
+<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> <span aria-current="page">Герои</span></div>
+<main>
+<section class="section" id="heroes">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">HERO DATABASE</div><h2>Все герои Dota 2</h2><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
+      <span class="data-source">Valve Datafeed + OpenDota + Steam CDN</span>
+    </div>
+    <div class="toolbar">
+      <label class="search">⌕ <input id="search" placeholder="Поиск героя..." autocomplete="off"></label>
+      <div class="chips">
+        <button class="chip active" data-filter="all">Все</button>
+        <button class="chip" data-filter="str">💪 Сила</button>
+        <button class="chip" data-filter="agi">🏹 Ловкость</button>
+        <button class="chip" data-filter="int">🧠 Интеллект</button>
+        <button class="chip" data-filter="universal">✦ Универсальные</button>
+        <button class="chip" id="resetChip">↻ Сброс</button>
+      </div>
+    </div>
+    <div id="status" class="status">Загружаем героев…</div>
+    <div id="heroesGrid" class="heroes-grid"></div>
+  </div>
+</section>
+
+<section class="section companion-featured" id="featuredHeroes">
+  <div class="container">
+    <div class="section-head companion-section-head">
+      <div><div class="eyebrow">HERO SPOTLIGHT</div><h2>Быстрый выбор героя</h2><p>Открывай профиль героя и переходи прямо к его статистике, предметам и гайдам.</p></div>
+      <a class="section-link" href="/stats/">К статистике →</a>
+    </div>
+    <div id="featuredHeroesGrid" class="featured-heroes-grid"></div>
+  </div>
+</section>
+<div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
+
+</main>
+
+<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
+<script src="/js/local-preview.js"></script>
+<script src="/js/reliable-data.js"></script>
+<script src="/js/app.js"></script>
+
+<script src="/js/v43-features.js"></script>
+</body>
+</html>

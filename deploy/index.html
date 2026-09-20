@@ -4,26 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dota 2 Companion — герои, предметы, статистика и гайды</title>
-<meta name="description" content="Dota 2 Companion — герои, предметы, статистика, гайды и инструменты Dota 2 в одной связанной базе.">
+<meta name="description" content="Живая база Dota 2: 127 героев, 265 предметов, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.">
 <link rel="canonical" href="https://dotamate.ru/">
-<link rel="icon" type="image/png" href="assets/dota2-companion-icon.png">
+<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Dota 2 Companion — герои, предметы, статистика и гайды">
-<meta property="og:description" content="Dota 2 Companion — герои, предметы, статистика, гайды и инструменты Dota 2 в одной связанной базе.">
+<meta property="og:description" content="Живая база Dota 2: 127 героев, 265 предметов, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.">
 <meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
 <meta property="og:url" content="https://dotamate.ru/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dota 2 Companion — герои, предметы, статистика и гайды">
-<meta name="twitter:description" content="Dota 2 Companion — герои, предметы, статистика, гайды и инструменты Dota 2 в одной связанной базе.">
+<meta name="twitter:description" content="Живая база Dota 2: 127 героев, 265 предметов, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
-<link rel="stylesheet" href="css/style.css">
-<script src="security.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<script src="/security.js"></script>
 
 
   
-<link rel="stylesheet" href="css/v43-platform.css">
+<link rel="stylesheet" href="/css/v43-platform.css">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
@@ -33,16 +33,17 @@
 
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="index.html" aria-label="Dota 2 Companion">
-  <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="assets/dota2-companion-icon.png" alt=""></span>
+    <a class="brand" href="/" aria-label="Dota 2 Companion">
+  <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
   <span>Dota 2 <b>Companion</b></span>
 </a>
-    <nav id="navMenu"><a href="#top">Главная</a><a href="#heroes">Герои</a><a href="#items">Предметы</a><a href="#stats">Статистика</a><a href="#guides">Гайды</a><a href="#game">Игра</a></nav>
+    <nav id="navMenu"><a href="/" aria-current="page" class="active">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
+
 <main>
-<section class="hero">
+<section class="hero" id="home-hero">
   <div class="container hero-grid">
     <div>
       <div class="eyebrow-row">
@@ -52,7 +53,7 @@
       <h1>Твой Dota 2<br><span>Companion.</span></h1>
       <p>Все герои и предметы Dota 2 с live pro-статистикой с OpenDota — одна связанная база вместо десятка открытых вкладок перед игрой.</p>
       <div class="hero-actions">
-        <a class="btn red" href="#heroes">Открыть героев</a>
+        <a class="btn red" href="/heroes/">Открыть героев</a>
         <button class="btn ghost" id="randomBtn">🎲 Случайный герой</button>
       </div>
       <div class="hero-stats">
@@ -88,25 +89,19 @@
   </div>
 </section>
 
-<section class="section" id="heroes">
+<section class="section" id="home-cards">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><div class="eyebrow">HERO DATABASE</div><h2>Все герои Dota 2</h2><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
-      <span class="data-source">Valve Datafeed + OpenDota + Steam CDN</span>
+      <div><div class="eyebrow">РАЗДЕЛЫ</div><h2>Что есть на сайте</h2><p>Каждый раздел — отдельная страница с собственным поиском и фильтрами.</p></div>
     </div>
-    <div class="toolbar">
-      <label class="search">⌕ <input id="search" placeholder="Поиск героя..." autocomplete="off"></label>
-      <div class="chips">
-        <button class="chip active" data-filter="all">Все</button>
-        <button class="chip" data-filter="str">💪 Сила</button>
-        <button class="chip" data-filter="agi">🏹 Ловкость</button>
-        <button class="chip" data-filter="int">🧠 Интеллект</button>
-        <button class="chip" data-filter="universal">✦ Универсальные</button>
-        <button class="chip" id="resetChip">↻ Сброс</button>
-      </div>
+    <div class="home-cards-grid">
+      <a class="home-card" href="/heroes/"><span class="home-card-icon">⚔</span><strong>Герои</strong><p>Все герои Dota 2 с ролями, характеристиками и контрпиками.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Winrate, пики и баны героев в профессиональных матчах.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/game/"><span class="home-card-icon">🎮</span><strong>Мини-игра</strong><p>Hook &amp; Hit — уклоняйся от хуков прямо в браузере.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
     </div>
-    <div id="status" class="status">Загружаем героев…</div>
-    <div id="heroesGrid" class="heroes-grid"></div>
   </div>
 </section>
 
@@ -114,139 +109,13 @@
   <div class="container">
     <div class="section-head companion-section-head">
       <div><div class="eyebrow">HERO SPOTLIGHT</div><h2>Быстрый выбор героя</h2><p>Открывай профиль героя и переходи прямо к его статистике, предметам и гайдам.</p></div>
-      <a class="section-link" href="#stats">К статистике →</a>
+      <a class="section-link" href="/stats/">К статистике →</a>
     </div>
     <div id="featuredHeroesGrid" class="featured-heroes-grid"></div>
   </div>
 </section>
 
-<section class="section quick-stats-section" id="stats">
-  <div class="container">
-    <div class="section-head companion-section-head">
-      <div><div class="eyebrow">STATISTICS</div><h2>Статистика и аналитика</h2><p>Сравни характеристики героев, скорость, атрибуты и профессиональные показатели, если они доступны.</p></div>
-      <button class="btn ghost" id="statsRefresh">↻ Обновить</button>
-    </div>
-    <div class="quick-stats-grid">
-      <article class="stat-card"><span class="stat-icon">⚔</span><strong id="quickHeroCount">—</strong><span>героев в базе</span></article>
-      <article class="stat-card"><span class="stat-icon">◈</span><strong id="quickItemCount">—</strong><span>предметов в базе</span></article>
-      <article class="stat-card"><span class="stat-icon">📈</span><strong id="bestWinrate">—</strong><span>лучший pro winrate</span></article>
-      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>pro picks в базе</span></article>
-    </div>
-    <div class="stats-extra" id="statsExtra"></div>
-    <div id="itemAnalytics" class="item-analytics-wrap"></div>
-    <div class="stats-panel">
-      <div class="stats-toolbar">
-        <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
-        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="Carry">Carry</option><option value="Mid">Mid</option><option value="Offlane">Offlane</option><option value="Support">Support</option><option value="Hard Support">Hard Support</option></select>
-        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
-      </div>
-      <div class="table-wrap">
-        <table class="stats-table"><thead><tr><th>Герой</th><th>Атрибут</th><th>Роли</th><th>Pro pick</th><th>Pro win</th><th>Winrate</th><th>Pro ban</th><th>Move</th><th>Attack</th></tr></thead><tbody id="statsBody"></tbody></table>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="section v43-global-search" id="globalSearchSection"><div class="container"><div class="v43-search-shell"><span>⌕</span><input id="globalSearch" placeholder="Быстрый поиск героя, предмета или раздела…" autocomplete="off"><kbd>Ctrl K</kbd></div><div id="globalSearchResults" class="v43-search-results"></div></div></section>
-
-<section class="section items-section items-section-v3" id="items">
-  <div class="container">
-    <div class="items-v3-head">
-      <div>
-        <div class="eyebrow">ITEM DATABASE</div>
-        <h2>Арсенал Dota 2</h2>
-        <p>Полная витрина предметов. Открывай любой предмет, чтобы увидеть официальные данные Valve и реальные связи с героями.</p>
-      </div>
-      <div class="items-v3-summary"><strong id="itemVisibleCount">—</strong><span>показывается</span><small><b id="itemCountHero2">—</b> в базе</small></div>
-    </div>
-    <div class="items-v3-toolbar">
-      <label class="search item-search-v3">⌕ <input id="itemSearch" placeholder="Найти предмет по названию или описанию…"></label>
-      <div class="items-v3-price">
-        <button class="chip item-filter active" data-item-filter="all">Все</button>
-        <button class="chip item-filter" data-item-filter="cheap">До 1000</button>
-        <button class="chip item-filter" data-item-filter="mid">1000–2500</button>
-        <button class="chip item-filter" data-item-filter="expensive">2500+</button>
-      </div>
-    </div>
-    <div class="items-v3-categories">
-      <button class="item-category active" data-item-category="all"><span>◈</span>Все</button>
-      <button class="item-category" data-item-category="shop"><span>◆</span>Магазин</button>
-      <button class="item-category" data-item-category="component"><span>◇</span>Компоненты</button>
-      <button class="item-category" data-item-category="consumable"><span>✦</span>Расходники</button>
-      <button class="item-category" data-item-category="neutral"><span>✧</span>Нейтральные</button>
-      <button class="item-category" data-item-category="recipe"><span>▱</span>Рецепты</button>
-    </div>
-    <div id="itemStatus" class="items-v3-status">Загружаем предметы…</div>
-    <div id="itemsGrid" class="items-grid items-all-grid items-grid-v3"></div>
-  </div>
-</section>
-
-<section class="section guides-section" id="guides">
-  <div class="container">
-    <div class="section-head companion-section-head">
-      <div><div class="eyebrow">GUIDES</div><h2>Гайды и база знаний</h2><p>Практические мини-гайды, которые ведут к героям, предметам и инструментам. Это каркас для будущих авторских гайдов сообщества.</p></div>
-    </div>
-    <div class="guide-filter-row">
-      <button class="chip active guide-filter" data-guide-filter="all">Все</button>
-      <button class="chip guide-filter" data-guide-filter="gameplay">Геймплей</button>
-      <button class="chip guide-filter" data-guide-filter="heroes">Герои</button>
-      <button class="chip guide-filter" data-guide-filter="items">Предметы</button>
-      <button class="chip guide-filter" data-guide-filter="tools">Инструменты</button>
-    </div>
-    <div id="guidesGrid" class="guides-grid guides-rich"></div>
-  </div>
-</section>
-
-<section class="section dg-section" id="game">
-  <div class="container">
-    <div class="section-head companion-section-head">
-      <div><div class="eyebrow">MINI-GAME</div><h2>Hook &amp; Hit</h2><p>Уклоняйся от крюков, добивай крипов и отбивай красные хуки атакой — прямо в браузере, без установки.</p></div>
-    </div>
-    <div class="dg-wrap">
-      <p class="dg-note">Клик или тап по полю — движение с ускорением. Клик по крипу или красному хуку — атака.</p>
-      <div class="dg-container" id="dgStage">
-        <div class="dg-ui-bar">
-          <div class="dg-ui-group">
-            <div class="dg-stat">ВРЕМЯ: <span id="dgTimer" class="dg-time">00:00</span></div>
-            <div class="dg-stat">ЗОЛОТО: <span id="dgGold" class="dg-gold">0</span></div>
-            <div class="dg-stat dg-streak dg-hide" id="dgStreak"></div>
-          </div>
-          <div class="dg-ui-group">
-            <div class="dg-stat" id="dgLivesBox">ЖИЗНИ: <span id="dgLives" class="dg-lives">♥♥♥</span></div>
-            <button id="dgFullscreen" type="button" class="dg-btn-small dg-btn-ghost" data-state="off" aria-pressed="false" aria-label="Развернуть игру на весь экран"></button>
-            <button id="dgEndBtn" type="button" class="dg-btn-small dg-hide">Закончить</button>
-          </div>
-        </div>
-
-        <div id="dgStart" class="dg-overlay">
-          <h1>HOOK &amp; HIT</h1>
-          <p>Кликайте по карте для движения с <b style="color:#64b5f6">ускорением</b>.<br><b style="color:#ff5252">Красные хуки можно отбивать атакой!</b><br>Скорость хуков растёт каждые 20 секунд.<br>Добивайте крипов подряд — награда за серию растёт до <b style="color:#ffb300">x2</b>.<br>В бесконечном режиме на старте <b class="dg-gold">200 золота</b>, каждый пропущенный хук стоит <b style="color:#ff5252">20</b>: на нуле игра заканчивается.</p>
-          <div class="dg-btn-group">
-            <button id="dgStartClassic" type="button" class="dg-btn">КЛАССИКА (3 ЖИЗНИ)</button>
-            <button id="dgStartEndless" type="button" class="dg-btn dg-btn-secondary">БЕСКОНЕЧНЫЙ</button>
-          </div>
-          <div id="dgBest" class="dg-best dg-hide"></div>
-        </div>
-
-        <div id="dgOver" class="dg-overlay dg-hide">
-          <h1 id="dgOverTitle">РЕЗУЛЬТАТЫ ИГРЫ</h1>
-          <div id="dgRecord" class="dg-record dg-hide"></div>
-          <div class="dg-stats-summary">
-            <div>Время игры: <span id="dgFinalTime" class="dg-time">00:00</span></div>
-            <div>Добито крипов: <span id="dgFinalLh" style="color:#fff">0</span></div>
-            <div>Отбито хуков: <span id="dgFinalDeflect" style="color:#ff5252">0</span></div>
-            <div>Лучшая серия: <span id="dgFinalStreak" style="color:#ffb300">0</span></div>
-            <div>Заработано золота: <span id="dgFinalGold" class="dg-gold">0</span></div>
-          </div>
-          <button id="dgRestart" type="button" class="dg-btn">В ГЛАВНОЕ МЕНЮ</button>
-        </div>
-
-        <canvas id="dgCanvas" class="dg-canvas" width="800" height="600"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 
@@ -255,10 +124,10 @@
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
-<script src="js/local-preview.js"></script>
-<script src="js/reliable-data.js"></script>
-<script src="js/app.js"></script>
-<script src="js/game.js"></script>
-<script src="js/v43-features.js"></script>
+<script src="/js/local-preview.js"></script>
+<script src="/js/reliable-data.js"></script>
+<script src="/js/app.js"></script>
+
+<script src="/js/v43-features.js"></script>
 </body>
 </html>
