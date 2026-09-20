@@ -43,6 +43,30 @@ async function main(){
   if(!res.ok) throw new Error('OpenDota heroStats failed: '+res.status);
   const heroes=await res.json();
 
+  // Способности: ключи по героям и их названия. Иконки и ролики лежат на том
+  // же Steam CDN, откуда сайт уже берёт портреты, и собираются по ключу.
+  async function grab(url){const r=await fetch(url);if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
+  const heroAbilities=await grab('https://api.opendota.com/api/constants/hero_abilities');
+  const abilityMeta=await grab('https://api.opendota.com/api/constants/abilities');
+  const RU_BEHAVIOR={'Passive':'Пассивная','No Target':'Без цели','Unit Target':'По цели','Point Target':'В точку','AOE':'По площади','Channeled':'Прерываемая','Toggle':'Переключаемая','Aura':'Аура','Autocast':'Автокаст','Hidden':'Скрытая'};
+  const RU_DMG={'Physical':'физический','Magical':'магический','Pure':'чистый'};
+  const CDN_IMG='https://cdn.steamstatic.com/apps/dota2/images/dota_react/abilities/';
+  const CDN_VID='https://cdn.steamstatic.com/apps/dota2/videos/dota_react/abilities/';
+  const CDN_RENDER='https://cdn.steamstatic.com/apps/dota2/videos/dota_react/heroes/renders/';
+  // Каталожный слаг и слаг Valve расходятся (Anti-Mage -> antimage, но
+  // Outworld Destroyer -> obsidian_destroyer), поэтому для ссылок на CDN
+  // берём внутреннее имя героя, а не наш слаг.
+  const valveSlug=h=>String(h.name||'').replace(/^npc_dota_hero_/,'');
+  function abilitiesOf(h){
+    const raw=(heroAbilities[h.name]||{}).abilities||[];
+    const flat=[];
+    for(const a of raw) flat.push(...(Array.isArray(a)?a:[a]));
+    return flat.filter(k=>typeof k==='string'&&!k.startsWith('generic')&&!k.endsWith('_empty'))
+      .map(k=>{const m=abilityMeta[k]||{};const beh=[].concat(m.behavior||[]).map(b=>RU_BEHAVIOR[b]).filter(Boolean);
+        return {key:k,name:m.dname||k,behavior:beh,dmg:RU_DMG[m.dmg_type]||''};})
+      .filter(a=>a.name).slice(0,6);
+  }
+
   const outRoot=path.join(__dirname,'deploy','hero');
   fs.mkdirSync(outRoot,{recursive:true});
   const urls=[];
@@ -57,6 +81,7 @@ async function main(){
     const counters=counterCandidates(h,heroes);
     const build=heroBuild(h);
     const a=attrInfo(h.primary_attr);
+    const abilities=abilitiesOf(h);
     const title=`${h.localized_name} — гайд, статы и контрпики | Dota 2 Companion`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
@@ -88,11 +113,12 @@ async function main(){
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -100,41 +126,96 @@ async function main(){
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;">
-  <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#heroes">Герои</a> / ${escapeHtml(h.localized_name)}
-  </nav>
-  <div class="hero-detail">
-    <div class="hero-cover">
-      <img src="${img}" alt="${escapeHtml(h.localized_name)}">
-      <div>
-        <div class="eyebrow">HERO PROFILE</div>
-        <h1>${escapeHtml(h.localized_name)}</h1>
-        <p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p>
-        <div class="hero-detail-actions">
-          <a class="btn red" href="/?openHero=${h.id}#heroes">Открыть в интерактивном профиле →</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a>
+<main>
+  <section class="hp-hero">
+    <div class="hp-art">
+      <video class="hp-render" autoplay loop muted playsinline poster="${CDN_RENDER}${valveSlug(h)}.png" preload="none">
+        <source src="${CDN_RENDER}${valveSlug(h)}.webm" type="video/webm">
+      </video>
+      <span class="hp-art-fade"></span>
+    </div>
+    <div class="container hp-head">
+      <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">${escapeHtml(h.localized_name)}</span></nav>
+      <div class="hp-attr">${a[0]} ${escapeHtml(a[1])}</div>
+      <h1>${escapeHtml(h.localized_name)}</h1>
+      <p class="hp-tagline">${escapeHtml(roleText(h))}</p>
+      <p class="hp-lore">${introParagraph(h)}</p>
+      <div class="hp-facts">
+        <div><small>Тип атаки</small><b>${escapeHtml(h.attack_type==='Melee'?'Ближний бой':h.attack_type==='Ranged'?'Дальний бой':(h.attack_type||'—'))}</b></div>
+        <div><small>Сложность</small><b class="hp-pips" aria-label="Сложность ${h.complexity||1} из 3">${[1,2,3].map(i=>`<i class="${(h.complexity||1)>=i?'on':''}"></i>`).join('')}</b></div>
+      </div>
+      <div class="hp-actions">
+        <a class="hp-btn" href="/heroes/">← Все герои</a>
+        <a class="hp-btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="hp-statbar">
+    <div class="container hp-statbar-grid">
+      ${stats.map(x=>`<div><small>${escapeHtml(x.k)}</small><strong>${escapeHtml(String(x.v))}</strong></div>`).join('')}
+    </div>
+  </section>
+
+  ${abilities.length?`<section class="hp-abilities container">
+    <h2>Способности</h2>
+    <div class="hp-ab-layout">
+      <div class="hp-ab-stage">
+        ${abilities.map((ab,i)=>`<video class="hp-ab-video${i===0?' on':''}" data-ab="${i}" ${i===0?'autoplay':''} loop muted playsinline preload="none" poster="${CDN_IMG}${ab.key}.png"><source src="${CDN_VID}${valveSlug(h)}/${ab.key}.webm" type="video/webm"></video>`).join('')}
+      </div>
+      <div class="hp-ab-side">
+        <div class="hp-ab-icons" role="tablist" aria-label="Способности героя">
+          ${abilities.map((ab,i)=>`<button type="button" role="tab" class="hp-ab-icon${i===0?' on':''}" data-ab="${i}" aria-selected="${i===0?'true':'false'}" title="${escapeHtml(ab.name)}"><img loading="lazy" src="${CDN_IMG}${ab.key}.png" alt="${escapeHtml(ab.name)}"></button>`).join('')}
         </div>
+        ${abilities.map((ab,i)=>`<div class="hp-ab-text${i===0?' on':''}" data-ab="${i}">
+          <h3>${escapeHtml(ab.name)}</h3>
+          <div class="hp-ab-tags">${ab.behavior.map(b=>`<span>${escapeHtml(b)}</span>`).join('')}${ab.dmg?`<span class="dmg">${escapeHtml(ab.dmg)} урон</span>`:''}</div>
+        </div>`).join('')}
       </div>
     </div>
-    <p style="max-width:70ch;line-height:1.6;margin:16px 0;color:#c7cbd4;">${introParagraph(h)}</p>
-    <div class="detail-stats">${stats.map(x=>`<div><small>${x.k}</small><strong>${x.v}</strong></div>`).join('')}</div>
-    <div class="detail-columns">
-      <div>
-        <h2>Контрпики</h2>
-        <div class="linked-list">${counters.map(x=>`<a href="/hero/${slugForHero(x)}/"><img src="${imageUrl(x)}" alt="${escapeHtml(x.localized_name)}">${escapeHtml(x.localized_name)}<span>→</span></a>`).join('')}</div>
-      </div>
-      <div>
-        <h2>Рекомендуемый билд</h2>
-        <div class="build-list">${build.map((x,i)=>`<div><span>${i+1}</span>${escapeHtml(x)}</div>`).join('')}</div>
-      </div>
+  </section>`:''}
+
+  <section class="hp-links container">
+    <div>
+      <h2>Контрпики</h2>
+      <div class="hp-counters">${counters.map(x=>`<a href="/hero/${slugForHero(x)}/"><img loading="lazy" src="${imageUrl(x)}" alt="${escapeHtml(x.localized_name)}"><b>${escapeHtml(x.localized_name)}</b><span>→</span></a>`).join('')}</div>
     </div>
-  </div>
+    <div>
+      <h2>Рекомендуемый билд</h2>
+      <div class="hp-build">${build.map((x,i)=>`<div><span>${i+1}</span>${escapeHtml(x)}</div>`).join('')}</div>
+    </div>
+  </section>
+<script>
+// Переключение способностей: одна активная пара «ролик + подпись».
+// Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
+// страница тянула бы с CDN пять видео сразу.
+(function(){
+  var root=document.querySelector('.hp-abilities'); if(!root) return;
+  var icons=root.querySelectorAll('.hp-ab-icon');
+  function show(n){
+    root.querySelectorAll('[data-ab]').forEach(function(el){
+      var on=el.dataset.ab===String(n);
+      el.classList.toggle('on',on);
+      if(el.tagName==='BUTTON') el.setAttribute('aria-selected',on?'true':'false');
+      if(el.tagName==='VIDEO'){ if(on){ el.play().catch(function(){}); } else { el.pause(); } }
+    });
+  }
+  icons.forEach(function(b){
+    b.addEventListener('click',function(){show(b.dataset.ab);});
+    b.addEventListener('keydown',function(e){
+      if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft') return;
+      e.preventDefault();
+      var i=[].indexOf.call(icons,b), n=(i+(e.key==='ArrowRight'?1:icons.length-1))%icons.length;
+      icons[n].focus(); show(icons[n].dataset.ab);
+    });
+  });
+})();
+</script>
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
