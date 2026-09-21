@@ -98,7 +98,6 @@ function unwrapItems(data){
 const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1610,1639,1641,1645,1647,1648,1649,1650,1651,1652,1801,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
 function isRealCatalogItem(x){
   const key=String(x?.name||'').replace(/^item_/,'').toLowerCase();
-  if(key.startsWith('recipe_'))return false;
   if(key==='courier'||key==='flying_courier')return false;
   if(key.startsWith('river_painter'))return false;
   if(key==='ward_observer'||key==='ward_sentry')return false;
@@ -114,7 +113,15 @@ function normalizeItems(list){
     if(!isRealCatalogItem(x))continue;
     seen.add(x.id);out.push(x);
   }
-  return out.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
+  // Рецепт оставляем только если предмет, который из него собирается, есть в
+  // каталоге: иначе карточка вела бы на несуществующую страницу.
+  const byKey=new Map(out.map(i=>[String(i.name||'').replace(/^item_/,''),i]));
+  const keep=out.filter(i=>{const t=recipeTarget(i);return !t||byKey.has(t);});
+  // Название рецепта берём от предмета: у OpenDota это либо английское
+  // «X Recipe», либо (у трёх штук) вообще пусто, и тогда на карточку попадал
+  // внутренний ключ вида recipe_wraith_pact.
+  for(const i of keep){const t=recipeTarget(i);if(t)i.dname=`${byKey.get(t).dname} — рецепт`;}
+  return keep.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
 }
 // Pro-stat enrichment: some hero-list sources in the loadHeroes() race (Valve's
 // official datafeed, the dotaconstants GitHub mirror) don't include pro_pick/
@@ -190,16 +197,30 @@ async function loadItems(force=false){
     else if(status&&items.length)status.textContent=`Загружено ${items.length} предметов · резервная база`;
   }
 }
+// Категория предмета. Раньше определялась по полю item_type из датафида
+// Valve, которого в ответе OpenDota нет вовсе — поэтому на проде ВСЕ предметы
+// попадали в «item», а фильтры «Компоненты», «Расходники», «Нейтральные» и
+// «Рецепты» показывали пустую сетку. Теперь читаем те поля, которые реально
+// приходят: qual, tier (уровень нейтрального) и префикс recipe_ в ключе.
 function itemCategory(x){
-  const n=String(x?.name||'').toLowerCase();
+  const n=String(x?.name||'').toLowerCase().replace(/^item_/,'');
+  if(n.startsWith('recipe_'))return 'recipe';
+  const tier=x?.tier??x?.neutral_item_tier;
+  if(tier!==undefined&&tier!==null&&Number(tier)>0)return 'neutral';
+  const q=String(x?.qual||'').toLowerCase();
+  if(q.startsWith('consumable'))return 'consumable';
+  if(q==='component')return 'component';
   const type=String(x?.item_type||x?.itemType||x?.category||'').toLowerCase();
-  if(n.startsWith('item_recipe_')||n.startsWith('recipe_')||type.includes('recipe'))return 'recipe';
-  const tier=x?.neutral_item_tier;
-  if(tier!==undefined&&tier!==null&&Number(tier)>=0)return 'neutral';
   if(type.includes('consum'))return 'consumable';
   if(type.includes('component')||type.includes('basic'))return 'component';
   return 'item';
 }
+// Рецепт — отдельный покупаемый предмет, но собственной страницы у него нет:
+// описывать там нечего, кроме цены. Поэтому карточка рецепта ведёт на предмет,
+// который из него собирается: ключ рецепта — это ключ предмета с префиксом
+// recipe_ (recipe_magic_wand -> magic_wand).
+function recipeTarget(x){const n=String(x?.name||'').replace(/^item_/,'');return n.startsWith('recipe_')?n.slice(7):'';}
+function itemHref(x){const t=recipeTarget(x);return '/item/'+itemSlug(t||x.name)+'/';}
 function itemCategoryLabel(x){const c=itemCategory(x);return ({item:'Предмет',component:'Компонент',consumable:'Расходник',neutral:'Нейтральный',recipe:'Рецепт'})[c]||'Предмет';}
 // Короткие русские описания карточек каталога (собираются
 // tools/build-item-cards.js из seo/item-descriptions.json). Официальный текст
@@ -211,6 +232,8 @@ function loadItemCardText(){
   return fetch('/data/item-cards.json').then(r=>r.ok?r.json():null).then(j=>{if(j&&typeof j==='object'){itemCardText=j;renderItems();}}).catch(()=>{});
 }
 function itemDescriptionPreview(x){
+  const t=recipeTarget(x);
+  if(t){const base=items.find(i=>String(i.name||'').replace(/^item_/,'')===t);return `Рецепт для сборки предмета ${base?base.dname:t}${x.cost?`. Стоит ${statValue(x.cost)} золота`:''}.`;}
   const cached=readOfficialItemCache(x.id);
   const d=cached?.data?.desc_loc||cached?.data?.description||x?.desc_loc||'';
   const clean=cleanOfficialHtml(d);
@@ -235,9 +258,9 @@ function renderItems(){
   grid.innerHTML=list.length?list.map(x=>{
     const preview=itemDescriptionPreview(x);
     const cat=itemCategory(x);
-    return `<a class="item-card item-card-v2" href="/item/${escapeHtml(itemSlug(x.name))}/" data-item="${escapeHtml(x.name)}" aria-label="Открыть ${escapeHtml(x.dname)}">
-      <div class="item-card-art"><img loading="lazy" data-d2h-image="item" data-d2h-slug="${escapeHtml(itemSlug(x.name))}" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span><span class="item-card-open">Открыть ↗</span></div>
-      <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:''}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>Подробнее →</b></div></div>
+    return `<a class="item-card item-card-v2" href="${escapeHtml(itemHref(x))}" data-item="${escapeHtml(x.name)}">
+      <div class="item-card-art"><img loading="lazy" data-d2h-image="item" data-d2h-slug="${escapeHtml(itemSlug(x.name))}" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span></div>
+      <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:''}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>${recipeTarget(x)?'К предмету →':'Подробнее →'}</b></div></div>
     </a>`;
   }).join(''):'<div class="empty item-empty-state"><strong>Предмет не найден</strong><span>Измени запрос или фильтр.</span></div>';
   const counter=document.getElementById('itemVisibleCount');if(counter)counter.textContent=statValue(list.length);

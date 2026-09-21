@@ -29,7 +29,7 @@ const PAGES = [
   {
     key: 'home', dir: '',
     title: 'Dota 2 Companion — герои, предметы, статистика и гайды',
-    desc: 'Живая база Dota 2: 127 героев, 263 предмета, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
+    desc: 'Живая база Dota 2: 127 героев, 263 предмета и 83 рецепта, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
     sections: ['home-hero', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',

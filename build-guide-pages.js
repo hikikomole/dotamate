@@ -7,7 +7,10 @@ const path = require('path');
 const guides = require('./guide-content.js');
 
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
-const actionLabels={heroes:"Герои",items:"Предметы",stats:"Статистика",tools:"Инструменты"};
+// Раздел «Инструменты» удалён в сессии 5 — гайды, которые на него ссылались,
+// отправляем в «Гайды».
+const actionLabels={heroes:"Герои",items:"Предметы",stats:"Статистика",guides:"Гайды"};
+const actionHref=a=>({heroes:"/heroes/",items:"/items/",stats:"/stats/",guides:"/guides/"}[a]||"/guides/");
 
 const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->\n<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->`;
 
@@ -30,7 +33,7 @@ async function main(){
       "mainEntityOfPage":canonical,
       "author":{"@type":"Organization","name":"Dota 2 Companion"}
     });
-    const breadcrumbJson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/#guides"},{"@type":"ListItem","position":3,"name":g.title,"item":canonical}]});
+    const breadcrumbJson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":g.title,"item":canonical}]});
 
     const bodyHtml=g.sections.map(sec=>`<section class="detail-section"><h2>${escapeHtml(sec.h)}</h2>${sec.p.map(par=>`<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">${escapeHtml(par)}</p>`).join('')}</section>`).join('');
 
@@ -62,11 +65,12 @@ async function main(){
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
 <script type="application/ld+json">${breadcrumbJson}</script>
 ${analyticsSnippet}
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -74,14 +78,14 @@ ${analyticsSnippet}
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;max-width:820px;">
+<main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:820px;">
   <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#guides">Гайды</a> / ${escapeHtml(g.title)}
+    <a href="/">Главная</a> / <a href="/guides/">Гайды</a> / ${escapeHtml(g.title)}
   </nav>
   <div class="eyebrow">${escapeHtml(g.tag)}</div>
   <h1 style="margin:6px 0 20px;">${escapeHtml(g.title)}</h1>
@@ -90,7 +94,7 @@ ${analyticsSnippet}
   <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
-    <a class="btn red" href="/#${g.action}">Открыть раздел «${escapeHtml(actionLabels[g.action]||g.action)}» →</a>
+    <a class="btn red" href="${actionHref(g.action)}">Открыть раздел «${escapeHtml(actionLabels[g.action]||"Гайды")}» →</a>
   </div>
   <div class="detail-section" style="margin-top:34px;">
     <h3>Другие гайды</h3>

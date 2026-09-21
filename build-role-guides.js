@@ -44,10 +44,11 @@ function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/theme-dark.css">
 ${ldjsonList.map(j=>`<script type="application/ld+json">${j}</script>`).join('\n')}
 ${analyticsSnippet}
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -55,12 +56,12 @@ ${analyticsSnippet}
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;max-width:900px;">
+<main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:900px;">
 ${bodyHtml}
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
@@ -91,14 +92,14 @@ async function main(){
     const canonical=`https://dotamate.ru/guide/${r.slug}/`;
     const title=`${r.title} | Гайд Dota 2 Companion`;
     const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":r.title,"description":r.excerpt,"mainEntityOfPage":canonical,"author":{"@type":"Organization","name":"Dota 2 Companion"}});
-    const breadcrumb=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/#guides"},{"@type":"ListItem","position":3,"name":r.title,"item":canonical}]});
+    const breadcrumb=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":r.title,"item":canonical}]});
 
     const stagesHtml=r.stages.map(st=>`<section class="detail-section"><h2>${escapeHtml(st.name)}</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 12px;">${escapeHtml(st.note)}</p><div class="linked-list" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));display:grid;gap:8px;">${st.items.map(k=>itemCard(k,items)).join('')}</div></section>`).join('');
 
     const otherRoles=data.roles.filter(x=>x.slug!==r.slug).slice(0,3);
     const relatedHtml=otherRoles.map(x=>`<a href="/guide/${x.slug}/"><span style="font-size:20px;">${x.icon}</span>${escapeHtml(x.title)}<span>→</span></a>`).join('');
 
-    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / <a href="/#guides">Гайды</a> / ${escapeHtml(r.title)}</nav>
+    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / <a href="/guides/">Гайды</a> / ${escapeHtml(r.title)}</nav>
 <div class="eyebrow">${escapeHtml(r.tag)} · ${escapeHtml(r.role.toUpperCase())}</div>
 <h1 style="margin:6px 0 20px;">${escapeHtml(r.title)}</h1>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(r.excerpt)}</p>
@@ -106,7 +107,7 @@ async function main(){
 ${stagesHtml}
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-role-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
-<div class="hero-detail-actions" style="margin-top:26px;"><a class="btn red" href="/#heroes">Подобрать героя на роль «${escapeHtml(r.role)}» →</a></div>
+<div class="hero-detail-actions" style="margin-top:26px;"><a class="btn red" href="/heroes/">Подобрать героя на роль «${escapeHtml(r.role)}» →</a></div>
 <div class="detail-section" style="margin-top:34px;"><h3>Другие роли</h3><div class="linked-list">${relatedHtml}</div></div>`;
 
     const html=pageShell({title,desc:r.excerpt,canonical,ldjsonList:[ldjson,breadcrumb],bodyHtml});
@@ -121,7 +122,7 @@ ${stagesHtml}
     const canonical=`https://dotamate.ru/guide/${c.slug}/`;
     const title=`${c.title} | Гайд Dota 2 Companion`;
     const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":c.title,"description":c.excerpt,"mainEntityOfPage":canonical,"author":{"@type":"Organization","name":"Dota 2 Companion"}});
-    const breadcrumb=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/#guides"},{"@type":"ListItem","position":3,"name":c.title,"item":canonical}]});
+    const breadcrumb=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":c.title,"item":canonical}]});
 
     const rowsHtml=c.items.map(key=>{
       const it=items[key];
@@ -136,7 +137,7 @@ ${stagesHtml}
     const relatedGuides=[...otherComparisons, ...data.roles.slice(0,2)];
     const relatedHtml=relatedGuides.map(x=>`<a href="/guide/${x.slug}/"><span style="font-size:20px;">${x.icon}</span>${escapeHtml(x.title)}<span>→</span></a>`).join('');
 
-    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / <a href="/#guides">Гайды</a> / ${escapeHtml(c.title)}</nav>
+    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / <a href="/guides/">Гайды</a> / ${escapeHtml(c.title)}</nav>
 <div class="eyebrow">${escapeHtml(c.tag)}</div>
 <h1 style="margin:6px 0 20px;">${escapeHtml(c.title)}</h1>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(c.excerpt)}</p>

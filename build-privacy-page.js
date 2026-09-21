@@ -93,11 +93,12 @@ const html = `<!doctype html>
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
 <script type="application/ld+json">${breadcrumb}</script>
 ${analyticsSnippet}
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -105,12 +106,12 @@ ${analyticsSnippet}
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;max-width:820px;">
+<main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:820px;">
 ${bodyHtml}
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>

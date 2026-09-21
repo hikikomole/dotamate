@@ -46,7 +46,7 @@ const bodyHtml = `<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;
 ${termsHtml}
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="glossary-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
-<div class="hero-detail-actions" style="margin-top:26px;"><a class="btn red" href="/#guides">Смотреть все гайды →</a></div>
+<div class="hero-detail-actions" style="margin-top:26px;"><a class="btn red" href="/guides/">Смотреть все гайды →</a></div>
 `;
 
 const html = `<!doctype html>
@@ -72,10 +72,11 @@ const html = `<!doctype html>
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/theme-dark.css">
 ${ldjsonList.map(j=>`<script type="application/ld+json">${j}</script>`).join('\n')}
 ${analyticsSnippet}
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -83,12 +84,12 @@ ${analyticsSnippet}
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;max-width:820px;">
+<main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:820px;">
 ${bodyHtml}
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>

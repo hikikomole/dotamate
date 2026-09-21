@@ -472,3 +472,62 @@ body.d2-dark .guide-card h3{letter-spacing:.6px!important;color:#fff!important}
 body.d2-dark .guide-card p{color:var(--d2-muted)!important;font-size:12px!important;line-height:1.6!important}
 body.d2-dark .guide-card>b{color:var(--d2-gold-dim)!important}
 body.d2-dark .guide-open{margin-top:14px!important;padding:9px 14px!important;font-size:11px!important}
+
+/* ========== разбор скриншотов пользователя (21.09.2026) ========== */
+
+/* Наведение на пункт меню: светлая тема красит фон в #f4f2ff, а текст в
+   тёмной теме светлый — пункт превращался в белый прямоугольник. */
+body.d2-dark .topbar .nav nav a:hover,
+body.d2-dark .topbar .nav nav a.active,
+body.d2-dark .nav nav a:hover,
+body.d2-dark .nav nav a.active{background:none!important;box-shadow:none!important}
+body.d2-dark .topbar .nav nav a:hover{color:#fff!important}
+body.d2-dark .topbar .nav nav a.active{color:#fff!important}
+
+/* То же самое в таблице статистики: строка под курсором светлела, текст нет. */
+body.d2-dark .stats-table tbody tr:hover{background:#171a20!important}
+body.d2-dark .stats-table tbody tr:hover td{color:#fff!important}
+body.d2-dark .stats-table tbody tr{border-bottom:1px solid var(--d2-line-soft)!important}
+
+/* Подпись «HERO SPOTLIGHT · СЛУЧАЙНЫЙ ГЕРОЙ» лежала поверх картинки героя и
+   читалась как часть арта. Имя и роли остаются, служебная строка убрана. */
+body.d2-dark #featured .ftext small,
+body.d2-dark .featured-fallback small{display:none!important}
+
+/* Поле общего поиска: рамка была у оболочки, а фокус рисовал вторую рамку
+   вокруг самого input — получалось два прямоугольника один в другом. */
+body.d2-dark .v43-search-shell:focus-within{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .v43-search-shell input:focus,
+body.d2-dark .v43-search-shell input:focus-visible,
+body.d2-dark .search input:focus,
+body.d2-dark .search input:focus-visible{outline:none!important;box-shadow:none!important;border:0!important}
+body.d2-dark .search:focus-within{border-color:var(--d2-gold-dim)!important}
+
+/* Значок «Открыть ↗» на обложке предмета убран: карточка целиком ссылка,
+   а внизу уже есть «Подробнее →». */
+body.d2-dark .item-card-open{display:none!important}
+
+/* ========== страницы-статьи: гайды, роли, словарь, политика ========== */
+body.d2-dark .article-main{color:var(--d2-text)!important}
+body.d2-dark .article-main h1{font-size:clamp(28px,4vw,44px)!important;line-height:1.08!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .article-main h2{font-size:clamp(20px,2.6vw,28px)!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#fff!important;margin:34px 0 12px!important;padding-top:22px!important;border-top:1px solid var(--d2-line-soft)!important}
+body.d2-dark .article-main h3{font-size:17px!important;letter-spacing:.6px!important;color:#fff!important;margin:22px 0 10px!important}
+body.d2-dark .article-main p,body.d2-dark .article-main li{color:#c3cad4!important;font-size:15.5px!important;line-height:1.75!important}
+body.d2-dark .article-main strong,body.d2-dark .article-main b{color:#fff!important}
+body.d2-dark .article-main a{color:var(--d2-gold)!important}
+body.d2-dark .article-main a:hover{color:#e8d3a0!important}
+body.d2-dark .article-main ul,body.d2-dark .article-main ol{padding-left:20px!important}
+body.d2-dark .article-main li{margin:6px 0!important}
+body.d2-dark .article-main li::marker{color:var(--d2-gold-dim)!important}
+body.d2-dark .article-main blockquote{margin:18px 0!important;padding:14px 18px!important;border:0!important;border-left:2px solid var(--d2-gold-dim)!important;background:var(--d2-panel)!important;color:var(--d2-muted)!important}
+body.d2-dark .article-main table{width:100%!important;border-collapse:collapse!important;margin:16px 0!important}
+body.d2-dark .article-main th,body.d2-dark .article-main td{border:1px solid var(--d2-line)!important;padding:9px 12px!important;text-align:left!important;font-size:14px!important}
+body.d2-dark .article-main th{background:var(--d2-panel)!important;color:#fff!important;text-transform:uppercase!important;letter-spacing:1px!important;font-size:11px!important}
+body.d2-dark .article-main [aria-label="breadcrumb"]{font-size:11px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;opacity:1!important;color:var(--d2-muted-2)!important}
+body.d2-dark .article-main [aria-label="breadcrumb"] a{color:var(--d2-muted-2)!important;text-decoration:none!important}
+body.d2-dark .article-main [aria-label="breadcrumb"] a:hover{color:var(--d2-gold)!important}
+body.d2-dark .article-main .detail-section h3{text-transform:uppercase!important;letter-spacing:1.4px!important}
+body.d2-dark .article-main .linked-list{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))!important;gap:8px!important}
+body.d2-dark .article-main .linked-list a,body.d2-dark .article-main .linked-list>div{display:flex!important;align-items:center!important;gap:10px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:11px 13px!important;color:var(--d2-text)!important;text-decoration:none!important;font-size:13.5px!important}
+body.d2-dark .article-main .linked-list a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important;color:#fff!important}
+body.d2-dark .article-main .ad-slot{margin:28px 0!important;min-height:0!important}
