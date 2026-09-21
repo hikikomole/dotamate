@@ -13,6 +13,7 @@ const guideUrls = readUrls('guide-urls.json');       // 10 long-form articles
 const roleGuideUrls = readUrls('role-guide-urls.json'); // 7 role/comparison guides
 const heroUrls = readUrls('hero-urls.json');         // 127 heroes
 const itemUrls = readUrls('item-urls.json');         // 400 items
+const heroGuideUrls = readUrls('hero-guide-urls.json'); // 127 гайдов по героям
 const privacyUrls = readUrls('privacy-urls.json');   // privacy policy
 const glossaryUrls = readUrls('glossary-urls.json'); // terms glossary
 const pageUrls = readUrls('page-urls.json');         // разделы сайта: главная, герои, предметы…
@@ -30,6 +31,9 @@ for (const g of [...guideUrls, ...roleGuideUrls, ...privacyUrls, ...glossaryUrls
 }
 for (const h of heroUrls) {
   entries.push({ loc: h.loc, lastmod: today, changefreq: 'weekly', priority: '0.7' });
+}
+for (const hg of heroGuideUrls) {
+  entries.push({ loc: hg.loc, lastmod: today, changefreq: 'weekly', priority: '0.7' });
 }
 for (const it of itemUrls) {
   entries.push({ loc: it.loc, lastmod: today, changefreq: 'weekly', priority: '0.6' });

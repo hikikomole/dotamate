@@ -531,3 +531,128 @@ body.d2-dark .article-main .linked-list{display:grid!important;grid-template-col
 body.d2-dark .article-main .linked-list a,body.d2-dark .article-main .linked-list>div{display:flex!important;align-items:center!important;gap:10px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:11px 13px!important;color:var(--d2-text)!important;text-decoration:none!important;font-size:13.5px!important}
 body.d2-dark .article-main .linked-list a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important;color:#fff!important}
 body.d2-dark .article-main .ad-slot{margin:28px 0!important;min-height:0!important}
+
+/* ========== модальное окно героя ========== */
+body.d2-dark .hero-detail{color:var(--d2-text)!important}
+body.d2-dark .hero-cover{grid-template-columns:170px 1fr!important;gap:22px!important;align-items:start!important}
+body.d2-dark .hero-cover-art{display:block!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hero-cover-art:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hero-cover>a>img,body.d2-dark .hero-cover>img{width:100%!important;height:auto!important;aspect-ratio:3/4!important;object-fit:cover!important;border-radius:0!important;display:block!important}
+body.d2-dark .hero-cover h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;margin:4px 0 8px!important}
+body.d2-dark .hero-cover h2 a{color:#fff!important;text-decoration:none!important}
+body.d2-dark .hero-cover h2 a:hover{color:var(--d2-gold)!important}
+body.d2-dark .hero-cover p{color:var(--d2-muted)!important;font-size:13.5px!important;margin:0 0 16px!important}
+body.d2-dark .hero-detail-actions{gap:8px!important}
+body.d2-dark .hero-detail-actions .btn{padding:11px 16px!important;font-size:11px!important}
+
+body.d2-dark .detail-stats{gap:6px!important;margin:22px 0!important}
+body.d2-dark .detail-stats div{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:12px 13px!important}
+body.d2-dark .detail-stats small{display:block!important;color:var(--d2-muted-2)!important;font-size:9.5px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .detail-stats strong{color:#fff!important;font-size:19px!important;margin-top:4px!important}
+
+body.d2-dark .detail-section h3,body.d2-dark .detail-columns h3{font-size:14px!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 12px!important}
+body.d2-dark .modal-card .ability-card{display:grid!important;grid-template-columns:52px 1fr!important;gap:14px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .ability-art img{border-radius:0!important;background:#0a0c10!important}
+body.d2-dark .ability-art span{background:var(--d2-gold)!important;color:#14110a!important;border:2px solid var(--d2-panel)!important}
+body.d2-dark .ability-tag{border-radius:0!important;background:var(--d2-panel-2)!important;color:var(--d2-muted)!important;border:1px solid var(--d2-line)!important}
+
+body.d2-dark .linked-list a,body.d2-dark .linked-list button,body.d2-dark .build-list button{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;padding:10px 12px!important;font-size:13.5px!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .linked-list a:hover,body.d2-dark .linked-list button:hover,body.d2-dark .build-list button:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important;color:#fff!important}
+body.d2-dark .linked-list img{border-radius:0!important}
+body.d2-dark .linked-list span{color:var(--d2-gold)!important}
+body.d2-dark .build-list span{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-gold)!important;font-size:11px!important;font-weight:800!important}
+
+body.d2-dark .item-pop-loading{border:1px dashed var(--d2-line)!important;border-radius:0!important;background:var(--d2-panel)!important;color:var(--d2-muted)!important}
+body.d2-dark .item-pop-head h3{color:#fff!important}
+body.d2-dark .item-pop-grid>div,body.d2-dark .item-popularity-section .item-pop-grid>*{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .item-pop-row{border-bottom:1px solid var(--d2-line-soft)!important;color:var(--d2-text)!important}
+body.d2-dark .item-pop-row:hover{color:#fff!important}
+body.d2-dark .item-pop-row img{border-radius:0!important}
+
+/* ссылки на разделы гайда по герою */
+body.d2-dark .hero-guide-links{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:8px!important}
+body.d2-dark .hero-guide-links a{display:flex!important;flex-direction:column!important;gap:3px!important;position:relative!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:13px 34px 13px 14px!important;text-decoration:none!important;color:var(--d2-text)!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .hero-guide-links a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important}
+body.d2-dark .hero-guide-links b{font-size:12.5px!important;letter-spacing:1.1px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .hero-guide-links small{color:var(--d2-muted)!important;font-size:11.5px!important;line-height:1.45!important}
+body.d2-dark .hero-guide-links span{position:absolute!important;right:13px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--d2-gold)!important}
+
+/* ========== гайд по герою ========== */
+body.d2-dark .hg-head{display:grid!important;grid-template-columns:200px 1fr!important;gap:26px!important;align-items:start!important;margin:8px 0 26px!important}
+body.d2-dark .hg-portrait{width:100%!important;aspect-ratio:3/4!important;object-fit:cover!important;border:1px solid var(--d2-line)!important;display:block!important}
+body.d2-dark .hg-main h1{margin:6px 0 14px!important}
+body.d2-dark .hg-lead{color:#c3cad4!important;font-size:15.5px!important;line-height:1.7!important;margin:0 0 18px!important}
+body.d2-dark .hg-toc{display:flex!important;flex-wrap:wrap!important;gap:6px!important;margin:0 0 10px!important;padding:12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hg-toc a{padding:8px 13px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;font-size:11px!important;font-weight:800!important;letter-spacing:1.1px!important;text-transform:uppercase!important;text-decoration:none!important}
+body.d2-dark .hg-toc a:hover{color:#fff!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hg-main section{scroll-margin-top:90px!important}
+body.d2-dark .hg-note,body.d2-dark .hg-hint,body.d2-dark .hg-source,body.d2-dark .hg-nodata{color:var(--d2-muted-2)!important;font-size:12.5px!important;line-height:1.65!important}
+body.d2-dark .hg-nodata{padding:14px 16px!important;border:1px dashed var(--d2-line)!important;background:var(--d2-panel)!important}
+
+body.d2-dark .hg-stats{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))!important;gap:6px!important;margin:18px 0!important}
+body.d2-dark .hg-stats div{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:12px 13px!important}
+body.d2-dark .hg-stats small{display:block!important;color:var(--d2-muted-2)!important;font-size:9.5px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .hg-stats strong{display:block!important;color:#fff!important;font-size:19px!important;margin-top:4px!important}
+
+body.d2-dark .hg-abilities{display:grid!important;gap:9px!important;margin-top:8px!important}
+body.d2-dark .hg-ability{display:grid!important;grid-template-columns:56px 1fr!important;gap:15px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:15px 16px!important}
+body.d2-dark .hg-ability-art{position:relative!important}
+body.d2-dark .hg-ability-art img{width:56px!important;height:56px!important;object-fit:cover!important;display:block!important;background:#0a0c10!important}
+body.d2-dark .hg-ability-art span{position:absolute!important;left:-7px!important;top:-7px!important;width:21px!important;height:21px!important;display:grid!important;place-items:center!important;background:var(--d2-gold)!important;color:#14110a!important;border:2px solid var(--d2-panel)!important;font-size:10px!important;font-weight:800!important}
+body.d2-dark .hg-ability b{display:block!important;color:#fff!important;font-size:13.5px!important;letter-spacing:1px!important;text-transform:uppercase!important;margin-bottom:7px!important}
+body.d2-dark .hg-ability p{margin:0 0 6px!important;font-size:14px!important;line-height:1.65!important;color:var(--d2-muted)!important}
+
+body.d2-dark .hg-phases{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;gap:9px!important;margin-top:8px!important}
+body.d2-dark .hg-phase{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:15px 16px!important}
+body.d2-dark .hg-phase h3{margin:0 0 4px!important;font-size:13px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:#fff!important;border:0!important;padding:0!important}
+body.d2-dark .hg-phase .hg-hint{margin:0 0 12px!important}
+body.d2-dark .hg-items{display:grid!important;gap:5px!important}
+body.d2-dark .hg-items a{display:grid!important;grid-template-columns:40px 1fr!important;align-items:center!important;gap:10px!important;padding:6px!important;border:1px solid transparent!important;text-decoration:none!important;color:var(--d2-text)!important}
+body.d2-dark .hg-items a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important}
+body.d2-dark .hg-items img{width:40px!important;height:auto!important;display:block!important}
+body.d2-dark .hg-items b{display:block!important;font-size:12.5px!important;color:#fff!important;font-weight:700!important}
+/* у ссылки три ребёнка в сетке из двух колонок — подпись сама падала
+   под иконку; держим её во второй колонке под названием */
+body.d2-dark .hg-items small{display:block!important;grid-column:2!important;color:var(--d2-muted-2)!important;font-size:10.5px!important;margin-top:-2px!important}
+
+body.d2-dark .hg-table{width:100%!important;border-collapse:collapse!important;margin:14px 0!important}
+body.d2-dark .hg-table th{background:var(--d2-panel)!important;color:var(--d2-muted-2)!important;font-size:10px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;text-align:left!important;padding:10px 12px!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hg-table td{border:1px solid var(--d2-line)!important;padding:8px 12px!important;font-size:13.5px!important;color:var(--d2-text)!important}
+body.d2-dark .hg-table td a{display:flex!important;align-items:center!important;gap:10px!important;color:#fff!important;text-decoration:none!important}
+body.d2-dark .hg-table td a:hover{color:var(--d2-gold)!important}
+body.d2-dark .hg-table td img{width:44px!important;height:25px!important;object-fit:cover!important}
+body.d2-dark .hg-table tbody tr:hover td{background:#161a20!important}
+body.d2-dark .hg-table td b{color:var(--d2-gold)!important}
+
+@media(max-width:760px){
+  body.d2-dark .hg-head{grid-template-columns:1fr!important;gap:16px!important}
+  body.d2-dark .hg-portrait{max-width:200px!important}
+  body.d2-dark .hg-ability{grid-template-columns:44px 1fr!important;gap:11px!important}
+  body.d2-dark .hg-ability-art img{width:44px!important;height:44px!important}
+  body.d2-dark .hg-table td img{width:34px!important;height:20px!important}
+}
+
+/* реальные матчапы и покупки на странице героя */
+body.d2-dark .hp-matchups a{display:grid!important;grid-template-columns:54px 1fr auto!important;align-items:center!important;gap:12px!important}
+body.d2-dark .hp-matchups b{grid-column:2!important;font-size:13.5px!important}
+body.d2-dark .hp-matchups i{grid-column:2!important;grid-row:2!important;font-style:normal!important;color:var(--d2-muted-2)!important;font-size:11px!important;letter-spacing:.4px!important}
+body.d2-dark .hp-matchups span{grid-column:3!important;grid-row:1/3!important}
+body.d2-dark .hp-buys{margin-top:34px!important}
+body.d2-dark .hp-buys h2{font-size:clamp(20px,2.4vw,28px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 6px!important}
+body.d2-dark .hp-buys-note{color:var(--d2-muted-2)!important;font-size:12.5px!important;margin:0 0 14px!important}
+body.d2-dark .hp-buy-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;gap:9px!important}
+body.d2-dark .hp-buy-col{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:14px 15px!important}
+body.d2-dark .hp-buy-col h3{margin:0 0 10px!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .hp-buy-col a{display:grid!important;grid-template-columns:38px 1fr auto!important;align-items:center!important;gap:10px!important;padding:5px 0!important;text-decoration:none!important;color:var(--d2-text)!important}
+body.d2-dark .hp-buy-col a:hover b{color:var(--d2-gold)!important}
+body.d2-dark .hp-buy-col img{width:38px!important;height:auto!important;display:block!important}
+body.d2-dark .hp-buy-col b{font-size:12.5px!important;font-weight:700!important}
+body.d2-dark .hp-buy-col i{font-style:normal!important;color:var(--d2-muted-2)!important;font-size:11px!important}
+body.d2-dark .hp-guide-cta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;flex-wrap:wrap!important;margin-top:34px!important;padding:20px 22px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hp-guide-cta b{display:block!important;color:#fff!important;font-size:15px!important;letter-spacing:1.1px!important;text-transform:uppercase!important}
+body.d2-dark .hp-guide-cta small{display:block!important;color:var(--d2-muted)!important;font-size:12.5px!important;margin-top:4px!important}
+body.d2-dark .hp-ab-desc{margin:12px 0 0!important;color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.65!important}
+/* вход в гайды по героям из раздела «Гайды» */
+body.d2-dark .guides-heroes-cta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;flex-wrap:wrap!important;margin-top:22px!important;padding:20px 22px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .guides-heroes-cta b{display:block!important;color:#fff!important;font-size:15px!important;letter-spacing:1.1px!important;text-transform:uppercase!important}
+body.d2-dark .guides-heroes-cta small{display:block!important;max-width:720px!important;color:var(--d2-muted)!important;font-size:12.5px!important;line-height:1.6!important;margin-top:5px!important}
