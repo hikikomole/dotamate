@@ -21,11 +21,12 @@
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/#items"},{"@type":"ListItem","position":3,"name":"Wraith Pact","item":"https://dotamate.ru/item/wraith_pact/"}]}</script>
+<link rel="stylesheet" href="/css/theme-dark.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Wraith Pact","item":"https://dotamate.ru/item/wraith_pact/"}]}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -33,34 +34,30 @@
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;">
-  <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#items">Предметы</a> / Wraith Pact
-  </nav>
-  <div class="item-profile-v3">
-    <div class="item-profile-top">
-      <div class="item-profile-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/wraith_pact.png" alt="Wraith Pact"><span>Редкий</span></div>
-      <div class="item-profile-title">
-        <div class="eyebrow">ITEM PROFILE</div>
-        <h1>Wraith Pact</h1>
-        <div class="item-profile-meta"><span>💰 3800 gold</span><span>ID 908</span><span>⏱ КД 60с</span><span>💧 100 маны</span></div>
-        <p class="item-profile-sub">Официальные данные предмета Dota 2 — способности, характеристики и лор.</p>
-        <div class="item-profile-actions">
-          <a class="btn red" href="/?openItem=wraith_pact#items">Открыть в интерактивном профиле →</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=908">Valve Datafeed ↗</a>
-        </div>
+<main class="container ip-main">
+  <nav aria-label="breadcrumb" class="ip-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">Wraith Pact</span></nav>
+  <section class="ip-top">
+    <div class="ip-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/wraith_pact.png" alt="Wraith Pact"><span class="ip-qual">Редкий</span></div>
+    <div class="ip-head">
+      <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+      <h1>Wraith Pact</h1>
+      <p class="ip-lead">Wraith Pact за 3800 золота создает ауру с вампиризмом и снижением урона врагов. Полезный предмет для команды.</p>
+      <div class="ip-chips"><span>💰 3800 gold</span><span>ID 908</span><span>⏱ КД 60с</span><span>💧 100 маны</span></div>
+      <div class="ip-actions">
+        <a class="btn red" href="/items/">Все предметы</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&amp;item_id=908">Данные Valve ↗</a>
       </div>
     </div>
-    
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ATTRIBUTES</span><h3>Характеристики</h3></div></div><div class="detail-stats" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"><div><small>bonus_health: 250</small></div><div><small>bonus_mana: 250</small></div><div><small>armor_aura: 3.0</small></div><div><small>mana_regen_aura: 2.0</small></div><div><small>lifesteal_aura: 24</small></div><div><small>creep_lifesteal_reduction_pct: 50</small></div><div><small>damage_aura: 18</small></div><div><small>aura_radius: 1200</small></div><div><small>pact_aura_radius: 900</small></div><div><small>damage_penalty_aura: 30</small></div><div><small>aura_dps: 45</small></div></div></section>
-    
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>RECIPE</span><h3>Собирается из</h3></div></div><div class="linked-list"><a href="/item/vladmir/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/vladmir.png" alt="Vladmir&#39;s Offering">Vladmir&#39;s Offering<span>→</span></a><a href="/item/point_booster/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/point_booster.png" alt="Point Booster">Point Booster<span>→</span></a></div></section>
-  </div>
+  </section>
+  
+  
+  <section class="ip-panel"><div class="ip-panel-head"><span>RECIPE</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe"><a href="/item/vladmir/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/vladmir.png" alt="Vladmir&#39;s Offering">Vladmir&#39;s Offering<span>→</span></a><a href="/item/point_booster/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/point_booster.png" alt="Point Booster">Point Booster<span>→</span></a></div></section>
+  
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>

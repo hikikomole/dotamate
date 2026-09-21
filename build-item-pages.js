@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const ATTRIB_RU = require('./tools/attrib-ru.js');
 
 // Заранее сгенерированные русские meta description (tools/gen-item-meta.py).
 // Раньше описание склеивалось из цены и сырого текста OpenDota — то есть на
@@ -14,6 +15,14 @@ const path = require('path');
 // если у предмета нет заготовленного описания.
 const seoDesc = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'seo', 'item-descriptions.json'), 'utf8')); }
+  catch { return {}; }
+})();
+
+// Те же описания, но укороченные до одного факта без призыва в конце —
+// их же показывают карточки каталога. Собирает tools/build-item-cards.js,
+// запускать его надо ДО этого скрипта. Если файла нет, берём полное описание.
+const cardDesc = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'item-cards.json'), 'utf8')); }
   catch { return {}; }
 })();
 
@@ -39,7 +48,7 @@ function qualLabel(x){return qualLabels[x?.qual]||'Предмет';}
 // EXCLUDED_ITEM_INTERNAL_IDS is a point-in-time snapshot of that hidden-
 // internal bucket; refresh it against a fresh constants/items pull if a
 // future patch's item pages start looking similarly broken.
-const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1639,1641,1645,1647,1648,1649,1650,1651,1652,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
+const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1610,1639,1641,1645,1647,1648,1649,1650,1651,1652,1801,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
 function isRealCatalogItem(key,x){
   const k=String(key||'').toLowerCase();
   if(k.startsWith('recipe_'))return false;
@@ -50,9 +59,12 @@ function isRealCatalogItem(key,x){
   return true;
 }
 
+// Русские подписи характеристик — см. комментарий в tools/attrib-ru.js.
+// Характеристику без display (сырой ключ движка) на страницу не выводим.
 function attribLine(a){
-  if(a.display)return escapeHtml(a.display.replace('{value}',a.value));
-  return escapeHtml(`${a.key}: ${a.value}`);
+  if(!a.display)return null;
+  const ru=ATTRIB_RU[a.display];
+  return escapeHtml((ru||a.display).replace('{value}',a.value));
 }
 
 async function main(){
@@ -90,15 +102,16 @@ async function main(){
     const storedDesc=seoDesc[slug];
     const desc=(typeof storedDesc==='string'&&storedDesc.includes(x.dname))?storedDesc:fallbackDesc;
     const canonical=`https://dotamate.ru/item/${slug}/`;
-    const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/#items"},{"@type":"ListItem","position":3,"name":x.dname,"item":canonical}]});
+    const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":x.dname,"item":canonical}]});
 
     const abilitiesHtml=(x.abilities||[]).filter(a=>a.description).map(a=>`<div class="ability-card"><div><b>${escapeHtml(a.title||'Способность')}</b><p>${escapeHtml(a.description)}</p></div></div>`).join('');
-    const attribHtml=(x.attrib||[]).filter(a=>a.value!==undefined).map(a=>`<div><small>${attribLine(a)}</small></div>`).join('');
+    const attribHtml=(x.attrib||[]).filter(a=>a.value!==undefined).map(a=>attribLine(a)).filter(Boolean).map(t=>`<div><small>${t}</small></div>`).join('');
     const componentsHtml=(x.components||[]).map(c=>{
       const cs=slugByKey[c];
       const cname=data[c]?.dname||c;
       return cs?`<a href="/item/${cs}/"><img src="${itemImage(c,data[c]?.img)}" alt="${escapeHtml(cname)}">${escapeHtml(cname)}<span>→</span></a>`:`<div><span>${escapeHtml(cname)}</span></div>`;
     }).join('');
+    const lead=cardDesc[slug]||(typeof storedDesc==='string'?storedDesc:'');
     const meta=[
       `<span>💰 ${x.cost?x.cost+' gold':'Стоимость не указана'}</span>`,
       `<span>ID ${x.id}</span>`,
@@ -129,11 +142,12 @@ async function main(){
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -141,34 +155,30 @@ async function main(){
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;">
-  <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#items">Предметы</a> / ${escapeHtml(x.dname)}
-  </nav>
-  <div class="item-profile-v3">
-    <div class="item-profile-top">
-      <div class="item-profile-art"><img src="${img}" alt="${escapeHtml(x.dname)}"><span>${escapeHtml(cat)}</span></div>
-      <div class="item-profile-title">
-        <div class="eyebrow">ITEM PROFILE</div>
-        <h1>${escapeHtml(x.dname)}</h1>
-        <div class="item-profile-meta">${meta}</div>
-        <p class="item-profile-sub">Официальные данные предмета Dota 2 — способности, характеристики и лор.</p>
-        <div class="item-profile-actions">
-          <a class="btn red" href="/?openItem=${encodeURIComponent(key)}#items">Открыть в интерактивном профиле →</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=${encodeURIComponent(x.id)}">Valve Datafeed ↗</a>
-        </div>
+<main class="container ip-main">
+  <nav aria-label="breadcrumb" class="ip-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">${escapeHtml(x.dname)}</span></nav>
+  <section class="ip-top">
+    <div class="ip-art"><img src="${img}" alt="${escapeHtml(x.dname)}"><span class="ip-qual">${escapeHtml(cat)}</span></div>
+    <div class="ip-head">
+      <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+      <h1>${escapeHtml(x.dname)}</h1>
+      ${lead?`<p class="ip-lead">${escapeHtml(lead)}</p>`:''}
+      <div class="ip-chips">${meta}</div>
+      <div class="ip-actions">
+        <a class="btn red" href="/items/">Все предметы</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&amp;item_id=${encodeURIComponent(x.id)}">Данные Valve ↗</a>
       </div>
     </div>
-    ${abilitiesHtml?`<section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ABILITIES</span><h3>Способности</h3></div></div><div class="ability-grid">${abilitiesHtml}</div></section>`:''}
-    ${attribHtml?`<section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ATTRIBUTES</span><h3>Характеристики</h3></div></div><div class="detail-stats" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));">${attribHtml}</div></section>`:''}
-    ${x.lore?`<section class="item-profile-panel item-why-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>LORE</span><h3>История предмета</h3></div></div><p style="font-style:italic;">${escapeHtml(x.lore)}</p></section>`:''}
-    ${componentsHtml?`<section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>RECIPE</span><h3>Собирается из</h3></div></div><div class="linked-list">${componentsHtml}</div></section>`:''}
-  </div>
+  </section>
+  ${abilitiesHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ABILITIES</span><h2>Способности</h2><small>Оригинальные описания Valve на английском</small></div><div class="ability-grid">${abilitiesHtml}</div></section>`:''}
+  ${attribHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ATTRIBUTES</span><h2>Характеристики</h2></div><div class="ip-attrib">${attribHtml}</div></section>`:''}
+  ${componentsHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>RECIPE</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe">${componentsHtml}</div></section>`:''}
+  ${x.lore?`<section class="ip-panel ip-lore"><div class="ip-panel-head"><span>LORE</span><h2>История предмета</h2></div><p>${escapeHtml(x.lore)}</p></section>`:''}
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>

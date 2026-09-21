@@ -21,11 +21,12 @@
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/#items"},{"@type":"ListItem","position":3,"name":"Wind Waker","item":"https://dotamate.ru/item/wind_waker/"}]}</script>
+<link rel="stylesheet" href="/css/theme-dark.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Wind Waker","item":"https://dotamate.ru/item/wind_waker/"}]}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -33,37 +34,33 @@
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;">
-  <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#items">Предметы</a> / Wind Waker
-  </nav>
-  <div class="item-profile-v3">
-    <div class="item-profile-top">
-      <div class="item-profile-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/wind_waker.png" alt="Wind Waker"><span>Редкий</span></div>
-      <div class="item-profile-title">
-        <div class="eyebrow">ITEM PROFILE</div>
-        <h1>Wind Waker</h1>
-        <div class="item-profile-meta"><span>💰 6800 gold</span><span>ID 610</span><span>⏱ КД 19с</span><span>💧 175 маны</span></div>
-        <p class="item-profile-sub">Официальные данные предмета Dota 2 — способности, характеристики и лор.</p>
-        <div class="item-profile-actions">
-          <a class="btn red" href="/?openItem=wind_waker#items">Открыть в интерактивном профиле →</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=610">Valve Datafeed ↗</a>
-        </div>
+<main class="container ip-main">
+  <nav aria-label="breadcrumb" class="ip-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">Wind Waker</span></nav>
+  <section class="ip-top">
+    <div class="ip-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/wind_waker.png" alt="Wind Waker"><span class="ip-qual">Редкий</span></div>
+    <div class="ip-head">
+      <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+      <h1>Wind Waker</h1>
+      <p class="ip-lead">Wind Waker за 6800 золота дает интеллект и манареген. Используйте Cyclone для защиты или контроля врагов с уроном 50. Включает…</p>
+      <div class="ip-chips"><span>💰 6800 gold</span><span>ID 610</span><span>⏱ КД 19с</span><span>💧 175 маны</span></div>
+      <div class="ip-actions">
+        <a class="btn red" href="/items/">Все предметы</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&amp;item_id=610">Данные Valve ↗</a>
       </div>
     </div>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ABILITIES</span><h3>Способности</h3></div></div><div class="ability-grid"><div class="ability-card"><div><b>Cyclone</b><p>Sweeps a target unit up into a cyclone, making them invulnerable for 2.5 seconds. Cyclone can be cast on yourself, enemy units or allied units. When cast on yourself, you can move the tornado at a speed of 300.
+  </section>
+  <section class="ip-panel"><div class="ip-panel-head"><span>ABILITIES</span><h2>Способности</h2><small>Оригинальные описания Valve на английском</small></div><div class="ability-grid"><div class="ability-card"><div><b>Cyclone</b><p>Sweeps a target unit up into a cyclone, making them invulnerable for 2.5 seconds. Cyclone can be cast on yourself, enemy units or allied units. When cast on yourself, you can move the tornado at a speed of 300.
 
 Enemy units take 50 magical damage upon landing.
 Dispel Type: Basic Dispel</p></div></div></div></section>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ATTRIBUTES</span><h3>Характеристики</h3></div></div><div class="detail-stats" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"><div><small>+ 30 Movement Speed</small></div><div><small>+ 3.0 Mana Regeneration</small></div><div><small>+ 35 Intelligence</small></div><div><small>cyclone_duration: 2.5</small></div><div><small>tooltip_drop_damage: 50</small></div><div><small>tornado_speed: 300</small></div></div></section>
-    <section class="item-profile-panel item-why-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>LORE</span><h3>История предмета</h3></div></div><p style="font-style:italic;">Proof enough to some that unseen forces manipulate the happenings of the material plane.</p></section>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>RECIPE</span><h3>Собирается из</h3></div></div><div class="linked-list"><a href="/item/cyclone/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/cyclone.png" alt="Eul&#39;s Scepter of Divinity">Eul&#39;s Scepter of Divinity<span>→</span></a><a href="/item/mystic_staff/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/mystic_staff.png" alt="Mystic Staff">Mystic Staff<span>→</span></a></div></section>
-  </div>
+  <section class="ip-panel"><div class="ip-panel-head"><span>ATTRIBUTES</span><h2>Характеристики</h2></div><div class="ip-attrib"><div><small>+ 30 к скорости передвижения</small></div><div><small>+ 3.0 к восстановлению маны</small></div><div><small>+ 35 к интеллекту</small></div></div></section>
+  <section class="ip-panel"><div class="ip-panel-head"><span>RECIPE</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe"><a href="/item/cyclone/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/cyclone.png" alt="Eul&#39;s Scepter of Divinity">Eul&#39;s Scepter of Divinity<span>→</span></a><a href="/item/mystic_staff/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/mystic_staff.png" alt="Mystic Staff">Mystic Staff<span>→</span></a></div></section>
+  <section class="ip-panel ip-lore"><div class="ip-panel-head"><span>LORE</span><h2>История предмета</h2></div><p>Proof enough to some that unseen forces manipulate the happenings of the material plane.</p></section>
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>

@@ -29,7 +29,7 @@ const PAGES = [
   {
     key: 'home', dir: '',
     title: 'Dota 2 Companion — герои, предметы, статистика и гайды',
-    desc: 'Живая база Dota 2: 127 героев, 265 предметов, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
+    desc: 'Живая база Dota 2: 127 героев, 263 предмета, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
     sections: ['home-hero', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
@@ -40,8 +40,8 @@ const PAGES = [
     title: 'Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion',
     desc: 'Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.',
     sections: ['heroes', 'featuredHeroes'],
-    // Тёмное оформление раскатываем разделами: сейчас главная и герои,
-    // предметы и статистика — следующими.
+    // Тёмное оформление включено на всех шести разделах и на статических
+    // страницах героев и предметов — светлой темы на сайте не осталось.
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
   },
@@ -50,18 +50,24 @@ const PAGES = [
     title: 'Все предметы Dota 2 — цены, эффекты и сборка | Dota 2 Companion',
     desc: 'Каталог предметов Dota 2 с фильтрами по цене и категориям: магазин, компоненты, расходники, нейтральные, рецепты. Официальные описания Valve и связи с героями.',
     sections: ['items'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
   },
   {
     key: 'stats', dir: 'stats',
     title: 'Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion',
     desc: 'Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.',
     sections: ['stats'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
   },
   {
     key: 'guides', dir: 'guides',
     title: 'Гайды по Dota 2 — роли, драфт, итемизация | Dota 2 Companion',
     desc: 'Практические гайды по Dota 2: роли на линиях, контроль карты, выбор предметов и драфт. Каждый гайд связан с героями и предметами из базы сайта.',
     sections: ['guides'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
   },
   {
     key: 'game', dir: 'game',
@@ -69,6 +75,8 @@ const PAGES = [
     desc: 'Браузерная мини-игра по мотивам Dota 2: уклоняйся от хуков, добивай крипов, отбивай красные хуки атакой. Два режима, рекорд сохраняется, установка не нужна.',
     sections: ['game'],
     scripts: ['/js/game.js'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
   },
 ];
 

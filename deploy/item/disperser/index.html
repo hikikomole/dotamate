@@ -21,11 +21,12 @@
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/#items"},{"@type":"ListItem","position":3,"name":"Disperser","item":"https://dotamate.ru/item/disperser/"}]}</script>
+<link rel="stylesheet" href="/css/theme-dark.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Disperser","item":"https://dotamate.ru/item/disperser/"}]}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -33,39 +34,35 @@
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;">
-  <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#items">Предметы</a> / Disperser
-  </nav>
-  <div class="item-profile-v3">
-    <div class="item-profile-top">
-      <div class="item-profile-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/disperser.png" alt="Disperser"><span>Артефакт</span></div>
-      <div class="item-profile-title">
-        <div class="eyebrow">ITEM PROFILE</div>
-        <h1>Disperser</h1>
-        <div class="item-profile-meta"><span>💰 6100 gold</span><span>ID 1097</span><span>⏱ КД 15с</span><span>💧 75 маны</span></div>
-        <p class="item-profile-sub">Официальные данные предмета Dota 2 — способности, характеристики и лор.</p>
-        <div class="item-profile-actions">
-          <a class="btn red" href="/?openItem=disperser#items">Открыть в интерактивном профиле →</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=1097">Valve Datafeed ↗</a>
-        </div>
+<main class="container ip-main">
+  <nav aria-label="breadcrumb" class="ip-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">Disperser</span></nav>
+  <section class="ip-top">
+    <div class="ip-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/disperser.png" alt="Disperser"><span class="ip-qual">Артефакт</span></div>
+    <div class="ip-head">
+      <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+      <h1>Disperser</h1>
+      <p class="ip-lead">Disperser за 6100 золота применяет развеивание, ускоряет союзников и выжигает ману у врагов.</p>
+      <div class="ip-chips"><span>💰 6100 gold</span><span>ID 1097</span><span>⏱ КД 15с</span><span>💧 75 маны</span></div>
+      <div class="ip-actions">
+        <a class="btn red" href="/items/">Все предметы</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&amp;item_id=1097">Данные Valve ↗</a>
       </div>
     </div>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ABILITIES</span><h3>Способности</h3></div></div><div class="ability-grid"><div class="ability-card"><div><b>Suppress</b><p>Dispels both the wearer and the target. Enemy targets are slowed for 5 seconds. Allied targets gain bonus movespeed and 40% slow resistance for 5 seconds. Caster is always granted the ally benefit on cast.
+  </section>
+  <section class="ip-panel"><div class="ip-panel-head"><span>ABILITIES</span><h2>Способности</h2><small>Оригинальные описания Valve на английском</small></div><div class="ability-grid"><div class="ability-card"><div><b>Suppress</b><p>Dispels both the wearer and the target. Enemy targets are slowed for 5 seconds. Allied targets gain bonus movespeed and 40% slow resistance for 5 seconds. Caster is always granted the ally benefit on cast.
 
 Both movement speed reduction and increase start at 100% and gradually decrease to 0% over the course of the buff duration.
 Dispel Type: Basic Dispel</p></div></div><div class="ability-card"><div><b>Manabreak</b><p>Each attack burns 40 mana from the target, and deals 1 physical damage per burned mana. 
 
 Illusions do not burn mana.</p></div></div></div></section>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ATTRIBUTES</span><h3>Характеристики</h3></div></div><div class="detail-stats" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"><div><small>+ 40 Agility</small></div><div><small>+ 10 Intelligence</small></div><div><small>feedback_mana_burn: 40</small></div><div><small>feedback_mana_burn_illusion_melee: 0</small></div><div><small>feedback_mana_burn_illusion_ranged: 0</small></div><div><small>purge_rate: 5</small></div><div><small>purge_root_duration: 3.0</small></div><div><small>damage_per_burn: 1.0</small></div><div><small>enemy_effect_duration: 5.0</small></div><div><small>ally_effect_duration: 5.0</small></div><div><small>movement_speed_buff_rate: 5</small></div><div><small>phase_movement_speed: 100</small></div><div><small>slow_resist: 40</small></div></div></section>
-    <section class="item-profile-panel item-why-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>LORE</span><h3>История предмета</h3></div></div><p style="font-style:italic;">Once entrusted to an Apostle General of the Rumusque Faithful&#39;s expeditionary force.</p></section>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>RECIPE</span><h3>Собирается из</h3></div></div><div class="linked-list"><a href="/item/diffusal_blade/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/diffusal_blade.png" alt="Diffusal Blade">Diffusal Blade<span>→</span></a><a href="/item/eagle/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/eagle.png" alt="Eaglesong">Eaglesong<span>→</span></a></div></section>
-  </div>
+  <section class="ip-panel"><div class="ip-panel-head"><span>ATTRIBUTES</span><h2>Характеристики</h2></div><div class="ip-attrib"><div><small>+ 40 к ловкости</small></div><div><small>+ 10 к интеллекту</small></div></div></section>
+  <section class="ip-panel"><div class="ip-panel-head"><span>RECIPE</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe"><a href="/item/diffusal_blade/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/diffusal_blade.png" alt="Diffusal Blade">Diffusal Blade<span>→</span></a><a href="/item/eagle/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/eagle.png" alt="Eaglesong">Eaglesong<span>→</span></a></div></section>
+  <section class="ip-panel ip-lore"><div class="ip-panel-head"><span>LORE</span><h2>История предмета</h2></div><p>Once entrusted to an Apostle General of the Rumusque Faithful&#39;s expeditionary force.</p></section>
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>

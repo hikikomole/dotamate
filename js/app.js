@@ -89,7 +89,13 @@ function unwrapItems(data){
 // so a future patch introducing new hero innates of the same kind won't be
 // caught automatically and this list would need refreshing against a fresh
 // /api/constants/items pull.
-const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1639,1641,1645,1647,1648,1649,1650,1651,1652,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
+//
+// 21.09.2026 добавлены 1610 (miniboss_minion_summoner) и 1801 (caster_rapier):
+// у обоих в OpenDota нет поля dname, то есть человеческого названия. Генератор
+// страниц их и так отбрасывал (`if(!x.dname) return false`), а каталог — нет,
+// потому что normalizeItems подставлял внутреннее имя. В итоге на /items/ было
+// 265 карточек против 263 страниц, и две из них вели в никуда.
+const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1610,1639,1641,1645,1647,1648,1649,1650,1651,1652,1801,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
 function isRealCatalogItem(x){
   const key=String(x?.name||'').replace(/^item_/,'').toLowerCase();
   if(key.startsWith('recipe_'))return false;
@@ -195,11 +201,20 @@ function itemCategory(x){
   return 'item';
 }
 function itemCategoryLabel(x){const c=itemCategory(x);return ({item:'Предмет',component:'Компонент',consumable:'Расходник',neutral:'Нейтральный',recipe:'Рецепт'})[c]||'Предмет';}
+// Короткие русские описания карточек каталога (собираются
+// tools/build-item-cards.js из seo/item-descriptions.json). Официальный текст
+// Valve приходит только через сервер, которого на статическом проде нет, и без
+// этого файла у всех 263 карточек стояла одна и та же заглушка.
+let itemCardText={};
+function loadItemCardText(){
+  if(!document.getElementById('itemsGrid'))return Promise.resolve();
+  return fetch('/data/item-cards.json').then(r=>r.ok?r.json():null).then(j=>{if(j&&typeof j==='object'){itemCardText=j;renderItems();}}).catch(()=>{});
+}
 function itemDescriptionPreview(x){
   const cached=readOfficialItemCache(x.id);
   const d=cached?.data?.desc_loc||cached?.data?.description||x?.desc_loc||'';
   const clean=cleanOfficialHtml(d);
-  if(!clean||/Откройте онлайн|актуальных характеристик|open online|current data/i.test(clean))return '';
+  if(!clean||/Откройте онлайн|актуальных характеристик|open online|current data/i.test(clean))return itemCardText[itemSlug(x.name)]||'';
   return clean.length>105?clean.slice(0,105).trim()+'…':clean;
 }
 function renderItems(){
@@ -215,13 +230,15 @@ function renderItems(){
   });
   const grid=document.getElementById('itemsGrid');
   if(!grid)return;
+  // Карточка ведёт на статическую страницу предмета — она проиндексирована
+  // и показывает официальные данные Valve целиком, чего модалка не давала.
   grid.innerHTML=list.length?list.map(x=>{
     const preview=itemDescriptionPreview(x);
     const cat=itemCategory(x);
-    return `<button class="item-card item-card-v2" data-item="${escapeHtml(x.name)}" aria-label="Открыть ${escapeHtml(x.dname)}">
+    return `<a class="item-card item-card-v2" href="/item/${escapeHtml(itemSlug(x.name))}/" data-item="${escapeHtml(x.name)}" aria-label="Открыть ${escapeHtml(x.dname)}">
       <div class="item-card-art"><img loading="lazy" data-d2h-image="item" data-d2h-slug="${escapeHtml(itemSlug(x.name))}" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span><span class="item-card-open">Открыть ↗</span></div>
-      <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:'<p class="item-card-muted">Открыть профиль для официального описания Valve</p>'}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>Подробнее →</b></div></div>
-    </button>`;
+      <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:''}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>Подробнее →</b></div></div>
+    </a>`;
   }).join(''):'<div class="empty item-empty-state"><strong>Предмет не найден</strong><span>Измени запрос или фильтр.</span></div>';
   const counter=document.getElementById('itemVisibleCount');if(counter)counter.textContent=statValue(list.length);
 }
@@ -590,6 +607,7 @@ try{
   renderGuides();
   const heroBootPromise=loadHeroes();
   const itemBootPromise=loadItems();
+  loadItemCardText();
   // SEO deep link: static hero pages (/hero/<slug>/) link back here with ?openHero=<id>
   // so visitors coming from search results land straight on the interactive profile.
   const openHeroParam=new URLSearchParams(location.search).get("openHero");
@@ -623,7 +641,6 @@ document.querySelectorAll('.guide-filter').forEach(b=>b.addEventListener('click'
 on('featuredHeroesGrid','click',e=>{const c=e.target.closest('.featured-hero-card');if(c){const h=heroes.find(x=>Number(x.id)===Number(c.dataset.id));if(h)location.href='/hero/'+slugForHero(h)+'/';}});
 on('statsBody','click',e=>{const tr=e.target.closest('tr[data-id]');if(tr)openHero(Number(tr.dataset.id));});
 on('statsExtra','click',e=>{const b=e.target.closest('button[data-id]');if(b)openHero(Number(b.dataset.id));});
-on('itemsGrid','click',e=>{const c=e.target.closest('[data-item]');if(c)openItem(c.dataset.item);});
 on('quickPrepInput','input',e=>quickPrepSelectByName(e.target.value));
 on('quickPrepChips','click',e=>{const b=e.target.closest('[data-quick-hero]');if(!b)return;const h=heroes.find(x=>Number(x.id)===Number(b.dataset.quickHero));if(h){const inp=document.getElementById('quickPrepInput');if(inp)inp.value=h.localized_name;renderQuickPrep(h);}});
 on('quickPrepResult','click',e=>{const hb=e.target.closest('[data-hero-open]');if(hb){openHero(Number(hb.dataset.heroOpen));return;}const ib=e.target.closest('[data-item-by-name]');if(ib){const term=ib.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);}});

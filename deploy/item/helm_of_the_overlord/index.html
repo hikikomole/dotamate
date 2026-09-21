@@ -21,11 +21,12 @@
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/#items"},{"@type":"ListItem","position":3,"name":"Helm of the Overlord","item":"https://dotamate.ru/item/helm_of_the_overlord/"}]}</script>
+<link rel="stylesheet" href="/css/theme-dark.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Helm of the Overlord","item":"https://dotamate.ru/item/helm_of_the_overlord/"}]}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </head>
-<body id="top">
+<body id="top" class="d2-dark">
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
@@ -33,38 +34,34 @@
       <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
       <span>Dota 2 <b>Companion</b></span>
     </a>
-    <nav id="navMenu"><a href="/#top">Главная</a><a href="/#heroes">Герои</a><a href="/#items">Предметы</a><a href="/#stats">Статистика</a><a href="/#guides">Гайды</a><a href="/#about">О сайте</a><a href="/#profile">Профиль</a></nav>
+    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
-<main class="container" style="padding-top:24px;padding-bottom:48px;">
-  <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/#items">Предметы</a> / Helm of the Overlord
-  </nav>
-  <div class="item-profile-v3">
-    <div class="item-profile-top">
-      <div class="item-profile-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/helm_of_the_overlord.png" alt="Helm of the Overlord"><span>Артефакт</span></div>
-      <div class="item-profile-title">
-        <div class="eyebrow">ITEM PROFILE</div>
-        <h1>Helm of the Overlord</h1>
-        <div class="item-profile-meta"><span>💰 5650 gold</span><span>ID 635</span><span>⏱ КД 45с</span><span>💧 50 маны</span></div>
-        <p class="item-profile-sub">Официальные данные предмета Dota 2 — способности, характеристики и лор.</p>
-        <div class="item-profile-actions">
-          <a class="btn red" href="/?openItem=helm_of_the_overlord#items">Открыть в интерактивном профиле →</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=635">Valve Datafeed ↗</a>
-        </div>
+<main class="container ip-main">
+  <nav aria-label="breadcrumb" class="ip-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">Helm of the Overlord</span></nav>
+  <section class="ip-top">
+    <div class="ip-art"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/helm_of_the_overlord.png" alt="Helm of the Overlord"><span class="ip-qual">Артефакт</span></div>
+    <div class="ip-head">
+      <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+      <h1>Helm of the Overlord</h1>
+      <p class="ip-lead">Helm of the Overlord за 5650 золота дает контроль над нейтральным существом, усиливая его и повышая уровень умений. Схема сборки из…</p>
+      <div class="ip-chips"><span>💰 5650 gold</span><span>ID 635</span><span>⏱ КД 45с</span><span>💧 50 маны</span></div>
+      <div class="ip-actions">
+        <a class="btn red" href="/items/">Все предметы</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&amp;item_id=635">Данные Valve ↗</a>
       </div>
     </div>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ABILITIES</span><h3>Способности</h3></div></div><div class="ability-grid"><div class="ability-card"><div><b>Dominate</b><p>Takes control of one neutral target unit and sets its movement speed to 380 and max health to a minimum of 1800. Also provides the unit with +70 base attack damage, +12 health regen, +4 mana regen, +7 armor, and levels up some abilities of the target by 1 level. 
+  </section>
+  <section class="ip-panel"><div class="ip-panel-head"><span>ABILITIES</span><h2>Способности</h2><small>Оригинальные описания Valve на английском</small></div><div class="ability-grid"><div class="ability-card"><div><b>Dominate</b><p>Takes control of one neutral target unit and sets its movement speed to 380 and max health to a minimum of 1800. Also provides the unit with +70 base attack damage, +12 health regen, +4 mana regen, +7 armor, and levels up some abilities of the target by 1 level. 
 
 Dominated units with a max health of greater than 1800 retain their original max health. Grants the caster the gold and experience bounty of the dominated creep. Dominated unit&#39;s bounty is set to 250 gold and it can no longer be killed by abilities that instantly kill creeps otherwise.
 
 The Helm cannot be used for 3 seconds after the dominated creep takes damage from an enemy hero or Roshan.</p></div></div></div></section>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>ATTRIBUTES</span><h3>Характеристики</h3></div></div><div class="detail-stats" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));"><div><small>+ 21 All Attributes</small></div><div><small>+ 7 Armor</small></div><div><small>+ 7 Health Regeneration</small></div><div><small>health_min: 1800</small></div><div><small>speed_base: 380</small></div><div><small>bounty_gold: 250</small></div><div><small>creep_bonus_damage: 70</small></div><div><small>creep_bonus_hp_regen: 12</small></div><div><small>creep_bonus_mp_regen: 4</small></div><div><small>creep_bonus_armor: 7</small></div><div><small>model_scale: 20</small></div><div><small>count_limit: 1</small></div><div><small>creep_ability_level_increase: 1</small></div><div><small>is_overlord: 1</small></div><div><small>creep_damage_taken_cooldown: 3</small></div><div><small>bounty_pct: 100</small></div></div></section>
-    <section class="item-profile-panel item-why-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>LORE</span><h3>История предмета</h3></div></div><p style="font-style:italic;">The powerful headpiece of an undead necromancer.</p></section>
-    <section class="item-profile-panel" style="margin-top:18px;"><div class="item-panel-head"><div><span>RECIPE</span><h3>Собирается из</h3></div></div><div class="linked-list"><a href="/item/helm_of_the_dominator/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/helm_of_the_dominator.png" alt="Helm of the Dominator">Helm of the Dominator<span>→</span></a><a href="/item/ultimate_orb/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/ultimate_orb.png" alt="Ultimate Orb">Ultimate Orb<span>→</span></a></div></section>
-  </div>
+  <section class="ip-panel"><div class="ip-panel-head"><span>ATTRIBUTES</span><h2>Характеристики</h2></div><div class="ip-attrib"><div><small>+ 21 ко всем атрибутам</small></div><div><small>+ 7 к броне</small></div><div><small>+ 7 к восстановлению здоровья</small></div></div></section>
+  <section class="ip-panel"><div class="ip-panel-head"><span>RECIPE</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe"><a href="/item/helm_of_the_dominator/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/helm_of_the_dominator.png" alt="Helm of the Dominator">Helm of the Dominator<span>→</span></a><a href="/item/ultimate_orb/"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/ultimate_orb.png" alt="Ultimate Orb">Ultimate Orb<span>→</span></a></div></section>
+  <section class="ip-panel ip-lore"><div class="ip-panel-head"><span>LORE</span><h2>История предмета</h2></div><p>The powerful headpiece of an undead necromancer.</p></section>
 </main>
 <footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
