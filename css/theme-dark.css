@@ -221,3 +221,139 @@ body.d2-dark .hp-build span{width:24px!important;height:24px!important;display:g
   body.d2-dark .hp-ab-layout{grid-template-columns:1fr!important}
   body.d2-dark .hp-lore{max-width:none!important}
 }
+
+/* ========== главная: фоновое видео и тёмные блоки ========== */
+
+/* Светлая палитра companion пересобрана в тёмную одним местом. Большая часть
+   правил style.css ссылается на эти переменные, и без подмены на главной
+   вылезали бы белые панели и чёрный текст на чёрном фоне — пришлось бы
+   перечислять каждый блок отдельно. */
+body.d2-dark{
+  --comp-bg:#07080a;
+  --comp-surface:#101216;
+  --comp-surface-2:#171a20;
+  --comp-surface-3:#1d2129;
+  --comp-text:#eef1f5;
+  --comp-text-2:#c7ccd5;
+  --comp-muted:#98a1ae;
+  --comp-muted-2:#6d7683;
+  --comp-border:#23272f;
+  --comp-border-strong:#2c313a;
+  --comp-accent:#d9c187;
+  --comp-accent-dark:#b9a068;
+  --comp-accent-soft:rgba(217,193,135,.10);
+  --comp-shadow:0 14px 40px rgba(0,0,0,.45);
+  --comp-shadow-hover:0 20px 55px rgba(0,0,0,.6);
+}
+
+/* --- первый экран с видео --- */
+body.d2-dark .hero{position:relative!important;overflow:hidden!important;padding:104px 0 78px!important;background:#07080a!important;border-bottom:1px solid var(--d2-line)!important}
+body.d2-dark .hero>.container{position:relative!important;z-index:1!important}
+body.d2-dark .hero-grid{background:none!important;border-radius:0!important}
+
+body.d2-dark .home-bg{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important}
+body.d2-dark .home-bg video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 30%!important;opacity:.55!important;filter:saturate(.86)!important}
+/* Затемнение: слева текст должен читаться, справа картинка остаётся видна,
+   низ уводим в цвет фона, чтобы видео не обрывалось линией. */
+body.d2-dark .home-bg::after{content:""!important;position:absolute!important;inset:0!important;
+  background:
+    linear-gradient(90deg,rgba(7,8,10,.94) 0%,rgba(7,8,10,.80) 34%,rgba(7,8,10,.44) 64%,rgba(7,8,10,.30) 100%),
+    linear-gradient(180deg,rgba(7,8,10,.70) 0%,rgba(7,8,10,.08) 26%,rgba(7,8,10,.58) 72%,#07080a 100%)!important}
+
+body.d2-dark .home-bg-toggle{position:absolute!important;z-index:2!important;right:14px!important;bottom:14px!important;width:34px!important;height:34px!important;display:grid!important;place-items:center!important;padding:0!important;border:1px solid var(--d2-line)!important;border-radius:0!important;background:rgba(7,8,10,.62)!important;color:var(--d2-muted-2)!important;font-size:11px!important;line-height:1!important;cursor:pointer!important;backdrop-filter:blur(6px)!important;transition:color .18s,border-color .18s!important}
+body.d2-dark .home-bg-toggle:hover{color:var(--d2-gold)!important;border-color:var(--d2-gold-dim)!important}
+
+body.d2-dark .hero h1{font-size:clamp(40px,5.8vw,70px)!important;line-height:.98!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important;text-shadow:0 4px 34px rgba(0,0,0,.65)!important}
+body.d2-dark .hero h1 span{color:var(--d2-gold)!important}
+body.d2-dark .hero p{color:#c3cad4!important;font-size:16px!important;text-shadow:0 2px 18px rgba(0,0,0,.6)!important}
+body.d2-dark .hero-stats strong{color:#fff!important}
+body.d2-dark .hero-stats small{color:var(--d2-muted)!important;text-transform:uppercase!important;letter-spacing:1.4px!important;font-size:10px!important}
+body.d2-dark .fresh-badge{background:rgba(217,193,135,.10)!important;border:1px solid var(--d2-gold-dim)!important;color:var(--d2-gold)!important;border-radius:0!important}
+
+body.d2-dark .btn{border-radius:0!important;text-transform:uppercase!important;letter-spacing:1.4px!important;font-size:12px!important;padding:14px 22px!important}
+body.d2-dark .btn.red{background:var(--d2-gold)!important;color:#14110a!important;box-shadow:none!important}
+body.d2-dark .btn.red:hover{background:#e8d3a0!important;transform:none!important}
+body.d2-dark .btn.ghost{background:rgba(16,18,22,.72)!important;border:1px solid var(--d2-line)!important;color:var(--d2-text)!important}
+body.d2-dark .btn.ghost:hover{background:rgba(30,35,43,.9)!important;border-color:var(--d2-gold-dim)!important}
+
+/* карточка героя дня поверх видео — стекло, а не плотная панель */
+body.d2-dark .featured{border-radius:0!important;border:1px solid var(--d2-line)!important;background:rgba(16,18,22,.62)!important;backdrop-filter:blur(9px)!important;box-shadow:0 30px 80px rgba(0,0,0,.6)!important}
+body.d2-dark .featured-fallback{background:linear-gradient(180deg,rgba(23,26,32,.82),rgba(10,11,14,.92))!important}
+body.d2-dark .featured-fallback small{color:var(--d2-gold)!important}
+body.d2-dark .featured h3{color:#fff!important;text-transform:uppercase!important;letter-spacing:1.4px!important}
+body.d2-dark .featured p{color:var(--d2-muted)!important}
+
+/* быстрый пик */
+body.d2-dark .hero-quickprep{border-top:1px solid var(--d2-line)!important}
+body.d2-dark .hero-quickprep-head h2{color:#fff!important;text-transform:uppercase!important;letter-spacing:1.6px!important}
+body.d2-dark .quick-prep-panel{background:rgba(16,18,22,.74)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;backdrop-filter:blur(9px)!important}
+body.d2-dark .quick-prep-panel .qp-full{background:rgba(23,26,32,.66)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .quick-prep-chips .chip{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important}
+body.d2-dark .quick-prep-chips .chip:hover{color:var(--d2-text)!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .quick-prep-chips small{color:var(--d2-muted-2)!important}
+body.d2-dark .quick-prep-result{border-top:1px solid var(--d2-line)!important}
+body.d2-dark .quick-prep-empty{color:var(--d2-muted)!important}
+
+/* карточки-входы в разделы */
+body.d2-dark .home-card{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;box-shadow:none!important;transition:border-color .2s,transform .2s,box-shadow .2s!important}
+body.d2-dark .home-card:hover{transform:translateY(-3px)!important;border-color:var(--d2-gold-dim)!important;box-shadow:0 18px 40px rgba(0,0,0,.5)!important}
+body.d2-dark .home-card strong{text-transform:uppercase!important;letter-spacing:1.4px!important;font-size:13.5px!important}
+body.d2-dark .home-card p{color:var(--d2-muted)!important}
+body.d2-dark .home-card b{color:var(--d2-gold)!important;font-size:11px!important;letter-spacing:1.4px!important;text-transform:uppercase!important}
+
+/* общий поиск */
+body.d2-dark .v43-search-shell{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:none!important;color:var(--d2-text)!important}
+body.d2-dark .v43-search-shell input{color:var(--d2-text)!important}
+body.d2-dark .v43-search-shell input::placeholder{color:var(--d2-muted-2)!important}
+body.d2-dark .v43-search-shell kbd{border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-muted-2)!important}
+body.d2-dark .v43-search-results{background:var(--d2-panel)!important;border-color:var(--d2-line)!important;border-radius:0!important}
+
+@media(max-width:760px){
+  body.d2-dark .hero{padding:62px 0 52px!important}
+  body.d2-dark .home-bg video{object-position:50% 22%!important;opacity:.4!important}
+  body.d2-dark .home-bg-toggle{right:10px!important;bottom:10px!important}
+}
+/* Меньше движения — видео не запускаем вовсе, остаётся тот же кадр картинкой */
+@media(prefers-reduced-motion:reduce){
+  body.d2-dark .home-bg video{display:none!important}
+  body.d2-dark .home-bg-toggle{display:none!important}
+  body.d2-dark .home-bg{background:url(/assets/home-bg-poster.jpg) center 30%/cover no-repeat!important;opacity:.5!important}
+}
+
+/* Кнопка меню на телефоне: в светлой теме она белая и на тёмном фоне
+   превращалась в белый квадрат. */
+body.d2-dark .menu{background:rgba(16,18,22,.85)!important;border:1px solid var(--d2-line)!important;color:var(--d2-text)!important;border-radius:0!important;box-shadow:none!important}
+body.d2-dark .nav nav.open{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:0 20px 50px rgba(0,0,0,.6)!important}
+/* В раскрытом меню на телефоне ссылки идут столбиком, и золотая черта
+   «активного» пункта (она смещена на -26px под шапку) оказывалась под
+   соседним пунктом. Там активное помечаем цветом. */
+@media(max-width:760px){
+  body.d2-dark .topbar nav a.active::before{display:none!important}
+  body.d2-dark .nav nav.open a.active{color:var(--d2-gold)!important}
+}
+
+/* Светлая тема красит все поля ввода, подвал и модалку в белый — на тёмном
+   фоне это белые пятна. Перебиваем разом, а не по одному блоку. */
+body.d2-dark input,body.d2-dark select,body.d2-dark textarea{background:var(--d2-panel-2)!important;color:var(--d2-text)!important;border-color:var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .search input,body.d2-dark .v43-search-shell input{background:none!important;border:0!important}
+body.d2-dark footer{background:#07080a!important;border-top:1px solid var(--d2-line)!important;color:var(--d2-muted-2)!important}
+body.d2-dark footer a{color:var(--d2-muted)!important}
+body.d2-dark footer a:hover{color:var(--d2-gold)!important}
+body.d2-dark .modal-card{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;box-shadow:0 30px 100px rgba(0,0,0,.75)!important}
+body.d2-dark .modal-bg{background:rgba(3,4,6,.82)!important}
+
+/* Подборка героев: подпись у карточки нигде не позиционировалась, поэтому
+   вставала под картинкой и срезалась overflow:hidden — на экране оставалась
+   голая картинка. Кладём подпись поверх низа, как и задумывала градиентная
+   подложка :after. Заодно убираем сильное увеличение: исходник 256x144,
+   в высокой карточке он расплывался. */
+body.d2-dark .featured-hero-card{position:relative!important;aspect-ratio:16/10!important;min-height:0!important;overflow:hidden!important}
+body.d2-dark .featured-hero-card img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;object-fit:cover!important}
+body.d2-dark .featured-hero-card::after{inset:38% 0 0!important;background:linear-gradient(transparent,rgba(5,6,9,.94))!important}
+body.d2-dark .featured-hero-card>div{position:absolute!important;left:0!important;right:0!important;bottom:0!important;z-index:2!important;display:flex!important;flex-direction:column!important;gap:2px!important;padding:12px 13px 12px!important}
+body.d2-dark .featured-hero-card b{font-size:14px!important;font-weight:800!important;letter-spacing:1.1px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .featured-hero-card small{font-size:10.5px!important;line-height:1.35!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+body.d2-dark .featured-hero-card span{font-size:11px!important;font-weight:800!important;letter-spacing:.6px!important}
+@media(max-width:760px){
+  body.d2-dark .featured-hero-card{aspect-ratio:16/9!important}
+}

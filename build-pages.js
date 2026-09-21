@@ -31,14 +31,17 @@ const PAGES = [
     title: 'Dota 2 Companion — герои, предметы, статистика и гайды',
     desc: 'Живая база Dota 2: 127 героев, 265 предметов, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
     sections: ['home-hero', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
+    scripts: ['/js/home-bg.js'],
   },
   {
     key: 'heroes', dir: 'heroes',
     title: 'Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion',
     desc: 'Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.',
     sections: ['heroes', 'featuredHeroes'],
-    // Тёмное оформление пока включено только здесь — смотрим, как оно живёт
-    // на реальном каталоге, прежде чем трогать остальные разделы.
+    // Тёмное оформление раскатываем разделами: сейчас главная и герои,
+    // предметы и статистика — следующими.
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
   },
