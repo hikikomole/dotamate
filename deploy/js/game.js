@@ -1,4 +1,4 @@
-// Dota 2 Companion — mini-game "Hook & Hit".
+// Dota Mate — mini-game "Hook & Hit".
 // Ported from a standalone single-file prototype into the site's own page.
 // Wrapped in an IIFE (no globals leak into the page) and wired to prefixed
 // "dg*" element ids/classes so nothing here can ever collide with or override

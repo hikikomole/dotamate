@@ -28,7 +28,7 @@ const NAV = [
 const PAGES = [
   {
     key: 'home', dir: '',
-    title: 'Dota 2 Companion — герои, предметы, статистика и гайды',
+    title: 'Dota Mate — герои, предметы, статистика и гайды',
     desc: 'Живая база Dota 2: 127 героев, 263 предмета и 83 рецепта, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
     sections: ['home-hero', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
     styles: ['/css/theme-dark.css'],
@@ -37,7 +37,7 @@ const PAGES = [
   },
   {
     key: 'heroes', dir: 'heroes',
-    title: 'Все герои Dota 2 — характеристики, роли и контрпики | Dota 2 Companion',
+    title: 'Все герои Dota 2 — характеристики, роли и контрпики | Dota Mate',
     desc: 'Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.',
     sections: ['heroes', 'featuredHeroes'],
     // Тёмное оформление включено на всех шести разделах и на статических
@@ -47,7 +47,7 @@ const PAGES = [
   },
   {
     key: 'items', dir: 'items',
-    title: 'Все предметы Dota 2 — цены, эффекты и сборка | Dota 2 Companion',
+    title: 'Все предметы Dota 2 — цены, эффекты и сборка | Dota Mate',
     desc: 'Каталог предметов Dota 2 с фильтрами по цене и категориям: магазин, компоненты, расходники, нейтральные, рецепты. Официальные описания Valve и связи с героями.',
     sections: ['items'],
     styles: ['/css/theme-dark.css'],
@@ -55,7 +55,7 @@ const PAGES = [
   },
   {
     key: 'stats', dir: 'stats',
-    title: 'Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion',
+    title: 'Статистика героев Dota 2 — winrate, пики и баны | Dota Mate',
     desc: 'Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.',
     sections: ['stats'],
     styles: ['/css/theme-dark.css'],
@@ -63,7 +63,7 @@ const PAGES = [
   },
   {
     key: 'guides', dir: 'guides',
-    title: 'Гайды по Dota 2 — роли, драфт, итемизация | Dota 2 Companion',
+    title: 'Гайды по Dota 2 — роли, драфт, итемизация | Dota Mate',
     desc: 'Практические гайды по Dota 2: роли на линиях, контроль карты, выбор предметов и драфт. Каждый гайд связан с героями и предметами из базы сайта.',
     sections: ['guides'],
     styles: ['/css/theme-dark.css'],
@@ -71,7 +71,7 @@ const PAGES = [
   },
   {
     key: 'game', dir: 'game',
-    title: 'Hook & Hit — мини-игра по Dota 2 в браузере | Dota 2 Companion',
+    title: 'Hook & Hit — мини-игра по Dota 2 в браузере | Dota Mate',
     desc: 'Браузерная мини-игра по мотивам Dota 2: уклоняйся от хуков, добивай крипов, отбивай красные хуки атакой. Два режима, рекорд сохраняется, установка не нужна.',
     sections: ['game'],
     scripts: ['/js/game.js'],

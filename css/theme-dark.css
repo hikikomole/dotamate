@@ -656,3 +656,101 @@ body.d2-dark .hp-ab-desc{margin:12px 0 0!important;color:var(--d2-muted)!importa
 body.d2-dark .guides-heroes-cta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;flex-wrap:wrap!important;margin-top:22px!important;padding:20px 22px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
 body.d2-dark .guides-heroes-cta b{display:block!important;color:#fff!important;font-size:15px!important;letter-spacing:1.1px!important;text-transform:uppercase!important}
 body.d2-dark .guides-heroes-cta small{display:block!important;max-width:720px!important;color:var(--d2-muted)!important;font-size:12.5px!important;line-height:1.6!important;margin-top:5px!important}
+
+/* Логотип в шапке вместо текстового названия */
+body.d2-dark .brand{gap:0!important;padding:0!important}
+body.d2-dark .brand-logo{display:block!important;height:34px!important;width:auto!important}
+@media(max-width:760px){
+  body.d2-dark .brand-logo{height:26px!important}
+}
+
+/* ---------------------------------------------------------------------------
+   Карточка предмета в модалке (21.09.2026).
+   В style.css .item-profile-* написаны под светлую тему: белые панели, тёмный
+   текст, светлые чипы. На тёмном сайте это давало ровно то, что было на
+   скриншотах — белые блоки и нечитаемые «Примечания Valve» и «История».
+   Здесь тот же блок переопределён целиком; всё через !important, потому что
+   исходные правила тоже с !important (см. «Две ловушки в старой вёрстке»).
+   --------------------------------------------------------------------------- */
+body.d2-dark .item-profile-v3{color:var(--d2-text)!important}
+body.d2-dark .item-profile-art{background:#0a0c10!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:8px!important}
+body.d2-dark .item-profile-art img{border-radius:0!important;aspect-ratio:11/8!important;width:100%!important;height:auto!important;object-fit:cover!important;background:#0a0c10!important}
+body.d2-dark .item-profile-art>span{background:var(--d2-gold)!important;color:#14110a!important;border-radius:0!important;letter-spacing:.8px!important;text-transform:uppercase!important}
+body.d2-dark .item-profile-title h2{font-size:clamp(26px,3.2vw,38px)!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .item-profile-title h2 a{color:#fff!important;text-decoration:none!important}
+body.d2-dark .item-profile-title h2 a:hover{color:var(--d2-gold)!important}
+body.d2-dark .item-profile-meta span{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-muted)!important;font-size:10.5px!important;padding:6px 10px!important}
+body.d2-dark .item-profile-sub{color:var(--d2-muted-2)!important;font-size:12px!important}
+body.d2-dark .item-profile-actions .btn{display:inline-flex!important;align-items:center!important;padding:11px 16px!important;font-size:11px!important}
+body.d2-dark .item-profile-panel{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:none!important;color:var(--d2-text)!important;padding:18px!important}
+body.d2-dark .item-panel-head{border-bottom:1px solid var(--d2-line-soft)!important;padding-bottom:10px!important}
+body.d2-dark .item-panel-head span:first-child{color:var(--d2-gold-dim)!important;letter-spacing:1.8px!important}
+body.d2-dark .item-panel-head h3{color:#fff!important;font-size:15px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .item-panel-head>small{color:var(--d2-muted-2)!important;font-size:9.5px!important;letter-spacing:1px!important;text-transform:uppercase!important;white-space:nowrap!important}
+body.d2-dark .ip-block{margin:0 0 14px!important}
+body.d2-dark .ip-block:last-child{margin-bottom:0!important}
+body.d2-dark .ip-block h4{margin:0 0 6px!important;font-size:12.5px!important;letter-spacing:1.1px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .ip-block p{margin:0 0 6px!important;color:var(--d2-text)!important;font-size:13.5px!important;line-height:1.65!important}
+body.d2-dark .item-profile-panel .muted{color:var(--d2-muted-2)!important;font-size:12.5px!important;margin:0!important}
+body.d2-dark .item-official-facts{display:grid!important;grid-template-columns:1fr!important;gap:6px!important}
+body.d2-dark .item-official-facts div{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:9px 12px!important}
+body.d2-dark .item-official-facts strong{color:#fff!important;font-size:13.5px!important;font-weight:600!important}
+body.d2-dark .ip-links{margin-top:14px!important}
+body.d2-dark .ip-links h4{margin:0 0 7px!important;font-size:10.5px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .ip-chips{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+body.d2-dark .ip-chip{display:inline-flex!important;align-items:center!important;gap:8px!important;padding:6px 10px 6px 6px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;font-size:12px!important;cursor:pointer!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .ip-chip:hover{border-color:var(--d2-gold-dim)!important;background:#1b1f26!important;color:#fff!important}
+body.d2-dark .ip-chip img{width:34px!important;height:25px!important;object-fit:contain!important;display:block!important;background:#0a0c10!important}
+body.d2-dark .item-notes{margin-top:14px!important;padding-top:12px!important;border-top:1px solid var(--d2-line-soft)!important;background:none!important;border-radius:0!important}
+body.d2-dark .item-notes h4{margin:0 0 7px!important;font-size:10.5px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .item-notes p{margin:0 0 5px!important;color:var(--d2-muted)!important;font-size:12.5px!important;line-height:1.6!important}
+body.d2-dark .item-lore{margin-top:14px!important;padding:12px 14px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-left:2px solid var(--d2-gold-dim)!important;border-radius:0!important}
+body.d2-dark .item-lore small{display:block!important;font-size:9.5px!important;letter-spacing:1.6px!important;color:var(--d2-gold-dim)!important;margin-bottom:6px!important}
+body.d2-dark .item-lore p{margin:0!important;color:var(--d2-muted)!important;font-size:13px!important;line-height:1.65!important;font-style:italic!important}
+body.d2-dark .item-hero-links{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))!important;gap:6px!important}
+body.d2-dark .item-hero-links button{display:flex!important;align-items:center!important;gap:10px!important;text-align:left!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;padding:8px 10px!important;cursor:pointer!important;transition:border-color .18s!important}
+body.d2-dark .item-hero-links button:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .item-hero-links img{width:44px!important;height:25px!important;object-fit:cover!important;display:block!important}
+body.d2-dark .item-hero-links b{display:block!important;font-size:12.5px!important;color:#fff!important}
+body.d2-dark .item-hero-links small{display:block!important;font-size:10.5px!important;color:var(--d2-muted-2)!important;margin-top:2px!important}
+body.d2-dark .item-phase-bars{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:6px!important;margin-top:10px!important}
+body.d2-dark .item-phase-bars div{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:9px 10px!important}
+body.d2-dark .item-phase-bars span{display:block!important;font-size:9.5px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .item-phase-bars b{display:block!important;margin-top:3px!important;color:#fff!important;font-size:16px!important}
+body.d2-dark .item-why-panel p{color:var(--d2-muted-2)!important;font-size:11.5px!important;line-height:1.65!important}
+body.d2-dark .item-counter-row,body.d2-dark .item-counters-panel .item-counter{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important}
+body.d2-dark .item-counters-list{display:grid!important;gap:6px!important}
+body.d2-dark .item-counter-row{display:flex!important;align-items:center!important;gap:10px!important;text-align:left!important;cursor:pointer!important;padding:9px 11px!important;transition:border-color .18s!important}
+body.d2-dark .item-counter-row:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .item-counter-row img{width:44px!important;height:32px!important;object-fit:contain!important;display:block!important;background:#0a0c10!important}
+body.d2-dark .item-counter-row b{display:block!important;font-size:13px!important;color:#fff!important}
+body.d2-dark .item-counter-row small{display:block!important;font-size:11.5px!important;color:var(--d2-muted)!important;margin-top:2px!important}
+body.d2-dark .item-pop-loading{color:var(--d2-muted-2)!important;font-size:12.5px!important;background:none!important;border:0!important}
+
+/* Страница предмета: блоки русского описания, примечания и список героев
+   (21.09.2026). Раньше здесь были английские .ability-card от OpenDota. */
+body.d2-dark .ip-desc{display:grid!important;gap:16px!important;max-width:760px!important}
+body.d2-dark .ip-desc .ip-block h3{margin:0 0 8px!important;font-size:14px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .ip-desc .ip-block p{margin:0 0 8px!important;color:var(--d2-text)!important;font-size:14.5px!important;line-height:1.72!important}
+body.d2-dark .ip-notes{margin-top:20px!important;padding:14px 16px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;max-width:760px!important}
+body.d2-dark .ip-notes h3{margin:0 0 8px!important;font-size:11px!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .ip-notes p{margin:0 0 6px!important;color:var(--d2-muted)!important;font-size:13px!important;line-height:1.6!important}
+body.d2-dark .ip-heroes{list-style:none!important;margin:0!important;padding:0!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:8px!important}
+body.d2-dark .ip-heroes li{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:11px 13px!important}
+body.d2-dark .ip-heroes b{display:block!important;color:#fff!important;font-size:13.5px!important}
+body.d2-dark .ip-heroes span{display:block!important;margin-top:3px!important;color:var(--d2-muted-2)!important;font-size:11.5px!important}
+
+/* Блок «Самые покупаемые предметы» на /stats/ — те же белые панели из
+   светлой темы, что были в модалке предмета. */
+body.d2-dark .stats-item-analytics{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:none!important;color:var(--d2-text)!important}
+body.d2-dark .stats-analytics-head span{color:var(--d2-gold-dim)!important}
+body.d2-dark .stats-analytics-head h3{color:#fff!important}
+body.d2-dark .stats-analytics-head p,body.d2-dark .stats-analytics-head small{color:var(--d2-muted-2)!important}
+body.d2-dark .stats-item-table button{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;box-shadow:none!important;cursor:pointer!important;transition:border-color .18s!important}
+body.d2-dark .stats-item-table button:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .stats-item-table img{background:#0a0c10!important;object-fit:contain!important}
+body.d2-dark .stats-item-table .rank{color:var(--d2-muted-2)!important}
+body.d2-dark .stats-item-table .item-a-name b{color:#fff!important}
+body.d2-dark .stats-item-table .item-a-name small{color:var(--d2-muted-2)!important}
+body.d2-dark .stats-item-table strong{color:var(--d2-gold)!important}
+body.d2-dark .stats-analytics-loading{color:var(--d2-muted-2)!important;background:none!important}

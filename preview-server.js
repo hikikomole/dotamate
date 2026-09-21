@@ -49,7 +49,7 @@ function writeCache(key,data,source='unknown'){try{fs.writeFileSync(cachePath(ke
 
 function fetchWithHttps(url, timeout=12000){
   return new Promise((resolve,reject)=>{
-    const req=https.get(url,{headers:{Accept:'application/json','User-Agent':'Dota2-Companion/2.0'}},res=>{
+    const req=https.get(url,{headers:{Accept:'application/json','User-Agent':'DotaMate/2.0'}},res=>{
       let body='';
       res.setEncoding('utf8');
       res.on('data',c=>body+=c);
@@ -65,14 +65,14 @@ function fetchWithHttps(url, timeout=12000){
 async function fetchJson(url,timeout=12000){
   if(typeof fetch==='function'){
     const c=new AbortController();const t=setTimeout(()=>c.abort(),timeout);
-    try{const r=await fetch(url,{cache:'no-store',headers:{Accept:'application/json','User-Agent':'Dota2-Companion/2.0'},signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json();}
+    try{const r=await fetch(url,{cache:'no-store',headers:{Accept:'application/json','User-Agent':'DotaMate/2.0'},signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json();}
     finally{clearTimeout(t);}
   }
   return fetchWithHttps(url,timeout);
 }
 async function fetchText(url,timeout=15000){
   const c=new AbortController();const t=setTimeout(()=>c.abort(),timeout);
-  try{const r=await fetch(url,{cache:'no-store',headers:{Accept:'text/plain','User-Agent':'Dota2-Companion/2.0'},signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);return await r.text();}
+  try{const r=await fetch(url,{cache:'no-store',headers:{Accept:'text/plain','User-Agent':'DotaMate/2.0'},signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);return await r.text();}
   finally{clearTimeout(t);}
 }
 async function firstSource(sources,validator){
@@ -232,7 +232,7 @@ async function getHeroAbilities(heroInternalName){
   return out;
 }
 
-function serveStatic(req,res,u){let p=decodeURIComponent(u.pathname);if(!p||p==='/')p='/index.html';const full=path.resolve(ROOT,'.'+p);if(!full.startsWith(path.resolve(ROOT)))return send(res,403,{error:'forbidden'});fs.stat(full,(e,st)=>{if(e||!st.isFile())return send(res,404,{error:'not found'});const ext=path.extname(full).toLowerCase();const noCacheExt=['.html','.js','.css'];res.writeHead(200,{'Content-Type':MIME[ext]||'application/octet-stream','Cache-Control':noCacheExt.includes(ext)?'no-cache':'public, max-age=3600'});fs.createReadStream(full).pipe(res);});}
+function serveStatic(req,res,u){let p=decodeURIComponent(u.pathname);if(!p||p==='/')p='/index.html';else if(p.endsWith('/'))p+='index.html';else if(!path.extname(p))p+='/index.html';const full=path.resolve(ROOT,'.'+p);if(!full.startsWith(path.resolve(ROOT)))return send(res,403,{error:'forbidden'});fs.stat(full,(e,st)=>{if(e||!st.isFile())return send(res,404,{error:'not found'});const ext=path.extname(full).toLowerCase();const noCacheExt=['.html','.js','.css'];res.writeHead(200,{'Content-Type':MIME[ext]||'application/octet-stream','Cache-Control':noCacheExt.includes(ext)?'no-cache':'public, max-age=3600'});fs.createReadStream(full).pipe(res);});}
 
 const server=http.createServer(async(req,res)=>{
   try{
@@ -246,4 +246,4 @@ const server=http.createServer(async(req,res)=>{
     return serveStatic(req,res,u);
   }catch(e){return send(res,500,{error:'server_error',message:String(e.message||e)});}
 });
-server.listen(PORT,'127.0.0.1',()=>console.log(`Dota 2 Companion v43: http://127.0.0.1:${PORT}`));
+server.listen(PORT,'127.0.0.1',()=>console.log(`Dota Mate v43: http://127.0.0.1:${PORT}`));

@@ -1,19 +1,18 @@
 const OFFICIAL_HERO_LIST="https://www.dota2.com/datafeed/herolist?language=english";
-const OFFICIAL_ITEM_LIST="https://www.dota2.com/datafeed/itemlist?language=english";
 const OPENDOTA_HEROES="https://api.opendota.com/api/heroStats";
-const OPENDOTA_ITEMS="https://api.opendota.com/api/constants/items";
 const STATIC_HEROES="https://raw.githubusercontent.com/odota/dotaconstants/master/build/heroes.json";
-const STATIC_ITEMS="https://raw.githubusercontent.com/odota/dotaconstants/master/build/items.json";
 // Разделы сайта разнесены по страницам, поэтому на любой из них часть
 // элементов отсутствует. Эти два помощника пишут в DOM только если цель есть.
 const d2hSetText=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
 const d2hSetHtml=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v;};
 const CDN="https://cdn.cloudflare.steamstatic.com";
-const OPENDOTA_ITEM_POPULARITY="https://api.opendota.com/api/heroes/";
+// Единственные источники данных о предметах — файлы в репозитории.
+const ITEMS_LOCAL="/data/items-ru.json";
+const ITEM_HEROES_LOCAL="/data/item-heroes.json";
+const HERO_ITEMS_LOCAL="/data/hero-items.json";
 const LOCAL_MODE=location.protocol==="file:";
 const FALLBACK_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125"><rect width="100" height="125" fill="#ececf2"/><text x="50" y="66" font-size="12" fill="#777" text-anchor="middle" font-family="sans-serif">DOTA</text></svg>');
 let heroes=[],items=[],filter="all",itemFilter="all",guideFilter="all",lastFocusedEl=null,spotlightHeroId=null,spotlightTimer=null;
-const heroItemPopularityCache=new Map();
 const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер",Disabler:"Дизейблер",Jungler:"Лесник",Durable:"Танк",Escape:"Эскейп",Pusher:"Пушер",Initiator:"Инициация"};
 const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠","Интеллект"],all:["✦","Универсальный"],universal:["✦","Универсальный"]};
 const guideData=[
@@ -42,7 +41,9 @@ function slugForHero(h){const raw=String(h?.name||h?.localized_name||"").replace
 function imageUrl(h){const slug=slugForHero(h);const p=h?.img||"";if(p.startsWith("http"))return p;if(p.startsWith("/"))return `https://cdn.cloudflare.steamstatic.com${p.split("?")[0]}`;return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${slug}.png`;}
 function imageCandidates(h){const slug=slugForHero(h);const p=h?.img||"";return d2hImageCandidates('heroes',slug,p);}
 function itemSlug(name){return String(name||"").replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');}
-function itemImage(x){const p=x?.img||"";if(p.startsWith("http"))return p;if(p.startsWith("/"))return `https://cdn.cloudflare.steamstatic.com${p.split("?")[0]}`;return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${itemSlug(x?.name||x)}.png`;}
+// Иконки лежат в репозитории (assets/items/): путь приходит готовым из
+// items-ru.json, у рецепта это иконка предмета, который из него собирается.
+function itemImage(x){const p=String(x&&x.img||"");return p.startsWith("/assets/")?p:`/assets/items/${itemSlug(x&&x.name||x)}.png`;}
 function itemImageCandidates(x){return d2hImageCandidates('items',itemSlug(x?.name||x),x?.img||"");}
 function roleText(h){return (h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
 function attrInfo(a){return attrs[a]||attrs.all;}
@@ -56,20 +57,8 @@ function wrScore(h){const n=Number(h.pro_pick||0);if(!n)return -1;const p=Number
 function go(id){document.getElementById(id)?.scrollIntoView({behavior:"smooth",block:"start"});}
 function normalizeHeroes(list){return (list||[]).map(h=>{const raw=String(h.name||'').replace(/^npc_dota_hero_/,'');const reverse=Object.entries(heroSlug).find(([,slug])=>slug===raw);const loc=reverse?.[0]||h.localized_name||h.name_loc||h.name_english_loc||raw.replace(/_/g,' ');const clean={...h,localized_name:loc};if(h.primary_attr===0)clean.primary_attr='str';else if(h.primary_attr===1)clean.primary_attr='agi';else if(h.primary_attr===2)clean.primary_attr='int';else if(h.primary_attr===3)clean.primary_attr='universal';else if(h.primary_attr==='all')clean.primary_attr='universal';clean.img=h.img||`/apps/dota2/images/dota_react/heroes/${raw}.png`;return clean;}).filter(h=>h.localized_name).sort((a,b)=>a.localized_name.localeCompare(b.localized_name));}
 function unwrapHeroes(data){if(Array.isArray(data))return data;if(data?.result?.data?.heroes)return data.result.data.heroes;if(data?.data?.heroes)return data.data.heroes;if(data?.result?.heroes)return data.result.heroes;if(data?.heroes)return data.heroes;if(data&&typeof data==='object')return Object.values(data).filter(x=>x&&x.name&&(x.localized_name||x.name_loc));return [];}
-function unwrapItems(data){
-  if(Array.isArray(data))return data;
-  const candidates=[data?.result?.data?.itemabilities,data?.result?.data?.items,data?.data?.itemabilities,data?.data?.items,data?.result?.items,data?.items];
-  for(const c of candidates)if(Array.isArray(c))return c;
-  if(data&&typeof data==='object'){
-    // OpenDota /api/constants/items and dotaconstants items.json are keyed maps
-    // like {"blink":{"id":1,"dname":"Blink Dagger",...}} — the internal item
-    // name only exists as the object KEY, not as a "name" field on the value.
-    // normalizeItems() requires .name, so keep the key as a fallback name.
-    const vals=Object.entries(data).map(([key,val])=>(val&&typeof val==='object')?{...val,name:val.name||key}:val);
-    if(vals.length&&vals.some(x=>x&&typeof x==='object'&&(x.name||x.dname||x.name_loc)))return vals;
-  }
-  return [];
-}
+// Резервный разбор списка предметов: включается только если data/items-ru.json
+// почему-то не отдался и в дело идёт встроенная база js/local-preview.js.
 // Both live sources this site loads from (Valve's own datafeed and OpenDota's
 // constants/dotaconstants mirrors) lump a lot of non-shop entries in with the
 // real, purchasable items: combine recipes (not a thing you "use"), the
@@ -89,10 +78,15 @@ function unwrapItems(data){
 // so a future patch introducing new hero innates of the same kind won't be
 // caught automatically and this list would need refreshing against a fresh
 // /api/constants/items pull.
-const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1639,1641,1645,1647,1648,1649,1650,1651,1652,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
+//
+// 21.09.2026 добавлены 1610 (miniboss_minion_summoner) и 1801 (caster_rapier):
+// у обоих в OpenDota нет поля dname, то есть человеческого названия. Генератор
+// страниц их и так отбрасывал (`if(!x.dname) return false`), а каталог — нет,
+// потому что normalizeItems подставлял внутреннее имя. В итоге на /items/ было
+// 265 карточек против 263 страниц, и две из них вели в никуда.
+const EXCLUDED_ITEM_INTERNAL_IDS=new Set([212,215,287,288,289,290,291,293,294,295,297,298,300,301,302,304,306,307,309,310,311,312,313,325,327,330,334,335,336,349,354,355,356,357,358,360,361,362,363,364,365,366,367,368,369,372,374,375,376,378,379,381,571,573,589,638,676,677,678,680,686,825,828,829,834,835,838,849,939,946,949,990,1000,1028,1029,1030,1090,1124,1156,1157,1158,1159,1160,1161,1167,1440,1441,1576,1577,1581,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1600,1602,1607,1608,1610,1639,1641,1645,1647,1648,1649,1650,1651,1652,1801,1803,1849,1850,1865,1866,1867,1869,1870,1871,1874,1875,2091,2092,2093,2094,2095,2096,2192,2193,4300,4301,4302]);
 function isRealCatalogItem(x){
   const key=String(x?.name||'').replace(/^item_/,'').toLowerCase();
-  if(key.startsWith('recipe_'))return false;
   if(key==='courier'||key==='flying_courier')return false;
   if(key.startsWith('river_painter'))return false;
   if(key==='ward_observer'||key==='ward_sentry')return false;
@@ -108,7 +102,15 @@ function normalizeItems(list){
     if(!isRealCatalogItem(x))continue;
     seen.add(x.id);out.push(x);
   }
-  return out.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
+  // Рецепт оставляем только если предмет, который из него собирается, есть в
+  // каталоге: иначе карточка вела бы на несуществующую страницу.
+  const byKey=new Map(out.map(i=>[String(i.name||'').replace(/^item_/,''),i]));
+  const keep=out.filter(i=>{const t=recipeTarget(i);return !t||byKey.has(t);});
+  // Название рецепта берём от предмета: у OpenDota это либо английское
+  // «X Recipe», либо (у трёх штук) вообще пусто, и тогда на карточку попадал
+  // внутренний ключ вида recipe_wraith_pact.
+  for(const i of keep){const t=recipeTarget(i);if(t)i.dname=`${byKey.get(t).dname} — рецепт`;}
+  return keep.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
 }
 // Pro-stat enrichment: some hero-list sources in the loadHeroes() race (Valve's
 // official datafeed, the dotaconstants GitHub mirror) don't include pro_pick/
@@ -164,43 +166,69 @@ async function loadHeroes(force=false){
   enrichProStats();
 }
 function updateItemCounters(){d2hSetText('quickItemCount',items.length);d2hSetText('itemCountHero',items.length);document.getElementById('itemCountHero2')?.replaceChildren(document.createTextNode(items.length));}
+// Каталог предметов целиком локальный. data/items-ru.json собирает
+// tools/build-items-ru.py из официального русского datafeed Valve: названия,
+// описания, история, примечания и бонусы уже на русском, числа подставлены.
+// Никаких запросов к Valve/OpenDota в рантайме — поэтому каталог и модалка
+// открываются мгновенно и одинаково на проде и в локальном превью.
+let itemHeroIndex=null,heroItemIndex=null,itemsReadyResolve=null;
+const itemsReady=new Promise(r=>{itemsReadyResolve=r;});
 async function loadItems(force=false){
   const status=document.getElementById('itemStatus');
   try{
-    if(typeof localItems==='function'){items=normalizeItems(localItems());renderItems();updateItemCounters();if(status)status.textContent='Получаем актуальную базу предметов…';}
-    const data=await d2hFirstSuccessful([
-      ()=>d2hFetchJSON(OFFICIAL_ITEM_LIST),
-      ()=>d2hFetchJSON(OPENDOTA_ITEMS),
-      ()=>d2hFetchJSON(STATIC_ITEMS)
-    ]);
-    const online=normalizeItems(unwrapItems(data));
-    if(online.length>=100){items=online;d2hWriteCache('items',items);renderItems();updateItemCounters();if(status)status.textContent=`Загружено ${items.length} предметов · актуальная база`;return;}
-    const cached=d2hReadCache('items');
-    if(cached?.length){items=normalizeItems(cached);renderItems();updateItemCounters();if(status)status.textContent=`Загружено ${items.length} предметов · кэш`;}
+    const r=await fetch(ITEMS_LOCAL,force?{cache:'reload'}:undefined);
+    if(!r.ok)throw new Error('items-ru.json '+r.status);
+    const j=await r.json();
+    items=Object.entries(j.items||{}).map(([name,v])=>({...v,name})).sort((a,b)=>String(a.dname).localeCompare(String(b.dname),'ru'));
+    renderItems();updateItemCounters();
+    if(status)status.textContent=`Загружено ${items.length} предметов · русская база`;
   }catch(err){
     console.warn('Item loader:',err);
-    const cached=d2hReadCache('items');
-    if(cached?.length){items=normalizeItems(cached);renderItems();updateItemCounters();if(status)status.textContent=`Загружено ${items.length} предметов · кэш`;}
-    else if(status&&items.length)status.textContent=`Загружено ${items.length} предметов · резервная база`;
-  }
+    if(typeof localItems==='function'){try{items=normalizeItems(localItems());renderItems();updateItemCounters();}catch(e){}}
+    if(status)status.textContent=items.length?`Загружено ${items.length} предметов · резервная база`:'База предметов не загрузилась.';
+  }finally{if(itemsReadyResolve){itemsReadyResolve();itemsReadyResolve=null;}}
 }
+async function loadItemHeroIndex(){
+  if(itemHeroIndex)return itemHeroIndex;
+  try{const r=await fetch(ITEM_HEROES_LOCAL);itemHeroIndex=r.ok?((await r.json()).items||{}):{};}catch(e){itemHeroIndex={};}
+  return itemHeroIndex;
+}
+async function loadHeroItemIndex(){
+  if(heroItemIndex)return heroItemIndex;
+  try{const r=await fetch(HERO_ITEMS_LOCAL);heroItemIndex=r.ok?((await r.json()).heroes||{}):{};}catch(e){heroItemIndex={};}
+  return heroItemIndex;
+}
+// Категория предмета. Раньше определялась по полю item_type из датафида
+// Valve, которого в ответе OpenDota нет вовсе — поэтому на проде ВСЕ предметы
+// попадали в «item», а фильтры «Компоненты», «Расходники», «Нейтральные» и
+// «Рецепты» показывали пустую сетку. Теперь читаем те поля, которые реально
+// приходят: qual, tier (уровень нейтрального) и префикс recipe_ в ключе.
 function itemCategory(x){
-  const n=String(x?.name||'').toLowerCase();
+  if(x&&x.cat)return x.cat;
+  const n=String(x?.name||'').toLowerCase().replace(/^item_/,'');
+  if(n.startsWith('recipe_'))return 'recipe';
+  const tier=x?.tier??x?.neutral_item_tier;
+  if(tier!==undefined&&tier!==null&&Number(tier)>0)return 'neutral';
+  const q=String(x?.qual||'').toLowerCase();
+  if(q.startsWith('consumable'))return 'consumable';
+  if(q==='component')return 'component';
   const type=String(x?.item_type||x?.itemType||x?.category||'').toLowerCase();
-  if(n.startsWith('item_recipe_')||n.startsWith('recipe_')||type.includes('recipe'))return 'recipe';
-  const tier=x?.neutral_item_tier;
-  if(tier!==undefined&&tier!==null&&Number(tier)>=0)return 'neutral';
   if(type.includes('consum'))return 'consumable';
   if(type.includes('component')||type.includes('basic'))return 'component';
   return 'item';
 }
+// Рецепт — отдельный покупаемый предмет, но собственной страницы у него нет:
+// описывать там нечего, кроме цены. Поэтому карточка рецепта ведёт на предмет,
+// который из него собирается: ключ рецепта — это ключ предмета с префиксом
+// recipe_ (recipe_magic_wand -> magic_wand).
+function recipeTarget(x){const n=String(x?.name||'').replace(/^item_/,'');return n.startsWith('recipe_')?n.slice(7):'';}
+function itemHref(x){const t=recipeTarget(x);return '/item/'+itemSlug(t||x.name)+'/';}
 function itemCategoryLabel(x){const c=itemCategory(x);return ({item:'Предмет',component:'Компонент',consumable:'Расходник',neutral:'Нейтральный',recipe:'Рецепт'})[c]||'Предмет';}
+// Текст на карточке каталога — первая строка русского описания из
+// data/items-ru.json. Отдельный файл item-cards.json больше не нужен.
 function itemDescriptionPreview(x){
-  const cached=readOfficialItemCache(x.id);
-  const d=cached?.data?.desc_loc||cached?.data?.description||x?.desc_loc||'';
-  const clean=cleanOfficialHtml(d);
-  if(!clean||/Откройте онлайн|актуальных характеристик|open online|current data/i.test(clean))return '';
-  return clean.length>105?clean.slice(0,105).trim()+'…':clean;
+  const t=itemDescriptionText(x);
+  return t.length>105?t.slice(0,105).trim()+'…':t;
 }
 function renderItems(){
   const q=(document.getElementById('itemSearch')?.value||'').trim().toLowerCase();
@@ -210,18 +238,20 @@ function renderItems(){
     const priceOk=itemFilter==='all'||(itemFilter==='cheap'&&c<1000)||(itemFilter==='mid'&&c>=1000&&c<=2500)||(itemFilter==='expensive'&&c>2500);
     const cat=itemCategory(x);
     const catOk=category==='all'||cat===category||(category==='shop'&&cat==='item');
-    const text=String(x.dname||'')+' '+String(x.description||'')+' '+String(x.desc_loc||'');
+    const text=String(x.dname||'')+' '+itemDescriptionText(x)+' '+String(x.lore||'');
     return priceOk&&catOk&&text.toLowerCase().includes(q);
   });
   const grid=document.getElementById('itemsGrid');
   if(!grid)return;
+  // Карточка ведёт на статическую страницу предмета — она проиндексирована
+  // и показывает официальные данные Valve целиком, чего модалка не давала.
   grid.innerHTML=list.length?list.map(x=>{
     const preview=itemDescriptionPreview(x);
     const cat=itemCategory(x);
-    return `<button class="item-card item-card-v2" data-item="${escapeHtml(x.name)}" aria-label="Открыть ${escapeHtml(x.dname)}">
-      <div class="item-card-art"><img loading="lazy" data-d2h-image="item" data-d2h-slug="${escapeHtml(itemSlug(x.name))}" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span><span class="item-card-open">Открыть ↗</span></div>
-      <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:'<p class="item-card-muted">Открыть профиль для официального описания Valve</p>'}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>Подробнее →</b></div></div>
-    </button>`;
+    return `<a class="item-card item-card-v2" href="${escapeHtml(itemHref(x))}" data-item="${escapeHtml(x.name)}">
+      <div class="item-card-art"><img loading="lazy" data-d2h-image="item" data-d2h-slug="${escapeHtml(itemSlug(x.name))}" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span></div>
+      <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:''}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>${recipeTarget(x)?'К предмету →':'Подробнее →'}</b></div></div>
+    </a>`;
   }).join(''):'<div class="empty item-empty-state"><strong>Предмет не найден</strong><span>Измени запрос или фильтр.</span></div>';
   const counter=document.getElementById('itemVisibleCount');if(counter)counter.textContent=statValue(list.length);
 }
@@ -233,26 +263,20 @@ function renderHeroSpotlight(){const el=document.getElementById('featured');if(!
 function heroCard(h,mini=false){const a=attrInfo(h.primary_attr),name=escapeHtml(h.localized_name);return `<a class="hero-card ${mini?'mini-hero-card':''}" href="/hero/${escapeHtml(slugForHero(h))}/" aria-label="${name}" data-id="${h.id}"><img loading="lazy" data-d2h-image="hero" data-d2h-slug="${escapeHtml(slugForHero(h))}" src="${imageUrl(h)}" alt="${name}"><div class="hero-info"><div class="hero-name">${name}</div><div class="hero-role">${escapeHtml(roleText(h))}</div><span class="attr">${a[0]} ${escapeHtml(a[1])}</span></div></a>`;}
 function renderHeroes(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const list=heroes.filter(h=>(filter==='all'||h.primary_attr===filter)&&(h.localized_name||'').toLowerCase().includes(q));d2hSetHtml('heroesGrid',list.length?list.map(h=>heroCard(h)).join(''):'<div class="empty">Герой не найден 😢</div>');}
 function renderFeaturedHeroes(){const el=document.getElementById('featuredHeroesGrid');if(!el)return;const picks=heroes.filter(h=>h.pro_pick>0).sort((a,b)=>wrScore(b)-wrScore(a)).slice(0,4);const arr=picks.length?picks:heroes.slice(0,4);el.innerHTML=arr.map(h=>`<article class="featured-hero-card" data-id="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${h.pro_pick?winrate(h).toFixed(1)+'% pro WR · '+h.pro_pick+' пик.':'Профиль героя'}</span></div></article>`).join('');}
-async function buildItemAnalytics(limitHeroes=10){
-  const pool=[...heroes].filter(h=>Number(h.pro_pick||0)>0).sort((a,b)=>Number(b.pro_pick||0)-Number(a.pro_pick||0)).slice(0,limitHeroes);
-  for(let i=0;i<pool.length;i+=3){await Promise.all(pool.slice(i,i+3).map(h=>fetchHeroItemPopularity(h.id)));}
-  const map=new Map();
-  for(const [heroId,p] of heroItemPopularityCache.entries()){
-    const hero=heroes.find(h=>Number(h.id)===Number(heroId)); if(!hero)continue;
-    for(const [phase,arr] of Object.entries(p||{})){for(const row of arr||[]){const item=findItemById(row.itemId);if(!item||!row.games)continue;const k=Number(row.itemId);if(!map.has(k))map.set(k,{item,games:0,wins:0,heroes:0,phases:{start:0,early:0,mid:0,late:0},users:[]});const x=map.get(k);x.games+=Number(row.games||0);x.wins+=Number(row.wins||0);x.phases[phase]=(x.phases[phase]||0)+Number(row.games||0);x.users.push({hero,games:Number(row.games||0),phase});}}
-  }
-  return [...map.values()].map(x=>({...x,winrate:x.games?x.wins/x.games*100:0,heroes:new Set(x.users.map(u=>u.hero.id)).size,bestPhase:Object.entries(x.phases).sort((a,b)=>b[1]-a[1])[0]?.[0]||'mid'})).sort((a,b)=>b.games-a.games).slice(0,12);
-}
+// Самые покупаемые предметы — из того же локального индекса. Раньше блок
+// опрашивал OpenDota по десяти героям и на статике показывал «Выборка: 0».
 function renderItemAnalytics(rows){
   const el=document.getElementById('itemAnalytics');if(!el)return;
-  const phases={start:'Старт',early:'Ранняя',mid:'Середина',late:'Поздняя'};
-  el.innerHTML=`<div class="stats-item-analytics"><div class="stats-analytics-head"><div><span>ITEM ANALYTICS</span><h3>📦 Самые покупаемые предметы</h3><p>Реальные агрегированные покупки OpenDota среди популярных героев.</p></div><small>Выборка: ${rows.length} предметов</small></div><div class="stats-item-table">${rows.map((r,i)=>`<button data-item-analytics="${escapeHtml(r.item.name)}"><span class="rank">${i+1}</span><img src="${itemImage(r.item)}"><span class="item-a-name"><b>${escapeHtml(r.item.dname)}</b><small>${r.heroes} героев · чаще: ${phases[r.bestPhase]}</small></span><strong>${statValue(r.games)}</strong><em>${r.winrate.toFixed(1)}% WR</em></button>`).join('')}</div></div>`;
+  el.innerHTML=`<div class="stats-item-analytics"><div class="stats-analytics-head"><div><span>ITEM ANALYTICS</span><h3>📦 Самые покупаемые предметы</h3><p>Реальные агрегированные покупки OpenDota по 127 героям.</p></div><small>Выборка: ${rows.length} предметов</small></div><div class="stats-item-table">${rows.map((r,i)=>`<button data-item-analytics="${escapeHtml(r.item.name)}"><span class="rank">${i+1}</span><img src="${itemImage(r.item)}" alt=""><span class="item-a-name"><b>${escapeHtml(r.item.dname)}</b><small>${r.heroes} героев · чаще: ${escapeHtml(r.bestPhase)}</small></span><strong>${statValue(r.games)}</strong></button>`).join('')}</div></div>`;
   el.querySelectorAll('[data-item-analytics]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemAnalytics));
 }
 async function loadItemAnalytics(){
-  const el=document.getElementById('itemAnalytics');if(!el||!heroes.length)return;
-  el.innerHTML='<div class="stats-analytics-loading">Загружаем реальные связи герой ↔ предмет…</div>';
-  try{const rows=await buildItemAnalytics(10);renderItemAnalytics(rows);}catch(e){el.innerHTML='<div class="stats-analytics-loading">Дополнительная аналитика временно недоступна. Основная статистика продолжает работать.</div>';}
+  const el=document.getElementById('itemAnalytics');if(!el)return;
+  await itemsReady;
+  const idx=await loadItemHeroIndex();
+  const rows=Object.entries(idx).map(([id,r])=>({item:findItemById(id),games:Number(r.games||0),heroes:Number(r.heroCount||0),bestPhase:Object.entries(r.totals||{}).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Середина'})).filter(r=>r.item&&r.games).sort((a,b)=>b.games-a.games).slice(0,12);
+  if(rows.length)renderItemAnalytics(rows);
+  else el.innerHTML='<div class="stats-analytics-loading">Данные о покупках не загрузились.</div>';
 }
 function renderStats(){
   const q=(document.getElementById('statsSearch')?.value||'').trim().toLowerCase();
@@ -307,48 +331,20 @@ function quickPrepOptions(){const dl=document.getElementById('quickPrepHeroes');
 function renderQuickPrep(h){const el=document.getElementById('quickPrepResult');if(!el)return;if(!h){el.innerHTML='<div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, билд и pro winrate за секунду.</div>';return;}const counters=counterCandidates(h);const build=heroBuild(h);const proLine=h.pro_pick?`${winrate(h).toFixed(1)}% pro WR · ${statValue(h.pro_pick)} picks · ${statValue(h.pro_ban)} banов`:'Нет pro-данных по этому герою — пока играют реже в топ-матчах';el.innerHTML=`<div class="qp-hero"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div></div><div class="qp-cols"><div><h4>Контрпики</h4><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h4>Рекомендуемый билд</h4><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><button class="btn ghost qp-full" data-hero-open="${h.id}">Открыть полный профиль →</button>`;}
 function quickPrepSelectByName(name){const q=String(name||'').trim().toLowerCase();if(!q){renderQuickPrep(null);return;}const h=heroes.find(x=>x.localized_name.toLowerCase()===q);if(h)renderQuickPrep(h);}
 
-function popularityStorageKey(heroId){return `d2h_item_popularity_${heroId}`;}
-function normalizePopularityPayload(data){
-  const out={start:[],early:[],mid:[],late:[]};
-  const aliases={start:['start_game_items','start','starting'],early:['early_game_items','early'],mid:['mid_game_items','mid'],late:['late_game_items','late']};
-  Object.entries(aliases).forEach(([phase,keys])=>{
-    let raw=null; for(const k of keys){if(data&&data[k]!=null){raw=data[k];break;}}
-    if(!raw)return;
-    if(Array.isArray(raw)) out[phase]=raw.map(x=>({itemId:Number(x.item_id??x.id??x.itemId),games:Number(x.games??x.count??x.popularity??0),wins:Number(x.wins??0)})).filter(x=>Number.isFinite(x.itemId)&&x.itemId>0);
-    else if(raw&&typeof raw==='object') out[phase]=Object.entries(raw).map(([id,v])=>({itemId:Number(id),games:Number(typeof v==='object'?(v.games??v.count??v.popularity):v)||0,wins:Number(typeof v==='object'?(v.wins??0):0)})).filter(x=>Number.isFinite(x.itemId)&&x.itemId>0);
-  });
-  return out;
-}
-function popularityTotal(p){return (p?.start||[]).concat(p?.early||[],p?.mid||[],p?.late||[]);}
 function findItemById(id){return items.find(i=>Number(i.id)===Number(id));}
 function phaseTitle(k){return ({start:'Старт',early:'Ранняя игра',mid:'Середина игры',late:'Поздняя игра'})[k]||k;}
-function phaseItems(p,limit=6){return Object.entries(p||{}).map(([phase,arr])=>({phase,items:[...arr].sort((a,b)=>b.games-a.games).slice(0,limit)}));}
-function popularityCard(phase,arr){
-  const rows=arr.map(x=>{const item=findItemById(x.itemId);if(!item)return '';const pct=x.games>0&&x.wins>=0?(x.wins/x.games*100):null;return `<button class="item-pop-row" data-item-pop="${escapeHtml(item.name)}"><img src="${itemImage(item)}" alt=""><span><b>${escapeHtml(item.dname)}</b><small>${statValue(x.games)} игр${pct!=null?` · ${pct.toFixed(1)}% побед`:''}</small></span></button>`;}).filter(Boolean).join('');
-  return `<div class="item-pop-phase"><h4>${phaseTitle(phase)}</h4>${rows||'<p class="muted">Нет данных</p>'}</div>`;
-}
-function renderHeroItemPopularity(heroId,payload,state='online'){
-  const box=document.getElementById('heroItemPopularity');if(!box)return;
-  const sections=phaseItems(payload,5).map(x=>popularityCard(x.phase,x.items)).join('');
-  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>OpenDota · данные по играм героя · ${state==='cache'?'резерв из кэша':'актуальный ответ API'}</p></div></div><div class="item-pop-grid">${sections}</div>`;
-  box.querySelectorAll('[data-item-pop]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemPop));
-}
-async function fetchHeroItemPopularity(heroId){
-  const urls=[`/api/dota/hero/${encodeURIComponent(heroId)}/items`,`${OPENDOTA_ITEM_POPULARITY}${encodeURIComponent(heroId)}/itemPopularity`];
-  try{
-    const data=normalizePopularityPayload(await d2hFetchJSON(urls[0],{timeout:7000}));
-    if(popularityTotal(data).length){heroItemPopularityCache.set(Number(heroId),data);try{localStorage.setItem(popularityStorageKey(heroId),JSON.stringify({ts:Date.now(),data}));}catch{}return data;}
-  }catch{}
-  try{const data=normalizePopularityPayload(await d2hFetchJSON(urls[1],{timeout:7000}));if(popularityTotal(data).length){heroItemPopularityCache.set(Number(heroId),data);try{localStorage.setItem(popularityStorageKey(heroId),JSON.stringify({ts:Date.now(),data}));}catch{}return data;}}catch{}
-  try{const cached=JSON.parse(localStorage.getItem(popularityStorageKey(heroId))||'null');if(cached?.data&&popularityTotal(cached.data).length){heroItemPopularityCache.set(Number(heroId),cached.data);return cached.data;}}catch{}
-  return null;
-}
+// Покупки предметов по фазам игры лежат в data/hero-items.json — тот же срез
+// OpenDota, что и в гайдах по героям, посчитанный при сборке сайта.
 async function loadHeroItemPopularity(heroId){
   const box=document.getElementById('heroItemPopularity');if(!box)return;
-  box.innerHTML='<div class="item-pop-loading">Загружаем реальные покупки предметов…</div>';
-  const data=await fetchHeroItemPopularity(heroId);
-  if(data) renderHeroItemPopularity(heroId,data,'online');
-  else box.innerHTML='<div class="item-pop-loading">Статистика покупок временно недоступна. Профиль героя и база предметов продолжают работать.</div>';
+  const rec=(await loadHeroItemIndex())[String(heroId)];
+  if(!rec){box.innerHTML='<div class="item-pop-loading">По этому герою нет данных о покупках.</div>';return;}
+  const sections=['start','early','mid','late'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
+    const rows=rec[ph].map(r=>{const it=findItemById(r.i);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>${statValue(r.g)} игр</small></span></button>`:'';}).join('');
+    return `<div class="item-pop-phase"><h4>${phaseTitle(ph)}</h4>${rows||'<p class="muted">Нет данных</p>'}</div>`;
+  }).join('');
+  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>OpenDota · срез посчитан при сборке сайта · по фазам игры</p></div></div><div class="item-pop-grid">${sections}</div>`;
+  box.querySelectorAll('[data-item-pop]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemPop));
 }
 // Иконка способности на CDN Valve: имя файла совпадает с внутренним ключом способности.
 function abilityIcon(key){return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/abilities/${encodeURIComponent(key)}.png`;}
@@ -367,124 +363,24 @@ async function loadHeroAbilities(h){
     box.innerHTML='<div class="item-pop-loading">Способности героя временно недоступны. Профиль героя продолжает работать.</div>';
   }
 }
-function cachedItemUsers(itemId){
-  const out=[];
-  for(const [heroId,p] of heroItemPopularityCache.entries()){
-    const phases=[['start',p?.start||[]],['early',p?.early||[]],['mid',p?.mid||[]],['late',p?.late||[]]];
-    const hits=phases.flatMap(([phase,arr])=>arr.filter(x=>x.itemId===Number(itemId)).map(x=>({...x,phase})));
-    if(!hits.length)continue;
-    const games=hits.reduce((s,x)=>s+x.games,0), wins=hits.reduce((s,x)=>s+x.wins,0);
-    const bestPhase=[...hits].sort((a,b)=>b.games-a.games)[0]?.phase||'mid';
-    out.push({hero:heroes.find(h=>Number(h.id)===Number(heroId)),games,wins,bestPhase,phases:hits});
-  }
-  return out.filter(x=>x.hero).sort((a,b)=>b.games-a.games);
-}
-async function loadReverseItemPopularity(itemId){
-  let rows=cachedItemUsers(itemId);
-  if(rows.length>=5)return rows;
-  const candidates=[...heroes].sort((a,b)=>Number(b.pro_pick||0)-Number(a.pro_pick||0)).slice(0,12).filter(h=>!heroItemPopularityCache.has(Number(h.id)));
-  const concurrency=3; for(let i=0;i<candidates.length;i+=concurrency){await Promise.all(candidates.slice(i,i+concurrency).map(h=>fetchHeroItemPopularity(h.id))); rows=cachedItemUsers(itemId); if(rows.length>=5)break;}
-  return rows;
-}
-function renderItemHeroLinks(itemId,rows,status='real'){
-  const box=document.getElementById('itemPurchaseUse');if(!box)return;
-  const phaseNames={start:'Старт',early:'Ранняя',mid:'Середина',late:'Поздняя'};
-  box.innerHTML=`<div class="item-pop-head"><div><h3>👥 Популярен у героев</h3><p>OpenDota · ${status==='real'?'реальные игровые данные':'данные из локального сеанса'} · покупки по фазам</p></div></div>${rows.length?`<div class="item-hero-links">${rows.slice(0,8).map(r=>`<button data-hero-open="${r.hero.id}"><img src="${imageUrl(r.hero)}"><span><b>${escapeHtml(r.hero.localized_name)}</b><small>${statValue(r.games)} покупок${r.wins>0?` · ${((r.wins/r.games)*100).toFixed(1)}% побед`:''} · чаще: ${phaseNames[r.bestPhase]||r.bestPhase}</small></span></button>`).join('')}</div><div class="item-phase-bars">${['start','early','mid','late'].map(ph=>{const n=rows.reduce((s,r)=>s+(r.phases||[]).filter(x=>x.phase===ph).reduce((a,x)=>a+x.games,0),0);return `<div><span>${phaseNames[ph]}</span><b>${statValue(n)}</b></div>`}).join('')}</div>`:'<div class="item-pop-loading">Пока не найдено достаточно реальных данных для этого предмета.</div>'}`;
-  box.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));
-}
 
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h),counters=counterCandidates(h),build=heroBuild(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"><div><div class="eyebrow">HERO PROFILE</div><h2>${escapeHtml(h.localized_name)}</h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a></div></div></div><div class="detail-stats">${stats.map(x=>`<div><small>${x.k}</small><strong>${x.v}</strong></div>`).join('')}</div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-columns"><div><h3>Контрпики</h3><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h3>Рекомендуемый билд</h3><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайды</h3><div class="guide-mini-grid">${guideData.slice(0,3).map(g=>`<article><span>${g.icon} ${g.tag}</span><b>${g.title}</b><a class="guide-mini-open" href="/guides/">Открыть →</a></article>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);}
+// Разделы гайда по конкретному герою: страница /hero/<slug>/guide/ собирается
+// build-hero-guides.js, якоря заданы там же.
+function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
+  {href:b+'#kak-igrat',title:'Как играть',text:'Роль, тип атаки и с чего начинать'},
+  {href:b+'#osobennosti',title:'Особенности',text:'Способности и базовые показатели'},
+  {href:b+'#zakupy',title:'Варианты закупов',text:'Реальные покупки по стадиям игры'},
+  {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
+  {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
+];}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h),counters=counterCandidates(h),build=heroBuild(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a><a class="btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a></div></div></div><div class="detail-stats">${stats.map(x=>`<div><small>${x.k}</small><strong>${x.v}</strong></div>`).join('')}</div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-columns"><div><h3>Контрпики</h3><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h3>Рекомендуемый билд</h3><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
-const OFFICIAL_ITEM_CACHE_TTL=1000*60*60*24*30;
-function officialItemCacheKey(itemId){return `d2h_official_item_v2_${itemId}`;}
-function readOfficialItemCache(itemId){
-  try{
-    const raw=localStorage.getItem(officialItemCacheKey(itemId));
-    const x=raw?JSON.parse(raw):null;
-    return x?.data?x:null;
-  }catch(e){return null;}
-}
-function writeOfficialItemCache(itemId,data){
-  try{localStorage.setItem(officialItemCacheKey(itemId),JSON.stringify({ts:Date.now(),data}));}catch(e){}
-}
-function extractOfficialItemData(j){
-  const candidates=[
-    j?.result?.data?.items,
-    j?.result?.data?.item_abilities,
-    j?.result?.data?.itemabilities,
-    j?.result?.data?.item,
-    j?.data?.items,
-    j?.data?.item_abilities,
-    j?.data?.itemabilities,
-    j?.data?.item
-  ];
-  for(const c of candidates){
-    if(Array.isArray(c)&&c.length)return c[0];
-    if(c&&typeof c==='object'&&!Array.isArray(c))return c;
-  }
-  return null;
-}
-async function refreshOfficialItemData(itemId){
-  const urls=[
-    `/api/dota/item/${encodeURIComponent(itemId)}`,
-    `https://www.dota2.com/datafeed/itemdata?language=english&item_id=${encodeURIComponent(itemId)}`,
-    `https://www.dota2.com/datafeed/itemdata?item_id=${encodeURIComponent(itemId)}&language=english`
-  ];
-  for(const url of urls){
-    try{
-      const c=new AbortController();const t=setTimeout(()=>c.abort(),6500);
-      const r=await fetch(url,{signal:c.signal,cache:'no-store',headers:{Accept:'application/json'}});clearTimeout(t);
-      if(!r.ok)continue;
-      const payload=await r.json();
-      const d=url.startsWith('/api/')?(payload?.data||payload?.item||payload):extractOfficialItemData(payload);
-      if(d){writeOfficialItemCache(itemId,d);return d;}
-    }catch(e){}
-  }
-  return null;
-}
-async function fetchOfficialItemData(itemId){
-  const cached=readOfficialItemCache(itemId);
-  if(cached?.data){
-    // Cache-first: show the saved official text immediately. If it is old,
-    // refresh silently in the background for the next visit.
-    if(Date.now()-Number(cached.ts||0)>OFFICIAL_ITEM_CACHE_TTL){
-      refreshOfficialItemData(itemId).catch(()=>{});
-    }
-    return cached.data;
-  }
-  return refreshOfficialItemData(itemId);
-}
-function cleanOfficialHtml(v){return String(v||'').replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/\s+/g,' ').trim();}
-function humanizeStatName(name){
-  const s=String(name||'').replace(/^bonus_/,'').replace(/_/g,' ').trim();
-  if(!s)return '';
-  return s.charAt(0).toUpperCase()+s.slice(1);
-}
-function officialItemFacts(d){
-  if(!d)return [];
-  const out=[];
-  const push=(label,val)=>{if(val!==undefined&&val!==null&&String(val)!=='')out.push(`<div><small>${escapeHtml(label)}</small><strong>${escapeHtml(String(val))}</strong></div>`)};
-  const cost=Number(d.item_cost??d.cost??0);if(cost>0)push('Стоимость',cost);
-  const cds=(Array.isArray(d.cooldowns)?d.cooldowns:[]).filter(v=>Number(v)>0);if(cds.length)push('Перезарядка',cds.join(' / ')+' сек');
-  const manas=(Array.isArray(d.mana_costs)?d.mana_costs:[]).filter(v=>Number(v)>0);if(manas.length)push('Мана',manas.join(' / '));
-  const ranges=(Array.isArray(d.cast_ranges)?d.cast_ranges:[]).filter(v=>Number(v)>0);if(ranges.length)push('Дальность',ranges.join(' / '));
-  if(Array.isArray(d.special_values)) d.special_values.forEach(v=>{
-    const vals=Array.isArray(v.values_float)?v.values_float.join(' / '):(Array.isArray(v.values)?v.values.join(' / '):'');
-    if(!vals)return;
-    const rawHeading=String(v.heading_loc||'');
-    if(!rawHeading||/^[+%$]*$/.test(rawHeading))return;
-    let heading=cleanOfficialHtml(rawHeading);
-    if(/[%$][a-zA-Z_]/.test(heading))heading=humanizeStatName(v.name);
-    if(heading)push(heading,vals+(v.is_percentage?'%':''));
-  });
-  return out;
-}
-function itemOfficialUseFlags(d){
-  if(!d)return [];
-  const flags=[]; if(d.is_pregame_suggested)flags.push('Рекомендуется на старте'); if(d.is_earlygame_suggested)flags.push('Рекомендуется для ранней игры'); if(d.is_lategame_suggested)flags.push('Рекомендуется для поздней игры');
-  if(d.neutral_item_tier!==undefined && d.neutral_item_tier>=0 && d.neutral_item_tier<10)flags.push(`Нейтральный предмет · тир ${Number(d.neutral_item_tier)+1}`);
-  return flags;
-}
+// Данные о предметах больше не догружаются из сети: описание, история,
+// примечания, бонусы и картинка приходят из data/items-ru.json, который
+// собирает tools/build-items-ru.py из официального русского datafeed Valve.
+// Поэтому функции похода за Valve datafeed (кэш в localStorage, разбор
+// special_values, «обновить данные») удалены целиком — они больше ничего не
+// обслуживали и только расходились бы с локальной базой.
 // --- Item counters: what commonly beats/negates this item, by mechanic. This
 // is a curated, editorial list (not derived from OpenDota/Valve data — there
 // is no public feed for "counters"), so it stays short and only lists
@@ -517,67 +413,69 @@ function renderItemCounters(x){
   }
   return `<div class="item-counters-list">${entries.map(e=>`<button class="item-counter-row" data-item-open="${escapeHtml(e.item.name)}"><img src="${itemImage(e.item)}" alt=""><span><b>${escapeHtml(e.item.dname)}</b><small>${escapeHtml(e.why)}</small></span></button>`).join('')}</div>`;
 }
+function itemDescriptionText(x){return (x?.desc||[]).map(b=>[b.h,b.t].filter(Boolean).join('. ')).join(' ').replace(/\s+/g,' ').trim();}
+function itemDescBlocks(x){return (x?.desc||[]).map(b=>`<div class="ip-block">${b.h?`<h4>${escapeHtml(b.h)}</h4>`:''}${(b.t||'').split('\n').filter(Boolean).map(t=>`<p>${escapeHtml(t)}</p>`).join('')}</div>`).join('')||'<p class="muted">Описание отсутствует.</p>';}
+function itemMetaChips(x){const out=[];if(x.cost)out.push(`💰 ${statValue(x.cost)} золота`);else if(x.cat==='neutral')out.push(`Нейтральный${x.tier?` · тир ${x.tier}`:''}`);if(x.mc)out.push(`Мана ${statValue(x.mc)}`);if(x.cd)out.push(`Перезарядка ${x.cd} сек`);if(x.charges)out.push(`Зарядов: ${x.charges}`);return out;}
+function itemLinkChips(list){return (list||[]).map(k=>{const it=items.find(i=>i.name===k);return it?`<button class="ip-chip" data-item-open="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt="">${escapeHtml(it.dname)}</button>`:'';}).join('');}
+// Связь «предмет -> герои» посчитана заранее (tools/build-item-heroes.py) по тем
+// же данным OpenDota, что и гайды. В рантайме — ни одного запроса.
+function itemHeroUsage(x){
+  const rec=(itemHeroIndex||{})[String(x.id)];
+  if(!rec||!(rec.heroes||[]).length)return '<p class="muted">Заметной статистики покупок по этому предмету нет.</p>';
+  const rows=rec.heroes.map(r=>{const h=heroes.find(z=>Number(z.id)===Number(r.h));return `<button data-hero-open="${r.h}">${h?`<img src="${imageUrl(h)}" alt="">`:''}<span><b>${escapeHtml(r.n)}</b><small>${statValue(r.g)} покупок · чаще: ${escapeHtml(r.p)}</small></span></button>`;}).join('');
+  const bars=['Старт','Ранняя','Середина','Поздняя'].map(p=>`<div><span>${p}</span><b>${statValue((rec.totals||{})[p]||0)}</b></div>`).join('');
+  return `<div class="item-hero-links">${rows}</div><div class="item-phase-bars">${bars}</div>`;
+}
 async function openItem(name){
-  const x=items.find(i=>i.name===name);if(!x)return;
+  const key=String(name||'').replace(/^item_/,'');
+  const x=items.find(i=>i.name===key)||items.find(i=>String(i.dname).toLowerCase()===key.toLowerCase());
+  if(!x)return;
   lastFocusedEl=document.activeElement;
-  const cached=readOfficialItemCache(x.id);
-  const initial= cached?.data ? cached.data : null;
-  const cachedDesc=cleanOfficialHtml(initial?.desc_loc||initial?.description||'');
-  const localDesc=cleanOfficialHtml(x?.desc_loc||x?.description||'');
-  const safeLocal=localDesc&&!/Откройте онлайн|актуальных характеристик|open online|current data/i.test(localDesc)?localDesc:'';
-  const description=cachedDesc||safeLocal||'Официальное описание загружается…';
-  const cat=itemCategoryLabel(x);
-  const cacheAge=cached?.ts?Math.max(0,Math.floor((Date.now()-cached.ts)/86400000)):null;
+  await loadItemHeroIndex();
+  const page='/item/'+itemSlug(x.recipeFor||x.name)+'/';
+  const own=x.descOwn||x.loreOwn;
   document.getElementById('modalContent').innerHTML=`
     <div class="item-profile-v3">
       <div class="item-profile-top">
-        <div class="item-profile-art"><img src="${itemImage(x)}" alt="${escapeHtml(x.dname)}" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'"><span>${escapeHtml(cat)}</span></div>
+        <div class="item-profile-art"><img src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span>${escapeHtml(x.catRu||itemCategoryLabel(x))}</span></div>
         <div class="item-profile-title">
-          <div class="eyebrow">ITEM PROFILE</div>
-          <h2>${escapeHtml(x.dname)}</h2>
-          <div class="item-profile-meta"><span>💰 ${x.cost?statValue(x.cost)+' gold':'Стоимость не указана'}</span><span>ID ${x.id??'—'}</span>${cached?'<span class="item-cache-badge">✓ Valve cache</span>':''}</div>
-          <p class="item-profile-sub">Официальные данные предмета + реальные данные о его покупках. Ничего не добавляем от себя.</p>
-          <div class="item-profile-actions"><a class="btn red" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=english&item_id=${encodeURIComponent(x.id)}">Valve Datafeed ↗</a><button class="btn ghost" id="itemRefreshBtn">↻ Обновить данные</button></div>
+          <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+          <h2><a href="${escapeHtml(page)}">${escapeHtml(x.dname)}</a></h2>
+          <div class="item-profile-meta">${itemMetaChips(x).map(c=>`<span>${escapeHtml(c)}</span>`).join('')}<span>ID ${x.id}</span></div>
+          <p class="item-profile-sub">Описание, история и числа — официальная русская версия Valve. Всё хранится на сайте, ничего не подгружается со стороны.</p>
+          <div class="item-profile-actions"><a class="btn red" href="${escapeHtml(page)}">Страница предмета →</a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=${encodeURIComponent(x.id)}">Данные Valve ↗</a></div>
         </div>
       </div>
       <div class="item-profile-grid">
         <section class="item-profile-panel item-profile-description">
-          <div class="item-panel-head"><div><span>OFFICIAL</span><h3>Описание предмета</h3></div><small id="itemCacheAge">${cached?(cacheAge===0?'кэш сохранён сегодня':`кэш ${cacheAge} дн. назад`):'данные ещё не сохранены'}</small></div>
-          <p id="officialItemDesc">${escapeHtml(description)}</p>
+          <div class="item-panel-head"><div><span>ОПИСАНИЕ</span><h3>Что делает предмет</h3></div>${x.descOwn?'<small>текст сайта</small>':'<small>текст Valve</small>'}</div>
+          ${itemDescBlocks(x)}
+          ${x.notes&&x.notes.length?`<div class="item-notes"><h4>Примечания Valve</h4>${x.notes.map(n=>`<p>• ${escapeHtml(n)}</p>`).join('')}</div>`:''}
         </section>
-        <section class="item-profile-panel" id="officialItemDetails"><div class="item-pop-loading">${cached?'Проверяем свежесть официальных данных…':'Получаем официальные данные…'}</div></section>
+        <section class="item-profile-panel">
+          <div class="item-panel-head"><div><span>ХАРАКТЕРИСТИКИ</span><h3>Что даёт в цифрах</h3></div></div>
+          ${x.attr&&x.attr.length?`<div class="item-official-facts">${x.attr.map(a=>`<div><strong>${escapeHtml(a)}</strong></div>`).join('')}</div>`:'<p class="muted">Постоянных бонусов к характеристикам у предмета нет.</p>'}
+          ${x.comp&&x.comp.length?`<div class="ip-links"><h4>Собирается из</h4><div class="ip-chips">${itemLinkChips(x.comp)}</div></div>`:''}
+          ${x.into&&x.into.length?`<div class="ip-links"><h4>Входит в сборку</h4><div class="ip-chips">${itemLinkChips(x.into)}</div></div>`:''}
+          ${x.lore?`<div class="item-lore"><small>ИСТОРИЯ${x.loreOwn?' · текст сайта':''}</small><p>${escapeHtml(x.lore)}</p></div>`:''}
+        </section>
       </div>
-      <section class="item-profile-panel item-use-panel" id="itemPurchaseUse"><div class="item-pop-loading">Загружаем реальные связи предмета с героями…</div></section>
+      <section class="item-profile-panel item-use-panel">
+        <div class="item-panel-head"><div><span>ГЕРОИ</span><h3>Кто покупает этот предмет</h3></div></div>
+        ${itemHeroUsage(x)}
+      </section>
       <section class="item-profile-panel item-counters-panel">
-        <div class="item-panel-head"><div><span>MATCHUPS</span><h3>Контрпики предмета</h3></div></div>
+        <div class="item-panel-head"><div><span>ПРОТИВОДЕЙСТВИЕ</span><h3>Контрпики предмета</h3></div></div>
         ${renderItemCounters(x)}
       </section>
       <section class="item-profile-panel item-why-panel">
-        <div class="item-panel-head"><div><span>HOW TO READ</span><h3>Для чего этот предмет</h3></div></div>
-        <p>Здесь мы не придумываем назначение предмета. Ориентиром служит официальное описание и реальные покупки игроков. Конкретные герои ниже — это статистическая связь, а не субъективная рекомендация сайта.</p>
+        <div class="item-panel-head"><div><span>КАК ЧИТАТЬ</span><h3>Откуда эти данные</h3></div></div>
+        <p>Описание, история, примечания и бонусы — официальная русская локализация Valve${own?'; там, где у Valve текста нет вовсе, стоит текст сайта и он подписан':''}. Список героев ниже — агрегированные реальные покупки из OpenDota, а не наша рекомендация.</p>
       </section>
     </div>`;
   document.getElementById('modal').classList.add('show');document.getElementById('close').focus();
-  document.getElementById('itemRefreshBtn')?.addEventListener('click',async()=>{try{localStorage.removeItem(officialItemCacheKey(x.id));}catch(e){} openItem(name);});
   document.querySelectorAll('[data-item-open]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemOpen));
-  const official=await fetchOfficialItemData(x.id);
-  if(!document.getElementById('officialItemDesc'))return;
-  if(official){
-    const rawDesc=official.desc_loc||official.description||'';const filled=rawDesc.replace(/%([a-zA-Z0-9_]+)%/g,(full,pname)=>{const sv=(official.special_values||[]).find(v=>String(v.name||'').toLowerCase()===pname.toLowerCase());const vals=sv&&(Array.isArray(sv.values_float)?sv.values_float:sv.values);return Array.isArray(vals)&&vals.length?vals.join('/'):full;});const desc=cleanOfficialHtml(filled)||'Описание отсутствует в официальном feed.';
-    document.getElementById('officialItemDesc').textContent=desc||'Описание отсутствует в официальном feed.';
-    const facts=officialItemFacts(official),flags=itemOfficialUseFlags(official);
-    const notes=Array.isArray(official.notes_loc)?official.notes_loc:[];
-    document.getElementById('officialItemDetails').innerHTML=`
-      <div class="item-panel-head"><div><span>VALVE DATAFEED</span><h3>Официальные характеристики</h3></div><span class="item-source-badge">✓ Valve</span></div>
-      ${flags.length?`<div class="item-official-flags">${flags.map(f=>`<span>${escapeHtml(f)}</span>`).join('')}</div>`:''}
-      ${facts.length?`<div class="item-official-facts">${facts.join('')}</div>`:'<p class="muted">Для этого объекта Valve не вернул дополнительные числовые поля.</p>'}
-      ${official.lore_loc?`<div class="item-lore"><small>LORE</small><p>${escapeHtml(cleanOfficialHtml(official.lore_loc))}</p></div>`:''}
-      ${notes.length?`<div class="item-notes"><h4>Примечания Valve</h4>${notes.map(n=>`<p>• ${escapeHtml(cleanOfficialHtml(n))}</p>`).join('')}</div>`:''}`;
-  }else{
-    document.getElementById('officialItemDetails').innerHTML='<div class="item-pop-loading">Valve Datafeed сейчас недоступен. Кэш или локальные данные остаются без подмены выдуманным описанием.</div>';
-  }
-  const rows=await loadReverseItemPopularity(x.id);
-  renderItemHeroLinks(x.id,rows,'real');
+  document.querySelectorAll('#modalContent [data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));
 }
 
 function compareHeroes(){const names=prompt('Введи двух героев через запятую, например: Invoker, Lina');if(!names)return;const [aName,bName]=names.split(',').map(x=>x.trim().toLowerCase());const a=heroes.find(h=>h.localized_name.toLowerCase()===aName)||heroes.find(h=>h.localized_name.toLowerCase().includes(aName));const b=heroes.find(h=>h.localized_name.toLowerCase()===bName)||heroes.find(h=>h.localized_name.toLowerCase().includes(bName));if(!a||!b){alert('Не удалось найти обоих героев.');return;}const rows=[['Атрибут',attrInfo(a.primary_attr)[1],attrInfo(b.primary_attr)[1]],['Move Speed',a.move_speed||'—',b.move_speed||'—'],['Damage',a.base_attack_min!=null?`${a.base_attack_min}–${a.base_attack_max}`:'—',b.base_attack_min!=null?`${b.base_attack_min}–${b.base_attack_max}`:'—'],['Pro Winrate',a.pro_pick?winrate(a).toFixed(1)+'%':'—',b.pro_pick?winrate(b).toFixed(1)+'%':'—'],['Pro Picks',statValue(a.pro_pick),statValue(b.pro_pick)]];document.getElementById('modalContent').innerHTML=`<div class="compare-detail"><div class="compare-head"><div><img src="${imageUrl(a)}"><h2>${escapeHtml(a.localized_name)}</h2></div><strong>VS</strong><div><img src="${imageUrl(b)}"><h2>${escapeHtml(b.localized_name)}</h2></div></div><table class="compare-table"><tbody>${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();}
@@ -598,7 +496,7 @@ try{
   const openItemParam=new URLSearchParams(location.search).get("openItem");
   if(openItemParam){itemBootPromise.then(()=>{if(items.some(i=>i.name===openItemParam))openItem(openItemParam);});}
 }catch(err){
-  console.error('Dota 2 Companion boot error:',err);
+  console.error('Dota Mate boot error:',err);
   try{
     if(typeof localHeroes==='function'){heroes=normalizeHeroes(localHeroes());updateHeroUI('локальная база');}
     if(typeof localItems==='function'){items=normalizeItems(localItems());renderItems();updateItemCounters();}
@@ -623,7 +521,6 @@ document.querySelectorAll('.guide-filter').forEach(b=>b.addEventListener('click'
 on('featuredHeroesGrid','click',e=>{const c=e.target.closest('.featured-hero-card');if(c){const h=heroes.find(x=>Number(x.id)===Number(c.dataset.id));if(h)location.href='/hero/'+slugForHero(h)+'/';}});
 on('statsBody','click',e=>{const tr=e.target.closest('tr[data-id]');if(tr)openHero(Number(tr.dataset.id));});
 on('statsExtra','click',e=>{const b=e.target.closest('button[data-id]');if(b)openHero(Number(b.dataset.id));});
-on('itemsGrid','click',e=>{const c=e.target.closest('[data-item]');if(c)openItem(c.dataset.item);});
 on('quickPrepInput','input',e=>quickPrepSelectByName(e.target.value));
 on('quickPrepChips','click',e=>{const b=e.target.closest('[data-quick-hero]');if(!b)return;const h=heroes.find(x=>Number(x.id)===Number(b.dataset.quickHero));if(h){const inp=document.getElementById('quickPrepInput');if(inp)inp.value=h.localized_name;renderQuickPrep(h);}});
 on('quickPrepResult','click',e=>{const hb=e.target.closest('[data-hero-open]');if(hb){openHero(Number(hb.dataset.heroOpen));return;}const ib=e.target.closest('[data-item-by-name]');if(ib){const term=ib.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);}});

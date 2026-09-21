@@ -29,11 +29,11 @@ function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
-<meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
+<meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
 <meta property="og:url" content="${canonical}">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${escapeHtml(title)}">
@@ -52,10 +52,7 @@ ${analyticsSnippet}
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota 2 Companion">
-      <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
-      <span>Dota 2 <b>Companion</b></span>
-    </a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
     <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
@@ -64,7 +61,7 @@ ${analyticsSnippet}
 <main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:900px;">
 ${bodyHtml}
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;
@@ -90,8 +87,8 @@ async function main(){
     const dir=path.join(outRoot,r.slug);
     fs.mkdirSync(dir,{recursive:true});
     const canonical=`https://dotamate.ru/guide/${r.slug}/`;
-    const title=`${r.title} | Гайд Dota 2 Companion`;
-    const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":r.title,"description":r.excerpt,"mainEntityOfPage":canonical,"author":{"@type":"Organization","name":"Dota 2 Companion"}});
+    const title=`${r.title} | Гайд Dota Mate`;
+    const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":r.title,"description":r.excerpt,"mainEntityOfPage":canonical,"author":{"@type":"Organization","name":"Dota Mate"}});
     const breadcrumb=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":r.title,"item":canonical}]});
 
     const stagesHtml=r.stages.map(st=>`<section class="detail-section"><h2>${escapeHtml(st.name)}</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 12px;">${escapeHtml(st.note)}</p><div class="linked-list" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));display:grid;gap:8px;">${st.items.map(k=>itemCard(k,items)).join('')}</div></section>`).join('');
@@ -120,8 +117,8 @@ ${stagesHtml}
     const dir=path.join(outRoot,c.slug);
     fs.mkdirSync(dir,{recursive:true});
     const canonical=`https://dotamate.ru/guide/${c.slug}/`;
-    const title=`${c.title} | Гайд Dota 2 Companion`;
-    const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":c.title,"description":c.excerpt,"mainEntityOfPage":canonical,"author":{"@type":"Organization","name":"Dota 2 Companion"}});
+    const title=`${c.title} | Гайд Dota Mate`;
+    const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":c.title,"description":c.excerpt,"mainEntityOfPage":canonical,"author":{"@type":"Organization","name":"Dota Mate"}});
     const breadcrumb=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":c.title,"item":canonical}]});
 
     const rowsHtml=c.items.map(key=>{

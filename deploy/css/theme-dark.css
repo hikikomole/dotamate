@@ -357,3 +357,400 @@ body.d2-dark .featured-hero-card span{font-size:11px!important;font-weight:800!i
 @media(max-width:760px){
   body.d2-dark .featured-hero-card{aspect-ratio:16/9!important}
 }
+
+/* ========== предметы: каталог ========== */
+
+/* Секция тянет собственный светлый градиент — гасим до фона страницы */
+body.d2-dark .items-section-v3{background:none!important;border-top:1px solid var(--d2-line)!important;border-bottom:0!important}
+body.d2-dark .items-v3-head h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .items-v3-head p{color:var(--d2-muted)!important}
+body.d2-dark .items-v3-summary{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:none!important}
+body.d2-dark .items-v3-summary strong{color:var(--d2-gold)!important}
+body.d2-dark .items-v3-summary span,body.d2-dark .items-v3-summary small{color:var(--d2-muted-2)!important;text-transform:uppercase!important;letter-spacing:1.2px!important;font-size:9.5px!important}
+body.d2-dark .items-v3-summary small b{color:var(--d2-muted)!important}
+body.d2-dark .items-v3-toolbar{gap:10px!important;padding:12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;margin:22px 0 0!important}
+body.d2-dark .items-v3-price .chip{height:44px!important;border-radius:0!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important}
+body.d2-dark .items-v3-price .chip.active{background:var(--d2-gold)!important;border-color:var(--d2-gold)!important;color:#14110a!important}
+body.d2-dark .items-v3-categories{gap:0!important;margin:0!important;border:1px solid var(--d2-line)!important;border-top:0!important;background:var(--d2-panel)!important;padding:0 12px 12px!important}
+body.d2-dark .item-category{border-radius:0!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;padding:9px 14px!important;letter-spacing:1px!important;text-transform:uppercase!important;margin-right:6px!important;transition:background .18s,color .18s,border-color .18s!important}
+body.d2-dark .item-category:hover{transform:none!important;background:#1e232b!important;color:var(--d2-text)!important}
+body.d2-dark .item-category.active{background:var(--d2-gold)!important;border-color:var(--d2-gold)!important;color:#14110a!important}
+body.d2-dark .item-category.active span{color:#14110a!important}
+body.d2-dark .item-category span{color:var(--d2-gold-dim)!important}
+body.d2-dark .items-v3-status{color:var(--d2-muted-2)!important;letter-spacing:1px!important;text-transform:uppercase!important;padding:16px 0 14px!important}
+
+/* Карточка предмета: плотная сетка и золотая рамка при наведении, без
+   скруглений и подпрыгиваний — как на витрине предметов Valve. */
+body.d2-dark .items-grid-v3{grid-template-columns:repeat(auto-fill,minmax(184px,1fr))!important;gap:8px!important}
+body.d2-dark .item-card{display:block!important;padding:0!important;border-radius:0!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;color:var(--d2-text)!important;text-align:left!important;box-shadow:none!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .item-card:hover{transform:none!important;background:#161a20!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .item-card-art{background:#0a0c10!important;border-bottom:1px solid var(--d2-line)!important}
+body.d2-dark .item-card-art img{object-fit:contain!important;padding:14px 12px!important}
+body.d2-dark .item-card-cat{border-radius:0!important;background:rgba(7,8,10,.78)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;letter-spacing:1px!important;text-transform:uppercase!important;top:7px!important;left:7px!important}
+body.d2-dark .item-card-open{border-radius:0!important;background:var(--d2-gold)!important;color:#14110a!important;letter-spacing:.8px!important;right:7px!important;bottom:7px!important}
+body.d2-dark .item-card-title strong{font-size:12.5px!important;font-weight:800!important;letter-spacing:.8px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .item-card-title span{color:var(--d2-gold)!important;font-weight:800!important;font-size:12px!important;white-space:nowrap!important}
+body.d2-dark .item-card-body p{color:var(--d2-muted)!important;font-size:10.5px!important}
+body.d2-dark .item-card-muted{color:var(--d2-muted-2)!important}
+body.d2-dark .item-card-foot{border-top:1px solid var(--d2-line-soft)!important}
+body.d2-dark .item-card-foot small{color:var(--d2-muted-2)!important;letter-spacing:.6px!important}
+body.d2-dark .item-card-foot b{color:var(--d2-gold)!important;font-size:9.5px!important;letter-spacing:1px!important;text-transform:uppercase!important}
+body.d2-dark .item-empty-state strong{color:#fff!important}
+body.d2-dark .item-empty-state span{color:var(--d2-muted)!important}
+@media(max-width:560px){
+  body.d2-dark .items-grid-v3{grid-template-columns:repeat(auto-fill,minmax(146px,1fr))!important;gap:6px!important}
+}
+/* Название в две строки: в светлой теме оно обрезалось многоточием, и
+   «Aghanim's Scepter» превращался в «AGHANIM'S…». */
+body.d2-dark .item-card-title strong{white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;text-overflow:clip!important}
+body.d2-dark .item-card-title{align-items:baseline!important}
+body.d2-dark .item-card-body p{min-height:46px!important;margin:8px 0 10px!important;display:-webkit-box!important;-webkit-line-clamp:4!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+/* Карточки в ряду одной высоты: подвал с ID и «Подробнее» прижимаем вниз,
+   иначе он плавает по высоте названия и описания. */
+body.d2-dark .item-card{display:flex!important;flex-direction:column!important}
+body.d2-dark .item-card-body{flex:1!important;display:flex!important;flex-direction:column!important}
+body.d2-dark .item-card-foot{margin-top:auto!important}
+
+/* ========== страница предмета ========== */
+body.d2-dark .ip-main{padding:26px 0 64px!important}
+body.d2-dark .ip-crumbs{font-size:11px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important;margin-bottom:22px!important}
+body.d2-dark .ip-crumbs a{color:var(--d2-muted-2)!important;text-decoration:none!important}
+body.d2-dark .ip-crumbs a:hover{color:var(--d2-gold)!important}
+body.d2-dark .ip-crumbs span[aria-current]{color:var(--d2-muted)!important}
+body.d2-dark .ip-crumbs>span{opacity:.5!important;margin:0 4px!important}
+
+body.d2-dark .ip-top{display:grid!important;grid-template-columns:300px 1fr!important;gap:34px!important;align-items:start!important;padding-bottom:34px!important;border-bottom:1px solid var(--d2-line)!important}
+body.d2-dark .ip-art{position:relative!important;background:linear-gradient(160deg,#141821,#0a0c10)!important;border:1px solid var(--d2-line)!important;display:grid!important;place-items:center!important;padding:34px 26px!important;min-height:210px!important}
+body.d2-dark .ip-art img{width:100%!important;max-width:210px!important;height:auto!important;display:block!important;filter:drop-shadow(0 18px 34px rgba(0,0,0,.7))!important}
+body.d2-dark .ip-qual{position:absolute!important;top:10px!important;left:10px!important;padding:5px 9px!important;background:rgba(7,8,10,.8)!important;border:1px solid var(--d2-line)!important;color:var(--d2-gold)!important;font-size:9.5px!important;font-weight:800!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .ip-head h1{font-size:clamp(30px,4.4vw,52px)!important;line-height:1!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important;margin:6px 0 16px!important}
+body.d2-dark .ip-lead{color:#c3cad4!important;font-size:15.5px!important;line-height:1.7!important;max-width:660px!important;margin:0 0 20px!important}
+body.d2-dark .ip-chips{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin-bottom:22px!important}
+body.d2-dark .ip-chips span{padding:8px 12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;font-size:11.5px!important;font-weight:700!important;letter-spacing:.6px!important}
+body.d2-dark .ip-actions{display:flex!important;gap:9px!important;flex-wrap:wrap!important}
+
+body.d2-dark .ip-panel{margin-top:30px!important;padding-top:26px!important;border-top:1px solid var(--d2-line-soft)!important}
+body.d2-dark .ip-panel:first-of-type{border-top:0!important}
+body.d2-dark .ip-panel-head{margin-bottom:16px!important}
+body.d2-dark .ip-panel-head span{display:block!important;color:var(--d2-gold)!important;font-size:10.5px!important;font-weight:800!important;letter-spacing:2.6px!important}
+body.d2-dark .ip-panel-head h2{font-size:clamp(20px,2.4vw,28px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:6px 0 0!important}
+body.d2-dark .ip-panel-head small{display:block!important;margin-top:7px!important;color:var(--d2-muted-2)!important;font-size:11px!important}
+body.d2-dark .ip-panel .ability-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important;gap:10px!important}
+/* .ability-card в style.css — сетка 52px + текст под иконку, а у карточек
+   предмета иконки нет: текст уезжал в узкую колонку по одному слову в
+   строку. Правим только внутри страницы предмета, чтобы не задеть
+   способности героя в модалке, где иконка есть. */
+body.d2-dark .ip-panel .ability-card{display:block!important}
+body.d2-dark .ability-card{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:16px 17px!important;box-shadow:none!important}
+body.d2-dark .ability-card b{display:block!important;color:#fff!important;font-size:13px!important;letter-spacing:1px!important;text-transform:uppercase!important;margin-bottom:7px!important}
+body.d2-dark .ability-card p{margin:0!important;color:var(--d2-muted)!important;font-size:13px!important;line-height:1.65!important}
+body.d2-dark .ip-attrib{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;gap:8px!important}
+body.d2-dark .ip-attrib>div{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:11px 13px!important}
+body.d2-dark .ip-attrib small{color:var(--d2-text)!important;font-size:12.5px!important}
+body.d2-dark .ip-recipe{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:8px!important}
+body.d2-dark .ip-recipe a,body.d2-dark .ip-recipe>div{display:flex!important;align-items:center!important;gap:10px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:10px 12px!important;color:var(--d2-text)!important;text-decoration:none!important;font-size:13px!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .ip-recipe a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important}
+body.d2-dark .ip-recipe img{width:44px!important;height:auto!important;flex:none!important}
+body.d2-dark .ip-recipe span{margin-left:auto!important;color:var(--d2-gold)!important}
+body.d2-dark .ip-lore p{margin:0!important;color:var(--d2-muted)!important;font-style:italic!important;line-height:1.75!important;max-width:760px!important}
+
+@media(max-width:760px){
+  body.d2-dark .ip-top{grid-template-columns:1fr!important;gap:20px!important}
+  body.d2-dark .ip-art{padding:24px!important;min-height:0!important}
+  body.d2-dark .ip-actions .btn{flex:1 1 auto!important;text-align:center!important}
+}
+
+/* ========== гайды ========== */
+/* .btn — обычная строчная ссылка, и вертикальные отступы у неё не занимают
+   места: кнопка «Читать гайд» наезжала на текст карточки. */
+body.d2-dark .btn{display:inline-flex!important;align-items:center!important;justify-content:center!important}
+body.d2-dark .guide-art{background:linear-gradient(150deg,#1a1f28,#0c0e13)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-gold)!important}
+body.d2-dark .guide-card{border-radius:0!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;transition:border-color .2s,transform .2s!important}
+body.d2-dark .guide-card:hover{transform:translateY(-2px)!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .guide-card span{color:var(--d2-gold)!important;letter-spacing:2px!important}
+body.d2-dark .guide-card h3{letter-spacing:.6px!important;color:#fff!important}
+body.d2-dark .guide-card p{color:var(--d2-muted)!important;font-size:12px!important;line-height:1.6!important}
+body.d2-dark .guide-card>b{color:var(--d2-gold-dim)!important}
+body.d2-dark .guide-open{margin-top:14px!important;padding:9px 14px!important;font-size:11px!important}
+
+/* ========== разбор скриншотов пользователя (21.09.2026) ========== */
+
+/* Наведение на пункт меню: светлая тема красит фон в #f4f2ff, а текст в
+   тёмной теме светлый — пункт превращался в белый прямоугольник. */
+body.d2-dark .topbar .nav nav a:hover,
+body.d2-dark .topbar .nav nav a.active,
+body.d2-dark .nav nav a:hover,
+body.d2-dark .nav nav a.active{background:none!important;box-shadow:none!important}
+body.d2-dark .topbar .nav nav a:hover{color:#fff!important}
+body.d2-dark .topbar .nav nav a.active{color:#fff!important}
+
+/* То же самое в таблице статистики: строка под курсором светлела, текст нет. */
+body.d2-dark .stats-table tbody tr:hover{background:#171a20!important}
+body.d2-dark .stats-table tbody tr:hover td{color:#fff!important}
+body.d2-dark .stats-table tbody tr{border-bottom:1px solid var(--d2-line-soft)!important}
+
+/* Подпись «HERO SPOTLIGHT · СЛУЧАЙНЫЙ ГЕРОЙ» лежала поверх картинки героя и
+   читалась как часть арта. Имя и роли остаются, служебная строка убрана. */
+body.d2-dark #featured .ftext small,
+body.d2-dark .featured-fallback small{display:none!important}
+
+/* Поле общего поиска: рамка была у оболочки, а фокус рисовал вторую рамку
+   вокруг самого input — получалось два прямоугольника один в другом. */
+body.d2-dark .v43-search-shell:focus-within{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .v43-search-shell input:focus,
+body.d2-dark .v43-search-shell input:focus-visible,
+body.d2-dark .search input:focus,
+body.d2-dark .search input:focus-visible{outline:none!important;box-shadow:none!important;border:0!important}
+body.d2-dark .search:focus-within{border-color:var(--d2-gold-dim)!important}
+
+/* Значок «Открыть ↗» на обложке предмета убран: карточка целиком ссылка,
+   а внизу уже есть «Подробнее →». */
+body.d2-dark .item-card-open{display:none!important}
+
+/* ========== страницы-статьи: гайды, роли, словарь, политика ========== */
+body.d2-dark .article-main{color:var(--d2-text)!important}
+body.d2-dark .article-main h1{font-size:clamp(28px,4vw,44px)!important;line-height:1.08!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .article-main h2{font-size:clamp(20px,2.6vw,28px)!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#fff!important;margin:34px 0 12px!important;padding-top:22px!important;border-top:1px solid var(--d2-line-soft)!important}
+body.d2-dark .article-main h3{font-size:17px!important;letter-spacing:.6px!important;color:#fff!important;margin:22px 0 10px!important}
+body.d2-dark .article-main p,body.d2-dark .article-main li{color:#c3cad4!important;font-size:15.5px!important;line-height:1.75!important}
+body.d2-dark .article-main strong,body.d2-dark .article-main b{color:#fff!important}
+body.d2-dark .article-main a{color:var(--d2-gold)!important}
+body.d2-dark .article-main a:hover{color:#e8d3a0!important}
+body.d2-dark .article-main ul,body.d2-dark .article-main ol{padding-left:20px!important}
+body.d2-dark .article-main li{margin:6px 0!important}
+body.d2-dark .article-main li::marker{color:var(--d2-gold-dim)!important}
+body.d2-dark .article-main blockquote{margin:18px 0!important;padding:14px 18px!important;border:0!important;border-left:2px solid var(--d2-gold-dim)!important;background:var(--d2-panel)!important;color:var(--d2-muted)!important}
+body.d2-dark .article-main table{width:100%!important;border-collapse:collapse!important;margin:16px 0!important}
+body.d2-dark .article-main th,body.d2-dark .article-main td{border:1px solid var(--d2-line)!important;padding:9px 12px!important;text-align:left!important;font-size:14px!important}
+body.d2-dark .article-main th{background:var(--d2-panel)!important;color:#fff!important;text-transform:uppercase!important;letter-spacing:1px!important;font-size:11px!important}
+body.d2-dark .article-main [aria-label="breadcrumb"]{font-size:11px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;opacity:1!important;color:var(--d2-muted-2)!important}
+body.d2-dark .article-main [aria-label="breadcrumb"] a{color:var(--d2-muted-2)!important;text-decoration:none!important}
+body.d2-dark .article-main [aria-label="breadcrumb"] a:hover{color:var(--d2-gold)!important}
+body.d2-dark .article-main .detail-section h3{text-transform:uppercase!important;letter-spacing:1.4px!important}
+body.d2-dark .article-main .linked-list{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))!important;gap:8px!important}
+body.d2-dark .article-main .linked-list a,body.d2-dark .article-main .linked-list>div{display:flex!important;align-items:center!important;gap:10px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:11px 13px!important;color:var(--d2-text)!important;text-decoration:none!important;font-size:13.5px!important}
+body.d2-dark .article-main .linked-list a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important;color:#fff!important}
+body.d2-dark .article-main .ad-slot{margin:28px 0!important;min-height:0!important}
+
+/* ========== модальное окно героя ========== */
+body.d2-dark .hero-detail{color:var(--d2-text)!important}
+body.d2-dark .hero-cover{grid-template-columns:170px 1fr!important;gap:22px!important;align-items:start!important}
+body.d2-dark .hero-cover-art{display:block!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hero-cover-art:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hero-cover>a>img,body.d2-dark .hero-cover>img{width:100%!important;height:auto!important;aspect-ratio:3/4!important;object-fit:cover!important;border-radius:0!important;display:block!important}
+body.d2-dark .hero-cover h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;margin:4px 0 8px!important}
+body.d2-dark .hero-cover h2 a{color:#fff!important;text-decoration:none!important}
+body.d2-dark .hero-cover h2 a:hover{color:var(--d2-gold)!important}
+body.d2-dark .hero-cover p{color:var(--d2-muted)!important;font-size:13.5px!important;margin:0 0 16px!important}
+body.d2-dark .hero-detail-actions{gap:8px!important}
+body.d2-dark .hero-detail-actions .btn{padding:11px 16px!important;font-size:11px!important}
+
+body.d2-dark .detail-stats{gap:6px!important;margin:22px 0!important}
+body.d2-dark .detail-stats div{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:12px 13px!important}
+body.d2-dark .detail-stats small{display:block!important;color:var(--d2-muted-2)!important;font-size:9.5px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .detail-stats strong{color:#fff!important;font-size:19px!important;margin-top:4px!important}
+
+body.d2-dark .detail-section h3,body.d2-dark .detail-columns h3{font-size:14px!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 12px!important}
+body.d2-dark .modal-card .ability-card{display:grid!important;grid-template-columns:52px 1fr!important;gap:14px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .ability-art img{border-radius:0!important;background:#0a0c10!important}
+body.d2-dark .ability-art span{background:var(--d2-gold)!important;color:#14110a!important;border:2px solid var(--d2-panel)!important}
+body.d2-dark .ability-tag{border-radius:0!important;background:var(--d2-panel-2)!important;color:var(--d2-muted)!important;border:1px solid var(--d2-line)!important}
+
+body.d2-dark .linked-list a,body.d2-dark .linked-list button,body.d2-dark .build-list button{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;padding:10px 12px!important;font-size:13.5px!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .linked-list a:hover,body.d2-dark .linked-list button:hover,body.d2-dark .build-list button:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important;color:#fff!important}
+body.d2-dark .linked-list img{border-radius:0!important}
+body.d2-dark .linked-list span{color:var(--d2-gold)!important}
+body.d2-dark .build-list span{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-gold)!important;font-size:11px!important;font-weight:800!important}
+
+body.d2-dark .item-pop-loading{border:1px dashed var(--d2-line)!important;border-radius:0!important;background:var(--d2-panel)!important;color:var(--d2-muted)!important}
+body.d2-dark .item-pop-head h3{color:#fff!important}
+body.d2-dark .item-pop-grid>div,body.d2-dark .item-popularity-section .item-pop-grid>*{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
+body.d2-dark .item-pop-row{border-bottom:1px solid var(--d2-line-soft)!important;color:var(--d2-text)!important}
+body.d2-dark .item-pop-row:hover{color:#fff!important}
+body.d2-dark .item-pop-row img{border-radius:0!important}
+
+/* ссылки на разделы гайда по герою */
+body.d2-dark .hero-guide-links{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:8px!important}
+body.d2-dark .hero-guide-links a{display:flex!important;flex-direction:column!important;gap:3px!important;position:relative!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:13px 34px 13px 14px!important;text-decoration:none!important;color:var(--d2-text)!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .hero-guide-links a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important}
+body.d2-dark .hero-guide-links b{font-size:12.5px!important;letter-spacing:1.1px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .hero-guide-links small{color:var(--d2-muted)!important;font-size:11.5px!important;line-height:1.45!important}
+body.d2-dark .hero-guide-links span{position:absolute!important;right:13px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--d2-gold)!important}
+
+/* ========== гайд по герою ========== */
+body.d2-dark .hg-head{display:grid!important;grid-template-columns:200px 1fr!important;gap:26px!important;align-items:start!important;margin:8px 0 26px!important}
+body.d2-dark .hg-portrait{width:100%!important;aspect-ratio:3/4!important;object-fit:cover!important;border:1px solid var(--d2-line)!important;display:block!important}
+body.d2-dark .hg-main h1{margin:6px 0 14px!important}
+body.d2-dark .hg-lead{color:#c3cad4!important;font-size:15.5px!important;line-height:1.7!important;margin:0 0 18px!important}
+body.d2-dark .hg-toc{display:flex!important;flex-wrap:wrap!important;gap:6px!important;margin:0 0 10px!important;padding:12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hg-toc a{padding:8px 13px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;font-size:11px!important;font-weight:800!important;letter-spacing:1.1px!important;text-transform:uppercase!important;text-decoration:none!important}
+body.d2-dark .hg-toc a:hover{color:#fff!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hg-main section{scroll-margin-top:90px!important}
+body.d2-dark .hg-note,body.d2-dark .hg-hint,body.d2-dark .hg-source,body.d2-dark .hg-nodata{color:var(--d2-muted-2)!important;font-size:12.5px!important;line-height:1.65!important}
+body.d2-dark .hg-nodata{padding:14px 16px!important;border:1px dashed var(--d2-line)!important;background:var(--d2-panel)!important}
+
+body.d2-dark .hg-stats{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))!important;gap:6px!important;margin:18px 0!important}
+body.d2-dark .hg-stats div{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:12px 13px!important}
+body.d2-dark .hg-stats small{display:block!important;color:var(--d2-muted-2)!important;font-size:9.5px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .hg-stats strong{display:block!important;color:#fff!important;font-size:19px!important;margin-top:4px!important}
+
+body.d2-dark .hg-abilities{display:grid!important;gap:9px!important;margin-top:8px!important}
+body.d2-dark .hg-ability{display:grid!important;grid-template-columns:56px 1fr!important;gap:15px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:15px 16px!important}
+body.d2-dark .hg-ability-art{position:relative!important}
+body.d2-dark .hg-ability-art img{width:56px!important;height:56px!important;object-fit:cover!important;display:block!important;background:#0a0c10!important}
+body.d2-dark .hg-ability-art span{position:absolute!important;left:-7px!important;top:-7px!important;width:21px!important;height:21px!important;display:grid!important;place-items:center!important;background:var(--d2-gold)!important;color:#14110a!important;border:2px solid var(--d2-panel)!important;font-size:10px!important;font-weight:800!important}
+body.d2-dark .hg-ability b{display:block!important;color:#fff!important;font-size:13.5px!important;letter-spacing:1px!important;text-transform:uppercase!important;margin-bottom:7px!important}
+body.d2-dark .hg-ability p{margin:0 0 6px!important;font-size:14px!important;line-height:1.65!important;color:var(--d2-muted)!important}
+
+body.d2-dark .hg-phases{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;gap:9px!important;margin-top:8px!important}
+body.d2-dark .hg-phase{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:15px 16px!important}
+body.d2-dark .hg-phase h3{margin:0 0 4px!important;font-size:13px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:#fff!important;border:0!important;padding:0!important}
+body.d2-dark .hg-phase .hg-hint{margin:0 0 12px!important}
+body.d2-dark .hg-items{display:grid!important;gap:5px!important}
+body.d2-dark .hg-items a{display:grid!important;grid-template-columns:40px 1fr!important;align-items:center!important;gap:10px!important;padding:6px!important;border:1px solid transparent!important;text-decoration:none!important;color:var(--d2-text)!important}
+body.d2-dark .hg-items a:hover{border-color:var(--d2-gold-dim)!important;background:#161a20!important}
+body.d2-dark .hg-items img{width:40px!important;height:auto!important;display:block!important}
+body.d2-dark .hg-items b{display:block!important;font-size:12.5px!important;color:#fff!important;font-weight:700!important}
+/* у ссылки три ребёнка в сетке из двух колонок — подпись сама падала
+   под иконку; держим её во второй колонке под названием */
+body.d2-dark .hg-items small{display:block!important;grid-column:2!important;color:var(--d2-muted-2)!important;font-size:10.5px!important;margin-top:-2px!important}
+
+body.d2-dark .hg-table{width:100%!important;border-collapse:collapse!important;margin:14px 0!important}
+body.d2-dark .hg-table th{background:var(--d2-panel)!important;color:var(--d2-muted-2)!important;font-size:10px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;text-align:left!important;padding:10px 12px!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hg-table td{border:1px solid var(--d2-line)!important;padding:8px 12px!important;font-size:13.5px!important;color:var(--d2-text)!important}
+body.d2-dark .hg-table td a{display:flex!important;align-items:center!important;gap:10px!important;color:#fff!important;text-decoration:none!important}
+body.d2-dark .hg-table td a:hover{color:var(--d2-gold)!important}
+body.d2-dark .hg-table td img{width:44px!important;height:25px!important;object-fit:cover!important}
+body.d2-dark .hg-table tbody tr:hover td{background:#161a20!important}
+body.d2-dark .hg-table td b{color:var(--d2-gold)!important}
+
+@media(max-width:760px){
+  body.d2-dark .hg-head{grid-template-columns:1fr!important;gap:16px!important}
+  body.d2-dark .hg-portrait{max-width:200px!important}
+  body.d2-dark .hg-ability{grid-template-columns:44px 1fr!important;gap:11px!important}
+  body.d2-dark .hg-ability-art img{width:44px!important;height:44px!important}
+  body.d2-dark .hg-table td img{width:34px!important;height:20px!important}
+}
+
+/* реальные матчапы и покупки на странице героя */
+body.d2-dark .hp-matchups a{display:grid!important;grid-template-columns:54px 1fr auto!important;align-items:center!important;gap:12px!important}
+body.d2-dark .hp-matchups b{grid-column:2!important;font-size:13.5px!important}
+body.d2-dark .hp-matchups i{grid-column:2!important;grid-row:2!important;font-style:normal!important;color:var(--d2-muted-2)!important;font-size:11px!important;letter-spacing:.4px!important}
+body.d2-dark .hp-matchups span{grid-column:3!important;grid-row:1/3!important}
+body.d2-dark .hp-buys{margin-top:34px!important}
+body.d2-dark .hp-buys h2{font-size:clamp(20px,2.4vw,28px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 6px!important}
+body.d2-dark .hp-buys-note{color:var(--d2-muted-2)!important;font-size:12.5px!important;margin:0 0 14px!important}
+body.d2-dark .hp-buy-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;gap:9px!important}
+body.d2-dark .hp-buy-col{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:14px 15px!important}
+body.d2-dark .hp-buy-col h3{margin:0 0 10px!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .hp-buy-col a{display:grid!important;grid-template-columns:38px 1fr auto!important;align-items:center!important;gap:10px!important;padding:5px 0!important;text-decoration:none!important;color:var(--d2-text)!important}
+body.d2-dark .hp-buy-col a:hover b{color:var(--d2-gold)!important}
+body.d2-dark .hp-buy-col img{width:38px!important;height:auto!important;display:block!important}
+body.d2-dark .hp-buy-col b{font-size:12.5px!important;font-weight:700!important}
+body.d2-dark .hp-buy-col i{font-style:normal!important;color:var(--d2-muted-2)!important;font-size:11px!important}
+body.d2-dark .hp-guide-cta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;flex-wrap:wrap!important;margin-top:34px!important;padding:20px 22px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hp-guide-cta b{display:block!important;color:#fff!important;font-size:15px!important;letter-spacing:1.1px!important;text-transform:uppercase!important}
+body.d2-dark .hp-guide-cta small{display:block!important;color:var(--d2-muted)!important;font-size:12.5px!important;margin-top:4px!important}
+body.d2-dark .hp-ab-desc{margin:12px 0 0!important;color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.65!important}
+/* вход в гайды по героям из раздела «Гайды» */
+body.d2-dark .guides-heroes-cta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;flex-wrap:wrap!important;margin-top:22px!important;padding:20px 22px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .guides-heroes-cta b{display:block!important;color:#fff!important;font-size:15px!important;letter-spacing:1.1px!important;text-transform:uppercase!important}
+body.d2-dark .guides-heroes-cta small{display:block!important;max-width:720px!important;color:var(--d2-muted)!important;font-size:12.5px!important;line-height:1.6!important;margin-top:5px!important}
+
+/* Логотип в шапке вместо текстового названия */
+body.d2-dark .brand{gap:0!important;padding:0!important}
+body.d2-dark .brand-logo{display:block!important;height:34px!important;width:auto!important}
+@media(max-width:760px){
+  body.d2-dark .brand-logo{height:26px!important}
+}
+
+/* ---------------------------------------------------------------------------
+   Карточка предмета в модалке (21.09.2026).
+   В style.css .item-profile-* написаны под светлую тему: белые панели, тёмный
+   текст, светлые чипы. На тёмном сайте это давало ровно то, что было на
+   скриншотах — белые блоки и нечитаемые «Примечания Valve» и «История».
+   Здесь тот же блок переопределён целиком; всё через !important, потому что
+   исходные правила тоже с !important (см. «Две ловушки в старой вёрстке»).
+   --------------------------------------------------------------------------- */
+body.d2-dark .item-profile-v3{color:var(--d2-text)!important}
+body.d2-dark .item-profile-art{background:#0a0c10!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:8px!important}
+body.d2-dark .item-profile-art img{border-radius:0!important;aspect-ratio:11/8!important;width:100%!important;height:auto!important;object-fit:cover!important;background:#0a0c10!important}
+body.d2-dark .item-profile-art>span{background:var(--d2-gold)!important;color:#14110a!important;border-radius:0!important;letter-spacing:.8px!important;text-transform:uppercase!important}
+body.d2-dark .item-profile-title h2{font-size:clamp(26px,3.2vw,38px)!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .item-profile-title h2 a{color:#fff!important;text-decoration:none!important}
+body.d2-dark .item-profile-title h2 a:hover{color:var(--d2-gold)!important}
+body.d2-dark .item-profile-meta span{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-muted)!important;font-size:10.5px!important;padding:6px 10px!important}
+body.d2-dark .item-profile-sub{color:var(--d2-muted-2)!important;font-size:12px!important}
+body.d2-dark .item-profile-actions .btn{display:inline-flex!important;align-items:center!important;padding:11px 16px!important;font-size:11px!important}
+body.d2-dark .item-profile-panel{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:none!important;color:var(--d2-text)!important;padding:18px!important}
+body.d2-dark .item-panel-head{border-bottom:1px solid var(--d2-line-soft)!important;padding-bottom:10px!important}
+body.d2-dark .item-panel-head span:first-child{color:var(--d2-gold-dim)!important;letter-spacing:1.8px!important}
+body.d2-dark .item-panel-head h3{color:#fff!important;font-size:15px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .item-panel-head>small{color:var(--d2-muted-2)!important;font-size:9.5px!important;letter-spacing:1px!important;text-transform:uppercase!important;white-space:nowrap!important}
+body.d2-dark .ip-block{margin:0 0 14px!important}
+body.d2-dark .ip-block:last-child{margin-bottom:0!important}
+body.d2-dark .ip-block h4{margin:0 0 6px!important;font-size:12.5px!important;letter-spacing:1.1px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .ip-block p{margin:0 0 6px!important;color:var(--d2-text)!important;font-size:13.5px!important;line-height:1.65!important}
+body.d2-dark .item-profile-panel .muted{color:var(--d2-muted-2)!important;font-size:12.5px!important;margin:0!important}
+body.d2-dark .item-official-facts{display:grid!important;grid-template-columns:1fr!important;gap:6px!important}
+body.d2-dark .item-official-facts div{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:9px 12px!important}
+body.d2-dark .item-official-facts strong{color:#fff!important;font-size:13.5px!important;font-weight:600!important}
+body.d2-dark .ip-links{margin-top:14px!important}
+body.d2-dark .ip-links h4{margin:0 0 7px!important;font-size:10.5px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .ip-chips{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+body.d2-dark .ip-chip{display:inline-flex!important;align-items:center!important;gap:8px!important;padding:6px 10px 6px 6px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;font-size:12px!important;cursor:pointer!important;transition:border-color .18s,background .18s!important}
+body.d2-dark .ip-chip:hover{border-color:var(--d2-gold-dim)!important;background:#1b1f26!important;color:#fff!important}
+body.d2-dark .ip-chip img{width:34px!important;height:25px!important;object-fit:contain!important;display:block!important;background:#0a0c10!important}
+body.d2-dark .item-notes{margin-top:14px!important;padding-top:12px!important;border-top:1px solid var(--d2-line-soft)!important;background:none!important;border-radius:0!important}
+body.d2-dark .item-notes h4{margin:0 0 7px!important;font-size:10.5px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .item-notes p{margin:0 0 5px!important;color:var(--d2-muted)!important;font-size:12.5px!important;line-height:1.6!important}
+body.d2-dark .item-lore{margin-top:14px!important;padding:12px 14px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-left:2px solid var(--d2-gold-dim)!important;border-radius:0!important}
+body.d2-dark .item-lore small{display:block!important;font-size:9.5px!important;letter-spacing:1.6px!important;color:var(--d2-gold-dim)!important;margin-bottom:6px!important}
+body.d2-dark .item-lore p{margin:0!important;color:var(--d2-muted)!important;font-size:13px!important;line-height:1.65!important;font-style:italic!important}
+body.d2-dark .item-hero-links{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))!important;gap:6px!important}
+body.d2-dark .item-hero-links button{display:flex!important;align-items:center!important;gap:10px!important;text-align:left!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;padding:8px 10px!important;cursor:pointer!important;transition:border-color .18s!important}
+body.d2-dark .item-hero-links button:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .item-hero-links img{width:44px!important;height:25px!important;object-fit:cover!important;display:block!important}
+body.d2-dark .item-hero-links b{display:block!important;font-size:12.5px!important;color:#fff!important}
+body.d2-dark .item-hero-links small{display:block!important;font-size:10.5px!important;color:var(--d2-muted-2)!important;margin-top:2px!important}
+body.d2-dark .item-phase-bars{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:6px!important;margin-top:10px!important}
+body.d2-dark .item-phase-bars div{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;padding:9px 10px!important}
+body.d2-dark .item-phase-bars span{display:block!important;font-size:9.5px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .item-phase-bars b{display:block!important;margin-top:3px!important;color:#fff!important;font-size:16px!important}
+body.d2-dark .item-why-panel p{color:var(--d2-muted-2)!important;font-size:11.5px!important;line-height:1.65!important}
+body.d2-dark .item-counter-row,body.d2-dark .item-counters-panel .item-counter{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important}
+body.d2-dark .item-counters-list{display:grid!important;gap:6px!important}
+body.d2-dark .item-counter-row{display:flex!important;align-items:center!important;gap:10px!important;text-align:left!important;cursor:pointer!important;padding:9px 11px!important;transition:border-color .18s!important}
+body.d2-dark .item-counter-row:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .item-counter-row img{width:44px!important;height:32px!important;object-fit:contain!important;display:block!important;background:#0a0c10!important}
+body.d2-dark .item-counter-row b{display:block!important;font-size:13px!important;color:#fff!important}
+body.d2-dark .item-counter-row small{display:block!important;font-size:11.5px!important;color:var(--d2-muted)!important;margin-top:2px!important}
+body.d2-dark .item-pop-loading{color:var(--d2-muted-2)!important;font-size:12.5px!important;background:none!important;border:0!important}
+
+/* Страница предмета: блоки русского описания, примечания и список героев
+   (21.09.2026). Раньше здесь были английские .ability-card от OpenDota. */
+body.d2-dark .ip-desc{display:grid!important;gap:16px!important;max-width:760px!important}
+body.d2-dark .ip-desc .ip-block h3{margin:0 0 8px!important;font-size:14px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .ip-desc .ip-block p{margin:0 0 8px!important;color:var(--d2-text)!important;font-size:14.5px!important;line-height:1.72!important}
+body.d2-dark .ip-notes{margin-top:20px!important;padding:14px 16px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;max-width:760px!important}
+body.d2-dark .ip-notes h3{margin:0 0 8px!important;font-size:11px!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
+body.d2-dark .ip-notes p{margin:0 0 6px!important;color:var(--d2-muted)!important;font-size:13px!important;line-height:1.6!important}
+body.d2-dark .ip-heroes{list-style:none!important;margin:0!important;padding:0!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:8px!important}
+body.d2-dark .ip-heroes li{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:11px 13px!important}
+body.d2-dark .ip-heroes b{display:block!important;color:#fff!important;font-size:13.5px!important}
+body.d2-dark .ip-heroes span{display:block!important;margin-top:3px!important;color:var(--d2-muted-2)!important;font-size:11.5px!important}
+
+/* Блок «Самые покупаемые предметы» на /stats/ — те же белые панели из
+   светлой темы, что были в модалке предмета. */
+body.d2-dark .stats-item-analytics{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;box-shadow:none!important;color:var(--d2-text)!important}
+body.d2-dark .stats-analytics-head span{color:var(--d2-gold-dim)!important}
+body.d2-dark .stats-analytics-head h3{color:#fff!important}
+body.d2-dark .stats-analytics-head p,body.d2-dark .stats-analytics-head small{color:var(--d2-muted-2)!important}
+body.d2-dark .stats-item-table button{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-text)!important;box-shadow:none!important;cursor:pointer!important;transition:border-color .18s!important}
+body.d2-dark .stats-item-table button:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .stats-item-table img{background:#0a0c10!important;object-fit:contain!important}
+body.d2-dark .stats-item-table .rank{color:var(--d2-muted-2)!important}
+body.d2-dark .stats-item-table .item-a-name b{color:#fff!important}
+body.d2-dark .stats-item-table .item-a-name small{color:var(--d2-muted-2)!important}
+body.d2-dark .stats-item-table strong{color:var(--d2-gold)!important}
+body.d2-dark .stats-analytics-loading{color:var(--d2-muted-2)!important;background:none!important}

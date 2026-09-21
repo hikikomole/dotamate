@@ -1,4 +1,4 @@
-/* Dota 2 Companion v43 — home feature layer (глобальный поиск Ctrl+K). */
+/* Dota Mate v43 — home feature layer (глобальный поиск Ctrl+K). */
 (function(){
   'use strict';
   const $=id=>document.getElementById(id);

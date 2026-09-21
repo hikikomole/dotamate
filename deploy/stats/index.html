@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion</title>
+<title>Статистика героев Dota 2 — winrate, пики и баны | Dota Mate</title>
 <meta name="description" content="Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.">
 <link rel="canonical" href="https://dotamate.ru/stats/">
-<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion">
+<meta property="og:title" content="Статистика героев Dota 2 — winrate, пики и баны | Dota Mate">
 <meta property="og:description" content="Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.">
-<meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
+<meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
 <meta property="og:url" content="https://dotamate.ru/stats/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Статистика героев Dota 2 — winrate, пики и баны | Dota 2 Companion">
+<meta name="twitter:title" content="Статистика героев Dota 2 — winrate, пики и баны | Dota Mate">
 <meta name="twitter:description" content="Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,10 +34,7 @@
 
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota 2 Companion">
-  <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
-  <span>Dota 2 <b>Companion</b></span>
-</a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
     <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/" aria-current="page" class="active">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
@@ -62,7 +59,7 @@
     <div class="stats-panel">
       <div class="stats-toolbar">
         <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
-        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="Carry">Carry</option><option value="Mid">Mid</option><option value="Offlane">Offlane</option><option value="Support">Support</option><option value="Hard Support">Hard Support</option></select>
+        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="Carry">Керри</option><option value="Support">Поддержка</option><option value="Nuker">Нюкер</option><option value="Disabler">Дизейблер</option><option value="Initiator">Инициация</option><option value="Durable">Танк</option><option value="Escape">Эскейп</option><option value="Pusher">Пушер</option></select>
         <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
       </div>
       <div class="table-wrap">
@@ -76,7 +73,7 @@
 
 </main>
 
-<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
 <script src="/js/local-preview.js"></script>

@@ -4,12 +4,12 @@ cd /d "%~dp0"
 where node >nul 2>nul
 if errorlevel 1 (
   echo.
-  echo Dota 2 Companion requires Node.js 18 or newer.
+  echo Dota Mate requires Node.js 18 or newer.
   echo Install Node.js, then run this file again.
   pause
   exit /b 1
 )
-start "Dota 2 Companion Server" cmd /c "node preview-server.js"
+start "Dota Mate Server" cmd /c "node preview-server.js"
 for /l %%i in (1,1,20) do (
   powershell -NoProfile -Command "try { $r=Invoke-WebRequest -UseBasicParsing http://127.0.0.1:4173/api/health -TimeoutSec 1; if($r.StatusCode -eq 200){exit 0}else{exit 1} } catch { exit 1 }" >nul 2>nul
   if not errorlevel 1 goto OPEN

@@ -1,447 +1,215 @@
 [
   {
-    "loc": "https://dotamate.ru/item/blink/",
-    "name": "Blink Dagger"
+    "loc": "https://dotamate.ru/item/abyssal_blade/",
+    "name": "Abyssal Blade"
   },
   {
-    "loc": "https://dotamate.ru/item/overwhelming_blink/",
-    "name": "Overwhelming Blink"
+    "loc": "https://dotamate.ru/item/aegis/",
+    "name": "Aegis of the Immortal"
   },
   {
-    "loc": "https://dotamate.ru/item/swift_blink/",
-    "name": "Swift Blink"
-  },
-  {
-    "loc": "https://dotamate.ru/item/arcane_blink/",
-    "name": "Arcane Blink"
-  },
-  {
-    "loc": "https://dotamate.ru/item/blades_of_attack/",
-    "name": "Blades of Attack"
-  },
-  {
-    "loc": "https://dotamate.ru/item/broadsword/",
-    "name": "Broadsword"
-  },
-  {
-    "loc": "https://dotamate.ru/item/chainmail/",
-    "name": "Chainmail"
-  },
-  {
-    "loc": "https://dotamate.ru/item/splintmail/",
-    "name": "Splintmail"
-  },
-  {
-    "loc": "https://dotamate.ru/item/claymore/",
-    "name": "Claymore"
-  },
-  {
-    "loc": "https://dotamate.ru/item/helm_of_iron_will/",
-    "name": "Helm of Iron Will"
-  },
-  {
-    "loc": "https://dotamate.ru/item/javelin/",
-    "name": "Javelin"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mithril_hammer/",
-    "name": "Mithril Hammer"
-  },
-  {
-    "loc": "https://dotamate.ru/item/platemail/",
-    "name": "Platemail"
-  },
-  {
-    "loc": "https://dotamate.ru/item/quarterstaff/",
-    "name": "Quarterstaff"
-  },
-  {
-    "loc": "https://dotamate.ru/item/quelling_blade/",
-    "name": "Quelling Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/faerie_fire/",
-    "name": "Faerie Fire"
-  },
-  {
-    "loc": "https://dotamate.ru/item/infused_raindrop/",
-    "name": "Infused Raindrops"
-  },
-  {
-    "loc": "https://dotamate.ru/item/wind_lace/",
-    "name": "Wind Lace"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ring_of_protection/",
-    "name": "Ring of Protection"
-  },
-  {
-    "loc": "https://dotamate.ru/item/stout_shield/",
-    "name": "Stout Shield"
-  },
-  {
-    "loc": "https://dotamate.ru/item/moon_shard/",
-    "name": "Moon Shard"
-  },
-  {
-    "loc": "https://dotamate.ru/item/gauntlets/",
-    "name": "Gauntlets of Strength"
-  },
-  {
-    "loc": "https://dotamate.ru/item/slippers/",
-    "name": "Slippers of Agility"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mantle/",
-    "name": "Mantle of Intelligence"
-  },
-  {
-    "loc": "https://dotamate.ru/item/branches/",
-    "name": "Iron Branch"
-  },
-  {
-    "loc": "https://dotamate.ru/item/belt_of_strength/",
-    "name": "Belt of Strength"
-  },
-  {
-    "loc": "https://dotamate.ru/item/boots_of_elves/",
-    "name": "Band of Elvenskin"
-  },
-  {
-    "loc": "https://dotamate.ru/item/robe/",
-    "name": "Robe of the Magi"
-  },
-  {
-    "loc": "https://dotamate.ru/item/circlet/",
-    "name": "Circlet"
-  },
-  {
-    "loc": "https://dotamate.ru/item/crown/",
-    "name": "Crown"
-  },
-  {
-    "loc": "https://dotamate.ru/item/diadem/",
-    "name": "Diadem"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ogre_axe/",
-    "name": "Ogre Axe"
-  },
-  {
-    "loc": "https://dotamate.ru/item/blade_of_alacrity/",
-    "name": "Blade of Alacrity"
-  },
-  {
-    "loc": "https://dotamate.ru/item/staff_of_wizardry/",
-    "name": "Staff of Wizardry"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ultimate_orb/",
-    "name": "Ultimate Orb"
-  },
-  {
-    "loc": "https://dotamate.ru/item/gloves/",
-    "name": "Gloves of Haste"
-  },
-  {
-    "loc": "https://dotamate.ru/item/blitz_knuckles/",
-    "name": "Blitz Knuckles"
-  },
-  {
-    "loc": "https://dotamate.ru/item/lifesteal/",
-    "name": "Morbid Mask"
-  },
-  {
-    "loc": "https://dotamate.ru/item/voodoo_mask/",
-    "name": "Voodoo Mask"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ring_of_regen/",
-    "name": "Ring of Regen"
-  },
-  {
-    "loc": "https://dotamate.ru/item/sobi_mask/",
-    "name": "Sage's Mask"
-  },
-  {
-    "loc": "https://dotamate.ru/item/boots/",
-    "name": "Boots of Speed"
-  },
-  {
-    "loc": "https://dotamate.ru/item/gem/",
-    "name": "Gem of True Sight"
-  },
-  {
-    "loc": "https://dotamate.ru/item/shawl/",
-    "name": "Shawl"
-  },
-  {
-    "loc": "https://dotamate.ru/item/cloak/",
-    "name": "Cloak"
-  },
-  {
-    "loc": "https://dotamate.ru/item/talisman_of_evasion/",
-    "name": "Talisman of Evasion"
-  },
-  {
-    "loc": "https://dotamate.ru/item/cheese/",
-    "name": "Cheese"
-  },
-  {
-    "loc": "https://dotamate.ru/item/magic_stick/",
-    "name": "Magic Stick"
-  },
-  {
-    "loc": "https://dotamate.ru/item/magic_wand/",
-    "name": "Magic Wand"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ghost/",
-    "name": "Ghost Scepter"
-  },
-  {
-    "loc": "https://dotamate.ru/item/clarity/",
-    "name": "Clarity"
-  },
-  {
-    "loc": "https://dotamate.ru/item/enchanted_mango/",
-    "name": "Enchanted Mango"
-  },
-  {
-    "loc": "https://dotamate.ru/item/famango/",
-    "name": "Healing Lotus"
-  },
-  {
-    "loc": "https://dotamate.ru/item/great_famango/",
-    "name": "Great Healing Lotus"
-  },
-  {
-    "loc": "https://dotamate.ru/item/greater_famango/",
-    "name": "Greater Healing Lotus"
-  },
-  {
-    "loc": "https://dotamate.ru/item/blood_grenade/",
-    "name": "Blood Grenade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/royale_with_cheese/",
-    "name": "Block of Cheese"
-  },
-  {
-    "loc": "https://dotamate.ru/item/flask/",
-    "name": "Healing Salve"
-  },
-  {
-    "loc": "https://dotamate.ru/item/dust/",
-    "name": "Dust of Appearance"
-  },
-  {
-    "loc": "https://dotamate.ru/item/bottle/",
-    "name": "Bottle"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ward_dispenser/",
-    "name": "Observer and Sentry Wards"
-  },
-  {
-    "loc": "https://dotamate.ru/item/tango/",
-    "name": "Tango"
-  },
-  {
-    "loc": "https://dotamate.ru/item/tango_single/",
-    "name": "Tango (Shared)"
-  },
-  {
-    "loc": "https://dotamate.ru/item/tpscroll/",
-    "name": "Town Portal Scroll"
-  },
-  {
-    "loc": "https://dotamate.ru/item/travel_boots/",
-    "name": "Boots of Travel"
-  },
-  {
-    "loc": "https://dotamate.ru/item/travel_boots_2/",
-    "name": "Boots of Travel 2"
-  },
-  {
-    "loc": "https://dotamate.ru/item/phase_boots/",
-    "name": "Phase Boots"
-  },
-  {
-    "loc": "https://dotamate.ru/item/demon_edge/",
-    "name": "Demon Edge"
-  },
-  {
-    "loc": "https://dotamate.ru/item/eagle/",
-    "name": "Eaglesong"
-  },
-  {
-    "loc": "https://dotamate.ru/item/reaver/",
-    "name": "Reaver"
-  },
-  {
-    "loc": "https://dotamate.ru/item/relic/",
-    "name": "Sacred Relic"
-  },
-  {
-    "loc": "https://dotamate.ru/item/hyperstone/",
-    "name": "Hyperstone"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ring_of_health/",
-    "name": "Ring of Health"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ring_of_tarrasque/",
-    "name": "Ring of Tarrasque"
-  },
-  {
-    "loc": "https://dotamate.ru/item/void_stone/",
-    "name": "Void Stone"
-  },
-  {
-    "loc": "https://dotamate.ru/item/tiara_of_selemene/",
-    "name": "Tiara of Selemene"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mystic_staff/",
-    "name": "Mystic Staff"
-  },
-  {
-    "loc": "https://dotamate.ru/item/energy_booster/",
-    "name": "Energy Booster"
-  },
-  {
-    "loc": "https://dotamate.ru/item/point_booster/",
-    "name": "Point Booster"
-  },
-  {
-    "loc": "https://dotamate.ru/item/vitality_booster/",
-    "name": "Vitality Booster"
-  },
-  {
-    "loc": "https://dotamate.ru/item/fluffy_hat/",
-    "name": "Fluffy Hat"
-  },
-  {
-    "loc": "https://dotamate.ru/item/power_treads/",
-    "name": "Power Treads"
-  },
-  {
-    "loc": "https://dotamate.ru/item/phylactery/",
-    "name": "Phylactery"
-  },
-  {
-    "loc": "https://dotamate.ru/item/angels_demise/",
-    "name": "Khanda"
-  },
-  {
-    "loc": "https://dotamate.ru/item/hand_of_midas/",
-    "name": "Hand of Midas"
-  },
-  {
-    "loc": "https://dotamate.ru/item/oblivion_staff/",
-    "name": "Oblivion Staff"
-  },
-  {
-    "loc": "https://dotamate.ru/item/witch_blade/",
-    "name": "Witch Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/pers/",
-    "name": "Perseverance"
-  },
-  {
-    "loc": "https://dotamate.ru/item/cornucopia/",
-    "name": "Cornucopia"
-  },
-  {
-    "loc": "https://dotamate.ru/item/poor_mans_shield/",
-    "name": "Poor Man's Shield"
-  },
-  {
-    "loc": "https://dotamate.ru/item/bracer/",
-    "name": "Bracer"
-  },
-  {
-    "loc": "https://dotamate.ru/item/wraith_band/",
-    "name": "Wraith Band"
-  },
-  {
-    "loc": "https://dotamate.ru/item/null_talisman/",
-    "name": "Null Talisman"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mekansm/",
-    "name": "Mekansm"
-  },
-  {
-    "loc": "https://dotamate.ru/item/vladmir/",
-    "name": "Vladmir's Offering"
-  },
-  {
-    "loc": "https://dotamate.ru/item/wraith_pact/",
-    "name": "Wraith Pact"
-  },
-  {
-    "loc": "https://dotamate.ru/item/buckler/",
-    "name": "Buckler"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ring_of_basilius/",
-    "name": "Ring of Basilius"
-  },
-  {
-    "loc": "https://dotamate.ru/item/holy_locket/",
-    "name": "Holy Locket"
-  },
-  {
-    "loc": "https://dotamate.ru/item/pipe/",
-    "name": "Pipe of Insight"
-  },
-  {
-    "loc": "https://dotamate.ru/item/urn_of_shadows/",
-    "name": "Urn of Shadows"
-  },
-  {
-    "loc": "https://dotamate.ru/item/headdress/",
-    "name": "Headdress"
-  },
-  {
-    "loc": "https://dotamate.ru/item/sheepstick/",
-    "name": "Scythe of Vyse"
-  },
-  {
-    "loc": "https://dotamate.ru/item/orchid/",
-    "name": "Orchid Malevolence"
-  },
-  {
-    "loc": "https://dotamate.ru/item/bloodthorn/",
-    "name": "Bloodthorn"
-  },
-  {
-    "loc": "https://dotamate.ru/item/echo_sabre/",
-    "name": "Echo Sabre"
-  },
-  {
-    "loc": "https://dotamate.ru/item/cyclone/",
-    "name": "Eul's Scepter of Divinity"
-  },
-  {
-    "loc": "https://dotamate.ru/item/wind_waker/",
-    "name": "Wind Waker"
+    "loc": "https://dotamate.ru/item/aeon_disk/",
+    "name": "Aeon Disk"
   },
   {
     "loc": "https://dotamate.ru/item/aether_lens/",
     "name": "Aether Lens"
   },
   {
-    "loc": "https://dotamate.ru/item/force_staff/",
-    "name": "Force Staff"
+    "loc": "https://dotamate.ru/item/aghanims_shard/",
+    "name": "Aghanim's Shard"
   },
   {
-    "loc": "https://dotamate.ru/item/hurricane_pike/",
-    "name": "Hurricane Pike"
+    "loc": "https://dotamate.ru/item/aghanims_shard_roshan/",
+    "name": "Aghanim's Shard - Consumable"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ancient_janggo/",
+    "name": "Drum of Endurance"
+  },
+  {
+    "loc": "https://dotamate.ru/item/angels_demise/",
+    "name": "Khanda"
+  },
+  {
+    "loc": "https://dotamate.ru/item/arcane_blink/",
+    "name": "Arcane Blink"
+  },
+  {
+    "loc": "https://dotamate.ru/item/arcane_boots/",
+    "name": "Arcane Boots"
+  },
+  {
+    "loc": "https://dotamate.ru/item/armlet/",
+    "name": "Armlet of Mordiggian"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ash_legion_shield/",
+    "name": "Ash Legion Shield"
+  },
+  {
+    "loc": "https://dotamate.ru/item/assault/",
+    "name": "Assault Cuirass"
+  },
+  {
+    "loc": "https://dotamate.ru/item/basher/",
+    "name": "Skull Basher"
+  },
+  {
+    "loc": "https://dotamate.ru/item/belt_of_strength/",
+    "name": "Belt of Strength"
+  },
+  {
+    "loc": "https://dotamate.ru/item/bfury/",
+    "name": "Battle Fury"
+  },
+  {
+    "loc": "https://dotamate.ru/item/black_king_bar/",
+    "name": "Black King Bar"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blade_mail/",
+    "name": "Blade Mail"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blade_of_alacrity/",
+    "name": "Blade of Alacrity"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blades_of_attack/",
+    "name": "Blades of Attack"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blight_stone/",
+    "name": "Orb of Blight"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blink/",
+    "name": "Blink Dagger"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blitz_knuckles/",
+    "name": "Blitz Knuckles"
+  },
+  {
+    "loc": "https://dotamate.ru/item/blood_grenade/",
+    "name": "Blood Grenade"
+  },
+  {
+    "loc": "https://dotamate.ru/item/bloodstone/",
+    "name": "Bloodstone"
+  },
+  {
+    "loc": "https://dotamate.ru/item/bloodthorn/",
+    "name": "Bloodthorn"
+  },
+  {
+    "loc": "https://dotamate.ru/item/boots/",
+    "name": "Boots of Speed"
+  },
+  {
+    "loc": "https://dotamate.ru/item/boots_of_bearing/",
+    "name": "Boots of Bearing"
+  },
+  {
+    "loc": "https://dotamate.ru/item/boots_of_elves/",
+    "name": "Band of Elvenskin"
+  },
+  {
+    "loc": "https://dotamate.ru/item/bottle/",
+    "name": "Bottle"
+  },
+  {
+    "loc": "https://dotamate.ru/item/bracer/",
+    "name": "Bracer"
+  },
+  {
+    "loc": "https://dotamate.ru/item/branches/",
+    "name": "Iron Branch"
+  },
+  {
+    "loc": "https://dotamate.ru/item/broadsword/",
+    "name": "Broadsword"
+  },
+  {
+    "loc": "https://dotamate.ru/item/buckler/",
+    "name": "Buckler"
+  },
+  {
+    "loc": "https://dotamate.ru/item/butterfly/",
+    "name": "Butterfly"
+  },
+  {
+    "loc": "https://dotamate.ru/item/chainmail/",
+    "name": "Chainmail"
+  },
+  {
+    "loc": "https://dotamate.ru/item/chasm_stone/",
+    "name": "Chasm Stone"
+  },
+  {
+    "loc": "https://dotamate.ru/item/cheese/",
+    "name": "Cheese"
+  },
+  {
+    "loc": "https://dotamate.ru/item/chipped_vest/",
+    "name": "Chipped Vest"
+  },
+  {
+    "loc": "https://dotamate.ru/item/circlet/",
+    "name": "Circlet"
+  },
+  {
+    "loc": "https://dotamate.ru/item/clarity/",
+    "name": "Clarity"
+  },
+  {
+    "loc": "https://dotamate.ru/item/claymore/",
+    "name": "Claymore"
+  },
+  {
+    "loc": "https://dotamate.ru/item/cloak/",
+    "name": "Cloak"
+  },
+  {
+    "loc": "https://dotamate.ru/item/cloak_of_flames/",
+    "name": "Cloak of Flames"
+  },
+  {
+    "loc": "https://dotamate.ru/item/conjurers_catalyst/",
+    "name": "Conjurer's Catalyst"
+  },
+  {
+    "loc": "https://dotamate.ru/item/consecrated_wraps/",
+    "name": "Consecrated Wraps"
+  },
+  {
+    "loc": "https://dotamate.ru/item/cornucopia/",
+    "name": "Cornucopia"
+  },
+  {
+    "loc": "https://dotamate.ru/item/crellas_crozier/",
+    "name": "Crella's Crozier"
+  },
+  {
+    "loc": "https://dotamate.ru/item/crimson_guard/",
+    "name": "Crimson Guard"
+  },
+  {
+    "loc": "https://dotamate.ru/item/crippling_crossbow/",
+    "name": "Crippling Crossbow"
+  },
+  {
+    "loc": "https://dotamate.ru/item/crown/",
+    "name": "Crown"
+  },
+  {
+    "loc": "https://dotamate.ru/item/cyclone/",
+    "name": "Eul's Scepter of Divinity"
+  },
+  {
+    "loc": "https://dotamate.ru/item/dagger_of_ristul/",
+    "name": "Dagger of Ristul"
   },
   {
     "loc": "https://dotamate.ru/item/dagon/",
@@ -464,6 +232,378 @@
     "name": "Dagon"
   },
   {
+    "loc": "https://dotamate.ru/item/dandelion_amulet/",
+    "name": "Dandelion Amulet"
+  },
+  {
+    "loc": "https://dotamate.ru/item/defiant_shell/",
+    "name": "Defiant Shell"
+  },
+  {
+    "loc": "https://dotamate.ru/item/demon_edge/",
+    "name": "Demon Edge"
+  },
+  {
+    "loc": "https://dotamate.ru/item/demonicon/",
+    "name": "Book of the Dead"
+  },
+  {
+    "loc": "https://dotamate.ru/item/desolator/",
+    "name": "Desolator"
+  },
+  {
+    "loc": "https://dotamate.ru/item/desolator_2/",
+    "name": "Stygian Desolator"
+  },
+  {
+    "loc": "https://dotamate.ru/item/devastator/",
+    "name": "Parasma"
+  },
+  {
+    "loc": "https://dotamate.ru/item/dezun_bloodrite/",
+    "name": "Dezun Bloodrite"
+  },
+  {
+    "loc": "https://dotamate.ru/item/diadem/",
+    "name": "Diadem"
+  },
+  {
+    "loc": "https://dotamate.ru/item/diffusal_blade/",
+    "name": "Diffusal Blade"
+  },
+  {
+    "loc": "https://dotamate.ru/item/disperser/",
+    "name": "Disperser"
+  },
+  {
+    "loc": "https://dotamate.ru/item/divine_regalia/",
+    "name": "Divine Regalia"
+  },
+  {
+    "loc": "https://dotamate.ru/item/dormant_curio/",
+    "name": "Dormant Curio"
+  },
+  {
+    "loc": "https://dotamate.ru/item/dragon_lance/",
+    "name": "Dragon Lance"
+  },
+  {
+    "loc": "https://dotamate.ru/item/duelist_gloves/",
+    "name": "Duelist Gloves"
+  },
+  {
+    "loc": "https://dotamate.ru/item/dust/",
+    "name": "Dust of Appearance"
+  },
+  {
+    "loc": "https://dotamate.ru/item/eagle/",
+    "name": "Eaglesong"
+  },
+  {
+    "loc": "https://dotamate.ru/item/echo_sabre/",
+    "name": "Echo Sabre"
+  },
+  {
+    "loc": "https://dotamate.ru/item/enchanted_mango/",
+    "name": "Enchanted Mango"
+  },
+  {
+    "loc": "https://dotamate.ru/item/enchanters_bauble/",
+    "name": "Enchanter's Bauble"
+  },
+  {
+    "loc": "https://dotamate.ru/item/energy_booster/",
+    "name": "Energy Booster"
+  },
+  {
+    "loc": "https://dotamate.ru/item/essence_distiller/",
+    "name": "Essence Distiller"
+  },
+  {
+    "loc": "https://dotamate.ru/item/essence_ring/",
+    "name": "Essence Ring"
+  },
+  {
+    "loc": "https://dotamate.ru/item/eternal_shroud/",
+    "name": "Eternal Shroud"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ethereal_blade/",
+    "name": "Ethereal Blade"
+  },
+  {
+    "loc": "https://dotamate.ru/item/faerie_fire/",
+    "name": "Faerie Fire"
+  },
+  {
+    "loc": "https://dotamate.ru/item/falcon_blade/",
+    "name": "Falcon Blade"
+  },
+  {
+    "loc": "https://dotamate.ru/item/fallen_sky/",
+    "name": "Fallen Sky"
+  },
+  {
+    "loc": "https://dotamate.ru/item/famango/",
+    "name": "Healing Lotus"
+  },
+  {
+    "loc": "https://dotamate.ru/item/flask/",
+    "name": "Healing Salve"
+  },
+  {
+    "loc": "https://dotamate.ru/item/flayers_bota/",
+    "name": "Flayer's Bota"
+  },
+  {
+    "loc": "https://dotamate.ru/item/fluffy_hat/",
+    "name": "Fluffy Hat"
+  },
+  {
+    "loc": "https://dotamate.ru/item/foragers_kit/",
+    "name": "Forager's Kit"
+  },
+  {
+    "loc": "https://dotamate.ru/item/force_staff/",
+    "name": "Force Staff"
+  },
+  {
+    "loc": "https://dotamate.ru/item/gauntlets/",
+    "name": "Gauntlets of Strength"
+  },
+  {
+    "loc": "https://dotamate.ru/item/gem/",
+    "name": "Gem of True Sight"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ghost/",
+    "name": "Ghost Scepter"
+  },
+  {
+    "loc": "https://dotamate.ru/item/giant_maul/",
+    "name": "Giant's Maul"
+  },
+  {
+    "loc": "https://dotamate.ru/item/glimmer_cape/",
+    "name": "Glimmer Cape"
+  },
+  {
+    "loc": "https://dotamate.ru/item/gloves/",
+    "name": "Gloves of Haste"
+  },
+  {
+    "loc": "https://dotamate.ru/item/great_famango/",
+    "name": "Great Healing Lotus"
+  },
+  {
+    "loc": "https://dotamate.ru/item/greater_crit/",
+    "name": "Daedalus"
+  },
+  {
+    "loc": "https://dotamate.ru/item/greater_faerie_fire/",
+    "name": "Greater Faerie Fire"
+  },
+  {
+    "loc": "https://dotamate.ru/item/greater_famango/",
+    "name": "Greater Healing Lotus"
+  },
+  {
+    "loc": "https://dotamate.ru/item/guardian_greaves/",
+    "name": "Guardian Greaves"
+  },
+  {
+    "loc": "https://dotamate.ru/item/gungir/",
+    "name": "Gleipnir"
+  },
+  {
+    "loc": "https://dotamate.ru/item/gunpowder_gauntlets/",
+    "name": "Gunpowder Gauntlet"
+  },
+  {
+    "loc": "https://dotamate.ru/item/hand_of_midas/",
+    "name": "Hand of Midas"
+  },
+  {
+    "loc": "https://dotamate.ru/item/harmonizer/",
+    "name": "Harmonizer"
+  },
+  {
+    "loc": "https://dotamate.ru/item/headdress/",
+    "name": "Headdress"
+  },
+  {
+    "loc": "https://dotamate.ru/item/heart/",
+    "name": "Heart of Tarrasque"
+  },
+  {
+    "loc": "https://dotamate.ru/item/heavens_halberd/",
+    "name": "Heaven's Halberd"
+  },
+  {
+    "loc": "https://dotamate.ru/item/heavy_blade/",
+    "name": "Witchbane"
+  },
+  {
+    "loc": "https://dotamate.ru/item/helm_of_iron_will/",
+    "name": "Helm of Iron Will"
+  },
+  {
+    "loc": "https://dotamate.ru/item/helm_of_the_dominator/",
+    "name": "Helm of the Dominator"
+  },
+  {
+    "loc": "https://dotamate.ru/item/helm_of_the_overlord/",
+    "name": "Helm of the Overlord"
+  },
+  {
+    "loc": "https://dotamate.ru/item/holy_locket/",
+    "name": "Holy Locket"
+  },
+  {
+    "loc": "https://dotamate.ru/item/hood_of_defiance/",
+    "name": "Hood of Defiance"
+  },
+  {
+    "loc": "https://dotamate.ru/item/hurricane_pike/",
+    "name": "Hurricane Pike"
+  },
+  {
+    "loc": "https://dotamate.ru/item/hydras_breath/",
+    "name": "Hydra's Breath"
+  },
+  {
+    "loc": "https://dotamate.ru/item/hyperstone/",
+    "name": "Hyperstone"
+  },
+  {
+    "loc": "https://dotamate.ru/item/idol_of_screeauk/",
+    "name": "Idol of Scree'auk"
+  },
+  {
+    "loc": "https://dotamate.ru/item/infused_raindrop/",
+    "name": "Infused Raindrops"
+  },
+  {
+    "loc": "https://dotamate.ru/item/invis_sword/",
+    "name": "Shadow Blade"
+  },
+  {
+    "loc": "https://dotamate.ru/item/iron_talon/",
+    "name": "Iron Talon"
+  },
+  {
+    "loc": "https://dotamate.ru/item/javelin/",
+    "name": "Javelin"
+  },
+  {
+    "loc": "https://dotamate.ru/item/jidi_pollen_bag/",
+    "name": "Jidi Pollen Bag"
+  },
+  {
+    "loc": "https://dotamate.ru/item/kaya/",
+    "name": "Kaya"
+  },
+  {
+    "loc": "https://dotamate.ru/item/kaya_and_sange/",
+    "name": "Kaya and Sange"
+  },
+  {
+    "loc": "https://dotamate.ru/item/kobold_cup/",
+    "name": "Kobold Cup"
+  },
+  {
+    "loc": "https://dotamate.ru/item/lesser_crit/",
+    "name": "Crystalys"
+  },
+  {
+    "loc": "https://dotamate.ru/item/lifesteal/",
+    "name": "Morbid Mask"
+  },
+  {
+    "loc": "https://dotamate.ru/item/lotus_orb/",
+    "name": "Lotus Orb"
+  },
+  {
+    "loc": "https://dotamate.ru/item/madstone_bundle/",
+    "name": "Madstone Bundle"
+  },
+  {
+    "loc": "https://dotamate.ru/item/maelstrom/",
+    "name": "Maelstrom"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mage_slayer/",
+    "name": "Mage Slayer"
+  },
+  {
+    "loc": "https://dotamate.ru/item/magic_stick/",
+    "name": "Magic Stick"
+  },
+  {
+    "loc": "https://dotamate.ru/item/magic_wand/",
+    "name": "Magic Wand"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mana_draught/",
+    "name": "Mana Draught"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mango_tree/",
+    "name": "Mango Tree"
+  },
+  {
+    "loc": "https://dotamate.ru/item/manta/",
+    "name": "Manta Style"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mantle/",
+    "name": "Mantle of Intelligence"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mask_of_madness/",
+    "name": "Mask of Madness"
+  },
+  {
+    "loc": "https://dotamate.ru/item/medallion_of_courage/",
+    "name": "Medallion of Courage"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mekansm/",
+    "name": "Mekansm"
+  },
+  {
+    "loc": "https://dotamate.ru/item/metamorphic_mandible/",
+    "name": "Metamorphic Mandible"
+  },
+  {
+    "loc": "https://dotamate.ru/item/meteor_hammer/",
+    "name": "Meteor Hammer"
+  },
+  {
+    "loc": "https://dotamate.ru/item/minotaur_horn/",
+    "name": "Minotaur Horn"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mithril_hammer/",
+    "name": "Mithril Hammer"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mjollnir/",
+    "name": "Mjollnir"
+  },
+  {
+    "loc": "https://dotamate.ru/item/monkey_king_bar/",
+    "name": "Monkey King Bar"
+  },
+  {
+    "loc": "https://dotamate.ru/item/moon_shard/",
+    "name": "Moon Shard"
+  },
+  {
+    "loc": "https://dotamate.ru/item/mystic_staff/",
+    "name": "Mystic Staff"
+  },
+  {
     "loc": "https://dotamate.ru/item/necronomicon/",
     "name": "Necronomicon"
   },
@@ -474,6 +614,354 @@
   {
     "loc": "https://dotamate.ru/item/necronomicon_3/",
     "name": "Necronomicon"
+  },
+  {
+    "loc": "https://dotamate.ru/item/null_talisman/",
+    "name": "Null Talisman"
+  },
+  {
+    "loc": "https://dotamate.ru/item/nullifier/",
+    "name": "Nullifier"
+  },
+  {
+    "loc": "https://dotamate.ru/item/oblivion_staff/",
+    "name": "Oblivion Staff"
+  },
+  {
+    "loc": "https://dotamate.ru/item/occult_bracelet/",
+    "name": "Occult Bracelet"
+  },
+  {
+    "loc": "https://dotamate.ru/item/octarine_core/",
+    "name": "Octarine Core"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ogre_axe/",
+    "name": "Ogre Axe"
+  },
+  {
+    "loc": "https://dotamate.ru/item/orb_of_corrosion/",
+    "name": "Orb of Corrosion"
+  },
+  {
+    "loc": "https://dotamate.ru/item/orb_of_frost/",
+    "name": "Orb of Frost"
+  },
+  {
+    "loc": "https://dotamate.ru/item/orb_of_venom/",
+    "name": "Orb of Venom"
+  },
+  {
+    "loc": "https://dotamate.ru/item/orchid/",
+    "name": "Orchid Malevolence"
+  },
+  {
+    "loc": "https://dotamate.ru/item/overwhelming_blink/",
+    "name": "Overwhelming Blink"
+  },
+  {
+    "loc": "https://dotamate.ru/item/partisans_brand/",
+    "name": "Partisan's Brand"
+  },
+  {
+    "loc": "https://dotamate.ru/item/pavise/",
+    "name": "Pavise"
+  },
+  {
+    "loc": "https://dotamate.ru/item/pers/",
+    "name": "Perseverance"
+  },
+  {
+    "loc": "https://dotamate.ru/item/phase_boots/",
+    "name": "Phase Boots"
+  },
+  {
+    "loc": "https://dotamate.ru/item/phylactery/",
+    "name": "Phylactery"
+  },
+  {
+    "loc": "https://dotamate.ru/item/pipe/",
+    "name": "Pipe of Insight"
+  },
+  {
+    "loc": "https://dotamate.ru/item/platemail/",
+    "name": "Platemail"
+  },
+  {
+    "loc": "https://dotamate.ru/item/pocket_roshan/",
+    "name": "Pocket Roshan"
+  },
+  {
+    "loc": "https://dotamate.ru/item/pogo_stick/",
+    "name": "Tumbler's Toy"
+  },
+  {
+    "loc": "https://dotamate.ru/item/point_booster/",
+    "name": "Point Booster"
+  },
+  {
+    "loc": "https://dotamate.ru/item/polliwog_charm/",
+    "name": "Pollywog Charm"
+  },
+  {
+    "loc": "https://dotamate.ru/item/poor_mans_shield/",
+    "name": "Poor Man's Shield"
+  },
+  {
+    "loc": "https://dotamate.ru/item/possessed_mask/",
+    "name": "Possessed Mask"
+  },
+  {
+    "loc": "https://dotamate.ru/item/power_treads/",
+    "name": "Power Treads"
+  },
+  {
+    "loc": "https://dotamate.ru/item/prophets_pendulum/",
+    "name": "Prophet's Pendulum"
+  },
+  {
+    "loc": "https://dotamate.ru/item/psychic_headband/",
+    "name": "Psychic Headband"
+  },
+  {
+    "loc": "https://dotamate.ru/item/quarterstaff/",
+    "name": "Quarterstaff"
+  },
+  {
+    "loc": "https://dotamate.ru/item/quelling_blade/",
+    "name": "Quelling Blade"
+  },
+  {
+    "loc": "https://dotamate.ru/item/radiance/",
+    "name": "Radiance"
+  },
+  {
+    "loc": "https://dotamate.ru/item/rapier/",
+    "name": "Divine Rapier"
+  },
+  {
+    "loc": "https://dotamate.ru/item/rattlecage/",
+    "name": "Rattlecage"
+  },
+  {
+    "loc": "https://dotamate.ru/item/reaver/",
+    "name": "Reaver"
+  },
+  {
+    "loc": "https://dotamate.ru/item/refresher/",
+    "name": "Refresher Orb"
+  },
+  {
+    "loc": "https://dotamate.ru/item/refresher_shard/",
+    "name": "Refresher Shard"
+  },
+  {
+    "loc": "https://dotamate.ru/item/relic/",
+    "name": "Sacred Relic"
+  },
+  {
+    "loc": "https://dotamate.ru/item/repair_kit/",
+    "name": "Repair Kit"
+  },
+  {
+    "loc": "https://dotamate.ru/item/revenants_brooch/",
+    "name": "Revenant's Brooch"
+  },
+  {
+    "loc": "https://dotamate.ru/item/riftshadow_prism/",
+    "name": "Riftshadow Prism"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ring_of_basilius/",
+    "name": "Ring of Basilius"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ring_of_health/",
+    "name": "Ring of Health"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ring_of_protection/",
+    "name": "Ring of Protection"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ring_of_regen/",
+    "name": "Ring of Regen"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ring_of_tarrasque/",
+    "name": "Ring of Tarrasque"
+  },
+  {
+    "loc": "https://dotamate.ru/item/robe/",
+    "name": "Robe of the Magi"
+  },
+  {
+    "loc": "https://dotamate.ru/item/rod_of_atos/",
+    "name": "Rod of Atos"
+  },
+  {
+    "loc": "https://dotamate.ru/item/roshans_banner/",
+    "name": "Roshan's Banner"
+  },
+  {
+    "loc": "https://dotamate.ru/item/royal_jelly/",
+    "name": "Royal Jelly"
+  },
+  {
+    "loc": "https://dotamate.ru/item/royale_with_cheese/",
+    "name": "Block of Cheese"
+  },
+  {
+    "loc": "https://dotamate.ru/item/sange/",
+    "name": "Sange"
+  },
+  {
+    "loc": "https://dotamate.ru/item/sange_and_yasha/",
+    "name": "Sange and Yasha"
+  },
+  {
+    "loc": "https://dotamate.ru/item/satanic/",
+    "name": "Satanic"
+  },
+  {
+    "loc": "https://dotamate.ru/item/searing_signet/",
+    "name": "Searing Signet"
+  },
+  {
+    "loc": "https://dotamate.ru/item/seeds_of_serenity/",
+    "name": "Seeds of Serenity"
+  },
+  {
+    "loc": "https://dotamate.ru/item/serrated_shiv/",
+    "name": "Serrated Shiv"
+  },
+  {
+    "loc": "https://dotamate.ru/item/shawl/",
+    "name": "Shawl"
+  },
+  {
+    "loc": "https://dotamate.ru/item/sheepstick/",
+    "name": "Scythe of Vyse"
+  },
+  {
+    "loc": "https://dotamate.ru/item/shivas_guard/",
+    "name": "Shiva's Guard"
+  },
+  {
+    "loc": "https://dotamate.ru/item/silver_edge/",
+    "name": "Silver Edge"
+  },
+  {
+    "loc": "https://dotamate.ru/item/skadi/",
+    "name": "Eye of Skadi"
+  },
+  {
+    "loc": "https://dotamate.ru/item/slippers/",
+    "name": "Slippers of Agility"
+  },
+  {
+    "loc": "https://dotamate.ru/item/smoke_of_deceit/",
+    "name": "Smoke of Deceit"
+  },
+  {
+    "loc": "https://dotamate.ru/item/sobi_mask/",
+    "name": "Sage's Mask"
+  },
+  {
+    "loc": "https://dotamate.ru/item/solar_crest/",
+    "name": "Solar Crest"
+  },
+  {
+    "loc": "https://dotamate.ru/item/soul_booster/",
+    "name": "Soul Booster"
+  },
+  {
+    "loc": "https://dotamate.ru/item/soul_ring/",
+    "name": "Soul Ring"
+  },
+  {
+    "loc": "https://dotamate.ru/item/specialists_array/",
+    "name": "Specialist's Array"
+  },
+  {
+    "loc": "https://dotamate.ru/item/spellslinger/",
+    "name": "Spellslinger"
+  },
+  {
+    "loc": "https://dotamate.ru/item/sphere/",
+    "name": "Linken's Sphere"
+  },
+  {
+    "loc": "https://dotamate.ru/item/spider_legs/",
+    "name": "Spider Legs"
+  },
+  {
+    "loc": "https://dotamate.ru/item/spirit_vessel/",
+    "name": "Spirit Vessel"
+  },
+  {
+    "loc": "https://dotamate.ru/item/splintmail/",
+    "name": "Splintmail"
+  },
+  {
+    "loc": "https://dotamate.ru/item/staff_of_wizardry/",
+    "name": "Staff of Wizardry"
+  },
+  {
+    "loc": "https://dotamate.ru/item/stonefeather_satchel/",
+    "name": "Stonefeather Satchel"
+  },
+  {
+    "loc": "https://dotamate.ru/item/stormcrafter/",
+    "name": "Stormcrafter"
+  },
+  {
+    "loc": "https://dotamate.ru/item/stout_shield/",
+    "name": "Stout Shield"
+  },
+  {
+    "loc": "https://dotamate.ru/item/swift_blink/",
+    "name": "Swift Blink"
+  },
+  {
+    "loc": "https://dotamate.ru/item/talisman_of_evasion/",
+    "name": "Talisman of Evasion"
+  },
+  {
+    "loc": "https://dotamate.ru/item/tango/",
+    "name": "Tango"
+  },
+  {
+    "loc": "https://dotamate.ru/item/tango_single/",
+    "name": "Tango (Shared)"
+  },
+  {
+    "loc": "https://dotamate.ru/item/tiara_of_selemene/",
+    "name": "Tiara of Selemene"
+  },
+  {
+    "loc": "https://dotamate.ru/item/tome_of_knowledge/",
+    "name": "Tome of Knowledge"
+  },
+  {
+    "loc": "https://dotamate.ru/item/tpscroll/",
+    "name": "Town Portal Scroll"
+  },
+  {
+    "loc": "https://dotamate.ru/item/tranquil_boots/",
+    "name": "Tranquil Boots"
+  },
+  {
+    "loc": "https://dotamate.ru/item/travel_boots/",
+    "name": "Boots of Travel"
+  },
+  {
+    "loc": "https://dotamate.ru/item/travel_boots_2/",
+    "name": "Boots of Travel 2"
+  },
+  {
+    "loc": "https://dotamate.ru/item/ultimate_orb/",
+    "name": "Ultimate Orb"
   },
   {
     "loc": "https://dotamate.ru/item/ultimate_scepter/",
@@ -488,567 +976,75 @@
     "name": "Aghanim's Blessing - Roshan"
   },
   {
-    "loc": "https://dotamate.ru/item/aghanims_shard/",
-    "name": "Aghanim's Shard"
+    "loc": "https://dotamate.ru/item/unrelenting_eye/",
+    "name": "Unrelenting Eye"
   },
   {
-    "loc": "https://dotamate.ru/item/aghanims_shard_roshan/",
-    "name": "Aghanim's Shard - Consumable"
-  },
-  {
-    "loc": "https://dotamate.ru/item/refresher/",
-    "name": "Refresher Orb"
-  },
-  {
-    "loc": "https://dotamate.ru/item/assault/",
-    "name": "Assault Cuirass"
-  },
-  {
-    "loc": "https://dotamate.ru/item/heart/",
-    "name": "Heart of Tarrasque"
-  },
-  {
-    "loc": "https://dotamate.ru/item/black_king_bar/",
-    "name": "Black King Bar"
-  },
-  {
-    "loc": "https://dotamate.ru/item/aegis/",
-    "name": "Aegis of the Immortal"
-  },
-  {
-    "loc": "https://dotamate.ru/item/shivas_guard/",
-    "name": "Shiva's Guard"
-  },
-  {
-    "loc": "https://dotamate.ru/item/bloodstone/",
-    "name": "Bloodstone"
-  },
-  {
-    "loc": "https://dotamate.ru/item/sphere/",
-    "name": "Linken's Sphere"
-  },
-  {
-    "loc": "https://dotamate.ru/item/lotus_orb/",
-    "name": "Lotus Orb"
-  },
-  {
-    "loc": "https://dotamate.ru/item/meteor_hammer/",
-    "name": "Meteor Hammer"
-  },
-  {
-    "loc": "https://dotamate.ru/item/nullifier/",
-    "name": "Nullifier"
-  },
-  {
-    "loc": "https://dotamate.ru/item/aeon_disk/",
-    "name": "Aeon Disk"
-  },
-  {
-    "loc": "https://dotamate.ru/item/kaya/",
-    "name": "Kaya"
-  },
-  {
-    "loc": "https://dotamate.ru/item/refresher_shard/",
-    "name": "Refresher Shard"
-  },
-  {
-    "loc": "https://dotamate.ru/item/spirit_vessel/",
-    "name": "Spirit Vessel"
-  },
-  {
-    "loc": "https://dotamate.ru/item/essence_distiller/",
-    "name": "Essence Distiller"
-  },
-  {
-    "loc": "https://dotamate.ru/item/vanguard/",
-    "name": "Vanguard"
-  },
-  {
-    "loc": "https://dotamate.ru/item/crimson_guard/",
-    "name": "Crimson Guard"
-  },
-  {
-    "loc": "https://dotamate.ru/item/blade_mail/",
-    "name": "Blade Mail"
-  },
-  {
-    "loc": "https://dotamate.ru/item/soul_booster/",
-    "name": "Soul Booster"
-  },
-  {
-    "loc": "https://dotamate.ru/item/hood_of_defiance/",
-    "name": "Hood of Defiance"
-  },
-  {
-    "loc": "https://dotamate.ru/item/eternal_shroud/",
-    "name": "Eternal Shroud"
-  },
-  {
-    "loc": "https://dotamate.ru/item/consecrated_wraps/",
-    "name": "Consecrated Wraps"
-  },
-  {
-    "loc": "https://dotamate.ru/item/crellas_crozier/",
-    "name": "Crella's Crozier"
-  },
-  {
-    "loc": "https://dotamate.ru/item/rapier/",
-    "name": "Divine Rapier"
-  },
-  {
-    "loc": "https://dotamate.ru/item/monkey_king_bar/",
-    "name": "Monkey King Bar"
-  },
-  {
-    "loc": "https://dotamate.ru/item/radiance/",
-    "name": "Radiance"
-  },
-  {
-    "loc": "https://dotamate.ru/item/butterfly/",
-    "name": "Butterfly"
-  },
-  {
-    "loc": "https://dotamate.ru/item/greater_crit/",
-    "name": "Daedalus"
-  },
-  {
-    "loc": "https://dotamate.ru/item/basher/",
-    "name": "Skull Basher"
-  },
-  {
-    "loc": "https://dotamate.ru/item/bfury/",
-    "name": "Battle Fury"
-  },
-  {
-    "loc": "https://dotamate.ru/item/manta/",
-    "name": "Manta Style"
-  },
-  {
-    "loc": "https://dotamate.ru/item/lesser_crit/",
-    "name": "Crystalys"
-  },
-  {
-    "loc": "https://dotamate.ru/item/dragon_lance/",
-    "name": "Dragon Lance"
-  },
-  {
-    "loc": "https://dotamate.ru/item/armlet/",
-    "name": "Armlet of Mordiggian"
-  },
-  {
-    "loc": "https://dotamate.ru/item/invis_sword/",
-    "name": "Shadow Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/silver_edge/",
-    "name": "Silver Edge"
-  },
-  {
-    "loc": "https://dotamate.ru/item/sange_and_yasha/",
-    "name": "Sange and Yasha"
-  },
-  {
-    "loc": "https://dotamate.ru/item/kaya_and_sange/",
-    "name": "Kaya and Sange"
-  },
-  {
-    "loc": "https://dotamate.ru/item/yasha_and_kaya/",
-    "name": "Yasha and Kaya"
-  },
-  {
-    "loc": "https://dotamate.ru/item/satanic/",
-    "name": "Satanic"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mjollnir/",
-    "name": "Mjollnir"
-  },
-  {
-    "loc": "https://dotamate.ru/item/skadi/",
-    "name": "Eye of Skadi"
-  },
-  {
-    "loc": "https://dotamate.ru/item/sange/",
-    "name": "Sange"
-  },
-  {
-    "loc": "https://dotamate.ru/item/helm_of_the_dominator/",
-    "name": "Helm of the Dominator"
-  },
-  {
-    "loc": "https://dotamate.ru/item/helm_of_the_overlord/",
-    "name": "Helm of the Overlord"
-  },
-  {
-    "loc": "https://dotamate.ru/item/maelstrom/",
-    "name": "Maelstrom"
-  },
-  {
-    "loc": "https://dotamate.ru/item/gungir/",
-    "name": "Gleipnir"
-  },
-  {
-    "loc": "https://dotamate.ru/item/desolator/",
-    "name": "Desolator"
-  },
-  {
-    "loc": "https://dotamate.ru/item/yasha/",
-    "name": "Yasha"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mask_of_madness/",
-    "name": "Mask of Madness"
-  },
-  {
-    "loc": "https://dotamate.ru/item/diffusal_blade/",
-    "name": "Diffusal Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/disperser/",
-    "name": "Disperser"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ethereal_blade/",
-    "name": "Ethereal Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/soul_ring/",
-    "name": "Soul Ring"
-  },
-  {
-    "loc": "https://dotamate.ru/item/arcane_boots/",
-    "name": "Arcane Boots"
-  },
-  {
-    "loc": "https://dotamate.ru/item/octarine_core/",
-    "name": "Octarine Core"
-  },
-  {
-    "loc": "https://dotamate.ru/item/orb_of_venom/",
-    "name": "Orb of Venom"
-  },
-  {
-    "loc": "https://dotamate.ru/item/blight_stone/",
-    "name": "Orb of Blight"
-  },
-  {
-    "loc": "https://dotamate.ru/item/orb_of_corrosion/",
-    "name": "Orb of Corrosion"
-  },
-  {
-    "loc": "https://dotamate.ru/item/orb_of_frost/",
-    "name": "Orb of Frost"
-  },
-  {
-    "loc": "https://dotamate.ru/item/falcon_blade/",
-    "name": "Falcon Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mage_slayer/",
-    "name": "Mage Slayer"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ancient_janggo/",
-    "name": "Drum of Endurance"
-  },
-  {
-    "loc": "https://dotamate.ru/item/boots_of_bearing/",
-    "name": "Boots of Bearing"
-  },
-  {
-    "loc": "https://dotamate.ru/item/medallion_of_courage/",
-    "name": "Medallion of Courage"
-  },
-  {
-    "loc": "https://dotamate.ru/item/solar_crest/",
-    "name": "Solar Crest"
-  },
-  {
-    "loc": "https://dotamate.ru/item/pavise/",
-    "name": "Pavise"
-  },
-  {
-    "loc": "https://dotamate.ru/item/smoke_of_deceit/",
-    "name": "Smoke of Deceit"
-  },
-  {
-    "loc": "https://dotamate.ru/item/tome_of_knowledge/",
-    "name": "Tome of Knowledge"
-  },
-  {
-    "loc": "https://dotamate.ru/item/veil_of_discord/",
-    "name": "Veil of Discord"
-  },
-  {
-    "loc": "https://dotamate.ru/item/revenants_brooch/",
-    "name": "Revenant's Brooch"
-  },
-  {
-    "loc": "https://dotamate.ru/item/devastator/",
-    "name": "Parasma"
-  },
-  {
-    "loc": "https://dotamate.ru/item/guardian_greaves/",
-    "name": "Guardian Greaves"
-  },
-  {
-    "loc": "https://dotamate.ru/item/rod_of_atos/",
-    "name": "Rod of Atos"
-  },
-  {
-    "loc": "https://dotamate.ru/item/iron_talon/",
-    "name": "Iron Talon"
-  },
-  {
-    "loc": "https://dotamate.ru/item/abyssal_blade/",
-    "name": "Abyssal Blade"
-  },
-  {
-    "loc": "https://dotamate.ru/item/heavens_halberd/",
-    "name": "Heaven's Halberd"
-  },
-  {
-    "loc": "https://dotamate.ru/item/tranquil_boots/",
-    "name": "Tranquil Boots"
-  },
-  {
-    "loc": "https://dotamate.ru/item/glimmer_cape/",
-    "name": "Glimmer Cape"
-  },
-  {
-    "loc": "https://dotamate.ru/item/pocket_roshan/",
-    "name": "Pocket Roshan"
-  },
-  {
-    "loc": "https://dotamate.ru/item/desolator_2/",
-    "name": "Stygian Desolator"
-  },
-  {
-    "loc": "https://dotamate.ru/item/greater_faerie_fire/",
-    "name": "Greater Faerie Fire"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mango_tree/",
-    "name": "Mango Tree"
-  },
-  {
-    "loc": "https://dotamate.ru/item/royal_jelly/",
-    "name": "Royal Jelly"
-  },
-  {
-    "loc": "https://dotamate.ru/item/repair_kit/",
-    "name": "Repair Kit"
-  },
-  {
-    "loc": "https://dotamate.ru/item/spider_legs/",
-    "name": "Spider Legs"
+    "loc": "https://dotamate.ru/item/urn_of_shadows/",
+    "name": "Urn of Shadows"
   },
   {
     "loc": "https://dotamate.ru/item/vambrace/",
     "name": "Vambrace"
   },
   {
-    "loc": "https://dotamate.ru/item/essence_ring/",
-    "name": "Essence Ring"
+    "loc": "https://dotamate.ru/item/vanguard/",
+    "name": "Vanguard"
   },
   {
-    "loc": "https://dotamate.ru/item/demonicon/",
-    "name": "Book of the Dead"
+    "loc": "https://dotamate.ru/item/veil_of_discord/",
+    "name": "Veil of Discord"
   },
   {
-    "loc": "https://dotamate.ru/item/fallen_sky/",
-    "name": "Fallen Sky"
+    "loc": "https://dotamate.ru/item/vitality_booster/",
+    "name": "Vitality Booster"
   },
   {
-    "loc": "https://dotamate.ru/item/minotaur_horn/",
-    "name": "Minotaur Horn"
+    "loc": "https://dotamate.ru/item/vladmir/",
+    "name": "Vladmir's Offering"
   },
   {
-    "loc": "https://dotamate.ru/item/chipped_vest/",
-    "name": "Chipped Vest"
+    "loc": "https://dotamate.ru/item/void_stone/",
+    "name": "Void Stone"
   },
   {
-    "loc": "https://dotamate.ru/item/cloak_of_flames/",
-    "name": "Cloak of Flames"
+    "loc": "https://dotamate.ru/item/voodoo_mask/",
+    "name": "Voodoo Mask"
   },
   {
-    "loc": "https://dotamate.ru/item/possessed_mask/",
-    "name": "Possessed Mask"
-  },
-  {
-    "loc": "https://dotamate.ru/item/psychic_headband/",
-    "name": "Psychic Headband"
-  },
-  {
-    "loc": "https://dotamate.ru/item/stormcrafter/",
-    "name": "Stormcrafter"
-  },
-  {
-    "loc": "https://dotamate.ru/item/heavy_blade/",
-    "name": "Witchbane"
-  },
-  {
-    "loc": "https://dotamate.ru/item/pogo_stick/",
-    "name": "Tumbler's Toy"
-  },
-  {
-    "loc": "https://dotamate.ru/item/seeds_of_serenity/",
-    "name": "Seeds of Serenity"
-  },
-  {
-    "loc": "https://dotamate.ru/item/occult_bracelet/",
-    "name": "Occult Bracelet"
-  },
-  {
-    "loc": "https://dotamate.ru/item/defiant_shell/",
-    "name": "Defiant Shell"
-  },
-  {
-    "loc": "https://dotamate.ru/item/dagger_of_ristul/",
-    "name": "Dagger of Ristul"
-  },
-  {
-    "loc": "https://dotamate.ru/item/duelist_gloves/",
-    "name": "Duelist Gloves"
-  },
-  {
-    "loc": "https://dotamate.ru/item/dandelion_amulet/",
-    "name": "Dandelion Amulet"
-  },
-  {
-    "loc": "https://dotamate.ru/item/rattlecage/",
-    "name": "Rattlecage"
-  },
-  {
-    "loc": "https://dotamate.ru/item/roshans_banner/",
-    "name": "Roshan's Banner"
-  },
-  {
-    "loc": "https://dotamate.ru/item/unrelenting_eye/",
-    "name": "Unrelenting Eye"
-  },
-  {
-    "loc": "https://dotamate.ru/item/mana_draught/",
-    "name": "Mana Draught"
-  },
-  {
-    "loc": "https://dotamate.ru/item/crippling_crossbow/",
-    "name": "Crippling Crossbow"
-  },
-  {
-    "loc": "https://dotamate.ru/item/gunpowder_gauntlets/",
-    "name": "Gunpowder Gauntlet"
-  },
-  {
-    "loc": "https://dotamate.ru/item/searing_signet/",
-    "name": "Searing Signet"
-  },
-  {
-    "loc": "https://dotamate.ru/item/serrated_shiv/",
-    "name": "Serrated Shiv"
-  },
-  {
-    "loc": "https://dotamate.ru/item/polliwog_charm/",
-    "name": "Pollywog Charm"
-  },
-  {
-    "loc": "https://dotamate.ru/item/madstone_bundle/",
-    "name": "Madstone Bundle"
-  },
-  {
-    "loc": "https://dotamate.ru/item/kobold_cup/",
-    "name": "Kobold Cup"
-  },
-  {
-    "loc": "https://dotamate.ru/item/dormant_curio/",
-    "name": "Dormant Curio"
-  },
-  {
-    "loc": "https://dotamate.ru/item/jidi_pollen_bag/",
-    "name": "Jidi Pollen Bag"
-  },
-  {
-    "loc": "https://dotamate.ru/item/dezun_bloodrite/",
-    "name": "Dezun Bloodrite"
-  },
-  {
-    "loc": "https://dotamate.ru/item/giant_maul/",
-    "name": "Giant's Maul"
-  },
-  {
-    "loc": "https://dotamate.ru/item/divine_regalia/",
-    "name": "Divine Regalia"
-  },
-  {
-    "loc": "https://dotamate.ru/item/specialists_array/",
-    "name": "Specialist's Array"
-  },
-  {
-    "loc": "https://dotamate.ru/item/hydras_breath/",
-    "name": "Hydra's Breath"
+    "loc": "https://dotamate.ru/item/ward_dispenser/",
+    "name": "Observer and Sentry Wards"
   },
   {
     "loc": "https://dotamate.ru/item/weighted_dice/",
     "name": "Weighted Dice"
   },
   {
-    "loc": "https://dotamate.ru/item/ash_legion_shield/",
-    "name": "Ash Legion Shield"
+    "loc": "https://dotamate.ru/item/wind_lace/",
+    "name": "Wind Lace"
   },
   {
-    "loc": "https://dotamate.ru/item/riftshadow_prism/",
-    "name": "Riftshadow Prism"
+    "loc": "https://dotamate.ru/item/wind_waker/",
+    "name": "Wind Waker"
   },
   {
-    "loc": "https://dotamate.ru/item/metamorphic_mandible/",
-    "name": "Metamorphic Mandible"
+    "loc": "https://dotamate.ru/item/witch_blade/",
+    "name": "Witch Blade"
   },
   {
-    "loc": "https://dotamate.ru/item/idol_of_screeauk/",
-    "name": "Idol of Scree'auk"
+    "loc": "https://dotamate.ru/item/wraith_band/",
+    "name": "Wraith Band"
   },
   {
-    "loc": "https://dotamate.ru/item/flayers_bota/",
-    "name": "Flayer's Bota"
+    "loc": "https://dotamate.ru/item/wraith_pact/",
+    "name": "Wraith Pact"
   },
   {
-    "loc": "https://dotamate.ru/item/spellslinger/",
-    "name": "Spellslinger"
+    "loc": "https://dotamate.ru/item/yasha/",
+    "name": "Yasha"
   },
   {
-    "loc": "https://dotamate.ru/item/prophets_pendulum/",
-    "name": "Prophet's Pendulum"
-  },
-  {
-    "loc": "https://dotamate.ru/item/stonefeather_satchel/",
-    "name": "Stonefeather Satchel"
-  },
-  {
-    "loc": "https://dotamate.ru/item/enchanters_bauble/",
-    "name": "Enchanter's Bauble"
-  },
-  {
-    "loc": "https://dotamate.ru/item/harmonizer/",
-    "name": "Harmonizer"
-  },
-  {
-    "loc": "https://dotamate.ru/item/conjurers_catalyst/",
-    "name": "Conjurer's Catalyst"
-  },
-  {
-    "loc": "https://dotamate.ru/item/foragers_kit/",
-    "name": "Forager's Kit"
-  },
-  {
-    "loc": "https://dotamate.ru/item/chasm_stone/",
-    "name": "Chasm Stone"
-  },
-  {
-    "loc": "https://dotamate.ru/item/partisans_brand/",
-    "name": "Partisan's Brand"
-  },
-  {
-    "loc": "https://dotamate.ru/item/diffusal_blade_2/",
-    "name": "Diffusal Blade"
+    "loc": "https://dotamate.ru/item/yasha_and_kaya/",
+    "name": "Yasha and Kaya"
   }
 ]

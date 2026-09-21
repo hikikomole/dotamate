@@ -117,7 +117,7 @@ async function main(){
       }).filter(Boolean).join('');
       return cols?`<div class="hp-buy-grid">${cols}</div>`:'';
     })();
-    const title=`${h.localized_name} — гайд, статы и контрпики | Dota 2 Companion`;
+    const title=`${h.localized_name} — гайд, статы и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
     const desc=(typeof storedDesc==='string'&&storedDesc.includes(h.localized_name))?storedDesc:fallbackDesc;
@@ -133,7 +133,7 @@ async function main(){
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -157,10 +157,7 @@ async function main(){
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota 2 Companion">
-      <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
-      <span>Dota 2 <b>Companion</b></span>
-    </a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
     <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
@@ -267,7 +264,7 @@ async function main(){
 })();
 </script>
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;

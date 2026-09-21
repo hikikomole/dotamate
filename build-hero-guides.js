@@ -79,7 +79,7 @@ async function main() {
     const roles = roleText(h);
     const atk = h.attack_type === 'Melee' ? 'ближнего боя' : 'дальнего боя';
     const canonical = `${ORIGIN}/hero/${slug}/guide/`;
-    const title = `Гайд по ${h.localized_name} в Dota 2: как играть, закупы и контрпики | Dota 2 Companion`;
+    const title = `Гайд по ${h.localized_name} в Dota 2: как играть, закупы и контрпики | Dota Mate`;
 
     // --- разделы ---
     const stats = heroStats(h);
@@ -137,7 +137,7 @@ async function main() {
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -158,10 +158,7 @@ ${analytics}
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota 2 Companion">
-      <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
-      <span>Dota 2 <b>Companion</b></span>
-    </a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
     <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
@@ -218,7 +215,7 @@ ${analytics}
     <p class="hg-source">Источник матчапов: OpenDota, публичный агрегат по матчам. Всего в выборке этого героя ${escapeHtml(matches(g.matchupGames || 0))}, пар с выборкой от 15 матчей — ${escapeHtml(String(g.matchupPairs || 0))}. Данные обновляются вместе с пересборкой сайта, последняя — ${escapeHtml(String(store.fetched || '').slice(0, 10))}.</p>
   </section>
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;

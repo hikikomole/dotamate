@@ -1,4 +1,4 @@
-# Dota 2 Companion v43 — Platform Layer
+# Dota Mate v43 — Platform Layer
 
 v43 сохраняет существующую структуру сайта и объединяет локальный Companion с серверной платформой.
 

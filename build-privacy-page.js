@@ -10,8 +10,8 @@ function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;",
 
 const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->`;
 
-const title = 'Политика конфиденциальности | Dota 2 Companion';
-const desc = 'Какие данные собирает Dota 2 Companion, как используется локальное хранилище браузера, веб-аналитика и что изменится, если на сайте появится реклама.';
+const title = 'Политика конфиденциальности | Dota Mate';
+const desc = 'Какие данные собирает Dota Mate, как используется локальное хранилище браузера, веб-аналитика и что изменится, если на сайте появится реклама.';
 const canonical = 'https://dotamate.ru/privacy/';
 const updated = new Date().toISOString().slice(0,10);
 
@@ -34,7 +34,7 @@ const bodyHtml = `<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;
 
 <section class="detail-section">
 <h2>О проекте</h2>
-<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Dota 2 Companion (dotamate.ru) — неофициальный фанатский проект, посвящённый Dota 2. Мы не связаны с Valve Corporation. Названия, изображения героев и предметов принадлежат их правообладателям и используются в справочных целях.</p>
+<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Dota Mate (dotamate.ru) — неофициальный фанатский проект, посвящённый Dota 2. Мы не связаны с Valve Corporation. Названия, изображения героев и предметов принадлежат их правообладателям и используются в справочных целях.</p>
 </section>
 
 <section class="detail-section">
@@ -78,11 +78,11 @@ const html = `<!doctype html>
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dota2-companion-icon.png">
+<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
-<meta property="og:image" content="https://dotamate.ru/assets/dota2-companion-icon.png">
+<meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
 <meta property="og:url" content="${canonical}">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${escapeHtml(title)}">
@@ -102,10 +102,7 @@ ${analyticsSnippet}
 <div class="bg"></div>
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota 2 Companion">
-      <span class="brand-mark brand-mark-image" aria-hidden="true"><img src="/assets/dota2-companion-icon.png" alt=""></span>
-      <span>Dota 2 <b>Companion</b></span>
-    </a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
     <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
@@ -114,7 +111,7 @@ ${analyticsSnippet}
 <main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:820px;">
 ${bodyHtml}
 </main>
-<footer><div class="container">Dota 2 Companion · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;
