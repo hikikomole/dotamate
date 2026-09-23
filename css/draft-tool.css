@@ -1,7 +1,7 @@
 /* Инструмент драфта на главной. Токены общие с тёмной темой (--d2-*, --rad-*). */
 
 .draft-tool{padding:56px 0 8px}
-.dt-shell{border:1px solid var(--d2-line);border-radius:var(--rad-xl);background:var(--d2-panel);overflow:hidden}
+.dt-shell{position:relative;border:1px solid var(--d2-line);border-radius:var(--rad-xl);background:var(--d2-panel);overflow:hidden}
 
 /* --- шапка --- */
 .dt-head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-start;padding:20px 22px;border-bottom:1px solid var(--d2-line)}
@@ -71,6 +71,24 @@
 .dt-slot-clear{position:absolute;top:3px;right:3px;width:20px;height:20px;border:0;border-radius:var(--rad-xs);background:rgba(7,8,10,.72);color:var(--d2-muted);font-size:14px;line-height:1;cursor:pointer;display:none}
 .dt-slot.filled .dt-slot-clear{display:block}
 .dt-slot-clear:hover{color:var(--d2-str)}
+
+/* --- выбор героя прямо у слота --- */
+.dt-picker{position:absolute;z-index:30;width:320px;max-width:calc(100vw - 28px);background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:var(--rad-md);box-shadow:0 24px 60px #000b;display:none;overflow:hidden}
+.dt-picker.open{display:block}
+.dt-picker-head{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid var(--d2-line);background:var(--d2-panel-2)}
+.dt-picker-tag{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:5px 8px;border-radius:var(--rad-pill);background:rgba(217,193,135,.14);color:var(--d2-gold);white-space:nowrap}
+.dt-picker-head input{flex:1;min-width:0;height:32px;padding:0 10px;border:1px solid var(--d2-line);border-radius:var(--rad-sm);background:var(--d2-panel);color:var(--d2-text);font-size:12.5px}
+.dt-picker-close{flex:none;width:28px;height:28px;border:0;border-radius:var(--rad-sm);background:transparent;color:var(--d2-muted);font-size:18px;line-height:1;cursor:pointer}
+.dt-picker-close:hover{color:var(--d2-str)}
+.dt-picker-list{max-height:320px;overflow:auto}
+.dt-picker-list button{width:100%;display:flex;align-items:center;gap:9px;padding:7px 9px;border:0;border-bottom:1px solid var(--d2-line-soft);background:transparent;color:var(--d2-text);cursor:pointer;text-align:left}
+.dt-picker-list button:last-child{border-bottom:0}
+.dt-picker-list button:hover,.dt-picker-list button.cursor{background:var(--d2-panel-2)}
+.dt-picker-list img{width:40px;height:23px;object-fit:cover;border-radius:var(--rad-xs);flex:none}
+.dt-picker-list span{min-width:0;flex:1}
+.dt-picker-list b{display:block;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dt-picker-list small{display:block;color:var(--d2-muted-2);font-size:10px;margin-top:1px}
+.dt-picker-empty{padding:14px;color:var(--d2-muted-2);font-size:12px;text-align:center}
 
 /* --- баны --- */
 .dt-bans{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--d2-line);background:var(--d2-panel-2)}

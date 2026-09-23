@@ -471,17 +471,153 @@
   }
   function closeSuggest() { $('dtSuggest').classList.remove('open'); sugCursor = -1; }
 
+  // ---------- выбор героя прямо у слота ----------
+  // Клик по слоту открывает список рядом с ним, а не отправляет к строке поиска
+  // наверху: в All Pick на выбор 25 секунд, лишний прыжок глазами лишний.
+  var picker = null, pickerCursor = -1, pickerTarget = null;
+
+  function buildPicker() {
+    if (picker) return picker;
+    picker = document.createElement('div');
+    picker.className = 'dt-picker';
+    picker.innerHTML =
+      '<div class="dt-picker-head">' +
+        '<span class="dt-picker-tag" id="dtPickerTag"></span>' +
+        '<input type="text" id="dtPickerInput" placeholder="Поиск героя…" autocomplete="off" aria-label="Поиск героя">' +
+        '<button type="button" class="dt-picker-close" aria-label="Закрыть">×</button>' +
+      '</div>' +
+      '<div class="dt-picker-list" id="dtPickerList"></div>';
+    root.querySelector('.dt-shell').appendChild(picker);
+
+    var inp = picker.querySelector('#dtPickerInput');
+    inp.addEventListener('input', function () { pickerCursor = -1; renderPickerList(); });
+    inp.addEventListener('keydown', function (e) {
+      var list = pickerCandidates(inp.value);
+      if (e.key === 'ArrowDown') { pickerCursor = Math.min(list.length - 1, pickerCursor + 1); renderPickerList(true); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { pickerCursor = Math.max(0, pickerCursor - 1); renderPickerList(true); e.preventDefault(); }
+      else if (e.key === 'Enter') {
+        var h = list[pickerCursor < 0 ? 0 : pickerCursor];
+        if (h) pickInPicker(h.id);
+        e.preventDefault();
+      } else if (e.key === 'Escape') { closePicker(); }
+    });
+    picker.querySelector('.dt-picker-close').addEventListener('click', closePicker);
+    picker.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-pick-hero]');
+      if (b) pickInPicker(Number(b.dataset.pickHero));
+    });
+    return picker;
+  }
+
+  function pickerCandidates(q) {
+    q = String(q || '').trim().toLowerCase();
+    var list = heroes.filter(function (h) { return !isTaken(h.id); });
+    if (q) list = list.filter(function (h) { return h.localized_name.toLowerCase().indexOf(q) !== -1; });
+    list.sort(function (a, b) {
+      if (q) {
+        var ai = a.localized_name.toLowerCase().indexOf(q), bi = b.localized_name.toLowerCase().indexOf(q);
+        if (ai !== bi) return ai - bi;
+      }
+      return heroMatches(b.id) - heroMatches(a.id);
+    });
+    return list;
+  }
+
+  function renderPickerList(scroll) {
+    var box = $('dtPickerList');
+    var list = pickerCandidates($('dtPickerInput').value);
+    if (!list.length) { box.innerHTML = '<div class="dt-picker-empty">Никого не нашлось</div>'; return; }
+    box.innerHTML = list.map(function (h, i) {
+      var pos = heroPositions(h.id)[0], m = heroMatches(h.id);
+      return '<button type="button" data-pick-hero="' + h.id + '"' + (i === pickerCursor ? ' class="cursor"' : '') + '>' +
+        '<img src="' + icon(h) + '" alt="" loading="lazy">' +
+        '<span><b>' + esc(h.localized_name) + '</b><small>' +
+        (pos ? POS_LABEL[pos] : '') + (m ? ' · ' + m.toLocaleString('ru-RU') + ' матчей' : '') +
+        '</small></span></button>';
+    }).join('');
+    if (scroll && pickerCursor >= 0) {
+      var el = box.children[pickerCursor];
+      if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function pickerLabel() {
+    if (pickerTarget.mode === 'ban') return 'Бан ' + state.bans.length + '/' + MAX_BANS;
+    return (pickerTarget.side === 'radiant' ? 'Свет' : 'Тьма') + ' · слот ' + (pickerTarget.slot + 1);
+  }
+
+  function placePicker(anchor) {
+    var shell = root.querySelector('.dt-shell');
+    var sr = shell.getBoundingClientRect(), ar = anchor.getBoundingClientRect();
+    var w = picker.offsetWidth || 320;
+    var left = ar.left - sr.left;
+    left = Math.max(8, Math.min(left, shell.clientWidth - w - 8));
+    picker.style.left = left + 'px';
+    picker.style.top = (ar.bottom - sr.top + 6) + 'px';
+  }
+
+  function openPicker(target, anchor) {
+    buildPicker();
+    pickerTarget = target;
+    pickerCursor = -1;
+    picker.classList.add('open');
+    $('dtPickerTag').textContent = pickerLabel();
+    var inp = $('dtPickerInput');
+    inp.value = '';
+    renderPickerList();
+    placePicker(anchor);
+    inp.focus();
+  }
+
+  function closePicker() {
+    if (picker) picker.classList.remove('open');
+    pickerTarget = null;
+  }
+
+  function pickerOpen() { return picker && picker.classList.contains('open'); }
+
+  // Выбор из пикера: кладём героя и сразу переезжаем на следующий пустой слот,
+  // чтобы можно было набрать состав подряд, не закрывая список.
+  function pickInPicker(id) {
+    if (!pickerTarget) return;
+    if (pickerTarget.mode === 'ban') {
+      state.mode = 'ban';
+      placeHero(id);
+      if (state.bans.length >= MAX_BANS) { closePicker(); return; }
+    } else {
+      state.mode = pickerTarget.side;
+      state.target = { side: pickerTarget.side, slot: pickerTarget.slot };
+      placeHero(id);
+      var free = state.picks[pickerTarget.side].indexOf(null);
+      if (free < 0) { closePicker(); return; }
+      pickerTarget = { side: pickerTarget.side, slot: free };
+    }
+    syncSideSwitch();
+    $('dtPickerTag').textContent = pickerLabel();
+    var inp = $('dtPickerInput');
+    inp.value = '';
+    pickerCursor = -1;
+    renderPickerList();
+    var anchor = pickerTarget.mode === 'ban'
+      ? $('dtBanAdd')
+      : root.querySelector('.dt-slot[data-side="' + pickerTarget.side + '"][data-slot="' + pickerTarget.slot + '"]');
+    if (anchor) placePicker(anchor);
+    inp.focus();
+  }
+
   // ---------- события ----------
   function bind() {
     root.addEventListener('click', function (e) {
       var t;
       if ((t = e.target.closest('[data-clear]'))) { clearSlot(t.dataset.side, Number(t.dataset.clear)); return; }
       if ((t = e.target.closest('.dt-slot'))) {
-        state.target = { side: t.dataset.side, slot: Number(t.dataset.slot) };
-        state.mode = t.dataset.side;
+        if (e.target.closest('select')) return;          // селектор позиции внутри слота
+        var side = t.dataset.side, slot = Number(t.dataset.slot);
+        state.target = { side: side, slot: slot };
+        state.mode = side;
         syncSideSwitch();
         render();
-        $('dtSearch').focus();
+        openPicker({ side: side, slot: slot }, root.querySelector('.dt-slot[data-side="' + side + '"][data-slot="' + slot + '"]') || t);
         return;
       }
       if ((t = e.target.closest('[data-unban]'))) {
@@ -553,13 +689,23 @@
       } else if (e.key === 'Escape') { closeSuggest(); }
     });
     document.addEventListener('click', function (e) { if (!e.target.closest('.dt-search')) closeSuggest(); });
+    document.addEventListener('mousedown', function (e) {
+      if (!pickerOpen()) return;
+      if (e.target.closest('.dt-picker') || e.target.closest('.dt-slot') || e.target.closest('#dtBanAdd')) return;
+      closePicker();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePicker(); });
+    window.addEventListener('resize', function () { if (pickerOpen()) closePicker(); });
 
     $('dtMetaOnly').addEventListener('change', function (e) { state.metaOnly = e.target.checked; renderRecs(); });
     $('dtConfident').addEventListener('change', function (e) { state.confident = e.target.checked; render(); });
-    $('dtReset').addEventListener('click', resetAll);
+    $('dtReset').addEventListener('click', function () { closePicker(); resetAll(); });
     $('dtUndo').addEventListener('click', undo);
-    $('dtBanAdd').addEventListener('click', function () {
-      state.mode = 'ban'; syncSideSwitch(); $('dtSearch').focus(); renderSuggest();
+    $('dtBanAdd').addEventListener('click', function (e) {
+      if (state.bans.length >= MAX_BANS) return;
+      state.mode = 'ban';
+      syncSideSwitch();
+      openPicker({ mode: 'ban' }, e.currentTarget);
     });
     $('dtShare').addEventListener('click', function () {
       writeHash();
