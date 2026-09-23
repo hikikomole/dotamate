@@ -134,10 +134,6 @@ async function main(){
       <h1>${escapeHtml(x.dname)}</h1>
       ${lead?`<p class="ip-lead">${escapeHtml(lead)}</p>`:''}
       <div class="ip-chips">${meta}</div>
-      <div class="ip-actions">
-        <a class="btn red" href="/items/">Все предметы</a>
-        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&amp;item_id=${encodeURIComponent(x.id)}">Данные Valve ↗</a>
-      </div>
     </div>
   </section>
   ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2><small>${x.descOwn?'Текст сайта: официального описания у Valve для этого предмета нет':'Официальная русская локализация Valve'}</small></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания Valve</h3>${notesHtml}</div>`:''}</section>`:''}

@@ -561,7 +561,7 @@ async function openItem(name){
           <h2><a href="${escapeHtml(page)}">${escapeHtml(x.dname)}</a></h2>
           <div class="item-profile-meta">${itemMetaChips(x).map(c=>`<span>${escapeHtml(c)}</span>`).join('')}<span>ID ${x.id}</span></div>
           <p class="item-profile-sub">Описание, история и числа — официальная русская версия Valve. Всё хранится на сайте, ничего не подгружается со стороны.</p>
-          <div class="item-profile-actions"><a class="btn red" href="${escapeHtml(page)}">Страница предмета →</a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.dota2.com/datafeed/itemdata?language=russian&item_id=${encodeURIComponent(x.id)}">Данные Valve ↗</a></div>
+          <div class="item-profile-actions"><a class="btn red" href="${escapeHtml(page)}">Страница предмета →</a></div>
         </div>
       </div>
       <div class="item-profile-grid">
