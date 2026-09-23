@@ -6,14 +6,17 @@
 Смысл: не тратить лимиты Claude на объёмную рутину. Claude ставит задачу,
 внешняя модель её выполняет, Claude проверяет результат.
 
-Провайдеры:
-  groq   — быстрый (секунды), для механики: классификация, конвертация
-           форматов, извлечение JSON, массовые проверки «да/нет».
-  gemini — медленнее, но умнее и с большим контекстом: тексты, SEO,
-           разбор больших файлов кода.
+Провайдеры (все с бесплатным тарифом, все — OpenAI-совместимые, кроме gemini):
+  groq       — самый быстрый (~1 с), для механики: классификация, конвертация
+               форматов, извлечение JSON, массовые проверки «да/нет».
+  mistral    — самый щедрый месячный лимит; есть модели под код и рассуждения.
+  gemini     — умнее остальных и с большим контекстом: тексты, SEO,
+               разбор больших файлов кода. Медленнее.
+  github     — модели по GitHub-токену, лимиты скромные.
+  cloudflare — на том же аккаунте, где хостится сайт; нужен ID аккаунта.
 
-Ключи берутся из .env в корне проекта (GROQ_API_KEY / GEMINI_API_KEY),
-из переменных окружения или из ~/.groq_key / ~/.gemini_key.
+Ключи берутся из .env в корне проекта, из переменных окружения или из
+~/.<provider>_key. Имена переменных — в PROVIDERS ниже, шаблон — в .env.example.
 
 Примеры:
     python3 tools/llm.py "перепиши короче"
@@ -21,9 +24,10 @@
     cat index.html | python3 tools/llm.py "найди незакрытые теги"
     python3 tools/llm.py -s "Ты SEO-редактор" -t 0.7 "напиши meta description"
     python3 tools/llm.py -p groq --list     # какие модели живы по ключу
+    python3 tools/llm.py --check            # кто сейчас отвечает, а кто в лимите
 
 ВАЖНО: любые числовые требования (длина текста, количество пунктов) и
-уникальность вывода проверять кодом — обе модели на этом уже ошибались.
+уникальность вывода проверять кодом — модели на этом уже ошибались.
 """
 import argparse
 import json
@@ -60,8 +64,16 @@ def load_dotenv() -> dict[str, str]:
             values.setdefault(k.strip(), v.strip().strip('"').strip("'"))
     return values
 
+
+# kind: как устроен запрос. "openai" — общий формат chat/completions,
+# "gemini" — собственный формат Google. Всё остальное различается только URL.
+#
+# Имена моделей меняются у всех провайдеров без предупреждения. Дефолты ниже —
+# отправная точка, а не гарантия: перед объёмной задачей прогоняйте
+# `--list` по нужному провайдеру и правьте здесь, если модель пропала.
 PROVIDERS = {
     "groq": {
+        "kind": "openai",
         "url": "https://api.groq.com/openai/v1/chat/completions",
         "models_url": "https://api.groq.com/openai/v1/models",
         "env": "GROQ_API_KEY",
@@ -72,15 +84,69 @@ PROVIDERS = {
         # qwen3.8-27b на бесплатном ключе сразу отдаёт 429 — в цепочку не берём.
         "fallbacks": ["openai/gpt-oss-20b", "groq/compound-mini"],
     },
+    "mistral": {
+        "kind": "openai",
+        "url": "https://api.mistral.ai/v1/chat/completions",
+        "models_url": "https://api.mistral.ai/v1/models",
+        "env": "MISTRAL_API_KEY",
+        "keyfile": ".mistral_key",
+        "default": "mistral-small-latest",
+        "fallbacks": ["open-mistral-nemo", "devstral-small-latest",
+                      "magistral-small-latest"],
+    },
     "gemini": {
+        "kind": "gemini",
         "url": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
         "models_url": "https://generativelanguage.googleapis.com/v1beta/models?pageSize=200",
         "env": "GEMINI_API_KEY",
         "keyfile": ".gemini_key",
         "default": "gemini-3.6-flash",
+        # Pro-модели на бесплатном уровне упираются в 429 почти мгновенно —
+        # вся работа идёт на Flash.
         "fallbacks": ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"],
     },
+    "github": {
+        "kind": "openai",
+        "url": "https://models.github.ai/inference/chat/completions",
+        "models_url": "https://models.github.ai/catalog/models",
+        # Отдельная переменная, а не GITHUB_TOKEN: токен для моделей должен
+        # быть без прав на запись в репозиторий.
+        "env": "GITHUB_MODELS_TOKEN",
+        "keyfile": ".github_models_key",
+        "default": "openai/gpt-4o-mini",
+        "fallbacks": ["meta/Llama-3.3-70B-Instruct", "deepseek/DeepSeek-R1"],
+    },
+    "ollama": {
+        # Локальная модель на машине пользователя: ключа нет, лимитов нет,
+        # интернет не нужен. Медленнее облачных и качество зависит от того,
+        # какая модель скачана, зато её можно гонять сколько угодно —
+        # для массовой механики это главный запасной путь.
+        "kind": "openai",
+        "url": "http://127.0.0.1:11434/v1/chat/completions",
+        "models_url": "http://127.0.0.1:11434/v1/models",
+        "env": "OLLAMA_API_KEY",
+        "keyfile": ".ollama_key",
+        "no_key": True,
+        # Пусто — значит «взять первую установленную модель», см. resolve_model.
+        "default": "",
+        "fallbacks": [],
+    },
+    "cloudflare": {
+        "kind": "openai",
+        # У Cloudflare есть OpenAI-совместимый путь, но в URL нужен ID аккаунта.
+        "url": "https://api.cloudflare.com/client/v4/accounts/{account}/ai/v1/chat/completions",
+        "models_url": "https://api.cloudflare.com/client/v4/accounts/{account}/ai/models/search?per_page=200",
+        "env": "CLOUDFLARE_AI_TOKEN",
+        "keyfile": ".cloudflare_ai_key",
+        "account_env": "CLOUDFLARE_ACCOUNT_ID",
+        "default": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "fallbacks": ["@cf/qwen/qwq-32b", "@cf/meta/llama-3.1-8b-instruct"],
+    },
 }
+
+# Порядок перебора, когда выбранный провайдер отказал: сначала быстрые,
+# потом умные, потом самые лимитированные. Провайдеры без ключа пропускаются.
+PROVIDER_ORDER = ["groq", "mistral", "gemini", "github", "cloudflare", "ollama"]
 
 RETRY_CODES = (429, 500, 502, 503)
 # Cloudflare перед Groq режет дефолтный UA urllib (403, error code 1010).
@@ -94,8 +160,13 @@ class ApiError(Exception):
         self.detail = detail
 
 
-def get_key(provider: str) -> str:
+def find_key(provider: str) -> str | None:
+    """Ищет ключ провайдера, но не завершает скрипт, если его нет."""
     cfg = PROVIDERS[provider]
+    if cfg.get("no_key"):
+        # Локальному серверу ключ не нужен: OpenAI-совместимый путь Ollama
+        # требует заголовок Authorization, но его содержимое не проверяет.
+        return "local"
     key = os.environ.get(cfg["env"], "").strip()
     if key:
         return key
@@ -108,43 +179,97 @@ def get_key(provider: str) -> str:
             key = f.read_text(encoding="utf-8").strip()
             if key:
                 return key
-    sys.exit(f"Нет ключа для {provider}: добавьте {cfg['env']}=... "
-             f"в .env в корне проекта (см. .env.example)")
+    return None
+
+
+def get_key(provider: str) -> str:
+    key = find_key(provider)
+    if not key:
+        sys.exit(f"Нет ключа для {provider}: добавьте {PROVIDERS[provider]['env']}=... "
+                 f"в .env в корне проекта (см. .env.example)")
+    return key
+
+
+def get_account(provider: str) -> str:
+    """ID аккаунта — нужен только Cloudflare, он стоит прямо в URL."""
+    name = PROVIDERS[provider].get("account_env")
+    if not name:
+        return ""
+    value = os.environ.get(name, "").strip() or load_dotenv().get(name, "").strip()
+    if not value:
+        sys.exit(f"Нет {name} в .env — без ID аккаунта Cloudflare адрес не собрать")
+    return value
+
+
+def provider_url(provider: str, key: str, model: str = "") -> str:
+    url = PROVIDERS[provider]["url"]
+    if "{account}" in url:
+        url = url.replace("{account}", get_account(provider))
+    if "{model}" in url:
+        url = url.replace("{model}", model)
+    return url
+
+
+def resolve_model(provider: str, model: str) -> str:
+    """Пустая модель у ollama значит «первая установленная».
+
+    Список скачанных моделей у каждого свой, зашивать имя в код нельзя.
+    """
+    if model:
+        return model
+    cfg = PROVIDERS[provider]
+    if provider != "ollama":
+        return cfg["default"]
+    req = urllib.request.Request(cfg["models_url"],
+                                 headers={"User-Agent": UA,
+                                          "Authorization": "Bearer local"})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            names = sorted(m["id"] for m in json.load(resp).get("data", []))
+    except Exception as e:
+        raise ApiError(0, f"ollama не отвечает на 127.0.0.1:11434 ({e})")
+    if not names:
+        raise ApiError(0, "в ollama не скачано ни одной модели (ollama pull ...)")
+    return names[0]
 
 
 def build_request(provider: str, model: str, prompt: str,
                   system: str | None, temperature: float) -> urllib.request.Request:
     cfg = PROVIDERS[provider]
-    if provider == "gemini":
+    key = get_key(provider)
+    if cfg["kind"] == "gemini":
         body: dict = {
             "contents": [{"role": "user", "parts": [{"text": prompt}]}],
             "generationConfig": {"temperature": temperature},
         }
         if system:
             body["systemInstruction"] = {"parts": [{"text": system}]}
-        url = cfg["url"].format(model=model)
         headers = {"Content-Type": "application/json", "User-Agent": UA,
-                   "x-goog-api-key": get_key(provider)}
-    else:  # OpenAI-совместимый формат (groq)
+                   "x-goog-api-key": key}
+    else:  # общий OpenAI-совместимый формат
         messages = ([{"role": "system", "content": system}] if system else [])
         messages.append({"role": "user", "content": prompt})
         body = {"model": model, "messages": messages, "temperature": temperature}
-        url = cfg["url"]
         headers = {"Content-Type": "application/json", "User-Agent": UA,
-                   "Authorization": f"Bearer {get_key(provider)}"}
-    return urllib.request.Request(url, data=json.dumps(body).encode("utf-8"),
+                   "Authorization": f"Bearer {key}"}
+    return urllib.request.Request(provider_url(provider, key, model),
+                                  data=json.dumps(body).encode("utf-8"),
                                   headers=headers, method="POST")
 
 
 def extract_text(provider: str, data: dict) -> str:
-    if provider == "gemini":
+    if PROVIDERS[provider]["kind"] == "gemini":
         cand = (data.get("candidates") or [{}])[0]
         parts = cand.get("content", {}).get("parts", [])
         text = "".join(p.get("text", "") for p in parts).strip()
         reason = cand.get("finishReason", "?")
     else:
         choice = (data.get("choices") or [{}])[0]
-        text = (choice.get("message", {}).get("content") or "").strip()
+        msg = choice.get("message", {}) or {}
+        text = (msg.get("content") or "").strip()
+        # Рассуждающие модели (DeepSeek-R1 и подобные) кладут ответ в content,
+        # а ход мысли — отдельно; если content пуст, брать reasoning нельзя,
+        # это не ответ. Просто считаем такой результат неудачей.
         reason = choice.get("finish_reason", "?")
     if not text:
         raise ApiError(0, f"пустой ответ (finish={reason})")
@@ -152,13 +277,22 @@ def extract_text(provider: str, data: dict) -> str:
 
 
 def call(provider: str, model: str, prompt: str,
-         system: str | None, temperature: float) -> str:
+         system: str | None, temperature: float, timeout: int = 180) -> str:
+    model = resolve_model(provider, model)
     delay = 3
     for attempt in range(1, 4):
         req = build_request(provider, model, prompt, system, temperature)
         try:
-            with urllib.request.urlopen(req, timeout=180) as resp:
-                return extract_text(provider, json.load(resp))
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                raw = resp.read()
+            try:
+                data = json.loads(raw.decode("utf-8", "replace"))
+            except ValueError:
+                # Провайдер может ответить HTML-страницей ошибки со статусом 200.
+                # Без этой ветки json.load роняет весь --check на одном провайдере.
+                raise ApiError(0, "ответ не JSON: "
+                               + raw[:200].decode("utf-8", "replace").replace("\n", " "))
+            return extract_text(provider, data)
         except urllib.error.HTTPError as e:
             detail = e.read().decode("utf-8", "replace")[:400]
             if e.code in RETRY_CODES and attempt < 3:
@@ -173,23 +307,63 @@ def call(provider: str, model: str, prompt: str,
     raise ApiError(0, "не удалось получить ответ после 3 попыток")
 
 
+def model_names(provider: str, data: dict) -> list[str]:
+    """Каждый провайдер отдаёт список моделей в своём виде."""
+    if PROVIDERS[provider]["kind"] == "gemini":
+        return [m["name"].replace("models/", "") for m in data.get("models", [])
+                if "generateContent" in m.get("supportedGenerationMethods", [])]
+    if provider == "cloudflare":
+        rows = data.get("result") or []
+        return [m.get("name", "") for m in rows
+                if "Text Generation" in json.dumps(m.get("task", {}), ensure_ascii=False)]
+    if provider == "github":
+        rows = data if isinstance(data, list) else data.get("data", [])
+        return [m.get("id") or m.get("name", "") for m in rows]
+    return [m["id"] for m in data.get("data", [])]
+
+
 def list_models(provider: str) -> None:
     cfg = PROVIDERS[provider]
-    headers = ({"x-goog-api-key": get_key(provider)} if provider == "gemini"
-               else {"Authorization": f"Bearer {get_key(provider)}"})
+    key = get_key(provider)
+    headers = ({"x-goog-api-key": key} if cfg["kind"] == "gemini"
+               else {"Authorization": f"Bearer {key}"})
     headers["User-Agent"] = UA
-    req = urllib.request.Request(cfg["models_url"], headers=headers)
+    url = cfg["models_url"].replace("{account}", get_account(provider)) \
+        if "{account}" in cfg["models_url"] else cfg["models_url"]
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=60) as resp:
             data = json.load(resp)
     except urllib.error.HTTPError as e:
         sys.exit(f"{provider}: HTTP {e.code} {e.read().decode('utf-8','replace')[:300]}")
-    if provider == "gemini":
-        names = [m["name"].replace("models/", "") for m in data.get("models", [])
-                 if "generateContent" in m.get("supportedGenerationMethods", [])]
-    else:
-        names = [m["id"] for m in data.get("data", [])]
+    names = [n for n in model_names(provider, data) if n]
     print("\n".join(sorted(names)))
+
+
+def check_all() -> None:
+    """Короткий живой опрос всех провайдеров: кто отвечает, кто в лимите.
+
+    Нужен потому, что бесплатные тарифы меняются молча: модель исчезает,
+    ключ упирается в суточный лимит, провайдер закрывает регистрацию.
+    Дешевле проверить за минуту, чем на середине объёмной задачи.
+    """
+    for name in PROVIDER_ORDER:
+        cfg = PROVIDERS[name]
+        if not find_key(name):
+            print(f"{name:11} NO KEY   ({cfg['env']})")
+            continue
+        started = time.time()
+        model = cfg["default"]
+        try:
+            model = resolve_model(name, model)
+            text = call(name, model, "Reply with exactly one word: hello",
+                        None, 0.0, timeout=60)
+            took = time.time() - started
+            print(f"{name:11} OK       {took:5.1f}s  {model}")
+        except ApiError as e:
+            print(f"{name:11} FAIL     HTTP {e.code} {e.detail[:90]}")
+        except SystemExit as e:  # нет ID аккаунта и подобное
+            print(f"{name:11} NOT SET  {e}")
 
 
 def read_inputs(args) -> str:
@@ -217,6 +391,23 @@ def read_inputs(args) -> str:
     return (task + "\n\n" + "\n\n".join(chunks)).strip() if chunks else task
 
 
+def build_chain(args) -> list[tuple[str, str]]:
+    """Выбранная модель -> запасные того же провайдера -> другие провайдеры.
+
+    Провайдеры без ключа в цепочку не попадают: иначе каждый отказ стоил бы
+    лишнего круга с заведомо известным результатом.
+    """
+    cfg = PROVIDERS[args.provider]
+    chain = [(args.provider, args.model or cfg["default"])]
+    chain += [(args.provider, m) for m in cfg["fallbacks"] if m != args.model]
+    if not args.no_cross:
+        for name in PROVIDER_ORDER:
+            if name == args.provider or not find_key(name):
+                continue
+            chain.append((name, PROVIDERS[name]["default"]))
+    return chain
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description="Обёртка над бесплатными LLM API")
     ap.add_argument("prompt", nargs="*")
@@ -228,21 +419,19 @@ def main() -> None:
     ap.add_argument("--no-cross", action="store_true",
                     help="не перекидывать на другого провайдера при отказе")
     ap.add_argument("--list", action="store_true", help="показать доступные модели")
+    ap.add_argument("--check", action="store_true",
+                    help="опросить всех провайдеров: у кого есть ключ и кто отвечает")
     args = ap.parse_args()
 
+    if args.check:
+        check_all()
+        return
     if args.list:
         list_models(args.provider)
         return
 
     prompt = read_inputs(args)
-    cfg = PROVIDERS[args.provider]
-
-    # Цепочка: выбранная модель -> запасные того же провайдера -> другой провайдер.
-    chain = [(args.provider, args.model or cfg["default"])]
-    chain += [(args.provider, m) for m in cfg["fallbacks"] if m != args.model]
-    if not args.no_cross:
-        other = "gemini" if args.provider == "groq" else "groq"
-        chain.append((other, PROVIDERS[other]["default"]))
+    chain = build_chain(args)
 
     last: ApiError | None = None
     for i, (prov, model) in enumerate(chain):
