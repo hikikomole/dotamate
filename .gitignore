@@ -8,3 +8,10 @@ node_modules/
 
 # Рабочие файлы Claude: снимки экрана и черновики, в репозитории не нужны
 Claude outputs/
+
+# Кэши сборки: скачиваются заново за секунды (tools/fetch-item-sources.py).
+# Дорогой кэш seo/valve-items-ru.json намеренно лежит в репозитории: на него
+# уходит ~4 минуты запросов к Valve.
+__pycache__/
+seo/abilities_russian.txt
+seo/opendota-items.json
