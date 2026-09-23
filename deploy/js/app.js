@@ -405,12 +405,32 @@ function abilityIcon(key){return `/assets/abilities/${encodeURIComponent(key)}.p
 // В текстах Valve встречаются литералы \n, теги <br> и двойные %% — чистим их и режем текст на абзацы.
 // Служебную строку «ТИП РАЗВЕИВАНИЯ: …» выносим из текста отдельной меткой, чтобы карточки читались ровнее.
 function abilityParts(raw){const lines=String(raw||'').replace(/<\s*br\s*\/?\s*>/gi,'\n').replace(/\\n/g,'\n').replace(/<[^>]*>/g,'').replace(/%%/g,'%').replace(/[ \t]+/g,' ').split('\n').map(s=>s.trim()).filter(Boolean);let dispel='';if(lines.length){const m=lines[lines.length-1].match(/^ТИП\s+РАЗВЕИВАНИЯ\s*:\s*(.+)$/i);if(m){dispel=m[1];lines.pop();}}return{paras:lines,dispel};}
+// Снимок способностей всех героев (tools/fetch-hero-abilities.js).
+// Способности меняются только с патчами, поэтому обновляется раз в 90 дней,
+// а карточка героя больше не ходит в сеть на каждое открытие.
+const ABILITIES_LOCAL="/data/hero-abilities.json";
+let heroAbilitiesSnapshot=null,heroAbilitiesPromise=null;
+function loadAbilitiesSnapshot(){
+  if(heroAbilitiesSnapshot)return Promise.resolve(heroAbilitiesSnapshot);
+  if(!heroAbilitiesPromise){
+    heroAbilitiesPromise=fetch(ABILITIES_LOCAL)
+      .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
+      .then(j=>{heroAbilitiesSnapshot=j&&j.heroes?j.heroes:{};return heroAbilitiesSnapshot;})
+      .catch(()=>({}));
+  }
+  return heroAbilitiesPromise;
+}
 async function loadHeroAbilities(h){
   const box=document.getElementById('heroAbilities');if(!box)return;
   try{
-    const r=await fetch(`/api/dota/hero/${encodeURIComponent(h.name)}/abilities`,{cache:'no-store'});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const list=await r.json();
+    const snap=await loadAbilitiesSnapshot();
+    let list=snap[String(h.id)];
+    // Запасной путь: герой появился после последнего снимка — берём живьём.
+    if(!Array.isArray(list)||!list.length){
+      const r=await fetch(`/api/dota/hero/${encodeURIComponent(h.name)}/abilities`);
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      list=await r.json();
+    }
     if(!Array.isArray(list)||!list.length){box.innerHTML='<div class="item-pop-loading">Способности героя временно недоступны.</div>';return;}
     box.innerHTML=list.map((x,i)=>{const {paras,dispel}=abilityParts(x.desc);const body=(paras.length?paras:['Описание пока недоступно.']).map(p=>`<p>${escapeHtml(p)}</p>`).join('');return `<article class="ability-card"><div class="ability-art"><img loading="lazy" src="${abilityIcon(x.key)}" alt=""><span>${i+1}</span></div><div class="ability-body"><b>${escapeHtml(x.dname)}</b>${body}${dispel?`<span class="ability-tag">Развеивание: ${escapeHtml(dispel.toLowerCase())}</span>`:''}</div></article>`;}).join('');
   }catch(e){
@@ -491,7 +511,7 @@ async function openItem(name){
   document.getElementById('modalContent').innerHTML=`
     <div class="item-profile-v3">
       <div class="item-profile-top">
-        <div class="item-profile-art"><img src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span>${escapeHtml(x.catRu||itemCategoryLabel(x))}</span></div>
+        <div class="item-profile-art"><img src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"></div>
         <div class="item-profile-title">
           <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
           <h2><a href="${escapeHtml(page)}">${escapeHtml(x.dname)}</a></h2>
@@ -502,7 +522,7 @@ async function openItem(name){
       </div>
       <div class="item-profile-grid">
         <section class="item-profile-panel item-profile-description">
-          <div class="item-panel-head"><div><span>ОПИСАНИЕ</span><h3>Что делает предмет</h3></div>${x.descOwn?'<small>текст сайта</small>':'<small>текст Valve</small>'}</div>
+          <div class="item-panel-head"><div><span>ОПИСАНИЕ</span><h3>Что делает предмет</h3></div></div>
           ${itemDescBlocks(x)}
           ${x.notes&&x.notes.length?`<div class="item-notes"><h4>Примечания Valve</h4>${x.notes.map(n=>`<p>• ${escapeHtml(n)}</p>`).join('')}</div>`:''}
         </section>
@@ -511,7 +531,7 @@ async function openItem(name){
           ${x.attr&&x.attr.length?`<div class="item-official-facts">${x.attr.map(a=>`<div><strong>${escapeHtml(a)}</strong></div>`).join('')}</div>`:'<p class="muted">Постоянных бонусов к характеристикам у предмета нет.</p>'}
           ${x.comp&&x.comp.length?`<div class="ip-links"><h4>Собирается из</h4><div class="ip-chips">${itemLinkChips(x.comp)}</div></div>`:''}
           ${x.into&&x.into.length?`<div class="ip-links"><h4>Входит в сборку</h4><div class="ip-chips">${itemLinkChips(x.into)}</div></div>`:''}
-          ${x.lore?`<div class="item-lore"><small>ИСТОРИЯ${x.loreOwn?' · текст сайта':''}</small><p>${escapeHtml(x.lore)}</p></div>`:''}
+          ${x.lore?`<div class="item-lore"><small>ИСТОРИЯ</small><p>${escapeHtml(x.lore)}</p></div>`:''}
         </section>
       </div>
       <section class="item-profile-panel item-use-panel">
@@ -524,7 +544,7 @@ async function openItem(name){
       </section>
       <section class="item-profile-panel item-why-panel">
         <div class="item-panel-head"><div><span>КАК ЧИТАТЬ</span><h3>Откуда эти данные</h3></div></div>
-        <p>Описание, история, примечания и бонусы — официальная русская локализация Valve${own?'; там, где у Valve текста нет вовсе, стоит текст сайта и он подписан':''}. Список героев ниже — агрегированные реальные покупки из OpenDota, а не наша рекомендация.</p>
+        <p>Описание, история, примечания и бонусы — официальная русская локализация Valve${own?'; там, где у Valve текста нет вовсе, описание написано для сайта':''}. Список героев ниже — агрегированные реальные покупки из OpenDota, а не наша рекомендация.</p>
       </section>
     </div>`;
   document.getElementById('modal').classList.add('show');document.getElementById('close').focus();
