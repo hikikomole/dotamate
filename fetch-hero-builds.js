@@ -86,23 +86,45 @@ function buildProgression(rows) {
   };
 }
 
-/** Таланты по уровням 10/15/20/25: самый частый и лучший по винрейту */
+/**
+ * Таланты по уровням 10/15/20/25: самый частый и лучший по винрейту.
+ *
+ * Stratz присылает только те таланты, которые брали хотя бы раз, поэтому на
+ * 136 уровнях из 916 приходила одна сторона из двух, и дерево на странице
+ * рисовалось наполовину пустым. Недостающую сторону добавляем сами с нулём
+ * матчей: «ноль раз взяли» — это тоже факт о таланте, а дырка в дереве нет.
+ *
+ * Порядок сторон — игровой (слот в дереве талантов), а не по популярности:
+ * так дерево на сайте совпадает с тем, что игрок видит в Dota, а золотая
+ * подсветка перестаёт всегда оказываться слева.
+ */
 function buildTalents(rows, talentLevels) {
   const out = [];
   for (const lvl of [10, 15, 20, 25]) {
-    const ids = talentLevels[lvl] || [];
-    const at = rows.filter(r => ids.includes(r.abilityId) && r.matchCount > 0);
-    if (at.length < 1) continue;
-    const total = at.reduce((s, r) => s + r.matchCount, 0);
-    const opts = at.map(r => ({
-      abilityId: r.abilityId,
-      matches: r.matchCount,
-      pick: total ? Number((r.matchCount / total * 100).toFixed(1)) : null,
-      winrate: pct(r.winCount, r.matchCount)
-    })).sort((a, b) => b.matches - a.matches);
-    const mostPicked = opts[0]?.abilityId ?? null;
-    const eligible = opts.filter(o => o.matches >= MIN_MATCHES);
-    const highestWin = (eligible.length ? eligible : opts).slice().sort((a, b) => b.winrate - a.winrate)[0]?.abilityId ?? null;
+    const side = talentLevels[lvl] || [];
+    if (side.length !== 2) continue;
+    const byId = new Map(rows.filter(r => r.matchCount > 0).map(r => [r.abilityId, r]));
+    const total = side.reduce((s, t) => s + (byId.get(t.abilityId)?.matchCount || 0), 0);
+    if (!total) continue;
+
+    const opts = side.map(t => {
+      const r = byId.get(t.abilityId);
+      const m = r ? r.matchCount : 0;
+      return {
+        abilityId: t.abilityId,
+        title: t.title,
+        matches: m,
+        pick: Number((m / total * 100).toFixed(1)),
+        // Винрейт без матчей неизвестен — это не ноль процентов побед
+        winrate: m ? pct(r.winCount, m) : null
+      };
+    });
+
+    const picked = opts.filter(o => o.matches > 0);
+    const mostPicked = picked.slice().sort((a, b) => b.matches - a.matches)[0]?.abilityId ?? null;
+    const eligible = picked.filter(o => o.matches >= MIN_MATCHES);
+    const highestWin = (eligible.length ? eligible : picked).slice()
+      .sort((a, b) => b.winrate - a.winrate)[0]?.abilityId ?? null;
     out.push({ level: lvl, options: opts, mostPicked, highestWin });
   }
   return out;
@@ -153,18 +175,13 @@ async function main() {
   fs.writeFileSync(path.join(ROOT, 'data', 'ability-index.json'),
     JSON.stringify({ fetchedAt: new Date().toISOString(), abilities: abilityById }));
 
-  // Какие таланты на каком уровне — берём из порядка талантов героя в Stratz
-  const heroTalents = await gql(token, '{ constants { heroes { id talents { abilityId slot } } } }');
-  const talentLevelsByHero = {};
-  for (const h of heroTalents.constants.heroes) {
-    const lv = { 10: [], 15: [], 20: [], 25: [] };
-    for (const t of (h.talents || [])) {
-      // slot 0..7: пары снизу вверх -> уровни 10,15,20,25
-      const level = [10, 10, 15, 15, 20, 20, 25, 25][t.slot];
-      if (level) lv[level].push(t.abilityId);
-    }
-    talentLevelsByHero[h.id] = lv;
-  }
+  // Дерево талантов берём из своего справочника (tools/build-talent-tree.js):
+  // у Stratz список talents дырявый — у Phantom Lancer там 3 слота из 8,
+  // и дерево на странице выходило наполовину пустым.
+  const talentTree = (() => {
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'talent-tree.json'), 'utf8')).heroes; }
+    catch { throw new Error('нет data/talent-tree.json — сначала запусти tools/build-talent-tree.js'); }
+  })();
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
   let done = 0, skipped = [];
@@ -204,7 +221,7 @@ async function main() {
       byPosition[p.id] = {
         matches: p.matches,
         progression: buildProgression(s['lvl' + i] || []),
-        talents: buildTalents(s['tal' + i] || [], talentLevelsByHero[h.id] || {}),
+        talents: buildTalents(s['tal' + i] || [], talentTree[h.id] || {}),
         items: buildItems(s['itm' + i] || [], p.matches)
       };
     });

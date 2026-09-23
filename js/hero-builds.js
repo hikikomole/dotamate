@@ -57,7 +57,18 @@
    */
   function talentLabel(abilityId, meta, ctx) {
     const ru = ctx.talentNames && ctx.talentNames[abilityId];
-    return ru || (meta && meta.title) || ('Talent ' + abilityId);
+    const fromTree = ctx.talentTitles && ctx.talentTitles[abilityId];
+    return cleanTalent(ru || fromTree || (meta && meta.title) || ('Talent ' + abilityId));
+  }
+
+  /**
+   * Последняя страховка от «+{s:bonus_damage} Jinada Damage» на странице.
+   * Значения подставляются в справочнике (tools/build-talent-tree.js), но если
+   * какой-то талант пришёл мимо него, лучше показать название без числа,
+   * чем служебную заглушку.
+   */
+  function cleanTalent(text) {
+    return String(text || '').replace(/\{s:[A-Za-z0-9_]+\}/g, '').replace(/\s+/g, ' ').replace(/^[+\-−]\s/, '').trim();
   }
 
   /**
@@ -130,10 +141,16 @@
         let tag = '';
         if (isPick && (sameWinner || !isWin)) tag = '<i class="hb-tag hb-tag-pick">чаще берут</i>';
         else if (isWin) tag = '<i class="hb-tag hb-tag-win">выше винрейт</i>';
-        return `<div class="hb-tal-cell${isPick ? ' is-picked' : ''}${isWin && !isPick ? ' is-win' : ''}">
-          <b>${esc(talentLabel(o.abilityId, a, ctx))}</b>
-          <span>Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}</span>
-          ${tag}
+        // Талант, который в выборке не брали ни разу, всё равно показываем:
+        // «ноль раз взяли» — это факт о таланте, а пустая половина дерева нет.
+        const unused = !o.matches;
+        const stats = unused
+          ? 'Не берут на этой роли'
+          : `Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}`;
+        return `<div class="hb-tal-cell${isPick ? ' is-picked' : ''}${isWin && !isPick ? ' is-win' : ''}${unused ? ' is-unused' : ''}">
+          <b>${esc(cleanTalent(o.title) || talentLabel(o.abilityId, a, ctx))}</b>
+          <span>${esc(stats)}</span>
+          ${unused ? '' : tag}
         </div>`;
       };
       const opts = t.options.slice(0, 2);

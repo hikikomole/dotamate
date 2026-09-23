@@ -33,6 +33,18 @@ const heroBuilds = require('./js/hero-builds.js');
 // иконки в игре, поэтому в интерфейсе они текстовые — и текст должен быть русским.
 // Точные последовательности прокачки (fetch-skill-chains.js, OpenDota).
 // Выборка отличается от Stratz — на странице это подписано явным текстом.
+// Названия талантов из полного дерева (tools/build-talent-tree.js) — нужны и
+// плиткам в полосе прокачки, где талант может встретиться на 10-м уровне.
+const talentTitles = (() => {
+  try {
+    const tree = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talent-tree.json'), 'utf8')).heroes;
+    const out = {};
+    for (const lv of Object.values(tree)) for (const arr of Object.values(lv)) for (const t of arr) {
+      if (t.abilityId != null) out[t.abilityId] = t.title;
+    }
+    return out;
+  } catch { return {}; }
+})();
 const skillChains = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'skill-chains.json'), 'utf8')).heroes; }
   catch { return {}; }
@@ -151,6 +163,7 @@ async function main(){
       abilities:abilityIndex,
       talentNames:null, // русские названия готовы в data/talents-ru.json — включаются заменой на talentNames
       chains:skillChains[h.id]||null,
+      talentTitles,
       items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
       roleIcon:key=>heroRoles.icon(key)
     }):'';
