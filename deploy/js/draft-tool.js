@@ -22,6 +22,18 @@
   var POSITIONS = ['POSITION_1', 'POSITION_2', 'POSITION_3', 'POSITION_4', 'POSITION_5'];
   var POS_LABEL = { POSITION_1: 'Керри', POSITION_2: 'Мид', POSITION_3: 'Офлейн', POSITION_4: 'Саппорт', POSITION_5: 'Хардсаппорт' };
   var POS_SHORT = { POSITION_1: 'Поз. 1', POSITION_2: 'Поз. 2', POSITION_3: 'Поз. 3', POSITION_4: 'Поз. 4', POSITION_5: 'Поз. 5' };
+  var POS_ICON = {
+    POSITION_1: '/assets/roles/carry.svg',
+    POSITION_2: '/assets/roles/mid.png',
+    POSITION_3: '/assets/roles/offlane.png',
+    POSITION_4: '/assets/roles/support.png',
+    POSITION_5: '/assets/roles/hardsupport.png'
+  };
+  // Эмблемы сторон рисуем сами: листом и клыком, в цветах команд.
+  var SIDE_MARK = {
+    radiant: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5c3 2.2 5.3 4.4 5.3 7.2A5.3 5.3 0 0 1 8 14.5a5.3 5.3 0 0 1-5.3-5.8C2.7 5.9 5 3.7 8 1.5Z"/><path d="M8 5.2v7" class="dt-mark-line"/></svg>',
+    dire: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.4 2.4 6 6 8 2l2 4 3.6-3.6-1.2 5.1A5 5 0 0 1 8 14.5a5 5 0 0 1-4.4-6.9L2.4 2.4Z"/></svg>'
+  };
   var SIDES = ['radiant', 'dire'];
 
   var root = document.getElementById('draftTool');
@@ -29,6 +41,7 @@
 
   var M = null, heroes = [], heroById = {}, posData = {}, matrixIdx = {}, metaThreshold = 0;
   var matrices = {};     // 'our' и 'stratz' — два среза одной и той же структуры
+  var ourMeta = null;    // герои нашего среза: матчи, винрейт, доля пиков
   var loaded = false, loading = false;
 
   var state = {
@@ -90,24 +103,67 @@
     return POSITIONS.filter(function (p) { return h.positions[p]; })
       .sort(function (a, b) { return h.positions[b].matches - h.positions[a].matches; });
   }
+  // Сколько матчей у героя — в том срезе, который сейчас выбран.
+  // Раньше тут всегда стояли числа Stratz, и на своём срезе подпись врала.
   function heroMatches(id) {
+    if (state.slice === 'our' && ourMeta && ourMeta[id]) return ourMeta[id].matches || 0;
     var h = posData[String(id)];
     return h && h.totalMatches ? h.totalMatches : 0;
   }
-  // Раскладка позиций внутри команды: ручной выбор в приоритете, остальным —
-  // самая частая ещё свободная роль.
+  // Доля матчей героя на позиции. Позиции берутся у Stratz в любом срезе:
+  // в ленте публичных матчей ролей нет вовсе.
+  function posShare(id, p) {
+    var h = posData[String(id)];
+    var cell = h && h.positions && h.positions[p];
+    if (!cell) return 0;
+    return cell.share != null ? cell.share : (h.totalMatches ? cell.matches / h.totalMatches * 100 : 0);
+  }
+
+  // Раскладка позиций внутри команды.
+  //
+  // Жадный перебор по порядку слотов давал заметные глупости: если Earthshaker
+  // занимал третью позицию первым, Tidehunter получал пятую, которую он почти
+  // не играет. Поэтому перебираем все 120 расстановок и берём ту, где сумма
+  // долей по позициям наибольшая — это точный оптимум, а не порядок слотов.
+  var PERMS = (function () {
+    var out = [];
+    (function rec(rest, acc) {
+      if (!rest.length) { out.push(acc); return; }
+      for (var i = 0; i < rest.length; i++) {
+        rec(rest.slice(0, i).concat(rest.slice(i + 1)), acc.concat([rest[i]]));
+      }
+    })([0, 1, 2, 3, 4], []);
+    return out;
+  })();
+
   function assignPositions(side) {
     var picks = state.picks[side], over = state.posOverride[side];
-    var taken = {}, out = [null, null, null, null, null];
+    var out = [null, null, null, null, null];
+    var fixed = {};                       // позиция -> слот, занята вручную
     picks.forEach(function (id, i) {
-      if (id && over[i] && !taken[over[i]]) { out[i] = over[i]; taken[over[i]] = true; }
+      if (id && over[i] && !fixed[over[i]]) { out[i] = over[i]; fixed[over[i]] = true; }
     });
-    picks.forEach(function (id, i) {
-      if (!id || out[i]) return;
-      var order = heroPositions(id);
-      for (var k = 0; k < order.length; k++) { if (!taken[order[k]]) { out[i] = order[k]; taken[order[k]] = true; return; } }
-      for (var p = 0; p < POSITIONS.length; p++) { if (!taken[POSITIONS[p]]) { out[i] = POSITIONS[p]; taken[POSITIONS[p]] = true; return; } }
-    });
+    var freeSlots = [], freePos = POSITIONS.filter(function (p) { return !fixed[p]; });
+    picks.forEach(function (id, i) { if (id && !out[i]) freeSlots.push(i); });
+    if (!freeSlots.length) return out;
+
+    // считаем на полном наборе из пяти позиций, лишние отбросим
+    var best = null, bestScore = -1;
+    for (var k = 0; k < PERMS.length; k++) {
+      var perm = PERMS[k], score = 0, ok = true;
+      for (var j = 0; j < freeSlots.length; j++) {
+        var p = POSITIONS[perm[j]];
+        if (fixed[p]) { ok = false; break; }
+        score += posShare(picks[freeSlots[j]], p);
+      }
+      if (!ok) continue;
+      if (score > bestScore) { bestScore = score; best = perm; }
+    }
+    if (best) {
+      for (var j2 = 0; j2 < freeSlots.length; j2++) out[freeSlots[j2]] = POSITIONS[best[j2]];
+    } else {
+      freeSlots.forEach(function (slot, n) { out[slot] = freePos[n] || null; });
+    }
     return out;
   }
   function firstFreePosition(side) {
@@ -207,33 +263,60 @@
       state.picks.radiant.indexOf(id) !== -1 || state.picks.dire.indexOf(id) !== -1;
   }
   function passesMeta(id) { return !state.metaOnly || heroMatches(id) >= metaThreshold; }
+  // «Мета»: герой играется не реже половины среднего по всем героям в текущем срезе.
+  function recalcMetaThreshold() {
+    var total = 0, cnt = 0;
+    heroes.forEach(function (h) { var m = heroMatches(h.id); if (m) { total += m; cnt++; } });
+    metaThreshold = cnt ? (total / cnt) * 0.5 : 0;
+  }
   function recommend(side) {
     var enemy = side === 'radiant' ? 'dire' : 'radiant';
     var allies = state.picks[side].filter(Boolean);
     var enemies = state.picks[enemy].filter(Boolean);
     var wantPos = state.role[side] === 'any' ? null : state.role[side];
-    var openPos = wantPos || firstFreePosition(side);
-    var lane = openPos ? LANES.filter(function (l) { return l[side === 'radiant' ? 'rad' : 'dire'].indexOf(openPos) !== -1; })[0] : null;
-    var laneEnemies = lane ? heroesAt(enemy, lane[enemy === 'radiant' ? 'rad' : 'dire']) : [];
+
+    // Свободные позиции этой стороны. Раньше кандидату приписывалась одна общая
+    // «первая свободная», из-за чего на пустом драфте все герои числились керри.
+    // Теперь каждому берём его самую частую роль из ещё свободных.
+    var used = assignPositions(side).filter(Boolean);
+    var free = POSITIONS.filter(function (p) { return used.indexOf(p) === -1; });
+
+    // лейновые соперники для каждой свободной позиции считаем один раз
+    var laneFoes = {};
+    free.forEach(function (p) {
+      var lane = LANES.filter(function (l) { return l[side === 'radiant' ? 'rad' : 'dire'].indexOf(p) !== -1; })[0];
+      laneFoes[p] = lane ? heroesAt(enemy, lane[enemy === 'radiant' ? 'rad' : 'dire']) : [];
+    });
 
     var rows = [];
     heroes.forEach(function (h) {
       if (isTaken(h.id) || !passesMeta(h.id)) return;
-      if (wantPos && heroPositions(h.id).indexOf(wantPos) === -1) return;
+      var own = heroPositions(h.id);
+      if (wantPos && own.indexOf(wantPos) === -1) return;
+
+      var slotPos = wantPos;
+      if (!slotPos) {
+        for (var k = 0; k < own.length; k++) { if (free.indexOf(own[k]) !== -1) { slotPos = own[k]; break; } }
+        if (!slotPos) slotPos = free[0] || own[0] || null;
+      }
+
       var syn = 0, mat = 0;
       allies.forEach(function (a) { syn += withAdv(h.id, a); });
       enemies.forEach(function (e) { mat += vsAdv(h.id, e); });
+
       var laneVal = null;
-      if (openPos && laneEnemies.length) {
-        var s = 0, c = 0;
-        laneEnemies.forEach(function (e) {
-          var v = laneAdv(h.id, openPos, e.id, e.pos);
-          if (v !== null) { s += v; c++; }
+      var foes = slotPos ? (laneFoes[slotPos] || []) : [];
+      if (slotPos && foes.length) {
+        var sum = 0, cnt = 0;
+        foes.forEach(function (e) {
+          var v = laneAdv(h.id, slotPos, e.id, e.pos);
+          if (v !== null) { sum += v; cnt++; }
         });
-        if (c) laneVal = s / c;
+        if (cnt) laneVal = sum / cnt;
       }
+
       rows.push({
-        hero: h, pos: openPos || heroPositions(h.id)[0] || null,
+        hero: h, pos: slotPos,
         syn: allies.length ? syn : null,
         mat: enemies.length ? mat : null,
         lane: laneVal,
@@ -241,6 +324,7 @@
         matches: heroMatches(h.id)
       });
     });
+
     var key = state.sort[side];
     rows.sort(function (a, b) {
       var av = a[key], bv = b[key];
@@ -301,15 +385,23 @@
     // Шкала показывает перевес в процентных пунктах, а не вероятность победы:
     // сумма парных преимуществ не откалибрована по исходам матчей (см. «Откуда числа»).
     function pp(v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1).replace('.', ','); }
+    // Знак важнее стороны: минус у Света должен быть красным, а не зелёным.
+    function setSigned(el, v) {
+      if (!el) return;
+      el.classList.remove('dt-up', 'dt-down', 'dt-zero');
+      if (v === null || v === undefined) { el.textContent = '—'; el.classList.add('dt-zero'); return; }
+      el.textContent = pp(v);
+      el.classList.add(v > 0.05 ? 'dt-up' : (v < -0.05 ? 'dt-down' : 'dt-zero'));
+    }
     function fill(v) { return 50 + Math.max(-45, Math.min(45, v)) / 2; }
 
-    $('dtWinRad').textContent = anyPick ? pp(total) : '—';
-    $('dtWinDire').textContent = anyPick ? pp(-total) : '—';
+    setSigned($('dtWinRad'), anyPick ? total : null);
+    setSigned($('dtWinDire'), anyPick ? -total : null);
     $('dtWinFillRad').style.width = (anyPick ? fill(total) : 50) + '%';
     $('dtWinFillDire').style.width = (100 - (anyPick ? fill(total) : 50)) + '%';
 
-    $('dtLaneRad').textContent = lane === null ? '—' : pp(lane);
-    $('dtLaneDire').textContent = lane === null ? '—' : pp(-lane);
+    setSigned($('dtLaneRad'), lane);
+    setSigned($('dtLaneDire'), lane === null ? null : -lane);
     $('dtLaneFillRad').style.width = (lane === null ? 50 : fill(lane)) + '%';
     $('dtLaneFillDire').style.width = (100 - (lane === null ? 50 : fill(lane))) + '%';
 
@@ -345,8 +437,16 @@
     SIDES.forEach(function (side) {
       var el = root.querySelector('[data-roles="' + side + '"]');
       el.innerHTML = ROLE_CHIPS.map(function (c) {
-        return '<button type="button" class="dt-role' + (state.role[side] === c[0] ? ' active' : '') + '" data-role="' + c[0] + '" data-side="' + side + '">' + c[1] + '</button>';
+        var ico = POS_ICON[c[0]]
+          ? '<i class="dt-role-ico"><img src="' + POS_ICON[c[0]] + '" alt="" width="18" height="18" loading="lazy" decoding="async"></i>'
+          : '';
+        return '<button type="button" class="dt-role' + (state.role[side] === c[0] ? ' active' : '') +
+          '" data-role="' + c[0] + '" data-side="' + side + '">' + ico + c[1] + '</button>';
       }).join('');
+    });
+    // эмблемы сторон проставляем один раз, они не зависят от состояния
+    root.querySelectorAll('[data-side-mark]').forEach(function (el) {
+      if (!el.firstChild) el.innerHTML = SIDE_MARK[el.dataset.sideMark] || '';
     });
   }
 
@@ -723,6 +823,7 @@
     M = matrices[slice];
     matrixIdx = {};
     M.heroIds.forEach(function (id, i) { matrixIdx[id] = i; });
+    recalcMetaThreshold();
     syncSliceSwitch();
     render();
   }
@@ -760,8 +861,10 @@
       getJson('/data/our-matrix.json').catch(function () { return null; }),
       getJson('/api/dota/hero-positions').catch(function () { return getJson('/data/hero-positions.json'); }),
       getJson('/data/heroes.json'),
-      getJson('/data/draft-matrix.json')
+      getJson('/data/draft-matrix.json'),
+      getJson('/data/our-meta.json').catch(function () { return null; })
     ]).then(function (res) {
+      ourMeta = (res[4] && res[4].heroes) || null;
       matrices.our = res[0];
       matrices.stratz = res[3];
       if (!matrices.our) state.slice = 'stratz';
@@ -774,10 +877,7 @@
         .sort(function (a, b) { return a.localized_name.localeCompare(b.localized_name); });
       heroes.forEach(function (h) { heroById[h.id] = h; });
 
-      // «мета»: герой играется не реже половины среднего по всем героям
-      var total = 0, cnt = 0;
-      heroes.forEach(function (h) { var m = heroMatches(h.id); if (m) { total += m; cnt++; } });
-      metaThreshold = cnt ? (total / cnt) * 0.5 : 0;
+      recalcMetaThreshold();
 
       var f = $('dtFetched');
       if (f && M.fetchedAt) f.textContent = new Date(M.fetchedAt).toLocaleDateString('ru-RU');

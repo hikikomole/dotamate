@@ -44,7 +44,11 @@
 .dt-bar-row:last-child{margin-bottom:0}
 .dt-bar-row b{font-size:18px;font-weight:800;letter-spacing:-.5px}
 .dt-bar-row b.dt-rad{color:var(--d2-agi)}
-.dt-bar-row b.dt-dire{color:var(--d2-str);text-align:right}
+.dt-bar-row b.dt-dire{text-align:right}
+/* цвет числа задаёт знак, а не сторона */
+.dt-bar-row b.dt-up{color:var(--d2-agi)}
+.dt-bar-row b.dt-down{color:var(--d2-str)}
+.dt-bar-row b.dt-zero{color:var(--d2-muted-2)}
 .dt-bar-wrap{position:relative}
 .dt-bar-title{text-align:center;font-size:10px;font-weight:800;letter-spacing:1.6px;color:var(--d2-muted-2);text-transform:uppercase;margin-bottom:6px}
 .dt-bar{height:8px;border-radius:var(--rad-pill);background:#1c2027;overflow:hidden;display:flex}
@@ -56,7 +60,12 @@
 .dt-teams{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--d2-line);border-bottom:1px solid var(--d2-line)}
 .dt-team{background:var(--d2-panel);padding:16px 22px}
 .dt-team-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.dt-team-head h3{margin:0;font-size:14px;letter-spacing:1.4px;text-transform:uppercase}
+.dt-team-head h3{margin:0;font-size:14px;letter-spacing:1.4px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dt-side-mark{display:inline-flex;width:17px;height:17px;flex:none}
+.dt-side-mark svg{width:17px;height:17px;display:block}
+.dt-team[data-side="radiant"] .dt-side-mark svg,.dt-rec-panel[data-side="radiant"] .dt-side-mark svg{fill:rgba(111,196,111,.22);stroke:var(--d2-agi);stroke-width:1.1}
+.dt-team[data-side="dire"] .dt-side-mark svg,.dt-rec-panel[data-side="dire"] .dt-side-mark svg{fill:rgba(228,87,90,.22);stroke:var(--d2-str);stroke-width:1.1}
+.dt-side-mark .dt-mark-line{fill:none}
 .dt-team[data-side="radiant"] h3{color:var(--d2-agi)}
 .dt-team[data-side="dire"] h3{color:var(--d2-str)}
 .dt-team-head span{font-size:11px;color:var(--d2-muted-2)}
@@ -94,7 +103,7 @@
 .dt-bans{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--d2-line);background:var(--d2-panel-2)}
 .dt-bans-label{font-size:11px;font-weight:800;letter-spacing:1.4px;color:var(--d2-muted-2);text-transform:uppercase}
 .dt-bans-empty{font-size:12px;color:var(--d2-muted-2)}
-.dt-ban{display:inline-flex;align-items:center;gap:6px;padding:4px 8px 4px 4px;border:1px solid var(--d2-line);border-radius:var(--rad-pill);background:var(--d2-panel);font-size:11.5px;font-weight:700;cursor:pointer}
+.dt-ban{display:inline-flex;align-items:center;gap:6px;padding:4px 9px 4px 4px;border:1px solid var(--d2-line);border-radius:var(--rad-pill);background:var(--d2-panel);color:var(--d2-text);font-size:11.5px;font-weight:700;cursor:pointer}
 .dt-ban img{width:28px;height:16px;object-fit:cover;border-radius:var(--rad-xs)}
 .dt-ban:hover{border-color:var(--d2-str);color:var(--d2-str)}
 .dt-ban-add{margin-left:auto}
@@ -120,11 +129,17 @@
 .dt-recs>h3{margin:0 0 12px;font-size:14px;letter-spacing:1.4px;text-transform:uppercase}
 .dt-recs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .dt-rec-panel{border:1px solid var(--d2-line);border-radius:var(--rad-md);background:var(--d2-panel-2);overflow:hidden}
-.dt-rec-head{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px;border-bottom:1px solid var(--d2-line)}
-.dt-rec-head b{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;margin-right:auto}
+.dt-rec-head{display:flex;flex-direction:column;gap:10px;padding:12px;border-bottom:1px solid var(--d2-line);background:linear-gradient(180deg,var(--d2-panel-2),var(--d2-panel))}
+.dt-rec-head b{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase}
+/* Все шесть кнопок ролей одной ширины и с содержимым по центру. */
+.dt-roles{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
 .dt-rec-panel[data-side="radiant"] .dt-rec-head b{color:var(--d2-agi)}
 .dt-rec-panel[data-side="dire"] .dt-rec-head b{color:var(--d2-str)}
-.dt-role{border:1px solid var(--d2-line);border-radius:var(--rad-pill);background:var(--d2-panel);color:var(--d2-muted);font-size:11px;font-weight:700;padding:5px 10px;cursor:pointer}
+.dt-role{display:flex;align-items:center;justify-content:center;gap:4px;min-width:0;height:30px;border:1px solid var(--d2-line);border-radius:var(--rad-pill);background:var(--d2-panel);color:var(--d2-muted);font-size:10px;letter-spacing:-.25px;font-weight:700;padding:0 3px;cursor:pointer;transition:.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt-role:hover{border-color:var(--d2-gold-dim);color:var(--d2-text)}
+.dt-role-ico{display:inline-flex;width:13px;height:13px;flex:0 0 13px;align-items:center;justify-content:center;opacity:.85}
+.dt-role-ico img{width:13px;height:13px;display:block;object-fit:contain}
+.dt-role.active .dt-role-ico{opacity:1}
 .dt-role.active{background:rgba(217,193,135,.14);border-color:var(--d2-gold-dim);color:var(--d2-gold)}
 .dt-rec-table{width:100%;border-collapse:collapse;font-size:12px}
 .dt-rec-table th{position:sticky;top:0;background:var(--d2-panel-2);text-align:right;font-size:10px;letter-spacing:1.2px;color:var(--d2-muted-2);text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--d2-line);font-weight:800}
@@ -151,8 +166,12 @@
 .dt-method b{color:var(--d2-muted)}
 .dt-method summary{cursor:pointer;color:var(--d2-muted);font-weight:700;font-size:12px}
 
+@media(max-width:1200px){
+  .dt-roles{grid-template-columns:repeat(3,1fr)}
+}
 @media(max-width:900px){
   .dt-teams,.dt-recs-grid{grid-template-columns:1fr}
+  .dt-roles{grid-template-columns:repeat(6,1fr)}
   .dt-lane-grid{grid-template-columns:1fr}
   .dt-head,.dt-quick,.dt-predict,.dt-team,.dt-bans,.dt-lanes,.dt-recs,.dt-method{padding-left:14px;padding-right:14px}
   .dt-slots{grid-template-columns:repeat(5,1fr);gap:5px}
@@ -160,6 +179,7 @@
   .dt-slot img{height:44px}
 }
 @media(max-width:520px){
+  .dt-roles{grid-template-columns:repeat(3,1fr)}
   .dt-head h2{font-size:22px}
   .dt-bar-row{grid-template-columns:52px 1fr 52px}
   .dt-rec-table td,.dt-rec-table th{padding:6px}
