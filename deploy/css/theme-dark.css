@@ -1026,3 +1026,24 @@ body.d2-dark .qp-hero-go{
   transition:transform .16s ease,color .16s ease!important;
 }
 body.d2-dark a.qp-hero:hover .qp-hero-go{color:var(--d2-gold)!important;transform:translateX(3px)!important}
+
+/* Быстрая подготовка: контрпики и покупки из настоящих данных */
+body.d2-dark .qp-list{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))!important;gap:6px!important}
+body.d2-dark .qp-row{display:flex!important;align-items:center!important;gap:10px!important;padding:8px 10px!important;text-decoration:none!important;color:inherit!important;border:1px solid var(--d2-line)!important;border-radius:9px!important;background:var(--d2-panel)!important;transition:border-color .16s ease,background .16s ease!important}
+body.d2-dark .qp-row:hover{background:var(--d2-panel-2)!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .qp-row:hover b{color:var(--d2-gold)!important}
+body.d2-dark .qp-row img{width:38px!important;height:22px!important;flex:0 0 38px!important;object-fit:cover!important;border-radius:4px!important;display:block!important}
+body.d2-dark .qp-row span{min-width:0!important}
+body.d2-dark .qp-row b{display:block!important;font-size:12.5px!important;color:var(--d2-text)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+body.d2-dark .qp-row i{display:block!important;font-style:normal!important;margin-top:1px!important;font-size:11px!important;color:var(--d2-muted-2)!important}
+/* Покупки по стадиям игры */
+body.d2-dark #qpBuild.qp-list{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important}
+body.d2-dark .qp-phase{border:1px solid var(--d2-line)!important;border-radius:9px!important;background:var(--d2-panel)!important;padding:9px 10px 10px!important}
+body.d2-dark .qp-phase h5{margin:0 0 7px!important;font-size:10px!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:var(--d2-gold-dim)!important;font-weight:800!important}
+body.d2-dark .qp-items{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+body.d2-dark .qp-item{position:relative!important;display:block!important;line-height:0!important;border-radius:5px!important;overflow:hidden!important;border:1px solid var(--d2-line)!important;transition:border-color .16s ease!important}
+body.d2-dark .qp-item:hover{border-color:var(--d2-gold)!important}
+body.d2-dark .qp-item img{width:40px!important;height:auto!important;display:block!important}
+body.d2-dark .qp-item em{position:absolute!important;right:0!important;bottom:0!important;font-style:normal!important;font-size:8.5px!important;line-height:11px!important;padding:0 3px!important;color:var(--d2-text)!important;background:rgba(0,0,0,.75)!important;border-top-left-radius:4px!important}
+/* Контрпики в карточке героя — кнопки, а не ссылки: выглядят так же */
+body.d2-dark button.qp-row{width:100%!important;text-align:left!important;cursor:pointer!important;font:inherit!important}

@@ -11,6 +11,21 @@ const d2hSetHtml=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTM
 const ITEMS_LOCAL="/data/items-ru.json";
 const ITEM_HEROES_LOCAL="/data/item-heroes.json";
 const HERO_ITEMS_LOCAL="/data/hero-items.json";
+// Настоящие матчапы для блока быстрой подготовки (tools/build-hero-counters.js).
+// Раньше контрпики там считались формулой из тегов и атрибутов, со случайным
+// слагаемым — выдумка, менявшаяся при каждом открытии страницы.
+const HERO_COUNTERS_LOCAL="/data/hero-counters.json";
+let heroCountersIndex=null,heroCountersPromise=null;
+function loadHeroCounters(){
+  if(heroCountersIndex)return Promise.resolve(heroCountersIndex);
+  if(!heroCountersPromise){
+    heroCountersPromise=fetch(HERO_COUNTERS_LOCAL)
+      .then(r=>r.ok?r.json():Promise.reject(new Error("HTTP "+r.status)))
+      .then(j=>{heroCountersIndex=(j&&j.heroes)||{};return heroCountersIndex;})
+      .catch(()=>({}));
+  }
+  return heroCountersPromise;
+}
 const LOCAL_MODE=location.protocol==="file:";
 const FALLBACK_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125"><rect width="100" height="125" fill="#ececf2"/><text x="50" y="66" font-size="12" fill="#777" text-anchor="middle" font-family="sans-serif">DOTA</text></svg>');
 let heroes=[],items=[],filter="all",itemFilter="all",guideFilter="all",lastFocusedEl=null,spotlightHeroId=null,spotlightTimer=null;
@@ -402,13 +417,80 @@ function heroRolesRowHtml(h,stats){
   return `<section class="hp-bars detail-bars">${row}<div class="hp-statbar-grid"><div class="hs-label"><small>Базовые</small><strong>статы</strong></div>${statCells}</div>${note}</section>`;
 }
 function heroStats(h){return [{k:'HP',v:h.base_health!=null?h.base_health:(h.base_str||0)*22+120},{k:'Mana',v:h.base_mana!=null?h.base_mana:(h.base_int||0)*12+75},{k:'Armor',v:h.base_agi!=null?(h.base_agi/6).toFixed(1):'—'},{k:'Damage',v:h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'},{k:'Move Speed',v:h.move_speed||'—'}];}
-const roleSuggestions={Carry:['Black King Bar','Manta Style','Satanic'],Mid:['Black King Bar','Orchid Malevolence','Aghanim’s Scepter'],Offlane:['Blink Dagger','Pipe of Insight','Crimson Guard'],Support:['Glimmer Cape','Force Staff','Lotus Orb'],HardSupport:['Arcane Boots','Glimmer Cape','Mekansm']};
-function heroBuild(h){const role=(h.roles||[]).includes('Support')?'Support':(h.roles||[]).includes('Carry')?'Carry':(h.roles||[]).includes('Initiator')?'Offlane':'Mid';return roleSuggestions[role]||roleSuggestions.Mid;}
-function counterCandidates(h){const banned=new Set([h.id]);const score=x=>{let s=0;if(x.id===h.id)return -999;if(x.primary_attr!==h.primary_attr)s+=1;if((x.roles||[]).includes('Disabler'))s+=2;if((x.roles||[]).includes('Nuker'))s+=1;if((h.roles||[]).includes('Carry')&&(x.roles||[]).includes('Escape'))s+=2;if(h.attack_type==='Ranged'&&x.attack_type==='Melee')s+=1;return s+Math.random()*.25};return heroes.filter(x=>!banned.has(x.id)).sort((a,b)=>score(b)-score(a)).slice(0,3);}
 
 // --- Quick Prep: "60 секунд до пика" ---
 function quickPrepOptions(){const dl=document.getElementById('quickPrepHeroes');if(dl)dl.innerHTML=heroes.map(h=>`<option value="${escapeHtml(h.localized_name)}">`).join('');const chipsEl=document.getElementById('quickPrepChips');if(chipsEl){const top=[...heroes].filter(h=>Number(h.pro_pick||0)>0).sort((a,b)=>Number(b.pro_pick||0)-Number(a.pro_pick||0)).slice(0,5);const arr=top.length?top:heroes.slice(0,5);chipsEl.innerHTML=`<small>Попробуй:</small>`+arr.map(h=>`<button type="button" class="chip" data-quick-hero="${h.id}">${escapeHtml(h.localized_name)}</button>`).join('');}}
-function renderQuickPrep(h){const el=document.getElementById('quickPrepResult');if(!el)return;if(!h){el.innerHTML='<div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, билд и pro winrate за секунду.</div>';return;}const counters=counterCandidates(h);const build=heroBuild(h);const proLine=h.pro_pick?`${winrate(h).toFixed(1)}% pro WR · ${statValue(h.pro_pick)} picks · ${statValue(h.pro_ban)} banов`:'Нет pro-данных по этому герою — пока играют реже в топ-матчах';el.innerHTML=`<a class="qp-hero" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div><i class="qp-hero-go" aria-hidden="true">→</i></a><div class="qp-cols"><div><h4>Контрпики</h4><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h4>Рекомендуемый билд</h4><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><button class="btn ghost qp-full" data-hero-open="${h.id}">Открыть полный профиль →</button>`;}
+function renderQuickPrep(h){
+  const el=document.getElementById('quickPrepResult');if(!el)return;
+  if(!h){el.innerHTML='<div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, реальные покупки и pro winrate за секунду.</div>';return;}
+  const proLine=h.pro_pick?`${winrate(h).toFixed(1)}% pro WR · ${statValue(h.pro_pick)} picks · ${statValue(h.pro_ban)} banов`:'Нет pro-данных по этому герою — пока играют реже в топ-матчах';
+  el.innerHTML=`<a class="qp-hero" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div><i class="qp-hero-go" aria-hidden="true">→</i></a>
+  <div class="qp-cols">
+    <div><h4>Кто его контрит</h4><div class="qp-list" id="qpCounters"><p class="muted">Загружаем матчапы…</p></div></div>
+    <div><h4>Что покупают</h4><div class="qp-list" id="qpBuild"><p class="muted">Загружаем покупки…</p></div></div>
+  </div>`;
+  fillQuickPrepCounters(h);
+  fillQuickPrepBuild(h);
+}
+
+/**
+ * Контрпики из настоящих матчапов: герои, против которых этот герой
+ * выигрывает реже всего. Рядом — его винрейт против них и число матчей,
+ * чтобы было видно, на чём основана цифра.
+ */
+/**
+ * Контрпики в карточке героя — те же настоящие матчапы, но КНОПКАМИ:
+ * клик открывает соседнего героя в том же окне. Карточка существует ровно
+ * для того, чтобы смотреть героев не уходя с формы, и ссылка здесь этот
+ * смысл ломала бы. В быстрой подготовке наоборот — там ссылки уместны.
+ */
+async function fillHeroCounters(h){ return renderCountersInto('heroCounters', h, {asLinks:false}); }
+
+async function fillQuickPrepCounters(h){ return renderCountersInto('qpCounters', h, {asLinks:true}); }
+
+async function renderCountersInto(boxId, h, opts){
+  const box=document.getElementById(boxId);if(!box)return;
+  const asLinks=!opts||opts.asLinks!==false;
+  const idx=await loadHeroCounters();
+  const rec=idx[String(h.id)];
+  const rows=(rec&&rec.against||[]).slice(0,8);
+  if(!rows.length){box.innerHTML='<p class="muted">По этому герою пока мало матчей для надёжных матчапов.</p>';return;}
+  box.innerHTML=rows.map(r=>{
+    const x=heroes.find(z=>Number(z.id)===Number(r.id));
+    if(!x)return '';
+    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}</b><i>${r.w.toFixed(1).replace('.',',')}% побед · ${statValue(r.g)} матчей</i></span>`;
+    return asLinks
+      ? `<a class="qp-row" href="/hero/${escapeHtml(slugForHero(x))}/">${inner}</a>`
+      : `<button type="button" class="qp-row" data-hero-open="${x.id}">${inner}</button>`;
+  }).filter(Boolean).join('');
+  // Контрпики подгружаются уже после отрисовки карточки, поэтому обработчики
+  // вешаем здесь, а не один раз при открытии окна.
+  if(!asLinks){
+    box.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));
+  }
+}
+
+/**
+ * Покупки из data/hero-items.json — тот же срез OpenDota, что на страницах
+ * героев, разложенный по стадиям игры. Раньше здесь стоял список из трёх
+ * предметов, захардкоженный на роль: у всех керри он был одинаковый.
+ */
+async function fillQuickPrepBuild(h){
+  const box=document.getElementById('qpBuild');if(!box)return;
+  const rec=(await loadHeroItemIndex())[String(h.id)];
+  if(!rec){box.innerHTML='<p class="muted">По этому герою нет данных о покупках.</p>';return;}
+  const phases=[['start','Старт'],['early','Ранняя'],['mid','Середина'],['late','Поздняя']];
+  const html=phases.map(([k,label])=>{
+    const rows=(rec[k]||[]).slice(0,4).map(r=>{
+      const it=findItemById(r.i);
+      if(!it)return '';
+      return `<a class="qp-item" href="${escapeHtml(itemHref(it))}" title="${escapeHtml(it.dname)} · ${statValue(r.g)} покупок"><img loading="lazy" src="${itemImage(it)}" alt="${escapeHtml(it.dname)}"><em>${statValue(r.g)}</em></a>`;
+    }).filter(Boolean).join('');
+    return rows?`<div class="qp-phase"><h5>${label}</h5><div class="qp-items">${rows}</div></div>`:'';
+  }).filter(Boolean).join('');
+  box.innerHTML=html||'<p class="muted">По этому герою нет данных о покупках.</p>';
+}
+
 function quickPrepSelectByName(name){const q=String(name||'').trim().toLowerCase();if(!q){renderQuickPrep(null);return;}const h=heroes.find(x=>x.localized_name.toLowerCase()===q);if(h)renderQuickPrep(h);}
 
 // Карты «уровень предмета -> базовый предмет». Строятся один раз по
@@ -491,7 +573,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h),counters=counterCandidates(h),build=heroBuild(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-columns"><div><h3>Контрпики</h3><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h3>Рекомендуемый билд</h3><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);fillHeroCounters(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который
