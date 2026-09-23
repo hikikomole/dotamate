@@ -50,7 +50,9 @@ async function main(){
   const abilityMeta=await grab('https://api.opendota.com/api/constants/abilities');
   const RU_BEHAVIOR={'Passive':'Пассивная','No Target':'Без цели','Unit Target':'По цели','Point Target':'В точку','AOE':'По площади','Channeled':'Прерываемая','Toggle':'Переключаемая','Aura':'Аура','Autocast':'Автокаст','Hidden':'Скрытая'};
   const RU_DMG={'Physical':'физический','Magical':'магический','Pure':'чистый'};
-  const CDN_IMG='https://cdn.steamstatic.com/apps/dota2/images/dota_react/abilities/';
+  const CDN_IMG='/assets/abilities/';
+  // Ролики Valve остаются на CDN: это сотни мегабайт видео, хостить их у себя
+  // незачем. Все картинки — локальные.
   const CDN_VID='https://cdn.steamstatic.com/apps/dota2/videos/dota_react/abilities/';
   const CDN_RENDER='https://cdn.steamstatic.com/apps/dota2/videos/dota_react/heroes/renders/';
   // Каталожный слаг и слаг Valve расходятся (Anti-Mage -> antimage, но
@@ -113,7 +115,7 @@ async function main(){
         const rows=Object.entries(gd.items[k]||{}).map(([id,c])=>({id:Number(id),c:Number(c)||0}))
           .filter(r=>itemById.has(r.id)).sort((x,y)=>y.c-x.c).slice(0,4);
         if(!rows.length)return '';
-        return `<div class="hp-buy-col"><h3>${label}</h3>${rows.map(r=>{const it=itemById.get(r.id);return `<a href="/item/${it.slug}/"><img loading="lazy" src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${it.slug}.png" alt=""><b>${escapeHtml(it.dname)}</b><i>${r.c}</i></a>`;}).join('')}</div>`;
+        return `<div class="hp-buy-col"><h3>${label}</h3>${rows.map(r=>{const it=itemById.get(r.id);return `<a href="/item/${it.slug}/"><img loading="lazy" src="/assets/items/${it.slug}.png" alt=""><b>${escapeHtml(it.dname)}</b><i>${r.c}</i></a>`;}).join('')}</div>`;
       }).filter(Boolean).join('');
       return cols?`<div class="hp-buy-grid">${cols}</div>`:'';
     })();

@@ -88,7 +88,7 @@ async function main() {
     const abilitiesHtml = (g.abilities || []).map((ab, i) => {
       const paras = String(ab.desc || '').replace(/<\s*br\s*\/?\s*>/gi, '\n').replace(/\\n/g, '\n').replace(/<[^>]*>/g, '').replace(/%%/g, '%').split('\n').map(x => x.trim()).filter(Boolean);
       const body = paras.length ? paras.map(x => `<p>${escapeHtml(x)}</p>`).join('') : '<p>Официального русского описания у Valve для этой способности нет.</p>';
-      return `<article class="hg-ability"><div class="hg-ability-art"><img loading="lazy" src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/abilities/${encodeURIComponent(ab.key)}.png" alt=""><span>${i + 1}</span></div><div><b>${escapeHtml(ab.dname || ab.key)}</b>${body}</div></article>`;
+      return `<article class="hg-ability"><div class="hg-ability-art"><img loading="lazy" src="/assets/abilities/${encodeURIComponent(ab.key)}.png" alt=""><span>${i + 1}</span></div><div><b>${escapeHtml(ab.dname || ab.key)}</b>${body}</div></article>`;
     }).join('');
 
     const phaseHtml = PHASES.map(([key, label, hint]) => {
@@ -102,7 +102,7 @@ async function main() {
         const key2 = itemKeyById.get(r.id);
         const s = itemSlugOf(key2);
         const name = escapeHtml(itemName(r.id, itemsById));
-        const img = `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${s}.png`;
+        const img = `/assets/items/${s}.png`;
         return `<a href="/item/${s}/"><img loading="lazy" src="${img}" alt=""><b>${name}</b><small>${num(r.count)} покупок</small></a>`;
       }).join('');
       return `<div class="hg-phase"><h3>${label}</h3><p class="hg-hint">${hint}</p><div class="hg-items">${li}</div></div>`;

@@ -1,11 +1,8 @@
-const OFFICIAL_HERO_LIST="https://www.dota2.com/datafeed/herolist?language=english";
 const OPENDOTA_HEROES="https://api.opendota.com/api/heroStats";
-const STATIC_HEROES="https://raw.githubusercontent.com/odota/dotaconstants/master/build/heroes.json";
 // Разделы сайта разнесены по страницам, поэтому на любой из них часть
 // элементов отсутствует. Эти два помощника пишут в DOM только если цель есть.
 const d2hSetText=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
 const d2hSetHtml=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v;};
-const CDN="https://cdn.cloudflare.steamstatic.com";
 // Единственные источники данных о предметах — файлы в репозитории.
 const ITEMS_LOCAL="/data/items-ru.json";
 const ITEM_HEROES_LOCAL="/data/item-heroes.json";
@@ -33,18 +30,19 @@ const guideData=[
  {cat:"heroes",icon:"💚",tag:"BUILD",title:"Билд на хард-саппорта",text:"Хард-саппорт почти не фармит — его золото почти целиком уходит на обзор карты и спасение союзников.",slug:"build-hard-support"},
  {cat:"items",icon:"👢",tag:"COMPARE",title:"Ботинки в Dota 2: какие выбрать",text:"Все герои начинают с одинаковых Boots of Speed, но апгрейд ботинок — одно из первых решений, которое сильно зависит от роли и героя.",slug:"boots-comparison"},
  {cat:"items",icon:"🛡",tag:"COMPARE",title:"Защитные предметы: что от чего спасает",text:"Разные защитные предметы решают разные угрозы — контроль, магический урон, физический урон или конкретное точечное заклинание.",slug:"defensive-items-comparison"},
- {cat:"gameplay",icon:"📖",tag:"СЛОВАРЬ",title:"Словарь терминов Dota 2",text:"Что значат ластхит, денай, ганк, керри, MMR и другие термины — короткие объяснения с ссылками на подробные гайды.",slug:"glossary"}
+ {cat:"gameplay",icon:"📖",tag:"СЛОВАРЬ",title:"Словарь терминов Dota 2",text:"Что значат ластхит, денай, ганк, керри, MMR и другие термины — короткие объяснения с ссылками на подробные гайды.",slug:"glossary",href:"/glossary/"}
 ];
 const heroSlug={"Anti-Mage":"antimage","Ancient Apparition":"ancient_apparition","Arc Warden":"arc_warden","Batrider":"batrider","Beastmaster":"beastmaster","Bloodseeker":"bloodseeker","Bounty Hunter":"bounty_hunter","Brewmaster":"brewmaster","Bristleback":"bristleback","Broodmother":"broodmother","Centaur Warrunner":"centaur","Chaos Knight":"chaos_knight","Clockwerk":"rattletrap","Crystal Maiden":"crystal_maiden","Dawnbreaker":"dawnbreaker","Death Prophet":"death_prophet","Dragon Knight":"dragon_knight","Drow Ranger":"drow_ranger","Earth Spirit":"earth_spirit","Earthshaker":"earthshaker","Elder Titan":"elder_titan","Ember Spirit":"ember_spirit","Enchantress":"enchantress","Faceless Void":"faceless_void","Grimstroke":"grimstroke","Gyrocopter":"gyrocopter","Hoodwink":"hoodwink","Huskar":"huskar","Invoker":"invoker","Io":"wisp","Jakiro":"jakiro","Juggernaut":"juggernaut","Keeper of the Light":"keeper_of_the_light","Kez":"kez","Kunkka":"kunkka","Largo":"largo","Legion Commander":"legion_commander","Leshrac":"leshrac","Lich":"lich","Lifestealer":"life_stealer","Lina":"lina","Lion":"lion","Lone Druid":"lone_druid","Luna":"luna","Lycan":"lycan","Magnus":"magnataur","Marci":"marci","Mars":"mars","Medusa":"medusa","Meepo":"meepo","Mirana":"mirana","Monkey King":"monkey_king","Morphling":"morphling","Muerta":"muerta","Naga Siren":"naga_siren","Nature's Prophet":"furion","Necrophos":"necrolyte","Night Stalker":"night_stalker","Nyx Assassin":"nyx_assassin","Ogre Magi":"ogre_magi","Omniknight":"omniknight","Oracle":"oracle","Outworld Destroyer":"obsidian_destroyer","Pangolier":"pangolier","Phantom Assassin":"phantom_assassin","Phantom Lancer":"phantom_lancer","Phoenix":"phoenix","Primal Beast":"primal_beast","Puck":"puck","Pudge":"pudge","Pugna":"pugna","Queen of Pain":"queenofpain","Razor":"razor","Riki":"riki","Ringmaster":"ringmaster","Rubick":"rubick","Sand King":"sand_king","Shadow Demon":"shadow_demon","Shadow Fiend":"nevermore","Shadow Shaman":"shadow_shaman","Silencer":"silencer","Skywrath Mage":"skywrath_mage","Slardar":"slardar","Slark":"slark","Snapfire":"snapfire","Sniper":"sniper","Spectre":"spectre","Spirit Breaker":"spirit_breaker","Storm Spirit":"storm_spirit","Sven":"sven","Techies":"techies","Templar Assassin":"templar_assassin","Terrorblade":"terrorblade","Tidehunter":"tidehunter","Timbersaw":"shredder","Tinker":"tinker","Tiny":"tiny","Treant Protector":"treant","Troll Warlord":"troll_warlord","Tusk":"tusk","Underlord":"abyssal_underlord","Undying":"undying","Ursa":"ursa","Vengeful Spirit":"vengeful_spirit","Venomancer":"venomancer","Viper":"viper","Visage":"visage","Void Spirit":"void_spirit","Warlock":"warlock","Weaver":"weaver","Windranger":"windrunner","Winter Wyvern":"winter_wyvern","Witch Doctor":"witch_doctor","Wraith King":"skeleton_king","Zeus":"zuus"};
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 function slugForHero(h){const raw=String(h?.name||h?.localized_name||"").replace(/^npc_dota_hero_/,'');return heroSlug[h?.localized_name]||heroSlug[h?.name]||raw||"";}
-function imageUrl(h){const slug=slugForHero(h);const p=h?.img||"";if(p.startsWith("http"))return p;if(p.startsWith("/"))return `https://cdn.cloudflare.steamstatic.com${p.split("?")[0]}`;return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${slug}.png`;}
-function imageCandidates(h){const slug=slugForHero(h);const p=h?.img||"";return d2hImageCandidates('heroes',slug,p);}
+// Портреты героев и иконки способностей лежат в репозитории (assets/heroes/,
+// assets/abilities/) — на CDN Valve остаются только видеоролики, которые
+// хостить у себя нецелесообразно.
+function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.png`;}
 function itemSlug(name){return String(name||"").replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');}
 // Иконки лежат в репозитории (assets/items/): путь приходит готовым из
 // items-ru.json, у рецепта это иконка предмета, который из него собирается.
 function itemImage(x){const p=String(x&&x.img||"");return p.startsWith("/assets/")?p:`/assets/items/${itemSlug(x&&x.name||x)}.png`;}
-function itemImageCandidates(x){return d2hImageCandidates('items',itemSlug(x?.name||x),x?.img||"");}
 function roleText(h){return (h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
 function attrInfo(a){return attrs[a]||attrs.all;}
 function officialHeroUrl(h){return "https://www.dota2.com/hero/"+slugForHero(h).replace(/_/g,'');}
@@ -146,21 +144,24 @@ async function enrichProStats(){
     }
   }catch(err){console.warn('Pro stats enrich:',err);}
 }
+// Список героев рисуется из локального снимка (data/heroes.json,
+// tools/build-heroes-snapshot.py) — мгновенно и без сети. Живые про-показатели
+// догружает enrichProStats() из OpenDota поверх снимка: они меняются каждый
+// день, и держать их у себя смысла нет. Если OpenDota недоступна, сайт
+// продолжает работать со снимком, просто цифры пиков будут от даты сборки.
+const HEROES_LOCAL="/data/heroes.json";
 async function loadHeroes(force=false){
   const status=document.getElementById('status');
   try{
-    if(typeof localHeroes==='function'){heroes=normalizeHeroes(localHeroes());updateHeroUI('резервная база');}
-    const data=await d2hFirstSuccessful([
-      ()=>d2hFetchJSON(OFFICIAL_HERO_LIST),
-      ()=>d2hFetchJSON(OPENDOTA_HEROES),
-      ()=>d2hFetchJSON(STATIC_HEROES)
-    ]);
-    const list=unwrapHeroes(data);
-    if(list.length>=100){heroes=normalizeHeroes(list);d2hWriteCache('heroes',heroes);updateHeroUI('актуальный источник');enrichProStats();return;}
-    const cached=d2hReadCache('heroes');if(cached?.length){heroes=normalizeHeroes(cached);updateHeroUI('кэш');}
+    const r=await fetch(HEROES_LOCAL,force?{cache:'reload'}:undefined);
+    if(!r.ok)throw new Error('heroes.json '+r.status);
+    const j=await r.json();
+    heroes=normalizeHeroes(j.heroes||[]);
+    updateHeroUI('локальная база');
   }catch(err){
     console.warn('Hero loader:',err);
-    const cached=d2hReadCache('heroes');if(cached?.length){heroes=normalizeHeroes(cached);updateHeroUI('кэш');}
+    if(typeof localHeroes==='function'){try{heroes=normalizeHeroes(localHeroes());updateHeroUI('резервная база');}catch(e){}}
+    const cached=d2hReadCache('heroes');if(!heroes.length&&cached?.length){heroes=normalizeHeroes(cached);updateHeroUI('кэш');}
   }
   if(status&&heroes.length)status.textContent=`Загружено ${heroes.length} героев`;
   enrichProStats();
@@ -249,7 +250,7 @@ function renderItems(){
     const preview=itemDescriptionPreview(x);
     const cat=itemCategory(x);
     return `<a class="item-card item-card-v2" href="${escapeHtml(itemHref(x))}" data-item="${escapeHtml(x.name)}">
-      <div class="item-card-art"><img loading="lazy" data-d2h-image="item" data-d2h-slug="${escapeHtml(itemSlug(x.name))}" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span></div>
+      <div class="item-card-art"><img loading="lazy" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span></div>
       <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:''}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>${recipeTarget(x)?'К предмету →':'Подробнее →'}</b></div></div>
     </a>`;
   }).join(''):'<div class="empty item-empty-state"><strong>Предмет не найден</strong><span>Измени запрос или фильтр.</span></div>';
@@ -260,7 +261,7 @@ function updateHeroUI(source){heroes=heroes.filter(Boolean);d2hSetText('heroCoun
 function renderHeroSpotlight(){const el=document.getElementById('featured');if(!el||!heroes.length)return;let pool=heroes.filter(h=>h&&h.localized_name);if(pool.length>1&&spotlightHeroId!=null)pool=pool.filter(h=>Number(h.id)!==Number(spotlightHeroId));const h=pool[Math.floor(Math.random()*pool.length)]||heroes[0];spotlightHeroId=h.id;el.innerHTML=`<img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"><div class="ftext"><small>HERO SPOTLIGHT · СЛУЧАЙНЫЙ ГЕРОЙ</small><h3>${escapeHtml(h.localized_name)}</h3><p>${escapeHtml(roleText(h))} · ${escapeHtml(h.attack_type||'Dota 2 герой')} · открыть полный профиль →</p></div>`;el.onclick=()=>{location.href='/hero/'+slugForHero(h)+'/';};el.style.cursor='pointer';if(spotlightTimer)clearTimeout(spotlightTimer);spotlightTimer=setTimeout(()=>renderHeroSpotlight(),15000);}
 // Карточка ведёт на статическую страницу героя: она проиндексирована и
 // содержит описание, а модальное окно этого не давало.
-function heroCard(h,mini=false){const a=attrInfo(h.primary_attr),name=escapeHtml(h.localized_name);return `<a class="hero-card ${mini?'mini-hero-card':''}" href="/hero/${escapeHtml(slugForHero(h))}/" aria-label="${name}" data-id="${h.id}"><img loading="lazy" data-d2h-image="hero" data-d2h-slug="${escapeHtml(slugForHero(h))}" src="${imageUrl(h)}" alt="${name}"><div class="hero-info"><div class="hero-name">${name}</div><div class="hero-role">${escapeHtml(roleText(h))}</div><span class="attr">${a[0]} ${escapeHtml(a[1])}</span></div></a>`;}
+function heroCard(h,mini=false){const a=attrInfo(h.primary_attr),name=escapeHtml(h.localized_name);return `<a class="hero-card ${mini?'mini-hero-card':''}" href="/hero/${escapeHtml(slugForHero(h))}/" aria-label="${name}" data-id="${h.id}"><img loading="lazy" src="${imageUrl(h)}" alt="${name}"><div class="hero-info"><div class="hero-name">${name}</div><div class="hero-role">${escapeHtml(roleText(h))}</div><span class="attr">${a[0]} ${escapeHtml(a[1])}</span></div></a>`;}
 function renderHeroes(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const list=heroes.filter(h=>(filter==='all'||h.primary_attr===filter)&&(h.localized_name||'').toLowerCase().includes(q));d2hSetHtml('heroesGrid',list.length?list.map(h=>heroCard(h)).join(''):'<div class="empty">Герой не найден 😢</div>');}
 function renderFeaturedHeroes(){const el=document.getElementById('featuredHeroesGrid');if(!el)return;const picks=heroes.filter(h=>h.pro_pick>0).sort((a,b)=>wrScore(b)-wrScore(a)).slice(0,4);const arr=picks.length?picks:heroes.slice(0,4);el.innerHTML=arr.map(h=>`<article class="featured-hero-card" data-id="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${h.pro_pick?winrate(h).toFixed(1)+'% pro WR · '+h.pro_pick+' пик.':'Профиль героя'}</span></div></article>`).join('');}
 // Самые покупаемые предметы — из того же локального индекса. Раньше блок
@@ -319,7 +320,10 @@ function renderStats(){
   </div><div class="stats-source-note">Источник профессиональных показателей: OpenDota Hero Stats. Winrate считается как Pro Wins / Pro Picks; герои с менее чем 20 pro picks не используются для карточки «лучший winrate».</div>`;
   if(document.getElementById('itemAnalytics') && !document.getElementById('itemAnalytics').dataset.loaded){document.getElementById('itemAnalytics').dataset.loaded='1';loadItemAnalytics();}
 }
-function renderGuides(){const list=guideData.filter(g=>guideFilter==='all'||g.cat===guideFilter);d2hSetHtml('guidesGrid',list.map(g=>`<article class="guide-card guide-rich-card"><div class="guide-art">${g.icon}</div><div><span>${g.tag}</span><h3><a href="/guide/${g.slug}/" style="color:inherit;text-decoration:none;">${g.title}</a></h3><p>${g.text}</p><a class="btn ghost guide-open" href="/guide/${g.slug}/">Читать гайд →</a></div><b>↗</b></article>`).join(''));}
+// Адрес гайда — /guide/<slug>/, кроме карточек со своим href: словарь терминов
+// живёт на /glossary/, и без этого ссылка вела на несуществующий /guide/glossary/.
+function guideHref(g){return g.href||`/guide/${g.slug}/`;}
+function renderGuides(){const list=guideData.filter(g=>guideFilter==='all'||g.cat===guideFilter);d2hSetHtml('guidesGrid',list.map(g=>`<article class="guide-card guide-rich-card"><div class="guide-art">${g.icon}</div><div><span>${g.tag}</span><h3><a href="${guideHref(g)}" style="color:inherit;text-decoration:none;">${g.title}</a></h3><p>${g.text}</p><a class="btn ghost guide-open" href="${guideHref(g)}">Читать гайд →</a></div><b>↗</b></article>`).join(''));}
 function randomHero(){if(!heroes.length)return;const h=heroes[Math.floor(Math.random()*heroes.length)];const rt=document.getElementById('randomToolText');if(rt)rt.textContent=`Сегодня судьба выбрала ${h.localized_name}. ${roleText(h)}.`;openHero(h.id);}
 function heroStats(h){return [{k:'HP',v:h.base_health!=null?h.base_health:(h.base_str||0)*22+120},{k:'Mana',v:h.base_mana!=null?h.base_mana:(h.base_int||0)*12+75},{k:'Armor',v:h.base_agi!=null?(h.base_agi/6).toFixed(1):'—'},{k:'Damage',v:h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'},{k:'Move Speed',v:h.move_speed||'—'}];}
 const roleSuggestions={Carry:['Black King Bar','Manta Style','Satanic'],Mid:['Black King Bar','Orchid Malevolence','Aghanim’s Scepter'],Offlane:['Blink Dagger','Pipe of Insight','Crimson Guard'],Support:['Glimmer Cape','Force Staff','Lotus Orb'],HardSupport:['Arcane Boots','Glimmer Cape','Mekansm']};
@@ -346,8 +350,8 @@ async function loadHeroItemPopularity(heroId){
   box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>OpenDota · срез посчитан при сборке сайта · по фазам игры</p></div></div><div class="item-pop-grid">${sections}</div>`;
   box.querySelectorAll('[data-item-pop]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemPop));
 }
-// Иконка способности на CDN Valve: имя файла совпадает с внутренним ключом способности.
-function abilityIcon(key){return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/abilities/${encodeURIComponent(key)}.png`;}
+// Иконка способности: имя файла совпадает с внутренним ключом способности.
+function abilityIcon(key){return `/assets/abilities/${encodeURIComponent(key)}.png`;}
 // В текстах Valve встречаются литералы \n, теги <br> и двойные %% — чистим их и режем текст на абзацы.
 // Служебную строку «ТИП РАЗВЕИВАНИЯ: …» выносим из текста отдельной меткой, чтобы карточки читались ровнее.
 function abilityParts(raw){const lines=String(raw||'').replace(/<\s*br\s*\/?\s*>/gi,'\n').replace(/\\n/g,'\n').replace(/<[^>]*>/g,'').replace(/%%/g,'%').replace(/[ \t]+/g,' ').split('\n').map(s=>s.trim()).filter(Boolean);let dispel='';if(lines.length){const m=lines[lines.length-1].match(/^ТИП\s+РАЗВЕИВАНИЯ\s*:\s*(.+)$/i);if(m){dispel=m[1];lines.pop();}}return{paras:lines,dispel};}
@@ -479,8 +483,10 @@ async function openItem(name){
 }
 
 function compareHeroes(){const names=prompt('Введи двух героев через запятую, например: Invoker, Lina');if(!names)return;const [aName,bName]=names.split(',').map(x=>x.trim().toLowerCase());const a=heroes.find(h=>h.localized_name.toLowerCase()===aName)||heroes.find(h=>h.localized_name.toLowerCase().includes(aName));const b=heroes.find(h=>h.localized_name.toLowerCase()===bName)||heroes.find(h=>h.localized_name.toLowerCase().includes(bName));if(!a||!b){alert('Не удалось найти обоих героев.');return;}const rows=[['Атрибут',attrInfo(a.primary_attr)[1],attrInfo(b.primary_attr)[1]],['Move Speed',a.move_speed||'—',b.move_speed||'—'],['Damage',a.base_attack_min!=null?`${a.base_attack_min}–${a.base_attack_max}`:'—',b.base_attack_min!=null?`${b.base_attack_min}–${b.base_attack_max}`:'—'],['Pro Winrate',a.pro_pick?winrate(a).toFixed(1)+'%':'—',b.pro_pick?winrate(b).toFixed(1)+'%':'—'],['Pro Picks',statValue(a.pro_pick),statValue(b.pro_pick)]];document.getElementById('modalContent').innerHTML=`<div class="compare-detail"><div class="compare-head"><div><img src="${imageUrl(a)}"><h2>${escapeHtml(a.localized_name)}</h2></div><strong>VS</strong><div><img src="${imageUrl(b)}"><h2>${escapeHtml(b.localized_name)}</h2></div></div><table class="compare-table"><tbody>${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();}
-// Надёжная загрузка изображений: если CDN не отвечает, автоматически меняем домен.
-document.addEventListener('error',e=>{const img=e.target;if(!(img instanceof HTMLImageElement))return;const src=img.currentSrc||img.src;if(!/(?:dota2\.com|steamstatic\.com)\/apps\/dota2\/images\/dota_react\//i.test(src)||img.dataset.d2hFinal)return;const tried=Number(img.dataset.d2hTry||0);const domains=['cdn.cloudflare.steamstatic.com','cdn.akamai.steamstatic.com','cdn.steamstatic.com','cdn.dota2.com'];const current=domains.findIndex(d=>src.includes(d));const next=domains[current+1]||domains[tried+1];if(next){img.dataset.d2hTry=String(tried+1);img.src=src.replace(/cdn\.(?:dota2|cloudflare\.steamstatic|akamai\.steamstatic|steamstatic)\.com/,next);return;}img.dataset.d2hFinal='1';img.onerror=null;img.src=FALLBACK_IMG;},true);
+// Картинки лежат у нас, перебирать домены CDN больше не нужно. Осталась
+// единственная страховка: если файла нет, вместо «битой» иконки показываем
+// нейтральную заглушку, один раз на элемент.
+document.addEventListener('error',e=>{const img=e.target;if(!(img instanceof HTMLImageElement)||img.dataset.d2hFinal)return;const src=img.currentSrc||img.src;if(!/\/assets\/(heroes|items|abilities)\//.test(src))return;img.dataset.d2hFinal='1';img.onerror=null;img.src=FALLBACK_IMG;},true);
 
 // DATA BOOT: render guaranteed local data before optional UI event wiring.
 // This keeps file:// preview usable even if a non-critical control is missing.

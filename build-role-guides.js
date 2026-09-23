@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-// Generates data-driven guide pages: role-specific build progressions and
-// item comparisons, under deploy/guide/<slug>/index.html. Pulls real item
-// cost/name/image data from OpenDota constants/items so figures never go
-// stale, while the item choices themselves (curated in role-guide-content.js)
-// are long-standing Dota 2 staples rather than one patch's exact numbers.
+// Гайды по ролям и сравнения предметов: deploy/guide/<slug>/index.html.
+//
+// Данные о предметах берутся из data/items-ru.json — той же локальной базы,
+// что и каталог со страницами предметов (см. «Предметы: локальная русская
+// база» в CLAUDE.md). Раньше сборщик ходил в OpenDota: названия приходили
+// по-английски, картинки — с CDN Steam, а сборка падала, если API недоступен.
+// Подборки предметов курируются руками в role-guide-content.js.
 
 const fs = require('fs');
 const path = require('path');
@@ -11,12 +13,7 @@ const data = require('./role-guide-content.js');
 
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 function itemSlug(name){return String(name||"").replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');}
-function itemImage(key,img){
-  const p=img||"";
-  if(p.startsWith("http"))return p;
-  if(p.startsWith("/"))return `https://cdn.cloudflare.steamstatic.com${p.split("?")[0]}`;
-  return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/${itemSlug(key)}.png`;
-}
+function itemImage(key,it){return (it&&it.img)||`/assets/items/${itemSlug(key)}.png`;}
 
 const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->\n<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->`;
 
@@ -70,13 +67,11 @@ ${bodyHtml}
 function itemCard(key, items){
   const it = items[key];
   if(!it) return `<div><span>${escapeHtml(key)}</span></div>`;
-  return `<a href="/item/${itemSlug(key)}/"><img src="${itemImage(key,it.img)}" alt="${escapeHtml(it.dname)}"><span style="display:block;">${escapeHtml(it.dname)}<br><small style="opacity:.65;">${it.cost?it.cost+' gold':''}</small></span></a>`;
+  return `<a href="/item/${itemSlug(key)}/"><img src="${itemImage(key,it)}" alt="${escapeHtml(it.dname)}"><span style="display:block;">${escapeHtml(it.dname)}<br><small style="opacity:.65;">${it.cost?it.cost+' золота':''}</small></span></a>`;
 }
 
 async function main(){
-  const res=await fetch('https://api.opendota.com/api/constants/items');
-  if(!res.ok) throw new Error('OpenDota constants/items failed: '+res.status);
-  const items=await res.json();
+  const items=JSON.parse(fs.readFileSync(path.join(__dirname,'data','items-ru.json'),'utf8')).items;
 
   const outRoot=path.join(__dirname,'deploy','guide');
   fs.mkdirSync(outRoot,{recursive:true});
@@ -124,9 +119,9 @@ ${stagesHtml}
     const rowsHtml=c.items.map(key=>{
       const it=items[key];
       if(!it) return '';
-      return `<article style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding:14px;border:1px solid rgba(95,85,150,.12);border-radius:16px;background:#fff;margin-bottom:10px;align-items:center;">
-        <a href="/item/${itemSlug(key)}/"><img src="${itemImage(key,it.img)}" alt="${escapeHtml(it.dname)}" style="width:64px;height:36px;object-fit:cover;border-radius:8px;"></a>
-        <div><a href="/item/${itemSlug(key)}/" style="color:#29243b;font-weight:800;text-decoration:none;">${escapeHtml(it.dname)}</a> <span style="opacity:.6;font-size:12px;">· ${it.cost?it.cost+' gold':''}</span><p style="margin:4px 0 0;color:#4f4a60;font-size:13px;line-height:1.55;">${escapeHtml(c.notes[key]||'')}</p></div>
+      return `<article class="cmp-row">
+        <a class="cmp-art" href="/item/${itemSlug(key)}/"><img src="${itemImage(key,it)}" alt="${escapeHtml(it.dname)}"></a>
+        <div class="cmp-text"><a class="cmp-name" href="/item/${itemSlug(key)}/">${escapeHtml(it.dname)}</a><span class="cmp-cost">${it.cost?it.cost+' золота':''}</span><p>${escapeHtml(c.notes[key]||'')}</p></div>
       </article>`;
     }).join('');
 
@@ -139,7 +134,7 @@ ${stagesHtml}
 <h1 style="margin:6px 0 20px;">${escapeHtml(c.title)}</h1>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(c.excerpt)}</p>
 <p style="line-height:1.7;color:#c7cbd4;margin:0 0 26px;">${escapeHtml(c.intro)}</p>
-<div class="item-profile-panel" style="background:transparent;border:0;padding:0;">${rowsHtml}</div>
+<div class="cmp-list">${rowsHtml}</div>
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-compare-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 <div class="detail-section" style="margin-top:34px;"><h3>Другие гайды</h3><div class="linked-list">${relatedHtml}</div></div>`;

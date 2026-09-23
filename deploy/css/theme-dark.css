@@ -754,3 +754,19 @@ body.d2-dark .stats-item-table .item-a-name b{color:#fff!important}
 body.d2-dark .stats-item-table .item-a-name small{color:var(--d2-muted-2)!important}
 body.d2-dark .stats-item-table strong{color:var(--d2-gold)!important}
 body.d2-dark .stats-analytics-loading{color:var(--d2-muted-2)!important;background:none!important}
+
+/* Гайды-сравнения (/guide/boots-comparison/, /guide/defensive-items-comparison/).
+   Карточки предметов были свёрстаны инлайновыми стилями под светлую тему —
+   белый фон и тёмный текст, которые тёмная тема перебить не могла: инлайновый
+   стиль сильнее правила из файла. Разметка переведена на классы, оформление
+   живёт здесь. */
+body.d2-dark .cmp-list{display:grid!important;gap:8px!important;margin-top:18px!important}
+body.d2-dark .cmp-row{display:grid!important;grid-template-columns:76px 1fr!important;gap:14px!important;align-items:center!important;padding:13px 15px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;transition:border-color .18s!important}
+body.d2-dark .cmp-row:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .cmp-art{display:block!important}
+body.d2-dark .cmp-art img{width:76px!important;height:55px!important;object-fit:contain!important;display:block!important;background:#0a0c10!important;border-radius:0!important}
+body.d2-dark .cmp-name{color:#fff!important;font-weight:700!important;font-size:15px!important;text-decoration:none!important;letter-spacing:.3px!important}
+body.d2-dark .cmp-name:hover{color:var(--d2-gold)!important}
+body.d2-dark .cmp-cost{margin-left:8px!important;color:var(--d2-gold-dim)!important;font-size:12px!important;white-space:nowrap!important}
+body.d2-dark .cmp-text p{margin:5px 0 0!important;color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.6!important}
+@media(max-width:560px){ body.d2-dark .cmp-row{grid-template-columns:1fr!important} body.d2-dark .cmp-art img{width:100%!important;max-width:120px!important} }

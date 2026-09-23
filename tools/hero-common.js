@@ -11,7 +11,8 @@ const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер
 const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠","Интеллект"],all:["✦","Универсальный"],universal:["✦","Универсальный"]};
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 function slugForHero(h){const raw=String(h?.name||h?.localized_name||"").replace(/^npc_dota_hero_/,'');return heroSlug[h?.localized_name]||heroSlug[h?.name]||raw||"";}
-function imageUrl(h){const slug=slugForHero(h);const p=h?.img||"";if(p.startsWith("http"))return p;if(p.startsWith("/"))return `https://cdn.cloudflare.steamstatic.com${p.split("?")[0]}`;return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${slug}.png`;}
+// Портрет героя лежит в репозитории (assets/heroes/), см. tools/fetch-hero-icons.py.
+function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.png`;}
 function roleText(h){return (h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
 function attrInfo(a){return attrs[a]||attrs.all;}
 function officialHeroUrl(h){return "https://www.dota2.com/hero/"+slugForHero(h).replace(/_/g,'');}
