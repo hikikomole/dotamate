@@ -8,6 +8,8 @@
 .dt-head h2{margin:0;font-size:26px;letter-spacing:-1px;display:flex;align-items:center;gap:10px}
 .dt-beta{font-size:10px;font-weight:800;letter-spacing:1.4px;padding:4px 8px;border-radius:var(--rad-pill);background:rgba(217,193,135,.14);color:var(--d2-gold);border:1px solid var(--d2-gold-dim)}
 .dt-head p{margin:6px 0 0;color:var(--d2-muted);font-size:13px;max-width:640px}
+.dt-slice-note{color:var(--d2-muted-2)!important;font-size:12px!important}
+.dt-slice-switch button{padding:8px 12px}
 .dt-head-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .dt-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--d2-line);border-radius:var(--rad-pill);background:var(--d2-panel-2);color:var(--d2-muted);font-size:12px;font-weight:700;cursor:pointer;user-select:none}
 .dt-toggle input{position:absolute;opacity:0;width:0;height:0}
@@ -120,7 +122,7 @@
 .dt-rec-hero span{min-width:0}
 .dt-rec-hero b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dt-rec-hero small{display:block;color:var(--d2-muted-2);font-size:10px;margin-top:1px}
-.dt-rec-scroll{max-height:420px;overflow:auto}
+.dt-rec-scroll{max-height:560px;overflow:auto}
 .dt-pos{color:var(--d2-muted);font-size:10px;font-weight:700}
 .dt-up{color:var(--d2-agi)}
 .dt-down{color:var(--d2-str)}

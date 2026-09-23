@@ -1,6 +1,7 @@
-/* Инструмент драфта на главной.
+/* Ranked All Pick — помощник пика на главной.
  *
  * Данные:
+ *   /data/our-matrix.json     — матрица пар по нашей базе матчей 0-4500 MMR
  *   /data/draft-matrix.json   — матрица пар (Stratz heroStats.matchUp, Divine/Immortal)
  *   /api/dota/hero-positions  — доли и винрейты героев по пяти позициям
  *   /data/lane-matrix.json    — исходы линий по парам (Stratz laneOutcome)
@@ -17,7 +18,7 @@
 
   var K = 50;            // сила сглаживания: пара с 50 матчами тянется к 50% наполовину
   var MIN_N = 30;        // порог «малой выборки» для режима отсечки
-  var TOP_N = 15;        // сколько героев показываем в рекомендациях
+  var MAX_BANS = 16;     // столько героев банится в Ranked All Pick
   var POSITIONS = ['POSITION_1', 'POSITION_2', 'POSITION_3', 'POSITION_4', 'POSITION_5'];
   var POS_LABEL = { POSITION_1: 'Керри', POSITION_2: 'Мид', POSITION_3: 'Офлейн', POSITION_4: 'Саппорт', POSITION_5: 'Хардсаппорт' };
   var POS_SHORT = { POSITION_1: 'Поз. 1', POSITION_2: 'Поз. 2', POSITION_3: 'Поз. 3', POSITION_4: 'Поз. 4', POSITION_5: 'Поз. 5' };
@@ -27,6 +28,7 @@
   if (!root) return;
 
   var M = null, heroes = [], heroById = {}, posData = {}, matrixIdx = {}, metaThreshold = 0;
+  var matrices = {};     // 'our' и 'stratz' — два среза одной и той же структуры
   var loaded = false, loading = false;
 
   var state = {
@@ -35,8 +37,9 @@
     bans: [],
     target: { side: 'radiant', slot: 0 },
     mode: 'radiant',     // radiant | dire | ban — куда кладёт быстрый ввод
-    metaOnly: true,
+    metaOnly: false,
     confident: false,
+    slice: 'our',
     sort: { radiant: 'all', dire: 'all' },
     role: { radiant: 'any', dire: 'any' },
     history: []
@@ -247,7 +250,7 @@
       if (Math.abs(bv - av) < 0.001) return b.matches - a.matches;
       return bv - av;
     });
-    return rows.slice(0, TOP_N);
+    return rows;
   }
 
   // ---------- отрисовка ----------
@@ -272,9 +275,11 @@
 
   function renderBans() {
     var el = $('dtBanList');
+    var cnt = $('dtBanCount');
+    if (cnt) cnt.textContent = state.bans.length + '/' + MAX_BANS;
     if (!state.bans.length) {
       el.className = 'dt-bans-empty';
-      el.textContent = 'Пусто — забаненные герои пропадают из подсказок и рекомендаций';
+      el.textContent = 'Забаненные герои не попадают в подсказки';
       return;
     }
     el.className = '';
@@ -389,7 +394,10 @@
   function placeHero(id) {
     if (isTaken(id)) return;
     pushHistory();
-    if (state.mode === 'ban') { state.bans.push(id); render(); return; }
+    if (state.mode === 'ban') {
+      if (state.bans.length >= MAX_BANS) { state.history.pop(); return; }
+      state.bans.push(id); render(); return;
+    }
     var side = state.mode;
     var slot = state.target.side === side ? state.target.slot : -1;
     if (slot < 0 || state.picks[side][slot]) slot = state.picks[side].indexOf(null);
@@ -512,6 +520,12 @@
       render();
     });
 
+    var sliceSw = $('dtSliceSwitch');
+    if (sliceSw) sliceSw.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-slice]');
+      if (b && !b.disabled) applySlice(b.dataset.slice);
+    });
+
     $('dtSideSwitch').addEventListener('click', function (e) {
       var b = e.target.closest('button[data-side]');
       if (!b) return;
@@ -555,6 +569,31 @@
       else prompt('Ссылка на драфт:', url);
     });
   }
+  // Матрицы двух срезов устроены одинаково, поэтому переключение — это подмена M
+  // и пересчёт индексов. Линии не переключаются: другого источника для них нет.
+  function applySlice(slice) {
+    if (!matrices[slice]) return;
+    state.slice = slice;
+    M = matrices[slice];
+    matrixIdx = {};
+    M.heroIds.forEach(function (id, i) { matrixIdx[id] = i; });
+    syncSliceSwitch();
+    render();
+  }
+  function syncSliceSwitch() {
+    var sw = $('dtSliceSwitch');
+    if (sw) sw.querySelectorAll('button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.slice === state.slice);
+      b.disabled = !matrices[b.dataset.slice];
+    });
+    var note = $('dtSliceNote');
+    if (!note || !M) return;
+    var when = M.fetchedAt ? new Date(M.fetchedAt).toLocaleDateString('ru-RU') : '';
+    note.textContent = state.slice === 'our'
+      ? 'Считаем по своей базе: ' + (M.matchesUsed || 0).toLocaleString('ru-RU') + ' матчей Ranked All Pick 0–4500 MMR, снимок от ' + when + '. Линии — по срезу Divine/Immortal.'
+      : 'Считаем по срезу Stratz: матчи ранга Divine/Immortal, снимок от ' + when + '.';
+  }
+
   function syncSideSwitch() {
     $('dtSideSwitch').querySelectorAll('button').forEach(function (b) {
       b.classList.toggle('active', b.dataset.side === state.mode);
@@ -572,11 +611,15 @@
     if (loading || loaded) return;
     loading = true;
     Promise.all([
-      getJson('/data/draft-matrix.json'),
+      getJson('/data/our-matrix.json').catch(function () { return null; }),
       getJson('/api/dota/hero-positions').catch(function () { return getJson('/data/hero-positions.json'); }),
-      getJson('/data/heroes.json')
+      getJson('/data/heroes.json'),
+      getJson('/data/draft-matrix.json')
     ]).then(function (res) {
-      M = res[0];
+      matrices.our = res[0];
+      matrices.stratz = res[3];
+      if (!matrices.our) state.slice = 'stratz';
+      M = matrices[state.slice];
       posData = (res[1] && res[1].heroes) || {};
       var raw = (res[2] && res[2].heroes) || [];
       M.heroIds.forEach(function (id, i) { matrixIdx[id] = i; });
@@ -597,6 +640,7 @@
       readHash();
       renderRoles();
       syncSideSwitch();
+      syncSliceSwitch();
       loaded = true;
       bind();
       render();

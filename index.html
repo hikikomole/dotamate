@@ -100,12 +100,17 @@
     <div class="dt-shell">
       <div class="dt-head">
         <div>
-          <div class="eyebrow">ДРАФТ</div>
-          <h2>Инструмент драфта <span class="dt-beta">BETA</span></h2>
-          <p>Синергия, контрпики и линии для обеих сторон. Матчи ранга Divine/Immortal, данные Stratz.</p>
+          <div class="eyebrow">ПИК ГЕРОЕВ</div>
+          <h2>Ranked All Pick <span class="dt-beta">BETA</span></h2>
+          <p>Синергия, контрпики и линии для обеих сторон. Ставь пики и баны своей игры — покажем, кого добрать.</p>
+          <p class="dt-slice-note" id="dtSliceNote">—</p>
         </div>
         <div class="dt-head-actions">
-          <label class="dt-toggle" title="Оставить только героев, которых реально играют в этом ранге"><input type="checkbox" id="dtMetaOnly" checked><i></i>Только мета</label>
+          <div class="dt-side-switch dt-slice-switch" id="dtSliceSwitch">
+            <button type="button" data-slice="our" class="active">Наш ранг</button>
+            <button type="button" data-slice="stratz">Divine/Immortal</button>
+          </div>
+          <label class="dt-toggle" title="Оставить только героев, которых реально играют в этом ранге"><input type="checkbox" id="dtMetaOnly"><i></i>Только мета</label>
           <label class="dt-toggle" title="Не учитывать пары, по которым меньше 30 матчей"><input type="checkbox" id="dtConfident"><i></i>Скрыть малую выборку</label>
           <button type="button" class="dt-btn" id="dtShare">Ссылка</button>
           <button type="button" class="dt-btn" id="dtReset">Сброс</button>
@@ -157,8 +162,8 @@
       </div>
 
       <div class="dt-bans">
-        <span class="dt-bans-label">Баны</span>
-        <div id="dtBanList" class="dt-bans-empty">Пусто — забаненные герои пропадают из подсказок и рекомендаций</div>
+        <span class="dt-bans-label">Баны <b id="dtBanCount">0/16</b></span>
+        <div id="dtBanList" class="dt-bans-empty">Забаненные герои не попадают в подсказки</div>
         <button type="button" class="dt-btn dt-ban-add" id="dtBanAdd">+ Забанить</button>
       </div>
 
@@ -191,7 +196,7 @@
 
       <details class="dt-method">
         <summary>Откуда числа и как они считаются</summary>
-        <p><b>Источник.</b> Stratz GraphQL, бракет Divine/Immortal. Пары героев — <code>heroStats.matchUp</code>: сколько матчей пара сыграла вместе и в разных командах и сколько из них выиграла. Линии — <code>heroStats.laneOutcome</code>: фактические исходы линии (выиграна / проиграна / ничья), а не прогноз золота на десятой минуте. Снимок пар обновляется скриптом сборки, дата — <span id="dtFetched">—</span>.</p>
+        <p><b>Источники.</b> Срез «Наш ранг» — наша собственная база публичных матчей диапазона 0–4500 MMR, которую мы собираем сами из ленты OpenDota: по каждому матчу все десять героев и исход. Срез «Divine/Immortal» — Stratz <code>heroStats.matchUp</code>. Линии в обоих случаях берутся у Stratz (<code>heroStats.laneOutcome</code>, фактические исходы линии, а не прогноз золота на десятой минуте): в ленте публичных матчей данных о линиях нет вовсе. Дата снимка — <span id="dtFetched">—</span>.</p>
         <p><b>Счёт.</b> Доля побед пары сглаживается к 50% по размеру выборки: <code>(победы + 25) / (матчи + 50)</code>. Так пара с двадцатью матчами весит меньше, чем пара с тысячей, но не выбрасывается. Дальше отклонения от 50% складываются в процентных пунктах: «Син» — по парам внутри команды, «Матч» — против каждого героя соперника, «Линия» — по паре на своей линии. Верхняя шкала — сумма всех отклонений.</p>
         <p><b>Почему тут перевес, а не проценты победы.</b> Сумма парных преимуществ считает пары независимыми, а они зависимы, и у резких драфтов разрыв завышается. Превратить перевес в честную вероятность можно только одним способом — подогнать коэффициент по исходам настоящих матчей. Пока такой подгонки нет, мы показываем то, что реально посчитано: насколько один драфт перевешивает другой. Чем больше число, тем сильнее перевес; сравнивать варианты пика между собой этим можно, читать как «вероятность победы» — нет.</p>
       </details>
