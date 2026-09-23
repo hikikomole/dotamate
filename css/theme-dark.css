@@ -1009,7 +1009,7 @@ body.d2-dark .hg-ability-art.no-icon{display:flex!important;align-items:center!i
 body.d2-dark .hg-ability-art.no-icon u{text-decoration:none!important;font-size:14px!important;font-weight:800!important;color:var(--d2-gold)!important}
 
 /* Выбранный герой в быстрой подготовке — ссылка на его страницу */
-body.d2-dark a.qp-hero{
+body.d2-dark .qp-hero{
   display:flex!important;align-items:center!important;gap:14px!important;
   margin-bottom:18px!important;padding:11px 13px!important;
   text-decoration:none!important;color:inherit!important;
@@ -1017,15 +1017,15 @@ body.d2-dark a.qp-hero{
   background:var(--d2-panel)!important;
   transition:border-color .16s ease,background .16s ease!important;
 }
-body.d2-dark a.qp-hero:hover{background:var(--d2-panel-2)!important;border-color:var(--d2-gold-dim)!important}
-body.d2-dark a.qp-hero:hover b{color:var(--d2-gold)!important}
-body.d2-dark a.qp-hero>div{flex:1 1 auto!important;min-width:0!important}
+body.d2-dark .qp-hero:hover{background:var(--d2-panel-2)!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .qp-hero:hover b{color:var(--d2-gold)!important}
+body.d2-dark .qp-hero>div{flex:1 1 auto!important;min-width:0!important}
 body.d2-dark .qp-hero-go{
   font-style:normal!important;flex:0 0 auto!important;
   color:var(--d2-muted-2)!important;font-size:17px!important;line-height:1!important;
   transition:transform .16s ease,color .16s ease!important;
 }
-body.d2-dark a.qp-hero:hover .qp-hero-go{color:var(--d2-gold)!important;transform:translateX(3px)!important}
+body.d2-dark .qp-hero:hover .qp-hero-go{color:var(--d2-gold)!important;transform:translateX(3px)!important}
 
 /* Быстрая подготовка: контрпики и покупки из настоящих данных */
 body.d2-dark .qp-list{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))!important;gap:6px!important}
@@ -1049,3 +1049,6 @@ body.d2-dark .qp-item em{position:absolute!important;right:0!important;bottom:0!
 body.d2-dark button.qp-row{width:100%!important;text-align:left!important;cursor:pointer!important;font:inherit!important}
 /* Предметы в быстрой подготовке — кнопки, выглядят как раньше */
 body.d2-dark button.qp-item{border:0;background:none;padding:0;cursor:pointer;font:inherit}
+
+/* Карточка выбранного героя — кнопка: обнуляем стиль кнопки, вид прежний */
+body.d2-dark button.qp-hero{width:100%!important;text-align:left!important;font:inherit!important;cursor:pointer!important}

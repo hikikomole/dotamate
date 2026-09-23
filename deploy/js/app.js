@@ -424,7 +424,7 @@ function renderQuickPrep(h){
   const el=document.getElementById('quickPrepResult');if(!el)return;
   if(!h){el.innerHTML='<div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, реальные покупки и pro winrate за секунду.</div>';return;}
   const proLine=h.pro_pick?`${winrate(h).toFixed(1)}% pro WR · ${statValue(h.pro_pick)} picks · ${statValue(h.pro_ban)} banов`:'Нет pro-данных по этому герою — пока играют реже в топ-матчах';
-  el.innerHTML=`<a class="qp-hero" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div><i class="qp-hero-go" aria-hidden="true">→</i></a>
+  el.innerHTML=`<button type="button" class="qp-hero" data-hero-open="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div><i class="qp-hero-go" aria-hidden="true">→</i></button>
   <div class="qp-cols">
     <div><h4>Кто его контрит</h4><div class="qp-list" id="qpCounters"><p class="muted">Загружаем матчапы…</p></div></div>
     <div><h4>Что покупают</h4><div class="qp-list" id="qpBuild"><p class="muted">Загружаем покупки…</p></div></div>
