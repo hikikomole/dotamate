@@ -19,6 +19,9 @@ const ROOT = path.dirname(__dirname);
 const OUT = path.join(ROOT, 'deploy');
 const DIRS = ['css', 'js', 'assets', 'data'];
 const FILES = ['security.js', 'ads.txt', 'robots.txt', '_headers', 'sitemap.xml'];
+// Сырая база собранных матчей на сайт не выкладывается: она растёт до сотен
+// мегабайт, а посетителю нужны только посчитанные по ней матрицы.
+const SKIP_DIRS = new Set(['public-matches']);
 
 function copyDir(src, dst){
   if(!fs.existsSync(src)) return 0;
@@ -26,7 +29,7 @@ function copyDir(src, dst){
   let n = 0;
   for(const e of fs.readdirSync(src, {withFileTypes:true})){
     const s = path.join(src, e.name), d = path.join(dst, e.name);
-    if(e.isDirectory()) n += copyDir(s, d);
+    if(e.isDirectory()){ if(SKIP_DIRS.has(e.name)) continue; n += copyDir(s, d); }
     else { fs.copyFileSync(s, d); n++; }
   }
   return n;

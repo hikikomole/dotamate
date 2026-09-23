@@ -21,3 +21,6 @@ stratz.capi.txt
 
 # Токен GitHub — только локально
 github.pat.txt
+
+# сырая база собранных матчей — растёт до сотен мегабайт
+data/public-matches/

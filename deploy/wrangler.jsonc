@@ -5,5 +5,12 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dotamate",
+      "database_id": "379f1966-c53a-4ab7-a493-3570481462ad"
+    }
+  ]
 }
