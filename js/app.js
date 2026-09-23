@@ -446,7 +446,7 @@ function renderQuickPrep(h){
  */
 async function fillHeroCounters(h){ return renderCountersInto('heroCounters', h, {asLinks:false}); }
 
-async function fillQuickPrepCounters(h){ return renderCountersInto('qpCounters', h, {asLinks:true}); }
+async function fillQuickPrepCounters(h){ return renderCountersInto('qpCounters', h, {asLinks:false}); }
 
 async function renderCountersInto(boxId, h, opts){
   const box=document.getElementById(boxId);if(!box)return;
@@ -484,7 +484,8 @@ async function fillQuickPrepBuild(h){
     const rows=(rec[k]||[]).slice(0,4).map(r=>{
       const it=findItemById(r.i);
       if(!it)return '';
-      return `<a class="qp-item" href="${escapeHtml(itemHref(it))}" title="${escapeHtml(it.dname)} · ${statValue(r.g)} покупок"><img loading="lazy" src="${itemImage(it)}" alt="${escapeHtml(it.dname)}"><em>${statValue(r.g)}</em></a>`;
+      // кнопка, а не ссылка: клик открывает форму предмета, не уводя со страницы
+      return `<button type="button" class="qp-item" data-item-open="${escapeHtml(it.name)}" title="${escapeHtml(it.dname)} · ${statValue(r.g)} покупок"><img loading="lazy" src="${itemImage(it)}" alt="${escapeHtml(it.dname)}"><em>${statValue(r.g)}</em></button>`;
     }).filter(Boolean).join('');
     return rows?`<div class="qp-phase"><h5>${label}</h5><div class="qp-items">${rows}</div></div>`:'';
   }).filter(Boolean).join('');
@@ -726,7 +727,7 @@ on('statsBody','click',e=>{const tr=e.target.closest('tr[data-id]');if(tr)openHe
 on('statsExtra','click',e=>{const b=e.target.closest('button[data-id]');if(b)openHero(Number(b.dataset.id));});
 on('quickPrepInput','input',e=>quickPrepSelectByName(e.target.value));
 on('quickPrepChips','click',e=>{const b=e.target.closest('[data-quick-hero]');if(!b)return;const h=heroes.find(x=>Number(x.id)===Number(b.dataset.quickHero));if(h){const inp=document.getElementById('quickPrepInput');if(inp)inp.value=h.localized_name;renderQuickPrep(h);}});
-on('quickPrepResult','click',e=>{const hb=e.target.closest('[data-hero-open]');if(hb){openHero(Number(hb.dataset.heroOpen));return;}const ib=e.target.closest('[data-item-by-name]');if(ib){const term=ib.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);}});
+on('quickPrepResult','click',e=>{const hb=e.target.closest('[data-hero-open]');if(hb){openHero(Number(hb.dataset.heroOpen));return;}const io_=e.target.closest('[data-item-open]');if(io_){openItem(io_.dataset.itemOpen);return;}const ib=e.target.closest('[data-item-by-name]');if(ib){const term=ib.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);}});
 on('guidesGrid','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 on('modalContent','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 click('randomBtn',randomHero);

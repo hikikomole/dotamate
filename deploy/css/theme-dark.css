@@ -1047,3 +1047,5 @@ body.d2-dark .qp-item img{width:40px!important;height:auto!important;display:blo
 body.d2-dark .qp-item em{position:absolute!important;right:0!important;bottom:0!important;font-style:normal!important;font-size:8.5px!important;line-height:11px!important;padding:0 3px!important;color:var(--d2-text)!important;background:rgba(0,0,0,.75)!important;border-top-left-radius:4px!important}
 /* Контрпики в карточке героя — кнопки, а не ссылки: выглядят так же */
 body.d2-dark button.qp-row{width:100%!important;text-align:left!important;cursor:pointer!important;font:inherit!important}
+/* Предметы в быстрой подготовке — кнопки, выглядят как раньше */
+body.d2-dark button.qp-item{border:0;background:none;padding:0;cursor:pointer;font:inherit}
