@@ -216,7 +216,7 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
             ${progressionHtml(chainToBranch(chain.popular), 'Самая популярная', 'реальная последовательность прокачки', ctx)}
             ${progressionHtml(chainToBranch(chain.highestWin), 'Лучшая по винрейту', 'наибольший процент побед', ctx)}
           </div>
-          <p class="hb-source">Последовательности — публичные матчи всех рангов (OpenDota), выборка ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Проценты ролей, таланты и предметы выше — матчи Divine/Immortal (Stratz). Это разные выборки игроков.</p>`
+          <p class="hb-source">Последовательности — публичные матчи всех рангов (OpenDota), выборка ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Проценты ролей и таланты — матчи Divine/Immortal (Stratz). Это разные выборки игроков.</p>`
         : `<div class="hb-progressions">
             ${progressionHtml(v.progression.popular, 'Частый выбор', 'самая популярная способность на каждом уровне', ctx)}
             ${progressionHtml(v.progression.highestWin, 'Выбор по винрейту', 'лучший процент побед на каждом уровне', ctx)}
@@ -238,7 +238,7 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
   <div class="hb-panes hb-panes-skills">${panes}</div>
 
   <h2 class="hb-h2-second">Прогресс</h2>
-  <p class="hb-lead">Обычные покупки, в среднем по минутам матча</p>
+  <p class="hb-lead">Stratz, матчи Divine/Immortal, по выбранной роли. Время — средняя минута покупки.</p>
   <div class="hb-panes hb-panes-items">${itemPanes}</div>
 </section>`;
   }

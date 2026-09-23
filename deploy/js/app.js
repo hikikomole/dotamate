@@ -610,7 +610,7 @@ function itemCounterEntries(x){
 function renderItemCounters(x){
   const entries=itemCounterEntries(x);
   if(!entries.length){
-    return `<div class="item-pop-loading">Мы пока не собрали проверенные контрпики для этого предмета — это не значит, что их нет, просто мы указываем только то, в чём уверены.</div>`;
+    return '';
   }
   return `<div class="item-counters-list">${entries.map(e=>`<button class="item-counter-row" data-item-open="${escapeHtml(e.item.name)}"><img src="${itemImage(e.item)}" alt=""><span><b>${escapeHtml(e.item.dname)}</b><small>${escapeHtml(e.why)}</small></span></button>`).join('')}</div>`;
 }
@@ -666,14 +666,10 @@ async function openItem(name){
         <div class="item-panel-head"><div><span>ГЕРОИ</span><h3>Кто покупает этот предмет</h3></div></div>
         ${itemHeroUsage(x)}
       </section>
-      <section class="item-profile-panel item-counters-panel">
+      ${itemCounterEntries(x).length?`<section class="item-profile-panel item-counters-panel">
         <div class="item-panel-head"><div><span>ПРОТИВОДЕЙСТВИЕ</span><h3>Контрпики предмета</h3></div></div>
         ${renderItemCounters(x)}
-      </section>
-      <section class="item-profile-panel item-why-panel">
-        <div class="item-panel-head"><div><span>КАК ЧИТАТЬ</span><h3>Откуда эти данные</h3></div></div>
-        <p>Описание, история, примечания и бонусы — официальная русская локализация Valve${own?'; там, где у Valve текста нет вовсе, описание написано для сайта':''}. Список героев ниже — агрегированные реальные покупки из OpenDota, а не наша рекомендация.</p>
-      </section>
+      </section>`:''}
     </div>`;
   document.getElementById('modal').classList.add('show');document.getElementById('close').focus();
   document.querySelectorAll('[data-item-open]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemOpen));

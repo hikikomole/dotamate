@@ -298,6 +298,12 @@ async function main(){
 
   ${buildsHtml}
 
+  ${buyHtml?`<section class="hp-buys container">
+    <h2>Что покупают на ${escapeHtml(h.localized_name)}</h2>
+    <p class="hp-buys-note">Второй срез покупок — OpenDota, публичные матчи всех рангов, сгруппированные по фазам игры. Число рядом с предметом — сколько раз его купили в выборке. Выборка отличается от блока «Прогресс» выше, поэтому предметы и цифры не обязаны совпадать.</p>
+    ${buyHtml}
+  </section>`:''}
+
   ${abilities.length?`<section class="hp-abilities container">
     <h2>Способности</h2>
     <div class="hp-ab-layout">
@@ -319,20 +325,15 @@ async function main(){
 
   <section class="hp-links container">
     <div>
-      <h2>Кто контрит</h2>
+      <h2>Кто контрит ${escapeHtml(h.localized_name)}</h2>
       ${weakHtml||`<div class="hp-counters">${counters.map(x=>`<a href="/hero/${slugForHero(x)}/"><img loading="lazy" src="${imageUrl(x)}" alt="${escapeHtml(x.localized_name)}"><b>${escapeHtml(x.localized_name)}</b><span>→</span></a>`).join('')}</div>`}
     </div>
     <div>
-      <h2>Кого контрит</h2>
+      <h2>Кого контрит ${escapeHtml(h.localized_name)}</h2>
       ${strongHtml||`<div class="hp-build">${build.map((x,i)=>`<div><span>${i+1}</span>${escapeHtml(x)}</div>`).join('')}</div>`}
     </div>
   </section>
 
-  ${buyHtml?`<section class="hp-buys container">
-    <h2>Что покупают</h2>
-    <p class="hp-buys-note">Реальные покупки за этого героя по данным OpenDota. Число — сколько раз предмет куплен в выборке.</p>
-    ${buyHtml}
-  </section>`:''}
 
   <section class="hp-guide-cta container">
     <div>
