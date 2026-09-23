@@ -178,11 +178,18 @@ body.d2-dark .hp-btn.ghost{background:transparent!important;color:var(--d2-muted
 body.d2-dark .hp-btn.ghost:hover{color:var(--d2-text)!important;border-color:var(--d2-gold-dim)!important}
 
 /* полоса характеристик со срезанным углом, как на официальном сайте */
-body.d2-dark .hp-statbar{background:linear-gradient(90deg,#0d1014,#11151b)!important;border-top:1px solid var(--d2-line)!important;border-bottom:1px solid var(--d2-line)!important}
-body.d2-dark .hp-statbar-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))!important;gap:1px!important;background:var(--d2-line-soft)!important}
-body.d2-dark .hp-statbar-grid>div{background:#0d1014!important;padding:18px 16px!important;text-align:center!important}
-body.d2-dark .hp-statbar-grid small{display:block!important;font-size:9.5px!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important;margin-bottom:7px!important}
-body.d2-dark .hp-statbar-grid strong{font-size:20px!important;font-weight:800!important;color:#fff!important}
+body.d2-dark .hp-statbar-grid>div{
+  padding:14px 14px 15px!important;text-align:left!important;
+  border-left:1px solid var(--d2-line-soft)!important;
+  display:flex!important;flex-direction:column!important;gap:7px!important;justify-content:flex-start!important;
+}
+body.d2-dark .hp-statbar-grid>div:first-child{border-left:0!important}
+body.d2-dark .hp-statbar-grid>div:hover{background:var(--d2-panel-2)!important}
+body.d2-dark .hp-statbar-grid small{display:block!important;font-size:12px!important;font-weight:600!important;letter-spacing:.02em!important;text-transform:none!important;color:var(--d2-muted)!important;margin:0!important;line-height:20px!important}
+body.d2-dark .hp-statbar-grid strong{font-size:18px!important;font-weight:800!important;line-height:1!important;letter-spacing:-.01em!important;color:var(--d2-text)!important}
+/* Первая ячейка — подпись полосы, зеркалит «ВСЕ РОЛИ» в верхнем ряду */
+body.d2-dark .hp-statbar-grid .hs-label small{color:var(--d2-gold-dim)!important;text-transform:uppercase!important;font-size:10px!important;letter-spacing:.14em!important;font-weight:800!important}
+body.d2-dark .hp-statbar-grid .hs-label strong{font-size:11px!important;font-weight:700!important;letter-spacing:.1em!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
 
 /* способности */
 body.d2-dark .hp-abilities{padding:56px 0 8px!important}
@@ -776,16 +783,27 @@ body.d2-dark .cmp-text p{margin:5px 0 0!important;color:var(--d2-muted)!importan
    Оформление — палитра сайта: панель --d2-panel, рамка --d2-line,
    акцент --d2-gold. Разметку строит js/hero-roles.js.
    ============================================================ */
-body.d2-dark .hp-roles{padding:0 0 4px!important}
-body.d2-dark .hr-row{
-  display:grid!important;
-  grid-template-columns:minmax(118px,1fr) repeat(5,minmax(0,1.15fr))!important;
-  gap:0!important;
-  border:1px solid var(--d2-line)!important;
-  border-radius:14px!important;
-  background:var(--d2-panel)!important;
-  overflow:hidden!important;
+/* Обе полосы героя — роли и базовые статы — это один блок: одна рамка,
+   одна сетка колонок, общие разделители. Колонки заданы переменной, чтобы
+   вертикали двух полос совпадали пиксель в пиксель. */
+body.d2-dark .hp-bars{
+  --hp-bars-cols:minmax(118px,1fr) repeat(5,minmax(0,1.15fr));
+  padding:0 0 4px!important;position:relative!important;
 }
+body.d2-dark .hp-bars .hr-row,
+body.d2-dark .hp-bars .hp-statbar-grid{
+  display:grid!important;
+  grid-template-columns:var(--hp-bars-cols)!important;
+  gap:0!important;
+  background:var(--d2-panel)!important;
+  border:1px solid var(--d2-line)!important;
+}
+/* верхняя полоса скруглена сверху, нижняя снизу — между ними общая линия */
+body.d2-dark .hp-bars .hr-row{border-radius:14px 14px 0 0!important;overflow:hidden!important}
+body.d2-dark .hp-bars .hp-statbar-grid{border-top:0!important;border-radius:0 0 14px 14px!important;overflow:hidden!important}
+/* если позиций нет, статы остаются единственной полосой — скругляем целиком */
+body.d2-dark .hp-bars .hp-statbar-grid:first-child{border-top:1px solid var(--d2-line)!important;border-radius:14px!important}
+body.d2-dark .hr-row{}
 body.d2-dark .hr-cell{
   position:relative!important;
   display:flex!important;flex-direction:column!important;gap:7px!important;
@@ -825,14 +843,14 @@ body.d2-dark .hr-all .hr-role{color:var(--d2-gold-dim)!important;text-transform:
 body.d2-dark .hr-note{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}
 
 @media(max-width:900px){
-  body.d2-dark .hr-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  body.d2-dark .hp-bars{--hp-bars-cols:repeat(3,minmax(0,1fr))}
   body.d2-dark .hr-cell{border-top:1px solid var(--d2-line-soft)!important}
   body.d2-dark .hr-cell:nth-child(-n+3){border-top:0!important}
   body.d2-dark .hr-cell:nth-child(3n+1){border-left:0!important}
   body.d2-dark .hr-cell.is-top::before{display:none!important}
 }
 @media(max-width:560px){
-  body.d2-dark .hr-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  body.d2-dark .hp-bars{--hp-bars-cols:repeat(2,minmax(0,1fr))}
   body.d2-dark .hr-all{grid-column:1/-1!important}
   body.d2-dark .hr-cell:nth-child(3n+1){border-left:1px solid var(--d2-line-soft)!important}
   body.d2-dark .hr-cell:nth-child(2n+1){border-left:0!important}
@@ -879,15 +897,18 @@ body.d2-dark .hb-talents{background:var(--d2-panel)!important;border:1px solid v
 body.d2-dark .hb-tal-row{display:grid!important;grid-template-columns:1fr 46px 1fr!important;align-items:stretch!important;gap:10px!important;padding:9px 0!important;border-bottom:1px solid var(--d2-line-soft)!important}
 body.d2-dark .hb-tal-row:last-child{border-bottom:0!important}
 body.d2-dark .hb-tal-lvl{display:flex!important;align-items:center!important;justify-content:center!important;font-size:14px!important;font-weight:800!important;color:var(--d2-gold)!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:999px!important;align-self:center!important;width:40px!important;height:40px!important;margin:0 3px!important}
-body.d2-dark .hb-tal-cell{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;padding:8px 11px!important;border-radius:9px!important;border:1px solid transparent!important}
-body.d2-dark .hb-tal-cell.is-picked{background:rgba(217,193,135,.07)!important;border-color:rgba(217,193,135,.22)!important}
+/* Обе стороны дерева оформлены одинаково — выбор подчёркнут рамкой,
+   а не тем, что у одной стороны есть фон, а у другой нет. */
+body.d2-dark .hb-tal-cell{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;padding:9px 12px!important;border-radius:9px!important;border:1px solid var(--d2-line)!important;background:var(--d2-panel-2)!important}
+body.d2-dark .hb-tal-cell.is-picked{border-color:rgba(217,193,135,.38)!important;background:rgba(217,193,135,.06)!important}
+body.d2-dark .hb-tal-cell.is-win{border-color:rgba(84,211,138,.32)!important;background:rgba(84,211,138,.05)!important}
 body.d2-dark .hb-tal-cell b{font-size:13px!important;font-weight:700!important;color:var(--d2-text)!important;line-height:1.3!important}
 body.d2-dark .hb-tal-cell span{font-size:11.5px!important;color:var(--d2-muted)!important}
 body.d2-dark .hb-tal-row>.hb-tal-cell:last-child{text-align:right!important;align-items:flex-end!important}
 body.d2-dark .hb-tag{display:inline-block!important;margin-top:3px!important;font-style:normal!important;font-size:9.5px!important;letter-spacing:.9px!important;text-transform:uppercase!important;font-weight:800!important}
 body.d2-dark .hb-tag-pick{color:var(--d2-gold)!important}
 body.d2-dark .hb-tag-win{color:#54d38a!important}
-body.d2-dark .hb-tal-empty{border:0!important}
+body.d2-dark .hb-tal-empty{border:0!important;background:transparent!important}
 
 /* Предметы с таймингами */
 body.d2-dark .hb-sub{margin-top:9px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:12px!important;padding:14px 15px 16px!important}
@@ -921,3 +942,7 @@ body.d2-dark .hb-step-talent u{text-decoration:none!important;font-size:11px!imp
 body.d2-dark .hp-ab-abbr{display:none!important}
 body.d2-dark .hp-ab-icon.no-icon{display:flex!important;align-items:center!important;justify-content:center!important;background:var(--d2-panel-2)!important}
 body.d2-dark .hp-ab-icon.no-icon .hp-ab-abbr{display:block!important;font-size:13px!important;font-weight:800!important;letter-spacing:.5px!important;color:var(--d2-gold)!important}
+/* Размер выборки рядом с винрейтом ветки */
+body.d2-dark .hb-branch-head u{text-decoration:none!important;font-size:11px!important;color:var(--d2-muted-2)!important;white-space:nowrap!important}
+/* Подпись об источнике: выборки цепочек и остальных чисел разные — говорим прямо */
+body.d2-dark .hb-source{margin:9px 2px 0!important;font-size:11.5px!important;line-height:1.5!important;color:var(--d2-muted-2)!important;border-left:2px solid var(--d2-line)!important;padding-left:10px!important}

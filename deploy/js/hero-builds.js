@@ -31,6 +31,34 @@
   const wr = v => v == null ? '—' : String(v.toFixed(1)).replace('.', ',') + '%';
   const num = n => String(n == null ? 0 : n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   const minute = m => m == null ? '—' : m + ' мин';
+  /** «182 матча», «5 матчей», «1 матч» — иначе подпись читается как машинная */
+  const matchWord = n => {
+    const a = Math.abs(n) % 100, b = a % 10;
+    if (a > 10 && a < 20) return 'матчей';
+    if (b === 1) return 'матч';
+    if (b >= 2 && b <= 4) return 'матча';
+    return 'матчей';
+  };
+
+  /** Цепочка из skill-chains.json -> шаги для отрисовки полосы прокачки */
+  function chainToBranch(chain) {
+    if (!chain || !Array.isArray(chain.seq)) return null;
+    return {
+      steps: chain.seq.map(id => ({ abilityId: id, matches: chain.matches, winrate: chain.winrate })),
+      matches: chain.matches,
+      winrate: chain.winrate
+    };
+  }
+
+  /**
+   * Название таланта. Сейчас английское — как в исходных данных Stratz.
+   * Русские переводы уже собраны в data/talents-ru.json: чтобы включить их,
+   * достаточно передать их в ctx.talentNames из сборщика страниц.
+   */
+  function talentLabel(abilityId, meta, ctx) {
+    const ru = ctx.talentNames && ctx.talentNames[abilityId];
+    return ru || (meta && meta.title) || ('Talent ' + abilityId);
+  }
 
   /**
    * Короткая подпись таланта для плитки шириной в одну ячейку прокачки.
@@ -48,7 +76,12 @@
   function abilityIcon(name) { return '/assets/abilities/' + name + '.png'; }
   function itemIcon(slug) { return '/assets/items/' + slug + '.png'; }
 
-  /** Одна ветка прокачки 1–10 */
+  /**
+   * Одна ветка прокачки 1–10.
+   * branch.steps — список из 10 шагов вида {abilityId, matches, winrate}.
+   * Для настоящей цепочки matches/winrate у всех шагов одинаковые: это
+   * характеристика всей последовательности, а не отдельного уровня.
+   */
   function progressionHtml(branch, label, hint, ctx) {
     if (!branch || !branch.steps) return '';
     const esc = ctx.escapeHtml;
@@ -60,9 +93,8 @@
       // На 10-м уровне вместо способности часто берут талант. Картинки у
       // талантов в игре нет вообще — рисуем значок «Т», а не битое изображение.
       if (a.isTalent) {
-        const ru = ctx.talentNames && ctx.talentNames[s.abilityId];
-        const label = ru || a.title || 'Талант';
-        return `<div class="hb-step hb-step-talent" title="${esc(label)} · ${wr(s.winrate)} побед, ${num(s.matches)} матчей">
+        const label = talentLabel(s.abilityId, a, ctx);
+        return `<div class="hb-step hb-step-talent" title="${esc(label)} · ${wr(s.winrate)} побед, ${num(s.matches)} ${matchWord(s.matches)}">
           <em>Талант</em><u>${esc(shortTalent(label))}</u><span>${i + 1}</span>
         </div>`;
       }
@@ -75,7 +107,8 @@
       </div>`;
     }).join('');
     return `<div class="hb-branch">
-      <div class="hb-branch-head"><h3>${esc(label)}</h3><em>${esc(hint)}</em><b>${wr(branch.winrate)}</b></div>
+      <div class="hb-branch-head"><h3>${esc(label)}</h3><em>${esc(hint)}</em>
+        <b>${wr(branch.winrate)}</b>${branch.matches ? `<u>${num(branch.matches)} ${matchWord(branch.matches)}</u>` : ''}</div>
       <div class="hb-steps">${cells}</div>
     </div>`;
   }
@@ -85,16 +118,22 @@
     if (!talents || !talents.length) return '';
     const esc = ctx.escapeHtml;
     const rows = talents.slice().sort((a, b) => b.level - a.level).map(t => {
+      // Когда обе метки достаются одному таланту, вторая ничего не сообщает —
+      // показываем одну. Если победитель по винрейту другой, метки расходятся
+      // по своим сторонам и подсказывают выбор.
+      const sameWinner = t.mostPicked === t.highestWin;
       const side = (o) => {
         if (!o) return '<div class="hb-tal-cell hb-tal-empty"></div>';
         const a = ctx.abilities[o.abilityId] || {};
-        const tags = [];
-        if (o.abilityId === t.mostPicked) tags.push('<i class="hb-tag hb-tag-pick">чаще берут</i>');
-        if (o.abilityId === t.highestWin) tags.push('<i class="hb-tag hb-tag-win">выше винрейт</i>');
-        return `<div class="hb-tal-cell${o.abilityId === t.mostPicked ? ' is-picked' : ''}">
-          <b>${esc((ctx.talentNames && ctx.talentNames[o.abilityId]) || a.title || ('Талант ' + o.abilityId))}</b>
+        const isPick = o.abilityId === t.mostPicked;
+        const isWin = o.abilityId === t.highestWin;
+        let tag = '';
+        if (isPick && (sameWinner || !isWin)) tag = '<i class="hb-tag hb-tag-pick">чаще берут</i>';
+        else if (isWin) tag = '<i class="hb-tag hb-tag-win">выше винрейт</i>';
+        return `<div class="hb-tal-cell${isPick ? ' is-picked' : ''}${isWin && !isPick ? ' is-win' : ''}">
+          <b>${esc(talentLabel(o.abilityId, a, ctx))}</b>
           <span>Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}</span>
-          ${tags.join('')}
+          ${tag}
         </div>`;
       };
       const opts = t.options.slice(0, 2);
@@ -140,11 +179,21 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
 
     const panes = build.positionOrder.map((p, i) => {
       const v = build.positions[p];
+      const chain = ctx.chains && ctx.chains[p];
+      // Настоящая последовательность лучше поуровневого среза: она показывает,
+      // как герои качаются на самом деле, а не что чаще встречается на уровне.
+      const progs = chain
+        ? `<div class="hb-progressions">
+            ${progressionHtml(chainToBranch(chain.popular), 'Самая популярная', 'реальная последовательность прокачки', ctx)}
+            ${progressionHtml(chainToBranch(chain.highestWin), 'Лучшая по винрейту', 'последовательность с наибольшим процентом побед', ctx)}
+          </div>
+          <p class="hb-source">Последовательности — публичные матчи всех рангов (OpenDota), выборка ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Проценты ролей, таланты и предметы выше — матчи Divine/Immortal (Stratz). Это разные выборки игроков.</p>`
+        : `<div class="hb-progressions">
+            ${progressionHtml(v.progression.popular, 'Частый выбор', 'самая популярная способность на каждом уровне', ctx)}
+            ${progressionHtml(v.progression.highestWin, 'Выбор по винрейту', 'лучший процент побед на каждом уровне', ctx)}
+          </div>`;
       return `<div class="hb-pane${i === 0 ? ' on' : ''}" data-pos="${p}">
-        <div class="hb-progressions">
-          ${progressionHtml(v.progression.popular, 'Частый выбор', 'самая популярная способность на каждом уровне', ctx)}
-          ${progressionHtml(v.progression.highestWin, 'Выбор по винрейту', 'лучший процент побед на каждом уровне', ctx)}
-        </div>
+        ${progs}
         ${talentsHtml(v.talents, ctx)}
       </div>`;
     }).join('');

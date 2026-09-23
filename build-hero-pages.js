@@ -31,6 +31,12 @@ const heroBuilds = require('./js/hero-builds.js');
 // собирается вместе с билдами: fetch-hero-builds.js
 // Русские названия талантов (tools/fetch-talent-names-ru.js): у талантов нет
 // иконки в игре, поэтому в интерфейсе они текстовые — и текст должен быть русским.
+// Точные последовательности прокачки (fetch-skill-chains.js, OpenDota).
+// Выборка отличается от Stratz — на странице это подписано явным текстом.
+const skillChains = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'skill-chains.json'), 'utf8')).heroes; }
+  catch { return {}; }
+})();
 const talentNames = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talents-ru.json'), 'utf8')).byAbilityId; }
   catch { return {}; }
@@ -143,7 +149,8 @@ async function main(){
     const buildsHtml=buildData?heroBuilds.sectionsHtml(buildData,{
       escapeHtml,
       abilities:abilityIndex,
-      talentNames,
+      talentNames:null, // русские названия готовы в data/talents-ru.json — включаются заменой на talentNames
+      chains:skillChains[h.id]||null,
       items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
       roleIcon:key=>heroRoles.icon(key)
     }):'';
@@ -241,15 +248,13 @@ async function main(){
     </div>
   </section>
 
-  ${rolesRow?`<section class="hp-roles container" id="heroRoles" data-hero-id="${h.id}">
+  <section class="hp-bars container"${rolesRow?` id="heroRoles" data-hero-id="${h.id}"`:''}>
     ${rolesRow}
-    <p class="hr-note">${escapeHtml(heroRoles.sourceNote(positionSnapshot))}</p>
-  </section>`:''}
-
-  <section class="hp-statbar">
-    <div class="container hp-statbar-grid">
+    <div class="hp-statbar-grid">
+      <div class="hs-label"><small>Базовые</small><strong>статы</strong></div>
       ${stats.map(x=>`<div><small>${escapeHtml(x.k)}</small><strong>${escapeHtml(String(x.v))}</strong></div>`).join('')}
     </div>
+    ${rolesRow?`<p class="hr-note">${escapeHtml(heroRoles.sourceNote(positionSnapshot))}</p>`:''}
   </section>
 
   ${buildsHtml}
