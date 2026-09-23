@@ -278,8 +278,11 @@ body.d2-dark .hero-stats small{color:var(--d2-muted)!important;text-transform:up
 body.d2-dark .fresh-badge{background:rgba(217,193,135,.10)!important;border:1px solid var(--d2-gold-dim)!important;color:var(--d2-gold)!important;border-radius:0!important}
 
 body.d2-dark .btn{border-radius:0!important;text-transform:uppercase!important;letter-spacing:1.4px!important;font-size:12px!important;padding:14px 22px!important}
-body.d2-dark .btn.red{background:var(--d2-gold)!important;color:#14110a!important;box-shadow:none!important}
-body.d2-dark .btn.red:hover{background:#e8d3a0!important;transform:none!important}
+/* Основная и дополнительная кнопки выглядят одинаково: тёмная подложка и
+   рамка. Класс .red остался в разметке как исторический — перекрашивать
+   разметку по всему сайту ради названия класса смысла нет. */
+body.d2-dark .btn.red{background:rgba(16,18,22,.72)!important;border:1px solid var(--d2-line)!important;color:var(--d2-text)!important;box-shadow:none!important}
+body.d2-dark .btn.red:hover{background:rgba(30,35,43,.9)!important;border-color:var(--d2-gold-dim)!important;transform:none!important}
 body.d2-dark .btn.ghost{background:rgba(16,18,22,.72)!important;border:1px solid var(--d2-line)!important;color:var(--d2-text)!important}
 body.d2-dark .btn.ghost:hover{background:rgba(30,35,43,.9)!important;border-color:var(--d2-gold-dim)!important}
 
@@ -1004,3 +1007,22 @@ body.d2-dark .item-level i{font-style:normal!important;font-size:10.5px!importan
 /* Врождённые способности и фасеты без иконки: буквенная заглушка в гайде */
 body.d2-dark .hg-ability-art.no-icon{display:flex!important;align-items:center!important;justify-content:center!important;background:var(--d2-panel-2)!important}
 body.d2-dark .hg-ability-art.no-icon u{text-decoration:none!important;font-size:14px!important;font-weight:800!important;color:var(--d2-gold)!important}
+
+/* Выбранный герой в быстрой подготовке — ссылка на его страницу */
+body.d2-dark a.qp-hero{
+  display:flex!important;align-items:center!important;gap:14px!important;
+  margin-bottom:18px!important;padding:11px 13px!important;
+  text-decoration:none!important;color:inherit!important;
+  border:1px solid var(--d2-line)!important;border-radius:12px!important;
+  background:var(--d2-panel)!important;
+  transition:border-color .16s ease,background .16s ease!important;
+}
+body.d2-dark a.qp-hero:hover{background:var(--d2-panel-2)!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark a.qp-hero:hover b{color:var(--d2-gold)!important}
+body.d2-dark a.qp-hero>div{flex:1 1 auto!important;min-width:0!important}
+body.d2-dark .qp-hero-go{
+  font-style:normal!important;flex:0 0 auto!important;
+  color:var(--d2-muted-2)!important;font-size:17px!important;line-height:1!important;
+  transition:transform .16s ease,color .16s ease!important;
+}
+body.d2-dark a.qp-hero:hover .qp-hero-go{color:var(--d2-gold)!important;transform:translateX(3px)!important}
