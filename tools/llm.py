@@ -11,7 +11,6 @@
                форматов, извлечение JSON, массовые проверки «да/нет».
   gemini     — умнее остальных и с большим контекстом: тексты, SEO,
                разбор больших файлов кода. Медленнее.
-  cloudflare — на том же аккаунте, где хостится сайт; нужен ID аккаунта.
 
 Ключи берутся из .env в корне проекта, из переменных окружения или из
 ~/.<provider>_key. Имена переменных — в PROVIDERS ниже, шаблон — в .env.example.
@@ -108,23 +107,11 @@ PROVIDERS = {
         "default": "",
         "fallbacks": [],
     },
-    "cloudflare": {
-        "kind": "openai",
-        # У Cloudflare есть OpenAI-совместимый путь, но в URL нужен ID аккаунта.
-        "url": "https://api.cloudflare.com/client/v4/accounts/{account}/ai/v1/chat/completions",
-        "models_url": "https://api.cloudflare.com/client/v4/accounts/{account}/ai/models/search?per_page=200",
-        "env": "CLOUDFLARE_AI_TOKEN",
-        "keyfile": ".cloudflare_ai_key",
-        "account_env": "CLOUDFLARE_ACCOUNT_ID",
-        "default": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "fallbacks": ["@cf/openai/gpt-oss-120b", "@cf/qwen/qwq-32b",
-                      "@cf/meta/llama-3.1-8b-instruct-fp8"],
-    },
 }
 
 # Порядок перебора, когда выбранный провайдер отказал: сначала быстрые,
 # потом умные, потом самые лимитированные. Провайдеры без ключа пропускаются.
-PROVIDER_ORDER = ["groq", "gemini", "cloudflare", "ollama"]
+PROVIDER_ORDER = ["groq", "gemini", "ollama"]
 
 RETRY_CODES = (429, 500, 502, 503)
 # Cloudflare перед Groq режет дефолтный UA urllib (403, error code 1010).
@@ -290,10 +277,6 @@ def model_names(provider: str, data: dict) -> list[str]:
     if PROVIDERS[provider]["kind"] == "gemini":
         return [m["name"].replace("models/", "") for m in data.get("models", [])
                 if "generateContent" in m.get("supportedGenerationMethods", [])]
-    if provider == "cloudflare":
-        rows = data.get("result") or []
-        return [m.get("name", "") for m in rows
-                if "Text Generation" in json.dumps(m.get("task", {}), ensure_ascii=False)]
     return [m["id"] for m in data.get("data", [])]
 
 
