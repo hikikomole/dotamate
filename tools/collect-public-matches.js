@@ -33,7 +33,9 @@ const API = 'https://api.opendota.com/api/publicMatches';
 const RANK_MIN = 10;          // Herald
 const RANK_MAX = 65;          // Ancient 5
 const DAY_BUDGET = 1800;      // с запасом от лимита OpenDota в 2000 запросов в сутки
-const PAUSE_MS = 1100;        // не чаще 60 запросов в минуту
+const PAUSE_MS = 2000;        // 30 запросов в минуту — вдвое ниже разрешённых 60
+const RATE_WAIT_MS = 75000;   // сколько ждать, когда OpenDota просит остыть
+const RATE_TRIES = 6;         // столько раз подряд готовы переждать, прежде чем сдаться
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -53,8 +55,15 @@ function budgetLeft(s) {
 async function page(lessThan) {
   const url = API + '?min_rank=' + RANK_MIN + '&max_rank=' + RANK_MAX +
     (lessThan ? '&less_than_match_id=' + lessThan : '');
-  const r = await fetch(url, { headers: { Accept: 'application/json' } });
-  if (r.status === 429) throw new Error('RATE');
+  const headers = { Accept: 'application/json' };
+  if (process.env.OPENDOTA_KEY) headers['Authorization'] = 'Bearer ' + process.env.OPENDOTA_KEY;
+  const r = await fetch(url, { headers });
+  if (r.status === 429) {
+    const retry = Number(r.headers.get('retry-after'));
+    const err = new Error('RATE');
+    err.waitMs = Number.isFinite(retry) && retry > 0 ? retry * 1000 : RATE_WAIT_MS;
+    throw err;
+  }
   if (!r.ok) throw new Error('HTTP ' + r.status);
   const j = await r.json();
   if (!Array.isArray(j)) throw new Error('не массив');
@@ -136,13 +145,24 @@ async function main() {
   if (budget <= 0) { console.log('Дневной лимит запросов исчерпан, приходи завтра.'); return; }
 
   let lessThan = back ? (s.oldestSeen || 0) : 0;
-  let requests = 0, written = 0, stop = false;
+  let requests = 0, written = 0, stop = false, rateHits = 0;
 
   while (requests < budget && !stop) {
     let rows;
-    try { rows = await page(lessThan); }
+    try { rows = await page(lessThan); rateHits = 0; }
     catch (e) {
-      if (e.message === 'RATE') { console.log('OpenDota просит подождать, останавливаюсь.'); break; }
+      if (e.message === 'RATE') {
+        rateHits++;
+        if (rateHits > RATE_TRIES) {
+          console.log('OpenDota держит отказ уже', RATE_TRIES, 'раз подряд — на сегодня хватит.');
+          console.log('Запусти ещё раз позже, всё собранное сохранено.');
+          break;
+        }
+        const wait = Math.round((e.waitMs || RATE_WAIT_MS) / 1000);
+        console.log('  OpenDota просит остыть, жду ' + wait + ' с (попытка ' + rateHits + ' из ' + RATE_TRIES + ')…');
+        await sleep(e.waitMs || RATE_WAIT_MS);
+        continue;                       // тот же запрос, счётчик не тратим
+      }
       console.log('  сбой запроса:', e.message); await sleep(3000); continue;
     }
     requests++; s.spent++;
