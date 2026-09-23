@@ -9,10 +9,8 @@
 Провайдеры (все с бесплатным тарифом, все — OpenAI-совместимые, кроме gemini):
   groq       — самый быстрый (~1 с), для механики: классификация, конвертация
                форматов, извлечение JSON, массовые проверки «да/нет».
-  mistral    — самый щедрый месячный лимит; есть модели под код и рассуждения.
   gemini     — умнее остальных и с большим контекстом: тексты, SEO,
                разбор больших файлов кода. Медленнее.
-  github     — модели по GitHub-токену, лимиты скромные.
   cloudflare — на том же аккаунте, где хостится сайт; нужен ID аккаунта.
 
 Ключи берутся из .env в корне проекта, из переменных окружения или из
@@ -84,16 +82,6 @@ PROVIDERS = {
         # qwen3.8-27b на бесплатном ключе сразу отдаёт 429 — в цепочку не берём.
         "fallbacks": ["openai/gpt-oss-20b", "groq/compound-mini"],
     },
-    "mistral": {
-        "kind": "openai",
-        "url": "https://api.mistral.ai/v1/chat/completions",
-        "models_url": "https://api.mistral.ai/v1/models",
-        "env": "MISTRAL_API_KEY",
-        "keyfile": ".mistral_key",
-        "default": "mistral-small-latest",
-        "fallbacks": ["open-mistral-nemo", "devstral-small-latest",
-                      "magistral-small-latest"],
-    },
     "gemini": {
         "kind": "gemini",
         "url": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
@@ -104,17 +92,6 @@ PROVIDERS = {
         # Pro-модели на бесплатном уровне упираются в 429 почти мгновенно —
         # вся работа идёт на Flash.
         "fallbacks": ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"],
-    },
-    "github": {
-        "kind": "openai",
-        "url": "https://models.github.ai/inference/chat/completions",
-        "models_url": "https://models.github.ai/catalog/models",
-        # Отдельная переменная, а не GITHUB_TOKEN: токен для моделей должен
-        # быть без прав на запись в репозиторий.
-        "env": "GITHUB_MODELS_TOKEN",
-        "keyfile": ".github_models_key",
-        "default": "openai/gpt-4o-mini",
-        "fallbacks": ["meta/Llama-3.3-70B-Instruct", "deepseek/DeepSeek-R1"],
     },
     "ollama": {
         # Локальная модель на машине пользователя: ключа нет, лимитов нет,
@@ -140,13 +117,14 @@ PROVIDERS = {
         "keyfile": ".cloudflare_ai_key",
         "account_env": "CLOUDFLARE_ACCOUNT_ID",
         "default": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "fallbacks": ["@cf/qwen/qwq-32b", "@cf/meta/llama-3.1-8b-instruct"],
+        "fallbacks": ["@cf/openai/gpt-oss-120b", "@cf/qwen/qwq-32b",
+                      "@cf/meta/llama-3.1-8b-instruct-fp8"],
     },
 }
 
 # Порядок перебора, когда выбранный провайдер отказал: сначала быстрые,
 # потом умные, потом самые лимитированные. Провайдеры без ключа пропускаются.
-PROVIDER_ORDER = ["groq", "mistral", "gemini", "github", "cloudflare", "ollama"]
+PROVIDER_ORDER = ["groq", "gemini", "cloudflare", "ollama"]
 
 RETRY_CODES = (429, 500, 502, 503)
 # Cloudflare перед Groq режет дефолтный UA urllib (403, error code 1010).
@@ -316,9 +294,6 @@ def model_names(provider: str, data: dict) -> list[str]:
         rows = data.get("result") or []
         return [m.get("name", "") for m in rows
                 if "Text Generation" in json.dumps(m.get("task", {}), ensure_ascii=False)]
-    if provider == "github":
-        rows = data if isinstance(data, list) else data.get("data", [])
-        return [m.get("id") or m.get("name", "") for m in rows]
     return [m["id"] for m in data.get("data", [])]
 
 
