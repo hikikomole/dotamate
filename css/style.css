@@ -433,7 +433,7 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
 }
 
 /* v18 content system: connected heroes / items / stats / guides / tools */
-.data-source{font-size:11px;color:var(--comp-muted);padding:9px 12px;border:1px solid var(--comp-border);border-radius:999px;background:var(--comp-surface)}
+
 .items-all-grid{grid-template-columns:repeat(6,1fr)!important}
 .items-all-grid .item-card{width:100%;text-align:left;cursor:pointer;font:inherit}
 .stats-panel{margin-top:24px;background:var(--comp-surface);border:1px solid var(--comp-border);border-radius:18px;padding:18px;box-shadow:var(--comp-shadow)}
@@ -455,7 +455,7 @@ footer{background:#fff!important;border-color:var(--comp-border)!important;color
 .guide-open{margin-top:12px;padding:8px 11px;min-height:36px;font-size:11px}
 .detail hr{border:0;border-top:1px solid var(--comp-border);margin:18px 0}
 @media(max-width:1000px){.items-all-grid{grid-template-columns:repeat(4,1fr)!important}}
-@media(max-width:760px){.data-source{display:none}.stats-toolbar{flex-direction:column}.stats-toolbar select{height:44px}.guides-rich{grid-template-columns:1fr}.guide-rich-card{grid-template-columns:72px 1fr}.guide-rich-card .guide-art{height:125px}.items-all-grid{grid-template-columns:repeat(4,1fr)!important}}
+@media(max-width:760px){.stats-toolbar{flex-direction:column}.stats-toolbar select{height:44px}.guides-rich{grid-template-columns:1fr}.guide-rich-card{grid-template-columns:72px 1fr}.guide-rich-card .guide-art{height:125px}.items-all-grid{grid-template-columns:repeat(4,1fr)!important}}
 @media(max-width:480px){.items-all-grid{grid-template-columns:repeat(2,1fr)!important}.guide-rich-card{grid-template-columns:1fr}.guide-rich-card .guide-art{height:85px}}
 
 /* v22/v23/v24/v25/v26/v27/v28 unified feature layer */

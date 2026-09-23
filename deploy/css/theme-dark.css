@@ -54,7 +54,7 @@ body.d2-dark .eyebrow{color:var(--d2-gold)!important;letter-spacing:2.6px!import
 body.d2-dark .section h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important}
 body.d2-dark .section-head p,
 body.d2-dark .companion-section-head p{color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.7!important}
-body.d2-dark .data-source{color:var(--d2-muted-2)!important;font-size:10px!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark 
 
 /* --- панель фильтров --- */
 body.d2-dark .toolbar{gap:10px!important;margin:26px 0 18px!important;padding:12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important}
@@ -147,7 +147,7 @@ body.d2-dark .brand span{color:inherit!important}
 body.d2-dark .topbar nav a.active{background:none!important;box-shadow:none!important}
 body.d2-dark .search input{background:none!important;border:0!important;box-shadow:none!important;color:var(--d2-text)!important;border-radius:0!important}
 body.d2-dark .search input::placeholder{color:var(--d2-muted-2)!important}
-body.d2-dark .data-source{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:0!important;color:var(--d2-muted-2)!important;padding:8px 13px!important;box-shadow:none!important}
+body.d2-dark 
 body.d2-dark .companion-section-head{align-items:flex-end!important}
 
 /* ========== страница героя ========== */
