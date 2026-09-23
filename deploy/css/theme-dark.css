@@ -952,7 +952,7 @@ body.d2-dark .hb-branch .hb-steps{margin-top:auto!important}
 body.d2-dark .hb-steps{display:grid!important;grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:4px!important}
 body.d2-dark .hb-step{position:relative!important;aspect-ratio:1!important;border-radius:var(--rad-sm)!important;overflow:hidden!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important}
 body.d2-dark .hb-step img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
-body.d2-dark .hb-step span{position:absolute!important;left:0!important;bottom:0!important;min-width:14px!important;padding:0 3px!important;font-size:9px!important;font-weight:700!important;line-height:13px!important;text-align:center!important;color:var(--d2-text)!important;background:rgba(0,0,0,.72)!important;border-top-right-radius:5px!important}
+body.d2-dark .hb-step span{position:absolute!important;left:0!important;bottom:0!important;min-width:14px!important;padding:0 3px!important;font-size:9px!important;font-weight:700!important;line-height:13px!important;text-align:center!important;color:var(--d2-text)!important;background:rgba(0,0,0,.72)!important;border-top-right-radius:var(--rad-xs)!important}
 body.d2-dark .hb-step-empty{opacity:.32!important}
 
 /* Таланты: дерево как в игре, уровень по центру */
@@ -1184,3 +1184,13 @@ body.d2-dark .article-main table tbody tr:last-child td:last-child{border-bottom
    квадратными — единственный старый угол в форме. */
 body.d2-dark .hero-guide-links a{border-radius:var(--rad-md)!important}
 
+
+/* «Что покупают» — второй срез покупок. На странице это продолжение блока
+   «Что покупают», поэтому заголовок, подпись и карточки берём оттуда же:
+   золотой капслок 14px, подпись 13px и та же сетка .hb-item.
+   Сетка через auto-fill, а не auto-fit: в фазе бывает 4 предмета, и при
+   auto-fit они растянулись бы вдвое шире карточек в блоке выше. */
+body.d2-dark .hp-buys{margin-top:0!important;padding:0 0 8px!important}
+body.d2-dark .hp-buys h2{font-size:14px!important;font-weight:800!important;letter-spacing:3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important;margin:40px 0 6px!important}
+body.d2-dark .hp-buys-note{margin:0 0 18px!important;font-size:13px!important;color:var(--d2-muted)!important;max-width:none!important}
+body.d2-dark .hb-items-phase{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))!important}

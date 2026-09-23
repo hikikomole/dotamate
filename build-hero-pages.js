@@ -207,16 +207,28 @@ async function main(){
     const strongList=(gd?.strongAgainst||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
     const weakHtml=weakList?`<div class="hp-counters hp-matchups">${weakList}</div>`:'';
     const strongHtml=strongList?`<div class="hp-counters hp-matchups">${strongList}</div>`:'';
-    const buyPhases=[['early_game_items','Ранняя игра'],['mid_game_items','Середина игры'],['late_game_items','Поздняя игра']];
+    // У OpenDota нет времени покупки — только счётчики по четырём фазам,
+    // поэтому фазы сведены в две группы, а на карточке стоит число покупок.
+    const buyGroups=[
+      {keys:['start_game_items','early_game_items'],label:'Начало игры',note:'Старт и ранняя игра — сколько раз предмет купили в выборке'},
+      {keys:['mid_game_items','late_game_items'],label:'Середина и поздняя игра',note:'Сколько раз предмет купили в выборке'}
+    ];
+    // Те же карточки, что и в блоке выше (.hb-sub/.hb-items/.hb-item):
+    // на странице два среза покупок, и выглядеть они должны одинаково.
     const buyHtml=(()=>{
       if(!gd?.items)return '';
-      const cols=buyPhases.map(([k,label])=>{
-        const rows=Object.entries(gd.items[k]||{}).map(([id,c])=>({id:Number(id),c:Number(c)||0}))
-          .map(r=>({...r,id:itemVariants[r.id]??r.id})).filter(r=>itemById.has(r.id)).sort((x,y)=>y.c-x.c).slice(0,4);
+      return buyGroups.map(({keys,label,note})=>{
+        const sum=new Map();
+        for(const k of keys) for(const [id,c] of Object.entries(gd.items[k]||{})){
+          const real=itemVariants[Number(id)]??Number(id);
+          if(!itemById.has(real))continue;
+          sum.set(real,(sum.get(real)||0)+(Number(c)||0));
+        }
+        const rows=[...sum.entries()].map(([id,c])=>({id,c})).sort((x,y)=>y.c-x.c).slice(0,8);
         if(!rows.length)return '';
-        return `<div class="hp-buy-col"><h3>${label}</h3>${rows.map(r=>{const it=itemById.get(r.id);return `<a href="/item/${it.slug}/"><img loading="lazy" src="/assets/items/${it.slug}.png" alt=""><b>${escapeHtml(it.dname)}</b><i>${r.c}</i></a>`;}).join('')}</div>`;
+        const cards=rows.map(r=>{const it=itemById.get(r.id);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен ${r.c} раз в выборке"><span class="hb-item-when">${r.c}</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
+        return `<div class="hb-sub"><h3>${label}</h3><em>${note}</em><div class="hb-items hb-items-phase">${cards}</div></div>`;
       }).filter(Boolean).join('');
-      return cols?`<div class="hp-buy-grid">${cols}</div>`:'';
     })();
     const title=`${h.localized_name} — гайд, статы и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
@@ -299,8 +311,8 @@ async function main(){
   ${buildsHtml}
 
   ${buyHtml?`<section class="hp-buys container">
-    <h2>Что покупают на ${escapeHtml(h.localized_name)}</h2>
-    <p class="hp-buys-note">Второй срез покупок — OpenDota, публичные матчи всех рангов, сгруппированные по фазам игры. Число рядом с предметом — сколько раз его купили в выборке. Выборка отличается от блока «Прогресс» выше, поэтому предметы и цифры не обязаны совпадать.</p>
+    <h2>Покупки по всем рангам</h2>
+    <p class="hp-buys-note">Второй срез — OpenDota, публичные матчи всех рангов. Число на карточке — сколько раз предмет купили в выборке; времени покупки в этих данных нет. Выборка другая, поэтому предметы и цифры не обязаны совпадать с блоком выше.</p>
     ${buyHtml}
   </section>`:''}
 

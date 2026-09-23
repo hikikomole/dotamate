@@ -1,5 +1,5 @@
 /**
- * Блоки «Способности и таланты» и «Прогресс по предметам» на странице героя.
+ * Блоки «Способности и таланты» и «Что покупают на <герое>» на странице героя.
  *
  * Данные: Stratz, брекет Divine/Immortal, по каждой из популярных позиций
  * героя отдельно. Источник — data/builds/<heroId>.json, в проде поверх него
@@ -187,7 +187,7 @@
     const core = items.core.map(x => card(x, false)).filter(Boolean).join('');
     const sit = items.situational.map(x => card(x, true)).filter(Boolean).join('');
     if (!core && !sit) return '';
-    return `${core ? `<div class="hb-sub"><h3>Прогресс по основным предметам</h3><em>Что покупают почти всегда, в порядке среднего времени покупки</em><div class="hb-items hb-items-core">${core}</div></div>` : ''}
+    return `${core ? `<div class="hb-sub"><h3>Основные предметы</h3><em>Что покупают почти всегда, в порядке среднего времени покупки</em><div class="hb-items hb-items-core">${core}</div></div>` : ''}
 ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em>Частота покупки и среднее время</em><div class="hb-items">${sit}</div></div>` : ''}`;
   }
 
@@ -237,7 +237,7 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
   ${tabs}
   <div class="hb-panes hb-panes-skills">${panes}</div>
 
-  <h2 class="hb-h2-second">Прогресс</h2>
+  <h2 class="hb-h2-second">Что покупают на ${esc(build.heroName)}</h2>
   <p class="hb-lead">Stratz, матчи Divine/Immortal, по выбранной роли. Время — средняя минута покупки.</p>
   <div class="hb-panes hb-panes-items">${itemPanes}</div>
 </section>`;
