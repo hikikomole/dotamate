@@ -315,6 +315,23 @@ async function getHeroBuild(heroId, env) {
     fetchStaticJson(env, '/data/builds/' + heroId + '.json'));
 }
 
+
+// --- Про-показатели героев (пики, победы, баны на профессиональной сцене).
+// Раньше за ними ходил БРАУЗЕР КАЖДОГО ПОСЕТИТЕЛЯ напрямую в OpenDota: чужой
+// домен в сетевых запросах сайта, зависимость от их доступности и лимитов на
+// каждого гостя. Теперь это один запрос с воркера раз в сутки, а при
+// недоступности OpenDota отдаём снимок из ассетов — цифры будут от даты
+// сборки, но страница не сломается.
+async function getHeroStats(env) {
+  try {
+    return await cachedJson('hero-stats-v1', 60 * 60 * 24, () =>
+      fetchJson('https://api.opendota.com/api/heroStats'));
+  } catch (e) {
+    const local = await fetchStaticJson(env, '/data/heroes.json');
+    return local && local.heroes ? local.heroes : [];
+  }
+}
+
 async function handleApi(pathname, env) {
   let m;
   if ((m = pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/))) {
@@ -336,6 +353,10 @@ async function handleApi(pathname, env) {
   if ((m = pathname.match(/^\/api\/dota\/hero\/(\d+)\/build$/))) {
     try { return jsonResponse(await getHeroBuild(Number(m[1]), env)); }
     catch (e) { return jsonResponse({ error: 'hero_build_unavailable', message: e.message }, 404); }
+  }
+  if (pathname === '/api/dota/hero-stats') {
+    try { return jsonResponse(await getHeroStats(env)); }
+    catch (e) { return jsonResponse({ error: 'hero_stats_unavailable', message: e.message }, 502); }
   }
   return jsonResponse({ error: 'not_found' }, 404);
 }

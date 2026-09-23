@@ -1,4 +1,8 @@
-const OPENDOTA_HEROES="https://api.opendota.com/api/heroStats";
+// Про-показатели идут через свой воркер, а не напрямую в OpenDota: раньше
+// туда ходил браузер каждого посетителя. Воркер держит суточный кеш и при
+// недоступности OpenDota отдаёт снимок, так что сторонних запросов у сайта
+// во время работы не остаётся вовсе.
+const PRO_STATS_API="/api/dota/hero-stats";
 // Разделы сайта разнесены по страницам, поэтому на любой из них часть
 // элементов отсутствует. Эти два помощника пишут в DOM только если цель есть.
 const d2hSetText=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
@@ -119,7 +123,7 @@ function normalizeItems(list){
 // blocking the initial paint and without breaking the race's resilience.
 async function enrichProStats(){
   try{
-    const data=await d2hFetchJSON(OPENDOTA_HEROES,{timeout:8000});
+    const data=await d2hFetchJSON(PRO_STATS_API,{timeout:8000});
     const list=unwrapHeroes(data);
     if(!Array.isArray(list)||!list.length||!heroes.length)return;
     const byId=new Map(list.map(h=>[Number(h.id),h]));
@@ -287,7 +291,7 @@ function renderItems(){
     const preview=itemDescriptionPreview(x);
     const cat=itemCategory(x);
     return `<a class="item-card item-card-v2" href="${escapeHtml(itemHref(x))}" data-item="${escapeHtml(x.name)}">
-      <div class="item-card-art"><img loading="lazy" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"><span class="item-card-cat">${itemCategoryLabel(x)}</span></div>
+      <div class="item-card-art"><img loading="lazy" src="${itemImage(x)}" alt="${escapeHtml(x.dname)}"></div>
       <div class="item-card-body"><div class="item-card-title"><strong>${escapeHtml(x.dname)}</strong><span>${x.cost?statValue(x.cost)+' G':'—'}</span></div>${preview?`<p>${escapeHtml(preview)}</p>`:''}<div class="item-card-foot"><small>${x.id?`ID ${escapeHtml(x.id)}`:'Dota 2 item'}</small><b>${recipeTarget(x)?'К предмету →':'Подробнее →'}</b></div></div>
     </a>`;
   }).join(''):'<div class="empty item-empty-state"><strong>Предмет не найден</strong><span>Измени запрос или фильтр.</span></div>';
