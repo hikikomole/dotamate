@@ -79,6 +79,27 @@ async function main() {
   const idByName = {};
   for (const [id, name] of Object.entries(abilityIds)) idByName[name] = Number(id);
 
+  // Значения талантов из файлов игры (tools/extract-talent-values.js).
+  // Единственный источник, где они вообще есть — см. комментарий в том скрипте.
+  const gameValues = (() => {
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'talent-values.json'), 'utf8')).values; }
+    catch { return {}; }
+  })();
+
+  /**
+   * Подставляет значение в шаблон. Знак берём из шаблона: у «-{s:...}s
+   * Cooldown» и значения «-10» иначе вышло бы «--10s». Если своего знака в
+   * шаблоне нет, ставим значение как есть.
+   */
+  function fillFromGame(text, name) {
+    const raw = gameValues[name];
+    if (raw === undefined) return text;
+    return String(text).replace(/([+\-−]?)\s*\{s:[A-Za-z0-9_]+\}/g, (m, sign) => {
+      const v = String(raw).replace(/^[+\-−]/, '');
+      return sign ? sign + v : String(raw);
+    });
+  }
+
   const heroes = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
   const internalById = new Map(heroes.map(h => [h.id, h.name]));
 
@@ -125,15 +146,40 @@ async function main() {
         // «-{s:bonus_AbilityCooldown}s Borrowed Time Cooldown»). Тогда
         // вырезаем заглушку вместе со знаком и приклеенной единицей
         // измерения, иначе на странице остаётся «- s Borrowed Time Cooldown».
+        // Сначала пробуем файлы игры — там значение настоящее
+        text = fillFromGame(text, job.name);
         if (/\{s:/.test(text)) {
           text = text.replace(/[+\-−]?\s*\{s:[A-Za-z0-9_]+\}\s*(?:s\b|%|x\b)?/g, ' ');
           unresolved++;
         }
-        t.title = text.replace(/\s{2,}/g, ' ').replace(/^[\s/·,-]+|[\s/·,-]+$/g, '').trim();
+        t.title = text.replace(/\s{2,}/g, ' ').replace(/\s+([,.;:%])/g, '$1').replace(/^[\s/·,]+|[\s/·,-]+$/g, '').replace(/^-(?!\d)/, '').trim();
       }
     }
     await sleep(140);
   }
+
+  // Проходим всё дерево ещё раз: плейсхолдер мог остаться у талантов,
+  // чей заголовок пришёл из Stratz и в очередь на добор не попал.
+  for (const lv of Object.values(tree)) {
+    for (const arr of Object.values(lv)) {
+      for (const t of arr) {
+        if (!/\{s:/.test(t.title)) continue;
+        let text = fillFromGame(t.title, t.name);
+        if (/\{s:/.test(text)) {
+          text = text.replace(/[+\-−]?\s*\{s:[A-Za-z0-9_]+\}\s*(?:s\b|%|x\b)?/g, ' ');
+          unresolved++;
+        }
+        t.title = text.replace(/\s{2,}/g, ' ').replace(/\s+([,.;:%])/g, '$1').replace(/^[\s/·,]+|[\s/·,-]+$/g, '').replace(/^-(?!\d)/, '').trim();
+      }
+    }
+  }
+
+  // Финальная нормализация пробелов для ВСЕХ названий: двойные пробелы
+  // встречаются и в исходных шаблонах Valve («+{s:a} Health / +{s:b} Damage
+  // ��for Enchantress»), а не только на месте вырезанных заглушек.
+  for (const lv of Object.values(tree))
+    for (const arr of Object.values(lv))
+      for (const t of arr) t.title = String(t.title).replace(/\s{2,}/g, ' ').trim();
 
   let total = 0, empty = [], half = [];
   for (const [id, lv] of Object.entries(tree)) {

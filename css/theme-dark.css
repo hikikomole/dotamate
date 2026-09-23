@@ -900,12 +900,19 @@ body.d2-dark .hb-pane{display:none!important}
 body.d2-dark .hb-pane.on{display:block!important}
 
 /* Две ветки прокачки рядом */
-body.d2-dark .hb-progressions{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(330px,1fr))!important;gap:9px!important;margin-bottom:9px!important}
-body.d2-dark .hb-branch{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:12px!important;padding:14px 15px 16px!important}
-body.d2-dark .hb-branch-head{display:flex!important;align-items:baseline!important;gap:9px!important;margin:0 0 12px!important;flex-wrap:wrap!important}
-body.d2-dark .hb-branch-head h3{margin:0!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
-body.d2-dark .hb-branch-head em{font-style:normal!important;font-size:11.5px!important;color:var(--d2-muted-2)!important;flex:1 1 auto!important}
+/* Две ветки — одна высота: заголовок не переносится, поэтому ряды иконок
+   в обеих карточках стоят на одной горизонтали. Подпись при нехватке места
+   обрезается многоточием, а не уезжает на вторую строку. */
+body.d2-dark .hb-progressions{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(330px,1fr))!important;gap:9px!important;margin-bottom:9px!important;align-items:stretch!important}
+body.d2-dark .hb-branch{display:flex!important;flex-direction:column!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:12px!important;padding:14px 15px 16px!important}
+body.d2-dark .hb-branch-head{display:flex!important;align-items:baseline!important;gap:9px!important;margin:0 0 12px!important;flex-wrap:nowrap!important;min-height:20px!important}
+body.d2-dark .hb-branch-head h3{margin:0!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important;white-space:nowrap!important;flex:0 0 auto!important}
+body.d2-dark .hb-branch-head em{font-style:normal!important;font-size:11.5px!important;color:var(--d2-muted-2)!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body.d2-dark .hb-branch-nums{display:flex!important;align-items:baseline!important;gap:8px!important;flex:0 0 auto!important;white-space:nowrap!important;margin-left:auto!important}
 body.d2-dark .hb-branch-head b{font-size:15px!important;font-weight:800!important;color:var(--d2-text)!important}
+/* Полоса иконок прижата к низу карточки — при любой высоте заголовка
+   обе полосы остаются на одной линии */
+body.d2-dark .hb-branch .hb-steps{margin-top:auto!important}
 body.d2-dark .hb-steps{display:grid!important;grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:4px!important}
 body.d2-dark .hb-step{position:relative!important;aspect-ratio:1!important;border-radius:7px!important;overflow:hidden!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important}
 body.d2-dark .hb-step img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
@@ -945,6 +952,7 @@ body.d2-dark .hb-item-when{font-size:10.5px!important;font-weight:700!important;
 body.d2-dark .hb-items-core{grid-template-columns:repeat(auto-fit,minmax(104px,1fr))!important}
 
 @media(max-width:720px){
+  body.d2-dark .hb-branch-head em{display:none!important}
   body.d2-dark .hb-steps{grid-template-columns:repeat(5,minmax(0,1fr))!important}
   body.d2-dark .hb-tal-row{grid-template-columns:1fr 38px 1fr!important;gap:6px!important}
   body.d2-dark .hb-tal-lvl{width:34px!important;height:34px!important;font-size:12.5px!important}

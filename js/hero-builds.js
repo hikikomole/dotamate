@@ -118,8 +118,10 @@
       </div>`;
     }).join('');
     return `<div class="hb-branch">
-      <div class="hb-branch-head"><h3>${esc(label)}</h3><em>${esc(hint)}</em>
-        <b>${wr(branch.winrate)}</b>${branch.matches ? `<u>${num(branch.matches)} ${matchWord(branch.matches)}</u>` : ''}</div>
+      <div class="hb-branch-head">
+        <h3>${esc(label)}</h3><em>${esc(hint)}</em>
+        <span class="hb-branch-nums"><b>${wr(branch.winrate)}</b>${branch.matches ? `<u>${num(branch.matches)} ${matchWord(branch.matches)}</u>` : ''}</span>
+      </div>
       <div class="hb-steps">${cells}</div>
     </div>`;
   }
