@@ -30,16 +30,11 @@
    * Рисунок читается по силуэту: меч, посох, щит, пламя, крест лечения.
    */
   const ICONS = {
-    // Керри — меч: растёт в силе к поздней игре
-    carry: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.5 3 21 5.5 12 14.5 9.5 12zM8 13.5 10.5 16l-1.7 1.7-1.3-1.3L4 19.5 3 18.5l2.9-3.2-1.3-1.3z"/></svg>',
-    // Мид — посох с кристаллом: соло-линия, магический темп
-    mid: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 9.5 6.5 12 11l2.5-4.5zM11.2 12h1.6l.7 9.5h-3z"/><circle cx="12" cy="6.6" r="1.4" fill="#0b0d12"/></svg>',
-    // Оффлейн — щит: выживание под давлением
-    offlane: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 4 5v6.5c0 4.7 3.3 8.7 8 10.5 4.7-1.8 8-5.8 8-10.5V5z"/></svg>',
-    // Поддержка — пламя: инициация, роуминг, давление на карту
-    support: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c2.5 3.8 1 5.6.2 6.8C11 10.6 9 11.6 9 14a3 3 0 0 0 6 0c0-1-.4-1.8-.8-2.4 2.6 1 4.3 3 4.3 5.4A6.5 6.5 0 0 1 12 22a6.5 6.5 0 0 1-6.5-6.5C5.5 9.9 10.4 8.3 12 2z"/></svg>',
-    // Полная поддержка — крест: вардинг, лечение, обеспечение команды
-    hardsupport: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.5 2h5v7.5H22v5h-7.5V22h-5v-7.5H2v-5h7.5z"/></svg>'
+    carry: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 2.6 19 8.2l-8.6 8.6-2.2-2.2L16.8 6z" fill="currentColor" fill-opacity=".25"/><path d="M20.5 2.6 19 8.2l-8.6 8.6-2.2-2.2L16.8 6z"/><path d="m9.9 15.1-2.6 2.6"/><path d="M6.2 13.6 4.4 15.4l4.2 4.2 1.8-1.8z" fill="currentColor" fill-opacity=".35"/><path d="m5.1 18.6-2.4 2.4"/></g></svg>',
+    mid: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 19.4C4.6 11.3 11.3 4.6 19.4 4.6"/><path d="M4.6 19.4 19.4 4.6"/><path d="M15.4 4.6h4v4"/><path d="M4.6 15.4v4h4"/><path d="m11 13 2.6 2.6" stroke-opacity=".55"/></g></svg>',
+    offlane: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4 4 5.2v6.4c0 4.6 3.2 8.6 8 10.4 4.8-1.8 8-5.8 8-10.4V5.2z" fill="currentColor" fill-opacity=".22"/><path d="M12 2.4 4 5.2v6.4c0 4.6 3.2 8.6 8 10.4 4.8-1.8 8-5.8 8-10.4V5.2z"/><path d="M13.2 7.2 9.6 12.6h2.8l-1.2 4.2 3.8-5.6h-2.9z" fill="currentColor" fill-opacity=".9" stroke-width="1.1"/></g></svg>',
+    support: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.2c2.7 3.9 1.3 5.9.3 7.2-.9 1.2-2.4 2.2-2.4 4.3a4.1 4.1 0 0 0 8.2 0c0-1-.3-1.8-.7-2.5 2.2 1.3 3.4 3.3 3.4 5.6A8.8 8.8 0 0 1 12 21.8a8.8 8.8 0 0 1-8.8-5c0-6.6 6.9-8.4 8.8-14.6" fill="currentColor" fill-opacity=".22"/><path d="M12 2.2c2.7 3.9 1.3 5.9.3 7.2-.9 1.2-2.4 2.2-2.4 4.3a4.1 4.1 0 0 0 8.2 0c0-1-.3-1.8-.7-2.5 2.2 1.3 3.4 3.3 3.4 5.6A8.8 8.8 0 0 1 12 21.8a8.8 8.8 0 0 1-8.8-5c0-6.6 6.9-8.4 8.8-14.6"/></g></svg>',
+    hardsupport: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 12.4V7.9a1.35 1.35 0 0 1 2.7 0v3.3M9.1 11.2V6.4a1.35 1.35 0 0 1 2.7 0v4.6M11.8 11.2V7.4a1.35 1.35 0 0 1 2.7 0v4M14.5 11.6v-2a1.3 1.3 0 0 1 2.6 0v5.1c0 3.6-2.2 6.5-5.4 6.5-3.1 0-5.3-2-5.3-5.2v-2.3l-1.9-1.5a1.3 1.3 0 0 1 1.5-2.1l1.4 1" fill="currentColor" fill-opacity=".22"/><path d="M18.6 3.2 19.3 5l1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="currentColor" fill-opacity=".85" stroke-width="1"/><path d="m4.4 2.6.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="currentColor" fill-opacity=".7" stroke-width=".9"/></g></svg>'
   };
 
   function icon(key) { return ICONS[key] || ''; }

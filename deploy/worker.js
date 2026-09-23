@@ -303,6 +303,18 @@ async function getHeroPositions(env) {
   return fetchStaticJson(env, '/data/hero-positions.json');
 }
 
+
+// --- Билд героя: прокачка, таланты и тайминги предметов по его позициям.
+// Отдаём по одному герою, а не весь массив: суммарно билды весят около мегабайта,
+// и гнать их целиком на каждый холодный кеш незачем. Живой запрос к Stratz здесь
+// не делаем — пересчёт «популярного выбора на каждом уровне» требует нескольких
+// запросов и агрегации (см. fetch-hero-builds.js), это работа сборки, а не воркера.
+// Снимок обновляется тем же скриптом и раскладывается в ассеты.
+async function getHeroBuild(heroId, env) {
+  return cachedJson('hero-build-' + heroId, 60 * 60 * 24, () =>
+    fetchStaticJson(env, '/data/builds/' + heroId + '.json'));
+}
+
 async function handleApi(pathname, env) {
   let m;
   if ((m = pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/))) {
@@ -320,6 +332,10 @@ async function handleApi(pathname, env) {
   if (pathname === '/api/dota/hero-positions') {
     try { return jsonResponse(await getHeroPositions(env)); }
     catch (e) { return jsonResponse({ error: 'hero_positions_unavailable', message: e.message }, 502); }
+  }
+  if ((m = pathname.match(/^\/api\/dota\/hero\/(\d+)\/build$/))) {
+    try { return jsonResponse(await getHeroBuild(Number(m[1]), env)); }
+    catch (e) { return jsonResponse({ error: 'hero_build_unavailable', message: e.message }, 404); }
   }
   return jsonResponse({ error: 'not_found' }, 404);
 }

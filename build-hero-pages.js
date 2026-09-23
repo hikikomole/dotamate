@@ -26,6 +26,13 @@ const cleanAbilityText = t => String(t||'').replace(/<\s*br\s*\/?\s*>/gi,' ').re
 // скриптом fetch-hero-positions.js; в проде поверх него Worker раз в сутки
 // подтягивает свежие числа. Нет файла — страница собирается без строки ролей.
 const heroRoles = require('./js/hero-roles.js');
+const heroBuilds = require('./js/hero-builds.js');
+// Справочник способностей и талантов (id -> внутреннее имя и название),
+// собирается вместе с билдами: fetch-hero-builds.js
+const abilityIndex = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ability-index.json'), 'utf8')).abilities; }
+  catch { return {}; }
+})();
 const positionSnapshot = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-positions.json'), 'utf8')); }
   catch { return { heroes: {} }; }
@@ -51,6 +58,19 @@ async function main(){
   const res=await fetch('https://api.opendota.com/api/heroStats');
   if(!res.ok) throw new Error('OpenDota heroStats failed: '+res.status);
   const heroes=await res.json();
+  // OpenDota не отдаёт complexity (шкалу сложности 1–3) — она есть только в
+  // datafeed Valve и лежит в нашей data/heroes.json. Без этого слияния код
+  // `h.complexity||1` рисовал единицу ВСЕМ героям, включая Invoker и Meepo.
+  (()=>{
+    try{
+      const local=JSON.parse(fs.readFileSync(path.join(__dirname,'data','heroes.json'),'utf8')).heroes;
+      const byId=new Map(local.map(x=>[Number(x.id),x]));
+      for(const h of heroes){
+        const l=byId.get(Number(h.id));
+        if(l&&l.complexity) h.complexity=l.complexity;
+      }
+    }catch(e){ console.warn('Сложность не подмешана:',e.message); }
+  })();
 
   // Способности: ключи по героям и их названия. Иконки и ролики лежат на том
   // же Steam CDN, откуда сайт уже берёт портреты, и собираются по ключу.
@@ -108,7 +128,18 @@ async function main(){
     const a=attrInfo(h.primary_attr);
     const abilities=abilitiesOf(h);
     const rolesEntry=positionSnapshot.heroes?.[String(h.id)]||null;
+    if(rolesEntry) h.mainPositions=rolesEntry.mainPositions||[];
     const rolesRow=heroRoles.rowHtml(rolesEntry,{escapeHtml});
+    const buildData=(()=>{
+      try { return JSON.parse(fs.readFileSync(path.join(__dirname,'data','builds',h.id+'.json'),'utf8')); }
+      catch { return null; }
+    })();
+    const buildsHtml=buildData?heroBuilds.sectionsHtml(buildData,{
+      escapeHtml,
+      abilities:abilityIndex,
+      items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
+      roleIcon:key=>heroRoles.icon(key)
+    }):'';
 
     // --- блоки из реальных данных (см. guideStore выше) ---
     const gd=guideStore.heroes?.[String(h.id)]||null;
@@ -161,6 +192,7 @@ async function main(){
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
+<script src="/js/hero-builds.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
@@ -213,6 +245,8 @@ async function main(){
     </div>
   </section>
 
+  ${buildsHtml}
+
   ${abilities.length?`<section class="hp-abilities container">
     <h2>Способности</h2>
     <div class="hp-ab-layout">
@@ -221,7 +255,7 @@ async function main(){
       </div>
       <div class="hp-ab-side">
         <div class="hp-ab-icons" role="tablist" aria-label="Способности героя">
-          ${abilities.map((ab,i)=>`<button type="button" role="tab" class="hp-ab-icon${i===0?' on':''}" data-ab="${i}" aria-selected="${i===0?'true':'false'}" title="${escapeHtml(ab.name)}"><img loading="lazy" src="${CDN_IMG}${ab.key}.png" alt="${escapeHtml(ab.name)}"></button>`).join('')}
+          ${abilities.map((ab,i)=>`<button type="button" role="tab" class="hp-ab-icon${i===0?' on':''}" data-ab="${i}" aria-selected="${i===0?'true':'false'}" title="${escapeHtml(ab.name)}"><img loading="lazy" src="${CDN_IMG}${ab.key}.png" alt="${escapeHtml(ab.name)}" onerror="this.closest('.hp-ab-icon').classList.add('no-icon');this.remove()"><span class="hp-ab-abbr">${escapeHtml(ab.name.slice(0,2).toUpperCase())}</span></button>`).join('')}
         </div>
         ${abilities.map((ab,i)=>`<div class="hp-ab-text${i===0?' on':''}" data-ab="${i}">
           <h3>${escapeHtml(ab.name)}</h3>

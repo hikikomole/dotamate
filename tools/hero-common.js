@@ -13,9 +13,17 @@ function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;",
 function slugForHero(h){const raw=String(h?.name||h?.localized_name||"").replace(/^npc_dota_hero_/,'');return heroSlug[h?.localized_name]||heroSlug[h?.name]||raw||"";}
 // Портрет героя лежит в репозитории (assets/heroes/), см. tools/fetch-hero-icons.py.
 function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.png`;}
-function roleText(h){return (h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
+const RU_POSITIONS={POSITION_1:"Керри",POSITION_2:"Мид",POSITION_3:"Оффлейн",POSITION_4:"Поддержка",POSITION_5:"Полная поддержка"};
+// Роли героя словами. Приоритет у позиций (Stratz): именно их видит
+// пользователь в строке ролей, и шапка не должна ей противоречить.
+// Теги OpenDota («Эскейп», «Нюкер») — запасной путь, если позиций нет.
+function roleText(h){
+  const pos=(h.mainPositions||[]).map(x=>RU_POSITIONS[x]).filter(Boolean);
+  if(pos.length)return pos.join(" / ");
+  return (h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";
+}
 function attrInfo(a){return attrs[a]||attrs.all;}
 function officialHeroUrl(h){return "https://www.dota2.com/hero/"+slugForHero(h).replace(/_/g,'');}
 function heroStats(h){return [{k:'HP',v:h.base_health!=null?h.base_health:(h.base_str||0)*22+120},{k:'Mana',v:h.base_mana!=null?h.base_mana:(h.base_int||0)*12+75},{k:'Armor',v:h.base_agi!=null?(h.base_agi/6).toFixed(1):'—'},{k:'Damage',v:h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'},{k:'Move Speed',v:h.move_speed||'—'}];}
 
-module.exports={heroSlug,ruRoles,attrs,escapeHtml,slugForHero,imageUrl,roleText,attrInfo,officialHeroUrl,heroStats};
+module.exports={heroSlug,ruRoles,RU_POSITIONS,attrs,escapeHtml,slugForHero,imageUrl,roleText,attrInfo,officialHeroUrl,heroStats};

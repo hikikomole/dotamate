@@ -811,14 +811,14 @@ body.d2-dark .hr-role{
   font-size:13px!important;font-weight:600!important;color:rgba(255,255,255,.78)!important;
   white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
 }
-body.d2-dark .hr-ico{display:inline-flex!important;width:15px!important;height:15px!important;flex:0 0 15px!important}
+body.d2-dark .hr-ico{display:inline-flex!important;width:20px!important;height:20px!important;flex:0 0 20px!important}
 body.d2-dark .hr-ico svg{width:100%!important;height:100%!important;display:block!important}
 /* Цвет иконки — один на роль, чтобы строка читалась периферийным зрением */
-body.d2-dark .hr-ico-carry svg{fill:#7fb2ff!important}
-body.d2-dark .hr-ico-mid svg{fill:#c79bff!important}
-body.d2-dark .hr-ico-offlane svg{fill:#ffc451!important}
-body.d2-dark .hr-ico-support svg{fill:#ff8a5c!important}
-body.d2-dark .hr-ico-hardsupport svg{fill:#5fd6a8!important}
+body.d2-dark .hr-ico-carry{color:#8fb9e8!important}
+body.d2-dark .hr-ico-mid{color:#57c8c0!important}
+body.d2-dark .hr-ico-offlane{color:#e8a33d!important}
+body.d2-dark .hr-ico-support{color:#e2593f!important}
+body.d2-dark .hr-ico-hardsupport{color:#57bf93!important}
 body.d2-dark .hr-nums{display:flex!important;align-items:baseline!important;gap:8px!important}
 body.d2-dark .hr-nums b{font-size:17px!important;font-weight:800!important;color:#fff!important;line-height:1!important}
 body.d2-dark .hr-nums i{font-style:normal!important;font-size:12px!important;color:rgba(255,255,255,.42)!important}
@@ -827,7 +827,7 @@ body.d2-dark .hr-bar{display:block!important;height:3px!important;border-radius:
 body.d2-dark .hr-bar>span{display:block!important;height:100%!important;border-radius:2px!important;background:rgba(255,255,255,.55)!important}
 body.d2-dark .hr-cell.is-top .hr-bar>span{background:#ffb24d!important}
 body.d2-dark .hr-all .hr-role{color:rgba(255,255,255,.5)!important;text-transform:uppercase!important;font-size:11px!important;letter-spacing:.06em!important}
-body.d2-dark .hr-note{margin:8px 2px 0!important;font-size:12px!important;color:rgba(255,255,255,.38)!important}
+body.d2-dark .hr-note{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}
 
 /* Планшет: роли в две строки по три, подписи не режутся */
 @media(max-width:900px){
@@ -841,3 +841,81 @@ body.d2-dark .hr-note{margin:8px 2px 0!important;font-size:12px!important;color:
   body.d2-dark .hr-all{grid-column:1/-1!important}
   body.d2-dark .hr-nums b{font-size:16px!important}
 }
+
+/* ============================================================
+   Способности/таланты и прогресс предметов на странице героя.
+   Палитра сайта: --d2-gold акцент, --d2-panel фон, --d2-line рамка.
+   Разметку строит js/hero-builds.js.
+   ============================================================ */
+body.d2-dark .hp-builds{padding:52px 0 8px!important}
+body.d2-dark .hp-builds h2{font-size:14px!important;font-weight:800!important;letter-spacing:3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important;margin:0 0 6px!important}
+body.d2-dark .hp-builds .hb-h2-second{margin-top:40px!important}
+body.d2-dark .hb-lead{margin:0 0 18px!important;font-size:13px!important;color:var(--d2-muted)!important}
+
+/* Переключатель ролей */
+body.d2-dark .hb-tabs{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin:0 0 16px!important}
+body.d2-dark .hb-tab{display:inline-flex!important;align-items:center!important;gap:7px!important;padding:8px 14px!important;border-radius:10px!important;cursor:pointer!important;font:inherit!important;font-size:13px!important;font-weight:600!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;transition:all .16s ease!important}
+body.d2-dark .hb-tab:hover{color:var(--d2-text)!important;border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hb-tab.on{color:#14110a!important;background:var(--d2-gold)!important;border-color:var(--d2-gold)!important}
+body.d2-dark .hb-tab-ico{width:18px!important;height:18px!important;flex:0 0 18px!important}
+body.d2-dark .hb-tab.on .hb-tab-ico{color:#14110a!important}
+body.d2-dark .hb-pane{display:none!important}
+body.d2-dark .hb-pane.on{display:block!important}
+
+/* Две ветки прокачки рядом */
+body.d2-dark .hb-progressions{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(330px,1fr))!important;gap:9px!important;margin-bottom:9px!important}
+body.d2-dark .hb-branch{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:12px!important;padding:14px 15px 16px!important}
+body.d2-dark .hb-branch-head{display:flex!important;align-items:baseline!important;gap:9px!important;margin:0 0 12px!important;flex-wrap:wrap!important}
+body.d2-dark .hb-branch-head h3{margin:0!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .hb-branch-head em{font-style:normal!important;font-size:11.5px!important;color:var(--d2-muted-2)!important;flex:1 1 auto!important}
+body.d2-dark .hb-branch-head b{font-size:15px!important;font-weight:800!important;color:var(--d2-text)!important}
+body.d2-dark .hb-steps{display:grid!important;grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:4px!important}
+body.d2-dark .hb-step{position:relative!important;aspect-ratio:1!important;border-radius:7px!important;overflow:hidden!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important}
+body.d2-dark .hb-step img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+body.d2-dark .hb-step span{position:absolute!important;left:0!important;bottom:0!important;min-width:14px!important;padding:0 3px!important;font-size:9px!important;font-weight:700!important;line-height:13px!important;text-align:center!important;color:var(--d2-text)!important;background:rgba(0,0,0,.72)!important;border-top-right-radius:5px!important}
+body.d2-dark .hb-step-empty{opacity:.32!important}
+
+/* Таланты: дерево как в игре, уровень по центру */
+body.d2-dark .hb-talents{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:12px!important;padding:6px 14px!important}
+body.d2-dark .hb-tal-row{display:grid!important;grid-template-columns:1fr 46px 1fr!important;align-items:stretch!important;gap:10px!important;padding:9px 0!important;border-bottom:1px solid var(--d2-line-soft)!important}
+body.d2-dark .hb-tal-row:last-child{border-bottom:0!important}
+body.d2-dark .hb-tal-lvl{display:flex!important;align-items:center!important;justify-content:center!important;font-size:14px!important;font-weight:800!important;color:var(--d2-gold)!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:999px!important;align-self:center!important;width:40px!important;height:40px!important;margin:0 3px!important}
+body.d2-dark .hb-tal-cell{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:3px!important;padding:8px 11px!important;border-radius:9px!important;border:1px solid transparent!important}
+body.d2-dark .hb-tal-cell.is-picked{background:rgba(217,193,135,.07)!important;border-color:rgba(217,193,135,.22)!important}
+body.d2-dark .hb-tal-cell b{font-size:13px!important;font-weight:700!important;color:var(--d2-text)!important;line-height:1.3!important}
+body.d2-dark .hb-tal-cell span{font-size:11.5px!important;color:var(--d2-muted)!important}
+body.d2-dark .hb-tal-row>.hb-tal-cell:last-child{text-align:right!important;align-items:flex-end!important}
+body.d2-dark .hb-tag{display:inline-block!important;margin-top:3px!important;font-style:normal!important;font-size:9.5px!important;letter-spacing:.9px!important;text-transform:uppercase!important;font-weight:800!important}
+body.d2-dark .hb-tag-pick{color:var(--d2-gold)!important}
+body.d2-dark .hb-tag-win{color:#54d38a!important}
+body.d2-dark .hb-tal-empty{border:0!important}
+
+/* Предметы с таймингами */
+body.d2-dark .hb-sub{margin-top:9px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:12px!important;padding:14px 15px 16px!important}
+body.d2-dark .hb-sub h3{margin:0 0 3px!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .hb-sub em{display:block!important;font-style:normal!important;font-size:11.5px!important;color:var(--d2-muted-2)!important;margin-bottom:12px!important}
+body.d2-dark .hb-items{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(118px,1fr))!important;gap:8px!important}
+body.d2-dark .hb-item{display:flex!important;flex-direction:column!important;align-items:center!important;gap:6px!important;padding:11px 8px 10px!important;text-decoration:none!important;border-radius:10px!important;background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;transition:border-color .16s ease!important}
+body.d2-dark .hb-item:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hb-item img{width:46px!important;height:auto!important;display:block!important;border-radius:4px!important}
+body.d2-dark .hb-item b{font-size:11.5px!important;font-weight:600!important;color:var(--d2-text)!important;text-align:center!important;line-height:1.25!important}
+body.d2-dark .hb-item:hover b{color:var(--d2-gold)!important}
+body.d2-dark .hb-item-when{font-size:10.5px!important;font-weight:700!important;letter-spacing:.4px!important;color:var(--d2-gold)!important}
+/* Основные предметы — это временная шкала, тянем их в одну линию */
+body.d2-dark .hb-items-core{grid-template-columns:repeat(auto-fit,minmax(104px,1fr))!important}
+
+@media(max-width:720px){
+  body.d2-dark .hb-steps{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+  body.d2-dark .hb-tal-row{grid-template-columns:1fr 38px 1fr!important;gap:6px!important}
+  body.d2-dark .hb-tal-lvl{width:34px!important;height:34px!important;font-size:12.5px!important}
+  body.d2-dark .hb-tal-cell b{font-size:12px!important}
+  body.d2-dark .hb-item img{width:38px!important}
+}
+/* Талант внутри полосы прокачки: у талантов нет иконки в игре */
+body.d2-dark .hb-step-talent{display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(217,193,135,.1)!important;border-color:rgba(217,193,135,.3)!important}
+body.d2-dark .hb-step-talent u{text-decoration:none!important;font-size:13px!important;font-weight:800!important;color:var(--d2-gold)!important}
+/* Врождённые способности и фасеты: у части из них Valve не публикует иконку —
+   вместо битой картинки показываем буквенную заглушку */
+body.d2-dark .hp-ab-abbr{display:none!important}
+body.d2-dark .hp-ab-icon.no-icon{display:flex!important;align-items:center!important;justify-content:center!important;background:var(--d2-panel-2)!important}
+body.d2-dark .hp-ab-icon.no-icon .hp-ab-abbr{display:block!important;font-size:13px!important;font-weight:800!important;letter-spacing:.5px!important;color:var(--d2-gold)!important}
