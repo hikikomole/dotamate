@@ -27,7 +27,14 @@ function trimTo(s,n){const t=String(s||'').trim();if(t.length<=n)return t;const 
 async function main(){
   const store=JSON.parse(fs.readFileSync(path.join(__dirname,'data','items-ru.json'),'utf8')).items;
   const usage=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-heroes.json'),'utf8')).items;}catch{return {};}})();
-  const entries=Object.entries(store).filter(([key,x])=>!x.recipeFor&&x.dname);
+  // Общее правило каталога: рецепты и повторные уровни одного предмета
+  // (Dagon 2–5, Necronomicon 2–3) своей страницы не получают — иначе в
+  // выдаче пять одинаковых «Dagon». Данные о них остаются в items-ru.json,
+  // а старые адреса переадресуются на базовый предмет в deploy/worker.js.
+  const V=require('./js/item-variants.js');
+  const variantMaps=V.buildVariantMaps(store);
+  const entries=Object.entries(store).filter(([key,x])=>
+    x.dname && !x.recipeFor && !variantMaps.byKey[key]);
 
   const outRoot=path.join(__dirname,'deploy','item');
   fs.mkdirSync(outRoot,{recursive:true});
@@ -51,9 +58,25 @@ async function main(){
     const descHtml=(x.desc||[]).map(b=>`<div class="ip-block">${b.h?`<h3>${escapeHtml(b.h)}</h3>`:''}${String(b.t||'').split('\n').filter(Boolean).map(t=>`<p>${escapeHtml(t)}</p>`).join('')}</div>`).join('');
     const notesHtml=(x.notes||[]).map(n=>`<p>• ${escapeHtml(n)}</p>`).join('');
     const attribHtml=(x.attr||[]).map(t=>`<div><small>${escapeHtml(t)}</small></div>`).join('');
-    const link=k=>{const it=store[k];return it?`<a href="/item/${itemSlug(it.recipeFor||k)}/"><img src="${it.img}" alt="${escapeHtml(it.dname)}">${escapeHtml(it.dname)}<span>→</span></a>`:'';};
+    // Ссылки «собирается из» и «входит в сборку». Рецепт ведёт на свой
+    // предмет, уровень — на базовый (иначе Necronomicon ссылался бы на
+    // собственный второй уровень, у которого страницы уже нет), ссылка на
+    // самого себя отбрасывается.
+    const link=k=>{
+      const it=store[k];
+      if(!it)return '';
+      const target=variantMaps.byKey[it.recipeFor||k]||it.recipeFor||k;
+      if(target===key)return '';
+      const dest=store[target];
+      return dest?`<a href="/item/${itemSlug(target)}/"><img src="${dest.img}" alt="${escapeHtml(dest.dname)}">${escapeHtml(dest.dname)}<span>→</span></a>`:'';
+    };
     const componentsHtml=(x.comp||[]).map(link).filter(Boolean).join('');
     const intoHtml=(x.into||[]).map(link).filter(Boolean).join('');
+    // Уровни улучшения — только у предметов, у которых они есть
+    const levels=V.levelsOf(key,store);
+    const levelsHtml=levels.length?`<div class="item-levels-grid">${levels.map(l=>
+      `<div class="item-level"><b>${l.level}</b><span>${Number(l.cost).toLocaleString('ru-RU')} G</span><i>${l.step?'+'+Number(l.step).toLocaleString('ru-RU')+' G за улучшение':'базовый'}</i></div>`
+    ).join('')}</div>`:'';
     const use=usage[String(x.id)];
     const heroesHtml=(use&&use.heroes||[]).map(r=>`<li><b>${escapeHtml(r.n)}</b><span>${r.g} покупок · чаще: ${escapeHtml(r.p)}</span></li>`).join('');
     const meta=[
@@ -119,6 +142,10 @@ async function main(){
   </section>
   ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2><small>${x.descOwn?'Текст сайта: официального описания у Valve для этого предмета нет':'Официальная русская локализация Valve'}</small></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания Valve</h3>${notesHtml}</div>`:''}</section>`:''}
   ${attribHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ХАРАКТЕРИСТИКИ</span><h2>Что даёт в цифрах</h2></div><div class="ip-attrib">${attribHtml}</div></section>`:''}
+  ${levelsHtml?`<section class="ip-panel item-levels"><div class="ip-panel-head"><span>УЛУЧШЕНИЕ</span><h2>Уровни улучшения</h2></div>
+    <p class="item-levels-note">Предмет улучшается прямо в инвентаре: каждый следующий уровень покупается отдельно и усиливает все его показатели. Числа в характеристиках выше перечислены по уровням — от первого к последнему.</p>
+    ${levelsHtml}</section>`:''}
+
   ${componentsHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>СБОРКА</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe">${componentsHtml}</div></section>`:''}
   ${intoHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ДАЛЬШЕ</span><h2>Входит в сборку</h2></div><div class="linked-list ip-recipe">${intoHtml}</div></section>`:''}
   ${heroesHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ГЕРОИ</span><h2>Кто покупает этот предмет</h2><small>Реальные покупки OpenDota, агрегированные по 127 героям</small></div><ul class="ip-heroes">${heroesHtml}</ul></section>`:''}

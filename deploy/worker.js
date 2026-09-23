@@ -361,9 +361,29 @@ async function handleApi(pathname, env) {
   return jsonResponse({ error: 'not_found' }, 404);
 }
 
+
+// --- Переадресация со страниц, которых больше нет.
+// Dagon и Necronomicon лежали в каталоге как несколько записей с одинаковым
+// названием — это уровни одного предмета, и в сетке они выглядели дублями.
+// Теперь у них одна страница. Старые адреса были в поиске и во внешних
+// ссылках, поэтому отдаём постоянную переадресацию, а не 404.
+const MERGED_ITEM_PAGES = {
+  dagon_2: 'dagon', dagon_3: 'dagon', dagon_4: 'dagon', dagon_5: 'dagon',
+  necronomicon_2: 'necronomicon', necronomicon_3: 'necronomicon'
+};
+function mergedItemRedirect(url) {
+  const m = url.pathname.match(/^\/item\/([a-z0-9_]+)\/?$/);
+  if (!m) return null;
+  const target = MERGED_ITEM_PAGES[m[1]];
+  if (!target) return null;
+  return Response.redirect(new URL('/item/' + target + '/', url).toString(), 301);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const redirect = mergedItemRedirect(url);
+    if (redirect) return redirect;
     if (url.pathname.startsWith('/api/dota/')) {
       if (request.method !== 'GET') return jsonResponse({ error: 'method_not_allowed' }, 405);
       return handleApi(url.pathname, env);

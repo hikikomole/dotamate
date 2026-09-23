@@ -984,3 +984,13 @@ body.d2-dark .hb-tal-cell.is-unused{
 }
 body.d2-dark .hb-tal-cell.is-unused b{color:rgba(238,241,245,.72)!important}
 body.d2-dark .hb-tal-cell.is-unused span{color:var(--d2-int)!important;opacity:.85!important}
+
+/* Уровни улучшения предмета (Dagon, Necronomicon) — в карточке и на странице */
+body.d2-dark .item-levels{margin-top:14px!important;padding-top:13px!important;border-top:1px solid var(--d2-line)!important}
+body.d2-dark .item-levels h4{margin:0 0 6px!important;font-size:12px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important}
+body.d2-dark .item-levels-note{margin:0 0 11px!important;font-size:12.5px!important;line-height:1.55!important;color:var(--d2-muted)!important}
+body.d2-dark .item-levels-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(96px,1fr))!important;gap:7px!important}
+body.d2-dark .item-level{display:flex!important;flex-direction:column!important;gap:3px!important;padding:9px 10px!important;border:1px solid var(--d2-line)!important;border-radius:9px!important;background:var(--d2-panel-2)!important}
+body.d2-dark .item-level b{font-size:11px!important;font-weight:800!important;letter-spacing:.1em!important;text-transform:uppercase!important;color:var(--d2-gold-dim)!important}
+body.d2-dark .item-level span{font-size:15px!important;font-weight:800!important;color:var(--d2-text)!important;line-height:1!important}
+body.d2-dark .item-level i{font-style:normal!important;font-size:10.5px!important;color:var(--d2-muted-2)!important}

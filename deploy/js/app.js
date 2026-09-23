@@ -207,7 +207,12 @@ async function loadHeroes(force=false){
   enrichProStats();
   loadHeroPositions();
 }
-function updateItemCounters(){d2hSetText('quickItemCount',items.length);d2hSetText('itemCountHero',items.length);document.getElementById('itemCountHero2')?.replaceChildren(document.createTextNode(items.length));}
+function visibleItemCount(){
+  const V=window.D2HItems;
+  if(!V)return items.length;
+  return items.filter(x=>!V.isHidden(x,itemCatalogByKey,itemVariantMaps.byKey)).length;
+}
+function updateItemCounters(){const n=visibleItemCount();d2hSetText('quickItemCount',n);d2hSetText('itemCountHero',n);document.getElementById('itemCountHero2')?.replaceChildren(document.createTextNode(n));}
 // Каталог предметов целиком локальный. data/items-ru.json собирает
 // tools/build-items-ru.py из официального русского datafeed Valve: названия,
 // описания, история, примечания и бонусы уже на русском, числа подставлены.
@@ -222,11 +227,11 @@ async function loadItems(force=false){
     if(!r.ok)throw new Error('items-ru.json '+r.status);
     const j=await r.json();
     items=Object.entries(j.items||{}).map(([name,v])=>({...v,name})).sort((a,b)=>String(a.dname).localeCompare(String(b.dname),'ru'));
-    renderItems();updateItemCounters();
+    rebuildItemVariantMaps();renderItems();updateItemCounters();
     if(status)status.textContent=`Загружено ${items.length} предметов · русская база`;
   }catch(err){
     console.warn('Item loader:',err);
-    if(typeof localItems==='function'){try{items=normalizeItems(localItems());renderItems();updateItemCounters();}catch(e){}}
+    if(typeof localItems==='function'){try{items=normalizeItems(localItems());rebuildItemVariantMaps();renderItems();updateItemCounters();}catch(e){}}
     if(status)status.textContent=items.length?`Загружено ${items.length} предметов · резервная база`:'База предметов не загрузилась.';
   }finally{if(itemsReadyResolve){itemsReadyResolve();itemsReadyResolve=null;}}
 }
@@ -265,6 +270,19 @@ function itemCategory(x){
 // recipe_ (recipe_magic_wand -> magic_wand).
 function recipeTarget(x){const n=String(x?.name||'').replace(/^item_/,'');return n.startsWith('recipe_')?n.slice(7):'';}
 function itemHref(x){const t=recipeTarget(x);return '/item/'+itemSlug(t||x.name)+'/';}
+// Dagon и Necronomicon лежат в каталоге как несколько записей с одинаковым
+// названием — это уровни одного предмета. В сетке показываем одну карточку,
+// а уровни расписываем здесь. Цены и шаг улучшения берутся из каталога.
+function itemLevelsHtml(x){
+  const V=window.D2HItems;
+  if(!V)return '';
+  const levels=V.levelsOf(V.bareKey(x),itemCatalogByKey);
+  if(!levels.length)return '';
+  const rows=levels.map(l=>`<div class="item-level"><b>${l.level}</b><span>${statValue(l.cost)} G</span><i>${l.step?'+'+statValue(l.step)+' G за улучшение':'базовый'}</i></div>`).join('');
+  return `<div class="item-levels"><h4>Уровни улучшения</h4>
+    <p class="item-levels-note">Предмет улучшается прямо в инвентаре: каждый следующий уровень покупается отдельно и усиливает все его показатели. Числа в характеристиках выше перечислены по уровням — от первого к последнему.</p>
+    <div class="item-levels-grid">${rows}</div></div>`;
+}
 function itemCategoryLabel(x){const c=itemCategory(x);return ({item:'Предмет',component:'Компонент',consumable:'Расходник',neutral:'Нейтральный',recipe:'Рецепт'})[c]||'Предмет';}
 // Текст на карточке каталога — первая строка русского описания из
 // data/items-ru.json. Отдельный файл item-cards.json больше не нужен.
@@ -275,7 +293,11 @@ function itemDescriptionPreview(x){
 function renderItems(){
   const q=(document.getElementById('itemSearch')?.value||'').trim().toLowerCase();
   const category=window.itemCategoryFilter||'all';
+  const V=window.D2HItems;
   const list=items.filter(x=>{
+    // Рецепты и повторные уровни одного предмета в каталоге не показываем:
+    // данные остаются в items-ru.json, но читателю они выглядят как дубли.
+    if(V&&V.isHidden(x,itemCatalogByKey,itemVariantMaps.byKey))return false;
     const c=Number(x.cost||0);
     const priceOk=itemFilter==='all'||(itemFilter==='cheap'&&c<1000)||(itemFilter==='mid'&&c>=1000&&c<=2500)||(itemFilter==='expensive'&&c>2500);
     const cat=itemCategory(x);
@@ -389,7 +411,25 @@ function quickPrepOptions(){const dl=document.getElementById('quickPrepHeroes');
 function renderQuickPrep(h){const el=document.getElementById('quickPrepResult');if(!el)return;if(!h){el.innerHTML='<div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, билд и pro winrate за секунду.</div>';return;}const counters=counterCandidates(h);const build=heroBuild(h);const proLine=h.pro_pick?`${winrate(h).toFixed(1)}% pro WR · ${statValue(h.pro_pick)} picks · ${statValue(h.pro_ban)} banов`:'Нет pro-данных по этому герою — пока играют реже в топ-матчах';el.innerHTML=`<div class="qp-hero"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div></div><div class="qp-cols"><div><h4>Контрпики</h4><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h4>Рекомендуемый билд</h4><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><button class="btn ghost qp-full" data-hero-open="${h.id}">Открыть полный профиль →</button>`;}
 function quickPrepSelectByName(name){const q=String(name||'').trim().toLowerCase();if(!q){renderQuickPrep(null);return;}const h=heroes.find(x=>x.localized_name.toLowerCase()===q);if(h)renderQuickPrep(h);}
 
-function findItemById(id){return items.find(i=>Number(i.id)===Number(id));}
+// Карты «уровень предмета -> базовый предмет». Строятся один раз по
+// загруженному каталогу (js/item-variants.js), правилом, а не списком.
+let itemVariantMaps={byKey:{},byId:{}};
+function rebuildItemVariantMaps(){
+  const V=window.D2HItems; if(!V)return;
+  const cat={}; for(const it of items) cat[V.bareKey(it)]=it;
+  itemCatalogByKey=cat;
+  itemVariantMaps=V.buildVariantMaps(cat);
+}
+let itemCatalogByKey={};
+// Билды и покупки ссылаются на предметы по id, в том числе на уровни
+// (Dagon 2–5 — это id 201–204). Карточка теперь одна, поэтому такие id
+// сводим к базовому предмету, иначе ссылка просто не найдётся.
+function findItemById(id){
+  const n=Number(id);
+  const base=itemVariantMaps.byId[n];
+  const want=base!=null?base:n;
+  return items.find(i=>Number(i.id)===want);
+}
 function phaseTitle(k){return ({start:'Старт',early:'Ранняя игра',mid:'Середина игры',late:'Поздняя игра'})[k]||k;}
 // Покупки предметов по фазам игры лежат в data/hero-items.json — тот же срез
 // OpenDota, что и в гайдах по героям, посчитанный при сборке сайта.
@@ -535,6 +575,7 @@ async function openItem(name){
           ${x.attr&&x.attr.length?`<div class="item-official-facts">${x.attr.map(a=>`<div><strong>${escapeHtml(a)}</strong></div>`).join('')}</div>`:'<p class="muted">Постоянных бонусов к характеристикам у предмета нет.</p>'}
           ${x.comp&&x.comp.length?`<div class="ip-links"><h4>Собирается из</h4><div class="ip-chips">${itemLinkChips(x.comp)}</div></div>`:''}
           ${x.into&&x.into.length?`<div class="ip-links"><h4>Входит в сборку</h4><div class="ip-chips">${itemLinkChips(x.into)}</div></div>`:''}
+          ${itemLevelsHtml(x)}
           ${x.lore?`<div class="item-lore"><small>ИСТОРИЯ</small><p>${escapeHtml(x.lore)}</p></div>`:''}
         </section>
       </div>
@@ -579,7 +620,7 @@ try{
   console.error('Dota Mate boot error:',err);
   try{
     if(typeof localHeroes==='function'){heroes=normalizeHeroes(localHeroes());updateHeroUI('локальная база');}
-    if(typeof localItems==='function'){items=normalizeItems(localItems());renderItems();updateItemCounters();}
+    if(typeof localItems==='function'){items=normalizeItems(localItems());rebuildItemVariantMaps();renderItems();updateItemCounters();}
   }catch(fallbackErr){console.error('Fallback boot error:',fallbackErr);}
 }
 

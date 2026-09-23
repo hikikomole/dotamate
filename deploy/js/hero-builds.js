@@ -168,7 +168,10 @@
     if (!items) return '';
     const esc = ctx.escapeHtml;
     const card = (x, withShare) => {
-      const it = ctx.items[x.itemId];
+      // Уровни предмета (Dagon 2–5) ведут на базовую карточку: отдельных
+      // страниц у них больше нет.
+      const id = (ctx.itemVariants && ctx.itemVariants[x.itemId]) || x.itemId;
+      const it = ctx.items[id];
       if (!it) return '';
       return `<a class="hb-item" href="/item/${esc(it.slug)}/" title="${esc(it.dname)} · побед ${wr(x.winrate)}">
         <span class="hb-item-when">${withShare ? wr(x.share) + ' · ' + minute(x.avgMinute) : minute(x.avgMinute)}</span>

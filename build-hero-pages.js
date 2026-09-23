@@ -126,12 +126,31 @@ async function main(){
   // предмет по id (для покупок). Слаг предмета считаем так же, как
   // build-item-pages.js, чтобы ссылки совпадали со страницами.
   const byId=new Map(heroes.map(x=>[Number(x.id),x]));
+  // Билды ссылаются и на уровни предметов (Dagon 2–5 — это id 201–204), а
+  // страницы у них больше нет: карточка теперь одна. Сводим такие id к
+  // базовому предмету, иначе ссылка вела бы в никуда.
+  const itemVariants=(()=>{
+    try{
+      const V=require('./js/item-variants.js');
+      const cat=JSON.parse(fs.readFileSync(path.join(__dirname,'data','items-ru.json'),'utf8')).items;
+      return V.buildVariantMaps(cat).byId;
+    }catch{ return {}; }
+  })();
   const itemById=new Map();
   try{
     const itemsRaw=await grab('https://api.opendota.com/api/constants/items');
+    // Ссылаемся только на предметы, у которых РЕАЛЬНО есть наша страница:
+    // у OpenDota справочник шире нашего каталога, и страницы героев вели на
+    // несуществующие /item/harpoon/ и /item/shadow_amulet/ — 17 ссылок в 404.
+    const havePage=new Set();
+    try{
+      for(const u of JSON.parse(fs.readFileSync(path.join(__dirname,'item-urls.json'),'utf8')))
+        havePage.add(String(u.loc).replace(/^https:\/\/dotamate\.ru\/item\/|\/$/g,''));
+    }catch{}
     for(const [key,v] of Object.entries(itemsRaw||{})){
       if(!v||!v.id||!v.dname)continue;
       const slug=String(key).replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+      if(havePage.size&&!havePage.has(slug))continue;
       itemById.set(Number(v.id),{slug,dname:v.dname});
     }
   }catch{}
@@ -164,6 +183,7 @@ async function main(){
       talentNames:null, // русские названия готовы в data/talents-ru.json — включаются заменой на talentNames
       chains:skillChains[h.id]||null,
       talentTitles,
+      itemVariants,
       items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
       roleIcon:key=>heroRoles.icon(key)
     }):'';
@@ -182,7 +202,7 @@ async function main(){
       if(!gd?.items)return '';
       const cols=buyPhases.map(([k,label])=>{
         const rows=Object.entries(gd.items[k]||{}).map(([id,c])=>({id:Number(id),c:Number(c)||0}))
-          .filter(r=>itemById.has(r.id)).sort((x,y)=>y.c-x.c).slice(0,4);
+          .map(r=>({...r,id:itemVariants[r.id]??r.id})).filter(r=>itemById.has(r.id)).sort((x,y)=>y.c-x.c).slice(0,4);
         if(!rows.length)return '';
         return `<div class="hp-buy-col"><h3>${label}</h3>${rows.map(r=>{const it=itemById.get(r.id);return `<a href="/item/${it.slug}/"><img loading="lazy" src="/assets/items/${it.slug}.png" alt=""><b>${escapeHtml(it.dname)}</b><i>${r.c}</i></a>`;}).join('')}</div>`;
       }).filter(Boolean).join('');
