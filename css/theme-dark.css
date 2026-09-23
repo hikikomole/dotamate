@@ -770,3 +770,74 @@ body.d2-dark .cmp-name:hover{color:var(--d2-gold)!important}
 body.d2-dark .cmp-cost{margin-left:8px!important;color:var(--d2-gold-dim)!important;font-size:12px!important;white-space:nowrap!important}
 body.d2-dark .cmp-text p{margin:5px 0 0!important;color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.6!important}
 @media(max-width:560px){ body.d2-dark .cmp-row{grid-template-columns:1fr!important} body.d2-dark .cmp-art img{width:100%!important;max-width:120px!important} }
+
+/* ============================================================
+   Строка ролей героя (пять позиций Dota 2)
+   Данные: Stratz, брекет Divine/Immortal. Разметку строит
+   js/hero-roles.js — там же иконки и форматирование чисел.
+   ============================================================ */
+body.d2-dark .hp-roles{padding:0 0 4px!important}
+body.d2-dark .hr-row{
+  display:grid!important;
+  grid-template-columns:minmax(120px,1.2fr) repeat(5,minmax(0,1fr))!important;
+  gap:4px!important;
+  padding:10px!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:16px!important;
+  background:linear-gradient(180deg,rgba(28,22,18,.92),rgba(16,14,13,.92))!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.35)!important;
+}
+body.d2-dark .hr-cell{
+  position:relative!important;
+  display:flex!important;flex-direction:column!important;gap:6px!important;
+  padding:12px 12px 14px!important;border-radius:11px!important;
+  min-width:0!important;
+  transition:background .18s ease!important;
+}
+body.d2-dark .hr-cell:hover{background:rgba(255,255,255,.035)!important}
+/* Самая популярная позиция — как на эталоне: подложка + подпись сверху */
+body.d2-dark .hr-cell.is-top{
+  background:rgba(255,255,255,.075)!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)!important;
+}
+body.d2-dark .hr-cell.is-top::before{
+  content:attr(data-top);
+  position:absolute!important;top:-19px!important;left:50%!important;transform:translateX(-50%)!important;
+  font-size:10px!important;letter-spacing:.06em!important;text-transform:uppercase!important;
+  color:rgba(255,255,255,.5)!important;white-space:nowrap!important;
+}
+body.d2-dark .hr-role{
+  display:flex!important;align-items:center!important;gap:6px!important;
+  font-size:13px!important;font-weight:600!important;color:rgba(255,255,255,.78)!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+body.d2-dark .hr-ico{display:inline-flex!important;width:15px!important;height:15px!important;flex:0 0 15px!important}
+body.d2-dark .hr-ico svg{width:100%!important;height:100%!important;display:block!important}
+/* Цвет иконки — один на роль, чтобы строка читалась периферийным зрением */
+body.d2-dark .hr-ico-carry svg{fill:#7fb2ff!important}
+body.d2-dark .hr-ico-mid svg{fill:#c79bff!important}
+body.d2-dark .hr-ico-offlane svg{fill:#ffc451!important}
+body.d2-dark .hr-ico-support svg{fill:#ff8a5c!important}
+body.d2-dark .hr-ico-hardsupport svg{fill:#5fd6a8!important}
+body.d2-dark .hr-nums{display:flex!important;align-items:baseline!important;gap:8px!important}
+body.d2-dark .hr-nums b{font-size:17px!important;font-weight:800!important;color:#fff!important;line-height:1!important}
+body.d2-dark .hr-nums i{font-style:normal!important;font-size:12px!important;color:rgba(255,255,255,.42)!important}
+/* Полоска = доля матчей героя, сыгранных на этой позиции */
+body.d2-dark .hr-bar{display:block!important;height:3px!important;border-radius:2px!important;background:rgba(255,255,255,.08)!important;overflow:hidden!important}
+body.d2-dark .hr-bar>span{display:block!important;height:100%!important;border-radius:2px!important;background:rgba(255,255,255,.55)!important}
+body.d2-dark .hr-cell.is-top .hr-bar>span{background:#ffb24d!important}
+body.d2-dark .hr-all .hr-role{color:rgba(255,255,255,.5)!important;text-transform:uppercase!important;font-size:11px!important;letter-spacing:.06em!important}
+body.d2-dark .hr-note{margin:8px 2px 0!important;font-size:12px!important;color:rgba(255,255,255,.38)!important}
+
+/* Планшет: роли в две строки по три, подписи не режутся */
+@media(max-width:900px){
+  body.d2-dark .hr-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  body.d2-dark .hr-cell.is-top::before{display:none!important}
+  body.d2-dark .hr-cell.is-top .hr-role::after{content:'·  популярная'!important;font-size:10px!important;color:rgba(255,255,255,.45)!important;font-weight:500!important}
+}
+/* Телефон: две колонки, «Все роли» на всю ширину */
+@media(max-width:560px){
+  body.d2-dark .hr-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:8px!important}
+  body.d2-dark .hr-all{grid-column:1/-1!important}
+  body.d2-dark .hr-nums b{font-size:16px!important}
+}

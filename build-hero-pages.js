@@ -22,6 +22,15 @@ const cleanAbilityText = t => String(t||'').replace(/<\s*br\s*\/?\s*>/gi,' ').re
 // склеивает такие дубли. Шаблон оставлен запасным путём: если описания для
 // слага нет или Valve переименовала героя, страница соберётся со старым
 // текстом, а не с чужим именем в описании.
+// Пять позиций Dota 2 и их статистика (Stratz). Снимок обновляется
+// скриптом fetch-hero-positions.js; в проде поверх него Worker раз в сутки
+// подтягивает свежие числа. Нет файла — страница собирается без строки ролей.
+const heroRoles = require('./js/hero-roles.js');
+const positionSnapshot = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-positions.json'), 'utf8')); }
+  catch { return { heroes: {} }; }
+})();
+
 const seoDesc = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'seo', 'hero-descriptions.json'), 'utf8')); }
   catch { return {}; }
@@ -98,6 +107,8 @@ async function main(){
     const build=heroBuild(h);
     const a=attrInfo(h.primary_attr);
     const abilities=abilitiesOf(h);
+    const rolesEntry=positionSnapshot.heroes?.[String(h.id)]||null;
+    const rolesRow=heroRoles.rowHtml(rolesEntry,{escapeHtml});
 
     // --- блоки из реальных данных (см. guideStore выше) ---
     const gd=guideStore.heroes?.[String(h.id)]||null;
@@ -149,6 +160,7 @@ async function main(){
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
+<script src="/js/hero-roles.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
@@ -189,6 +201,11 @@ async function main(){
       </div>
     </div>
   </section>
+
+  ${rolesRow?`<section class="hp-roles container" id="heroRoles" data-hero-id="${h.id}">
+    ${rolesRow}
+    <p class="hr-note">${escapeHtml(heroRoles.sourceNote(positionSnapshot))}</p>
+  </section>`:''}
 
   <section class="hp-statbar">
     <div class="container hp-statbar-grid">

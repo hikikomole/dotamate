@@ -43,7 +43,7 @@ function itemSlug(name){return String(name||"").replace(/^item_/,'').toLowerCase
 // Иконки лежат в репозитории (assets/items/): путь приходит готовым из
 // items-ru.json, у рецепта это иконка предмета, который из него собирается.
 function itemImage(x){const p=String(x&&x.img||"");return p.startsWith("/assets/")?p:`/assets/items/${itemSlug(x&&x.name||x)}.png`;}
-function roleText(h){return (h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
+function roleText(h){return (typeof positionText==="function"&&positionText(h))||(h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
 function attrInfo(a){return attrs[a]||attrs.all;}
 function officialHeroUrl(h){return "https://www.dota2.com/hero/"+slugForHero(h).replace(/_/g,'');}
 function winrate(h){return h.pro_pick?Number(h.pro_win||0)/Number(h.pro_pick)*100:0;}
@@ -150,6 +150,42 @@ async function enrichProStats(){
 // день, и держать их у себя смысла нет. Если OpenDota недоступна, сайт
 // продолжает работать со снимком, просто цифры пиков будут от даты сборки.
 const HEROES_LOCAL="/data/heroes.json";
+// Пять позиций Dota 2 (керри / мид / оффлейн / поддержка / полная поддержка)
+// и винрейт героя на каждой. Снимок Stratz лежит рядом с базой героев, а
+// /api/dota/hero-positions отдаёт его же, но обновлённым раз в сутки.
+// Позиции — это не то же самое, что теги OpenDota в h.roles: те описывают
+// механику («эскейп», «нюкер»), а не линию, поэтому теги мы сохраняем.
+const POSITIONS_LOCAL="/data/hero-positions.json";
+const POSITIONS_API="/api/dota/hero-positions";
+let heroPositions=null;
+async function loadHeroPositions(){
+  for(const url of [POSITIONS_API,POSITIONS_LOCAL]){
+    try{
+      const r=await fetch(url);
+      if(!r.ok)continue;
+      const j=await r.json();
+      if(j&&j.heroes&&Object.keys(j.heroes).length){heroPositions=j;applyHeroPositions();return;}
+    }catch(e){/* пробуем следующий источник */}
+  }
+}
+function applyHeroPositions(){
+  if(!heroPositions)return;
+  for(const h of heroes){
+    const e=heroPositions.heroes[String(h.id)];
+    if(!e)continue;
+    h.positions=e.positions;
+    h.topPosition=e.topPosition;
+    h.mainPositions=e.mainPositions||[];
+  }
+  renderStats();
+}
+// Роли героя словами: сначала позиции (если Stratz уже ответил),
+// иначе теги OpenDota — чтобы строка никогда не оставалась пустой.
+function positionText(h){
+  const R=window.D2HRoles;
+  if(!R||!h.mainPositions||!h.mainPositions.length)return '';
+  return h.mainPositions.map(id=>(R.byId[id]||{}).ru).filter(Boolean).join(" / ");
+}
 async function loadHeroes(force=false){
   const status=document.getElementById('status');
   try{
@@ -165,6 +201,7 @@ async function loadHeroes(force=false){
   }
   if(status&&heroes.length)status.textContent=`Загружено ${heroes.length} героев`;
   enrichProStats();
+  loadHeroPositions();
 }
 function updateItemCounters(){d2hSetText('quickItemCount',items.length);d2hSetText('itemCountHero',items.length);document.getElementById('itemCountHero2')?.replaceChildren(document.createTextNode(items.length));}
 // Каталог предметов целиком локальный. data/items-ru.json собирает
@@ -257,7 +294,7 @@ function renderItems(){
   const counter=document.getElementById('itemVisibleCount');if(counter)counter.textContent=statValue(list.length);
 }
 function statValue(v){return Number(v||0).toLocaleString('ru-RU');}
-function updateHeroUI(source){heroes=heroes.filter(Boolean);d2hSetText('heroCount',heroes.length);d2hSetText('quickHeroCount',heroes.length);d2hSetText('heroRoleCount',new Set(heroes.flatMap(h=>h.roles||[])).size||'—');d2hSetText('status',`Загружено ${heroes.length} героев · ${source}`);const fb=document.getElementById('freshBadge');if(fb)fb.textContent=`🟢 Live · ${heroes.length} героев из OpenDota`;renderHeroSpotlight();renderHeroes();renderFeaturedHeroes();renderStats();quickPrepOptions();}
+function updateHeroUI(source){heroes=heroes.filter(Boolean);d2hSetText('heroCount',heroes.length);d2hSetText('quickHeroCount',heroes.length);d2hSetText('heroRoleCount',(window.D2HRoles?window.D2HRoles.ROLES.length:5));d2hSetText('status',`Загружено ${heroes.length} героев · ${source}`);const fb=document.getElementById('freshBadge');if(fb)fb.textContent=`🟢 Live · ${heroes.length} героев из OpenDota`;renderHeroSpotlight();renderHeroes();renderFeaturedHeroes();renderStats();quickPrepOptions();}
 function renderHeroSpotlight(){const el=document.getElementById('featured');if(!el||!heroes.length)return;let pool=heroes.filter(h=>h&&h.localized_name);if(pool.length>1&&spotlightHeroId!=null)pool=pool.filter(h=>Number(h.id)!==Number(spotlightHeroId));const h=pool[Math.floor(Math.random()*pool.length)]||heroes[0];spotlightHeroId=h.id;el.innerHTML=`<img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"><div class="ftext"><small>HERO SPOTLIGHT · СЛУЧАЙНЫЙ ГЕРОЙ</small><h3>${escapeHtml(h.localized_name)}</h3><p>${escapeHtml(roleText(h))} · ${escapeHtml(h.attack_type||'Dota 2 герой')} · открыть полный профиль →</p></div>`;el.onclick=()=>{location.href='/hero/'+slugForHero(h)+'/';};el.style.cursor='pointer';if(spotlightTimer)clearTimeout(spotlightTimer);spotlightTimer=setTimeout(()=>renderHeroSpotlight(),15000);}
 // Карточка ведёт на статическую страницу героя: она проиндексирована и
 // содержит описание, а модальное окно этого не давало.
@@ -288,7 +325,7 @@ function renderStats(){
   let list=heroes.filter(h=>(h.localized_name||'').toLowerCase().includes(q)
     &&(attr==='all'||h.primary_attr===attr)
     &&(atk==='all'||h.attack_type===atk)
-    &&(role==='all'||(h.roles||[]).includes(role)));
+    &&(role==='all'||(role.startsWith('POSITION_')?(h.mainPositions||[]).includes(role):(h.roles||[]).includes(role))));
   const wr=h=>Number(h.pro_pick||0)>=5?winrate(h):-1;
   list.sort((a,b)=>sort==='name'?a.localized_name.localeCompare(b.localized_name)
     :sort==='move'?Number(b.move_speed||0)-Number(a.move_speed||0)
@@ -325,6 +362,16 @@ function renderStats(){
 function guideHref(g){return g.href||`/guide/${g.slug}/`;}
 function renderGuides(){const list=guideData.filter(g=>guideFilter==='all'||g.cat===guideFilter);d2hSetHtml('guidesGrid',list.map(g=>`<article class="guide-card guide-rich-card"><div class="guide-art">${g.icon}</div><div><span>${g.tag}</span><h3><a href="${guideHref(g)}" style="color:inherit;text-decoration:none;">${g.title}</a></h3><p>${g.text}</p><a class="btn ghost guide-open" href="${guideHref(g)}">Читать гайд →</a></div><b>↗</b></article>`).join(''));}
 function randomHero(){if(!heroes.length)return;const h=heroes[Math.floor(Math.random()*heroes.length)];const rt=document.getElementById('randomToolText');if(rt)rt.textContent=`Сегодня судьба выбрала ${h.localized_name}. ${roleText(h)}.`;openHero(h.id);}
+// Строка пяти позиций в карточке героя. Пусто, пока снимок не загружен —
+// показывать рамку без чисел хуже, чем не показывать ничего.
+function heroRolesRowHtml(h){
+  const R=window.D2HRoles;
+  if(!R||!heroPositions)return '';
+  const e=heroPositions.heroes[String(h.id)];
+  const row=R.rowHtml(e,{escapeHtml});
+  if(!row)return '';
+  return `<div class="hp-roles detail-roles">${row}<p class="hr-note">${escapeHtml(R.sourceNote(heroPositions))}</p></div>`;
+}
 function heroStats(h){return [{k:'HP',v:h.base_health!=null?h.base_health:(h.base_str||0)*22+120},{k:'Mana',v:h.base_mana!=null?h.base_mana:(h.base_int||0)*12+75},{k:'Armor',v:h.base_agi!=null?(h.base_agi/6).toFixed(1):'—'},{k:'Damage',v:h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'},{k:'Move Speed',v:h.move_speed||'—'}];}
 const roleSuggestions={Carry:['Black King Bar','Manta Style','Satanic'],Mid:['Black King Bar','Orchid Malevolence','Aghanim’s Scepter'],Offlane:['Blink Dagger','Pipe of Insight','Crimson Guard'],Support:['Glimmer Cape','Force Staff','Lotus Orb'],HardSupport:['Arcane Boots','Glimmer Cape','Mekansm']};
 function heroBuild(h){const role=(h.roles||[]).includes('Support')?'Support':(h.roles||[]).includes('Carry')?'Carry':(h.roles||[]).includes('Initiator')?'Offlane':'Mid';return roleSuggestions[role]||roleSuggestions.Mid;}
@@ -377,7 +424,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h),counters=counterCandidates(h),build=heroBuild(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a><a class="btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a></div></div></div><div class="detail-stats">${stats.map(x=>`<div><small>${x.k}</small><strong>${x.v}</strong></div>`).join('')}</div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-columns"><div><h3>Контрпики</h3><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h3>Рекомендуемый билд</h3><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h),counters=counterCandidates(h),build=heroBuild(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a><a class="btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a></div></div></div>${heroRolesRowHtml(h)}<div class="detail-stats">${stats.map(x=>`<div><small>${x.k}</small><strong>${x.v}</strong></div>`).join('')}</div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-columns"><div><h3>Контрпики</h3><div class="linked-list">${counters.map(x=>`<button data-hero-open="${x.id}"><img src="${imageUrl(x)}">${escapeHtml(x.localized_name)}<span>→</span></button>`).join('')}</div></div><div><h3>Рекомендуемый билд</h3><div class="build-list">${build.map((x,i)=>`<button data-item-by-name="${escapeHtml(x)}"><span>${i+1}</span>${escapeHtml(x)}</button>`).join('')}</div></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который

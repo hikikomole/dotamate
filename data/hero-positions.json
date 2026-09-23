@@ -1,0 +1,5193 @@
+{
+ "source": "Stratz GraphQL API",
+ "bracket": "DIVINE_IMMORTAL",
+ "fetchedAt": "2026-09-23T11:25:09.067Z",
+ "heroCount": 127,
+ "heroes": {
+  "1": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 5663,
+     "wins": 2947,
+     "winrate": 52,
+     "share": 95.1
+    },
+    "POSITION_2": {
+     "matches": 165,
+     "wins": 79,
+     "winrate": 47.9,
+     "share": 2.8
+    },
+    "POSITION_3": {
+     "matches": 91,
+     "wins": 46,
+     "winrate": 50.5,
+     "share": 1.5
+    },
+    "POSITION_4": {
+     "matches": 20,
+     "wins": 15,
+     "winrate": 75,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 16,
+     "wins": 11,
+     "winrate": 68.8,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 5955,
+   "totalWins": 3098,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "2": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 28,
+     "wins": 9,
+     "winrate": 32.1,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 113,
+     "wins": 45,
+     "winrate": 39.8,
+     "share": 1.3
+    },
+    "POSITION_3": {
+     "matches": 8195,
+     "wins": 4121,
+     "winrate": 50.3,
+     "share": 95
+    },
+    "POSITION_4": {
+     "matches": 160,
+     "wins": 75,
+     "winrate": 46.9,
+     "share": 1.9
+    },
+    "POSITION_5": {
+     "matches": 133,
+     "wins": 59,
+     "winrate": 44.4,
+     "share": 1.5
+    }
+   },
+   "totalMatches": 8629,
+   "totalWins": 4309,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "3": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0
+    },
+    "POSITION_2": {
+     "matches": 66,
+     "wins": 27,
+     "winrate": 40.9,
+     "share": 2.3
+    },
+    "POSITION_3": {
+     "matches": 14,
+     "wins": 7,
+     "winrate": 50,
+     "share": 0.5
+    },
+    "POSITION_4": {
+     "matches": 725,
+     "wins": 377,
+     "winrate": 52,
+     "share": 24.9
+    },
+    "POSITION_5": {
+     "matches": 2107,
+     "wins": 1106,
+     "winrate": 52.5,
+     "share": 72.3
+    }
+   },
+   "totalMatches": 2913,
+   "totalWins": 1517,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "4": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 721,
+     "wins": 350,
+     "winrate": 48.5,
+     "share": 77.7
+    },
+    "POSITION_2": {
+     "matches": 98,
+     "wins": 52,
+     "winrate": 53.1,
+     "share": 10.6
+    },
+    "POSITION_3": {
+     "matches": 101,
+     "wins": 51,
+     "winrate": 50.5,
+     "share": 10.9
+    },
+    "POSITION_4": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.8
+    },
+    "POSITION_5": {
+     "matches": 1,
+     "wins": 1,
+     "winrate": 100,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 928,
+   "totalWins": 456,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "5": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 12,
+     "wins": 7,
+     "winrate": 58.3,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 75,
+     "wins": 49,
+     "winrate": 65.3,
+     "share": 1.5
+    },
+    "POSITION_3": {
+     "matches": 14,
+     "wins": 4,
+     "winrate": 28.6,
+     "share": 0.3
+    },
+    "POSITION_4": {
+     "matches": 858,
+     "wins": 414,
+     "winrate": 48.3,
+     "share": 17.2
+    },
+    "POSITION_5": {
+     "matches": 4035,
+     "wins": 2016,
+     "winrate": 50,
+     "share": 80.8
+    }
+   },
+   "totalMatches": 4994,
+   "totalWins": 2490,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "6": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3538,
+     "wins": 1555,
+     "winrate": 44,
+     "share": 97.8
+    },
+    "POSITION_2": {
+     "matches": 43,
+     "wins": 20,
+     "winrate": 46.5,
+     "share": 1.2
+    },
+    "POSITION_3": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.2
+    },
+    "POSITION_4": {
+     "matches": 16,
+     "wins": 7,
+     "winrate": 43.8,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 13,
+     "wins": 6,
+     "winrate": 46.2,
+     "share": 0.4
+    }
+   },
+   "totalMatches": 3617,
+   "totalWins": 1590,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "7": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 25,
+     "wins": 7,
+     "winrate": 28,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 3923,
+     "wins": 2035,
+     "winrate": 51.9,
+     "share": 43.1
+    },
+    "POSITION_3": {
+     "matches": 2662,
+     "wins": 1315,
+     "winrate": 49.4,
+     "share": 29.2
+    },
+    "POSITION_4": {
+     "matches": 2110,
+     "wins": 1096,
+     "winrate": 51.9,
+     "share": 23.2
+    },
+    "POSITION_5": {
+     "matches": 391,
+     "wins": 201,
+     "winrate": 51.4,
+     "share": 4.3
+    }
+   },
+   "totalMatches": 9111,
+   "totalWins": 4654,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "8": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 8739,
+     "wins": 4680,
+     "winrate": 53.6,
+     "share": 98.8
+    },
+    "POSITION_2": {
+     "matches": 46,
+     "wins": 18,
+     "winrate": 39.1,
+     "share": 0.5
+    },
+    "POSITION_3": {
+     "matches": 34,
+     "wins": 17,
+     "winrate": 50,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 19,
+     "wins": 5,
+     "winrate": 26.3,
+     "share": 0.2
+    },
+    "POSITION_5": {
+     "matches": 10,
+     "wins": 5,
+     "winrate": 50,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 8848,
+   "totalWins": 4725,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "9": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 69,
+     "wins": 30,
+     "winrate": 43.5,
+     "share": 0.8
+    },
+    "POSITION_2": {
+     "matches": 279,
+     "wins": 136,
+     "winrate": 48.7,
+     "share": 3.1
+    },
+    "POSITION_3": {
+     "matches": 108,
+     "wins": 54,
+     "winrate": 50,
+     "share": 1.2
+    },
+    "POSITION_4": {
+     "matches": 5289,
+     "wins": 2762,
+     "winrate": 52.2,
+     "share": 59.5
+    },
+    "POSITION_5": {
+     "matches": 3149,
+     "wins": 1684,
+     "winrate": 53.5,
+     "share": 35.4
+    }
+   },
+   "totalMatches": 8894,
+   "totalWins": 4666,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "10": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3036,
+     "wins": 1583,
+     "winrate": 52.1,
+     "share": 97.4
+    },
+    "POSITION_2": {
+     "matches": 54,
+     "wins": 24,
+     "winrate": 44.4,
+     "share": 1.7
+    },
+    "POSITION_3": {
+     "matches": 13,
+     "wins": 5,
+     "winrate": 38.5,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 12,
+     "wins": 3,
+     "winrate": 25,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 3,
+     "wins": 1,
+     "winrate": 33.3,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 3118,
+   "totalWins": 1616,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "11": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 4778,
+     "wins": 1766,
+     "winrate": 37,
+     "share": 56.5
+    },
+    "POSITION_2": {
+     "matches": 3492,
+     "wins": 1571,
+     "winrate": 45,
+     "share": 41.3
+    },
+    "POSITION_3": {
+     "matches": 73,
+     "wins": 33,
+     "winrate": 45.2,
+     "share": 0.9
+    },
+    "POSITION_4": {
+     "matches": 72,
+     "wins": 28,
+     "winrate": 38.9,
+     "share": 0.9
+    },
+    "POSITION_5": {
+     "matches": 45,
+     "wins": 19,
+     "winrate": 42.2,
+     "share": 0.5
+    }
+   },
+   "totalMatches": 8460,
+   "totalWins": 3417,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "12": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 8858,
+     "wins": 5235,
+     "winrate": 59.1,
+     "share": 99.3
+    },
+    "POSITION_2": {
+     "matches": 24,
+     "wins": 14,
+     "winrate": 58.3,
+     "share": 0.3
+    },
+    "POSITION_3": {
+     "matches": 27,
+     "wins": 10,
+     "winrate": 37,
+     "share": 0.3
+    },
+    "POSITION_4": {
+     "matches": 2,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0
+    },
+    "POSITION_5": {
+     "matches": 9,
+     "wins": 6,
+     "winrate": 66.7,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 8920,
+   "totalWins": 5265,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "13": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 7,
+     "wins": 3,
+     "winrate": 42.9,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 2404,
+     "wins": 1168,
+     "winrate": 48.6,
+     "share": 98.6
+    },
+    "POSITION_3": {
+     "matches": 10,
+     "wins": 4,
+     "winrate": 40,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 11,
+     "wins": 6,
+     "winrate": 54.5,
+     "share": 0.5
+    },
+    "POSITION_5": {
+     "matches": 7,
+     "wins": 4,
+     "winrate": 57.1,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 2439,
+   "totalWins": 1185,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "14": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 312,
+     "wins": 134,
+     "winrate": 42.9,
+     "share": 2.1
+    },
+    "POSITION_2": {
+     "matches": 1351,
+     "wins": 659,
+     "winrate": 48.8,
+     "share": 9.1
+    },
+    "POSITION_3": {
+     "matches": 3863,
+     "wins": 1955,
+     "winrate": 50.6,
+     "share": 26
+    },
+    "POSITION_4": {
+     "matches": 5572,
+     "wins": 2759,
+     "winrate": 49.5,
+     "share": 37.6
+    },
+    "POSITION_5": {
+     "matches": 3739,
+     "wins": 1763,
+     "winrate": 47.2,
+     "share": 25.2
+    }
+   },
+   "totalMatches": 14837,
+   "totalWins": 7270,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "15": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 624,
+     "wins": 288,
+     "winrate": 46.2,
+     "share": 23.8
+    },
+    "POSITION_2": {
+     "matches": 371,
+     "wins": 191,
+     "winrate": 51.5,
+     "share": 14.2
+    },
+    "POSITION_3": {
+     "matches": 1517,
+     "wins": 749,
+     "winrate": 49.4,
+     "share": 57.9
+    },
+    "POSITION_4": {
+     "matches": 54,
+     "wins": 32,
+     "winrate": 59.3,
+     "share": 2.1
+    },
+    "POSITION_5": {
+     "matches": 54,
+     "wins": 30,
+     "winrate": 55.6,
+     "share": 2.1
+    }
+   },
+   "totalMatches": 2620,
+   "totalWins": 1290,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "16": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 574,
+     "wins": 283,
+     "winrate": 49.3,
+     "share": 34.6
+    },
+    "POSITION_3": {
+     "matches": 1061,
+     "wins": 521,
+     "winrate": 49.1,
+     "share": 64
+    },
+    "POSITION_4": {
+     "matches": 15,
+     "wins": 10,
+     "winrate": 66.7,
+     "share": 0.9
+    },
+    "POSITION_5": {
+     "matches": 4,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 1657,
+   "totalWins": 814,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "17": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 63,
+     "wins": 27,
+     "winrate": 42.9,
+     "share": 1.8
+    },
+    "POSITION_2": {
+     "matches": 3341,
+     "wins": 1693,
+     "winrate": 50.7,
+     "share": 97.3
+    },
+    "POSITION_3": {
+     "matches": 14,
+     "wins": 6,
+     "winrate": 42.9,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 6,
+     "wins": 1,
+     "winrate": 16.7,
+     "share": 0.2
+    },
+    "POSITION_5": {
+     "matches": 8,
+     "wins": 4,
+     "winrate": 50,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 3432,
+   "totalWins": 1731,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "18": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 5804,
+     "wins": 2880,
+     "winrate": 49.6,
+     "share": 98
+    },
+    "POSITION_2": {
+     "matches": 25,
+     "wins": 10,
+     "winrate": 40,
+     "share": 0.4
+    },
+    "POSITION_3": {
+     "matches": 49,
+     "wins": 26,
+     "winrate": 53.1,
+     "share": 0.8
+    },
+    "POSITION_4": {
+     "matches": 16,
+     "wins": 6,
+     "winrate": 37.5,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 27,
+     "wins": 16,
+     "winrate": 59.3,
+     "share": 0.5
+    }
+   },
+   "totalMatches": 5921,
+   "totalWins": 2938,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "19": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1357,
+     "wins": 575,
+     "winrate": 42.4,
+     "share": 46.2
+    },
+    "POSITION_2": {
+     "matches": 583,
+     "wins": 265,
+     "winrate": 45.5,
+     "share": 19.8
+    },
+    "POSITION_3": {
+     "matches": 396,
+     "wins": 167,
+     "winrate": 42.2,
+     "share": 13.5
+    },
+    "POSITION_4": {
+     "matches": 506,
+     "wins": 241,
+     "winrate": 47.6,
+     "share": 17.2
+    },
+    "POSITION_5": {
+     "matches": 98,
+     "wins": 43,
+     "winrate": 43.9,
+     "share": 3.3
+    }
+   },
+   "totalMatches": 2940,
+   "totalWins": 1291,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "20": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1277,
+     "wins": 665,
+     "winrate": 52.1,
+     "share": 28.7
+    },
+    "POSITION_2": {
+     "matches": 183,
+     "wins": 99,
+     "winrate": 54.1,
+     "share": 4.1
+    },
+    "POSITION_3": {
+     "matches": 765,
+     "wins": 430,
+     "winrate": 56.2,
+     "share": 17.2
+    },
+    "POSITION_4": {
+     "matches": 945,
+     "wins": 494,
+     "winrate": 52.3,
+     "share": 21.2
+    },
+    "POSITION_5": {
+     "matches": 1280,
+     "wins": 666,
+     "winrate": 52,
+     "share": 28.8
+    }
+   },
+   "totalMatches": 4450,
+   "totalWins": 2354,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "21": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2630,
+     "wins": 1239,
+     "winrate": 47.1,
+     "share": 25.4
+    },
+    "POSITION_2": {
+     "matches": 1761,
+     "wins": 822,
+     "winrate": 46.7,
+     "share": 17
+    },
+    "POSITION_3": {
+     "matches": 1765,
+     "wins": 868,
+     "winrate": 49.2,
+     "share": 17
+    },
+    "POSITION_4": {
+     "matches": 3256,
+     "wins": 1514,
+     "winrate": 46.5,
+     "share": 31.4
+    },
+    "POSITION_5": {
+     "matches": 942,
+     "wins": 441,
+     "winrate": 46.8,
+     "share": 9.1
+    }
+   },
+   "totalMatches": 10354,
+   "totalWins": 4884,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "22": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 39,
+     "wins": 13,
+     "winrate": 33.3,
+     "share": 0.7
+    },
+    "POSITION_2": {
+     "matches": 1660,
+     "wins": 842,
+     "winrate": 50.7,
+     "share": 30.5
+    },
+    "POSITION_3": {
+     "matches": 38,
+     "wins": 19,
+     "winrate": 50,
+     "share": 0.7
+    },
+    "POSITION_4": {
+     "matches": 2638,
+     "wins": 1415,
+     "winrate": 53.6,
+     "share": 48.5
+    },
+    "POSITION_5": {
+     "matches": 1064,
+     "wins": 567,
+     "winrate": 53.3,
+     "share": 19.6
+    }
+   },
+   "totalMatches": 5439,
+   "totalWins": 2856,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "23": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 22,
+     "wins": 10,
+     "winrate": 45.5,
+     "share": 0.8
+    },
+    "POSITION_2": {
+     "matches": 853,
+     "wins": 395,
+     "winrate": 46.3,
+     "share": 32.7
+    },
+    "POSITION_3": {
+     "matches": 1626,
+     "wins": 815,
+     "winrate": 50.1,
+     "share": 62.4
+    },
+    "POSITION_4": {
+     "matches": 79,
+     "wins": 40,
+     "winrate": 50.6,
+     "share": 3
+    },
+    "POSITION_5": {
+     "matches": 25,
+     "wins": 13,
+     "winrate": 52,
+     "share": 1
+    }
+   },
+   "totalMatches": 2605,
+   "totalWins": 1273,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "25": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 652,
+     "wins": 276,
+     "winrate": 42.3,
+     "share": 5.9
+    },
+    "POSITION_2": {
+     "matches": 9450,
+     "wins": 4688,
+     "winrate": 49.6,
+     "share": 84.9
+    },
+    "POSITION_3": {
+     "matches": 114,
+     "wins": 52,
+     "winrate": 45.6,
+     "share": 1
+    },
+    "POSITION_4": {
+     "matches": 604,
+     "wins": 265,
+     "winrate": 43.9,
+     "share": 5.4
+    },
+    "POSITION_5": {
+     "matches": 313,
+     "wins": 147,
+     "winrate": 47,
+     "share": 2.8
+    }
+   },
+   "totalMatches": 11133,
+   "totalWins": 5428,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "26": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 39,
+     "wins": 19,
+     "winrate": 48.7,
+     "share": 0.4
+    },
+    "POSITION_2": {
+     "matches": 1411,
+     "wins": 750,
+     "winrate": 53.2,
+     "share": 13.2
+    },
+    "POSITION_3": {
+     "matches": 72,
+     "wins": 35,
+     "winrate": 48.6,
+     "share": 0.7
+    },
+    "POSITION_4": {
+     "matches": 3517,
+     "wins": 1828,
+     "winrate": 52,
+     "share": 32.8
+    },
+    "POSITION_5": {
+     "matches": 5685,
+     "wins": 2864,
+     "winrate": 50.4,
+     "share": 53
+    }
+   },
+   "totalMatches": 10724,
+   "totalWins": 5496,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "27": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 6,
+     "wins": 4,
+     "winrate": 66.7,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 22,
+     "wins": 7,
+     "winrate": 31.8,
+     "share": 0.5
+    },
+    "POSITION_3": {
+     "matches": 14,
+     "wins": 6,
+     "winrate": 42.9,
+     "share": 0.3
+    },
+    "POSITION_4": {
+     "matches": 1382,
+     "wins": 702,
+     "winrate": 50.8,
+     "share": 29.1
+    },
+    "POSITION_5": {
+     "matches": 3324,
+     "wins": 1748,
+     "winrate": 52.6,
+     "share": 70
+    }
+   },
+   "totalMatches": 4748,
+   "totalWins": 2467,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "28": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 28,
+     "wins": 11,
+     "winrate": 39.3,
+     "share": 0.8
+    },
+    "POSITION_2": {
+     "matches": 476,
+     "wins": 287,
+     "winrate": 60.3,
+     "share": 13.8
+    },
+    "POSITION_3": {
+     "matches": 2929,
+     "wins": 1533,
+     "winrate": 52.3,
+     "share": 84.7
+    },
+    "POSITION_4": {
+     "matches": 18,
+     "wins": 8,
+     "winrate": 44.4,
+     "share": 0.5
+    },
+    "POSITION_5": {
+     "matches": 8,
+     "wins": 5,
+     "winrate": 62.5,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 3459,
+   "totalWins": 1844,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "29": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 16,
+     "wins": 7,
+     "winrate": 43.8,
+     "share": 0.4
+    },
+    "POSITION_2": {
+     "matches": 39,
+     "wins": 14,
+     "winrate": 35.9,
+     "share": 1
+    },
+    "POSITION_3": {
+     "matches": 3771,
+     "wins": 1900,
+     "winrate": 50.4,
+     "share": 96.7
+    },
+    "POSITION_4": {
+     "matches": 32,
+     "wins": 18,
+     "winrate": 56.3,
+     "share": 0.8
+    },
+    "POSITION_5": {
+     "matches": 41,
+     "wins": 24,
+     "winrate": 58.5,
+     "share": 1.1
+    }
+   },
+   "totalMatches": 3899,
+   "totalWins": 1963,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "30": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2,
+     "wins": 1,
+     "winrate": 50,
+     "share": 0
+    },
+    "POSITION_2": {
+     "matches": 20,
+     "wins": 8,
+     "winrate": 40,
+     "share": 0.4
+    },
+    "POSITION_3": {
+     "matches": 11,
+     "wins": 5,
+     "winrate": 45.5,
+     "share": 0.2
+    },
+    "POSITION_4": {
+     "matches": 1316,
+     "wins": 688,
+     "winrate": 52.3,
+     "share": 26.2
+    },
+    "POSITION_5": {
+     "matches": 3671,
+     "wins": 1868,
+     "winrate": 50.9,
+     "share": 73.1
+    }
+   },
+   "totalMatches": 5020,
+   "totalWins": 2570,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "31": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0
+    },
+    "POSITION_2": {
+     "matches": 21,
+     "wins": 8,
+     "winrate": 38.1,
+     "share": 0.3
+    },
+    "POSITION_3": {
+     "matches": 5,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_4": {
+     "matches": 1486,
+     "wins": 773,
+     "winrate": 52,
+     "share": 22.2
+    },
+    "POSITION_5": {
+     "matches": 5174,
+     "wins": 2776,
+     "winrate": 53.7,
+     "share": 77.4
+    }
+   },
+   "totalMatches": 6687,
+   "totalWins": 3557,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "32": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 570,
+     "wins": 289,
+     "winrate": 50.7,
+     "share": 37.3
+    },
+    "POSITION_2": {
+     "matches": 607,
+     "wins": 329,
+     "winrate": 54.2,
+     "share": 39.7
+    },
+    "POSITION_3": {
+     "matches": 163,
+     "wins": 91,
+     "winrate": 55.8,
+     "share": 10.7
+    },
+    "POSITION_4": {
+     "matches": 149,
+     "wins": 80,
+     "winrate": 53.7,
+     "share": 9.7
+    },
+    "POSITION_5": {
+     "matches": 41,
+     "wins": 24,
+     "winrate": 58.5,
+     "share": 2.7
+    }
+   },
+   "totalMatches": 1530,
+   "totalWins": 813,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "33": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 5,
+     "winrate": 55.6,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 89,
+     "wins": 38,
+     "winrate": 42.7,
+     "share": 3
+    },
+    "POSITION_3": {
+     "matches": 2421,
+     "wins": 1290,
+     "winrate": 53.3,
+     "share": 81.6
+    },
+    "POSITION_4": {
+     "matches": 313,
+     "wins": 160,
+     "winrate": 51.1,
+     "share": 10.5
+    },
+    "POSITION_5": {
+     "matches": 135,
+     "wins": 71,
+     "winrate": 52.6,
+     "share": 4.6
+    }
+   },
+   "totalMatches": 2967,
+   "totalWins": 1564,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "34": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 33,
+     "wins": 14,
+     "winrate": 42.4,
+     "share": 1
+    },
+    "POSITION_2": {
+     "matches": 3023,
+     "wins": 1552,
+     "winrate": 51.3,
+     "share": 95.6
+    },
+    "POSITION_3": {
+     "matches": 24,
+     "wins": 13,
+     "winrate": 54.2,
+     "share": 0.8
+    },
+    "POSITION_4": {
+     "matches": 51,
+     "wins": 25,
+     "winrate": 49,
+     "share": 1.6
+    },
+    "POSITION_5": {
+     "matches": 32,
+     "wins": 11,
+     "winrate": 34.4,
+     "share": 1
+    }
+   },
+   "totalMatches": 3163,
+   "totalWins": 1615,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "35": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 653,
+     "wins": 293,
+     "winrate": 44.9,
+     "share": 12.5
+    },
+    "POSITION_2": {
+     "matches": 3688,
+     "wins": 1661,
+     "winrate": 45,
+     "share": 70.6
+    },
+    "POSITION_3": {
+     "matches": 100,
+     "wins": 47,
+     "winrate": 47,
+     "share": 1.9
+    },
+    "POSITION_4": {
+     "matches": 616,
+     "wins": 284,
+     "winrate": 46.1,
+     "share": 11.8
+    },
+    "POSITION_5": {
+     "matches": 164,
+     "wins": 76,
+     "winrate": 46.3,
+     "share": 3.1
+    }
+   },
+   "totalMatches": 5221,
+   "totalWins": 2361,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_4"
+   ]
+  },
+  "36": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1274,
+     "wins": 598,
+     "winrate": 46.9,
+     "share": 19.2
+    },
+    "POSITION_2": {
+     "matches": 2642,
+     "wins": 1278,
+     "winrate": 48.4,
+     "share": 39.8
+    },
+    "POSITION_3": {
+     "matches": 2679,
+     "wins": 1321,
+     "winrate": 49.3,
+     "share": 40.3
+    },
+    "POSITION_4": {
+     "matches": 31,
+     "wins": 12,
+     "winrate": 38.7,
+     "share": 0.5
+    },
+    "POSITION_5": {
+     "matches": 19,
+     "wins": 11,
+     "winrate": 57.9,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 6645,
+   "totalWins": 3220,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "37": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 3,
+     "winrate": 100,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 8,
+     "wins": 3,
+     "winrate": 37.5,
+     "share": 0.4
+    },
+    "POSITION_3": {
+     "matches": 5,
+     "wins": 1,
+     "winrate": 20,
+     "share": 0.2
+    },
+    "POSITION_4": {
+     "matches": 348,
+     "wins": 163,
+     "winrate": 46.8,
+     "share": 15.9
+    },
+    "POSITION_5": {
+     "matches": 1826,
+     "wins": 830,
+     "winrate": 45.5,
+     "share": 83.4
+    }
+   },
+   "totalMatches": 2190,
+   "totalWins": 1000,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "38": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 33,
+     "wins": 18,
+     "winrate": 54.5,
+     "share": 2.4
+    },
+    "POSITION_2": {
+     "matches": 235,
+     "wins": 100,
+     "winrate": 42.6,
+     "share": 17
+    },
+    "POSITION_3": {
+     "matches": 1091,
+     "wins": 473,
+     "winrate": 43.4,
+     "share": 79
+    },
+    "POSITION_4": {
+     "matches": 6,
+     "wins": 4,
+     "winrate": 66.7,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 16,
+     "wins": 5,
+     "winrate": 31.3,
+     "share": 1.2
+    }
+   },
+   "totalMatches": 1381,
+   "totalWins": 600,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "39": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 29,
+     "wins": 14,
+     "winrate": 48.3,
+     "share": 0.6
+    },
+    "POSITION_2": {
+     "matches": 3798,
+     "wins": 1864,
+     "winrate": 49.1,
+     "share": 84.6
+    },
+    "POSITION_3": {
+     "matches": 225,
+     "wins": 98,
+     "winrate": 43.6,
+     "share": 5
+    },
+    "POSITION_4": {
+     "matches": 336,
+     "wins": 153,
+     "winrate": 45.5,
+     "share": 7.5
+    },
+    "POSITION_5": {
+     "matches": 100,
+     "wins": 36,
+     "winrate": 36,
+     "share": 2.2
+    }
+   },
+   "totalMatches": 4488,
+   "totalWins": 2165,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "40": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 3,
+     "winrate": 33.3,
+     "share": 0.5
+    },
+    "POSITION_2": {
+     "matches": 27,
+     "wins": 6,
+     "winrate": 22.2,
+     "share": 1.5
+    },
+    "POSITION_3": {
+     "matches": 81,
+     "wins": 31,
+     "winrate": 38.3,
+     "share": 4.4
+    },
+    "POSITION_4": {
+     "matches": 807,
+     "wins": 346,
+     "winrate": 42.9,
+     "share": 43.5
+    },
+    "POSITION_5": {
+     "matches": 933,
+     "wins": 450,
+     "winrate": 48.2,
+     "share": 50.2
+    }
+   },
+   "totalMatches": 1857,
+   "totalWins": 836,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "41": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3232,
+     "wins": 1730,
+     "winrate": 53.5,
+     "share": 95.3
+    },
+    "POSITION_2": {
+     "matches": 38,
+     "wins": 22,
+     "winrate": 57.9,
+     "share": 1.1
+    },
+    "POSITION_3": {
+     "matches": 84,
+     "wins": 42,
+     "winrate": 50,
+     "share": 2.5
+    },
+    "POSITION_4": {
+     "matches": 20,
+     "wins": 6,
+     "winrate": 30,
+     "share": 0.6
+    },
+    "POSITION_5": {
+     "matches": 18,
+     "wins": 9,
+     "winrate": 50,
+     "share": 0.5
+    }
+   },
+   "totalMatches": 3392,
+   "totalWins": 1809,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "42": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1519,
+     "wins": 723,
+     "winrate": 47.6,
+     "share": 39
+    },
+    "POSITION_2": {
+     "matches": 39,
+     "wins": 26,
+     "winrate": 66.7,
+     "share": 1
+    },
+    "POSITION_3": {
+     "matches": 2301,
+     "wins": 1253,
+     "winrate": 54.5,
+     "share": 59.2
+    },
+    "POSITION_4": {
+     "matches": 11,
+     "wins": 4,
+     "winrate": 36.4,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 20,
+     "wins": 5,
+     "winrate": 25,
+     "share": 0.5
+    }
+   },
+   "totalMatches": 3890,
+   "totalWins": 2011,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_3"
+   ]
+  },
+  "43": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 11,
+     "wins": 2,
+     "winrate": 18.2,
+     "share": 0.6
+    },
+    "POSITION_2": {
+     "matches": 856,
+     "wins": 390,
+     "winrate": 45.6,
+     "share": 44
+    },
+    "POSITION_3": {
+     "matches": 944,
+     "wins": 445,
+     "winrate": 47.1,
+     "share": 48.5
+    },
+    "POSITION_4": {
+     "matches": 72,
+     "wins": 41,
+     "winrate": 56.9,
+     "share": 3.7
+    },
+    "POSITION_5": {
+     "matches": 62,
+     "wins": 23,
+     "winrate": 37.1,
+     "share": 3.2
+    }
+   },
+   "totalMatches": 1945,
+   "totalWins": 901,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "44": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3716,
+     "wins": 2024,
+     "winrate": 54.5,
+     "share": 97.8
+    },
+    "POSITION_2": {
+     "matches": 44,
+     "wins": 26,
+     "winrate": 59.1,
+     "share": 1.2
+    },
+    "POSITION_3": {
+     "matches": 11,
+     "wins": 9,
+     "winrate": 81.8,
+     "share": 0.3
+    },
+    "POSITION_4": {
+     "matches": 13,
+     "wins": 7,
+     "winrate": 53.8,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 17,
+     "wins": 6,
+     "winrate": 35.3,
+     "share": 0.4
+    }
+   },
+   "totalMatches": 3801,
+   "totalWins": 2072,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "45": {
+   "positions": {
+    "POSITION_2": {
+     "matches": 275,
+     "wins": 121,
+     "winrate": 44,
+     "share": 14.9
+    },
+    "POSITION_3": {
+     "matches": 43,
+     "wins": 21,
+     "winrate": 48.8,
+     "share": 2.3
+    },
+    "POSITION_4": {
+     "matches": 748,
+     "wins": 365,
+     "winrate": 48.8,
+     "share": 40.6
+    },
+    "POSITION_5": {
+     "matches": 778,
+     "wins": 389,
+     "winrate": 50,
+     "share": 42.2
+    }
+   },
+   "totalMatches": 1844,
+   "totalWins": 896,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "46": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2734,
+     "wins": 1271,
+     "winrate": 46.5,
+     "share": 88.3
+    },
+    "POSITION_2": {
+     "matches": 344,
+     "wins": 150,
+     "winrate": 43.6,
+     "share": 11.1
+    },
+    "POSITION_3": {
+     "matches": 11,
+     "wins": 4,
+     "winrate": 36.4,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 5,
+     "wins": 3,
+     "winrate": 60,
+     "share": 0.2
+    },
+    "POSITION_5": {
+     "matches": 3,
+     "wins": 2,
+     "winrate": 66.7,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 3097,
+   "totalWins": 1430,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "47": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 97,
+     "wins": 36,
+     "winrate": 37.1,
+     "share": 4.1
+    },
+    "POSITION_2": {
+     "matches": 1118,
+     "wins": 539,
+     "winrate": 48.2,
+     "share": 46.7
+    },
+    "POSITION_3": {
+     "matches": 897,
+     "wins": 421,
+     "winrate": 46.9,
+     "share": 37.5
+    },
+    "POSITION_4": {
+     "matches": 128,
+     "wins": 64,
+     "winrate": 50,
+     "share": 5.3
+    },
+    "POSITION_5": {
+     "matches": 154,
+     "wins": 71,
+     "winrate": 46.1,
+     "share": 6.4
+    }
+   },
+   "totalMatches": 2394,
+   "totalWins": 1131,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "48": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 8564,
+     "wins": 4439,
+     "winrate": 51.8,
+     "share": 98.8
+    },
+    "POSITION_2": {
+     "matches": 48,
+     "wins": 17,
+     "winrate": 35.4,
+     "share": 0.6
+    },
+    "POSITION_3": {
+     "matches": 20,
+     "wins": 9,
+     "winrate": 45,
+     "share": 0.2
+    },
+    "POSITION_4": {
+     "matches": 24,
+     "wins": 7,
+     "winrate": 29.2,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 11,
+     "wins": 6,
+     "winrate": 54.5,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 8667,
+   "totalWins": 4478,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "49": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 329,
+     "wins": 155,
+     "winrate": 47.1,
+     "share": 5.8
+    },
+    "POSITION_2": {
+     "matches": 2537,
+     "wins": 1345,
+     "winrate": 53,
+     "share": 44.8
+    },
+    "POSITION_3": {
+     "matches": 2776,
+     "wins": 1454,
+     "winrate": 52.4,
+     "share": 49.1
+    },
+    "POSITION_4": {
+     "matches": 12,
+     "wins": 6,
+     "winrate": 50,
+     "share": 0.2
+    },
+    "POSITION_5": {
+     "matches": 4,
+     "wins": 3,
+     "winrate": 75,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 5658,
+   "totalWins": 2963,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "50": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 5,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 46,
+     "wins": 22,
+     "winrate": 47.8,
+     "share": 1.9
+    },
+    "POSITION_3": {
+     "matches": 19,
+     "wins": 6,
+     "winrate": 31.6,
+     "share": 0.8
+    },
+    "POSITION_4": {
+     "matches": 390,
+     "wins": 189,
+     "winrate": 48.5,
+     "share": 15.9
+    },
+    "POSITION_5": {
+     "matches": 1994,
+     "wins": 1031,
+     "winrate": 51.7,
+     "share": 81.3
+    }
+   },
+   "totalMatches": 2454,
+   "totalWins": 1248,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "51": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 16,
+     "wins": 6,
+     "winrate": 37.5,
+     "share": 0.6
+    },
+    "POSITION_3": {
+     "matches": 92,
+     "wins": 36,
+     "winrate": 39.1,
+     "share": 3.6
+    },
+    "POSITION_4": {
+     "matches": 1127,
+     "wins": 527,
+     "winrate": 46.8,
+     "share": 43.5
+    },
+    "POSITION_5": {
+     "matches": 1349,
+     "wins": 639,
+     "winrate": 47.4,
+     "share": 52.1
+    }
+   },
+   "totalMatches": 2591,
+   "totalWins": 1210,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "52": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 215,
+     "wins": 132,
+     "winrate": 61.4,
+     "share": 14.7
+    },
+    "POSITION_2": {
+     "matches": 1041,
+     "wins": 586,
+     "winrate": 56.3,
+     "share": 71.3
+    },
+    "POSITION_3": {
+     "matches": 82,
+     "wins": 47,
+     "winrate": 57.3,
+     "share": 5.6
+    },
+    "POSITION_4": {
+     "matches": 81,
+     "wins": 39,
+     "winrate": 48.1,
+     "share": 5.5
+    },
+    "POSITION_5": {
+     "matches": 42,
+     "wins": 17,
+     "winrate": 40.5,
+     "share": 2.9
+    }
+   },
+   "totalMatches": 1461,
+   "totalWins": 821,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "53": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1565,
+     "wins": 612,
+     "winrate": 39.1,
+     "share": 42.3
+    },
+    "POSITION_2": {
+     "matches": 809,
+     "wins": 345,
+     "winrate": 42.6,
+     "share": 21.8
+    },
+    "POSITION_3": {
+     "matches": 247,
+     "wins": 115,
+     "winrate": 46.6,
+     "share": 6.7
+    },
+    "POSITION_4": {
+     "matches": 741,
+     "wins": 322,
+     "winrate": 43.5,
+     "share": 20
+    },
+    "POSITION_5": {
+     "matches": 341,
+     "wins": 158,
+     "winrate": 46.3,
+     "share": 9.2
+    }
+   },
+   "totalMatches": 3703,
+   "totalWins": 1552,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_4"
+   ]
+  },
+  "54": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 10403,
+     "wins": 5408,
+     "winrate": 52,
+     "share": 98.9
+    },
+    "POSITION_2": {
+     "matches": 10,
+     "wins": 5,
+     "winrate": 50,
+     "share": 0.1
+    },
+    "POSITION_3": {
+     "matches": 89,
+     "wins": 47,
+     "winrate": 52.8,
+     "share": 0.8
+    },
+    "POSITION_4": {
+     "matches": 5,
+     "wins": 2,
+     "winrate": 40,
+     "share": 0
+    },
+    "POSITION_5": {
+     "matches": 11,
+     "wins": 5,
+     "winrate": 45.5,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 10518,
+   "totalWins": 5467,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "55": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 15,
+     "wins": 6,
+     "winrate": 40,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 80,
+     "wins": 40,
+     "winrate": 50,
+     "share": 1.3
+    },
+    "POSITION_3": {
+     "matches": 5824,
+     "wins": 3020,
+     "winrate": 51.9,
+     "share": 97.5
+    },
+    "POSITION_4": {
+     "matches": 40,
+     "wins": 22,
+     "winrate": 55,
+     "share": 0.7
+    },
+    "POSITION_5": {
+     "matches": 14,
+     "wins": 10,
+     "winrate": 71.4,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 5973,
+   "totalWins": 3098,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "56": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1626,
+     "wins": 825,
+     "winrate": 50.7,
+     "share": 73.8
+    },
+    "POSITION_2": {
+     "matches": 490,
+     "wins": 246,
+     "winrate": 50.2,
+     "share": 22.3
+    },
+    "POSITION_3": {
+     "matches": 23,
+     "wins": 9,
+     "winrate": 39.1,
+     "share": 1
+    },
+    "POSITION_4": {
+     "matches": 49,
+     "wins": 20,
+     "winrate": 40.8,
+     "share": 2.2
+    },
+    "POSITION_5": {
+     "matches": 14,
+     "wins": 6,
+     "winrate": 42.9,
+     "share": 0.6
+    }
+   },
+   "totalMatches": 2202,
+   "totalWins": 1106,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "57": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 11,
+     "wins": 6,
+     "winrate": 54.5,
+     "share": 0.9
+    },
+    "POSITION_2": {
+     "matches": 38,
+     "wins": 18,
+     "winrate": 47.4,
+     "share": 3
+    },
+    "POSITION_3": {
+     "matches": 488,
+     "wins": 249,
+     "winrate": 51,
+     "share": 38.8
+    },
+    "POSITION_4": {
+     "matches": 168,
+     "wins": 84,
+     "winrate": 50,
+     "share": 13.4
+    },
+    "POSITION_5": {
+     "matches": 553,
+     "wins": 294,
+     "winrate": 53.2,
+     "share": 44
+    }
+   },
+   "totalMatches": 1258,
+   "totalWins": 651,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "58": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 6,
+     "wins": 4,
+     "winrate": 66.7,
+     "share": 0.4
+    },
+    "POSITION_2": {
+     "matches": 107,
+     "wins": 56,
+     "winrate": 52.3,
+     "share": 7.7
+    },
+    "POSITION_3": {
+     "matches": 219,
+     "wins": 103,
+     "winrate": 47,
+     "share": 15.8
+    },
+    "POSITION_4": {
+     "matches": 359,
+     "wins": 173,
+     "winrate": 48.2,
+     "share": 25.8
+    },
+    "POSITION_5": {
+     "matches": 698,
+     "wins": 321,
+     "winrate": 46,
+     "share": 50.3
+    }
+   },
+   "totalMatches": 1389,
+   "totalWins": 657,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "59": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 28,
+     "wins": 13,
+     "winrate": 46.4,
+     "share": 1.8
+    },
+    "POSITION_2": {
+     "matches": 1176,
+     "wins": 548,
+     "winrate": 46.6,
+     "share": 74.3
+    },
+    "POSITION_3": {
+     "matches": 210,
+     "wins": 84,
+     "winrate": 40,
+     "share": 13.3
+    },
+    "POSITION_4": {
+     "matches": 75,
+     "wins": 26,
+     "winrate": 34.7,
+     "share": 4.7
+    },
+    "POSITION_5": {
+     "matches": 94,
+     "wins": 47,
+     "winrate": 50,
+     "share": 5.9
+    }
+   },
+   "totalMatches": 1583,
+   "totalWins": 718,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "60": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 36,
+     "wins": 17,
+     "winrate": 47.2,
+     "share": 0.5
+    },
+    "POSITION_2": {
+     "matches": 192,
+     "wins": 110,
+     "winrate": 57.3,
+     "share": 2.9
+    },
+    "POSITION_3": {
+     "matches": 6464,
+     "wins": 3385,
+     "winrate": 52.4,
+     "share": 96
+    },
+    "POSITION_4": {
+     "matches": 36,
+     "wins": 15,
+     "winrate": 41.7,
+     "share": 0.5
+    },
+    "POSITION_5": {
+     "matches": 7,
+     "wins": 5,
+     "winrate": 71.4,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 6735,
+   "totalWins": 3532,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "61": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 147,
+     "wins": 69,
+     "winrate": 46.9,
+     "share": 17
+    },
+    "POSITION_2": {
+     "matches": 561,
+     "wins": 235,
+     "winrate": 41.9,
+     "share": 64.9
+    },
+    "POSITION_3": {
+     "matches": 152,
+     "wins": 70,
+     "winrate": 46.1,
+     "share": 17.6
+    },
+    "POSITION_4": {
+     "matches": 2,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.2
+    },
+    "POSITION_5": {
+     "matches": 2,
+     "wins": 2,
+     "winrate": 100,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 864,
+   "totalWins": 376,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "62": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 15,
+     "wins": 7,
+     "winrate": 46.7,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 55,
+     "wins": 29,
+     "winrate": 52.7,
+     "share": 0.9
+    },
+    "POSITION_3": {
+     "matches": 52,
+     "wins": 26,
+     "winrate": 50,
+     "share": 0.9
+    },
+    "POSITION_4": {
+     "matches": 5118,
+     "wins": 2789,
+     "winrate": 54.5,
+     "share": 86.1
+    },
+    "POSITION_5": {
+     "matches": 701,
+     "wins": 348,
+     "winrate": 49.6,
+     "share": 11.8
+    }
+   },
+   "totalMatches": 5941,
+   "totalWins": 3199,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "63": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 766,
+     "wins": 380,
+     "winrate": 49.6,
+     "share": 35
+    },
+    "POSITION_2": {
+     "matches": 60,
+     "wins": 24,
+     "winrate": 40,
+     "share": 2.7
+    },
+    "POSITION_3": {
+     "matches": 202,
+     "wins": 87,
+     "winrate": 43.1,
+     "share": 9.2
+    },
+    "POSITION_4": {
+     "matches": 834,
+     "wins": 406,
+     "winrate": 48.7,
+     "share": 38.1
+    },
+    "POSITION_5": {
+     "matches": 328,
+     "wins": 144,
+     "winrate": 43.9,
+     "share": 15
+    }
+   },
+   "totalMatches": 2190,
+   "totalWins": 1041,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "64": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 17,
+     "wins": 7,
+     "winrate": 41.2,
+     "share": 0.6
+    },
+    "POSITION_2": {
+     "matches": 101,
+     "wins": 47,
+     "winrate": 46.5,
+     "share": 3.6
+    },
+    "POSITION_3": {
+     "matches": 28,
+     "wins": 10,
+     "winrate": 35.7,
+     "share": 1
+    },
+    "POSITION_4": {
+     "matches": 735,
+     "wins": 329,
+     "winrate": 44.8,
+     "share": 25.9
+    },
+    "POSITION_5": {
+     "matches": 1952,
+     "wins": 915,
+     "winrate": 46.9,
+     "share": 68.9
+    }
+   },
+   "totalMatches": 2833,
+   "totalWins": 1308,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "65": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 1,
+     "winrate": 33.3,
+     "share": 0.4
+    },
+    "POSITION_2": {
+     "matches": 255,
+     "wins": 146,
+     "winrate": 57.3,
+     "share": 37.4
+    },
+    "POSITION_3": {
+     "matches": 204,
+     "wins": 101,
+     "winrate": 49.5,
+     "share": 30
+    },
+    "POSITION_4": {
+     "matches": 138,
+     "wins": 76,
+     "winrate": 55.1,
+     "share": 20.3
+    },
+    "POSITION_5": {
+     "matches": 81,
+     "wins": 41,
+     "winrate": 50.6,
+     "share": 11.9
+    }
+   },
+   "totalMatches": 681,
+   "totalWins": 365,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "66": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1,
+     "wins": 1,
+     "winrate": 100,
+     "share": 0.3
+    },
+    "POSITION_4": {
+     "matches": 42,
+     "wins": 20,
+     "winrate": 47.6,
+     "share": 14
+    },
+    "POSITION_5": {
+     "matches": 256,
+     "wins": 140,
+     "winrate": 54.7,
+     "share": 85.6
+    }
+   },
+   "totalMatches": 299,
+   "totalWins": 161,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "67": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 5359,
+     "wins": 2895,
+     "winrate": 54,
+     "share": 98.7
+    },
+    "POSITION_2": {
+     "matches": 18,
+     "wins": 6,
+     "winrate": 33.3,
+     "share": 0.3
+    },
+    "POSITION_3": {
+     "matches": 34,
+     "wins": 15,
+     "winrate": 44.1,
+     "share": 0.6
+    },
+    "POSITION_4": {
+     "matches": 6,
+     "wins": 4,
+     "winrate": 66.7,
+     "share": 0.1
+    },
+    "POSITION_5": {
+     "matches": 15,
+     "wins": 10,
+     "winrate": 66.7,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 5432,
+   "totalWins": 2930,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "68": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2,
+     "wins": 1,
+     "winrate": 50,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 66,
+     "wins": 29,
+     "winrate": 43.9,
+     "share": 2.4
+    },
+    "POSITION_3": {
+     "matches": 11,
+     "wins": 5,
+     "winrate": 45.5,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 743,
+     "wins": 374,
+     "winrate": 50.3,
+     "share": 27.4
+    },
+    "POSITION_5": {
+     "matches": 1892,
+     "wins": 953,
+     "winrate": 50.4,
+     "share": 69.7
+    }
+   },
+   "totalMatches": 2714,
+   "totalWins": 1362,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "69": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 102,
+     "wins": 49,
+     "winrate": 48,
+     "share": 2.3
+    },
+    "POSITION_2": {
+     "matches": 79,
+     "wins": 33,
+     "winrate": 41.8,
+     "share": 1.8
+    },
+    "POSITION_3": {
+     "matches": 4051,
+     "wins": 2137,
+     "winrate": 52.8,
+     "share": 93.3
+    },
+    "POSITION_4": {
+     "matches": 68,
+     "wins": 29,
+     "winrate": 42.6,
+     "share": 1.6
+    },
+    "POSITION_5": {
+     "matches": 42,
+     "wins": 25,
+     "winrate": 59.5,
+     "share": 1
+    }
+   },
+   "totalMatches": 4342,
+   "totalWins": 2273,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "70": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3615,
+     "wins": 1799,
+     "winrate": 49.8,
+     "share": 93.7
+    },
+    "POSITION_2": {
+     "matches": 107,
+     "wins": 54,
+     "winrate": 50.5,
+     "share": 2.8
+    },
+    "POSITION_3": {
+     "matches": 118,
+     "wins": 59,
+     "winrate": 50,
+     "share": 3.1
+    },
+    "POSITION_4": {
+     "matches": 10,
+     "wins": 6,
+     "winrate": 60,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 8,
+     "wins": 4,
+     "winrate": 50,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 3858,
+   "totalWins": 1922,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "71": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 4,
+     "winrate": 44.4,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 178,
+     "wins": 75,
+     "winrate": 42.1,
+     "share": 2.2
+    },
+    "POSITION_3": {
+     "matches": 1281,
+     "wins": 627,
+     "winrate": 48.9,
+     "share": 15.9
+    },
+    "POSITION_4": {
+     "matches": 5613,
+     "wins": 2944,
+     "winrate": 52.4,
+     "share": 69.6
+    },
+    "POSITION_5": {
+     "matches": 979,
+     "wins": 526,
+     "winrate": 53.7,
+     "share": 12.1
+    }
+   },
+   "totalMatches": 8060,
+   "totalWins": 4176,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "72": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 469,
+     "wins": 183,
+     "winrate": 39,
+     "share": 34.7
+    },
+    "POSITION_2": {
+     "matches": 60,
+     "wins": 28,
+     "winrate": 46.7,
+     "share": 4.4
+    },
+    "POSITION_3": {
+     "matches": 45,
+     "wins": 21,
+     "winrate": 46.7,
+     "share": 3.3
+    },
+    "POSITION_4": {
+     "matches": 507,
+     "wins": 235,
+     "winrate": 46.4,
+     "share": 37.5
+    },
+    "POSITION_5": {
+     "matches": 271,
+     "wins": 129,
+     "winrate": 47.6,
+     "share": 20
+    }
+   },
+   "totalMatches": 1352,
+   "totalWins": 596,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "73": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 437,
+     "wins": 217,
+     "winrate": 49.7,
+     "share": 44.1
+    },
+    "POSITION_2": {
+     "matches": 146,
+     "wins": 89,
+     "winrate": 61,
+     "share": 14.7
+    },
+    "POSITION_3": {
+     "matches": 138,
+     "wins": 66,
+     "winrate": 47.8,
+     "share": 13.9
+    },
+    "POSITION_4": {
+     "matches": 136,
+     "wins": 71,
+     "winrate": 52.2,
+     "share": 13.7
+    },
+    "POSITION_5": {
+     "matches": 134,
+     "wins": 61,
+     "winrate": 45.5,
+     "share": 13.5
+    }
+   },
+   "totalMatches": 991,
+   "totalWins": 504,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "74": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 19,
+     "wins": 8,
+     "winrate": 42.1,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 10944,
+     "wins": 5909,
+     "winrate": 54,
+     "share": 82.6
+    },
+    "POSITION_3": {
+     "matches": 69,
+     "wins": 35,
+     "winrate": 50.7,
+     "share": 0.5
+    },
+    "POSITION_4": {
+     "matches": 1702,
+     "wins": 862,
+     "winrate": 50.6,
+     "share": 12.9
+    },
+    "POSITION_5": {
+     "matches": 509,
+     "wins": 271,
+     "winrate": 53.2,
+     "share": 3.8
+    }
+   },
+   "totalMatches": 13243,
+   "totalWins": 7085,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4"
+   ]
+  },
+  "75": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 28,
+     "wins": 14,
+     "winrate": 50,
+     "share": 0.8
+    },
+    "POSITION_2": {
+     "matches": 241,
+     "wins": 107,
+     "winrate": 44.4,
+     "share": 6.7
+    },
+    "POSITION_3": {
+     "matches": 63,
+     "wins": 30,
+     "winrate": 47.6,
+     "share": 1.7
+    },
+    "POSITION_4": {
+     "matches": 1299,
+     "wins": 642,
+     "winrate": 49.4,
+     "share": 35.9
+    },
+    "POSITION_5": {
+     "matches": 1992,
+     "wins": 990,
+     "winrate": 49.7,
+     "share": 55
+    }
+   },
+   "totalMatches": 3623,
+   "totalWins": 1783,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "76": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 71,
+     "wins": 33,
+     "winrate": 46.5,
+     "share": 1
+    },
+    "POSITION_2": {
+     "matches": 7024,
+     "wins": 3772,
+     "winrate": 53.7,
+     "share": 96.5
+    },
+    "POSITION_3": {
+     "matches": 95,
+     "wins": 50,
+     "winrate": 52.6,
+     "share": 1.3
+    },
+    "POSITION_4": {
+     "matches": 55,
+     "wins": 30,
+     "winrate": 54.5,
+     "share": 0.8
+    },
+    "POSITION_5": {
+     "matches": 31,
+     "wins": 11,
+     "winrate": 35.5,
+     "share": 0.4
+    }
+   },
+   "totalMatches": 7276,
+   "totalWins": 3896,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "77": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 5,
+     "winrate": 55.6,
+     "share": 0.9
+    },
+    "POSITION_2": {
+     "matches": 137,
+     "wins": 65,
+     "winrate": 47.4,
+     "share": 13.9
+    },
+    "POSITION_3": {
+     "matches": 831,
+     "wins": 400,
+     "winrate": 48.1,
+     "share": 84.5
+    },
+    "POSITION_4": {
+     "matches": 6,
+     "wins": 3,
+     "winrate": 50,
+     "share": 0.6
+    }
+   },
+   "totalMatches": 983,
+   "totalWins": 473,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "78": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 3,
+     "winrate": 33.3,
+     "share": 0.5
+    },
+    "POSITION_2": {
+     "matches": 86,
+     "wins": 48,
+     "winrate": 55.8,
+     "share": 4.5
+    },
+    "POSITION_3": {
+     "matches": 1764,
+     "wins": 949,
+     "winrate": 53.8,
+     "share": 91.6
+    },
+    "POSITION_4": {
+     "matches": 44,
+     "wins": 26,
+     "winrate": 59.1,
+     "share": 2.3
+    },
+    "POSITION_5": {
+     "matches": 23,
+     "wins": 14,
+     "winrate": 60.9,
+     "share": 1.2
+    }
+   },
+   "totalMatches": 1926,
+   "totalWins": 1040,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "79": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2,
+     "wins": 1,
+     "winrate": 50,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 26,
+     "wins": 11,
+     "winrate": 42.3,
+     "share": 1.5
+    },
+    "POSITION_3": {
+     "matches": 2,
+     "wins": 1,
+     "winrate": 50,
+     "share": 0.1
+    },
+    "POSITION_4": {
+     "matches": 675,
+     "wins": 332,
+     "winrate": 49.2,
+     "share": 39.3
+    },
+    "POSITION_5": {
+     "matches": 1014,
+     "wins": 505,
+     "winrate": 49.8,
+     "share": 59
+    }
+   },
+   "totalMatches": 1719,
+   "totalWins": 850,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "80": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1793,
+     "wins": 985,
+     "winrate": 54.9,
+     "share": 75.7
+    },
+    "POSITION_2": {
+     "matches": 435,
+     "wins": 227,
+     "winrate": 52.2,
+     "share": 18.4
+    },
+    "POSITION_3": {
+     "matches": 116,
+     "wins": 58,
+     "winrate": 50,
+     "share": 4.9
+    },
+    "POSITION_4": {
+     "matches": 7,
+     "wins": 1,
+     "winrate": 14.3,
+     "share": 0.3
+    },
+    "POSITION_5": {
+     "matches": 17,
+     "wins": 7,
+     "winrate": 41.2,
+     "share": 0.7
+    }
+   },
+   "totalMatches": 2368,
+   "totalWins": 1278,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "81": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 581,
+     "wins": 262,
+     "winrate": 45.1,
+     "share": 39.6
+    },
+    "POSITION_2": {
+     "matches": 43,
+     "wins": 20,
+     "winrate": 46.5,
+     "share": 2.9
+    },
+    "POSITION_3": {
+     "matches": 785,
+     "wins": 392,
+     "winrate": 49.9,
+     "share": 53.5
+    },
+    "POSITION_4": {
+     "matches": 33,
+     "wins": 17,
+     "winrate": 51.5,
+     "share": 2.3
+    },
+    "POSITION_5": {
+     "matches": 24,
+     "wins": 10,
+     "winrate": 41.7,
+     "share": 1.6
+    }
+   },
+   "totalMatches": 1466,
+   "totalWins": 701,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_3"
+   ]
+  },
+  "82": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 152,
+     "wins": 82,
+     "winrate": 53.9,
+     "share": 19.7
+    },
+    "POSITION_2": {
+     "matches": 594,
+     "wins": 315,
+     "winrate": 53,
+     "share": 77.1
+    },
+    "POSITION_3": {
+     "matches": 18,
+     "wins": 9,
+     "winrate": 50,
+     "share": 2.3
+    },
+    "POSITION_4": {
+     "matches": 3,
+     "wins": 1,
+     "winrate": 33.3,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 3,
+     "wins": 1,
+     "winrate": 33.3,
+     "share": 0.4
+    }
+   },
+   "totalMatches": 770,
+   "totalWins": 408,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "83": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 1,
+     "winrate": 11.1,
+     "share": 0.6
+    },
+    "POSITION_2": {
+     "matches": 2,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_3": {
+     "matches": 34,
+     "wins": 14,
+     "winrate": 41.2,
+     "share": 2.1
+    },
+    "POSITION_4": {
+     "matches": 265,
+     "wins": 116,
+     "winrate": 43.8,
+     "share": 16.4
+    },
+    "POSITION_5": {
+     "matches": 1306,
+     "wins": 591,
+     "winrate": 45.3,
+     "share": 80.8
+    }
+   },
+   "totalMatches": 1616,
+   "totalWins": 722,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "84": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 34,
+     "wins": 16,
+     "winrate": 47.1,
+     "share": 0.7
+    },
+    "POSITION_2": {
+     "matches": 437,
+     "wins": 208,
+     "winrate": 47.6,
+     "share": 8.5
+    },
+    "POSITION_3": {
+     "matches": 857,
+     "wins": 415,
+     "winrate": 48.4,
+     "share": 16.7
+    },
+    "POSITION_4": {
+     "matches": 1145,
+     "wins": 569,
+     "winrate": 49.7,
+     "share": 22.3
+    },
+    "POSITION_5": {
+     "matches": 2655,
+     "wins": 1336,
+     "winrate": 50.3,
+     "share": 51.8
+    }
+   },
+   "totalMatches": 5128,
+   "totalWins": 2544,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "85": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 11,
+     "wins": 2,
+     "winrate": 18.2,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 65,
+     "wins": 23,
+     "winrate": 35.4,
+     "share": 0.9
+    },
+    "POSITION_3": {
+     "matches": 2134,
+     "wins": 956,
+     "winrate": 44.8,
+     "share": 28.4
+    },
+    "POSITION_4": {
+     "matches": 1567,
+     "wins": 748,
+     "winrate": 47.7,
+     "share": 20.8
+    },
+    "POSITION_5": {
+     "matches": 3744,
+     "wins": 1768,
+     "winrate": 47.2,
+     "share": 49.8
+    }
+   },
+   "totalMatches": 7521,
+   "totalWins": 3497,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "86": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 12,
+     "wins": 7,
+     "winrate": 58.3,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 2246,
+     "wins": 1049,
+     "winrate": 46.7,
+     "share": 15.6
+    },
+    "POSITION_3": {
+     "matches": 141,
+     "wins": 65,
+     "winrate": 46.1,
+     "share": 1
+    },
+    "POSITION_4": {
+     "matches": 8866,
+     "wins": 4385,
+     "winrate": 49.5,
+     "share": 61.7
+    },
+    "POSITION_5": {
+     "matches": 3094,
+     "wins": 1511,
+     "winrate": 48.8,
+     "share": 21.5
+    }
+   },
+   "totalMatches": 14359,
+   "totalWins": 7017,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "87": {
+   "positions": {
+    "POSITION_2": {
+     "matches": 16,
+     "wins": 9,
+     "winrate": 56.3,
+     "share": 0.3
+    },
+    "POSITION_3": {
+     "matches": 2,
+     "wins": 1,
+     "winrate": 50,
+     "share": 0
+    },
+    "POSITION_4": {
+     "matches": 863,
+     "wins": 440,
+     "winrate": 51,
+     "share": 16.4
+    },
+    "POSITION_5": {
+     "matches": 4394,
+     "wins": 2191,
+     "winrate": 49.9,
+     "share": 83.3
+    }
+   },
+   "totalMatches": 5275,
+   "totalWins": 2641,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "88": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 7,
+     "wins": 4,
+     "winrate": 57.1,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 577,
+     "wins": 298,
+     "winrate": 51.6,
+     "share": 16.2
+    },
+    "POSITION_3": {
+     "matches": 257,
+     "wins": 132,
+     "winrate": 51.4,
+     "share": 7.2
+    },
+    "POSITION_4": {
+     "matches": 2277,
+     "wins": 1252,
+     "winrate": 55,
+     "share": 64.1
+    },
+    "POSITION_5": {
+     "matches": 433,
+     "wins": 236,
+     "winrate": 54.5,
+     "share": 12.2
+    }
+   },
+   "totalMatches": 3551,
+   "totalWins": 1922,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "89": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 546,
+     "wins": 278,
+     "winrate": 50.9,
+     "share": 92.1
+    },
+    "POSITION_2": {
+     "matches": 9,
+     "wins": 3,
+     "winrate": 33.3,
+     "share": 1.5
+    },
+    "POSITION_3": {
+     "matches": 8,
+     "wins": 6,
+     "winrate": 75,
+     "share": 1.3
+    },
+    "POSITION_4": {
+     "matches": 16,
+     "wins": 11,
+     "winrate": 68.8,
+     "share": 2.7
+    },
+    "POSITION_5": {
+     "matches": 14,
+     "wins": 7,
+     "winrate": 50,
+     "share": 2.4
+    }
+   },
+   "totalMatches": 593,
+   "totalWins": 305,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "90": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 2831,
+     "wins": 1438,
+     "winrate": 50.8,
+     "share": 67.4
+    },
+    "POSITION_3": {
+     "matches": 81,
+     "wins": 39,
+     "winrate": 48.1,
+     "share": 1.9
+    },
+    "POSITION_4": {
+     "matches": 976,
+     "wins": 493,
+     "winrate": 50.5,
+     "share": 23.2
+    },
+    "POSITION_5": {
+     "matches": 303,
+     "wins": 159,
+     "winrate": 52.5,
+     "share": 7.2
+    }
+   },
+   "totalMatches": 4198,
+   "totalWins": 2131,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4"
+   ]
+  },
+  "91": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 276,
+     "wins": 122,
+     "winrate": 44.2,
+     "share": 9.1
+    },
+    "POSITION_2": {
+     "matches": 938,
+     "wins": 465,
+     "winrate": 49.6,
+     "share": 30.8
+    },
+    "POSITION_3": {
+     "matches": 128,
+     "wins": 58,
+     "winrate": 45.3,
+     "share": 4.2
+    },
+    "POSITION_4": {
+     "matches": 354,
+     "wins": 175,
+     "winrate": 49.4,
+     "share": 11.6
+    },
+    "POSITION_5": {
+     "matches": 1346,
+     "wins": 683,
+     "winrate": 50.7,
+     "share": 44.2
+    }
+   },
+   "totalMatches": 3042,
+   "totalWins": 1503,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "92": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 6,
+     "wins": 2,
+     "winrate": 33.3,
+     "share": 0.5
+    },
+    "POSITION_2": {
+     "matches": 399,
+     "wins": 205,
+     "winrate": 51.4,
+     "share": 32.5
+    },
+    "POSITION_3": {
+     "matches": 618,
+     "wins": 339,
+     "winrate": 54.9,
+     "share": 50.4
+    },
+    "POSITION_4": {
+     "matches": 136,
+     "wins": 72,
+     "winrate": 52.9,
+     "share": 11.1
+    },
+    "POSITION_5": {
+     "matches": 68,
+     "wins": 34,
+     "winrate": 50,
+     "share": 5.5
+    }
+   },
+   "totalMatches": 1227,
+   "totalWins": 652,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "93": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 4298,
+     "wins": 2142,
+     "winrate": 49.8,
+     "share": 77.5
+    },
+    "POSITION_2": {
+     "matches": 729,
+     "wins": 388,
+     "winrate": 53.2,
+     "share": 13.1
+    },
+    "POSITION_3": {
+     "matches": 257,
+     "wins": 141,
+     "winrate": 54.9,
+     "share": 4.6
+    },
+    "POSITION_4": {
+     "matches": 159,
+     "wins": 83,
+     "winrate": 52.2,
+     "share": 2.9
+    },
+    "POSITION_5": {
+     "matches": 105,
+     "wins": 53,
+     "winrate": 50.5,
+     "share": 1.9
+    }
+   },
+   "totalMatches": 5548,
+   "totalWins": 2807,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "94": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1197,
+     "wins": 651,
+     "winrate": 54.4,
+     "share": 94.2
+    },
+    "POSITION_2": {
+     "matches": 23,
+     "wins": 13,
+     "winrate": 56.5,
+     "share": 1.8
+    },
+    "POSITION_3": {
+     "matches": 37,
+     "wins": 20,
+     "winrate": 54.1,
+     "share": 2.9
+    },
+    "POSITION_4": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.6
+    },
+    "POSITION_5": {
+     "matches": 7,
+     "wins": 4,
+     "winrate": 57.1,
+     "share": 0.6
+    }
+   },
+   "totalMatches": 1271,
+   "totalWins": 690,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "95": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 885,
+     "wins": 474,
+     "winrate": 53.6,
+     "share": 92.2
+    },
+    "POSITION_2": {
+     "matches": 37,
+     "wins": 24,
+     "winrate": 64.9,
+     "share": 3.9
+    },
+    "POSITION_3": {
+     "matches": 27,
+     "wins": 14,
+     "winrate": 51.9,
+     "share": 2.8
+    },
+    "POSITION_4": {
+     "matches": 6,
+     "wins": 3,
+     "winrate": 50,
+     "share": 0.6
+    },
+    "POSITION_5": {
+     "matches": 5,
+     "wins": 4,
+     "winrate": 80,
+     "share": 0.5
+    }
+   },
+   "totalMatches": 960,
+   "totalWins": 519,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "96": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 4,
+     "wins": 1,
+     "winrate": 25,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 42,
+     "wins": 20,
+     "winrate": 47.6,
+     "share": 1.3
+    },
+    "POSITION_3": {
+     "matches": 3219,
+     "wins": 1654,
+     "winrate": 51.4,
+     "share": 97
+    },
+    "POSITION_4": {
+     "matches": 24,
+     "wins": 9,
+     "winrate": 37.5,
+     "share": 0.7
+    },
+    "POSITION_5": {
+     "matches": 28,
+     "wins": 12,
+     "winrate": 42.9,
+     "share": 0.8
+    }
+   },
+   "totalMatches": 3317,
+   "totalWins": 1696,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "97": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 82,
+     "wins": 38,
+     "winrate": 46.3,
+     "share": 1
+    },
+    "POSITION_2": {
+     "matches": 1549,
+     "wins": 782,
+     "winrate": 50.5,
+     "share": 19.8
+    },
+    "POSITION_3": {
+     "matches": 4368,
+     "wins": 2133,
+     "winrate": 48.8,
+     "share": 55.8
+    },
+    "POSITION_4": {
+     "matches": 1144,
+     "wins": 554,
+     "winrate": 48.4,
+     "share": 14.6
+    },
+    "POSITION_5": {
+     "matches": 690,
+     "wins": 348,
+     "winrate": 50.4,
+     "share": 8.8
+    }
+   },
+   "totalMatches": 7833,
+   "totalWins": 3855,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "98": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 38,
+     "wins": 17,
+     "winrate": 44.7,
+     "share": 1.1
+    },
+    "POSITION_2": {
+     "matches": 392,
+     "wins": 201,
+     "winrate": 51.3,
+     "share": 11.6
+    },
+    "POSITION_3": {
+     "matches": 2931,
+     "wins": 1467,
+     "winrate": 50.1,
+     "share": 86.6
+    },
+    "POSITION_4": {
+     "matches": 14,
+     "wins": 6,
+     "winrate": 42.9,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 9,
+     "wins": 4,
+     "winrate": 44.4,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 3384,
+   "totalWins": 1695,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "99": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 69,
+     "wins": 35,
+     "winrate": 50.7,
+     "share": 4.3
+    },
+    "POSITION_2": {
+     "matches": 65,
+     "wins": 22,
+     "winrate": 33.8,
+     "share": 4
+    },
+    "POSITION_3": {
+     "matches": 1459,
+     "wins": 705,
+     "winrate": 48.3,
+     "share": 90.7
+    },
+    "POSITION_4": {
+     "matches": 10,
+     "wins": 3,
+     "winrate": 30,
+     "share": 0.6
+    },
+    "POSITION_5": {
+     "matches": 6,
+     "wins": 3,
+     "winrate": 50,
+     "share": 0.4
+    }
+   },
+   "totalMatches": 1609,
+   "totalWins": 768,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "100": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 6,
+     "wins": 3,
+     "winrate": 50,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 196,
+     "wins": 82,
+     "winrate": 41.8,
+     "share": 3.8
+    },
+    "POSITION_3": {
+     "matches": 244,
+     "wins": 107,
+     "winrate": 43.9,
+     "share": 4.7
+    },
+    "POSITION_4": {
+     "matches": 1840,
+     "wins": 910,
+     "winrate": 49.5,
+     "share": 35.7
+    },
+    "POSITION_5": {
+     "matches": 2869,
+     "wins": 1435,
+     "winrate": 50,
+     "share": 55.7
+    }
+   },
+   "totalMatches": 5155,
+   "totalWins": 2537,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "101": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 751,
+     "wins": 375,
+     "winrate": 49.9,
+     "share": 15.3
+    },
+    "POSITION_3": {
+     "matches": 20,
+     "wins": 9,
+     "winrate": 45,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 2971,
+     "wins": 1463,
+     "winrate": 49.2,
+     "share": 60.7
+    },
+    "POSITION_5": {
+     "matches": 1150,
+     "wins": 560,
+     "winrate": 48.7,
+     "share": 23.5
+    }
+   },
+   "totalMatches": 4895,
+   "totalWins": 2407,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "102": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 112,
+     "wins": 43,
+     "winrate": 38.4,
+     "share": 8.2
+    },
+    "POSITION_2": {
+     "matches": 7,
+     "wins": 3,
+     "winrate": 42.9,
+     "share": 0.5
+    },
+    "POSITION_3": {
+     "matches": 253,
+     "wins": 106,
+     "winrate": 41.9,
+     "share": 18.6
+    },
+    "POSITION_4": {
+     "matches": 201,
+     "wins": 107,
+     "winrate": 53.2,
+     "share": 14.8
+    },
+    "POSITION_5": {
+     "matches": 786,
+     "wins": 392,
+     "winrate": 49.9,
+     "share": 57.8
+    }
+   },
+   "totalMatches": 1359,
+   "totalWins": 651,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "103": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 6,
+     "wins": 4,
+     "winrate": 66.7,
+     "share": 0.7
+    },
+    "POSITION_2": {
+     "matches": 12,
+     "wins": 9,
+     "winrate": 75,
+     "share": 1.4
+    },
+    "POSITION_3": {
+     "matches": 295,
+     "wins": 155,
+     "winrate": 52.5,
+     "share": 35.4
+    },
+    "POSITION_4": {
+     "matches": 180,
+     "wins": 97,
+     "winrate": 53.9,
+     "share": 21.6
+    },
+    "POSITION_5": {
+     "matches": 340,
+     "wins": 198,
+     "winrate": 58.2,
+     "share": 40.8
+    }
+   },
+   "totalMatches": 833,
+   "totalWins": 463,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "104": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 54,
+     "wins": 20,
+     "winrate": 37,
+     "share": 1
+    },
+    "POSITION_2": {
+     "matches": 169,
+     "wins": 82,
+     "winrate": 48.5,
+     "share": 3
+    },
+    "POSITION_3": {
+     "matches": 5367,
+     "wins": 2754,
+     "winrate": 51.3,
+     "share": 95.5
+    },
+    "POSITION_4": {
+     "matches": 25,
+     "wins": 11,
+     "winrate": 44,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 5622,
+   "totalWins": 2869,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "105": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 8,
+     "wins": 1,
+     "winrate": 12.5,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 608,
+     "wins": 280,
+     "winrate": 46.1,
+     "share": 7.6
+    },
+    "POSITION_3": {
+     "matches": 80,
+     "wins": 33,
+     "winrate": 41.3,
+     "share": 1
+    },
+    "POSITION_4": {
+     "matches": 4721,
+     "wins": 2375,
+     "winrate": 50.3,
+     "share": 58.9
+    },
+    "POSITION_5": {
+     "matches": 2605,
+     "wins": 1336,
+     "winrate": 51.3,
+     "share": 32.5
+    }
+   },
+   "totalMatches": 8022,
+   "totalWins": 4025,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "106": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 75,
+     "wins": 34,
+     "winrate": 45.3,
+     "share": 1
+    },
+    "POSITION_2": {
+     "matches": 6982,
+     "wins": 3367,
+     "winrate": 48.2,
+     "share": 97.2
+    },
+    "POSITION_3": {
+     "matches": 64,
+     "wins": 27,
+     "winrate": 42.2,
+     "share": 0.9
+    },
+    "POSITION_4": {
+     "matches": 39,
+     "wins": 17,
+     "winrate": 43.6,
+     "share": 0.5
+    },
+    "POSITION_5": {
+     "matches": 24,
+     "wins": 8,
+     "winrate": 33.3,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 7184,
+   "totalWins": 3453,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "107": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 6,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 2423,
+     "wins": 1246,
+     "winrate": 51.4,
+     "share": 50.2
+    },
+    "POSITION_3": {
+     "matches": 681,
+     "wins": 346,
+     "winrate": 50.8,
+     "share": 14.1
+    },
+    "POSITION_4": {
+     "matches": 1381,
+     "wins": 679,
+     "winrate": 49.2,
+     "share": 28.6
+    },
+    "POSITION_5": {
+     "matches": 337,
+     "wins": 165,
+     "winrate": 49,
+     "share": 7
+    }
+   },
+   "totalMatches": 4828,
+   "totalWins": 2436,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4"
+   ]
+  },
+  "108": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 11,
+     "wins": 2,
+     "winrate": 18.2,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 43,
+     "wins": 21,
+     "winrate": 48.8,
+     "share": 1
+    },
+    "POSITION_3": {
+     "matches": 4325,
+     "wins": 1977,
+     "winrate": 45.7,
+     "share": 97.3
+    },
+    "POSITION_4": {
+     "matches": 43,
+     "wins": 16,
+     "winrate": 37.2,
+     "share": 1
+    },
+    "POSITION_5": {
+     "matches": 23,
+     "wins": 13,
+     "winrate": 56.5,
+     "share": 0.5
+    }
+   },
+   "totalMatches": 4445,
+   "totalWins": 2029,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "109": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 4400,
+     "wins": 2090,
+     "winrate": 47.5,
+     "share": 98.3
+    },
+    "POSITION_2": {
+     "matches": 4,
+     "wins": 2,
+     "winrate": 50,
+     "share": 0.1
+    },
+    "POSITION_3": {
+     "matches": 37,
+     "wins": 14,
+     "winrate": 37.8,
+     "share": 0.8
+    },
+    "POSITION_4": {
+     "matches": 26,
+     "wins": 13,
+     "winrate": 50,
+     "share": 0.6
+    },
+    "POSITION_5": {
+     "matches": 10,
+     "wins": 5,
+     "winrate": 50,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 4477,
+   "totalWins": 2124,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "110": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 784,
+     "wins": 393,
+     "winrate": 50.1,
+     "share": 19
+    },
+    "POSITION_3": {
+     "matches": 1128,
+     "wins": 559,
+     "winrate": 49.6,
+     "share": 27.4
+    },
+    "POSITION_4": {
+     "matches": 1305,
+     "wins": 656,
+     "winrate": 50.3,
+     "share": 31.7
+    },
+    "POSITION_5": {
+     "matches": 897,
+     "wins": 483,
+     "winrate": 53.8,
+     "share": 21.8
+    }
+   },
+   "totalMatches": 4117,
+   "totalWins": 2091,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "111": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 4,
+     "wins": 3,
+     "winrate": 75,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 52,
+     "wins": 18,
+     "winrate": 34.6,
+     "share": 1.9
+    },
+    "POSITION_3": {
+     "matches": 8,
+     "wins": 3,
+     "winrate": 37.5,
+     "share": 0.3
+    },
+    "POSITION_4": {
+     "matches": 378,
+     "wins": 197,
+     "winrate": 52.1,
+     "share": 14
+    },
+    "POSITION_5": {
+     "matches": 2253,
+     "wins": 1181,
+     "winrate": 52.4,
+     "share": 83.6
+    }
+   },
+   "totalMatches": 2695,
+   "totalWins": 1402,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "112": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 14,
+     "wins": 8,
+     "winrate": 57.1,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 123,
+     "wins": 54,
+     "winrate": 43.9,
+     "share": 2
+    },
+    "POSITION_3": {
+     "matches": 245,
+     "wins": 123,
+     "winrate": 50.2,
+     "share": 3.9
+    },
+    "POSITION_4": {
+     "matches": 1150,
+     "wins": 571,
+     "winrate": 49.7,
+     "share": 18.3
+    },
+    "POSITION_5": {
+     "matches": 4763,
+     "wins": 2347,
+     "winrate": 49.3,
+     "share": 75.7
+    }
+   },
+   "totalMatches": 6295,
+   "totalWins": 3103,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "113": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 158,
+     "wins": 73,
+     "winrate": 46.2,
+     "share": 5.3
+    },
+    "POSITION_2": {
+     "matches": 2728,
+     "wins": 1584,
+     "winrate": 58.1,
+     "share": 91.4
+    },
+    "POSITION_3": {
+     "matches": 11,
+     "wins": 4,
+     "winrate": 36.4,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 50,
+     "wins": 19,
+     "winrate": 38,
+     "share": 1.7
+    },
+    "POSITION_5": {
+     "matches": 39,
+     "wins": 13,
+     "winrate": 33.3,
+     "share": 1.3
+    }
+   },
+   "totalMatches": 2986,
+   "totalWins": 1693,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2"
+   ]
+  },
+  "114": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1201,
+     "wins": 573,
+     "winrate": 47.7,
+     "share": 51.7
+    },
+    "POSITION_2": {
+     "matches": 773,
+     "wins": 387,
+     "winrate": 50.1,
+     "share": 33.3
+    },
+    "POSITION_3": {
+     "matches": 169,
+     "wins": 82,
+     "winrate": 48.5,
+     "share": 7.3
+    },
+    "POSITION_4": {
+     "matches": 146,
+     "wins": 76,
+     "winrate": 52.1,
+     "share": 6.3
+    },
+    "POSITION_5": {
+     "matches": 32,
+     "wins": 16,
+     "winrate": 50,
+     "share": 1.4
+    }
+   },
+   "totalMatches": 2321,
+   "totalWins": 1134,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "119": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 7,
+     "wins": 2,
+     "winrate": 28.6,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 74,
+     "wins": 44,
+     "winrate": 59.5,
+     "share": 1.5
+    },
+    "POSITION_3": {
+     "matches": 21,
+     "wins": 9,
+     "winrate": 42.9,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 2808,
+     "wins": 1455,
+     "winrate": 51.8,
+     "share": 57.6
+    },
+    "POSITION_5": {
+     "matches": 1963,
+     "wins": 950,
+     "winrate": 48.4,
+     "share": 40.3
+    }
+   },
+   "totalMatches": 4873,
+   "totalWins": 2460,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "120": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 8,
+     "wins": 1,
+     "winrate": 12.5,
+     "share": 0.2
+    },
+    "POSITION_2": {
+     "matches": 2512,
+     "wins": 1222,
+     "winrate": 48.6,
+     "share": 71.9
+    },
+    "POSITION_3": {
+     "matches": 955,
+     "wins": 451,
+     "winrate": 47.2,
+     "share": 27.3
+    },
+    "POSITION_4": {
+     "matches": 16,
+     "wins": 6,
+     "winrate": 37.5,
+     "share": 0.5
+    },
+    "POSITION_5": {
+     "matches": 3,
+     "wins": 3,
+     "winrate": 100,
+     "share": 0.1
+    }
+   },
+   "totalMatches": 3494,
+   "totalWins": 1683,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "121": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 2,
+     "winrate": 66.7,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 136,
+     "wins": 58,
+     "winrate": 42.6,
+     "share": 2.5
+    },
+    "POSITION_3": {
+     "matches": 20,
+     "wins": 16,
+     "winrate": 80,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 2404,
+     "wins": 1257,
+     "winrate": 52.3,
+     "share": 45
+    },
+    "POSITION_5": {
+     "matches": 2775,
+     "wins": 1492,
+     "winrate": 53.8,
+     "share": 52
+    }
+   },
+   "totalMatches": 5338,
+   "totalWins": 2825,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "123": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 42,
+     "wins": 12,
+     "winrate": 28.6,
+     "share": 0.5
+    },
+    "POSITION_2": {
+     "matches": 85,
+     "wins": 32,
+     "winrate": 37.6,
+     "share": 1
+    },
+    "POSITION_3": {
+     "matches": 30,
+     "wins": 16,
+     "winrate": 53.3,
+     "share": 0.4
+    },
+    "POSITION_4": {
+     "matches": 5261,
+     "wins": 2411,
+     "winrate": 45.8,
+     "share": 62.2
+    },
+    "POSITION_5": {
+     "matches": 3041,
+     "wins": 1466,
+     "winrate": 48.2,
+     "share": 35.9
+    }
+   },
+   "totalMatches": 8459,
+   "totalWins": 3937,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "126": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 66,
+     "wins": 26,
+     "winrate": 39.4,
+     "share": 1.9
+    },
+    "POSITION_2": {
+     "matches": 2894,
+     "wins": 1414,
+     "winrate": 48.9,
+     "share": 84
+    },
+    "POSITION_3": {
+     "matches": 397,
+     "wins": 196,
+     "winrate": 49.4,
+     "share": 11.5
+    },
+    "POSITION_4": {
+     "matches": 78,
+     "wins": 35,
+     "winrate": 44.9,
+     "share": 2.3
+    },
+    "POSITION_5": {
+     "matches": 12,
+     "wins": 6,
+     "winrate": 50,
+     "share": 0.3
+    }
+   },
+   "totalMatches": 3447,
+   "totalWins": 1677,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "128": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 24,
+     "wins": 10,
+     "winrate": 41.7,
+     "share": 0.3
+    },
+    "POSITION_2": {
+     "matches": 2219,
+     "wins": 1142,
+     "winrate": 51.5,
+     "share": 29.3
+    },
+    "POSITION_3": {
+     "matches": 744,
+     "wins": 382,
+     "winrate": 51.3,
+     "share": 9.8
+    },
+    "POSITION_4": {
+     "matches": 2725,
+     "wins": 1321,
+     "winrate": 48.5,
+     "share": 35.9
+    },
+    "POSITION_5": {
+     "matches": 1873,
+     "wins": 922,
+     "winrate": 49.2,
+     "share": 24.7
+    }
+   },
+   "totalMatches": 7585,
+   "totalWins": 3777,
+   "topPosition": "POSITION_4",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "129": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 3,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 85,
+     "wins": 41,
+     "winrate": 48.2,
+     "share": 2.6
+    },
+    "POSITION_3": {
+     "matches": 3152,
+     "wins": 1506,
+     "winrate": 47.8,
+     "share": 95.4
+    },
+    "POSITION_4": {
+     "matches": 40,
+     "wins": 19,
+     "winrate": 47.5,
+     "share": 1.2
+    },
+    "POSITION_5": {
+     "matches": 23,
+     "wins": 8,
+     "winrate": 34.8,
+     "share": 0.7
+    }
+   },
+   "totalMatches": 3303,
+   "totalWins": 1574,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "131": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 4,
+     "wins": 4,
+     "winrate": 100,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 9,
+     "wins": 4,
+     "winrate": 44.4,
+     "share": 0.2
+    },
+    "POSITION_3": {
+     "matches": 4,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_4": {
+     "matches": 1825,
+     "wins": 897,
+     "winrate": 49.2,
+     "share": 37.7
+    },
+    "POSITION_5": {
+     "matches": 2999,
+     "wins": 1456,
+     "winrate": 48.5,
+     "share": 62
+    }
+   },
+   "totalMatches": 4841,
+   "totalWins": 2361,
+   "topPosition": "POSITION_5",
+   "mainPositions": [
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "135": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 28,
+     "wins": 16,
+     "winrate": 57.1,
+     "share": 0.4
+    },
+    "POSITION_2": {
+     "matches": 265,
+     "wins": 142,
+     "winrate": 53.6,
+     "share": 3.5
+    },
+    "POSITION_3": {
+     "matches": 6912,
+     "wins": 3548,
+     "winrate": 51.3,
+     "share": 92.3
+    },
+    "POSITION_4": {
+     "matches": 161,
+     "wins": 82,
+     "winrate": 50.9,
+     "share": 2.1
+    },
+    "POSITION_5": {
+     "matches": 123,
+     "wins": 59,
+     "winrate": 48,
+     "share": 1.6
+    }
+   },
+   "totalMatches": 7489,
+   "totalWins": 3847,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3"
+   ]
+  },
+  "136": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 128,
+     "wins": 59,
+     "winrate": 46.1,
+     "share": 5.4
+    },
+    "POSITION_2": {
+     "matches": 960,
+     "wins": 482,
+     "winrate": 50.2,
+     "share": 40.3
+    },
+    "POSITION_3": {
+     "matches": 414,
+     "wins": 216,
+     "winrate": 52.2,
+     "share": 17.4
+    },
+    "POSITION_4": {
+     "matches": 415,
+     "wins": 196,
+     "winrate": 47.2,
+     "share": 17.4
+    },
+    "POSITION_5": {
+     "matches": 465,
+     "wins": 204,
+     "winrate": 43.9,
+     "share": 19.5
+    }
+   },
+   "totalMatches": 2382,
+   "totalWins": 1157,
+   "topPosition": "POSITION_2",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  },
+  "137": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2,
+     "wins": 0,
+     "winrate": 0,
+     "share": 0.1
+    },
+    "POSITION_2": {
+     "matches": 616,
+     "wins": 382,
+     "winrate": 62,
+     "share": 29.7
+    },
+    "POSITION_3": {
+     "matches": 1432,
+     "wins": 780,
+     "winrate": 54.5,
+     "share": 69.1
+    },
+    "POSITION_4": {
+     "matches": 17,
+     "wins": 7,
+     "winrate": 41.2,
+     "share": 0.8
+    },
+    "POSITION_5": {
+     "matches": 5,
+     "wins": 4,
+     "winrate": 80,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 2072,
+   "totalWins": 1173,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_2",
+    "POSITION_3"
+   ]
+  },
+  "138": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 1299,
+     "wins": 613,
+     "winrate": 47.2,
+     "share": 80.7
+    },
+    "POSITION_2": {
+     "matches": 84,
+     "wins": 46,
+     "winrate": 54.8,
+     "share": 5.2
+    },
+    "POSITION_3": {
+     "matches": 23,
+     "wins": 12,
+     "winrate": 52.2,
+     "share": 1.4
+    },
+    "POSITION_4": {
+     "matches": 139,
+     "wins": 66,
+     "winrate": 47.5,
+     "share": 8.6
+    },
+    "POSITION_5": {
+     "matches": 64,
+     "wins": 31,
+     "winrate": 48.4,
+     "share": 4
+    }
+   },
+   "totalMatches": 1609,
+   "totalWins": 768,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1"
+   ]
+  },
+  "145": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 2424,
+     "wins": 1034,
+     "winrate": 42.7,
+     "share": 64.7
+    },
+    "POSITION_2": {
+     "matches": 1187,
+     "wins": 556,
+     "winrate": 46.8,
+     "share": 31.7
+    },
+    "POSITION_3": {
+     "matches": 112,
+     "wins": 48,
+     "winrate": 42.9,
+     "share": 3
+    },
+    "POSITION_4": {
+     "matches": 14,
+     "wins": 3,
+     "winrate": 21.4,
+     "share": 0.4
+    },
+    "POSITION_5": {
+     "matches": 7,
+     "wins": 4,
+     "winrate": 57.1,
+     "share": 0.2
+    }
+   },
+   "totalMatches": 3744,
+   "totalWins": 1645,
+   "topPosition": "POSITION_1",
+   "mainPositions": [
+    "POSITION_1",
+    "POSITION_2"
+   ]
+  },
+  "155": {
+   "positions": {
+    "POSITION_1": {
+     "matches": 9,
+     "wins": 4,
+     "winrate": 44.4,
+     "share": 0.6
+    },
+    "POSITION_2": {
+     "matches": 112,
+     "wins": 62,
+     "winrate": 55.4,
+     "share": 6.9
+    },
+    "POSITION_3": {
+     "matches": 834,
+     "wins": 419,
+     "winrate": 50.2,
+     "share": 51.1
+    },
+    "POSITION_4": {
+     "matches": 293,
+     "wins": 142,
+     "winrate": 48.5,
+     "share": 18
+    },
+    "POSITION_5": {
+     "matches": 384,
+     "wins": 187,
+     "winrate": 48.7,
+     "share": 23.5
+    }
+   },
+   "totalMatches": 1632,
+   "totalWins": 814,
+   "topPosition": "POSITION_3",
+   "mainPositions": [
+    "POSITION_3",
+    "POSITION_4",
+    "POSITION_5"
+   ]
+  }
+ }
+}

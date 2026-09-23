@@ -15,3 +15,6 @@ Claude outputs/
 __pycache__/
 seo/abilities_russian.txt
 seo/opendota-items.json
+
+# Токен Stratz API — только локально, в репозиторий не попадает
+stratz.capi.txt

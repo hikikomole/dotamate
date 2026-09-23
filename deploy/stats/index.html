@@ -59,7 +59,7 @@
     <div class="stats-panel">
       <div class="stats-toolbar">
         <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
-        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="Carry">Керри</option><option value="Support">Поддержка</option><option value="Nuker">Нюкер</option><option value="Disabler">Дизейблер</option><option value="Initiator">Инициация</option><option value="Durable">Танк</option><option value="Escape">Эскейп</option><option value="Pusher">Пушер</option></select>
+        <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="POSITION_1">Керри</option><option value="POSITION_2">Мид</option><option value="POSITION_3">Оффлейн</option><option value="POSITION_4">Поддержка</option><option value="POSITION_5">Полная поддержка</option></select>
         <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
       </div>
       <div class="table-wrap">
@@ -78,6 +78,7 @@
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
 <script src="/js/local-preview.js"></script>
 <script src="/js/reliable-data.js"></script>
+<script src="/js/hero-roles.js"></script>
 <script src="/js/app.js"></script>
 
 <script src="/js/v43-features.js"></script>

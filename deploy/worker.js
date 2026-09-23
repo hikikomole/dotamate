@@ -237,6 +237,72 @@ async function getItemDetail(itemId) {
   return { ...raw, desc_loc: desc, description: desc, source };
 }
 
+
+// --- Статистика героев по пяти позициям (Stratz GraphQL).
+// Stratz обновляет срез не чаще раза в сутки, поэтому и мы ходим туда раз в
+// сутки: cachedJson держит ответ 24 часа, а при недоступности API или
+// отсутствии токена отдаём снимок из data/hero-positions.json — страница
+// показывает вчерашние настоящие числа вместо пустоты.
+const STRATZ_ENDPOINT = 'https://api.stratz.com/graphql';
+const STRATZ_BRACKET = 'DIVINE_IMMORTAL';
+const POSITION_KEYS = ['POSITION_1', 'POSITION_2', 'POSITION_3', 'POSITION_4', 'POSITION_5'];
+
+async function fetchStratzPositions(token) {
+  const query = `{ heroStats { stats(bracketBasicIds:[${STRATZ_BRACKET}], groupByPosition:true) { heroId position matchCount winCount } } }`;
+  const res = await fetch(STRATZ_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      'User-Agent': 'STRATZ_API'
+    },
+    body: JSON.stringify({ query })
+  });
+  if (!res.ok) throw new Error('stratz HTTP ' + res.status);
+  const j = await res.json();
+  if (j.errors) throw new Error('stratz errors: ' + JSON.stringify(j.errors).slice(0, 200));
+  const rows = j?.data?.heroStats?.stats || [];
+  if (!rows.length) throw new Error('stratz returned no rows');
+
+  const heroes = {};
+  for (const r of rows) {
+    if (!POSITION_KEYS.includes(r.position)) continue;
+    const id = String(r.heroId);
+    if (!heroes[id]) heroes[id] = { positions: {}, totalMatches: 0, totalWins: 0, topPosition: null, mainPositions: [] };
+    heroes[id].positions[r.position] = {
+      matches: r.matchCount,
+      wins: r.winCount,
+      winrate: r.matchCount ? Number((r.winCount / r.matchCount * 100).toFixed(1)) : null
+    };
+  }
+  for (const h of Object.values(heroes)) {
+    h.totalMatches = POSITION_KEYS.reduce((s, p) => s + (h.positions[p]?.matches || 0), 0);
+    h.totalWins = POSITION_KEYS.reduce((s, p) => s + (h.positions[p]?.wins || 0), 0);
+    for (const p of POSITION_KEYS) {
+      if (h.positions[p]) h.positions[p].share = h.totalMatches ? Number((h.positions[p].matches / h.totalMatches * 100).toFixed(1)) : 0;
+    }
+    h.topPosition = POSITION_KEYS.filter(p => h.positions[p]).sort((a, b) => h.positions[b].matches - h.positions[a].matches)[0] || null;
+    h.mainPositions = POSITION_KEYS.filter(p => h.positions[p] && h.positions[p].share >= 10);
+  }
+  return {
+    source: 'Stratz GraphQL API',
+    bracket: STRATZ_BRACKET,
+    fetchedAt: new Date().toISOString(),
+    heroCount: Object.keys(heroes).length,
+    heroes
+  };
+}
+
+async function getHeroPositions(env) {
+  const token = env && env.STRATZ_TOKEN;
+  if (token) {
+    try {
+      return await cachedJson('hero-positions-v1', 60 * 60 * 24, () => fetchStratzPositions(token));
+    } catch (e) { /* ниже отдадим снимок */ }
+  }
+  return fetchStaticJson(env, '/data/hero-positions.json');
+}
+
 async function handleApi(pathname, env) {
   let m;
   if ((m = pathname.match(/^\/api\/dota\/hero\/(\d+)\/items$/))) {
@@ -250,6 +316,10 @@ async function handleApi(pathname, env) {
   if ((m = pathname.match(/^\/api\/dota\/item\/(\d+)$/))) {
     try { return jsonResponse(await getItemDetail(Number(m[1]))); }
     catch (e) { return jsonResponse({ error: 'item_unavailable', message: e.message }, 502); }
+  }
+  if (pathname === '/api/dota/hero-positions') {
+    try { return jsonResponse(await getHeroPositions(env)); }
+    catch (e) { return jsonResponse({ error: 'hero_positions_unavailable', message: e.message }, 502); }
   }
   return jsonResponse({ error: 'not_found' }, 404);
 }
