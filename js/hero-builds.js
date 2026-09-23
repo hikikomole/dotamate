@@ -109,7 +109,12 @@
           <em>Талант</em><u>${esc(shortTalent(label))}</u><span>${i + 1}</span>
         </div>`;
       }
-      if (!a.name) {
+      // Иконки нет ни у способности без имени, ни у врождённых способностей,
+      // которые Valve не публикует. В сборке мы знаем список файлов заранее
+      // (ctx.hasAbilityIcon) и не ставим ссылку вовсе; в браузере такого
+      // списка нет, поэтому там страхует onerror ниже.
+      const noIcon = !a.name || (ctx.hasAbilityIcon && !ctx.hasAbilityIcon(a.name));
+      if (noIcon) {
         return `<div class="hb-step hb-step-empty" title="${tip}"><span>${i + 1}</span></div>`;
       }
       return `<div class="hb-step" title="${tip}">

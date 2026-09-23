@@ -36,6 +36,14 @@ async function main(){
   const entries=Object.entries(store).filter(([key,x])=>
     x.dname && !x.recipeFor && !variantMaps.byKey[key]);
 
+  // Герои нужны, чтобы к именам в блоке покупок добавить иконку и ссылку.
+  const {slugForHero}=require('./tools/hero-common.js');
+  const heroById=new Map();
+  try{
+    for(const h of JSON.parse(fs.readFileSync(path.join(__dirname,'data','heroes.json'),'utf8')).heroes)
+      heroById.set(Number(h.id),h);
+  }catch{}
+
   const outRoot=path.join(__dirname,'deploy','item');
   fs.mkdirSync(outRoot,{recursive:true});
   const urls=[];
@@ -78,7 +86,17 @@ async function main(){
       `<div class="item-level"><b>${l.level}</b><span>${Number(l.cost).toLocaleString('ru-RU')} G</span><i>${l.step?'+'+Number(l.step).toLocaleString('ru-RU')+' G за улучшение':'базовый'}</i></div>`
     ).join('')}</div>`:'';
     const use=usage[String(x.id)];
-    const heroesHtml=(use&&use.heroes||[]).map(r=>`<li><b>${escapeHtml(r.n)}</b><span>${r.g} покупок · чаще: ${escapeHtml(r.p)}</span></li>`).join('');
+    // Список героев с иконками и ссылкой на страницу героя: имя одно читается
+    // тяжелее, а иконка узнаётся мгновенно. Слаг и картинка берутся из того же
+    // справочника героев, что и остальной сайт; если героя в нём нет,
+    // показываем строку без иконки, но не ломаем блок.
+    const heroesHtml=(use&&use.heroes||[]).map(r=>{
+      const h=heroById.get(Number(r.h));
+      const slug=h?slugForHero(h):'';
+      const icon=slug?`<img loading="lazy" src="/assets/heroes/${slug}.png" alt="">`:'';
+      const inner=`${icon}<span><b>${escapeHtml(r.n)}</b><i>${r.g} покупок · чаще: ${escapeHtml(r.p)}</i></span>`;
+      return slug?`<li><a href="/hero/${slug}/">${inner}</a></li>`:`<li>${inner}</li>`;
+    }).join('');
     const meta=[
       x.cost?`<span>💰 ${x.cost} золота</span>`:(x.cat==='neutral'?`<span>Нейтральный${x.tier?` · тир ${x.tier}`:''}</span>`:''),
       x.cat==='neutral'?'':`<span>${escapeHtml(x.catRu||'Предмет')}</span>`,
@@ -136,7 +154,7 @@ async function main(){
       <div class="ip-chips">${meta}</div>
     </div>
   </section>
-  ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2><small>${x.descOwn?'Текст сайта: официального описания у Valve для этого предмета нет':'Официальная русская локализация Valve'}</small></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания Valve</h3>${notesHtml}</div>`:''}</section>`:''}
+  ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2><small>${x.descOwn?'Текст сайта: официального описания у Valve для этого предмета нет':'Официальная русская локализация Valve'}</small></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания</h3>${notesHtml}</div>`:''}</section>`:''}
   ${attribHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ХАРАКТЕРИСТИКИ</span><h2>Что даёт в цифрах</h2></div><div class="ip-attrib">${attribHtml}</div></section>`:''}
   ${levelsHtml?`<section class="ip-panel item-levels"><div class="ip-panel-head"><span>УЛУЧШЕНИЕ</span><h2>Уровни улучшения</h2></div>
     <p class="item-levels-note">Предмет улучшается прямо в инвентаре: каждый следующий уровень покупается отдельно и усиливает все его показатели. Числа в характеристиках выше перечислены по уровням — от первого к последнему.</p>

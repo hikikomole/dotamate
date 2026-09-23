@@ -56,13 +56,39 @@ async function main() {
   const heroes = await (await fetch('https://api.opendota.com/api/heroStats')).json();
   const byId = new Map(heroes.map(h => [Number(h.id), h]));
   const itemsRaw = await (await fetch('https://api.opendota.com/api/constants/items')).json();
+  // Справочник предметов OpenDota шире нашего каталога: там есть
+  // ward_observer, ward_sentry, harpoon и shadow_amulet, а страниц у них нет.
+  // Раньше гайды ссылались на них — 63 битых адреса на 63 страницах. Берём
+  // только те предметы, у которых страница реально собрана, а уровни
+  // (Dagon 2–5) сводим к базовому предмету.
+  const havePage = new Set();
+  try {
+    for (const u of JSON.parse(fs.readFileSync(path.join(__dirname, 'item-urls.json'), 'utf8')))
+      havePage.add(String(u.loc).replace(/^https:\/\/dotamate\.ru\/item\/|\/$/g, ''));
+  } catch {}
+  const variantById = (() => {
+    try {
+      const V = require('./js/item-variants.js');
+      const cat = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'items-ru.json'), 'utf8')).items;
+      return V.buildVariantMaps(cat).byId;
+    } catch { return {}; }
+  })();
+
   const itemsById = new Map();
   const itemKeyById = new Map();
   for (const [key, v] of Object.entries(itemsRaw)) {
     if (!v || !v.id) continue;
+    const slug = itemSlugOf(key);
+    if (havePage.size && !havePage.has(slug)) continue;
     itemsById.set(Number(v.id), v);
     itemKeyById.set(Number(v.id), key);
   }
+
+  const abilityIconExists = (() => {
+    let have = new Set();
+    try { have = new Set(fs.readdirSync(path.join(__dirname, 'assets', 'abilities')).map(f => f.replace(/\.png$/, ''))); } catch {}
+    return key => have.has(String(key));
+  })();
 
   const pagesRoot = path.join(__dirname, 'deploy', 'hero');
   const urls = [];
@@ -88,13 +114,13 @@ async function main() {
     const abilitiesHtml = (g.abilities || []).map((ab, i) => {
       const paras = String(ab.desc || '').replace(/<\s*br\s*\/?\s*>/gi, '\n').replace(/\\n/g, '\n').replace(/<[^>]*>/g, '').replace(/%%/g, '%').split('\n').map(x => x.trim()).filter(Boolean);
       const body = paras.length ? paras.map(x => `<p>${escapeHtml(x)}</p>`).join('') : '<p>Официального русского описания у Valve для этой способности нет.</p>';
-      return `<article class="hg-ability"><div class="hg-ability-art"><img loading="lazy" src="/assets/abilities/${encodeURIComponent(ab.key)}.png" alt=""><span>${i + 1}</span></div><div><b>${escapeHtml(ab.dname || ab.key)}</b>${body}</div></article>`;
+      return `<article class="hg-ability"><div class="hg-ability-art${abilityIconExists(ab.key) ? '' : ' no-icon'}">${abilityIconExists(ab.key) ? `<img loading="lazy" src="/assets/abilities/${encodeURIComponent(ab.key)}.png" alt="">` : `<u>${escapeHtml(String(ab.name || '').slice(0, 2).toUpperCase())}</u>`}<span>${i + 1}</span></div><div><b>${escapeHtml(ab.dname || ab.key)}</b>${body}</div></article>`;
     }).join('');
 
     const phaseHtml = PHASES.map(([key, label, hint]) => {
       const raw = (g.items || {})[key] || {};
       const rows = Object.entries(raw)
-        .map(([id, count]) => ({ id: Number(id), count: Number(count) || 0 }))
+        .map(([id, count]) => ({ id: variantById[Number(id)] ?? Number(id), count: Number(count) || 0 }))
         .filter(r => itemName(r.id, itemsById))
         .sort((x, y) => y.count - x.count).slice(0, 6);
       if (!rows.length) return '';
@@ -174,7 +200,6 @@ ${analytics}
       <p class="hg-lead">${escapeHtml(lead)}</p>
       <div class="hero-detail-actions">
         <a class="btn red" href="/hero/${slug}/">Страница героя →</a>
-        <a class="btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a>
       </div>
     </div>
   </div>

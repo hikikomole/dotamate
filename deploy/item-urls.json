@@ -20,10 +20,6 @@
     "name": "Aghanim's Shard"
   },
   {
-    "loc": "https://dotamate.ru/item/aghanims_shard_roshan/",
-    "name": "Aghanim's Shard - Consumable"
-  },
-  {
     "loc": "https://dotamate.ru/item/ancient_janggo/",
     "name": "Drum of Endurance"
   },
@@ -908,10 +904,6 @@
     "name": "Tango"
   },
   {
-    "loc": "https://dotamate.ru/item/tango_single/",
-    "name": "Tango (Shared)"
-  },
-  {
     "loc": "https://dotamate.ru/item/tiara_of_selemene/",
     "name": "Tiara of Selemene"
   },
@@ -946,10 +938,6 @@
   {
     "loc": "https://dotamate.ru/item/ultimate_scepter_2/",
     "name": "Aghanim's Blessing"
-  },
-  {
-    "loc": "https://dotamate.ru/item/ultimate_scepter_roshan/",
-    "name": "Aghanim's Blessing - Roshan"
   },
   {
     "loc": "https://dotamate.ru/item/unrelenting_eye/",

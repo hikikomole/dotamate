@@ -41,11 +41,40 @@
     return base.dname && base.dname === self.dname ? m[1] : null;
   }
 
+  /**
+   * Второй вид дубля: тот же предмет, добытый иначе. Определяется по
+   * НАЗВАНИЮ, а не по ключу: «X - уточнение» или «X (уточнение)» при том, что
+   * предмет ровно с названием «X» в каталоге есть.
+   *
+   * Так находятся «Aghanim's Shard - Consumable» и «Aghanim's Blessing -
+   * Roshan» (версии с Рошана) и «Tango (Shared)» (заряд, которым делится
+   * союзник). По ключу их не поймать: ultimate_scepter_roshan по ключу
+   * относится к ultimate_scepter («Aghanim's Scepter»), а на деле это версия
+   * ultimate_scepter_2 («Aghanim's Blessing») — совсем другого предмета.
+   *
+   * Правило по ключу здесь не годится ещё и потому, что оно прятало бы
+   * travel_boots_2 («Boots of Travel 2») — а это отдельный покупаемый предмет.
+   */
+  function sameItemBase(key, catalog, exactByName) {
+    const self = catalog[key];
+    if (!self || !self.dname || self.recipeFor) return null;
+    const m = self.dname.match(/^(.+?)\s*(?:[-\u2013\u2014]\s*.+|\(.+\))$/);
+    if (!m) return null;
+    const baseName = m[1].trim();
+    if (!baseName || baseName === self.dname) return null;
+    const baseKey = exactByName.get(baseName);
+    return baseKey && baseKey !== key ? baseKey : null;
+  }
+
   /** Карты «вариант -> база» по ключам и по числовым id */
   function buildVariantMaps(catalog) {
     const byKey = {}, byId = {};
+    const exactByName = new Map();
+    for (const [k, v] of Object.entries(catalog)) {
+      if (v && v.dname && !v.recipeFor && !exactByName.has(v.dname)) exactByName.set(v.dname, k);
+    }
     for (const key of Object.keys(catalog)) {
-      const base = variantBase(key, catalog);
+      const base = variantBase(key, catalog) || sameItemBase(key, catalog, exactByName);
       if (!base) continue;
       byKey[key] = base;
       const from = catalog[key] && catalog[key].id;
@@ -84,5 +113,5 @@
     }));
   }
 
-  return { isRecipe, variantBase, buildVariantMaps, isHidden, levelsOf, bareKey };
+  return { isRecipe, variantBase, sameItemBase, buildVariantMaps, isHidden, levelsOf, bareKey };
 });

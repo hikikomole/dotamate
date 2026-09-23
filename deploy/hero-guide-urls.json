@@ -1,0 +1,510 @@
+[
+  {
+    "loc": "https://dotamate.ru/hero/antimage/guide/",
+    "name": "Гайд по Anti-Mage"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/axe/guide/",
+    "name": "Гайд по Axe"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bane/guide/",
+    "name": "Гайд по Bane"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bloodseeker/guide/",
+    "name": "Гайд по Bloodseeker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/crystal_maiden/guide/",
+    "name": "Гайд по Crystal Maiden"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/drow_ranger/guide/",
+    "name": "Гайд по Drow Ranger"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/earthshaker/guide/",
+    "name": "Гайд по Earthshaker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/juggernaut/guide/",
+    "name": "Гайд по Juggernaut"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/mirana/guide/",
+    "name": "Гайд по Mirana"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/morphling/guide/",
+    "name": "Гайд по Morphling"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/nevermore/guide/",
+    "name": "Гайд по Shadow Fiend"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/phantom_lancer/guide/",
+    "name": "Гайд по Phantom Lancer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/puck/guide/",
+    "name": "Гайд по Puck"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/pudge/guide/",
+    "name": "Гайд по Pudge"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/razor/guide/",
+    "name": "Гайд по Razor"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/sand_king/guide/",
+    "name": "Гайд по Sand King"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/storm_spirit/guide/",
+    "name": "Гайд по Storm Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/sven/guide/",
+    "name": "Гайд по Sven"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tiny/guide/",
+    "name": "Гайд по Tiny"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/vengeful_spirit/guide/",
+    "name": "Гайд по Vengeful Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/windrunner/guide/",
+    "name": "Гайд по Windranger"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/zuus/guide/",
+    "name": "Гайд по Zeus"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/kunkka/guide/",
+    "name": "Гайд по Kunkka"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lina/guide/",
+    "name": "Гайд по Lina"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lion/guide/",
+    "name": "Гайд по Lion"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/shadow_shaman/guide/",
+    "name": "Гайд по Shadow Shaman"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/slardar/guide/",
+    "name": "Гайд по Slardar"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tidehunter/guide/",
+    "name": "Гайд по Tidehunter"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/witch_doctor/guide/",
+    "name": "Гайд по Witch Doctor"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lich/guide/",
+    "name": "Гайд по Lich"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/riki/guide/",
+    "name": "Гайд по Riki"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/enigma/guide/",
+    "name": "Гайд по Enigma"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tinker/guide/",
+    "name": "Гайд по Tinker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/sniper/guide/",
+    "name": "Гайд по Sniper"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/necrolyte/guide/",
+    "name": "Гайд по Necrophos"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/warlock/guide/",
+    "name": "Гайд по Warlock"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/beastmaster/guide/",
+    "name": "Гайд по Beastmaster"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/queenofpain/guide/",
+    "name": "Гайд по Queen of Pain"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/venomancer/guide/",
+    "name": "Гайд по Venomancer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/faceless_void/guide/",
+    "name": "Гайд по Faceless Void"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/skeleton_king/guide/",
+    "name": "Гайд по Wraith King"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/death_prophet/guide/",
+    "name": "Гайд по Death Prophet"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/phantom_assassin/guide/",
+    "name": "Гайд по Phantom Assassin"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/pugna/guide/",
+    "name": "Гайд по Pugna"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/templar_assassin/guide/",
+    "name": "Гайд по Templar Assassin"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/viper/guide/",
+    "name": "Гайд по Viper"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/luna/guide/",
+    "name": "Гайд по Luna"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dragon_knight/guide/",
+    "name": "Гайд по Dragon Knight"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dazzle/guide/",
+    "name": "Гайд по Dazzle"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/rattletrap/guide/",
+    "name": "Гайд по Clockwerk"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/leshrac/guide/",
+    "name": "Гайд по Leshrac"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/furion/guide/",
+    "name": "Гайд по Nature's Prophet"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/life_stealer/guide/",
+    "name": "Гайд по Lifestealer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dark_seer/guide/",
+    "name": "Гайд по Dark Seer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/clinkz/guide/",
+    "name": "Гайд по Clinkz"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/omniknight/guide/",
+    "name": "Гайд по Omniknight"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/enchantress/guide/",
+    "name": "Гайд по Enchantress"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/huskar/guide/",
+    "name": "Гайд по Huskar"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/night_stalker/guide/",
+    "name": "Гайд по Night Stalker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/broodmother/guide/",
+    "name": "Гайд по Broodmother"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bounty_hunter/guide/",
+    "name": "Гайд по Bounty Hunter"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/weaver/guide/",
+    "name": "Гайд по Weaver"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/jakiro/guide/",
+    "name": "Гайд по Jakiro"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/batrider/guide/",
+    "name": "Гайд по Batrider"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/chen/guide/",
+    "name": "Гайд по Chen"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/spectre/guide/",
+    "name": "Гайд по Spectre"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ancient_apparition/guide/",
+    "name": "Гайд по Ancient Apparition"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/doom_bringer/guide/",
+    "name": "Гайд по Doom"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ursa/guide/",
+    "name": "Гайд по Ursa"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/spirit_breaker/guide/",
+    "name": "Гайд по Spirit Breaker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/gyrocopter/guide/",
+    "name": "Гайд по Gyrocopter"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/alchemist/guide/",
+    "name": "Гайд по Alchemist"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/invoker/guide/",
+    "name": "Гайд по Invoker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/silencer/guide/",
+    "name": "Гайд по Silencer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/obsidian_destroyer/guide/",
+    "name": "Гайд по Outworld Devourer"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lycan/guide/",
+    "name": "Гайд по Lycan"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/brewmaster/guide/",
+    "name": "Гайд по Brewmaster"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/shadow_demon/guide/",
+    "name": "Гайд по Shadow Demon"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/lone_druid/guide/",
+    "name": "Гайд по Lone Druid"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/chaos_knight/guide/",
+    "name": "Гайд по Chaos Knight"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/meepo/guide/",
+    "name": "Гайд по Meepo"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/treant/guide/",
+    "name": "Гайд по Treant Protector"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ogre_magi/guide/",
+    "name": "Гайд по Ogre Magi"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/undying/guide/",
+    "name": "Гайд по Undying"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/rubick/guide/",
+    "name": "Гайд по Rubick"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/disruptor/guide/",
+    "name": "Гайд по Disruptor"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/nyx_assassin/guide/",
+    "name": "Гайд по Nyx Assassin"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/naga_siren/guide/",
+    "name": "Гайд по Naga Siren"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/keeper_of_the_light/guide/",
+    "name": "Гайд по Keeper of the Light"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/wisp/guide/",
+    "name": "Гайд по Io"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/visage/guide/",
+    "name": "Гайд по Visage"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/slark/guide/",
+    "name": "Гайд по Slark"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/medusa/guide/",
+    "name": "Гайд по Medusa"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/troll_warlord/guide/",
+    "name": "Гайд по Troll Warlord"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/centaur/guide/",
+    "name": "Гайд по Centaur Warrunner"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/magnataur/guide/",
+    "name": "Гайд по Magnus"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/shredder/guide/",
+    "name": "Гайд по Timbersaw"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/bristleback/guide/",
+    "name": "Гайд по Bristleback"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/tusk/guide/",
+    "name": "Гайд по Tusk"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/skywrath_mage/guide/",
+    "name": "Гайд по Skywrath Mage"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/abaddon/guide/",
+    "name": "Гайд по Abaddon"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/elder_titan/guide/",
+    "name": "Гайд по Elder Titan"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/legion_commander/guide/",
+    "name": "Гайд по Legion Commander"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/techies/guide/",
+    "name": "Гайд по Techies"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ember_spirit/guide/",
+    "name": "Гайд по Ember Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/earth_spirit/guide/",
+    "name": "Гайд по Earth Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/abyssal_underlord/guide/",
+    "name": "Гайд по Underlord"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/terrorblade/guide/",
+    "name": "Гайд по Terrorblade"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/phoenix/guide/",
+    "name": "Гайд по Phoenix"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/oracle/guide/",
+    "name": "Гайд по Oracle"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/winter_wyvern/guide/",
+    "name": "Гайд по Winter Wyvern"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/arc_warden/guide/",
+    "name": "Гайд по Arc Warden"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/monkey_king/guide/",
+    "name": "Гайд по Monkey King"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dark_willow/guide/",
+    "name": "Гайд по Dark Willow"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/pangolier/guide/",
+    "name": "Гайд по Pangolier"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/grimstroke/guide/",
+    "name": "Гайд по Grimstroke"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/hoodwink/guide/",
+    "name": "Гайд по Hoodwink"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/void_spirit/guide/",
+    "name": "Гайд по Void Spirit"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/snapfire/guide/",
+    "name": "Гайд по Snapfire"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/mars/guide/",
+    "name": "Гайд по Mars"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/ringmaster/guide/",
+    "name": "Гайд по Ring Master"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/dawnbreaker/guide/",
+    "name": "Гайд по Dawnbreaker"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/marci/guide/",
+    "name": "Гайд по Marci"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/primal_beast/guide/",
+    "name": "Гайд по Primal Beast"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/muerta/guide/",
+    "name": "Гайд по Muerta"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/kez/guide/",
+    "name": "Гайд по Kez"
+  },
+  {
+    "loc": "https://dotamate.ru/hero/largo/guide/",
+    "name": "Гайд по Largo"
+  }
+]

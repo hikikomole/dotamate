@@ -743,7 +743,14 @@ body.d2-dark .ip-notes{margin-top:20px!important;padding:14px 16px!important;bac
 body.d2-dark .ip-notes h3{margin:0 0 8px!important;font-size:11px!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:var(--d2-muted-2)!important}
 body.d2-dark .ip-notes p{margin:0 0 6px!important;color:var(--d2-muted)!important;font-size:13px!important;line-height:1.6!important}
 body.d2-dark .ip-heroes{list-style:none!important;margin:0!important;padding:0!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:8px!important}
-body.d2-dark .ip-heroes li{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:11px 13px!important}
+body.d2-dark .ip-heroes li{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:0!important;border-radius:10px!important;overflow:hidden!important}
+/* Строка героя с иконкой: имя одно читается тяжелее, чем лицо героя */
+body.d2-dark .ip-heroes li>a,body.d2-dark .ip-heroes li>span{display:flex!important;align-items:center!important;gap:11px!important;padding:9px 12px!important;text-decoration:none!important;color:inherit!important;transition:background .16s ease!important}
+body.d2-dark .ip-heroes li>a:hover{background:var(--d2-panel-2)!important}
+body.d2-dark .ip-heroes li>a:hover b{color:var(--d2-gold)!important}
+body.d2-dark .ip-heroes img{width:42px!important;height:24px!important;flex:0 0 42px!important;object-fit:cover!important;border-radius:4px!important;display:block!important}
+body.d2-dark .ip-heroes li>a>span,body.d2-dark .ip-heroes li>span>span{display:block!important;min-width:0!important;padding:0!important}
+body.d2-dark .ip-heroes i{display:block!important;font-style:normal!important;margin-top:2px!important;color:var(--d2-muted-2)!important;font-size:11.5px!important}
 body.d2-dark .ip-heroes b{display:block!important;color:#fff!important;font-size:13.5px!important}
 body.d2-dark .ip-heroes span{display:block!important;margin-top:3px!important;color:var(--d2-muted-2)!important;font-size:11.5px!important}
 
@@ -994,3 +1001,6 @@ body.d2-dark .item-level{display:flex!important;flex-direction:column!important;
 body.d2-dark .item-level b{font-size:11px!important;font-weight:800!important;letter-spacing:.1em!important;text-transform:uppercase!important;color:var(--d2-gold-dim)!important}
 body.d2-dark .item-level span{font-size:15px!important;font-weight:800!important;color:var(--d2-text)!important;line-height:1!important}
 body.d2-dark .item-level i{font-style:normal!important;font-size:10.5px!important;color:var(--d2-muted-2)!important}
+/* Врождённые способности и фасеты без иконки: буквенная заглушка в гайде */
+body.d2-dark .hg-ability-art.no-icon{display:flex!important;align-items:center!important;justify-content:center!important;background:var(--d2-panel-2)!important}
+body.d2-dark .hg-ability-art.no-icon u{text-decoration:none!important;font-size:14px!important;font-weight:800!important;color:var(--d2-gold)!important}

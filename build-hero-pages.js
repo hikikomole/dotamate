@@ -155,6 +155,15 @@ async function main(){
     }
   }catch{}
 
+  // Часть врождённых способностей и фасетов Valve не публикует вообще — 41
+  // иконка. Раньше страница всё равно запрашивала их файл и получала 404.
+  // Проверяем наличие файла заранее и просто не ставим ссылку.
+  const abilityIconExists=(()=>{
+    let have=new Set();
+    try{ have=new Set(fs.readdirSync(path.join(__dirname,'assets','abilities')).map(f=>f.replace(/\.png$/,''))); }catch{}
+    return key=>have.has(String(key));
+  })();
+
   const outRoot=path.join(__dirname,'deploy','hero');
   fs.mkdirSync(outRoot,{recursive:true});
   const urls=[];
@@ -183,6 +192,7 @@ async function main(){
       talentNames:null, // русские названия готовы в data/talents-ru.json — включаются заменой на talentNames
       chains:skillChains[h.id]||null,
       talentTitles,
+      hasAbilityIcon:abilityIconExists,
       itemVariants,
       items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
       roleIcon:key=>heroRoles.icon(key)
@@ -274,10 +284,6 @@ async function main(){
         <div><small>Тип атаки</small><b>${escapeHtml(h.attack_type==='Melee'?'Ближний бой':h.attack_type==='Ranged'?'Дальний бой':(h.attack_type||'—'))}</b></div>
         <div><small>Сложность</small><b class="hp-pips" aria-label="Сложность ${h.complexity||1} из 3">${[1,2,3].map(i=>`<i class="${(h.complexity||1)>=i?'on':''}"></i>`).join('')}</b></div>
       </div>
-      <div class="hp-actions">
-        <a class="hp-btn" href="/heroes/">← Все герои</a>
-        <a class="hp-btn ghost" target="_blank" rel="noopener" href="${officialHeroUrl(h)}">Официальная страница ↗</a>
-      </div>
     </div>
   </section>
 
@@ -296,11 +302,11 @@ async function main(){
     <h2>Способности</h2>
     <div class="hp-ab-layout">
       <div class="hp-ab-stage">
-        ${abilities.map((ab,i)=>`<video class="hp-ab-video${i===0?' on':''}" data-ab="${i}" ${i===0?'autoplay':''} loop muted playsinline preload="none" poster="${CDN_IMG}${ab.key}.png"><source src="${CDN_VID}${valveSlug(h)}/${ab.key}.webm" type="video/webm"></video>`).join('')}
+        ${abilities.map((ab,i)=>`<video class="hp-ab-video${i===0?' on':''}" data-ab="${i}" ${i===0?'autoplay':''} loop muted playsinline preload="none" ${abilityIconExists(ab.key)?`poster="${CDN_IMG}${ab.key}.png"`:''}><source src="${CDN_VID}${valveSlug(h)}/${ab.key}.webm" type="video/webm"></video>`).join('')}
       </div>
       <div class="hp-ab-side">
         <div class="hp-ab-icons" role="tablist" aria-label="Способности героя">
-          ${abilities.map((ab,i)=>`<button type="button" role="tab" class="hp-ab-icon${i===0?' on':''}" data-ab="${i}" aria-selected="${i===0?'true':'false'}" title="${escapeHtml(ab.name)}"><img loading="lazy" src="${CDN_IMG}${ab.key}.png" alt="${escapeHtml(ab.name)}" onerror="this.closest('.hp-ab-icon').classList.add('no-icon');this.remove()"><span class="hp-ab-abbr">${escapeHtml(ab.name.slice(0,2).toUpperCase())}</span></button>`).join('')}
+          ${abilities.map((ab,i)=>`<button type="button" role="tab" class="hp-ab-icon${i===0?' on':''}" data-ab="${i}" aria-selected="${i===0?'true':'false'}" title="${escapeHtml(ab.name)}">${abilityIconExists(ab.key)?`<img loading="lazy" src="${CDN_IMG}${ab.key}.png" alt="${escapeHtml(ab.name)}" onerror="this.closest('.hp-ab-icon').classList.add('no-icon');this.remove()">`:''}<span class="hp-ab-abbr">${escapeHtml(ab.name.slice(0,2).toUpperCase())}</span></button>`).join('')}
         </div>
         ${abilities.map((ab,i)=>`<div class="hp-ab-text${i===0?' on':''}" data-ab="${i}">
           <h3>${escapeHtml(ab.name)}</h3>

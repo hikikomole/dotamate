@@ -369,7 +369,11 @@ async function handleApi(pathname, env) {
 // ссылках, поэтому отдаём постоянную переадресацию, а не 404.
 const MERGED_ITEM_PAGES = {
   dagon_2: 'dagon', dagon_3: 'dagon', dagon_4: 'dagon', dagon_5: 'dagon',
-  necronomicon_2: 'necronomicon', necronomicon_3: 'necronomicon'
+  necronomicon_2: 'necronomicon', necronomicon_3: 'necronomicon',
+  // Тот же предмет, добытый иначе: версии с Рошана и заряд Tango от союзника
+  aghanims_shard_roshan: 'aghanims_shard',
+  ultimate_scepter_roshan: 'ultimate_scepter_2',
+  tango_single: 'tango'
 };
 function mergedItemRedirect(url) {
   const m = url.pathname.match(/^\/item\/([a-z0-9_]+)\/?$/);
