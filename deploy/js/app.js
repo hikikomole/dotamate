@@ -346,7 +346,7 @@ function renderFeaturedHeroes(){const el=document.getElementById('featuredHeroes
 // опрашивал OpenDota по десяти героям и на статике показывал «Выборка: 0».
 function renderItemAnalytics(rows){
   const el=document.getElementById('itemAnalytics');if(!el)return;
-  el.innerHTML=`<div class="stats-item-analytics"><div class="stats-analytics-head"><div><span>ITEM ANALYTICS</span><h3>📦 Самые покупаемые предметы</h3><p>Реальные агрегированные покупки OpenDota по 127 героям.</p></div><small>Выборка: ${rows.length} предметов</small></div><div class="stats-item-table">${rows.map((r,i)=>`<button data-item-analytics="${escapeHtml(r.item.name)}"><span class="rank">${i+1}</span><img src="${itemImage(r.item)}" alt=""><span class="item-a-name"><b>${escapeHtml(r.item.dname)}</b><small>${r.heroes} героев · чаще: ${escapeHtml(r.bestPhase)}</small></span><strong>${statValue(r.games)}</strong></button>`).join('')}</div></div>`;
+  el.innerHTML=`<div class="stats-item-analytics"><div class="stats-analytics-head"><div><span>ITEM ANALYTICS</span><h3>📦 Самые покупаемые предметы</h3></div><small>Выборка: ${rows.length} предметов</small></div><div class="stats-item-table">${rows.map((r,i)=>`<button data-item-analytics="${escapeHtml(r.item.name)}"><span class="rank">${i+1}</span><img src="${itemImage(r.item)}" alt=""><span class="item-a-name"><b>${escapeHtml(r.item.dname)}</b><small>${r.heroes} героев · чаще: ${escapeHtml(r.bestPhase)}</small></span><strong>${statValue(r.games)}</strong></button>`).join('')}</div></div>`;
   el.querySelectorAll('[data-item-analytics]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemAnalytics));
 }
 async function loadItemAnalytics(){

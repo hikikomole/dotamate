@@ -154,7 +154,7 @@ async function main(){
       <div class="ip-chips">${meta}</div>
     </div>
   </section>
-  ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2><small>${x.descOwn?'Текст сайта: официального описания у Valve для этого предмета нет':'Официальная русская локализация Valve'}</small></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания</h3>${notesHtml}</div>`:''}</section>`:''}
+  ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания</h3>${notesHtml}</div>`:''}</section>`:''}
   ${attribHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ХАРАКТЕРИСТИКИ</span><h2>Что даёт в цифрах</h2></div><div class="ip-attrib">${attribHtml}</div></section>`:''}
   ${levelsHtml?`<section class="ip-panel item-levels"><div class="ip-panel-head"><span>УЛУЧШЕНИЕ</span><h2>Уровни улучшения</h2></div>
     <p class="item-levels-note">Предмет улучшается прямо в инвентаре: каждый следующий уровень покупается отдельно и усиливает все его показатели. Числа в характеристиках выше перечислены по уровням — от первого к последнему.</p>
@@ -162,8 +162,8 @@ async function main(){
 
   ${componentsHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>СБОРКА</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe">${componentsHtml}</div></section>`:''}
   ${intoHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ДАЛЬШЕ</span><h2>Входит в сборку</h2></div><div class="linked-list ip-recipe">${intoHtml}</div></section>`:''}
-  ${heroesHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ГЕРОИ</span><h2>Кто покупает этот предмет</h2><small>Реальные покупки OpenDota, агрегированные по 127 героям</small></div><ul class="ip-heroes">${heroesHtml}</ul></section>`:''}
-  ${x.lore?`<section class="ip-panel ip-lore"><div class="ip-panel-head"><span>ИСТОРИЯ</span><h2>История предмета</h2>${x.loreOwn?'<small>Текст сайта: своей истории у предмета в игре нет</small>':''}</div><p>${escapeHtml(x.lore)}</p></section>`:''}
+  ${heroesHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ГЕРОИ</span><h2>Кто покупает этот предмет</h2></div><ul class="ip-heroes">${heroesHtml}</ul></section>`:''}
+  ${x.lore?`<section class="ip-panel ip-lore"><div class="ip-panel-head"><span>ИСТОРИЯ</span><h2>История предмета</h2></div><p>${escapeHtml(x.lore)}</p></section>`:''}
 </main>
 <footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>

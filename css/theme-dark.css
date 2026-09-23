@@ -1185,12 +1185,12 @@ body.d2-dark .article-main table tbody tr:last-child td:last-child{border-bottom
 body.d2-dark .hero-guide-links a{border-radius:var(--rad-md)!important}
 
 
-/* «Что покупают» — второй срез покупок. На странице это продолжение блока
-   «Что покупают», поэтому заголовок, подпись и карточки берём оттуда же:
+/* «Покупки по всем рангам» — второй срез. На странице это продолжение
+   блока «Что покупают на <герое>», поэтому заголовок, подпись и карточки
+   берём оттуда же:
    золотой капслок 14px, подпись 13px и та же сетка .hb-item.
-   Сетка через auto-fill, а не auto-fit: в фазе бывает 4 предмета, и при
-   auto-fit они растянулись бы вдвое шире карточек в блоке выше. */
+   Сетка не переопределяется: та же .hb-items, что и выше, — auto-fit
+   растягивает карточки на всю ширину и не оставляет пустых колонок. */
 body.d2-dark .hp-buys{margin-top:0!important;padding:0 0 8px!important}
 body.d2-dark .hp-buys h2{font-size:14px!important;font-weight:800!important;letter-spacing:3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important;margin:40px 0 6px!important}
 body.d2-dark .hp-buys-note{margin:0 0 18px!important;font-size:13px!important;color:var(--d2-muted)!important;max-width:none!important}
-body.d2-dark .hb-items-phase{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))!important}

@@ -224,10 +224,10 @@ async function main(){
           if(!itemById.has(real))continue;
           sum.set(real,(sum.get(real)||0)+(Number(c)||0));
         }
-        const rows=[...sum.entries()].map(([id,c])=>({id,c})).sort((x,y)=>y.c-x.c).slice(0,8);
+        const rows=[...sum.entries()].map(([id,c])=>({id,c})).sort((x,y)=>y.c-x.c).slice(0,9);
         if(!rows.length)return '';
         const cards=rows.map(r=>{const it=itemById.get(r.id);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен ${r.c} раз в выборке"><span class="hb-item-when">${r.c}</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
-        return `<div class="hb-sub"><h3>${label}</h3><em>${note}</em><div class="hb-items hb-items-phase">${cards}</div></div>`;
+        return `<div class="hb-sub"><h3>${label}</h3><em>${note}</em><div class="hb-items">${cards}</div></div>`;
       }).filter(Boolean).join('');
     })();
     const title=`${h.localized_name} — гайд, статы и контрпики | Dota Mate`;
