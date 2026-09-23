@@ -32,6 +32,18 @@
   const num = n => String(n == null ? 0 : n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   const minute = m => m == null ? '—' : m + ' мин';
 
+  /**
+   * Короткая подпись таланта для плитки шириной в одну ячейку прокачки.
+   * Числовые таланты («+30 к урону») сокращаем до значения — оно и есть суть;
+   * текстовые обрезаем по слову, полный текст остаётся в подсказке.
+   */
+  function shortTalent(text) {
+    const t = String(text || '').trim();
+    const num = t.match(/^([+\-−]?\d+(?:[.,]\d+)?\s*%?)/);
+    if (num) return num[1].replace(/\s+/g, '');
+    return t.length > 12 ? t.slice(0, 11).replace(/\s+\S*$/, '') + '…' : t;
+  }
+
   /** Иконка способности: локальный ассет, внешних запросов нет */
   function abilityIcon(name) { return '/assets/abilities/' + name + '.png'; }
   function itemIcon(slug) { return '/assets/items/' + slug + '.png'; }
@@ -48,7 +60,11 @@
       // На 10-м уровне вместо способности часто берут талант. Картинки у
       // талантов в игре нет вообще — рисуем значок «Т», а не битое изображение.
       if (a.isTalent) {
-        return `<div class="hb-step hb-step-talent" title="${tip}"><u>Т</u><span>${i + 1}</span></div>`;
+        const ru = ctx.talentNames && ctx.talentNames[s.abilityId];
+        const label = ru || a.title || 'Талант';
+        return `<div class="hb-step hb-step-talent" title="${esc(label)} · ${wr(s.winrate)} побед, ${num(s.matches)} матчей">
+          <em>Талант</em><u>${esc(shortTalent(label))}</u><span>${i + 1}</span>
+        </div>`;
       }
       if (!a.name) {
         return `<div class="hb-step hb-step-empty" title="${tip}"><span>${i + 1}</span></div>`;
@@ -76,7 +92,7 @@
         if (o.abilityId === t.mostPicked) tags.push('<i class="hb-tag hb-tag-pick">чаще берут</i>');
         if (o.abilityId === t.highestWin) tags.push('<i class="hb-tag hb-tag-win">выше винрейт</i>');
         return `<div class="hb-tal-cell${o.abilityId === t.mostPicked ? ' is-picked' : ''}">
-          <b>${esc(a.title || ('Талант ' + o.abilityId))}</b>
+          <b>${esc((ctx.talentNames && ctx.talentNames[o.abilityId]) || a.title || ('Талант ' + o.abilityId))}</b>
           <span>Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}</span>
           ${tags.join('')}
         </div>`;

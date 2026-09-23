@@ -29,6 +29,12 @@ const heroRoles = require('./js/hero-roles.js');
 const heroBuilds = require('./js/hero-builds.js');
 // Справочник способностей и талантов (id -> внутреннее имя и название),
 // собирается вместе с билдами: fetch-hero-builds.js
+// Русские названия талантов (tools/fetch-talent-names-ru.js): у талантов нет
+// иконки в игре, поэтому в интерфейсе они текстовые — и текст должен быть русским.
+const talentNames = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talents-ru.json'), 'utf8')).byAbilityId; }
+  catch { return {}; }
+})();
 const abilityIndex = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ability-index.json'), 'utf8')).abilities; }
   catch { return {}; }
@@ -137,6 +143,7 @@ async function main(){
     const buildsHtml=buildData?heroBuilds.sectionsHtml(buildData,{
       escapeHtml,
       abilities:abilityIndex,
+      talentNames,
       items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
       roleIcon:key=>heroRoles.icon(key)
     }):'';

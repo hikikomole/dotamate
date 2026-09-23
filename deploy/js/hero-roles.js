@@ -29,15 +29,26 @@
    * Иконки ролей — инлайновый SVG, без внешних файлов и запросов.
    * Рисунок читается по силуэту: меч, посох, щит, пламя, крест лечения.
    */
-  const ICONS = {
-    carry: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 2.6 19 8.2l-8.6 8.6-2.2-2.2L16.8 6z" fill="currentColor" fill-opacity=".25"/><path d="M20.5 2.6 19 8.2l-8.6 8.6-2.2-2.2L16.8 6z"/><path d="m9.9 15.1-2.6 2.6"/><path d="M6.2 13.6 4.4 15.4l4.2 4.2 1.8-1.8z" fill="currentColor" fill-opacity=".35"/><path d="m5.1 18.6-2.4 2.4"/></g></svg>',
-    mid: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 19.4C4.6 11.3 11.3 4.6 19.4 4.6"/><path d="M4.6 19.4 19.4 4.6"/><path d="M15.4 4.6h4v4"/><path d="M4.6 15.4v4h4"/><path d="m11 13 2.6 2.6" stroke-opacity=".55"/></g></svg>',
-    offlane: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.4 4 5.2v6.4c0 4.6 3.2 8.6 8 10.4 4.8-1.8 8-5.8 8-10.4V5.2z" fill="currentColor" fill-opacity=".22"/><path d="M12 2.4 4 5.2v6.4c0 4.6 3.2 8.6 8 10.4 4.8-1.8 8-5.8 8-10.4V5.2z"/><path d="M13.2 7.2 9.6 12.6h2.8l-1.2 4.2 3.8-5.6h-2.9z" fill="currentColor" fill-opacity=".9" stroke-width="1.1"/></g></svg>',
-    support: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.2c2.7 3.9 1.3 5.9.3 7.2-.9 1.2-2.4 2.2-2.4 4.3a4.1 4.1 0 0 0 8.2 0c0-1-.3-1.8-.7-2.5 2.2 1.3 3.4 3.3 3.4 5.6A8.8 8.8 0 0 1 12 21.8a8.8 8.8 0 0 1-8.8-5c0-6.6 6.9-8.4 8.8-14.6" fill="currentColor" fill-opacity=".22"/><path d="M12 2.2c2.7 3.9 1.3 5.9.3 7.2-.9 1.2-2.4 2.2-2.4 4.3a4.1 4.1 0 0 0 8.2 0c0-1-.3-1.8-.7-2.5 2.2 1.3 3.4 3.3 3.4 5.6A8.8 8.8 0 0 1 12 21.8a8.8 8.8 0 0 1-8.8-5c0-6.6 6.9-8.4 8.8-14.6"/></g></svg>',
-    hardsupport: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 12.4V7.9a1.35 1.35 0 0 1 2.7 0v3.3M9.1 11.2V6.4a1.35 1.35 0 0 1 2.7 0v4.6M11.8 11.2V7.4a1.35 1.35 0 0 1 2.7 0v4M14.5 11.6v-2a1.3 1.3 0 0 1 2.6 0v5.1c0 3.6-2.2 6.5-5.4 6.5-3.1 0-5.3-2-5.3-5.2v-2.3l-1.9-1.5a1.3 1.3 0 0 1 1.5-2.1l1.4 1" fill="currentColor" fill-opacity=".22"/><path d="M18.6 3.2 19.3 5l1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="currentColor" fill-opacity=".85" stroke-width="1"/><path d="m4.4 2.6.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="currentColor" fill-opacity=".7" stroke-width=".9"/></g></svg>'
+  /**
+   * Иконки ролей — файлы, присланные пользователем, лежат в assets/roles/.
+   * Керри — вектор (carry.svg), остальные четыре — растр 25px (исходники были
+   * WebP под расширением .png, сконвертированы в PNG). Собственные цвета
+   * иконок не перекрашиваем: это готовые изображения, а не контуры.
+   */
+  const ICON_FILES = {
+    carry: '/assets/roles/carry.svg',
+    mid: '/assets/roles/mid.png',
+    offlane: '/assets/roles/offlane.png',
+    support: '/assets/roles/support.png',
+    hardsupport: '/assets/roles/hardsupport.png'
   };
+  const ICONS = {};
 
-  function icon(key) { return ICONS[key] || ''; }
+  function icon(key) {
+    const src = ICON_FILES[key];
+    if (!src) return '';
+    return '<img src="' + src + '" alt="" loading="lazy" decoding="async" width="20" height="20">';
+  }
 
   /** «5 118» — узкий пробел между разрядами, чтобы число не слипалось */
   function fmtMatches(n) {
@@ -94,7 +105,7 @@
       '. Проценты — винрейт на позиции, ниже — число матчей.';
   }
 
-  return { ROLES, byId, ICONS, icon, rowHtml, sourceNote, fmtMatches, fmtWinrate };
+  return { ROLES, byId, ICON_FILES, icon, rowHtml, sourceNote, fmtMatches, fmtWinrate };
 });
 
 /**

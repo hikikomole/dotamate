@@ -772,73 +772,72 @@ body.d2-dark .cmp-text p{margin:5px 0 0!important;color:var(--d2-muted)!importan
 @media(max-width:560px){ body.d2-dark .cmp-row{grid-template-columns:1fr!important} body.d2-dark .cmp-art img{width:100%!important;max-width:120px!important} }
 
 /* ============================================================
-   Строка ролей героя (пять позиций Dota 2)
-   Данные: Stratz, брекет Divine/Immortal. Разметку строит
-   js/hero-roles.js — там же иконки и форматирование чисел.
+   Строка ролей героя (пять позиций Dota 2).
+   Оформление — палитра сайта: панель --d2-panel, рамка --d2-line,
+   акцент --d2-gold. Разметку строит js/hero-roles.js.
    ============================================================ */
 body.d2-dark .hp-roles{padding:0 0 4px!important}
 body.d2-dark .hr-row{
   display:grid!important;
-  grid-template-columns:minmax(120px,1.2fr) repeat(5,minmax(0,1fr))!important;
-  gap:4px!important;
-  padding:10px!important;
-  border:1px solid rgba(255,255,255,.09)!important;
-  border-radius:16px!important;
-  background:linear-gradient(180deg,rgba(28,22,18,.92),rgba(16,14,13,.92))!important;
-  box-shadow:0 10px 30px rgba(0,0,0,.35)!important;
+  grid-template-columns:minmax(118px,1fr) repeat(5,minmax(0,1.15fr))!important;
+  gap:0!important;
+  border:1px solid var(--d2-line)!important;
+  border-radius:14px!important;
+  background:var(--d2-panel)!important;
+  overflow:hidden!important;
 }
 body.d2-dark .hr-cell{
   position:relative!important;
-  display:flex!important;flex-direction:column!important;gap:6px!important;
-  padding:12px 12px 14px!important;border-radius:11px!important;
-  min-width:0!important;
-  transition:background .18s ease!important;
+  display:flex!important;flex-direction:column!important;gap:7px!important;
+  padding:14px 14px 15px!important;min-width:0!important;
+  border-left:1px solid var(--d2-line-soft)!important;
+  transition:background .16s ease!important;
 }
-body.d2-dark .hr-cell:hover{background:rgba(255,255,255,.035)!important}
-/* Самая популярная позиция — как на эталоне: подложка + подпись сверху */
-body.d2-dark .hr-cell.is-top{
-  background:rgba(255,255,255,.075)!important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)!important;
-}
+body.d2-dark .hr-cell:first-child{border-left:0!important}
+body.d2-dark .hr-cell:hover{background:var(--d2-panel-2)!important}
+/* Ведущая позиция: золотая линия сверху — тот же приём, что у заголовков сайта */
+body.d2-dark .hr-cell.is-top{background:var(--d2-panel-2)!important;box-shadow:inset 0 2px 0 var(--d2-gold)!important}
 body.d2-dark .hr-cell.is-top::before{
   content:attr(data-top);
-  position:absolute!important;top:-19px!important;left:50%!important;transform:translateX(-50%)!important;
-  font-size:10px!important;letter-spacing:.06em!important;text-transform:uppercase!important;
-  color:rgba(255,255,255,.5)!important;white-space:nowrap!important;
+  position:absolute!important;top:5px!important;right:12px!important;
+  font-size:8.5px!important;letter-spacing:.14em!important;text-transform:uppercase!important;
+  font-weight:800!important;color:var(--d2-gold-dim)!important;white-space:nowrap!important;
 }
 body.d2-dark .hr-role{
-  display:flex!important;align-items:center!important;gap:6px!important;
-  font-size:13px!important;font-weight:600!important;color:rgba(255,255,255,.78)!important;
+  display:flex!important;align-items:center!important;gap:7px!important;
+  font-size:12px!important;font-weight:600!important;letter-spacing:.02em!important;
+  color:var(--d2-muted)!important;
   white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
 }
-body.d2-dark .hr-ico{display:inline-flex!important;width:20px!important;height:20px!important;flex:0 0 20px!important}
-body.d2-dark .hr-ico svg{width:100%!important;height:100%!important;display:block!important}
-/* Цвет иконки — один на роль, чтобы строка читалась периферийным зрением */
-body.d2-dark .hr-ico-carry{color:#8fb9e8!important}
-body.d2-dark .hr-ico-mid{color:#57c8c0!important}
-body.d2-dark .hr-ico-offlane{color:#e8a33d!important}
-body.d2-dark .hr-ico-support{color:#e2593f!important}
-body.d2-dark .hr-ico-hardsupport{color:#57bf93!important}
-body.d2-dark .hr-nums{display:flex!important;align-items:baseline!important;gap:8px!important}
-body.d2-dark .hr-nums b{font-size:17px!important;font-weight:800!important;color:#fff!important;line-height:1!important}
-body.d2-dark .hr-nums i{font-style:normal!important;font-size:12px!important;color:rgba(255,255,255,.42)!important}
+body.d2-dark .hr-cell.is-top .hr-role{color:var(--d2-text)!important}
+body.d2-dark .hr-ico{display:inline-flex!important;width:20px!important;height:20px!important;flex:0 0 20px!important;align-items:center!important;justify-content:center!important}
+body.d2-dark .hr-ico img,body.d2-dark .hr-ico svg{width:20px!important;height:20px!important;display:block!important;object-fit:contain!important}
+body.d2-dark .hr-nums{display:flex!important;align-items:baseline!important;gap:7px!important}
+body.d2-dark .hr-nums b{font-size:18px!important;font-weight:800!important;color:var(--d2-text)!important;line-height:1!important;letter-spacing:-.01em!important}
+body.d2-dark .hr-cell.is-top .hr-nums b{color:var(--d2-gold)!important}
+body.d2-dark .hr-nums i{font-style:normal!important;font-size:11.5px!important;color:var(--d2-muted-2)!important}
 /* Полоска = доля матчей героя, сыгранных на этой позиции */
-body.d2-dark .hr-bar{display:block!important;height:3px!important;border-radius:2px!important;background:rgba(255,255,255,.08)!important;overflow:hidden!important}
-body.d2-dark .hr-bar>span{display:block!important;height:100%!important;border-radius:2px!important;background:rgba(255,255,255,.55)!important}
-body.d2-dark .hr-cell.is-top .hr-bar>span{background:#ffb24d!important}
-body.d2-dark .hr-all .hr-role{color:rgba(255,255,255,.5)!important;text-transform:uppercase!important;font-size:11px!important;letter-spacing:.06em!important}
+body.d2-dark .hr-bar{display:block!important;height:2px!important;background:var(--d2-line)!important;overflow:hidden!important}
+body.d2-dark .hr-bar>span{display:block!important;height:100%!important;background:var(--d2-muted-2)!important}
+body.d2-dark .hr-cell.is-top .hr-bar>span{background:var(--d2-gold)!important}
+body.d2-dark .hr-all{background:transparent!important}
+body.d2-dark .hr-all .hr-role{color:var(--d2-gold-dim)!important;text-transform:uppercase!important;font-size:10px!important;letter-spacing:.14em!important;font-weight:800!important}
 body.d2-dark .hr-note{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important}
 
-/* Планшет: роли в две строки по три, подписи не режутся */
 @media(max-width:900px){
   body.d2-dark .hr-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  body.d2-dark .hr-cell{border-top:1px solid var(--d2-line-soft)!important}
+  body.d2-dark .hr-cell:nth-child(-n+3){border-top:0!important}
+  body.d2-dark .hr-cell:nth-child(3n+1){border-left:0!important}
   body.d2-dark .hr-cell.is-top::before{display:none!important}
-  body.d2-dark .hr-cell.is-top .hr-role::after{content:'·  популярная'!important;font-size:10px!important;color:rgba(255,255,255,.45)!important;font-weight:500!important}
 }
-/* Телефон: две колонки, «Все роли» на всю ширину */
 @media(max-width:560px){
-  body.d2-dark .hr-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:8px!important}
+  body.d2-dark .hr-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   body.d2-dark .hr-all{grid-column:1/-1!important}
+  body.d2-dark .hr-cell:nth-child(3n+1){border-left:1px solid var(--d2-line-soft)!important}
+  body.d2-dark .hr-cell:nth-child(2n+1){border-left:0!important}
+  body.d2-dark .hr-cell:nth-child(-n+3){border-top:1px solid var(--d2-line-soft)!important}
+  body.d2-dark .hr-cell:first-child{border-top:0!important}
   body.d2-dark .hr-nums b{font-size:16px!important}
 }
 
@@ -911,9 +910,12 @@ body.d2-dark .hb-items-core{grid-template-columns:repeat(auto-fit,minmax(104px,1
   body.d2-dark .hb-tal-cell b{font-size:12px!important}
   body.d2-dark .hb-item img{width:38px!important}
 }
-/* Талант внутри полосы прокачки: у талантов нет иконки в игре */
-body.d2-dark .hb-step-talent{display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(217,193,135,.1)!important;border-color:rgba(217,193,135,.3)!important}
-body.d2-dark .hb-step-talent u{text-decoration:none!important;font-size:13px!important;font-weight:800!important;color:var(--d2-gold)!important}
+/* Талант внутри полосы прокачки. Иконки у талантов в Dota нет вообще —
+   поэтому плитка текстовая: подпись «талант» и само значение. Полный
+   текст остаётся в подсказке при наведении. */
+body.d2-dark .hb-step-talent{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:1px!important;padding:2px!important;background:linear-gradient(180deg,rgba(217,193,135,.14),rgba(217,193,135,.05))!important;border-color:rgba(217,193,135,.34)!important}
+body.d2-dark .hb-step-talent em{font-style:normal!important;font-size:7px!important;line-height:1!important;letter-spacing:.06em!important;text-transform:uppercase!important;color:var(--d2-gold-dim)!important}
+body.d2-dark .hb-step-talent u{text-decoration:none!important;font-size:11px!important;font-weight:800!important;line-height:1.1!important;text-align:center!important;color:var(--d2-gold)!important;word-break:break-word!important;hyphens:auto!important}
 /* Врождённые способности и фасеты: у части из них Valve не публикует иконку —
    вместо битой картинки показываем буквенную заглушку */
 body.d2-dark .hp-ab-abbr{display:none!important}
