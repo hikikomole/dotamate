@@ -722,6 +722,27 @@ document.querySelectorAll('.guide-filter').forEach(b=>b.addEventListener('click'
 // Сетка героев — обычные ссылки: клик, средняя кнопка, Enter и «открыть в
 // новой вкладке» работают сами, без перехвата.
 on('featuredHeroesGrid','click',e=>{const c=e.target.closest('.featured-hero-card');if(c){const h=heroes.find(x=>Number(x.id)===Number(c.dataset.id));if(h)location.href='/hero/'+slugForHero(h)+'/';}});
+// Промежуточное окно. Карточки героев и предметов остаются настоящими
+// ссылками — это нужно поисковикам, Ctrl+клик и средней кнопке. Но обычный
+// левый клик открывает быстрый просмотр, не уводя пользователя со страницы;
+// внутри окна есть ссылка на полную страницу.
+document.addEventListener('click',e=>{
+  if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+  const card=e.target.closest('a.hero-card, a.item-card');
+  if(!card||!document.getElementById('modal'))return;
+  if(card.classList.contains('hero-card')){
+    const h=heroes.find(x=>Number(x.id)===Number(card.dataset.id));
+    if(!h)return;                       // герои ещё не загружены — пусть работает ссылка
+    e.preventDefault();openHero(h.id);
+  }else{
+    const name=card.dataset.item;
+    // у рецепта ссылка ведёт на собираемый предмет, окно рецепта смысла не имеет
+    if(!name||name.replace(/^item_/,'').startsWith('recipe_'))return;
+    if(!items.some(i=>i.name===name))return;
+    e.preventDefault();openItem(name);
+  }
+});
+
 on('statsBody','click',e=>{const tr=e.target.closest('tr[data-id]');if(tr)openHero(Number(tr.dataset.id));});
 on('statsExtra','click',e=>{const b=e.target.closest('button[data-id]');if(b)openHero(Number(b.dataset.id));});
 on('quickPrepInput','input',e=>quickPrepSelectByName(e.target.value));
