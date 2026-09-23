@@ -426,8 +426,8 @@ function renderQuickPrep(h){
   const proLine=h.pro_pick?`${winrate(h).toFixed(1)}% pro WR · ${statValue(h.pro_pick)} picks · ${statValue(h.pro_ban)} banов`:'Нет pro-данных по этому герою — пока играют реже в топ-матчах';
   el.innerHTML=`<button type="button" class="qp-hero" data-hero-open="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${proLine}</span></div><i class="qp-hero-go" aria-hidden="true">→</i></button>
   <div class="qp-cols">
-    <div><h4>Кто его контрит</h4><div class="qp-list" id="qpCounters"><p class="muted">Загружаем матчапы…</p></div></div>
-    <div><h4>Что покупают</h4><div class="qp-list" id="qpBuild"><p class="muted">Загружаем покупки…</p></div></div>
+    <div><h4>Кто контрит ${escapeHtml(h.localized_name)}</h4><div class="qp-list" id="qpCounters"><p class="muted">Загружаем матчапы…</p></div></div>
+    <div><h4>Что покупают на ${escapeHtml(h.localized_name)}</h4><div class="qp-list" id="qpBuild"><p class="muted">Загружаем покупки…</p></div></div>
   </div>`;
   fillQuickPrepCounters(h);
   fillQuickPrepBuild(h);
@@ -481,7 +481,7 @@ async function fillQuickPrepBuild(h){
   if(!rec){box.innerHTML='<p class="muted">По этому герою нет данных о покупках.</p>';return;}
   const phases=[['start','Старт'],['early','Ранняя'],['mid','Середина'],['late','Поздняя']];
   const html=phases.map(([k,label])=>{
-    const rows=(rec[k]||[]).slice(0,4).map(r=>{
+    const rows=(rec[k]||[]).slice(0,5).map(r=>{
       const it=findItemById(r.i);
       if(!it)return '';
       // кнопка, а не ссылка: клик открывает форму предмета, не уводя со страницы

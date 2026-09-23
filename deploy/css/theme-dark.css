@@ -130,6 +130,9 @@ body.d2-dark footer{border-top:1px solid var(--d2-line)!important;color:var(--d2
   body.d2-dark .hero-info{opacity:1!important;transform:none!important}
   body.d2-dark .hero-card:hover{transform:none!important;box-shadow:none!important}
 }
+@media(max-width:620px){
+  body.d2-dark .qp-phase{grid-template-columns:minmax(0,1fr)!important;gap:6px!important}
+}
 @media(max-width:560px){
   body.d2-dark .heroes-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))!important;gap:5px!important}
   body.d2-dark .toolbar{padding:9px!important}
@@ -407,6 +410,9 @@ body.d2-dark .item-card-foot small{color:var(--d2-muted-2)!important;letter-spac
 body.d2-dark .item-card-foot b{color:var(--d2-gold)!important;font-size:9.5px!important;letter-spacing:1px!important;text-transform:uppercase!important}
 body.d2-dark .item-empty-state strong{color:#fff!important}
 body.d2-dark .item-empty-state span{color:var(--d2-muted)!important}
+@media(max-width:620px){
+  body.d2-dark .qp-phase{grid-template-columns:minmax(0,1fr)!important;gap:6px!important}
+}
 @media(max-width:560px){
   body.d2-dark .items-grid-v3{grid-template-columns:repeat(auto-fill,minmax(146px,1fr))!important;gap:6px!important}
 }
@@ -786,6 +792,9 @@ body.d2-dark .cmp-name{color:#fff!important;font-weight:700!important;font-size:
 body.d2-dark .cmp-name:hover{color:var(--d2-gold)!important}
 body.d2-dark .cmp-cost{margin-left:8px!important;color:var(--d2-gold-dim)!important;font-size:12px!important;white-space:nowrap!important}
 body.d2-dark .cmp-text p{margin:5px 0 0!important;color:var(--d2-muted)!important;font-size:13.5px!important;line-height:1.6!important}
+@media(max-width:620px){
+  body.d2-dark .qp-phase{grid-template-columns:minmax(0,1fr)!important;gap:6px!important}
+}
 @media(max-width:560px){ body.d2-dark .cmp-row{grid-template-columns:1fr!important} body.d2-dark .cmp-art img{width:100%!important;max-width:120px!important} }
 
 /* ============================================================
@@ -878,6 +887,9 @@ body.d2-dark .hr-note{position:absolute!important;width:1px!important;height:1px
   body.d2-dark .hr-cell:nth-child(-n+3){border-top:0!important}
   body.d2-dark .hr-cell:nth-child(3n+1){border-left:0!important}
   body.d2-dark .hr-cell.is-top::before{display:none!important}
+}
+@media(max-width:620px){
+  body.d2-dark .qp-phase{grid-template-columns:minmax(0,1fr)!important;gap:6px!important}
 }
 @media(max-width:560px){
   body.d2-dark .hp-bars{--hp-bars-cols:repeat(2,minmax(0,1fr))}
@@ -1045,10 +1057,35 @@ body.d2-dark .qp-item{position:relative!important;display:block!important;line-h
 body.d2-dark .qp-item:hover{border-color:var(--d2-gold)!important}
 body.d2-dark .qp-item img{width:40px!important;height:auto!important;display:block!important}
 body.d2-dark .qp-item em{position:absolute!important;right:0!important;bottom:0!important;font-style:normal!important;font-size:8.5px!important;line-height:11px!important;padding:0 3px!important;color:var(--d2-text)!important;background:rgba(0,0,0,.75)!important;border-top-left-radius:4px!important}
-/* Контрпики в карточке героя — кнопки, а не ссылки: выглядят так же */
-body.d2-dark button.qp-row{width:100%!important;text-align:left!important;cursor:pointer!important;font:inherit!important}
-/* Предметы в быстрой подготовке — кнопки, выглядят как раньше */
-body.d2-dark button.qp-item{border:0;background:none;padding:0;cursor:pointer;font:inherit}
 
-/* Карточка выбранного героя — кнопка: обнуляем стиль кнопки, вид прежний */
-body.d2-dark button.qp-hero{width:100%!important;text-align:left!important;font:inherit!important;cursor:pointer!important}
+/* ── Быстрая подготовка: обе колонки — регулярные сетки ───────────────
+   Контрпики: 2 колонки. Закуп: 2×2 фазы. Ничего не растягивается —
+   если элементов нечётное число, последняя ячейка просто остаётся
+   пустой. Карточки-кнопки выглядят как ссылки: сбрасываем стиль кнопки. */
+body.d2-dark button.qp-hero,
+body.d2-dark button.qp-row{width:100%!important;text-align:left!important;font:inherit!important;cursor:pointer!important}
+body.d2-dark button.qp-item{border:1px solid var(--d2-line)!important;background:none!important;padding:0!important;cursor:pointer!important;font:inherit!important}
+
+body.d2-dark .qp-cols{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:18px!important;align-items:start!important}
+body.d2-dark .qp-cols>div{min-width:0!important}
+body.d2-dark .qp-cols h4{margin:0 0 9px!important;font-size:11px!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:var(--d2-muted)!important;font-weight:800!important}
+
+body.d2-dark #qpCounters.qp-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
+body.d2-dark #qpCounters .qp-row{min-height:58px!important}
+body.d2-dark .qp-row i{font-size:10.5px!important;line-height:13px!important}
+
+body.d2-dark #qpBuild.qp-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;align-content:start!important}
+body.d2-dark .qp-phase{display:flex!important;flex-direction:column!important;padding:9px 10px 10px!important}
+body.d2-dark .qp-phase h5{margin:0 0 7px!important}
+/* пять ячеек в ряд; на узких экранах сжимаются, а не вылезают за панель */
+body.d2-dark .qp-items{display:grid!important;grid-template-columns:repeat(5,minmax(0,44px))!important;gap:6px!important;justify-content:start!important}
+body.d2-dark .qp-item{width:100%!important;max-width:44px!important}
+body.d2-dark .qp-item img{width:100%!important;height:auto!important;aspect-ratio:11/8!important;object-fit:cover!important}
+
+@media(max-width:900px){
+  body.d2-dark .qp-cols{grid-template-columns:minmax(0,1fr)!important;gap:22px!important}
+}
+@media(max-width:560px){
+  body.d2-dark #qpCounters.qp-list{grid-template-columns:minmax(0,1fr)!important}
+  body.d2-dark #qpCounters .qp-row{min-height:0!important}
+}
