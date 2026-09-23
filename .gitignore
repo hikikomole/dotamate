@@ -18,3 +18,6 @@ seo/opendota-items.json
 
 # Токен Stratz API — только локально, в репозиторий не попадает
 stratz.capi.txt
+
+# Токен GitHub — только локально
+github.pat.txt
