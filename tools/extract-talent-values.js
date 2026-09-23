@@ -33,10 +33,21 @@ if (!SRC || !fs.existsSync(SRC)) {
 //  3) файл npc_ability_ids.txt содержит пары «имя таланта -> ЧИСЛОВОЙ ID»
 //     и по форме неотличим от значения. Именно он давал «+1699s Illusory
 //     Armaments Duration» вместо настоящих «+2». Такие файлы пропускаем.
-const RE = /"(special_bonus_[A-Za-z0-9_]+)"\s+"([+-]?\d+(?:\.\d+)?(?:\s+[+-]?\d+(?:\.\d+)?)*)"/g;
+//  4) значение бывает записано как присваивание: "=40" (талант не добавляет,
+//     а задаёт величину). Знак «=» в название не переносим.
+const RE = /"(special_bonus_[A-Za-z0-9_]+)"\s+"([+\-=]?\d+(?:\.\d+)?(?:\s+[+\-=]?\d+(?:\.\d+)?)*)"/g;
 const SKIP = /ability_ids/i;
 
+// Порядок талантов героя: строки "AbilityNN" "special_bonus_...".
+// Слоты идут снизу вверх парами: (0,1) уровень 10, (2,3) — 15, (4,5) — 20,
+// (6,7) — 25. Внутри пары ПЕРВЫЙ слот — правая сторона дерева, второй —
+// левая. Проверено на Bounty Hunter: jinada_no_cooldown стоит вторым в паре
+// 25-го уровня и в игре показан слева.
+const SLOT_RE = /"Ability\d+"\s+"(special_bonus_[A-Za-z0-9_]+)"/g;
+const LEVELS = [10, 10, 15, 15, 20, 20, 25, 25];
+
 const values = {};
+const slots = {};
 let files = 0, pairs = 0, skipped = 0;
 for (const name of fs.readdirSync(SRC)) {
   if (!name.endsWith('.txt')) continue;
@@ -44,18 +55,32 @@ for (const name of fs.readdirSync(SRC)) {
   const text = fs.readFileSync(path.join(SRC, name), 'utf8');
   files++;
   let m;
+  RE.lastIndex = 0;
   while ((m = RE.exec(text))) {
     const key = m[1];
     // У талантов, растущих по уровням, стоит список — берём первое значение
     const first = m[2].trim().split(/\s+/)[0];
     if (values[key] === undefined) { values[key] = first; pairs++; }
   }
+
+  const hero = name.replace(/^heroes__/, '').replace(/\.txt$/, '');
+  if (!/^npc_dota_hero_/.test(hero)) continue;
+  const ordered = [];
+  SLOT_RE.lastIndex = 0;
+  let t;
+  while ((t = SLOT_RE.exec(text))) if (!ordered.includes(t[1])) ordered.push(t[1]);
+  if (ordered.length !== 8) { if (ordered.length) console.log(`  ${hero}: слотов ${ordered.length}, ожидалось 8`); continue; }
+  const lv = { 10: [], 15: [], 20: [], 25: [] };
+  ordered.forEach((n, i) => { lv[LEVELS[i]][i % 2 === 0 ? 1 : 0] = n; }); // чётный слот -> справа
+  slots[hero] = lv;
 }
 
 fs.writeFileSync(OUT, JSON.stringify({
   source: 'scripts/npc/heroes/*.txt из pak01_dir.vpk',
   extractedAt: new Date().toISOString(),
   count: pairs,
-  values
+  heroesWithSlots: Object.keys(slots).length,
+  values,
+  slots
 }, null, 1));
-console.log(`Файлов прочитано: ${files} (пропущено ${skipped}). Значений талантов: ${pairs} -> ${path.relative(path.join(__dirname,'..'), OUT)}`);
+console.log(`Файлов прочитано: ${files} (пропущено ${skipped}). Значений: ${pairs}, деревьев: ${Object.keys(slots).length} -> ${path.relative(path.join(__dirname,'..'), OUT)}`);

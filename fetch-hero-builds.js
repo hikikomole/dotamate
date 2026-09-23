@@ -105,7 +105,9 @@ function buildTalents(rows, talentLevels) {
     if (side.length !== 2) continue;
     const byId = new Map(rows.filter(r => r.matchCount > 0).map(r => [r.abilityId, r]));
     const total = side.reduce((s, t) => s + (byId.get(t.abilityId)?.matchCount || 0), 0);
-    if (!total) continue;
+    // Даже без единого матча в выборке дерево показываем: у свежих героев
+    // (Kez) статистики по талантам ещё нет, но сами таланты существуют, и
+    // пустой раздел на странице хуже, чем дерево с пометкой «Решает игрок».
 
     const opts = side.map(t => {
       const r = byId.get(t.abilityId);

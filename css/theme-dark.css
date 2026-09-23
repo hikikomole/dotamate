@@ -974,5 +974,13 @@ body.d2-dark .hp-ab-icon.no-icon .hp-ab-abbr{display:block!important;font-size:1
 body.d2-dark .hb-branch-head u{text-decoration:none!important;font-size:11px!important;color:var(--d2-muted-2)!important;white-space:nowrap!important}
 /* Подпись об источнике: выборки цепочек и остальных чисел разные — говорим прямо */
 body.d2-dark .hb-source{margin:9px 2px 0!important;font-size:11.5px!important;line-height:1.5!important;color:var(--d2-muted-2)!important;border-left:2px solid var(--d2-line)!important;padding-left:10px!important}
-/* Талант, который на этой роли не берут: показываем, но приглушённо */
-body.d2-dark .hb-tal-cell.is-unused{opacity:.45!important;background:transparent!important;border-style:dashed!important}
+/* Третье состояние ячейки таланта — «Решает игрок»: в выборке его не брали.
+   Цвет свой, синий из палитры сайта (--d2-int), чтобы не путался с золотым
+   «чаще берут» и зелёным «выше винрейт», но остался в той же гамме. */
+body.d2-dark .hb-tal-cell.is-unused{
+  border-style:dashed!important;
+  border-color:rgba(90,169,230,.3)!important;
+  background:rgba(90,169,230,.05)!important;
+}
+body.d2-dark .hb-tal-cell.is-unused b{color:rgba(238,241,245,.72)!important}
+body.d2-dark .hb-tal-cell.is-unused span{color:var(--d2-int)!important;opacity:.85!important}

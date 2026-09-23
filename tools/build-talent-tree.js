@@ -81,10 +81,12 @@ async function main() {
 
   // Значения талантов из файлов игры (tools/extract-talent-values.js).
   // Единственный источник, где они вообще есть — см. комментарий в том скрипте.
-  const gameValues = (() => {
-    try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'talent-values.json'), 'utf8')).values; }
-    catch { return {}; }
+  const gameData = (() => {
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'talent-values.json'), 'utf8')); }
+    catch { return { values: {}, slots: {} }; }
   })();
+  const gameValues = gameData.values || {};
+  const gameSlots = gameData.slots || {};
 
   /**
    * Подставляет значение в шаблон. Знак берём из шаблона: у «-{s:...}s
@@ -95,8 +97,8 @@ async function main() {
     const raw = gameValues[name];
     if (raw === undefined) return text;
     return String(text).replace(/([+\-−]?)\s*\{s:[A-Za-z0-9_]+\}/g, (m, sign) => {
-      const v = String(raw).replace(/^[+\-−]/, '');
-      return sign ? sign + v : String(raw);
+      const v = String(raw).replace(/^[+\-−=]/, '');
+      return sign ? sign + v : String(raw).replace(/^=/, '');
     });
   }
 
@@ -107,11 +109,20 @@ async function main() {
   let needValve = [], resolved = 0, unresolved = 0;
 
   for (const h of heroes) {
-    const entry = heroAbilities[internalById.get(h.id)];
-    if (!entry || !entry.talents) continue;
+    const internal = internalById.get(h.id);
+    // Источник дерева — файлы игры: там есть все герои (включая свежих вроде
+    // Kez, которых ещё нет у OpenDota) и настоящий порядок сторон. Сторона
+    // важна: у Bounty Hunter «No Cooldown on Jinada» стоит вторым в паре и
+    // показан в игре СЛЕВА — раньше стороны были зеркальны у всех героев.
+    const fromGame = gameSlots[internal];
+    const entry = heroAbilities[internal];
+    const source = fromGame
+      ? [10, 15, 20, 25].flatMap(l => (fromGame[l] || []).map(name => ({ name, level: l })))
+      : (entry && entry.talents ? entry.talents.map(t => ({ name: t.name, level: LEVELS[t.level] })) : null);
+    if (!source) continue;
     const lv = { 10: [], 15: [], 20: [], 25: [] };
-    for (const t of entry.talents) {
-      const level = LEVELS[t.level];
+    for (const t of source) {
+      const level = t.level;
       if (!level || lv[level].length >= 2) continue;
       const s = stratzByName[t.name];
       const id = s ? s.id : (idByName[t.name] ?? null);

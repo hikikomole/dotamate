@@ -145,9 +145,11 @@
         else if (isWin) tag = '<i class="hb-tag hb-tag-win">выше винрейт</i>';
         // Талант, который в выборке не брали ни разу, всё равно показываем:
         // «ноль раз взяли» — это факт о таланте, а пустая половина дерева нет.
+        // Талант без единого матча в выборке: не «плохой», а просто не
+        // сложившийся в привычку — выбор остаётся за игроком.
         const unused = !o.matches;
         const stats = unused
-          ? 'Не берут на этой роли'
+          ? 'Решает игрок'
           : `Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}`;
         return `<div class="hb-tal-cell${isPick ? ' is-picked' : ''}${isWin && !isPick ? ' is-win' : ''}${unused ? ' is-unused' : ''}">
           <b>${esc(cleanTalent(o.title) || talentLabel(o.abilityId, a, ctx))}</b>
@@ -204,7 +206,7 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
       const progs = chain
         ? `<div class="hb-progressions">
             ${progressionHtml(chainToBranch(chain.popular), 'Самая популярная', 'реальная последовательность прокачки', ctx)}
-            ${progressionHtml(chainToBranch(chain.highestWin), 'Лучшая по винрейту', 'последовательность с наибольшим процентом побед', ctx)}
+            ${progressionHtml(chainToBranch(chain.highestWin), 'Лучшая по винрейту', 'наибольший процент побед', ctx)}
           </div>
           <p class="hb-source">Последовательности — публичные матчи всех рангов (OpenDota), выборка ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Проценты ролей, таланты и предметы выше — матчи Divine/Immortal (Stratz). Это разные выборки игроков.</p>`
         : `<div class="hb-progressions">
