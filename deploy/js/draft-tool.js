@@ -1,6 +1,7 @@
 /* Ranked All Pick — помощник пика на главной.
  *
  * Данные:
+ *   /data/draft-calibration.json — коэффициент перевода перевеса в вероятность
  *   /data/our-matrix.json     — матрица пар по нашей базе матчей 0-4500 MMR
  *   /data/draft-matrix.json   — матрица пар (Stratz heroStats.matchUp, Divine/Immortal)
  *   /api/dota/hero-positions  — доли и винрейты героев по пяти позициям
@@ -42,6 +43,7 @@
   var M = null, heroes = [], heroById = {}, posData = {}, matrixIdx = {}, metaThreshold = 0;
   var matrices = {};     // 'our' и 'stratz' — два среза одной и той же структуры
   var ourMeta = null;    // герои нашего среза: матчи, винрейт, доля пиков
+  var calib = null;      // калибровка перевеса в вероятность победы
   var loaded = false, loading = false;
 
   var state = {
@@ -256,6 +258,13 @@
     LANES.forEach(function (l) { var sc = laneScore(l); if (sc.value !== null) { sum += sc.value; any = true; } });
     return any ? sum : null;
   }
+  // Для шкалы берём среднее по посчитанным линиям: 50 плюс среднее читается
+  // как «доля выигранных линий», а сумма трёх линий не значит ничего.
+  function laneAverage() {
+    var sum = 0, cnt = 0;
+    LANES.forEach(function (l) { var sc = laneScore(l); if (sc.value !== null) { sum += sc.value; cnt++; } });
+    return cnt ? sum / cnt : null;
+  }
 
   // ---------- рекомендации ----------
   function isTaken(id) {
@@ -377,40 +386,61 @@
     }).join('');
   }
 
+  // Перевес в вероятность: P = 1 / (1 + exp(-a * S)), коэффициент a подобран
+  // логистической регрессией по исходам настоящих матчей нашей базы.
+  // Линии в S не входят — по истории их не восстановить, поэтому они идут
+  // отдельной шкалой, где число и так читается как вероятность выиграть линию.
+  function winProbability(S) {
+    if (!calib) return null;
+    return 100 / (1 + Math.exp(-calib.alpha * S));
+  }
+
   function renderPrediction() {
     var synR = teamSynergy('radiant'), synD = teamSynergy('dire'), mat = crossMatchup(), lane = laneTotal();
+    var laneAvg = laneAverage();
     var anyPick = state.picks.radiant.concat(state.picks.dire).some(Boolean);
-    var total = (synR - synD) + mat + (lane || 0);
+    var S = (synR - synD) + mat;
 
-    // Шкала показывает перевес в процентных пунктах, а не вероятность победы:
-    // сумма парных преимуществ не откалибрована по исходам матчей (см. «Откуда числа»).
+    function pct(v) { return v.toFixed(1).replace('.', ',') + '%'; }
     function pp(v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1).replace('.', ','); }
-    // Знак важнее стороны: минус у Света должен быть красным, а не зелёным.
-    function setSigned(el, v) {
-      if (!el) return;
-      el.classList.remove('dt-up', 'dt-down', 'dt-zero');
-      if (v === null || v === undefined) { el.textContent = '—'; el.classList.add('dt-zero'); return; }
-      el.textContent = pp(v);
-      el.classList.add(v > 0.05 ? 'dt-up' : (v < -0.05 ? 'dt-down' : 'dt-zero'));
+    function setPair(a, b, valA, kind) {
+      // valA — доля в процентах за Свет; вторая сторона дополняет до ста
+      if (valA === null || valA === undefined) {
+        [a, b].forEach(function (el) { el.textContent = '—'; el.className = el.className.replace(/\s*dt-(up|down|zero)/g, '') + ' dt-zero'; });
+        return 50;
+      }
+      var setOne = function (el, v) {
+        el.className = el.className.replace(/\s*dt-(up|down|zero)/g, '');
+        el.textContent = kind === 'pct' ? pct(v) : pp(v);
+        el.className += v > 50.05 ? ' dt-up' : (v < 49.95 ? ' dt-down' : ' dt-zero');
+      };
+      setOne(a, valA); setOne(b, 100 - valA);
+      return valA;
     }
-    function fill(v) { return 50 + Math.max(-45, Math.min(45, v)) / 2; }
 
-    setSigned($('dtWinRad'), anyPick ? total : null);
-    setSigned($('dtWinDire'), anyPick ? -total : null);
-    $('dtWinFillRad').style.width = (anyPick ? fill(total) : 50) + '%';
-    $('dtWinFillDire').style.width = (100 - (anyPick ? fill(total) : 50)) + '%';
+    var p = anyPick ? winProbability(S) : null;
+    var fillWin = setPair($('dtWinRad'), $('dtWinDire'), anyPick ? (p === null ? null : p) : null, 'pct');
+    $('dtWinFillRad').style.width = fillWin + '%';
+    $('dtWinFillDire').style.width = (100 - fillWin) + '%';
 
-    setSigned($('dtLaneRad'), lane);
-    setSigned($('dtLaneDire'), lane === null ? null : -lane);
-    $('dtLaneFillRad').style.width = (lane === null ? 50 : fill(lane)) + '%';
-    $('dtLaneFillDire').style.width = (100 - (lane === null ? 50 : fill(lane))) + '%';
+    var title = $('dtWinTitle');
+    if (title) {
+      title.textContent = p === null
+        ? (calib ? 'Прогноз победы' : 'Перевес драфта, п.п.')
+        : 'Прогноз победы · перевес ' + pp(S) + ' п.п.';
+    }
+
+    var laneP = laneAvg === null ? null : 50 + laneAvg;
+    var fillLane = setPair($('dtLaneRad'), $('dtLaneDire'), laneP, 'pct');
+    $('dtLaneFillRad').style.width = fillLane + '%';
+    $('dtLaneFillDire').style.width = (100 - fillLane) + '%';
 
     function sum(side) {
-      var s = side === 'radiant' ? synR : synD;
+      var v = side === 'radiant' ? synR : synD;
       var m = side === 'radiant' ? mat : -mat;
       var picked = state.picks[side].filter(Boolean).length;
       var other = state.picks[side === 'radiant' ? 'dire' : 'radiant'].filter(Boolean).length;
-      return 'синергия ' + (picked > 1 ? pp(s) : '—') + ' · контрпик ' + (picked && other ? pp(m) : '—');
+      return 'синергия ' + (picked > 1 ? pp(v) : '—') + ' · контрпик ' + (picked && other ? pp(m) : '—');
     }
     $('dtSumRad').textContent = sum('radiant');
     $('dtSumDire').textContent = sum('dire');
@@ -419,9 +449,14 @@
   function renderLanes() {
     $('dtLaneGrid').innerHTML = LANES.map(function (l) {
       var sc = laneScore(l);
-      var val = sc.value === null
-        ? (sc.pending ? '<b class="dt-zero">…</b>' : '<b class="dt-zero">—</b>')
-        : '<b>' + fmt(sc.value) + ' п.п.</b>';
+      var val;
+      if (sc.value === null) val = sc.pending ? '<b class="dt-zero">…</b>' : '<b class="dt-zero">—</b>';
+      else {
+        var lp = 50 + sc.value;
+        var cls = lp > 50.05 ? 'dt-up' : (lp < 49.95 ? 'dt-down' : 'dt-zero');
+        val = '<b class="' + cls + '" title="Доля линий, выигранных Светом в этой паре">' +
+          lp.toFixed(1).replace('.', ',') + '%</b>';
+      }
       var body = (!sc.rad.length || !sc.dire.length)
         ? '<span class="dt-lane-wait">Ждём пики</span>'
         : '<span class="dt-lane-side">' + sc.rad.map(function (x) { return '<img src="' + icon(heroById[x.id]) + '" alt="' + esc(heroById[x.id].localized_name) + '" title="' + esc(heroById[x.id].localized_name + ' · ' + POS_LABEL[x.pos]) + '" loading="lazy">'; }).join('') + '</span>' +
@@ -862,9 +897,11 @@
       getJson('/api/dota/hero-positions').catch(function () { return getJson('/data/hero-positions.json'); }),
       getJson('/data/heroes.json'),
       getJson('/data/draft-matrix.json'),
-      getJson('/data/our-meta.json').catch(function () { return null; })
+      getJson('/data/our-meta.json').catch(function () { return null; }),
+      getJson('/data/draft-calibration.json').catch(function () { return null; })
     ]).then(function (res) {
       ourMeta = (res[4] && res[4].heroes) || null;
+      calib = res[5] && res[5].alpha ? res[5] : null;
       matrices.our = res[0];
       matrices.stratz = res[3];
       if (!matrices.our) state.slice = 'stratz';
@@ -881,6 +918,15 @@
 
       var f = $('dtFetched');
       if (f && M.fetchedAt) f.textContent = new Date(M.fetchedAt).toLocaleDateString('ru-RU');
+      if (calib) {
+        var ru = function (v, d) { return v.toFixed(d).replace('.', ','); };
+        var put = function (id, txt) { var e = $(id); if (e) e.textContent = txt; };
+        put('dtCalLL', ru(calib.testLogLoss, 3));
+        put('dtCalLLBase', ru(calib.baselineLogLoss, 3));
+        put('dtCalBr', ru(calib.testBrier, 3));
+        put('dtCalAcc', ru(calib.testAccuracy, 1) + '%');
+        put('dtCalN', calib.matchesTest.toLocaleString('ru-RU'));
+      }
       $('dtState').style.display = 'none';
 
       readHash();
