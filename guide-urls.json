@@ -38,5 +38,25 @@
   {
     "loc": "https://dotamate.ru/guide/mmr-climbing-mindset/",
     "name": "Путь к повышению MMR: как тренироваться осознанно"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/damage-armor-magic-resist/",
+    "name": "Как считается урон в Dota 2: броня, сопротивление магии и блок"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/attributes-explained/",
+    "name": "Сила, ловкость и интеллект: сколько даёт одно очко атрибута"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/map-objectives-741/",
+    "name": "Объекты карты в 7.41: Рошан, Тормент, Шрайны мудрости и руны"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/gold-and-experience/",
+    "name": "Золото и опыт: откуда берутся GPM и XPM и сколько стоит смерть"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/match-timings/",
+    "name": "Тайминги матча: что происходит на карте по минутам"
   }
 ]

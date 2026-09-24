@@ -31,11 +31,24 @@ async function main(){
       "@context":"https://schema.org","@type":"Article",
       "headline":g.title,"description":g.excerpt,
       "mainEntityOfPage":canonical,
+      ...(g.published?{"datePublished":g.published}:{}),
+      ...(g.updated?{"dateModified":g.updated}:{}),
       "author":{"@type":"Organization","name":"Dota Mate"}
     });
     const breadcrumbJson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":g.title,"item":canonical}]});
 
-    const bodyHtml=g.sections.map(sec=>`<section class="detail-section"><h2>${escapeHtml(sec.h)}</h2>${sec.p.map(par=>`<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">${escapeHtml(par)}</p>`).join('')}</section>`).join('');
+    // Раздел статьи умеет три блока: абзацы (p), маркированный список (list)
+    // и таблицу (table: {head:[], rows:[[]]}). Таблица оборачивается в контейнер
+    // с горизонтальной прокруткой, иначе на телефоне она растягивает страницу.
+    const renderTable=t=>`<div style="overflow-x:auto;margin:16px 0;"><table><thead><tr>${t.head.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map((c,ci)=>`<td>${ci===0?`<b style="color:#e8ecf3;">${escapeHtml(c)}</b>`:escapeHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>${t.note?`<p style="font-size:13px;color:#8b919c;margin:6px 0 0;">${escapeHtml(t.note)}</p>`:''}</div>`;
+    const bodyHtml=g.sections.map(sec=>{
+      const parts=[];
+      (sec.p||[]).forEach(par=>parts.push(`<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">${escapeHtml(par)}</p>`));
+      if(sec.table) parts.push(renderTable(sec.table));
+      if(sec.list) parts.push(`<ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">${sec.list.map(li=>`<li>${escapeHtml(li)}</li>`).join('')}</ul>`);
+      (sec.after||[]).forEach(par=>parts.push(`<p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">${escapeHtml(par)}</p>`));
+      return `<section class="detail-section"><h2>${escapeHtml(sec.h)}</h2>${parts.join('')}</section>`;
+    }).join('');
 
     // deterministic "related" picks: next three guides in list order, wrapping around
     const related=[];
