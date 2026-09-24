@@ -174,8 +174,65 @@ function homeMeta() {
   const stamp = `Срез ${esc(m.source.split(' ')[0])} · ` +
     d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(' г.', '');
 
-  const patchChip = m.patch ? '<span class="dm-patch">Патч ' + esc(m.patch) + '</span>' : '';
+  // Чип ведёт на разбор патча, когда страница собрана; иначе остаётся меткой.
+  const pn = patchData();
+  const chipText = 'Патч ' + esc(m.patch || '');
+  const patchChip = !m.patch ? ''
+    : (pn && pn.version === m.patch
+        ? '<a class="dm-patch" href="/patch/' + esc(pn.version) + '/">' + chipText + '</a>'
+        : '<span class="dm-patch">' + chipText + '</span>');
   return { lists, counters, stamp, matches: ru(m.matchesApprox), pairs: ru(pairs), patchChip, heroCount: ru(countOf('hero-urls.json')) };
+}
+
+
+// --- Страница патча -------------------------------------------------------
+// Текст изменений — русская локализация Valve с dota2.com/datafeed, свой
+// пересказ тут не нужен и был бы хуже. Наше — имена и ссылки на страницы
+// героев и предметов: в фиде только идентификаторы.
+const PATCH_FILE = path.join(ROOT, 'data', 'patch-notes.json');
+
+function patchData() {
+  try { return JSON.parse(fs.readFileSync(PATCH_FILE, 'utf8')); } catch (e) { return null; }
+}
+function patchDate(p) {
+  if (!p.timestamp) return '';
+  return new Date(p.timestamp * 1000).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(' г.', '');
+}
+function noteList(notes) {
+  return '<ul class="pt-notes">' + notes.map(n =>
+    '<li' + (n.level > 1 ? ' class="pt-deep"' : '') + '>' + esc(n.text) + '</li>').join('') + '</ul>';
+}
+function patchSection(p) {
+  const head = '<div class="section-head companion-section-head"><div>' +
+    '<div class="eyebrow">Официальные заметки Valve · ' + esc(patchDate(p)) + '</div>' +
+    '<h2>Патч ' + esc(p.version) + '</h2>' +
+    '<p>Изменения ' + p.counts.heroes + ' героев и ' + p.counts.items + ' предметов. ' +
+    'Текст изменений — русская локализация Valve с dota2.com/datafeed; имена и ссылки наши.</p>' +
+    '</div></div>';
+
+  const general = p.general.length
+    ? '<div class="pt-block"><h3 class="pt-block-title">Общие изменения</h3><div class="pt-card">' + noteList(p.general) + '</div></div>'
+    : '';
+
+  const items = p.items.length ? '<div class="pt-block"><h3 class="pt-block-title">Предметы</h3><div class="pt-grid">' +
+    p.items.map(i => '<article class="pt-card"><h4>' +
+      (i.slug ? '<a href="/item/' + esc(i.slug) + '/">' + esc(i.name) + '</a>' : esc(i.name)) +
+      '</h4>' + noteList(i.notes) + '</article>').join('') + '</div></div>' : '';
+
+  const heroes = p.heroes.length ? '<div class="pt-block"><h3 class="pt-block-title">Герои</h3><div class="pt-grid">' +
+    p.heroes.map(h => '<article class="pt-card"><h4>' +
+      (h.slug ? '<a href="/hero/' + esc(h.slug) + '/">' + esc(h.name) + '</a>' : esc(h.name)) +
+      '</h4>' +
+      (h.notes.length ? noteList(h.notes) : '') +
+      h.abilities.map(a => '<div class="pt-ability"><b>' + esc(a.name) + '</b>' + noteList(a.notes) + '</div>').join('') +
+      (h.talents.length ? '<div class="pt-ability"><b>Таланты</b>' + noteList(h.talents) + '</div>' : '') +
+      '</article>').join('') + '</div></div>' : '';
+
+  return '<section class="section patch-page" id="patch-notes"><div class="container">' +
+    head + general + items + heroes +
+    '<p class="pt-source">Источник: ' + esc(p.source) + '. Снимок от ' +
+    esc(new Date(p.fetchedAt).toLocaleDateString('ru-RU')) + '.</p>' +
+    '</div></section>';
 }
 
 function readSections() {
@@ -192,6 +249,8 @@ function readSections() {
     map[m[1]] = block;
   }
   map['home-cards'] = HOME_CARDS;
+  const p = patchData();
+  if (p) map['patch-notes'] = patchSection(p);
   return map;
 }
 
@@ -205,7 +264,8 @@ function navHtml(activeKey) {
 
 function breadcrumbs(page) {
   if (page.key === 'home') return '';
-  const label = NAV.find(n => n.key === page.key).label;
+  const nav = NAV.find(n => n.key === page.key);
+  const label = nav ? nav.label : ('Патч ' + (patchData() || {}).version);
   const url = `${ORIGIN}/${page.dir}/`;
   const ld = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -216,6 +276,20 @@ function breadcrumbs(page) {
   };
   return `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n` +
     `<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> <span aria-current="page">${label}</span></div>`;
+}
+
+// Страница патча добавляется к списку разделов, пока есть снимок заметок.
+const PATCH = patchData();
+if (PATCH) {
+  PAGES.push({
+    key: 'patch', dir: 'patch/' + PATCH.version,
+    title: 'Патч Dota 2 ' + PATCH.version + ' — что изменилось у героев и предметов | Dota Mate',
+    desc: 'Изменения патча ' + PATCH.version + ': ' + PATCH.counts.heroes + ' героев и ' + PATCH.counts.items +
+      ' предметов. Официальные заметки Valve на русском, со ссылками на страницы героев и предметов.',
+    sections: ['patch-notes'],
+    styles: ['/css/theme-dark.css', '/css/patch.css'],
+    bodyClass: 'd2-dark',
+  });
 }
 
 function build() {

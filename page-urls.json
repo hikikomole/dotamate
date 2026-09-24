@@ -22,5 +22,9 @@
  {
   "loc": "https://dotamate.ru/game/",
   "name": "Hook & Hit"
+ },
+ {
+  "loc": "https://dotamate.ru/patch/7.41f/",
+  "name": "Патч Dota 2 7.41f"
  }
 ]

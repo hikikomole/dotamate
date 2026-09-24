@@ -1,0 +1,18 @@
+/* Страница патча. Список изменений, а не статья: карточка на героя или
+   предмет, внутри — заметки Valve как есть. */
+.patch-page .pt-block{margin-top:34px}
+.patch-page .pt-block-title{margin:0 0 16px;font-family:Oswald,Manrope,system-ui,sans-serif;font-weight:500;font-size:22px;letter-spacing:1.8px;text-transform:uppercase;color:var(--d2-gold,#d9c187)}
+.patch-page .pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;align-items:start}
+.patch-page .pt-card{box-sizing:border-box;background:var(--d2-panel,#101216);border:1px solid var(--d2-line,#23272f);border-radius:var(--rad-lg,14px);padding:16px 18px}
+.patch-page .pt-card h4{margin:0 0 10px;font-size:16px;font-weight:700;color:#fff}
+.patch-page .pt-card h4 a{color:var(--d2-gold,#d9c187);text-decoration:none}
+.patch-page .pt-card h4 a:hover{color:#fff}
+.patch-page .pt-ability{margin-top:12px;padding-top:10px;border-top:1px solid var(--d2-line-soft,#1a1e24)}
+.patch-page .pt-ability b{display:block;font-size:13px;font-weight:700;color:#c8cfd9;margin-bottom:5px}
+.patch-page .pt-notes{margin:0;padding:0;list-style:none}
+.patch-page .pt-notes li{position:relative;padding-left:14px;font-size:13.5px;line-height:1.6;color:var(--d2-muted,#98a1ae)}
+.patch-page .pt-notes li+li{margin-top:5px}
+.patch-page .pt-notes li:before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--d2-gold-dim,#8d7b4f)}
+.patch-page .pt-notes li.pt-deep{margin-left:14px}
+.patch-page .pt-source{margin:30px 0 0;font-size:12px;color:#7e8795}
+@media (max-width:560px){.patch-page .pt-grid{grid-template-columns:1fr}}
