@@ -18,6 +18,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
+<!-- Oswald отдельной строкой с display=swap: это шрифт заголовков и логотипа,
+     и при display=optional он на первом визите просто не применялся бы. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 {{PAGE_STYLES}}
@@ -34,9 +37,9 @@
 
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
     {{NAV}}
-    <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+    <div class="nav-spacer"></div>{{PATCH_CHIP}}<button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
 {{BREADCRUMBS}}

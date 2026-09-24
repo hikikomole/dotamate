@@ -1243,3 +1243,39 @@ body.d2-dark .hb-tab.on:hover{border-color:var(--d2-gold)!important;color:var(--
    Без заливки они пропадали, поэтому тоже становятся золотыми. */
 body.d2-dark .item-category.active span,
 body.d2-dark .hb-tab.on .hb-tab-ico{color:var(--d2-gold)!important}
+
+/* --- Название в шапке текстом вместо картинки (24.09.2026).
+   Раньше стоял /assets/dotamate-logo.png — 47 КБ растровой картинки в шапке
+   каждой страницы. Теперь квадрат и слово: тот же вес строки, ноль запросов,
+   резкость на любом экране, и цвет берётся из темы, а не запечён в пиксели. */
+body.d2-dark .brand{display:flex!important;align-items:center!important;gap:10px!important;text-decoration:none!important}
+body.d2-dark .dm-dot{width:10px;height:10px;background:var(--d2-gold);display:block;flex-shrink:0}
+body.d2-dark .dm-word{font-family:Oswald,Manrope,system-ui,sans-serif;font-weight:600;font-size:21px;letter-spacing:1.5px;text-transform:uppercase;color:var(--d2-text);line-height:1}
+body.d2-dark .brand:hover .dm-word{color:#fff}
+@media (max-width:560px){body.d2-dark .dm-word{font-size:18px;letter-spacing:1.2px}}
+/* Чип с номером патча в шапке. Номер приходит из data/home-meta.json, куда
+   его кладёт tools/fetch-home-meta.js из официального списка Valve. */
+body.d2-dark .dm-patch{flex-shrink:0;margin-left:14px;font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--d2-gold);border:1px solid var(--d2-gold-dim);border-radius:var(--rad-pill);padding:5px 12px;white-space:nowrap}
+@media (max-width:760px){body.d2-dark .dm-patch{margin-left:auto;margin-right:10px;font-size:10px;letter-spacing:1.2px;padding:4px 9px}}
+
+/* --- Раскладка шапки как на утверждённом макете первого экрана (24.09.2026):
+   название, сразу за ним меню, дальше пустота, у правого края — чип патча.
+   Раньше меню прижималось к правому краю и висело далеко от названия.
+   Правила в style.css расставляют элементы иначе и держатся на !important,
+   поэтому переопределяем по порядку флексов, а не правим исходные строки. */
+body.d2-dark .topbar .nav{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:40px!important}
+body.d2-dark .topbar .nav .brand{order:0!important;flex:0 0 auto!important;margin:0!important}
+body.d2-dark .topbar .nav nav{order:1!important;flex:0 0 auto!important;justify-content:flex-start!important;gap:26px!important;margin:0!important}
+body.d2-dark .topbar .nav-spacer{order:2!important;flex:1 1 auto!important;min-width:0!important}
+body.d2-dark .topbar .dm-patch{order:3!important;margin-left:0!important}
+body.d2-dark .topbar .menu{order:4!important;margin-left:12px!important}
+@media (max-width:760px){
+  body.d2-dark .topbar .nav{gap:10px!important}
+  body.d2-dark .topbar .nav nav.open{order:5!important}
+}
+/* Пункты меню в шапке: у style.css к каждой ссылке добавлены боковые отступы
+   по 12px, из-за них разрывы между словами читались как провалы. Отступы
+   снимаем, расстояние задаём одним gap — как на утверждённом макете. */
+body.d2-dark .topbar .nav nav{gap:26px!important}
+body.d2-dark .topbar .nav nav a{padding:0!important;margin:0!important}
+@media (max-width:1100px){body.d2-dark .topbar .nav nav{gap:20px!important}}

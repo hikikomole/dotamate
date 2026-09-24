@@ -18,9 +18,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
+<!-- Oswald отдельной строкой с display=swap: это шрифт заголовков и логотипа,
+     и при display=optional он на первом визите просто не применялся бы. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/home-hero.css">
 <link rel="stylesheet" href="/css/draft-tool.css">
 
 
@@ -35,64 +39,53 @@
 
 <header class="topbar">
   <div class="container nav">
-    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><img class="brand-logo" src="/assets/dotamate-logo.png" alt="Dota Mate" width="621" height="120"></a>
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
     <nav id="navMenu"><a href="/" aria-current="page" class="active">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/game/">Игра</a></nav>
-    <div class="nav-spacer"></div><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+    <div class="nav-spacer"></div><span class="dm-patch">Патч 7.41f</span><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
 
 <main>
-<section class="hero" id="home-hero">
-  <div class="home-bg" id="homeBg" aria-hidden="true">
-    <video id="homeBgVideo" poster="/assets/home-bg-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture tabindex="-1">
-      <source src="https://cdn.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_02.mp4" type="video/mp4">
-      <source src="https://cdn.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_webm.webm" type="video/webm">
-    </video>
-  </div>
-  <button class="home-bg-toggle" id="homeBgToggle" type="button" hidden aria-label="Остановить фоновое видео">&#10074;&#10074;</button>
-  <div class="container hero-grid">
-    <div>
-      <div class="eyebrow-row">
-        <div class="eyebrow">НЕОФИЦИАЛЬНЫЙ ПОМОЩНИК ДЛЯ DOTA 2</div>
-        <span class="fresh-badge" id="freshBadge">🟢 Live-данные · OpenDota</span>
-      </div>
-      <h1>Игра начинается <br><span>раньше.</span></h1>
-      <p>Вбей составы — увидишь синергию, контрпики и расклад по линиям. 8001 пара героев по матчам Divine и Immortal.</p>
-      <div class="hero-actions">
-        <a class="btn red" href="/heroes/">Открыть героев</a>
-        <button class="btn ghost" id="randomBtn">🎲 Случайный герой</button>
-      </div>
-      <div class="hero-stats">
-        <div><strong id="heroCount">—</strong><small>героев</small></div>
-        <div><strong id="heroRoleCount">—</strong><small>ролей</small></div>
-        <div><strong id="itemCountHero">—</strong><small>предметов</small></div>
-      </div>
+<section class="hm" id="home-hero">
+  <div class="container hm-top">
+    <div class="hm-intro">
+      <p class="hm-eyebrow">Срез OpenDota · 24 сентября 2026</p>
+      <h1 class="hm-title">Что работает прямо сейчас</h1>
+      <p class="hm-lead">Около 440&nbsp;167 матчей ранга Divine и Immortal. Считаем сами и показываем, из чего посчитано — редакционных мнений тут нет.</p>
     </div>
-    <div class="featured" id="featured">
-      <div class="featured-fallback">
-        <small>HERO SPOTLIGHT</small>
-        <h3>Подбираем героя дня…</h3>
-        <p>Секунду — открываем карточку с ролью, статистикой и предметами.</p>
+    <div class="hm-find">
+      <label class="hm-sr" for="globalSearch">Поиск героя, предмета или гайда</label>
+      <div class="hm-find-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <input id="globalSearch" type="search" placeholder="Герой, предмет или гайд" autocomplete="off">
+        <span class="hm-find-count">127</span>
+      </div>
+      <div id="globalSearchResults" class="v43-search-results"></div>
+      <div class="hm-find-chips">
+        <a href="/hero/pudge/">Pudge</a>
+        <a href="/item/black_king_bar/">Black King Bar</a>
+        <a href="/guide/match-timings/">Тайминги матча</a>
       </div>
     </div>
   </div>
 
-  <div class="container hero-quickprep" id="quickPrep">
-    <div class="hero-quickprep-head">
-      <div class="eyebrow">⚡ 60 СЕКУНД ДО ПИКА</div>
-      <h2>Выбери героя — получи контрпики и билд мгновенно</h2>
-    </div>
-    <div class="quick-prep-panel">
-      <div class="quick-prep-picker">
-        <label class="search">⌕ <input id="quickPrepInput" list="quickPrepHeroes" placeholder="Начни вводить имя героя…" autocomplete="off"></label>
-        <datalist id="quickPrepHeroes"></datalist>
-        <div class="quick-prep-chips" id="quickPrepChips"></div>
+  <div class="container hm-board"><div class="hm-col"><div class="hm-col-head"><h2>Тащат</h2><span>винрейт · от 2&nbsp;000 матчей</span></div><a class="hm-row" href="/hero/meepo/"><img src="/assets/heroes/meepo.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Meepo</span><span class="hm-row-num"><b>55,7&thinsp;%</b><small>6&nbsp;754 матча</small></span></a><a class="hm-row" href="/hero/bounty_hunter/"><img src="/assets/heroes/bounty_hunter.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Bounty Hunter</span><span class="hm-row-num"><b>55,3&thinsp;%</b><small>51&nbsp;450 матчей</small></span></a><a class="hm-row" href="/hero/visage/"><img src="/assets/heroes/visage.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Visage</span><span class="hm-row-num"><b>54,9&thinsp;%</b><small>8&nbsp;951 матч</small></span></a><a class="hm-row" href="/hero/enigma/"><img src="/assets/heroes/enigma.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Enigma</span><span class="hm-row-num"><b>54,6&thinsp;%</b><small>21&nbsp;497 матчей</small></span></a><a class="hm-row" href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Outworld Devourer</span><span class="hm-row-num"><b>54,2&thinsp;%</b><small>62&nbsp;734 матча</small></span></a><a class="hm-row" href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Arc Warden</span><span class="hm-row-num"><b>53,5&thinsp;%</b><small>18&nbsp;384 матча</small></span></a><a class="hm-col-more" href="/stats/">Весь список винрейта →</a></div><div class="hm-col"><div class="hm-col-head"><h2>Берут чаще всего</h2><span>матчей за срез</span></div><a class="hm-row" href="/hero/pudge/"><img src="/assets/heroes/pudge.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Pudge</span><span class="hm-row-num"><b>121&nbsp;199</b><small>винрейт 50,5&thinsp;%</small></span></a><a class="hm-row" href="/hero/rubick/"><img src="/assets/heroes/rubick.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Rubick</span><span class="hm-row-num"><b>116&nbsp;621</b><small>винрейт 50,2&thinsp;%</small></span></a><a class="hm-row" href="/hero/lion/"><img src="/assets/heroes/lion.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Lion</span><span class="hm-row-num"><b>96&nbsp;716</b><small class="hm-bad">винрейт 48,7&thinsp;%</small></span></a><a class="hm-row" href="/hero/invoker/"><img src="/assets/heroes/invoker.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Invoker</span><span class="hm-row-num"><b>92&nbsp;377</b><small>винрейт 51,8&thinsp;%</small></span></a><a class="hm-row" href="/hero/windrunner/"><img src="/assets/heroes/windrunner.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Windranger</span><span class="hm-row-num"><b>84&nbsp;380</b><small class="hm-bad">винрейт 49,6&thinsp;%</small></span></a><a class="hm-row" href="/hero/life_stealer/"><img src="/assets/heroes/life_stealer.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Lifestealer</span><span class="hm-row-num"><b>80&nbsp;243</b><small>винрейт 51,5&thinsp;%</small></span></a><a class="hm-col-more" href="/heroes/">Все 127 героев →</a></div><div class="hm-col"><div class="hm-col-head"><h2>Банят на про</h2><span>банов · и сколько раз взяли</span></div><a class="hm-row" href="/hero/bounty_hunter/"><img src="/assets/heroes/bounty_hunter.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Bounty Hunter</span><span class="hm-row-num"><b>68</b><small>взяли 9 раз</small></span></a><a class="hm-row" href="/hero/earth_spirit/"><img src="/assets/heroes/earth_spirit.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Earth Spirit</span><span class="hm-row-num"><b>66</b><small>взяли 19 раз</small></span></a><a class="hm-row" href="/hero/lone_druid/"><img src="/assets/heroes/lone_druid.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Lone Druid</span><span class="hm-row-num"><b>57</b><small>взяли 18 раз</small></span></a><a class="hm-row" href="/hero/enigma/"><img src="/assets/heroes/enigma.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Enigma</span><span class="hm-row-num"><b>53</b><small>взяли 16 раз</small></span></a><a class="hm-row" href="/hero/largo/"><img src="/assets/heroes/largo.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Largo</span><span class="hm-row-num"><b>51</b><small>взяли 23 раза</small></span></a><a class="hm-row" href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.png" alt="" width="34" height="34" loading="lazy" decoding="async"><span class="hm-row-name">Ember Spirit</span><span class="hm-row-num"><b>48</b><small>взяли 39 раз</small></span></a><a class="hm-col-more" href="/stats/">Про-сцена целиком →</a></div></div>
+
+  <div class="container">
+    <div class="hm-draft" id="homeDraft">
+      <div class="hm-draft-main">
+        <span class="hm-draft-label">Инструмент драфта</span>
+        <div class="hm-draft-rows">
+          <div class="hm-draft-row"><span class="hm-side hm-side-us">Мы</span><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
+          <div class="hm-draft-row"><span class="hm-side hm-side-them">Они</span><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
+        </div>
       </div>
-      <div id="quickPrepResult" class="quick-prep-result">
-        <div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, билд и pro winrate за секунду.</div>
-      </div>
+      <div class="hm-draft-verdict"><p class="hm-draft-hint">Нажми на пустой слот — выберешь героя прямо здесь. Посчитаем синергию, контрпики и расклад по линиям по матрице пар из матчей Divine и Immortal.</p></div>
+      <a class="hm-draft-go" href="#draftTool">Открыть драфт</a>
     </div>
   </div>
+
+  <div class="container hm-counters"><a class="hm-counter" href="/heroes/"><b>127</b><span>героев</span></a><a class="hm-counter" href="/items/"><b>253</b><span>предмета</span></a><a class="hm-counter" href="/guides/"><b>22</b><span>статьи и 127 гайдов по героям</span></a><a class="hm-counter" href="#draftTool"><b>8&nbsp;001</b><span>пара героев в матрице</span></a></div>
 </section>
 
 <section class="section draft-tool" id="draftTool">
@@ -231,8 +224,6 @@
     <div id="featuredHeroesGrid" class="featured-heroes-grid"></div>
   </div>
 </section>
-
-<section class="section v43-global-search" id="globalSearchSection"><div class="container"><div class="v43-search-shell"><span>⌕</span><input id="globalSearch" placeholder="Быстрый поиск героя, предмета или раздела…" autocomplete="off"><kbd>Ctrl K</kbd></div><div id="globalSearchResults" class="v43-search-results"></div></div></section>
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
 
@@ -246,8 +237,8 @@
 <script src="/js/item-variants.js"></script>
 <script src="/js/hero-roles.js"></script>
 <script src="/js/app.js"></script>
-<script src="/js/home-bg.js"></script>
 <script src="/js/draft-tool.js" defer></script>
+<script src="/js/home-draft.js" defer></script>
 <script src="/js/v43-features.js"></script>
 </body>
 </html>

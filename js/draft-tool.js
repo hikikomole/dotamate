@@ -505,6 +505,7 @@
 
   function render() {
     if (!loaded) return;
+    notifyMirrors();
     SIDES.forEach(renderSlots);
     renderBans();
     renderPrediction();
@@ -941,6 +942,87 @@
       $('dtState').textContent = 'Не удалось загрузить данные драфта: ' + e.message;
     });
   }
+
+  // ---------- мост к полосе драфта на первом экране ----------
+  // Полоса наверху — НЕ вторая копия инструмента, а его вид: состояние,
+  // расчёты и окно выбора героя здесь одни и те же. Наружу отдаём только
+  // чтение состояния и команду «открой выбор для этого слота», чтобы
+  // рассинхронизироваться было нечему.
+  var mirrors = [];
+  function notifyMirrors() {
+    for (var i = 0; i < mirrors.length; i++) {
+      try { mirrors[i](); } catch (e) { console.warn('Полоса драфта:', e); }
+    }
+  }
+  window.D2HDraft = {
+    ready: function () { return loaded; },
+    load: function () { if (!loaded && !loading) load(); },
+    picks: function () {
+      return { radiant: state.picks.radiant.slice(), dire: state.picks.dire.slice() };
+    },
+    hero: function (id) { return heroById[id] || null; },
+    icon: icon,
+    // anchor — элемент, рядом с которым показать окно выбора. Поэтому с
+    // первого экрана оно открывается у самой полосы, а не внизу страницы.
+    open: function (side, slot, anchor) {
+      if (!loaded) { if (!loading) load(); return false; }
+      state.target = { side: side, slot: slot };
+      // Окно выбора живёт внутри .dt-shell и позиционируется относительно
+      // него, поэтому якорем всегда берём настоящий слот инструмента —
+      // иначе при вызове с первого экрана оно уезжало бы за пределы блока.
+      openPicker({ side: side, slot: slot },
+        anchor || root.querySelector('.dt-slot[data-side="' + side + '"][data-slot="' + slot + '"]'));
+      return true;
+    },
+    // Перевес и тройка рекомендаций — теми же функциями, что и в самом
+    // инструменте: renderPrediction считает ровно это выражение.
+    summary: function () {
+      if (!loaded) return null;
+      var any = state.picks.radiant.concat(state.picks.dire).some(Boolean);
+      if (!any) return { any: false, advantage: 0, recs: [] };
+      var S = (teamSynergy('radiant') - teamSynergy('dire')) + crossMatchup();
+      var ours = state.picks.radiant.filter(Boolean).length;
+      var theirs = state.picks.dire.filter(Boolean).length;
+      var side = ours <= theirs ? 'radiant' : 'dire';
+      var recs = [];
+      if (ours + theirs < 10) {
+        recs = recommend(side).slice(0, 3).map(function (r) {
+          return { id: r.hero.id, name: r.hero.localized_name, icon: icon(r.hero), all: r.all, side: side };
+        });
+      }
+      return { any: true, advantage: S, recs: recs, side: side };
+    },
+    // Полоса на первом экране выбирает героя своим списком, поэтому ей нужны
+    // кандидаты и сама постановка героя в слот. Расчёты, история и проверка
+    // «герой уже занят» остаются здесь: наверху только показ и клик.
+    candidates: function (q, limit) {
+      if (!loaded) return [];
+      return pickerCandidates(q).slice(0, limit || 60).map(function (h) {
+        var pos = heroPositions(h.id)[0], m = heroMatches(h.id);
+        return {
+          id: h.id, name: h.localized_name, icon: icon(h),
+          pos: pos ? POS_LABEL[pos] : '', matches: m || 0
+        };
+      });
+    },
+    set: function (side, slot, id) {
+      if (!loaded) return false;
+      state.mode = side;
+      state.target = { side: side, slot: slot };
+      placeHero(id);
+      syncSideSwitch();
+      return true;
+    },
+    clear: function (side, slot) {
+      if (!loaded || !state.picks[side][slot]) return false;
+      pushHistory();
+      state.picks[side][slot] = null;
+      state.posOverride[side][slot] = null;
+      render();
+      return true;
+    },
+    onChange: function (fn) { mirrors.push(fn); if (loaded) fn(); }
+  };
 
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {

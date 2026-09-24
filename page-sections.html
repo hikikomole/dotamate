@@ -1,56 +1,44 @@
-<section class="hero" id="home-hero">
-  <div class="home-bg" id="homeBg" aria-hidden="true">
-    <video id="homeBgVideo" poster="/assets/home-bg-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture tabindex="-1">
-      <source src="https://cdn.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_02.mp4" type="video/mp4">
-      <source src="https://cdn.steamstatic.com/apps/dota2/videos/dota_react/homepage/dota_montage_webm.webm" type="video/webm">
-    </video>
-  </div>
-  <button class="home-bg-toggle" id="homeBgToggle" type="button" hidden aria-label="Остановить фоновое видео">&#10074;&#10074;</button>
-  <div class="container hero-grid">
-    <div>
-      <div class="eyebrow-row">
-        <div class="eyebrow">НЕОФИЦИАЛЬНЫЙ ПОМОЩНИК ДЛЯ DOTA 2</div>
-        <span class="fresh-badge" id="freshBadge">🟢 Live-данные · OpenDota</span>
-      </div>
-      <h1>Игра начинается <br><span>раньше.</span></h1>
-      <p>Вбей составы — увидишь синергию, контрпики и расклад по линиям. 8001 пара героев по матчам Divine и Immortal.</p>
-      <div class="hero-actions">
-        <a class="btn red" href="/heroes/">Открыть героев</a>
-        <button class="btn ghost" id="randomBtn">🎲 Случайный герой</button>
-      </div>
-      <div class="hero-stats">
-        <div><strong id="heroCount">—</strong><small>героев</small></div>
-        <div><strong id="heroRoleCount">—</strong><small>ролей</small></div>
-        <div><strong id="itemCountHero">—</strong><small>предметов</small></div>
-      </div>
+<section class="hm" id="home-hero">
+  <div class="container hm-top">
+    <div class="hm-intro">
+      <p class="hm-eyebrow">{{META_STAMP}}</p>
+      <h1 class="hm-title">Что работает прямо сейчас</h1>
+      <p class="hm-lead">Около {{META_MATCHES}} матчей ранга Divine и Immortal. Считаем сами и показываем, из чего посчитано — редакционных мнений тут нет.</p>
     </div>
-    <div class="featured" id="featured">
-      <div class="featured-fallback">
-        <small>HERO SPOTLIGHT</small>
-        <h3>Подбираем героя дня…</h3>
-        <p>Секунду — открываем карточку с ролью, статистикой и предметами.</p>
+    <div class="hm-find">
+      <label class="hm-sr" for="globalSearch">Поиск героя, предмета или гайда</label>
+      <div class="hm-find-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <input id="globalSearch" type="search" placeholder="Герой, предмет или гайд" autocomplete="off">
+        <span class="hm-find-count">{{HERO_COUNT}}</span>
+      </div>
+      <div id="globalSearchResults" class="v43-search-results"></div>
+      <div class="hm-find-chips">
+        <a href="/hero/pudge/">Pudge</a>
+        <a href="/item/black_king_bar/">Black King Bar</a>
+        <a href="/guide/match-timings/">Тайминги матча</a>
       </div>
     </div>
   </div>
 
-  <div class="container hero-quickprep" id="quickPrep">
-    <div class="hero-quickprep-head">
-      <div class="eyebrow">⚡ 60 СЕКУНД ДО ПИКА</div>
-      <h2>Выбери героя — получи контрпики и билд мгновенно</h2>
-    </div>
-    <div class="quick-prep-panel">
-      <div class="quick-prep-picker">
-        <label class="search">⌕ <input id="quickPrepInput" list="quickPrepHeroes" placeholder="Начни вводить имя героя…" autocomplete="off"></label>
-        <datalist id="quickPrepHeroes"></datalist>
-        <div class="quick-prep-chips" id="quickPrepChips"></div>
+  <div class="container hm-board">{{HOME_META_LISTS}}</div>
+
+  <div class="container">
+    <div class="hm-draft" id="homeDraft">
+      <div class="hm-draft-main">
+        <span class="hm-draft-label">Инструмент драфта</span>
+        <div class="hm-draft-rows">
+          <div class="hm-draft-row"><span class="hm-side hm-side-us">Мы</span><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
+          <div class="hm-draft-row"><span class="hm-side hm-side-them">Они</span><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
+        </div>
       </div>
-      <div id="quickPrepResult" class="quick-prep-result">
-        <div class="quick-prep-empty">Выбери героя выше или нажми на одну из подсказок — покажем контрпики, билд и pro winrate за секунду.</div>
-      </div>
+      <div class="hm-draft-verdict"><p class="hm-draft-hint">Нажми на пустой слот — выберешь героя прямо здесь. Посчитаем синергию, контрпики и расклад по линиям по матрице пар из матчей Divine и Immortal.</p></div>
+      <a class="hm-draft-go" href="#draftTool">Открыть драфт</a>
     </div>
   </div>
+
+  <div class="container hm-counters">{{HOME_META_COUNTERS}}</div>
 </section>
-
 <section class="section draft-tool" id="draftTool">
   <div class="container">
     <div class="dt-shell">

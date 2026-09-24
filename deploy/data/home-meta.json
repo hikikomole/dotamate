@@ -1,0 +1,159 @@
+{
+  "source": "OpenDota heroStats",
+  "bracket": "DIVINE_IMMORTAL",
+  "fetchedAt": "2026-09-24T20:19:25.193Z",
+  "patch": "7.41f",
+  "minMatches": 2000,
+  "heroCount": 127,
+  "matchesApprox": 440167,
+  "carry": [
+    {
+      "id": 82,
+      "name": "Meepo",
+      "slug": "meepo",
+      "img": "/assets/heroes/meepo.png",
+      "wr": 55.7,
+      "matches": 6754
+    },
+    {
+      "id": 62,
+      "name": "Bounty Hunter",
+      "slug": "bounty_hunter",
+      "img": "/assets/heroes/bounty_hunter.png",
+      "wr": 55.3,
+      "matches": 51450
+    },
+    {
+      "id": 92,
+      "name": "Visage",
+      "slug": "visage",
+      "img": "/assets/heroes/visage.png",
+      "wr": 54.9,
+      "matches": 8951
+    },
+    {
+      "id": 33,
+      "name": "Enigma",
+      "slug": "enigma",
+      "img": "/assets/heroes/enigma.png",
+      "wr": 54.6,
+      "matches": 21497
+    },
+    {
+      "id": 76,
+      "name": "Outworld Devourer",
+      "slug": "obsidian_destroyer",
+      "img": "/assets/heroes/obsidian_destroyer.png",
+      "wr": 54.2,
+      "matches": 62734
+    },
+    {
+      "id": 113,
+      "name": "Arc Warden",
+      "slug": "arc_warden",
+      "img": "/assets/heroes/arc_warden.png",
+      "wr": 53.5,
+      "matches": 18384
+    }
+  ],
+  "picked": [
+    {
+      "id": 14,
+      "name": "Pudge",
+      "slug": "pudge",
+      "img": "/assets/heroes/pudge.png",
+      "matches": 121199,
+      "wr": 50.5
+    },
+    {
+      "id": 86,
+      "name": "Rubick",
+      "slug": "rubick",
+      "img": "/assets/heroes/rubick.png",
+      "matches": 116621,
+      "wr": 50.2
+    },
+    {
+      "id": 26,
+      "name": "Lion",
+      "slug": "lion",
+      "img": "/assets/heroes/lion.png",
+      "matches": 96716,
+      "wr": 48.7
+    },
+    {
+      "id": 74,
+      "name": "Invoker",
+      "slug": "invoker",
+      "img": "/assets/heroes/invoker.png",
+      "matches": 92377,
+      "wr": 51.8
+    },
+    {
+      "id": 21,
+      "name": "Windranger",
+      "slug": "windrunner",
+      "img": "/assets/heroes/windrunner.png",
+      "matches": 84380,
+      "wr": 49.6
+    },
+    {
+      "id": 54,
+      "name": "Lifestealer",
+      "slug": "life_stealer",
+      "img": "/assets/heroes/life_stealer.png",
+      "matches": 80243,
+      "wr": 51.5
+    }
+  ],
+  "banned": [
+    {
+      "id": 62,
+      "name": "Bounty Hunter",
+      "slug": "bounty_hunter",
+      "img": "/assets/heroes/bounty_hunter.png",
+      "bans": 68,
+      "picks": 9
+    },
+    {
+      "id": 107,
+      "name": "Earth Spirit",
+      "slug": "earth_spirit",
+      "img": "/assets/heroes/earth_spirit.png",
+      "bans": 66,
+      "picks": 19
+    },
+    {
+      "id": 80,
+      "name": "Lone Druid",
+      "slug": "lone_druid",
+      "img": "/assets/heroes/lone_druid.png",
+      "bans": 57,
+      "picks": 18
+    },
+    {
+      "id": 33,
+      "name": "Enigma",
+      "slug": "enigma",
+      "img": "/assets/heroes/enigma.png",
+      "bans": 53,
+      "picks": 16
+    },
+    {
+      "id": 155,
+      "name": "Largo",
+      "slug": "largo",
+      "img": "/assets/heroes/largo.png",
+      "bans": 51,
+      "picks": 23
+    },
+    {
+      "id": 106,
+      "name": "Ember Spirit",
+      "slug": "ember_spirit",
+      "img": "/assets/heroes/ember_spirit.png",
+      "bans": 48,
+      "picks": 39
+    }
+  ]
+}

@@ -33,12 +33,12 @@ const PAGES = [
     // draftTool идёт сразу за первым экраном — как на живой главной.
     // Раньше секции тут не было, и запуск сборщика стирал инструмент драфта
     // из index.html: разметка жила только в собранном файле.
-    sections: ['home-hero', 'draftTool', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
-    styles: ['/css/theme-dark.css', '/css/draft-tool.css'],
+    sections: ['home-hero', 'draftTool', 'home-cards', 'featuredHeroes'],
+    styles: ['/css/theme-dark.css', '/css/home-hero.css', '/css/draft-tool.css'],
     bodyClass: 'd2-dark',
     // defer у draft-tool.js сохраняет прежний порядок выполнения: скрипт
     // отрабатывает после v43-features.js, как было при ручной правке.
-    scripts: ['/js/home-bg.js', { src: '/js/draft-tool.js', defer: true }],
+    scripts: [{ src: '/js/draft-tool.js', defer: true }, { src: '/js/home-draft.js', defer: true }],
   },
   {
     key: 'heroes', dir: 'heroes',
@@ -102,6 +102,82 @@ const HOME_CARDS = `<section class="section" id="home-cards">
   </div>
 </section>`;
 
+// --- Первый экран главной: три списка меты, счётчики каталога и штамп среза.
+// Всё это рисуется НА СБОРКЕ, а не в браузере. Причин две. Первая: ссылки на
+// героев должны лежать в HTML, иначе робот их не увидит и вся глубина обхода
+// пропадёт. Вторая: первый экран не должен прыгать, пока грузятся данные.
+// Числа берём из data/home-meta.json (tools/fetch-home-meta.js) и из тех же
+// карт адресов, по которым собирается sitemap, — выдумывать тут нечего.
+const HOME_META = path.join(ROOT, 'data', 'home-meta.json');
+
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function ru(n) {
+  return Number(n).toLocaleString('ru-RU').replace(/ /g, '&nbsp;');
+}
+function pct(n) {
+  return String(Number(n).toFixed(1)).replace('.', ',') + '&thinsp;%';
+}
+// Русские числительные: «21 281 матч», но «18 172 матча» и «6 686 матчей».
+function plural(n, one, few, many) {
+  const a = Math.abs(n) % 100, b = a % 10;
+  if (a > 10 && a < 20) return many;
+  if (b > 1 && b < 5) return few;
+  if (b === 1) return one;
+  return many;
+}
+function countOf(file) {
+  try {
+    const x = require(path.join(ROOT, file));
+    return Array.isArray(x) ? x.length : Object.keys(x).length;
+  } catch (e) { return 0; }
+}
+function metaRow(h, main, sub, bad) {
+  return `<a class="hm-row" href="/hero/${esc(h.slug)}/">` +
+    `<img src="${esc(h.img)}" alt="" width="34" height="34" loading="lazy" decoding="async">` +
+    `<span class="hm-row-name">${esc(h.name)}</span>` +
+    `<span class="hm-row-num"><b>${main}</b><small${bad ? ' class="hm-bad"' : ''}>${sub}</small></span></a>`;
+}
+function metaColumn(title, hint, rows, link, linkText) {
+  return `<div class="hm-col"><div class="hm-col-head"><h2>${title}</h2><span>${hint}</span></div>` +
+    rows.join('') +
+    `<a class="hm-col-more" href="${link}">${linkText} →</a></div>`;
+}
+function homeMeta() {
+  const m = JSON.parse(fs.readFileSync(HOME_META, 'utf8'));
+  const carry = m.carry.map(h => metaRow(h, pct(h.wr),
+    `${ru(h.matches)} ${plural(h.matches, 'матч', 'матча', 'матчей')}`));
+  const picked = m.picked.map(h => metaRow(h, ru(h.matches),
+    `винрейт ${pct(h.wr)}`, h.wr < 50));
+  const banned = m.banned.map(h => metaRow(h, ru(h.bans),
+    `взяли ${h.picks} ${plural(h.picks, 'раз', 'раза', 'раз')}`));
+
+  const lists =
+    metaColumn('Тащат', `винрейт · от ${ru(m.minMatches)} матчей`, carry, '/stats/', 'Весь список винрейта') +
+    metaColumn('Берут чаще всего', 'матчей за срез', picked, '/heroes/', `Все ${countOf('hero-urls.json')} героев`) +
+    metaColumn('Банят на про', 'банов · и сколько раз взяли', banned, '/stats/', 'Про-сцена целиком');
+
+  const articles = countOf('guide-urls.json') + countOf('role-guide-urls.json');
+  const heroGuides = countOf('hero-guide-urls.json');
+  let pairs = 0;
+  try { pairs = require(path.join(ROOT, 'data', 'draft-matrix.json')).pairCount || 0; } catch (e) {}
+  const counter = (href, num, text) =>
+    `<a class="hm-counter" href="${href}"><b>${ru(num)}</b><span>${text}</span></a>`;
+  const counters =
+    counter('/heroes/', countOf('hero-urls.json'), 'героев') +
+    counter('/items/', countOf('item-urls.json'), plural(countOf('item-urls.json'), 'предмет', 'предмета', 'предметов')) +
+    counter('/guides/', articles, `${plural(articles, 'статья', 'статьи', 'статей')} и ${ru(heroGuides)} гайдов по героям`) +
+    counter('#draftTool', pairs, plural(pairs, 'пара', 'пары', 'пар') + ' героев в матрице');
+
+  const d = new Date(m.fetchedAt);
+  const stamp = `Срез ${esc(m.source.split(' ')[0])} · ` +
+    d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(' г.', '');
+
+  const patchChip = m.patch ? '<span class="dm-patch">Патч ' + esc(m.patch) + '</span>' : '';
+  return { lists, counters, stamp, matches: ru(m.matchesApprox), pairs: ru(pairs), patchChip, heroCount: ru(countOf('hero-urls.json')) };
+}
+
 function readSections() {
   const raw = fs.readFileSync(path.join(ROOT, 'page-sections.html'), 'utf8');
   // Секции лежат друг за другом верхнего уровня, вложенных <section> нет,
@@ -152,7 +228,14 @@ function build() {
     if (missing.length) throw new Error(`нет секций ${missing.join(', ')} для страницы ${page.key}`);
 
     const canonical = page.dir ? `${ORIGIN}/${page.dir}/` : `${ORIGIN}/`;
-    const content = page.sections.map(id => sections[id]).join('\n\n');
+    const meta = homeMeta();
+    const content = page.sections.map(id => sections[id]).join('\n\n')
+      .replace('{{HOME_META_LISTS}}', meta.lists)
+      .replace('{{HOME_META_COUNTERS}}', meta.counters)
+      .replace('{{META_STAMP}}', meta.stamp)
+      .replace('{{META_MATCHES}}', meta.matches)
+      .replace('{{PAIR_COUNT}}', meta.pairs)
+      .replace('{{HERO_COUNT}}', meta.heroCount);
     const scripts = (page.scripts || []).map(s => {
       const { src, ...attrs } = typeof s === 'string' ? { src: s } : s;
       const extra = Object.keys(attrs).filter(k => attrs[k]).map(k => ` ${k}`).join('');
@@ -170,7 +253,8 @@ function build() {
       .replace('{{CONTENT}}', content)
       .replace('{{PAGE_SCRIPTS}}', scripts)
       .replace('{{PAGE_STYLES}}', styles)
-      .replace('{{BODY_CLASS}}', bodyClass);
+      .replace('{{BODY_CLASS}}', bodyClass)
+      .replace('{{PATCH_CHIP}}', meta.patchChip);
 
     for (const base of [ROOT, path.join(ROOT, 'deploy')]) {
       const dir = page.dir ? path.join(base, page.dir) : base;
