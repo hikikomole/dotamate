@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dota Mate — герои, предметы, статистика и гайды</title>
-<meta name="description" content="Живая база Dota 2: 127 героев, 263 предмета и 83 рецепта, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.">
+<meta name="description" content="Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
 <link rel="canonical" href="https://dotamate.ru/">
 <link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Dota Mate — герои, предметы, статистика и гайды">
-<meta property="og:description" content="Живая база Dota 2: 127 героев, 263 предмета и 83 рецепта, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.">
+<meta property="og:description" content="Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
 <meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
 <meta property="og:url" content="https://dotamate.ru/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dota Mate — герои, предметы, статистика и гайды">
-<meta name="twitter:description" content="Живая база Dota 2: 127 героев, 263 предмета и 83 рецепта, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.">
+<meta name="twitter:description" content="Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
@@ -56,8 +56,8 @@
         <div class="eyebrow">НЕОФИЦИАЛЬНЫЙ ПОМОЩНИК ДЛЯ DOTA 2</div>
         <span class="fresh-badge" id="freshBadge">🟢 Live-данные · OpenDota</span>
       </div>
-      <h1>Помощник<br><span>по DOTA 2</span></h1>
-      <p>Все герои и предметы Dota 2 с live pro-статистикой с OpenDota — одна связанная база вместо десятка открытых вкладок перед игрой.</p>
+      <h1>Игра начинается <br><span>раньше.</span></h1>
+      <p>Вбей составы — увидишь синергию, контрпики и расклад по линиям. 8001 пара героев по матчам Divine и Immortal.</p>
       <div class="hero-actions">
         <a class="btn red" href="/heroes/">Открыть героев</a>
         <button class="btn ghost" id="randomBtn">🎲 Случайный герой</button>
@@ -135,7 +135,7 @@
         <div class="dt-bar-row">
           <b class="dt-rad" id="dtWinRad">—</b>
           <div class="dt-bar-wrap">
-            <div class="dt-bar-title" id="dtWinTitle">Прогноз победы</div>
+            <div class="dt-bar-title">Перевес драфта, п.п.</div>
             <div class="dt-bar"><span class="dt-fill-rad" id="dtWinFillRad" style="width:50%"></span><span class="dt-fill-dire" id="dtWinFillDire" style="width:50%"></span></div>
           </div>
           <b class="dt-dire" id="dtWinDire">—</b>
@@ -143,7 +143,7 @@
         <div class="dt-bar-row">
           <b class="dt-rad" id="dtLaneRad">—</b>
           <div class="dt-bar-wrap">
-            <div class="dt-bar-title">Линии — доля выигранных, в среднем</div>
+            <div class="dt-bar-title">Перевес на линиях, п.п.</div>
             <div class="dt-bar"><span class="dt-fill-rad" id="dtLaneFillRad" style="width:50%"></span><span class="dt-fill-dire" id="dtLaneFillDire" style="width:50%"></span></div>
           </div>
           <b class="dt-dire" id="dtLaneDire">—</b>
@@ -170,7 +170,7 @@
       <div class="dt-lanes">
         <div class="dt-lanes-head">
           <h3>Линии</h3>
-          <small>Доля линий, выигранных Светом · по реальным исходам линий</small>
+          <small>Реальные исходы линий по парам героев · взгляд со стороны Света</small>
         </div>
         <div class="dt-lane-grid" id="dtLaneGrid"></div>
         <p class="dt-lane-note">Позиции расставляются по самой частой роли героя — поправь селектор в слоте, если в твоём драфте роль другая.</p>
@@ -197,11 +197,9 @@
       <details class="dt-method">
         <summary>Откуда числа и как они считаются</summary>
         <p><b>Источники.</b> Срез «Наш ранг» — наша собственная база публичных матчей диапазона 0–4500 MMR, которую мы собираем сами из ленты OpenDota: по каждому матчу все десять героев и исход. Срез «Divine/Immortal» — Stratz <code>heroStats.matchUp</code>. Линии в обоих случаях берутся у Stratz (<code>heroStats.laneOutcome</code>, фактические исходы линии, а не прогноз золота на десятой минуте): в ленте публичных матчей данных о линиях нет вовсе. Дата снимка — <span id="dtFetched">—</span>.</p>
-        <p><b>Счёт.</b> Доля побед пары сглаживается к 50% по размеру выборки: <code>(победы + 25) / (матчи + 50)</code>. Так пара с двадцатью матчами весит меньше, чем пара с тысячей, но не выбрасывается. Отклонения от 50% складываются в процентных пунктах: «Син» — по парам внутри команды, «Матч» — против каждого героя соперника. Сумма и есть перевес драфта.</p>
-        <p><b>Из перевеса в вероятность.</b> Сам по себе перевес не вероятность: модель считает пары независимыми, и на резких драфтах сумма доходит до ста пунктов и больше, чего в процентах победы не бывает. Поэтому перевес <code>S</code> переводится в вероятность одной формулой: <code>P = 1 / (1 + e^(−a·S))</code>, где единственный коэффициент <code>a</code> подобран логистической регрессией по исходам настоящих матчей нашей базы. Это стандартная калибровка, форму модели она не трогает.</p>
-        <p><b>Насколько это работает.</b> База разделена на три непересекающиеся части: по 70% построена матрица пар, по 15% подобран коэффициент, по оставшимся 15% измерено качество — эти матчи не видели ни матрица, ни коэффициент. На них модель даёт log loss <span id="dtCalLL">—</span> против <span id="dtCalLLBase">—</span> у честной монетки и Brier score <span id="dtCalBr">—</span> против 0,25. Исход угадывается в <span id="dtCalAcc">—</span> случаев. Проверено на <span id="dtCalN">—</span> матчах.</p>
-        <p><b>Чего прогноз не знает.</b> Он смотрит только на десять героев. Ни уровня игроков, ни их любимых героев, ни того, как пройдут линии, в нём нет — поэтому 57% угаданных исходов это потолок того, что вообще можно выжать из одного драфта, а не слабость расчёта. Линии считаются отдельно и в вероятность победы не входят: в ленте публичных матчей нет позиций, восстановить лейновый вклад по истории нечем.</p>
-        </details>
+        <p><b>Счёт.</b> Доля побед пары сглаживается к 50% по размеру выборки: <code>(победы + 25) / (матчи + 50)</code>. Так пара с двадцатью матчами весит меньше, чем пара с тысячей, но не выбрасывается. Дальше отклонения от 50% складываются в процентных пунктах: «Син» — по парам внутри команды, «Матч» — против каждого героя соперника, «Линия» — по паре на своей линии. Верхняя шкала — сумма всех отклонений.</p>
+        <p><b>Почему тут перевес, а не проценты победы.</b> Сумма парных преимуществ считает пары независимыми, а они зависимы, и у резких драфтов разрыв завышается. Превратить перевес в честную вероятность можно только одним способом — подогнать коэффициент по исходам настоящих матчей. Пока такой подгонки нет, мы показываем то, что реально посчитано: насколько один драфт перевешивает другой. Чем больше число, тем сильнее перевес; сравнивать варианты пика между собой этим можно, читать как «вероятность победы» — нет.</p>
+      </details>
 
       <div class="dt-state" id="dtState">Загружаем матрицу пар…</div>
     </div>
