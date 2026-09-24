@@ -30,10 +30,15 @@ const PAGES = [
     key: 'home', dir: '',
     title: 'Dota Mate — герои, предметы, статистика и гайды',
     desc: 'Живая база Dota 2: 127 героев, 263 предмета и 83 рецепта, pro-статистика с OpenDota и гайды. Всё связано между собой — без десятка открытых вкладок перед игрой.',
-    sections: ['home-hero', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
-    styles: ['/css/theme-dark.css'],
+    // draftTool идёт сразу за первым экраном — как на живой главной.
+    // Раньше секции тут не было, и запуск сборщика стирал инструмент драфта
+    // из index.html: разметка жила только в собранном файле.
+    sections: ['home-hero', 'draftTool', 'home-cards', 'featuredHeroes', 'globalSearchSection'],
+    styles: ['/css/theme-dark.css', '/css/draft-tool.css'],
     bodyClass: 'd2-dark',
-    scripts: ['/js/home-bg.js'],
+    // defer у draft-tool.js сохраняет прежний порядок выполнения: скрипт
+    // отрабатывает после v43-features.js, как было при ручной правке.
+    scripts: ['/js/home-bg.js', { src: '/js/draft-tool.js', defer: true }],
   },
   {
     key: 'heroes', dir: 'heroes',
@@ -148,7 +153,11 @@ function build() {
 
     const canonical = page.dir ? `${ORIGIN}/${page.dir}/` : `${ORIGIN}/`;
     const content = page.sections.map(id => sections[id]).join('\n\n');
-    const scripts = (page.scripts || []).map(s => `<script src="${s}"></script>`).join('\n');
+    const scripts = (page.scripts || []).map(s => {
+      const { src, ...attrs } = typeof s === 'string' ? { src: s } : s;
+      const extra = Object.keys(attrs).filter(k => attrs[k]).map(k => ` ${k}`).join('');
+      return `<script src="${src}"${extra}></script>`;
+    }).join('\n');
     const styles = (page.styles || []).map(s => `<link rel="stylesheet" href="${s}">`).join('\n');
     const bodyClass = page.bodyClass ? ` class="${page.bodyClass}"` : '';
 

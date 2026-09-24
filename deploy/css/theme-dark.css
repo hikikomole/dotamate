@@ -54,10 +54,16 @@ body.d2-dark .topbar{background:rgba(7,8,10,.74)!important;border-bottom:1px sol
 body.d2-dark .topbar nav a{position:relative!important;color:var(--d2-muted)!important;font-size:12.5px!important;font-weight:700!important;letter-spacing:1.4px!important;text-transform:uppercase!important}
 body.d2-dark .topbar nav a:hover{color:var(--d2-text)!important}
 body.d2-dark .topbar nav a.active{color:#fff!important}
-body.d2-dark .topbar nav a.active::before{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:-26px!important;height:2px!important;background:var(--d2-gold)!important}
+/* Подчёркивание активного пункта меню (::before, bottom:-26px) убрано:
+   полоска висела в воздухе под шапкой, отдельно от самого пункта. */
 body.d2-dark .brand{color:var(--d2-text)!important}
 
-body.d2-dark .breadcrumbs{color:var(--d2-muted-2)!important}
+/* Строка навигации скрыта от посетителей по просьбе владельца (24.09.2026).
+   Не display:none, а приём sr-only: элемент остаётся в разметке и доступен
+   читалкам и роботам, но не виден и не занимает места. Разметка
+   BreadcrumbList лежит отдельным <script type="application/ld+json"> и не
+   затронута — для поиска цепочка сохраняется. */
+body.d2-dark .breadcrumbs{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;color:var(--d2-muted-2)!important}
 body.d2-dark .breadcrumbs a{color:var(--d2-muted-2)!important}
 body.d2-dark .breadcrumbs a:hover{color:var(--d2-gold)!important}
 body.d2-dark .breadcrumbs span[aria-current]{color:var(--d2-muted)!important}
@@ -355,7 +361,6 @@ body.d2-dark .nav nav.open{background:var(--d2-panel)!important;border:1px solid
    «активного» пункта (она смещена на -26px под шапку) оказывалась под
    соседним пунктом. Там активное помечаем цветом. */
 @media(max-width:760px){
-  body.d2-dark .topbar nav a.active::before{display:none!important}
   body.d2-dark .nav nav.open a.active{color:var(--d2-gold)!important}
 }
 
@@ -388,7 +393,7 @@ body.d2-dark .featured-hero-card span{font-size:11px!important;font-weight:800!i
 /* ========== предметы: каталог ========== */
 
 /* Секция тянет собственный светлый градиент — гасим до фона страницы */
-body.d2-dark .items-section-v3{background:none!important;border-top:1px solid var(--d2-line)!important;border-bottom:0!important}
+body.d2-dark .items-section-v3{background:none!important;border-top:0!important;border-bottom:0!important}
 body.d2-dark .items-v3-head h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important}
 body.d2-dark .items-v3-head p{color:var(--d2-muted)!important}
 body.d2-dark .items-v3-summary{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-lg)!important;box-shadow:none!important}
@@ -1194,3 +1199,47 @@ body.d2-dark .hero-guide-links a{border-radius:var(--rad-md)!important}
 body.d2-dark .hp-buys{margin-top:0!important;padding:0 0 8px!important}
 body.d2-dark .hp-buys h2{font-size:14px!important;font-weight:800!important;letter-spacing:3px!important;text-transform:uppercase!important;color:var(--d2-gold)!important;margin:40px 0 6px!important}
 body.d2-dark .hp-buys-note{margin:0 0 18px!important;font-size:13px!important;color:var(--d2-muted)!important;max-width:none!important}
+
+/* ========== статистика и гайды: подгон под каталог предметов (24.09.2026) ==========
+
+   Секции /stats/ и /guides/ тянули заливку companion-темы --comp-surface-2
+   (#171a20) — она светлее карточек (#101216). Получалось наоборот, чем на
+   /items/: там секция прозрачная, карточки лежат на фоне страницы #07080a.
+   Границ у секции нет: линия шапки и линия секции вместе замыкали строку
+   хлебных крошек в отдельную полосу. */
+body.d2-dark .quick-stats-section,
+body.d2-dark .guides-section{background:none!important;border-top:0!important;border-bottom:0!important}
+
+/* Ключевые числа — золотом, как «253» в сводке каталога и цены на карточках.
+   Белые цифры на этих двух страницах были единственным местом, где число
+   ничем не выделено. */
+body.d2-dark .stat-card strong,
+body.d2-dark .stats-insight-grid strong,
+body.d2-dark .stats-highlights button strong{color:var(--d2-gold)!important}
+
+/* «Читать гайд →» приходил как .btn.ghost с подчёркиванием — выглядел как
+   необработанная ссылка браузера. Приводим к языку чипов каталога:
+   прозрачный фон, линия --d2-line, золотой текст в верхнем регистре. */
+body.d2-dark .guide-card .guide-open{margin-top:14px!important;padding:9px 13px!important;background:none!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-md)!important;box-shadow:none!important;text-decoration:none!important;color:var(--d2-gold)!important;font-size:10px!important;font-weight:800!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
+body.d2-dark .guide-card .guide-open:hover{border-color:var(--d2-gold-dim)!important;color:#fff!important}
+
+/* ========== активные кнопки отбора: контур вместо заливки (24.09.2026) ==========
+
+   Выбранный чип заливался сплошным золотом `--d2-gold` с тёмным текстом — на
+   чёрном фоне это самое яркое пятно страницы, ярче заголовка и карточек.
+   Взят приём переключателя «Наш ранг» из инструмента драфта
+   (`.dt-side-switch button.active`, `.dt-role.active` в draft-tool.css):
+   полупрозрачная золотая подложка rgba(217,193,135,.14), приглушённо-золотая
+   рамка, золотой текст. Сигнал «выбрано» остаётся (у невыбранных текст серый
+   `--d2-muted`), но перестаёт бить по глазам. */
+body.d2-dark .chip.active,
+body.d2-dark .items-v3-price .chip.active,
+body.d2-dark .item-category.active,
+body.d2-dark .hb-tab.on{background:rgba(217,193,135,.14)!important;border-color:var(--d2-gold-dim)!important;color:var(--d2-gold)!important}
+body.d2-dark .chip.active:hover,
+body.d2-dark .item-category.active:hover,
+body.d2-dark .hb-tab.on:hover{border-color:var(--d2-gold)!important;color:var(--d2-gold)!important}
+/* Значки внутри выбранного чипа были почти чёрными — под золотую заливку.
+   Без заливки они пропадали, поэтому тоже становятся золотыми. */
+body.d2-dark .item-category.active span,
+body.d2-dark .hb-tab.on .hb-tab-ico{color:var(--d2-gold)!important}
