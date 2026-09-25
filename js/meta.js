@@ -191,8 +191,8 @@
 
   // ---------- /meta/match/?id=
   var LANE = {
-    RADIANT_STOMP: ['Разгром Radiant', 'rad'], RADIANT_VICTORY: ['Победа Radiant', 'rad'], TIE: ['Ничья', ''],
-    DIRE_VICTORY: ['Победа Dire', 'dire'], DIRE_STOMP: ['Разгром Dire', 'dire']
+    RADIANT_STOMP: ['Разгром Сил Света', 'rad'], RADIANT_VICTORY: ['Победа Сил Света', 'rad'], TIE: ['Ничья', ''],
+    DIRE_VICTORY: ['Победа Сил Тьмы', 'dire'], DIRE_STOMP: ['Разгром Сил Тьмы', 'dire']
   };
   function initMatch(root) {
     var id = (location.search.match(/[?&]id=(\d{6,12})\b/) || [])[1];
@@ -213,22 +213,22 @@
     var nwDiff = rnw - dnw;
     root.innerHTML =
       '<div class="mm-head">' +
-        '<div class="mm-side rad' + (m.rw ? ' won' : '') + '"><span>Radiant</span><b>' + rk + '</b>' + (m.rw ? '<em>Победа</em>' : '') + '</div>' +
+        '<div class="mm-side rad' + (m.rw ? ' won' : '') + '"><span>Силы Света</span><b>' + rk + '</b>' + (m.rw ? '<em>Победа</em>' : '') + '</div>' +
         '<div class="mm-mid"><h1>Матч ' + m.id + '</h1><span>' + dur + ' · ' + esc(m.rankName || '') + ' · ' + date(m.t) + '</span></div>' +
-        '<div class="mm-side dire' + (m.rw ? '' : ' won') + '"><span>Dire</span><b>' + dk + '</b>' + (m.rw ? '' : '<em>Победа</em>') + '</div>' +
+        '<div class="mm-side dire' + (m.rw ? '' : ' won') + '"><span>Силы Тьмы</span><b>' + dk + '</b>' + (m.rw ? '' : '<em>Победа</em>') + '</div>' +
       '</div>' +
       '<div class="mm-facts">' +
-        (exp === null ? '' : '<div class="mm-fact"><small>Прогноз драфта Dota Mate</small><b>Radiant ' + num(exp, 1) + '% / Dire ' + num(100 - exp, 1) + '%</b>' +
+        (exp === null ? '' : '<div class="mm-fact"><small>Прогноз драфта Dota Mate</small><b>Силы Света ' + num(exp, 1) + '% / Силы Тьмы ' + num(100 - exp, 1) + '%</b>' +
           '<div class="mm-bar"><i class="rad" style="width:' + exp + '%"></i></div><span>' + (fav === m.rw ? 'Фаворит драфта победил' : 'Победил андердог драфта') + ' · только герои, без позиций</span></div>') +
         '<div class="mm-fact"><small>Итоговый капитал</small><b>' + k(rnw) + ' / ' + k(dnw) + '</b>' +
-          '<div class="mm-bar"><i class="rad" style="width:' + (100 * rnw / (rnw + dnw)).toFixed(1) + '%"></i></div><span>' + (nwDiff >= 0 ? 'Radiant +' : 'Dire +') + k(Math.abs(nwDiff)) + '</span></div>' +
+          '<div class="mm-bar"><i class="rad" style="width:' + (100 * rnw / (rnw + dnw)).toFixed(1) + '%"></i></div><span>' + (nwDiff >= 0 ? 'Силы Света +' : 'Силы Тьмы +') + k(Math.abs(nwDiff)) + '</span></div>' +
         '<div class="mm-fact"><small>Линии</small>' + ['Топ', 'Мид', 'Бот'].map(function (n, i) {
           var o = LANE[m.lanes[i]] || ['—', '']; return '<div class="mm-lane"><span>' + n + '</span><b class="' + o[1] + '">' + o[0] + '</b></div>';
         }).join('') + '<span>итог линий по Stratz</span></div>' +
       '</div>' +
-      team('Radiant', rad, m, 'rad') + team('Dire', dire, m, 'dire') +
-      (m.wr && m.wr.length > 2 ? chart('Вероятность победы Radiant', m.wr.map(function (x) { return x * 100 - 50; }), 50, function (v) { return num(v + 50, 0) + '%'; }) : '') +
-      (m.nw && m.nw.length > 2 ? chart('Перевес по капиталу', m.nw, null, function (v) { return (v >= 0 ? 'Radiant +' : 'Dire +') + k(Math.abs(v)); }) : '') +
+      team('Силы Света', rad, m, 'rad') + team('Силы Тьмы', dire, m, 'dire') +
+      (m.wr && m.wr.length > 2 ? chart('Вероятность победы Сил Света', m.wr.map(function (x) { return x * 100 - 50; }), 50, function (v) { return num(v + 50, 0) + '%'; }) : '') +
+      (m.nw && m.nw.length > 2 ? chart('Перевес по капиталу', m.nw, null, function (v) { return (v >= 0 ? 'Силы Света +' : 'Силы Тьмы +') + k(Math.abs(v)); }) : '') +
       (m.bans.length ? '<div class="mx-block"><div class="mx-block-head"><h2>Баны</h2><span>' + m.bans.length + '</span></div><div class="mm-bans">' +
         m.bans.map(function (b) { return heroImg(m, b, ''); }).join('') + '</div></div>' : '') +
       '<div class="mm-out"><a class="btn red" href="https://stratz.com/matches/' + m.id + '" target="_blank" rel="noopener">Подробная аналитика на Stratz →</a>' +
@@ -264,7 +264,7 @@
       ticks + '<line class="mid" x1="0" x2="' + W + '" y1="' + H / 2 + '" y2="' + H / 2 + '"/>' +
       '<path class="a rad" d="' + area + '" clip-path="url(#c' + title.length + 'a)"/><path class="a dire" d="' + area + '" clip-path="url(#c' + title.length + 'b)"/>' +
       '<path class="l" d="' + line + '"/><line class="cross" x1="0" x2="0" y1="0" y2="' + H + '" hidden/></svg>' +
-      '<div class="mm-tip" hidden></div><span class="mm-lab top">Radiant</span><span class="mm-lab bot">Dire</span></div></div>';
+      '<div class="mm-tip" hidden></div><span class="mm-lab top">Силы Света</span><span class="mm-lab bot">Силы Тьмы</span></div></div>';
   }
   function bindCharts(root) {
     root.querySelectorAll('.mm-chart').forEach(function (c) {
@@ -275,7 +275,7 @@
         var i = Math.round(f * (vals.length - 1)), v = vals[i], X = 8 + i * (800 - 16) / (vals.length - 1);
         cross.setAttribute('x1', X); cross.setAttribute('x2', X); cross.hidden = false;
         tip.hidden = false; tip.style.left = (100 * X / 800) + '%';
-        tip.innerHTML = '<b>' + i + ':00</b> ' + (fixed ? 'Radiant ' + num(v + 50, 0) + '%' : (v >= 0 ? 'Radiant +' : 'Dire +') + k(Math.abs(v)));
+        tip.innerHTML = '<b>' + i + ':00</b> ' + (fixed ? 'Силы Света ' + num(v + 50, 0) + '%' : (v >= 0 ? 'Силы Света +' : 'Силы Тьмы +') + k(Math.abs(v)));
       }
       plot.addEventListener('pointermove', move);
       plot.addEventListener('pointerleave', function () { tip.hidden = true; cross.hidden = true; });

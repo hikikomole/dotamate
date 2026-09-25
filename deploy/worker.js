@@ -16,22 +16,24 @@ function jsonResponse(data, status = 200) {
 
 async function sleep(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-// OpenDota's free API is shared across every Cloudflare Worker on the
-// planet, so its rate limits get hit from our egress IP far more often
-// than from a normal browser/device IP. A couple of short retries absorb
-// most of those transient 429/5xx blips without the caller noticing.
+// 25.09.2026: проверка показала, что api.opendota.com большую часть суток
+// отдаёт 522 (их же Cloudflare не достучался до origin) через ~20 секунд
+// ожидания. Старые три ретрая без таймаута на fetch означали до минуты
+// внутри одного вызова воркера и разрывы соединений у посетителей
+// (7 clientDisconnected за сутки). Теперь: 5-секундный таймаут на попытку,
+// одна короткая повторная попытка только для 429/5xx, иначе сразу к снимку.
 async function fetchJson(url) {
   let lastErr;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const r = await fetch(url, { headers: { Accept: 'application/json' } });
+      const r = await fetch(url, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(5000) });
       if (r.ok) return await r.json();
       lastErr = new Error('HTTP ' + r.status + ' for ' + url);
       if (r.status !== 429 && r.status < 500) break; // don't retry real client errors
     } catch (e) {
       lastErr = e;
     }
-    if (attempt < 2) await sleep(400 * (attempt + 1));
+    if (attempt < 1) await sleep(400);
   }
   throw lastErr;
 }
@@ -39,18 +41,35 @@ async function fetchJson(url) {
 async function fetchJsonSafe(url) { return fetchJson(url); }
 
 // --- Workers Cache API helper (replaces the old server's Redis cache) ---
+// Отрицательный кеш: если апстрим только что упал, следующие холодные
+// колоу не должны заново ждать те же 5 секунд и снова получать отказ --
+// 10 минут сразу уходим к снимку (fallback у вызывающего кода).
 async function cachedJson(cacheKey, ttlSeconds, fetcher) {
   const cache = caches.default;
   const cacheReq = new Request('https://cache.internal/' + encodeURIComponent(cacheKey));
   const hit = await cache.match(cacheReq);
   if (hit) { try { return await hit.json(); } catch { /* fall through and refetch */ } }
-  const data = await fetcher();
+
+  const failReq = new Request('https://cache.internal/fail/' + encodeURIComponent(cacheKey));
+  const failHit = await cache.match(failReq);
+  if (failHit) throw new Error('upstream recently failed, skipping retry (negative cache): ' + cacheKey);
+
   try {
-    await cache.put(cacheReq, new Response(JSON.stringify(data), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': `max-age=${ttlSeconds}` }
-    }));
-  } catch { /* cache write is best-effort */ }
-  return data;
+    const data = await fetcher();
+    try {
+      await cache.put(cacheReq, new Response(JSON.stringify(data), {
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': `max-age=${ttlSeconds}` }
+      }));
+    } catch { /* cache write is best-effort */ }
+    return data;
+  } catch (e) {
+    try {
+      await cache.put(failReq, new Response('1', {
+        headers: { 'Content-Type': 'text/plain', 'Cache-Control': 'max-age=600' }
+      }));
+    } catch { /* cache write is best-effort */ }
+    throw e;
+  }
 }
 
 // --- Official Valve Russian ability/item text (same source as the old server) ---
@@ -83,14 +102,26 @@ function fillPlaceholders(text, attribMap) {
 }
 function hasUnresolvedPlaceholder(text) { return /%[a-zA-Z0-9_]+%/.test(text); }
 
+// Словарь Valve весит 2.4 МБ. Раньше на каждый вызов (а их до шести на один
+// запрос способностей) заново разбирался JSON из кеша и собиралась Map на
+// тысячи ключей — это основной расход процессорного времени воркера.
+// Держим готовую Map в изоляте и обновляем раз в шесть часов.
+let ruMapMemo = null;
+let ruMapMemoAt = 0;
+const RU_MAP_MEMO_MS = 6 * 60 * 60 * 1000;
+
 async function getOfficialRuMap() {
+  const now = Date.now();
+  if (ruMapMemo && now - ruMapMemoAt < RU_MAP_MEMO_MS) return ruMapMemo;
   const pairs = await cachedJson('vdf-ru-v1', 60 * 60 * 24, async () => {
-    const r = await fetch(VDF_RU_URL, { headers: { Accept: 'text/plain' } });
+    const r = await fetch(VDF_RU_URL, { headers: { Accept: 'text/plain' }, signal: AbortSignal.timeout(8000) });
     if (!r.ok) throw new Error('VDF HTTP ' + r.status);
     const text = await r.text();
     return [...parseVdfTokens(text)];
   });
-  return new Map(pairs);
+  ruMapMemo = new Map(pairs);
+  ruMapMemoAt = Date.now();
+  return ruMapMemo;
 }
 
 async function resolveRuText(internalKey, isItem, attribArr) {
@@ -194,7 +225,7 @@ async function getItemsList() {
   return cachedJson('items-list-v2', 60 * 60 * 6, fetchItemsList);
 }
 async function fetchOfficialItem(itemId) {
-  const r = await fetch(`https://www.dota2.com/datafeed/itemdata?language=english&item_id=${encodeURIComponent(itemId)}`, { headers: { Accept: 'application/json' } });
+  const r = await fetch(`https://www.dota2.com/datafeed/itemdata?language=english&item_id=${encodeURIComponent(itemId)}`, { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(5000) });
   if (!r.ok) throw new Error('Valve itemdata HTTP ' + r.status);
   const payload = await r.json();
   const d = payload?.result?.data?.itemability || payload?.result?.data?.itemabilities?.[0] || payload?.result?.data?.items?.[0] || payload?.result?.data?.item
@@ -256,7 +287,8 @@ async function fetchStratzPositions(token) {
       'Content-Type': 'application/json',
       'User-Agent': 'STRATZ_API'
     },
-    body: JSON.stringify({ query })
+    body: JSON.stringify({ query }),
+    signal: AbortSignal.timeout(5000)
   });
   if (!res.ok) throw new Error('stratz HTTP ' + res.status);
   const j = await res.json();
@@ -385,13 +417,25 @@ function mergedItemRedirect(url) {
 
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
-    const redirect = mergedItemRedirect(url);
-    if (redirect) return redirect;
-    if (url.pathname.startsWith('/api/dota/')) {
-      if (request.method !== 'GET') return jsonResponse({ error: 'method_not_allowed' }, 405);
-      return handleApi(url.pathname, env);
+    try {
+      const url = new URL(request.url);
+      const redirect = mergedItemRedirect(url);
+      if (redirect) return redirect;
+      if (url.pathname.startsWith('/api/dota/')) {
+        if (request.method !== 'GET') return jsonResponse({ error: 'method_not_allowed' }, 405);
+        return await handleApi(url.pathname, env);
+      }
+      return await env.ASSETS.fetch(request);
+    } catch (e) {
+      // Необработанное исключение здесь означало страницу ошибки Cloudflare
+      // вместо ответа сайта. Пишем причину в логи воркера и отвечаем сами.
+      console.error('worker unhandled', request.method, request.url, e && e.stack || String(e));
+      const isApi = request.url.includes('/api/dota/');
+      if (isApi) return jsonResponse({ error: 'internal_error' }, 500);
+      return new Response('Временная ошибка сервера. Обновите страницу.', {
+        status: 500,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }
+      });
     }
-    return env.ASSETS.fetch(request);
   }
 };
