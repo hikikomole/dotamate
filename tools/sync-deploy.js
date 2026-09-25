@@ -21,7 +21,7 @@ const DIRS = ['css', 'js', 'assets', 'data'];
 const FILES = ['security.js', 'ads.txt', 'robots.txt', '_headers', 'sitemap.xml'];
 // Сырая база собранных матчей на сайт не выкладывается: она растёт до сотен
 // мегабайт, а посетителю нужны только посчитанные по ней матрицы.
-const SKIP_DIRS = new Set(['public-matches']);
+const SKIP_DIRS = new Set(['public-matches', 'meta-matches']);
 
 function copyDir(src, dst){
   if(!fs.existsSync(src)) return 0;

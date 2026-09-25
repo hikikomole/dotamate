@@ -22,7 +22,7 @@ const NAV = [
   { key: 'items',  href: '/items/',  label: 'Предметы' },
   { key: 'stats',  href: '/stats/',  label: 'Статистика' },
   { key: 'guides', href: '/guides/', label: 'Гайды' },
-  { key: 'game',   href: '/game/',   label: 'Игра' },
+  { key: 'meta',   href: '/meta/',   label: 'META' },
 ];
 
 const PAGES = [
@@ -75,7 +75,27 @@ const PAGES = [
     bodyClass: 'd2-dark',
   },
   {
-    key: 'game', dir: 'game',
+    key: 'meta', dir: 'meta',
+    title: 'META — необычные сборки Dota 2 и нишевые герои | Dota Mate',
+    desc: 'Редкие сборки предметов Dota 2 в рейтинговых матчах до 4500 MMR: оценка необычности каждой сборки, фильтры по герою и роли, нишевые герои по позициям.',
+    sections: ['meta'],
+    styles: ['/css/theme-dark.css', '/css/meta.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/meta.js', defer: true }],
+  },
+  {
+    // Оболочка страницы матча: содержимое рисует js/meta.js по ?id=.
+    // В sitemap не идёт — без номера матча страница пустая.
+    key: 'meta', dir: 'meta/match', crumb: 'Матч', noSitemap: true,
+    title: 'Матч — META | Dota Mate',
+    desc: 'Разбор матча из раздела META: состав команд, предметы, капитал, прогноз драфта, линии и график преимущества по минутам.',
+    sections: ['metaMatch'],
+    styles: ['/css/theme-dark.css', '/css/meta.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/meta.js', defer: true }],
+  },
+  {
+    key: 'game', dir: 'game', crumb: 'Игра',
     title: 'Hook & Hit — мини-игра по Dota 2 в браузере | Dota Mate',
     desc: 'Браузерная мини-игра по мотивам Dota 2: уклоняйся от хуков, добивай крипов, отбивай красные хуки атакой. Два режима, рекорд сохраняется, установка не нужна.',
     sections: ['game'],
@@ -96,7 +116,7 @@ const HOME_CARDS = `<section class="section" id="home-cards">
       <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
       <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Winrate, пики и баны героев в профессиональных матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
-      <a class="home-card" href="/game/"><span class="home-card-icon">🎮</span><strong>Мини-игра</strong><p>Hook &amp; Hit — уклоняйся от хуков прямо в браузере.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в матчах до 4500 MMR.</p><b>Открыть →</b></a>
       <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
     </div>
   </div>
@@ -228,7 +248,7 @@ function navHtml(activeKey) {
 function breadcrumbs(page) {
   if (page.key === 'home') return '';
   const nav = NAV.find(n => n.key === page.key);
-  const label = nav ? nav.label : ('Патч ' + (patchData() || {}).version);
+  const label = page.crumb || (nav ? nav.label : ('Патч ' + (patchData() || {}).version));
   const url = `${ORIGIN}/${page.dir}/`;
   const ld = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -298,7 +318,7 @@ function build() {
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, 'index.html'), html);
     }
-    urls.push({ loc: canonical, name: page.title.split('—')[0].trim() });
+    if (!page.noSitemap) urls.push({ loc: canonical, name: page.title.split('—')[0].trim() });
     console.log(`${page.dir || '/'} — ${page.sections.length} секц., ${(html.length / 1024).toFixed(1)} КБ`);
   }
 

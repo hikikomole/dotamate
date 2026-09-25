@@ -24,3 +24,6 @@ github.pat.txt
 
 # сырая база собранных матчей — растёт до сотен мегабайт
 data/public-matches/
+
+# сырые детали матчей для раздела META (tools/collect-meta-matches.js)
+data/meta-matches/

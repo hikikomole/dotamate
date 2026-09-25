@@ -253,6 +253,7 @@
       <button class="chip guide-filter" data-guide-filter="heroes">Герои</button>
       <button class="chip guide-filter" data-guide-filter="items">Предметы</button>
       <button class="chip guide-filter" data-guide-filter="tools">Инструменты</button>
+      <a class="chip" href="/game/">🎮 Игра</a>
     </div>
     <div id="guidesGrid" class="guides-grid guides-rich"></div>
     <div class="guides-heroes-cta">
@@ -312,5 +313,74 @@
         <canvas id="dgCanvas" class="dg-canvas" width="800" height="600"></canvas>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section mx" id="meta">
+  <div class="container">
+    <div class="mx-head">
+      <div>
+        <div class="eyebrow">META</div>
+        <h1 class="mx-title">Необычные сборки</h1>
+        <p class="mx-lead">Сборки предметов, которые редко встречаются на этом герое и позиции, и нишевые герои, которые на своих позициях выигрывают. Только наш диапазон рангов.</p>
+      </div>
+      <div class="mx-stamp" id="mxStamp" aria-live="polite">Загружаем данные…</div>
+    </div>
+
+    <div class="mx-tabs" role="tablist">
+      <button class="mx-tab on" role="tab" aria-selected="true" data-mx-tab="builds">Сборки предметов</button>
+      <button class="mx-tab" role="tab" aria-selected="false" data-mx-tab="niche">Нишевые герои</button>
+    </div>
+
+    <div class="mx-pane" data-mx-pane="builds">
+      <div class="mx-block">
+        <div class="mx-block-head"><h2>Все необычные сборки</h2><span id="mxCount"></span></div>
+        <div class="mx-filters">
+          <label class="mx-search">⌕ <input id="mxHero" list="mxHeroList" placeholder="Герой" autocomplete="off"><datalist id="mxHeroList"></datalist></label>
+          <div class="mx-chips" id="mxRoles">
+            <button class="chip active" data-pos="0">Все роли</button>
+            <button class="chip" data-pos="1">Керри</button>
+            <button class="chip" data-pos="2">Мид</button>
+            <button class="chip" data-pos="3">Оффлейн</button>
+            <button class="chip" data-pos="4">Поддержка</button>
+            <button class="chip" data-pos="5">Полная поддержка</button>
+          </div>
+          <label class="mx-check"><input type="checkbox" id="mxWins"> Только победы</label>
+          <div class="mx-view" role="group" aria-label="Вид">
+            <button class="chip active" data-view="cards">Карточки</button>
+            <button class="chip" data-view="table">Таблица</button>
+          </div>
+        </div>
+        <div class="mx-scroll" id="mxScroll" tabindex="0" aria-label="Список сборок, прокручивается">
+          <div id="mxList"></div>
+          <div class="mx-sentinel" id="mxMore" hidden>Загружаем ещё…</div>
+        </div>
+      </div>
+      <div class="mx-block">
+        <div class="mx-block-head"><h2>Самые необычные за 24 часа</h2><span>от последнего матча в базе</span></div>
+        <div class="mx-grid" id="mxDay"></div>
+      </div>
+      <div class="mx-block">
+        <div class="mx-block-head"><h2>Самые необычные за 5 дней</h2><span>всё окно раздела</span></div>
+        <div class="mx-grid" id="mxFive"></div>
+      </div>
+    </div>
+
+    <div class="mx-pane" data-mx-pane="niche" hidden>
+      <p class="mx-note" id="mxNicheNote"></p>
+      <div class="mx-niche" id="mxNiche"></div>
+    </div>
+
+    <details class="mx-method">
+      <summary>Как считается оценка необычности</summary>
+      <div id="mxMethod"></div>
+    </details>
+  </div>
+</section>
+
+<section class="section mx" id="metaMatch">
+  <div class="container">
+    <a class="mx-back" href="/meta/">← Все необычные сборки</a>
+    <div id="mmRoot"><p class="mx-note">Загружаем матч…</p></div>
   </div>
 </section>
