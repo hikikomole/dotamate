@@ -93,7 +93,7 @@
 .dt-picker-list button{width:100%;display:flex;align-items:center;gap:9px;padding:7px 9px;border:0;border-bottom:1px solid var(--d2-line-soft);background:transparent;color:var(--d2-text);cursor:pointer;text-align:left}
 .dt-picker-list button:last-child{border-bottom:0}
 .dt-picker-list button:hover,.dt-picker-list button.cursor{background:var(--d2-panel-2)}
-.dt-picker-list img{width:40px;height:23px;object-fit:cover;border-radius:var(--rad-xs);flex:none}
+.dt-picker-list button>img{width:40px;height:23px;object-fit:cover;border-radius:var(--rad-xs);flex:none}
 .dt-picker-list span{min-width:0;flex:1}
 .dt-picker-list b{display:block;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dt-picker-list small{display:block;color:var(--d2-muted-2);font-size:10px;margin-top:1px}
@@ -151,7 +151,7 @@
 .dt-rec-table tbody tr{cursor:pointer}
 .dt-rec-table tbody tr:hover{background:rgba(217,193,135,.06)}
 .dt-rec-hero{display:flex;align-items:center;gap:8px;min-width:0}
-.dt-rec-hero img{width:38px;height:22px;object-fit:cover;border-radius:var(--rad-xs);flex:none}
+.dt-rec-hero>img{width:38px;height:22px;object-fit:cover;border-radius:var(--rad-xs);flex:none}
 .dt-rec-hero span{min-width:0}
 .dt-rec-hero b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dt-rec-hero small{display:block;color:var(--d2-muted-2);font-size:10px;margin-top:1px}

@@ -122,7 +122,7 @@
     box.innerHTML = rows.length
       ? rows.map(function (h) {
           return '<button type="button" data-hero="' + h.id + '"><img src="' + h.icon + '" alt="" loading="lazy">' +
-            '<span><b>' + esc(h.name) + '</b><small>' + esc(h.pos) +
+            '<span><b>' + esc(h.name) + (window.D2HRoles && window.D2HRoles.badges ? window.D2HRoles.badges(h.id) : '') + '</b><small>' + esc(h.pos) +
             (h.matches ? (h.pos ? ' · ' : '') + h.matches.toLocaleString('ru-RU') + ' матчей' : '') +
             '</small></span></button>';
         }).join('')

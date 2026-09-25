@@ -40,7 +40,7 @@
   var root = document.getElementById('draftTool');
   if (!root) return;
 
-  var M = null, heroes = [], heroById = {}, posData = {}, matrixIdx = {}, metaThreshold = 0;
+  var M = null, heroes = [], heroById = {}, posData = {}, mainRoles = null, matrixIdx = {}, metaThreshold = 0;
   var matrices = {};     // 'our' и 'stratz' — два среза одной и той же структуры
   var ourMeta = null;    // герои нашего среза: матчи, винрейт, доля пиков
   var calib = null;      // калибровка перевеса в вероятность победы
@@ -111,6 +111,14 @@
     if (state.slice === 'our' && ourMeta && ourMeta[id]) return ourMeta[id].matches || 0;
     var h = posData[String(id)];
     return h && h.totalMatches ? h.totalMatches : 0;
+  }
+  // Основные роли героя (≥ mainShare% его матчей, data/hero-main-roles.json) —
+  // те же, что значками показаны по всему сайту. По ним работает фильтр ролей:
+  // иначе под «Керри» попадал любой герой хоть с одним матчем на первой позиции.
+  function isMainRole(id, p) {
+    if (!mainRoles) return heroPositions(id).indexOf(p) !== -1;
+    var ro = mainRoles[id], n = POSITIONS.indexOf(p) + 1;
+    return !!ro && ro.some(function (r) { return r[0] === n; });
   }
   // Доля матчей героя на позиции. Позиции берутся у Stratz в любом срезе:
   // в ленте публичных матчей ролей нет вовсе.
@@ -301,7 +309,7 @@
     heroes.forEach(function (h) {
       if (isTaken(h.id) || !passesMeta(h.id)) return;
       var own = heroPositions(h.id);
-      if (wantPos && own.indexOf(wantPos) === -1) return;
+      if (wantPos && !isMainRole(h.id, wantPos)) return;
 
       var slotPos = wantPos;
       if (!slotPos) {
@@ -493,7 +501,8 @@
       tb.innerHTML = rows.map(function (r, i) {
         return '<tr data-pick="' + r.hero.id + '" data-side="' + side + '">' +
           '<td><div class="dt-rec-hero"><img src="' + icon(r.hero) + '" alt="" loading="lazy">' +
-          '<span><b>' + (i + 1) + '. ' + esc(r.hero.localized_name) + '</b>' +
+          '<span><b>' + (i + 1) + '. ' + esc(r.hero.localized_name) +
+          (window.D2HRoles && window.D2HRoles.badges ? window.D2HRoles.badges(r.hero.id) : '') + '</b>' +
           '<small>' + (r.pos ? POS_LABEL[r.pos] + ' · ' : '') + (r.matches ? r.matches.toLocaleString('ru-RU') + ' матчей' : 'нет данных') + '</small></span></div></td>' +
           '<td>' + fmt(r.lane) + '</td><td>' + fmt(r.syn) + '</td><td>' + fmt(r.mat) + '</td><td>' + fmt(r.all) + '</td></tr>';
       }).join('');
@@ -667,7 +676,7 @@
       var pos = heroPositions(h.id)[0], m = heroMatches(h.id);
       return '<button type="button" data-pick-hero="' + h.id + '"' + (i === pickerCursor ? ' class="cursor"' : '') + '>' +
         '<img src="' + icon(h) + '" alt="" loading="lazy">' +
-        '<span><b>' + esc(h.localized_name) + '</b><small>' +
+        '<span><b>' + esc(h.localized_name) + (window.D2HRoles && window.D2HRoles.badges ? window.D2HRoles.badges(h.id) : '') + '</b><small>' +
         (pos ? POS_LABEL[pos] : '') + (m ? ' · ' + m.toLocaleString('ru-RU') + ' матчей' : '') +
         '</small></span></button>';
     }).join('');
@@ -899,8 +908,10 @@
       getJson('/data/heroes.json'),
       getJson('/data/draft-matrix.json'),
       getJson('/data/our-meta.json').catch(function () { return null; }),
-      getJson('/data/draft-calibration.json').catch(function () { return null; })
+      getJson('/data/draft-calibration.json').catch(function () { return null; }),
+      getJson('/data/hero-main-roles.json').catch(function () { return null; })
     ]).then(function (res) {
+      mainRoles = (res[6] && res[6].heroes) || null;
       ourMeta = (res[4] && res[4].heroes) || null;
       calib = res[5] && res[5].alpha ? res[5] : null;
       matrices.our = res[0];
