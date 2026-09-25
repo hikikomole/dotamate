@@ -19,17 +19,41 @@
   const POS = { 1: 'Керри', 2: 'Мид', 3: 'Оффлейн', 4: 'Поддержка', 5: 'Полная поддержка' };
   const TABS = ['tier', 'ranks', 'positions', 'pairs', 'items', 'matches', 'lanes', 'trend', 'pro'];
 
-  let S = null, H = new Map(), I = new Map();
+  let S = null, H = new Map(), I = new Map(), SH = new Map();
   const state = { tier: { q: '', rank: 'all', pos: 'all', sort: 'lo' }, ranks: { sort: '6' } };
 
   function heroSlug(h) {
     return typeof window.slugForHero === 'function' ? window.slugForHero(h) : String(h.name || '').replace(/^npc_dota_hero_/, '');
   }
+  // Значок роли (js/hero-roles.js) и подписи к нему.
+  const ROLE_KEY = { 1: 'carry', 2: 'mid', 3: 'offlane', 4: 'support', 5: 'hardsupport' };
+  function roleIco(pos, title) {
+    const R = window.D2HRoles;
+    const img = R ? R.icon(ROLE_KEY[pos]) : '';
+    return `<i class="st-role" title="${esc(title)}">${img || pos}</i>`;
+  }
+  // Основные роли героя (≥10% его матчей), первая — с лучшим винрейтом.
+  function heroRoles(id) {
+    const ro = SH.get(Number(id))?.ro || [];
+    return ro.map((r, i) => roleIco(r[0], `${POS[r[0]]}${i === 0 && ro.length > 1 ? ' — лучший винрейт' : ''}: ${pct(r[2])} побед · ${pct(r[1])} матчей героя`)).join('');
+  }
+  // Самая частая роль героя на ранге g ('all' — по всем рангам).
+  function topRole(id, g) {
+    const h = SH.get(Number(id));
+    if (!h) return null;
+    if (g && g !== 'all') return h.rt?.[g] || null;
+    const ro = (h.ro || []).slice().sort((a, b) => b[1] - a[1])[0];
+    return ro ? [ro[0], ro[1]] : null;
+  }
+  function roleCell(id, g) {
+    const r = topRole(id, g);
+    return r ? `<span class="st-rolecell">${roleIco(r[0], `Чаще берут: ${POS[r[0]]} — ${pct(r[1])} матчей героя`)}<span>${POS[r[0]]}<small>${pct(r[1])}</small></span></span>` : '<span class="st-muted">—</span>';
+  }
   function hero(id, sub) {
     const h = H.get(Number(id));
     if (!h) return '—';
     const slug = heroSlug(h);
-    return `<a class="st-hero" href="/hero/${esc(slug)}/"><img loading="lazy" src="/assets/heroes/${esc(slug)}.png" alt=""><span><b>${esc(h.localized_name)}</b>${sub ? `<small>${sub}</small>` : ''}</span></a>`;
+    return `<span class="st-herocell"><a class="st-hero" href="/hero/${esc(slug)}/"><img loading="lazy" src="/assets/heroes/${esc(slug)}.png" alt=""><span><b>${esc(h.localized_name)}</b>${sub ? `<small>${sub}</small>` : ''}</span></a><span class="st-roles">${heroRoles(id)}</span></span>`;
   }
   function item(id) {
     const x = I.get(Number(id));
@@ -57,7 +81,7 @@
   // ---------- тир-лист ----------
   function tier() {
     const t = state.tier;
-    const inPos = t.pos === 'all' ? null : new Set((S.positions[t.pos]?.heroes || []).map(h => h.id));
+    const inPos = t.pos === 'all' ? null : new Set(S.heroes.filter(h => (h.ro || []).some(r => String(r[0]) === t.pos)).map(h => h.id));
     let rows = S.heroes.map(h => {
       const r = t.rank === 'all' ? [h.n, h.wr, h.lo] : h.rank[t.rank];
       return r ? { id: h.id, tier: t.rank === 'all' ? h.tier : null, n: r[0], wr: r[1], lo: r[2], pr: h.pr } : null;
@@ -75,9 +99,9 @@
       <select id="stRank" aria-label="Ранг">${rankOpts}</select>
       <select id="stPos" aria-label="Позиция">${posOpts}</select>
       <select id="stSort" aria-label="Сортировка">${sortOpts}</select>
-    </div>` + table(['#', 'Тир', 'Герой', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'], rows.map((r, i) =>
-      `<tr><td class="st-muted">${i + 1}</td><td>${r.tier ? `<span class="st-tier st-tier-${r.tier}">${r.tier}</span>` : '<span class="st-muted">—</span>'}</td><td>${hero(r.id)}</td><td><b class="${r.wr >= 50 ? 'st-up' : 'st-down'}">${pct(r.wr)}</b></td><td>${pct(r.lo)}</td><td>${pct(r.pr)} ${bar(r.pr, maxPr)}</td><td class="st-muted">${num(r.n)}</td></tr>`)) +
-      note(`«Надёжный» — нижняя граница 95-процентного интервала Уилсона: у героя с малым числом матчей она ниже, поэтому случайная серия побед не выводит его в топ. Тиры S–D — пятые доли героев по этой границе (из героев с ${num(S.method.minTier)}+ матчей, по всем рангам). В разрезе ранга учитываются герои с ${num(S.method.minRank)}+ матчами. Позиции — по детальным матчам Stratz (${num(S.method.minPos)}+ матчей героя на позиции).`);
+    </div>` + table(['#', 'Тир', 'Герой', 'Роль на ранге', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'], rows.map((r, i) =>
+      `<tr><td class="st-muted">${i + 1}</td><td>${r.tier ? `<span class="st-tier st-tier-${r.tier}">${r.tier}</span>` : '<span class="st-muted">—</span>'}</td><td>${hero(r.id)}</td><td>${roleCell(r.id, t.rank)}</td><td><b class="${r.wr >= 50 ? 'st-up' : 'st-down'}">${pct(r.wr)}</b></td><td>${pct(r.lo)}</td><td>${pct(r.pr)} ${bar(r.pr, maxPr)}</td><td class="st-muted">${num(r.n)}</td></tr>`)) +
+      note(`«Надёжный» — нижняя граница 95-процентного интервала Уилсона: у героя с малым числом матчей она ниже, поэтому случайная серия побед не выводит его в топ. Тиры S–D — пятые доли героев по этой границе (из героев с ${num(S.method.minTier)}+ матчей, по всем рангам). В разрезе ранга учитываются герои с ${num(S.method.minRank)}+ матчами. Роли — статистика Stratz по позициям: значки рядом с героем — роли, где у него ${S.roles ? S.roles.mainShare : 10}%+ матчей, первой идёт роль с лучшим винрейтом; «Роль на ранге» — самая частая роль героя на выбранном ранге. Stratz считает роли по парам рангов (Рекрут+Страж, Рыцарь+Герой, Легенда+Властелин), поэтому у соседних рангов роль общая. Фильтр позиции — по тем же основным ролям.`);
   }
 
   // ---------- ранги ----------
@@ -91,8 +115,8 @@
     const opts = g.map(x => `<option value="${x}"${k === x ? ' selected' : ''}>Лучшие: ${esc(S.base.ranks[x].name)}</option>`).join('') +
       `<option value="d"${k === 'd' ? ' selected' : ''}>Сильнее на высоком ранге</option><option value="-d"${k === '-d' ? ' selected' : ''}>Сильнее на низком ранге</option>`;
     return `<div class="st-toolbar"><select id="stRankSort" aria-label="Сортировка">${opts}</select></div>` +
-      table(['Герой', ...g.map(x => esc(S.base.ranks[x].name)), 'Властелин − Рекрут'], rows.map(r =>
-        `<tr><td>${hero(r.id)}</td>${r.r.map(cell).join('')}<td><b class="${r.d >= 0 ? 'st-up' : 'st-down'}">${sgn(r.d)} п.п.</b></td></tr>`)) +
+      table(['Герой', 'Роль', ...g.map(x => esc(S.base.ranks[x].name)), 'Властелин − Рекрут'], rows.map(r =>
+        `<tr><td>${hero(r.id)}</td><td>${roleCell(r.id, 'all')}</td>${r.r.map(cell).join('')}<td><b class="${r.d >= 0 ? 'st-up' : 'st-down'}">${sgn(r.d)} п.п.</b></td></tr>`)) +
       note(`Винрейт героя в каждой группе рангов своей базы. Показаны герои, у которых в каждой группе ${num(S.method.minRank)}+ матчей. Последний столбец — насколько лучше (или хуже) герой играется у Властелинов, чем у Рекрутов.`);
   }
 
@@ -113,12 +137,12 @@
 
   // ---------- связки и контрпики ----------
   function pairs() {
-    const syn = p => `<tr><td>${hero(p.a)}</td><td>${hero(p.b)}</td><td><b>${pct(p.w)}</b></td><td class="st-muted">${pct(p.e)}</td><td><b class="${p.d >= 0 ? 'st-up' : 'st-down'}">${sgn(p.d)}</b></td><td class="st-muted">${num(p.g)}</td></tr>`;
-    const cnt = p => `<tr><td>${hero(p.hero)}</td><td>${hero(p.by)}</td><td><b>${pct(p.w)}</b></td><td class="st-muted">${pct(p.e)}</td><td><b class="st-down">${sgn(p.d)}</b></td><td class="st-muted">${num(p.g)}</td></tr>`;
-    const head = ['Герой', 'С кем', 'Побед', 'Ожидалось', 'Разница, п.п.', 'Матчей'];
+    const syn = p => `<tr><td>${hero(p.a)}</td><td>${roleCell(p.a, 'all')}</td><td>${hero(p.b)}</td><td>${roleCell(p.b, 'all')}</td><td><b>${pct(p.w)}</b></td><td class="st-muted">${pct(p.e)}</td><td><b class="${p.d >= 0 ? 'st-up' : 'st-down'}">${sgn(p.d)}</b></td><td class="st-muted">${num(p.g)}</td></tr>`;
+    const cnt = p => `<tr><td>${hero(p.hero)}</td><td>${roleCell(p.hero, 'all')}</td><td>${hero(p.by)}</td><td>${roleCell(p.by, 'all')}</td><td><b>${pct(p.w)}</b></td><td class="st-muted">${pct(p.e)}</td><td><b class="st-down">${sgn(p.d)}</b></td><td class="st-muted">${num(p.g)}</td></tr>`;
+    const head = ['Герой', 'Роль', 'С кем', 'Роль', 'Побед', 'Ожидалось', 'Разница, п.п.', 'Матчей'];
     return `<h3 class="st-h">Лучшие связки союзников</h3>` + table(head, S.synergy.slice(0, 20).map(syn)) +
       `<h3 class="st-h">Худшие связки</h3>` + table(head, S.antiSynergy.slice(0, 10).map(syn)) +
-      `<h3 class="st-h">Самые жёсткие контрпики</h3>` + table(['Герой', 'Кто контрит', 'Побед героя', 'Ожидалось', 'Разница, п.п.', 'Матчей'], S.counters.slice(0, 20).map(cnt)) +
+      `<h3 class="st-h">Самые жёсткие контрпики</h3>` + table(['Герой', 'Роль', 'Кто контрит', 'Роль', 'Побед героя', 'Ожидалось', 'Разница, п.п.', 'Матчей'], S.counters.slice(0, 20).map(cnt)) +
       note(`Ожидаемая доля побед считается по общим винрейтам обоих героев (сложение логитов — тот же метод, что у контрпиков на страницах героев), разница — насколько пара выигрывает чаще или реже ожидаемого. Учитываются пары, сыгранные ${num(S.method.minPair)}+ раз.`);
   }
 
@@ -144,8 +168,8 @@
 
   // ---------- линии ----------
   function lanes() {
-    const row = x => `<tr><td>${hero(x.id)}</td><td><span class="st-stack"><i class="w" style="width:${x.win}%"></i><i class="d" style="width:${x.draw}%"></i><i class="l" style="width:${x.loss}%"></i></span></td><td class="st-up">${pct(x.win)}</td><td class="st-muted">${pct(x.draw)}</td><td class="st-down">${pct(x.loss)}</td><td class="st-muted">${num(x.n)}</td></tr>`;
-    const head = ['Герой', 'Исход линии', 'Выиграл', 'Ничья', 'Проиграл', 'Матчей'];
+    const row = x => `<tr><td>${hero(x.id)}</td><td>${roleCell(x.id, 'all')}</td><td><span class="st-stack"><i class="w" style="width:${x.win}%"></i><i class="d" style="width:${x.draw}%"></i><i class="l" style="width:${x.loss}%"></i></span></td><td class="st-up">${pct(x.win)}</td><td class="st-muted">${pct(x.draw)}</td><td class="st-down">${pct(x.loss)}</td><td class="st-muted">${num(x.n)}</td></tr>`;
+    const head = ['Герой', 'Роль', 'Исход линии', 'Выиграл', 'Ничья', 'Проиграл', 'Матчей'];
     return `<div class="st-grid st-grid-2"><div><h3 class="st-h">Чаще всех выигрывают линию</h3>${table(head, S.lanes.slice(0, 15).map(row))}</div><div><h3 class="st-h">Чаще всех проигрывают линию</h3>${table(head, S.lanes.slice(-15).reverse().map(row))}</div></div>` +
       note(`Исход линии по оценке Stratz для линии, на которой стоял герой (сторона учтена). Порядок — по разнице «выиграл − проиграл». Герои с ${num(S.method.minLane)}+ матчами, детальные матчи текущего патча.`);
   }
@@ -204,10 +228,21 @@
   });
   window.addEventListener('hashchange', () => show(location.hash.slice(1)));
 
+  // Шапки таблиц прилипают под верхнее меню — высоту меню берём живьём.
+  function stickyTop() {
+    const bar = document.querySelector('.topbar');
+    const pos = bar ? getComputedStyle(bar).position : '';
+    const h = bar && (pos === 'fixed' || pos === 'sticky') ? Math.round(bar.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty('--st-sticky', h + 'px');
+  }
+  stickyTop();
+  window.addEventListener('resize', stickyTop);
+
   const get = u => fetch(u).then(r => { if (!r.ok) throw new Error(u + ': HTTP ' + r.status); return r.json(); });
   show(location.hash.slice(1));
   Promise.all([get('/data/stats.json'), get('/data/heroes.json'), get('/data/items-ru.json')]).then(([s, h, it]) => {
     S = s;
+    SH = new Map(s.heroes.map(x => [Number(x.id), x]));
     H = new Map((h.heroes || h).map(x => [Number(x.id), x]));
     for (const [key, v] of Object.entries(it.items || {})) I.set(Number(v.id), Object.assign({ key }, v));
     renderSummary();

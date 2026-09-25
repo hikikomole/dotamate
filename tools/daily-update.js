@@ -196,6 +196,7 @@ async function main() {
     // чтобы страница и карточка героя показывали один срез. Сбой оставляет
     // вчерашний снимок.
     if (!await node('Роли героев (Stratz)', 'fetch-hero-positions.js', [], { timeout: 0.25 * HOUR })) problems.push('роли героев');
+    if (!await node('Роли по рангам (Stratz)', 'tools/fetch-rank-positions.js', [], { timeout: 0.1 * HOUR })) problems.push('роли по рангам');
     if (!await node('Билды героев (Stratz)', 'fetch-hero-builds.js', [], { timeout: 0.75 * HOUR })) problems.push('билды героев');
 
     const abil = await abilities();

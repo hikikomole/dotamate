@@ -11,6 +11,8 @@
  *   data/meta-matches/*.jsonl   — детали матчей Stratz (часть той же базы):
  *     позиция, GPM/XPM, исход линии, покупки.
  *     → позиции, экономика, линии, предметы.
+ *   data/rank-positions.json    — роли героев по парам рангов (Stratz,
+ *     tools/fetch-rank-positions.js) → значки ролей, роль на ранге.
  *   data/stats-history/*.json   — ежедневные снимки (пишет этот же скрипт).
  *     → динамика. На сайт не выкладываются, в stats.json попадает только ряд.
  *
@@ -198,6 +200,32 @@ const lanes = [...L].filter(([, v]) => v[0] >= MIN_LANE)
 const items = [...IT].map(([id, x]) => ({ id, share: r1(x.n / players * 100), n: x.n, t: median(x.t) }))
   .sort((a, b) => b.n - a.n).slice(0, 40);
 
+// ---------- 3б. Роли (Stratz, tools/fetch-rank-positions.js) ----------
+// ro — «основные» роли героя: позиции с долей ≥ MAIN_SHARE его матчей, по
+// убыванию винрейта (первая — где играет лучше всего): [позиция 1–5, доля %, винрейт %].
+// rt — самая частая роль в каждой группе ранга 1…6 (по паре рангов Stratz).
+const MAIN_SHARE = 10;
+let rolesNote = null;
+try {
+  const RP = read('rank-positions.json');
+  const roleList = arr => {
+    const tot = arr.reduce((t, x) => t + x[0], 0);
+    return tot ? arr.map((x, i) => [i + 1, r1(x[0] / tot * 100), x[0] ? r1(x[1] / x[0] * 100) : null]) : [];
+  };
+  for (const h of heroRows) {
+    const all = RP.all[h.id];
+    if (all) h.ro = roleList(all).filter(x => x[1] >= MAIN_SHARE).sort((a, b) => b[2] - a[2]);
+    h.rt = {};
+    for (const [g, pair] of Object.entries(RP.groupToPair)) {
+      const arr = RP.pairs[pair] && RP.pairs[pair][h.id];
+      if (!arr) continue;
+      const l = roleList(arr).sort((a, b) => b[1] - a[1]);
+      if (l.length) h.rt[g] = [l[0][0], l[0][1]];
+    }
+  }
+  rolesNote = { fetchedAt: RP.fetchedAt, mainShare: MAIN_SHARE, pairs: RP.brackets };
+} catch (e) { console.warn('Роли не добавлены:', e.message); }
+
 // ---------- 4. История ----------
 fs.mkdirSync(HIST, { recursive: true });
 const day = new Date(maxT * 1000).toISOString().slice(0, 10);
@@ -218,6 +246,7 @@ const out = {
     duration: [...durHist].sort((a, b) => a[0] - b[0]).map(([m, n]) => [m, n]),
     stratzMatches: sm, patch: read('patch-notes.json').version
   },
+  roles: rolesNote,
   method: { minTier: MIN_TIER, minRank: MIN_RANK, minPair: MIN_PAIR, minPos: MIN_POS, minLane: MIN_LANE, minDur: MIN_DUR_BUCKET, durBuckets: DUR.map(([k, , , l]) => [k, l]) },
   heroes: heroRows, durSwing, synergy: synergy.slice(0, 40), antiSynergy: synergy.slice(-20).reverse(), counters: topCounters,
   positions, lanes, items, history

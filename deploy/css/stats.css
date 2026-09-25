@@ -69,3 +69,21 @@
 @media(max-width:1180px){.st-grid-5{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:900px){.st-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.st-ranks{grid-template-columns:repeat(3,minmax(0,1fr))}.st-grid-2,.st-grid-5{grid-template-columns:1fr}}
 @media(max-width:560px){.st-ranks{grid-template-columns:repeat(2,minmax(0,1fr))}.st-toolbar>*{flex:1 1 100%}}
+
+/* Роли героя */
+.st-herocell{display:inline-flex;align-items:center;gap:8px}
+.st-roles{display:inline-flex;gap:3px}
+.st-role{display:inline-grid;place-items:center;width:20px;height:20px;font-style:normal;font-size:10px;color:var(--d2-muted)}
+.st-role img{width:18px;height:18px;display:block}
+.st-roles .st-role:first-child{outline:1px solid var(--d2-gold-dim);border-radius:5px}
+.st-roles .st-role:only-child{outline:0}
+.st-rolecell{display:inline-flex;align-items:center;gap:6px;font-size:12px}
+.st-rolecell small{display:block;color:var(--d2-muted-2);font-size:11px}
+/* Шапка таблицы остаётся видна при прокрутке страницы. На широком экране
+   контейнер не режет переполнение (иначе sticky не работает), на узком
+   таблица прокручивается вбок, и шапка держится внутри неё. */
+.st-table th{position:sticky;top:var(--st-sticky,64px);z-index:3;background:var(--d2-panel)}
+@media(min-width:901px){.st-table-wrap{overflow:visible}.st-table thead th:first-child{border-top-left-radius:12px}.st-table thead th:last-child{border-top-right-radius:12px}}
+/* Подсветка шапки: золотистый оттенок и линия снизу, чтобы при прокрутке
+   она не сливалась со строками таблицы. */
+.st-table th{background:linear-gradient(0deg,rgba(217,193,135,.07),rgba(217,193,135,.07)),var(--d2-panel-2);color:var(--d2-gold);box-shadow:inset 0 -1px 0 var(--d2-gold-dim),0 6px 12px -8px rgba(0,0,0,.8)}
