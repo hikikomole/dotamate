@@ -60,7 +60,7 @@ const PAGES = [
   },
   {
     key: 'stats', dir: 'stats',
-    title: 'Статистика героев Dota 2 — winrate, пики и баны | Dota Mate',
+    title: 'Винрейт героев Dota 2 — статистика, пики и баны | Dota Mate',
     desc: 'Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.',
     sections: ['stats'],
     styles: ['/css/theme-dark.css'],

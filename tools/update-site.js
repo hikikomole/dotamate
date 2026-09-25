@@ -40,6 +40,10 @@ function readEnv() {
 
 step('Матрицы по своей базе', 'node', ['tools/build-our-stats.js'], { cwd: ROOT });
 step('Калибровка прогноза', 'node', ['tools/build-draft-calibration.js'], { cwd: ROOT });
+step('Контрпики по своей базе', 'node', ['tools/build-hero-counters.js'], { cwd: ROOT });
+step('Страницы героев', 'node', ['build-hero-pages.js'], { cwd: ROOT });
+step('Гайды героев', 'node', ['build-hero-guides.js'], { cwd: ROOT });
+step('Статьи', 'node', ['build-guide-pages.js'], { cwd: ROOT });
 step('Раскладка файлов в deploy', 'node', ['tools/sync-deploy.js'], { cwd: ROOT });
 
 const env = readEnv();

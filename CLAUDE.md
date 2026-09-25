@@ -925,3 +925,27 @@ Claude outputs\
 ввода) работать не будут. Кодировка вывода — UTF-8 (`chcp 65001` в начале скрипта), поэтому
 русский текст в `.out` читается без искажений — в отличие от прежних логов, где
 `xcopy` отдавал cp866 и в чат приезжала каша.
+
+## Контрпики: один расчёт на весь сайт (с 25.09.2026)
+
+Все цифры контрпиков считает `tools/build-hero-counters.js` из `data/our-matrix.json`
+и `data/our-meta.json` → `data/hero-counters.json`. Метод log5: ожидаемая доля побед
+пары по общим винрейтам обоих героев, `d = w − e` в п.п.; пары < 300 матчей не берутся.
+Поля пары: `id, g, w, e, d`.
+
+Кто читает `data/hero-counters.json` (поменял формат — проверь всех):
+- `build-hero-pages.js` — «Кто контрит / Кого контрит» на `/hero/<slug>/` (по 4);
+- `build-hero-guides.js` — таблицы на `/hero/<slug>/guide/` (по 8, колонка «К ожидаемому»);
+- `build-guide-pages.js` — таблица в `/guide/counter-picks/` (dataTable `counters`, по 3);
+- `js/app.js` — блок быстрой подготовки (`renderCountersInto`, по 8).
+
+НЕ читает: `js/draft-tool.js` — у драфта своя модель прогноза (сглаженное отклонение
+от 50 % по `our-matrix.json`, откалиброванное `tools/build-draft-calibration.js`).
+Переводить его на log5 — только вместе с перекалибровкой и `tools/check-draft-math.js`.
+
+Порядок в `tools/daily-update.js` и `tools/update-site.js`: build-our-stats →
+build-draft-calibration → build-hero-counters → build-hero-pages → build-hero-guides →
+build-guide-pages → sync-deploy → wrangler. Сбой контрпиков выкладку не останавливает
+(на сайте остаются прежние). `deploy/hero/` и `deploy/guide/` пересобираются
+автоматически, поэтому проверка «чужих правок в deploy/» их пропускает
+(`GENERATED_DEPLOY` в daily-update.js). Руками эти папки не править — только исходники.

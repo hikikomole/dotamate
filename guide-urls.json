@@ -5,7 +5,7 @@
   },
   {
     "loc": "https://dotamate.ru/guide/last-hitting-denying/",
-    "name": "Ласт-хит и денай: основа фарма в Dota 2"
+    "name": "Как добивать крипов в Dota 2: ласт-хит и денай"
   },
   {
     "loc": "https://dotamate.ru/guide/warding-map-control/",
@@ -29,11 +29,31 @@
   },
   {
     "loc": "https://dotamate.ru/guide/draft-fundamentals/",
-    "name": "Основы драфта: игра начинается до первого крипа"
+    "name": "Драфт в Dota 2: что это и как выбирать героев под состав"
   },
   {
     "loc": "https://dotamate.ru/guide/reading-hero-stats/",
     "name": "Винрейт в Dota 2: как читать статистику героев"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/ranks-mmr/",
+    "name": "Ранги в Dota 2: сколько MMR нужно для каждого ранга"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/counter-picks/",
+    "name": "Контрпики Dota 2: таблица контрпиков для всех героев"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/conduct-score/",
+    "name": "Порядочность в Dota 2: что это, на что влияет и как её поднять"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/console-fps/",
+    "name": "Консоль в Dota 2: как включить, параметры запуска и как поднять FPS"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/match-duration/",
+    "name": "Сколько длится матч в Dota 2: средняя длительность игры"
   },
   {
     "loc": "https://dotamate.ru/guide/mmr-climbing-mindset/",
@@ -53,7 +73,7 @@
   },
   {
     "loc": "https://dotamate.ru/guide/gold-and-experience/",
-    "name": "Золото и опыт: откуда берутся GPM и XPM и сколько стоит смерть"
+    "name": "Золото и опыт в Dota 2: GPM, XPM, награда за крипов и цена смерти"
   },
   {
     "loc": "https://dotamate.ru/guide/tower-gold/",

@@ -33,13 +33,13 @@ const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер
 const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠","Интеллект"],all:["✦","Универсальный"],universal:["✦","Универсальный"]};
 const guideData=[
  {cat:"heroes",icon:"🎯",tag:"GAMEPLAY",title:"Как выбирать героя под матч",text:"Смотри на роль, задачи состава, тип атаки и ограничения противников — а не только на то, кем удобнее играть.",slug:"hero-picking-basics"},
- {cat:"gameplay",icon:"⚔",tag:"GAMEPLAY",title:"Ласт-хит и денай: основа фарма в Dota 2",text:"Золото и опыт в Dota 2 не начисляются просто за нахождение рядом с крипами — их нужно добивать точным последним ударом.",slug:"last-hitting-denying"},
+ {cat:"gameplay",icon:"⚔",tag:"GAMEPLAY",title:"Как добивать крипов: ласт-хит и денай",text:"Золото и опыт в Dota 2 не начисляются просто за нахождение рядом с крипами — их нужно добивать точным последним ударом.",slug:"last-hitting-denying"},
  {cat:"gameplay",icon:"🗺",tag:"MAP",title:"Вард и контроль карты",text:"Вард — не просто предмет: это привычка планировать следующий безопасный участок карты, а не реагировать постфактум.",slug:"warding-map-control"},
  {cat:"items",icon:"◈",tag:"ITEMS",title:"Как собирать предметы: основы айтем билда",text:"Смотри не только на стоимость: важны характеристики, активные способности и то, под какую конкретно проблему матча собирается предмет.",slug:"itemization-basics"},
  {cat:"items",icon:"💠",tag:"ITEMS",title:"Магический и физический урон: во что упаковываться",text:"Разные типы урона контрятся разными предметами — защита, которая хорошо работает против одного, почти бесполезна против другого.",slug:"magic-vs-physical-resistance"},
  {cat:"heroes",icon:"👁",tag:"HEROES",title:"Как играть против невидимости",text:"Невидимость пугает новичков сильнее, чем должна — против неё есть предсказуемые и надёжные инструменты.",slug:"countering-invisibility"},
  {cat:"heroes",icon:"📊",tag:"HERO DATA",title:"Роли в Dota 2: кто за что отвечает в команде",text:"Роль — это ориентир, а не жёсткая клетка. Но понимание пяти классических ролей помогает быстрее находить своё место в команде.",slug:"roles-explained"},
- {cat:"gameplay",icon:"🧠",tag:"GAMEPLAY",title:"Основы драфта: игра начинается до первого крипа",text:"Пик героев определяет сильные и слабые стороны команды задолго до того, как на карте появится первый крипу.",slug:"draft-fundamentals"},
+ {cat:"gameplay",icon:"🧠",tag:"GAMEPLAY",title:"Драфт: как выбирать героев под состав",text:"Пик героев определяет сильные и слабые стороны команды задолго до того, как на карте появится первый крипу.",slug:"draft-fundamentals"},
  {cat:"heroes",icon:"📈",tag:"HERO DATA",title:"Винрейт в Dota 2: как читать статистику героев",text:"Pro picks показывают популярность на профессиональной сцене, а Pro win — победы именно среди этих матчей. Это разные метрики.",slug:"reading-hero-stats"},
  {cat:"gameplay",icon:"🧮",tag:"MMR",title:"Путь к повышению MMR: как тренироваться осознанно",text:"Калькулятор MMR показывает математический ориентир, а не гарантированный результат — реальный рост даёт осознанная практика.",slug:"mmr-climbing-mindset"},
  {cat:"heroes",icon:"⚔",tag:"BUILD",title:"Билд на керри: порядок покупок по этапам игры",text:"Керри слаб в начале и становится главной угрозой к поздней игре — билд должен закрывать именно эту кривую силы.",slug:"build-carry"},
@@ -53,6 +53,11 @@ const guideData=[
  {cat:"heroes",icon:"📐",tag:"МЕХАНИКИ",title:"Сила, ловкость и интеллект: что даёт одно очко",text:"Очко силы — это 22 здоровья, очко ловкости — 0.167 брони и +1 к скорости атаки. Переводим атрибуты в понятные числа.",slug:"attributes-explained"},
  {cat:"gameplay",icon:"🏰",tag:"КАРТА",title:"Объекты карты в 7.41: Рошан, Тормент, Шрайны и руны",text:"Рошан переезжает между двумя ямами, Тормент приходит с 15:00, руны мудрости заменили Шрайнами. Что где и когда.",slug:"map-objectives-741"},
  {cat:"gameplay",icon:"💰",tag:"ЭКОНОМИКА",title:"Золото и опыт: откуда берутся GPM и XPM",text:"Награда крипов, формула золота за убийство, потеря при смерти и цена выкупа — числа, по которым считается экономика матча.",slug:"gold-and-experience"},
+ {cat:"gameplay",icon:"🏅",tag:"РЕЙТИНГ",title:"Ранги в Dota 2 и MMR",text:"Все 8 рангов, MMR для каждой звезды и сколько игроков в каждом ранге.",slug:"ranks-mmr"},
+ {cat:"heroes",icon:"⚔",tag:"КОНТРПИКИ",title:"Таблица контрпиков",text:"Три самых неудобных соперника для каждого героя по 340 тысячам рейтинговых матчей.",slug:"counter-picks"},
+ {cat:"gameplay",icon:"🤝",tag:"ПОВЕДЕНИЕ",title:"Порядочность: как поднять",text:"Что закрывает низкая порядочность, какие жалобы на неё влияют и как её поднять.",slug:"conduct-score"},
+ {cat:"gameplay",icon:"⌨",tag:"НАСТРОЙКИ",title:"Консоль и FPS",text:"Как включить консоль, рабочие параметры запуска и настройки, которые поднимают FPS.",slug:"console-fps"},
+ {cat:"gameplay",icon:"⏳",tag:"СТАТИСТИКА",title:"Сколько длится матч",text:"Медианная длительность рейтинга, обычных игр и Turbo по 500 тысячам матчей.",slug:"match-duration"},
  {cat:"gameplay",icon:"🏰",tag:"ЭКОНОМИКА",title:"Сколько золота даёт вышка",text:"Командная награда и золото за последний удар по тирам, денай башни и казармы — таблица на актуальный патч.",slug:"tower-gold"},
  {cat:"gameplay",icon:"⏱",tag:"ТАЙМИНГИ",title:"Тайминги матча: что происходит на карте по минутам",text:"Волны, руны, шрайны, Тормент и окно Рошана идут по расписанию. Полная таблица таймингов и как готовиться заранее.",slug:"match-timings"},
  {cat:"gameplay",icon:"📖",tag:"СЛОВАРЬ",title:"Словарь терминов Dota 2",text:"Что значат ластхит, денай, ганк, керри, MMR и другие термины — короткие объяснения с ссылками на подробные гайды.",slug:"glossary",href:"/glossary/"}
@@ -464,7 +469,7 @@ async function renderCountersInto(boxId, h, opts){
   box.innerHTML=rows.map(r=>{
     const x=heroes.find(z=>Number(z.id)===Number(r.id));
     if(!x)return '';
-    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}</b><i>${r.w.toFixed(1).replace('.',',')}% побед · ${statValue(r.g)} матчей</i></span>`;
+    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}</b><i>${r.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${(r.e!=null?r.e:r.w).toFixed(1).replace('.',',')}% · ${statValue(r.g)} матчей</i></span>`;
     return asLinks
       ? `<a class="qp-row" href="/hero/${escapeHtml(slugForHero(x))}/">${inner}</a>`
       : `<button type="button" class="qp-row" data-hero-open="${x.id}">${inner}</button>`;

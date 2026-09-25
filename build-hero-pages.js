@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Generates static, SEO-indexable pages for every hero under deploy/hero/<slug>/index.html
-// Logic ported from js/app.js (heroStats, heroBuild, counterCandidates, roleSuggestions),
+// Logic ported from js/app.js (heroStats, roleSuggestions),
 // made deterministic (no Math.random() tiebreaker) so builds are reproducible.
 
 const fs = require('fs');
@@ -12,6 +12,12 @@ const {escapeHtml,slugForHero,imageUrl,roleText,attrInfo,officialHeroUrl,heroSta
 // собирается как раньше — без этих блоков, но без падения.
 const guideStore = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'seo', 'hero-guide-data.json'), 'utf8')); }
+  catch { return { heroes: {} }; }
+})();
+// Контрпики — один расчёт на весь сайт (tools/build-hero-counters.js,
+// своя база рейтинговых матчей). Нет файла — блоки показывают заглушку.
+const heroCounters = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-counters.json'), 'utf8')); }
   catch { return { heroes: {} }; }
 })();
 const matchWord = n => { const a=Math.abs(n)%100,b=a%10; if(a>10&&a<20)return n+' матчей'; if(b===1)return n+' матч'; if(b>=2&&b<=4)return n+' матча'; return n+' матчей'; };
@@ -69,8 +75,6 @@ const seoDesc = (() => {
 
 const roleSuggestions={Carry:['Black King Bar','Manta Style','Satanic'],Mid:['Black King Bar','Orchid Malevolence',"Aghanim's Scepter"],Offlane:['Blink Dagger','Pipe of Insight','Crimson Guard'],Support:['Glimmer Cape','Force Staff','Lotus Orb'],HardSupport:['Arcane Boots','Glimmer Cape','Mekansm']};
 
-function heroBuild(h){const role=(h.roles||[]).includes('Support')?'Support':(h.roles||[]).includes('Carry')?'Carry':(h.roles||[]).includes('Initiator')?'Offlane':'Mid';return roleSuggestions[role]||roleSuggestions.Mid;}
-function counterCandidates(h,heroes){const banned=new Set([h.id]);const score=x=>{let s=0;if(x.id===h.id)return -999;if(x.primary_attr!==h.primary_attr)s+=1;if((x.roles||[]).includes('Disabler'))s+=2;if((x.roles||[]).includes('Nuker'))s+=1;if((h.roles||[]).includes('Carry')&&(x.roles||[]).includes('Escape'))s+=2;if(h.attack_type==='Ranged'&&x.attack_type==='Melee')s+=1;return s;};return heroes.filter(x=>!banned.has(x.id)).sort((a,b)=>{const d=score(b)-score(a);return d!==0?d:a.id-b.id;}).slice(0,3);}
 
 function introParagraph(h){
   const a=attrInfo(h.primary_attr);
@@ -175,8 +179,6 @@ async function main(){
     fs.mkdirSync(dir,{recursive:true});
 
     const stats=heroStats(h);
-    const counters=counterCandidates(h,heroes);
-    const build=heroBuild(h);
     const a=attrInfo(h.primary_attr);
     const abilities=abilitiesOf(h);
     const rolesEntry=positionSnapshot.heroes?.[String(h.id)]||null;
@@ -202,9 +204,10 @@ async function main(){
     const gd=guideStore.heroes?.[String(h.id)]||null;
     const abilityText={};
     for(const ab of (gd?.abilities||[])){const t=cleanAbilityText(ab.desc);if(t)abilityText[ab.key]=t.length>240?t.slice(0,240).replace(/\s+\S*$/,'')+'…':t;}
-    const matchRow=m=>{const o=byId.get(Number(m.id));if(!o)return '';return `<a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="${escapeHtml(o.localized_name)}"><b>${escapeHtml(o.localized_name)}</b><i>${(m.wins/m.games*100).toFixed(1).replace('.',',')}% · ${escapeHtml(matchWord(m.games))}</i><span>→</span></a>`;};
-    const weakList=(gd?.weakAgainst||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
-    const strongList=(gd?.strongAgainst||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
+    const matchRow=m=>{const o=byId.get(Number(m.id));if(!o)return '';return `<a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="${escapeHtml(o.localized_name)}"><b>${escapeHtml(o.localized_name)}</b><i>${m.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${m.e.toFixed(1).replace('.',',')}% · ${escapeHtml(matchWord(m.g))}</i><span>→</span></a>`;};
+    const hc=heroCounters.heroes?.[String(h.id)]||null;
+    const weakList=(hc?.against||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
+    const strongList=(hc?.good||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
     const weakHtml=weakList?`<div class="hp-counters hp-matchups">${weakList}</div>`:'';
     const strongHtml=strongList?`<div class="hp-counters hp-matchups">${strongList}</div>`:'';
     // У OpenDota нет времени покупки — только счётчики по четырём фазам,
@@ -230,7 +233,7 @@ async function main(){
         return `<div class="hb-sub"><h3>${label}</h3><em>${note}</em><div class="hb-items">${cards}</div></div>`;
       }).filter(Boolean).join('');
     })();
-    const title=`${h.localized_name} — гайд, статы и контрпики | Dota Mate`;
+    const title=`${h.localized_name} — билд, гайд и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
     const desc=(typeof storedDesc==='string'&&storedDesc.includes(h.localized_name))?storedDesc:fallbackDesc;
@@ -338,11 +341,11 @@ async function main(){
   <section class="hp-links container">
     <div>
       <h2>Кто контрит ${escapeHtml(h.localized_name)}</h2>
-      ${weakHtml||`<div class="hp-counters">${counters.map(x=>`<a href="/hero/${slugForHero(x)}/"><img loading="lazy" src="${imageUrl(x)}" alt="${escapeHtml(x.localized_name)}"><b>${escapeHtml(x.localized_name)}</b><span>→</span></a>`).join('')}</div>`}
+      ${weakHtml||`<p class="hp-buys-note">Пар с этим героем, сыгранных хотя бы ${heroCounters.minGames||300} раз, в нашей базе пока не набралось.</p>`}
     </div>
     <div>
       <h2>Кого контрит ${escapeHtml(h.localized_name)}</h2>
-      ${strongHtml||`<div class="hp-build">${build.map((x,i)=>`<div><span>${i+1}</span>${escapeHtml(x)}</div>`).join('')}</div>`}
+      ${strongHtml||`<p class="hp-buys-note">Пар с этим героем, сыгранных хотя бы ${heroCounters.minGames||300} раз, в нашей базе пока не набралось.</p>`}
     </div>
   </section>
 

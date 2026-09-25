@@ -27,6 +27,12 @@ const PHASES = [
   ['late_game_items', 'Поздняя игра', 'во что герой собирается к концу'],
 ];
 
+// Контрпики — один расчёт на весь сайт (tools/build-hero-counters.js,
+// своя база рейтинговых матчей). Нет файла — блоки показывают заглушку.
+const heroCounters = (() => {
+  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-counters.json'), 'utf8')); }
+  catch { return { heroes: {} }; }
+})();
 const num = n => Number(n || 0).toLocaleString('ru-RU');
 const pct = (w, g) => g ? (w / g * 100).toFixed(1).replace('.', ',') + '%' : '—';
 
@@ -134,14 +140,16 @@ async function main() {
       return `<div class="hg-phase"><h3>${label}</h3><p class="hg-hint">${hint}</p><div class="hg-items">${li}</div></div>`;
     }).filter(Boolean).join('');
 
+    const hc = (heroCounters.heroes || {})[String(h.id)] || {};
+    const dfmt = d => (d > 0 ? '+' : d < 0 ? '−' : '') + Math.abs(d).toFixed(1).replace('.', ',');
     const row = m => {
-      const o = byId.get(m.id); if (!o) return '';
-      return `<tr><td><a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="">${escapeHtml(o.localized_name)}</a></td><td>${matches(m.games)}</td><td><b>${pct(m.wins, m.games)}</b></td></tr>`;
+      const o = byId.get(Number(m.id)); if (!o) return '';
+      return `<tr><td><a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="">${escapeHtml(o.localized_name)}</a></td><td>${matches(m.g)}</td><td><b>${m.w.toFixed(1).replace('.', ',')}%</b></td><td>${dfmt(m.d)}</td></tr>`;
     };
-    const strongRows = (g.strongAgainst || []).map(row).filter(Boolean).join('');
-    const weakRows = (g.weakAgainst || []).map(row).filter(Boolean).join('');
-    const tableHead = '<thead><tr><th>Герой</th><th>Выборка</th><th>Winrate</th></tr></thead>';
-    const noData = '<p class="hg-nodata">Пар с выборкой хотя бы в 15 матчей в открытых данных OpenDota для этого героя не набралось — поэтому таблицу не показываем.</p>';
+    const strongRows = (hc.good || []).map(row).filter(Boolean).join('');
+    const weakRows = (hc.against || []).map(row).filter(Boolean).join('');
+    const tableHead = '<thead><tr><th>Герой</th><th>Выборка</th><th>Winrate</th><th>К ожидаемому, п.п.</th></tr></thead>';
+    const noData = `<p class="hg-nodata">Пар, сыгранных хотя бы ${heroCounters.minGames || 300} раз, для этого героя в нашей базе пока не набралось — поэтому таблицу не показываем.</p>`;
 
     const lead = `${h.localized_name} — герой ${atk} с основным атрибутом «${a[1].toLowerCase()}». Роли по классификации Valve: ${roles.toLowerCase()}. Ниже — то, что видно из открытой статистики: реальные покупки по стадиям игры и результаты против конкретных героев.`;
 
@@ -229,15 +237,15 @@ ${analytics}
 
   <section id="kogo-kontrit">
     <h2>Кого контрит ${escapeHtml(h.localized_name)}</h2>
-    <p>Пары, в которых у героя лучший результат. Выборка — матчи, где оба героя были в игре по разные стороны; пары меньше 15 матчей отброшены, порядок — по нижней границе доверительного интервала, чтобы наверх не вылезали пары с парой игр.</p>
-    ${strongRows ? `<table class="hg-table">${tableHead}<tbody>${strongRows}</tbody></table>` : noData}
+    <p>Соперники, против которых герой выигрывает заметно чаще, чем ожидалось бы по общей силе обоих героев. Выборка — рейтинговые матчи, где герои играли друг против друга; пары, сыгранные меньше ${heroCounters.minGames || 300} раз, отброшены.</p>
+    ${strongRows ? `<div style="overflow-x:auto;"><table class="hg-table">${tableHead}<tbody>${strongRows}</tbody></table></div>` : noData}
   </section>
 
   <section id="kto-kontrit">
     <h2>Кто контрит ${escapeHtml(h.localized_name)}</h2>
     <p>Обратная сторона той же выборки — против кого статистика у героя хуже всего.</p>
-    ${weakRows ? `<table class="hg-table">${tableHead}<tbody>${weakRows}</tbody></table>` : noData}
-    <p class="hg-source">Источник матчапов: OpenDota, публичный агрегат по матчам. Всего в выборке этого героя ${escapeHtml(matches(g.matchupGames || 0))}, пар с выборкой от 15 матчей — ${escapeHtml(String(g.matchupPairs || 0))}. Данные обновляются вместе с пересборкой сайта, последняя — ${escapeHtml(String(store.fetched || '').slice(0, 10))}.</p>
+    ${weakRows ? `<div style="overflow-x:auto;"><table class="hg-table">${tableHead}<tbody>${weakRows}</tbody></table></div>` : noData}
+    <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (${escapeHtml(String(heroCounters.slice || ''))}, ${escapeHtml(num(heroCounters.matchesUsed || 0))} матчей), обновлена ${escapeHtml(String(heroCounters.dataAt || '').slice(0, 10))}. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
   </section>
 </main>
 <footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
