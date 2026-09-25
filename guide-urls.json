@@ -13,7 +13,7 @@
   },
   {
     "loc": "https://dotamate.ru/guide/itemization-basics/",
-    "name": "Как читать предметы: основы итемизации"
+    "name": "Как собирать предметы в Dota 2: основы айтем билда"
   },
   {
     "loc": "https://dotamate.ru/guide/magic-vs-physical-resistance/",
@@ -33,7 +33,7 @@
   },
   {
     "loc": "https://dotamate.ru/guide/reading-hero-stats/",
-    "name": "Как читать статистику героев"
+    "name": "Винрейт в Dota 2: как читать статистику героев"
   },
   {
     "loc": "https://dotamate.ru/guide/mmr-climbing-mindset/",
@@ -54,6 +54,10 @@
   {
     "loc": "https://dotamate.ru/guide/gold-and-experience/",
     "name": "Золото и опыт: откуда берутся GPM и XPM и сколько стоит смерть"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/tower-gold/",
+    "name": "Сколько золота даёт вышка в Dota 2: ластхит, денай и казармы"
   },
   {
     "loc": "https://dotamate.ru/guide/match-timings/",

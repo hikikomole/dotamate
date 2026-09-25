@@ -35,6 +35,13 @@ async function main(){
       ...(g.updated?{"dateModified":g.updated}:{}),
       "author":{"@type":"Organization","name":"Dota Mate"}
     });
+    // Необязательные поля гайда: answer — короткий ответ в начале статьи
+    // (под запросы-вопросы из поиска), faq — [{q,a}], рендерится блоком
+    // «Частые вопросы» и размечается FAQPage для расширенного сниппета.
+    const faq=Array.isArray(g.faq)?g.faq:[];
+    const faqJson=faq.length?JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":faq.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}}))}):'';
+    const answerHtml=g.answer?`<div class="detail-section" style="border-left:3px solid #d4a64a;padding:14px 18px;margin:0 0 28px;"><div class="eyebrow" style="margin-bottom:6px;">Коротко</div><p style="line-height:1.6;color:#e8ecf3;margin:0;">${escapeHtml(g.answer)}</p></div>`:'';
+    const faqHtml=faq.length?`<section class="detail-section"><h2>Частые вопросы</h2>${faq.map(f=>`<h3 style="margin:18px 0 8px;">${escapeHtml(f.q)}</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">${escapeHtml(f.a)}</p>`).join('')}</section>`:'';
     const breadcrumbJson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":g.title,"item":canonical}]});
 
     // Раздел статьи умеет три блока: абзацы (p), маркированный список (list)
@@ -81,7 +88,7 @@ async function main(){
 <link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
 <script type="application/ld+json">${breadcrumbJson}</script>
-${analyticsSnippet}
+${faqJson?`<script type="application/ld+json">${faqJson.replace(/</g,'\\u003c')}</script>\n`:''}${analyticsSnippet}
 </head>
 <body id="top" class="d2-dark">
 <div class="bg"></div>
@@ -100,7 +107,7 @@ ${analyticsSnippet}
   <div class="eyebrow">${escapeHtml(g.tag)}</div>
   <h1 style="margin:6px 0 20px;">${escapeHtml(g.title)}</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">${escapeHtml(g.excerpt)}</p>
-  ${bodyHtml}
+  ${answerHtml}${bodyHtml}${faqHtml}
   <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
