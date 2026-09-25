@@ -421,6 +421,14 @@ export default {
       const url = new URL(request.url);
       const redirect = mergedItemRedirect(url);
       if (redirect) return redirect;
+      // Файл подтверждения прав Яндекс.Вебмастера. Лежит статикой в корне проекта,
+      // но как ассет Cloudflare отдал бы на него 307 на адрес без .html,
+      // а Вебмастеру нужен ответ 200 ровно по этому адресу.
+      if (url.pathname === '/yandex_807b38dba20b61d8.html') {
+        return new Response('<html>\n    <head>\n        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n    </head>\n    <body>Verification: 807b38dba20b61d8</body>\n</html>\n', {
+          headers: { 'Content-Type': 'text/html; charset=utf-8' }
+        });
+      }
       if (url.pathname.startsWith('/api/dota/')) {
         if (request.method !== 'GET') return jsonResponse({ error: 'method_not_allowed' }, 405);
         return await handleApi(url.pathname, env);
