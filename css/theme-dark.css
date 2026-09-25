@@ -371,6 +371,10 @@ body.d2-dark .search input,body.d2-dark .v43-search-shell input{background:none!
 body.d2-dark footer{background:#07080a!important;border-top:1px solid var(--d2-line)!important;color:var(--d2-muted-2)!important}
 body.d2-dark footer a{color:var(--d2-muted)!important}
 body.d2-dark footer a:hover{color:var(--d2-gold)!important}
+body.d2-dark footer .footer-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;font-size:13px;line-height:1.5}
+body.d2-dark footer .footer-links{display:flex;flex-wrap:wrap;gap:6px 20px}
+body.d2-dark footer a{text-decoration:none;white-space:nowrap}
+body.d2-dark footer a:hover,body.d2-dark footer a:focus-visible{text-decoration:underline;text-underline-offset:3px}
 body.d2-dark .modal-card{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-xl)!important;color:var(--d2-text)!important;box-shadow:0 30px 100px rgba(0,0,0,.75)!important}
 body.d2-dark .modal-bg{background:rgba(3,4,6,.82)!important}
 
@@ -1288,3 +1292,11 @@ html,body.d2-dark *{scrollbar-width:thin;scrollbar-color:var(--d2-gold-dim,#8d7b
 html::-webkit-scrollbar,body.d2-dark ::-webkit-scrollbar{width:6px;height:6px}
 html::-webkit-scrollbar-track,body.d2-dark ::-webkit-scrollbar-track{background:transparent}
 html::-webkit-scrollbar-thumb,body.d2-dark ::-webkit-scrollbar-thumb{background:var(--d2-gold-dim,#8d7b4f);border-radius:3px}
+
+/* Карточка героя: окно шире, пять фаз покупок в один ряд, контрпики 4×2 */
+body.d2-dark .modal-card:has(.hero-detail){width:min(1120px,100%)!important;max-width:1120px!important}
+.hero-detail .item-pop-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.hero-detail #heroCounters{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media(max-width:1180px){.hero-detail .item-pop-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){.hero-detail .item-pop-grid,.hero-detail #heroCounters{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){.hero-detail .item-pop-grid,.hero-detail #heroCounters{grid-template-columns:1fr!important}}
