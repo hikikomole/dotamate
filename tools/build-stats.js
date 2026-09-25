@@ -224,6 +224,10 @@ try {
     }
   }
   rolesNote = { fetchedAt: RP.fetchedAt, mainShare: MAIN_SHARE, pairs: RP.brackets };
+  // Тот же список основных ролей — отдельным маленьким файлом для значков
+  // ролей по всему сайту (js/hero-roles.js, data-hero-badges).
+  fs.writeFileSync(D('hero-main-roles.json'), JSON.stringify({ fetchedAt: RP.fetchedAt, mainShare: MAIN_SHARE,
+    heroes: Object.fromEntries(heroRows.filter(h => h.ro && h.ro.length).map(h => [h.id, h.ro])) }));
 } catch (e) { console.warn('Роли не добавлены:', e.message); }
 
 // ---------- 4. История ----------

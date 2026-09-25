@@ -1300,3 +1300,18 @@ body.d2-dark .modal-card:has(.hero-detail){width:min(1120px,100%)!important;max-
 @media(max-width:1180px){.hero-detail .item-pop-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:900px){.hero-detail .item-pop-grid,.hero-detail #heroCounters{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:560px){.hero-detail .item-pop-grid,.hero-detail #heroCounters{grid-template-columns:1fr!important}}
+
+/* Значки основных ролей героя (js/hero-roles.js, data-hero-badges) */
+.hr-badges{display:inline-flex;gap:2px;margin-left:6px;vertical-align:middle}
+.hr-badges:empty{display:none}
+.hr-badge{display:inline-grid;place-items:center;width:18px;height:18px;font-style:normal}
+.hr-badges .hr-badge img,body.d2-dark .hr-badges .hr-badge img,body.d2-dark .qp-row .hr-badges .hr-badge img{width:16px!important;height:16px!important;min-width:0!important;max-width:none!important;object-fit:contain!important;border-radius:0!important;margin:0!important;padding:0!important;box-shadow:none!important;flex:none!important;display:block!important}
+.hr-badges{flex:none;line-height:0}
+.hr-badge.is-best{outline:1px solid var(--d2-gold-dim);border-radius:4px}
+/* Кликабельные роли: строка ролей переключает билд и покупки */
+.hr-row .hr-cell.is-click{cursor:pointer;transition:background .15s}
+.hr-row .hr-cell.is-click:hover{background:rgba(217,193,135,.06)}
+.hr-row .hr-cell.is-click:focus-visible{outline:2px solid var(--d2-gold-dim);outline-offset:-2px}
+.hr-row .hr-cell.is-sel{background:rgba(217,193,135,.12);box-shadow:inset 0 -2px 0 var(--d2-gold)}
+.hr-row .hr-cell.is-off{opacity:.45;cursor:help}
+.hp-buys-role,.hb-rolenote{color:var(--d2-gold);font-size:13px;margin:0 0 10px}

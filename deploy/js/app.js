@@ -350,7 +350,7 @@ function updateHeroUI(source){heroes=heroes.filter(Boolean);d2hSetText('heroCoun
 function renderHeroSpotlight(){const el=document.getElementById('featured');if(!el||!heroes.length)return;let pool=heroes.filter(h=>h&&h.localized_name);if(pool.length>1&&spotlightHeroId!=null)pool=pool.filter(h=>Number(h.id)!==Number(spotlightHeroId));const h=pool[Math.floor(Math.random()*pool.length)]||heroes[0];spotlightHeroId=h.id;el.innerHTML=`<img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"><div class="ftext"><small>HERO SPOTLIGHT · СЛУЧАЙНЫЙ ГЕРОЙ</small><h3>${escapeHtml(h.localized_name)}</h3><p>${escapeHtml(roleText(h))} · ${escapeHtml(h.attack_type||'Dota 2 герой')} · открыть полный профиль →</p></div>`;el.onclick=()=>{location.href='/hero/'+slugForHero(h)+'/';};el.style.cursor='pointer';if(spotlightTimer)clearTimeout(spotlightTimer);spotlightTimer=setTimeout(()=>renderHeroSpotlight(),15000);}
 // Карточка ведёт на статическую страницу героя: она проиндексирована и
 // содержит описание, а модальное окно этого не давало.
-function heroCard(h,mini=false){const a=attrInfo(h.primary_attr),name=escapeHtml(h.localized_name);return `<a class="hero-card ${mini?'mini-hero-card':''}" href="/hero/${escapeHtml(slugForHero(h))}/" aria-label="${name}" data-id="${h.id}"><img loading="lazy" src="${imageUrl(h)}" alt="${name}"><div class="hero-info"><div class="hero-name">${name}</div><div class="hero-role">${escapeHtml(roleText(h))}</div><span class="attr">${a[0]} ${escapeHtml(a[1])}</span></div></a>`;}
+function heroCard(h,mini=false){const a=attrInfo(h.primary_attr),name=escapeHtml(h.localized_name);return `<a class="hero-card ${mini?'mini-hero-card':''}" href="/hero/${escapeHtml(slugForHero(h))}/" aria-label="${name}" data-id="${h.id}"><img loading="lazy" src="${imageUrl(h)}" alt="${name}"><div class="hero-info"><div class="hero-name">${name}<span class="hr-badges" data-hero-badges="${h.id}"></span></div><div class="hero-role">${escapeHtml(roleText(h))}</div><span class="attr">${a[0]} ${escapeHtml(a[1])}</span></div></a>`;}
 function renderHeroes(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const list=heroes.filter(h=>(filter==='all'||h.primary_attr===filter)&&(h.localized_name||'').toLowerCase().includes(q));d2hSetHtml('heroesGrid',list.length?list.map(h=>heroCard(h)).join(''):'<div class="empty">Герой не найден 😢</div>');}
 function renderFeaturedHeroes(){const el=document.getElementById('featuredHeroesGrid');if(!el)return;const picks=heroes.filter(h=>h.pro_pick>0).sort((a,b)=>wrScore(b)-wrScore(a)).slice(0,4);const arr=picks.length?picks:heroes.slice(0,4);el.innerHTML=arr.map(h=>`<article class="featured-hero-card" data-id="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${h.pro_pick?winrate(h).toFixed(1)+'% pro WR · '+h.pro_pick+' пик.':'Профиль героя'}</span></div></article>`).join('');}
 // Самые покупаемые предметы — из того же локального индекса. Раньше блок
@@ -469,7 +469,7 @@ async function renderCountersInto(boxId, h, opts){
   box.innerHTML=rows.map(r=>{
     const x=heroes.find(z=>Number(z.id)===Number(r.id));
     if(!x)return '';
-    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}</b><i>${r.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${(r.e!=null?r.e:r.w).toFixed(1).replace('.',',')}% · ${statValue(r.g)} матчей</i></span>`;
+    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}<span class="hr-badges" data-hero-badges="${x.id}"></span></b><i>${r.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${(r.e!=null?r.e:r.w).toFixed(1).replace('.',',')}% · ${statValue(r.g)} матчей</i></span>`;
     return asLinks
       ? `<a class="qp-row" href="/hero/${escapeHtml(slugForHero(x))}/">${inner}</a>`
       : `<button type="button" class="qp-row" data-hero-open="${x.id}">${inner}</button>`;
@@ -527,17 +527,58 @@ function findItemById(id){
 function phaseTitle(k){return ({start:'Старт · до 0:00',early:'Ранняя · 0–10 мин',mid:'Середина · 10–25 мин',late:'Поздняя · 25–40 мин',vlate:'Финал · 40+ мин'})[k]||k;}
 // Покупки предметов по фазам игры — data/hero-items.json, своя база матчей
 // (tools/build-hero-items.js). n — матчи героя, g — в скольких куплен предмет.
-async function loadHeroItemPopularity(heroId){
-  const box=document.getElementById('heroItemPopularity');if(!box)return;
-  const rec=(await loadHeroItemIndex())[String(heroId)];
-  if(!rec){box.innerHTML='<div class="item-pop-loading">По этому герою нет данных о покупках.</div>';return;}
+// pos — 'all' или 'POSITION_n'. По роли: свой список из нашей базы, если у роли
+// ≥ minRole матчей; иначе, если у Stratz есть билд этой роли, — его предметы
+// (Divine/Immortal, среднее время покупки); иначе — все роли с пояснением.
+const HERO_ROLE_RU={POSITION_1:'Керри',POSITION_2:'Мид',POSITION_3:'Оффлейн',POSITION_4:'Поддержка',POSITION_5:'Полная поддержка'};
+const heroBuildCache={};
+function loadHeroBuild(id){
+  if(!heroBuildCache[id])heroBuildCache[id]=fetch(`/data/builds/${Number(id)}.json`).then(r=>r.ok?r.json():null).catch(()=>null);
+  return heroBuildCache[id];
+}
+function itemPhasesHtml(rec){
   const n=Number(rec.n)||0;
-  const sections=['start','early','mid','late','vlate'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
+  return ['start','early','mid','late','vlate'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
     const rows=rec[ph].map(r=>{const it=findItemById(r.i);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>${n?`${Math.round(r.g/n*100)}% · ${statValue(r.g)} из ${statValue(n)}`:`${statValue(r.g)} игр`}</small></span></button>`:'';}).join('');
     return `<div class="item-pop-phase"><h4>${phaseTitle(ph)}</h4>${rows||'<p class="muted">Нет данных</p>'}</div>`;
   }).join('');
-  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>Своя база матчей текущего патча · матчей героя: ${statValue(n)}${heroItemMatches?` из ${statValue(heroItemMatches)}`:''} · % — доля его матчей с покупкой</p></div></div><div class="item-pop-grid">${sections}</div>`;
+}
+function stratzItemsHtml(items){
+  const block=(title,list)=>{const rows=(list||[]).slice(0,6).map(r=>{const it=findItemById(r.itemId);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>~${r.avgMinute} мин · ${statValue(r.matches)} покупок</small></span></button>`:'';}).join('');return rows?`<div class="item-pop-phase"><h4>${title}</h4>${rows}</div>`:'';};
+  return block('Основные',items&&items.core)+block('Ситуативные',items&&(items.situational||items.situation||items.luxury));
+}
+async function loadHeroItemPopularity(heroId,pos='all'){
+  const box=document.getElementById('heroItemPopularity');if(!box)return;
+  const rec=(await loadHeroItemIndex())[String(heroId)];
+  if(!rec){box.innerHTML='<div class="item-pop-loading">По этому герою нет данных о покупках.</div>';return;}
+  const p=pos==='all'?null:pos.replace('POSITION_','');
+  const own=p&&rec.pos&&rec.pos[p];
+  let head,body,note='';
+  if(!p||own){
+    const r=own||rec,n=Number(r.n)||0;
+    head=`Своя база матчей текущего патча${p?` · роль «${HERO_ROLE_RU[pos]}»`:''} · матчей героя${p?' на роли':''}: ${statValue(n)}${!p&&heroItemMatches?` из ${statValue(heroItemMatches)}`:''} · % — доля его матчей с покупкой`;
+    body=itemPhasesHtml(r);
+  }else{
+    const b=await loadHeroBuild(heroId);const v=b&&b.positions&&b.positions[pos];
+    if(v&&v.items){head=`Роль «${HERO_ROLE_RU[pos]}»: в нашей базе ${statValue(rec.posN&&rec.posN[p]||0)} матчей на роли — мало для своего списка, поэтому предметы по данным Stratz (Divine/Immortal, ${statValue(v.matches)} матчей на роли): среднее время и число покупок`;body=stratzItemsHtml(v.items);}
+    else{head=`Своя база · все роли · матчей героя: ${statValue(rec.n)}`;note=`<p class="muted">На роли «${HERO_ROLE_RU[pos]}» мало матчей — показаны покупки по всем ролям.</p>`;body=itemPhasesHtml(rec);}
+  }
+  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>${head}</p>${note}</div></div><div class="item-pop-grid">${body}</div>`;
   box.querySelectorAll('[data-item-pop]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemPop));
+}
+// Строка ролей в карточке: роль кликабельна, если для неё есть свой список
+// покупок (≥ minRole матчей) или билд Stratz; клик меняет блок покупок.
+async function bindHeroRoleSwitch(h){
+  const R=window.D2HRoles;const row=document.querySelector('#modalContent [data-hero-roles]');
+  if(!R||!R.bindSwitch||!row)return;
+  const [idx,b]=await Promise.all([loadHeroItemIndex(),loadHeroBuild(h.id)]);
+  if(!document.body.contains(row))return;
+  const rec=idx[String(h.id)]||{};const avail={};
+  for(const pos of Object.keys(HERO_ROLE_RU)){
+    const p=pos.slice(-1);
+    avail[pos]=(rec.pos&&rec.pos[p])||(b&&b.positions&&b.positions[pos])?true:`Мало матчей для своего билда: в нашей базе ${rec.posN&&rec.posN[p]||0}, у Stratz меньше 300 Divine/Immortal`;
+  }
+  R.bindSwitch(row,avail,pos=>loadHeroItemPopularity(h.id,pos));
 }
 // Иконка способности: имя файла совпадает с внутренним ключом способности.
 function abilityIcon(key){return `/assets/abilities/${encodeURIComponent(key)}.png`;}
@@ -586,7 +627,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);fillHeroCounters(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);bindHeroRoleSwitch(h);loadHeroAbilities(h);fillHeroCounters(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который

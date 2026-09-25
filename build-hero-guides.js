@@ -148,7 +148,7 @@ async function main() {
     const dfmt = d => (d > 0 ? '+' : d < 0 ? '−' : '') + Math.abs(d).toFixed(1).replace('.', ',');
     const row = m => {
       const o = byId.get(Number(m.id)); if (!o) return '';
-      return `<tr><td><a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="">${escapeHtml(o.localized_name)}</a></td><td>${matches(m.g)}</td><td><b>${m.w.toFixed(1).replace('.', ',')}%</b></td><td>${dfmt(m.d)}</td></tr>`;
+      return `<tr><td><a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="">${escapeHtml(o.localized_name)}</a><span class="hr-badges" data-hero-badges="${o.id}"></span></td><td>${matches(m.g)}</td><td><b>${m.w.toFixed(1).replace('.', ',')}%</b></td><td>${dfmt(m.d)}</td></tr>`;
     };
     const strongRows = (hc.good || []).map(row).filter(Boolean).join('');
     const weakRows = (hc.against || []).map(row).filter(Boolean).join('');
@@ -253,6 +253,7 @@ ${analytics}
   </section>
 </main>
 <footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<script src="/js/hero-roles.js" defer></script>
 </body>
 </html>
 `;

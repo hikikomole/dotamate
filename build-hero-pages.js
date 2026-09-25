@@ -205,7 +205,7 @@ async function main(){
     const gd=guideStore.heroes?.[String(h.id)]||null;
     const abilityText={};
     for(const ab of (gd?.abilities||[])){const t=cleanAbilityText(ab.desc);if(t)abilityText[ab.key]=t.length>240?t.slice(0,240).replace(/\s+\S*$/,'')+'…':t;}
-    const matchRow=m=>{const o=byId.get(Number(m.id));if(!o)return '';return `<a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="${escapeHtml(o.localized_name)}"><b>${escapeHtml(o.localized_name)}</b><i>${m.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${m.e.toFixed(1).replace('.',',')}% · ${escapeHtml(matchWord(m.g))}</i><span>→</span></a>`;};
+    const matchRow=m=>{const o=byId.get(Number(m.id));if(!o)return '';return `<a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="${escapeHtml(o.localized_name)}"><b>${escapeHtml(o.localized_name)}<span class="hr-badges" data-hero-badges="${o.id}"></span></b><i>${m.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${m.e.toFixed(1).replace('.',',')}% · ${escapeHtml(matchWord(m.g))}</i><span>→</span></a>`;};
     const hc=heroCounters.heroes?.[String(h.id)]||null;
     const weakList=(hc?.against||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
     const strongList=(hc?.good||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
@@ -215,18 +215,30 @@ async function main(){
     // время каждой покупки, пять фаз. Тот же расчёт, что в карточке и гайде героя.
     const buyPhases=[['start','Старт · до 0:00'],['early','Ранняя · 0–10 мин'],['mid','Середина · 10–25 мин'],['late','Поздняя · 25–40 мин'],['vlate','Финал · 40+ мин']];
     // Те же карточки, что и в блоке выше (.hb-sub/.hb-items/.hb-item).
-    const pct0=(rows,n)=>`% — доля из ${n} матчей героя, в которых предмет куплен в этой фазе`;
-    const buyHtml=(()=>{
-      const rec=heroItems.heroes?.[String(h.id)];
+    const pct0=(rows,n)=>`% — доля из ${n} матчей, в которых предмет куплен в этой фазе`;
+    // Покупки: панель «все роли» и по панели на каждую роль с ≥ minRole матчей.
+    // Переключает строка ролей (js/hero-builds.js); без JS видна панель «все роли».
+    const RU_POS={1:'Керри',2:'Мид',3:'Оффлейн',4:'Поддержка',5:'Полная поддержка'};
+    const phasesHtml=(rec)=>{
       const n=Number(rec?.n)||0;
       if(!rec||!n)return '';
       return buyPhases.map(([k,label])=>{
         const rows=(rec[k]||[]).map(r=>({id:itemVariants[Number(r.i)]??Number(r.i),g:Number(r.g)||0})).filter(r=>itemById.has(r.id));
         if(!rows.length)return '';
-        const cards=rows.map(r=>{const it=itemById.get(r.id);const pct=Math.round(r.g/n*100);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен в ${pct}% матчей героя (${r.g} из ${n})"><span class="hb-item-when">${pct}%</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
+        const cards=rows.map(r=>{const it=itemById.get(r.id);const pct=Math.round(r.g/n*100);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен в ${pct}% матчей (${r.g} из ${n})"><span class="hb-item-when">${pct}%</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
         return `<div class="hb-sub"><h3>${label}</h3><em>${pct0(rows,n)}</em><div class="hb-items">${cards}</div></div>`;
       }).filter(Boolean).join('');
+    };
+    const buyHtml=(()=>{
+      const rec=heroItems.heroes?.[String(h.id)];
+      const all=phasesHtml(rec);
+      if(!all)return '';
+      const roles=Object.entries(rec.pos||{}).map(([p,r])=>`<div class="hp-buys-pane" data-pos="POSITION_${p}" hidden><p class="hp-buys-role">Роль: ${RU_POS[p]} · ${r.n} матчей героя на этой роли</p>${phasesHtml(r)}</div>`).join('');
+      return `<div class="hp-buys-pane on" data-pos="all">${all}</div>${roles}`;
     })();
+    // Роли, у которых есть свои покупки, и сколько матчей у остальных — для
+    // строки ролей: кликабельна роль с билдом Stratz или своими покупками.
+    const buyRoles=(()=>{const rec=heroItems.heroes?.[String(h.id)]||{};const o={};for(const p of [1,2,3,4,5])o['POSITION_'+p]=rec.pos?.[p]?1:(rec.posN?.[p]||0);return o;})();
     const title=`${h.localized_name} — билд, гайд и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
@@ -307,7 +319,7 @@ async function main(){
 
   ${buildsHtml}
 
-  ${buyHtml?`<section class="hp-buys container">
+  ${buyHtml?`<section class="hp-buys container" id="heroBuys" data-roles='${JSON.stringify(buyRoles)}' data-min-role="${heroItems.minRole||80}">
     <h2>Реальные покупки по фазам</h2>
     <p class="hp-buys-note">Второй срез — своя база рейтинговых матчей до 4500 MMR (${heroItems.matchesUsed.toLocaleString('ru-RU')} матчей текущего патча), время каждой покупки. Процент — в какой доле матчей героя предмет купили в этой фазе. Выборка и ранги другие, чем в блоке выше, поэтому предметы и цифры не обязаны совпадать.</p>
     ${buyHtml}

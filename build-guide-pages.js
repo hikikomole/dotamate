@@ -81,7 +81,7 @@ async function main(){
     // Ячейка таблицы — строка или {t, href}: ссылка на страницу сайта.
     // {t, href, hero} — ссылка на героя: js/app.js открывает по обычному клику
     // карточку героя, а Ctrl/колесо и роботы идут по href на страницу героя.
-    const renderCell=c=>c&&typeof c==='object'?`<a href="${escapeHtml(c.href)}"${c.hero?` data-hero-open="${Number(c.hero)}"`:''}>${escapeHtml(c.t)}</a>`:escapeHtml(c);
+    const renderCell=c=>c&&typeof c==='object'?`<a href="${escapeHtml(c.href)}"${c.hero?` data-hero-open="${Number(c.hero)}"`:''}>${escapeHtml(c.t)}</a>${c.hero?`<span class="hr-badges" data-hero-badges="${Number(c.hero)}"></span>`:''}`:escapeHtml(c);
     // Карточке героя нужны окно и скрипты разделов — только статьям с такой таблицей.
     const heroCard=g.sections.some(sec=>sec.dataTable==='counters');
     const renderTable=t=>`<div style="overflow-x:auto;margin:16px 0;"><table><thead><tr>${t.head.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map((c,ci)=>`<td>${ci===0?`<b style="color:#e8ecf3;">${renderCell(c)}</b>`:renderCell(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>${t.note?`<p style="font-size:13px;color:#8b919c;margin:6px 0 0;">${escapeHtml(t.note)}</p>`:''}</div>`;

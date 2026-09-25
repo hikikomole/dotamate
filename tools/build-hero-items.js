@@ -21,7 +21,8 @@
  * (покупается десятки раз за игру и вытеснил бы всё остальное), id, которых нет
  * в каталоге data/items-ru.json.
  *
- * Формат: heroes[id] = { n, start|early|mid|late|vlate: [{ i: itemId, g }] }.
+ * Формат: heroes[id] = { n, start|early|mid|late|vlate: [{ i: itemId, g }],
+ *   posN: {1…5: матчей на роли}, pos: {1…5: { n, start…vlate }} — роли с ≥ MIN_ROLE }.
  * Поменял формат — проверь js/app.js (loadHeroItemPopularity, fillQuickPrepBuild).
  *
  * Запуск: node tools/build-hero-items.js
@@ -37,6 +38,10 @@ const MIN_SHARE = 0.02;
 const MIN_ABS = 2;
 const PHASES = [['start', -Infinity, 0], ['early', 0, 600], ['mid', 600, 1500], ['late', 1500, 2400], ['vlate', 2400, Infinity]];
 const SKIP = new Set(['tpscroll']);
+// Разрез по ролям (позиция игрока по Stratz, 1–5). Роль получает свой список
+// покупок, когда у героя на ней набралось MIN_ROLE матчей — тот же порог,
+// что выбран для героя в целом. Порог показа предмета — та же доля.
+const MIN_ROLE = 80;
 
 const read = f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
 const catalog = read('items-ru.json').items;
@@ -50,7 +55,8 @@ const since = Number(patch.timestamp) || 0;
 const heroIds = read('heroes.json').heroes.map(h => Number(h.id));
 
 const phaseOf = t => PHASES.find(([, a, b]) => t >= a && t < b)[0];
-const acc = new Map(heroIds.map(id => [id, { n: 0, c: Object.fromEntries(PHASES.map(([k]) => [k, new Map()])) }]));
+const newAcc = () => ({ n: 0, c: Object.fromEntries(PHASES.map(([k]) => [k, new Map()])) });
+const acc = new Map(heroIds.map(id => [id, Object.assign(newAcc(), { pos: {} })]));
 let matches = 0;
 for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
   for (const line of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
@@ -62,7 +68,9 @@ for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
       const h = acc.get(p.h);
       if (!h || !Array.isArray(p.b) || !p.b.length) continue;
       used = true;
-      h.n++;
+      const targets = [h];
+      if (p.pos >= 1 && p.pos <= 5) targets.push(h.pos[p.pos] || (h.pos[p.pos] = newAcc()));
+      for (const a of targets) a.n++;
       const seen = new Set();
       for (const [t, id] of p.b) {
         if (!known.has(id)) continue;
@@ -70,21 +78,34 @@ for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
         const k = ph + ':' + id;
         if (seen.has(k)) continue;
         seen.add(k);
-        h.c[ph].set(id, (h.c[ph].get(id) || 0) + 1);
+        for (const a of targets) a.c[ph].set(id, (a.c[ph].get(id) || 0) + 1);
       }
     }
     if (used) matches++;
   }
 }
 
+function phases(a) {
+  const min = Math.max(MIN_ABS, Math.ceil(a.n * MIN_SHARE));
+  const rec = { n: a.n };
+  for (const [ph] of PHASES) {
+    rec[ph] = [...a.c[ph]].filter(([, g]) => g >= min).sort((x, y) => y[1] - x[1] || x[0] - y[0])
+      .slice(0, TOP).map(([i, g]) => ({ i, g }));
+  }
+  return rec;
+}
 const heroes = {};
+let roleBlocks = 0;
 for (const [id, h] of acc) {
   if (!h.n) continue;
-  const min = Math.max(MIN_ABS, Math.ceil(h.n * MIN_SHARE));
-  const rec = { n: h.n };
-  for (const [ph] of PHASES) {
-    rec[ph] = [...h.c[ph]].filter(([, g]) => g >= min).sort((a, b) => b[1] - a[1] || a[0] - b[0])
-      .slice(0, TOP).map(([i, g]) => ({ i, g }));
+  const rec = phases(h);
+  // posN — матчей героя на каждой роли (для подсказки «мало матчей»),
+  // pos — покупки по ролям, где матчей ≥ MIN_ROLE.
+  rec.posN = {};
+  rec.pos = {};
+  for (const [k, a] of Object.entries(h.pos)) {
+    rec.posN[k] = a.n;
+    if (a.n >= MIN_ROLE) { rec.pos[k] = phases(a); roleBlocks++; }
   }
   heroes[id] = rec;
 }
@@ -92,10 +113,11 @@ for (const [id, h] of acc) {
 const missing = heroIds.filter(id => !heroes[id]);
 const out = {
   source: 'Своя база матчей (Stratz, покупки по времени), патч ' + (patch.version || '?'),
-  method: `фазы 0/10/25/40 мин; предмет показан, если куплен в ≥ max(${MIN_ABS}, ${MIN_SHARE * 100}% матчей героя); до ${TOP} на фазу`,
+  method: `фазы 0/10/25/40 мин; предмет показан, если куплен в ≥ max(${MIN_ABS}, ${MIN_SHARE * 100}% матчей героя); до ${TOP} на фазу; по роли — от ${MIN_ROLE} матчей`,
+  minRole: MIN_ROLE,
   since, matchesUsed: matches, builtAt: new Date().toISOString(), heroes
 };
 fs.writeFileSync(OUT, JSON.stringify(out));
 const ns = Object.values(heroes).map(h => h.n).sort((a, b) => a - b);
-console.log(`hero-items.json: ${Object.keys(heroes).length} героев из ${heroIds.length}, матчей ${matches}, выборка на героя min ${ns[0]} / медиана ${ns[ns.length >> 1]} / max ${ns[ns.length - 1]}`);
+console.log(`hero-items.json: ролей с покупками ${roleBlocks}, ${Object.keys(heroes).length} героев из ${heroIds.length}, матчей ${matches}, выборка на героя min ${ns[0]} / медиана ${ns[ns.length >> 1]} / max ${ns[ns.length - 1]}`);
 if (missing.length) { console.error('Нет покупок у героев:', missing.join(', ')); process.exit(1); }

@@ -246,24 +246,68 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
   return { sectionsHtml, RU_POS, POS_KEY };
 });
 
-/** Переключение позиций: одна кнопка — обе панели (способности и предметы) */
+/**
+ * Переключение позиций на странице героя.
+ * Вкладки билда (одна кнопка — обе панели Stratz) и строка ролей наверху:
+ * клик по роли включает билд Stratz этой роли и покупки из нашей базы для неё.
+ * Роль кликабельна, если хотя бы одно из двух для неё есть; чего нет —
+ * честно подписано, показывается ближайшее доступное (билд первой роли,
+ * покупки по всем ролям).
+ */
 (function () {
   if (typeof document === 'undefined') return;
+  const RU = { POSITION_1: 'Керри', POSITION_2: 'Мид', POSITION_3: 'Оффлейн', POSITION_4: 'Поддержка', POSITION_5: 'Полная поддержка' };
+
+  function showBuild(host, pos) {
+    if (!host) return false;
+    const has = !!host.querySelector(`.hb-panes-skills .hb-pane[data-pos="${pos}"]`);
+    const target = has ? pos : (host.querySelector('.hb-panes-skills .hb-pane') || {}).dataset?.pos;
+    if (!target) return false;
+    host.querySelectorAll('.hb-tab').forEach(b => { const on = b.dataset.pos === target; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); });
+    host.querySelectorAll('.hb-pane').forEach(p => p.classList.toggle('on', p.dataset.pos === target));
+    let note = host.querySelector('.hb-rolenote');
+    if (!note) { note = document.createElement('p'); note.className = 'hb-rolenote'; host.querySelector('.hb-lead').after(note); }
+    note.hidden = has || pos === 'all';
+    if (!note.hidden) note.textContent = `Для роли «${RU[pos]}» у Stratz мало матчей Divine/Immortal — показан билд роли «${RU[target]}».`;
+    return has;
+  }
+
+  function showBuys(box, pos, roles, minRole) {
+    if (!box) return false;
+    const has = pos !== 'all' && !!box.querySelector(`.hp-buys-pane[data-pos="${pos}"]`);
+    const target = has ? pos : 'all';
+    box.querySelectorAll('.hp-buys-pane').forEach(p => { const on = p.dataset.pos === target; p.hidden = !on; p.classList.toggle('on', on); });
+    let note = box.querySelector('.hp-buys-rolenote');
+    if (!note) { note = document.createElement('p'); note.className = 'hp-buys-note hp-buys-rolenote'; box.querySelector('.hp-buys-note').after(note); }
+    note.hidden = has || pos === 'all';
+    if (!note.hidden) note.textContent = `На роли «${RU[pos]}» у героя ${roles[pos] || 0} матчей в нашей базе (свой список — от ${minRole}) — показаны покупки по всем ролям.`;
+    return has;
+  }
+
   function bind() {
     const host = document.getElementById('heroBuilds');
-    if (!host) return;
-    host.querySelectorAll('.hb-tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const pos = btn.dataset.pos;
-        host.querySelectorAll('.hb-tab').forEach(b => {
-          const on = b === btn;
-          b.classList.toggle('on', on);
-          b.setAttribute('aria-selected', String(on));
-        });
-        host.querySelectorAll('.hb-pane').forEach(p => p.classList.toggle('on', p.dataset.pos === pos));
-      });
+    if (host) host.querySelectorAll('.hb-tab').forEach(btn => btn.addEventListener('click', () => showBuild(host, btn.dataset.pos)));
+
+    const rolesHost = document.getElementById('heroRoles');
+    const row = rolesHost && rolesHost.querySelector('[data-hero-roles]');
+    const R = window.D2HRoles;
+    if (!row || !R || !R.bindSwitch) return;
+    const box = document.getElementById('heroBuys');
+    let roles = {};
+    try { roles = box ? JSON.parse(box.dataset.roles || '{}') : {}; } catch (e) { roles = {}; }
+    const minRole = box ? Number(box.dataset.minRole) || 80 : 80;
+    const avail = {};
+    for (const pos of Object.keys(RU)) {
+      const b = !!(host && host.querySelector(`.hb-panes-skills .hb-pane[data-pos="${pos}"]`));
+      const i = roles[pos] === 1;
+      avail[pos] = b || i ? true : `Мало матчей для своего билда: у Stratz меньше 300 матчей Divine/Immortal, в нашей базе ${roles[pos] || 0} из ${minRole}`;
+    }
+    R.bindSwitch(row, avail, pos => {
+      showBuild(host, pos);
+      showBuys(box, pos, roles, minRole);
     });
   }
+  document.addEventListener('d2h:roles-row', bind);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
   else bind();
 })();

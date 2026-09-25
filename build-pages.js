@@ -157,7 +157,7 @@ function countOf(file) {
 function metaRow(h, main, sub, bad) {
   return `<a class="hm-row" href="/hero/${esc(h.slug)}/">` +
     `<img src="${esc(h.img)}" alt="" width="34" height="34" loading="lazy" decoding="async">` +
-    `<span class="hm-row-name">${esc(h.name)}</span>` +
+    `<span class="hm-row-name">${esc(h.name)}<span class="hr-badges" data-hero-badges="${Number(h.id)}"></span></span>` +
     `<span class="hm-row-num"><b>${main}</b><small${bad ? ' class="hm-bad"' : ''}>${sub}</small></span></a>`;
 }
 function metaColumn(title, hint, rows, link, linkText) {
