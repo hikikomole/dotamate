@@ -1282,3 +1282,9 @@ body.d2-dark .topbar .nav nav a{padding:0!important;margin:0!important}
 /* Чип патча стал ссылкой на разбор — подчёркивание ему не нужно. */
 body.d2-dark a.dm-patch{text-decoration:none!important}
 body.d2-dark a.dm-patch:hover{background:rgba(217,193,135,.14);color:var(--d2-gold)!important}
+
+/* Единые полосы прокрутки для всего сайта (образец — список героев на странице патча). */
+html,body.d2-dark *{scrollbar-width:thin;scrollbar-color:var(--d2-gold-dim,#8d7b4f) transparent}
+html::-webkit-scrollbar,body.d2-dark ::-webkit-scrollbar{width:6px;height:6px}
+html::-webkit-scrollbar-track,body.d2-dark ::-webkit-scrollbar-track{background:transparent}
+html::-webkit-scrollbar-thumb,body.d2-dark ::-webkit-scrollbar-thumb{background:var(--d2-gold-dim,#8d7b4f);border-radius:3px}
