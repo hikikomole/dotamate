@@ -82,5 +82,205 @@
   {
     "loc": "https://dotamate.ru/guide/match-timings/",
     "name": "Тайминги матча: что происходит на карте по минутам"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/low-priority/",
+    "name": "Low Priority в Dota 2: за что дают и как выйти"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/ping-packet-loss/",
+    "name": "Пинг и потеря пакетов в Dota 2: как проверить и снизить"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/hotkeys-binds/",
+    "name": "Горячие клавиши в Dota 2: быстрый каст, каст на себя и группы юнитов"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/settings-for-beginners/",
+    "name": "Настройки Dota 2 для новичка: что включить сразу"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/how-many-heroes/",
+    "name": "Сколько героев в Dota 2 и как они делятся"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/game-modes/",
+    "name": "Режимы игры в Dota 2: All Pick, Turbo, Ranked и другие"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/turbo-mode/",
+    "name": "Турбо в Dota 2: чем отличается и чему учит"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/beginner-start/",
+    "name": "Dota 2 для новичка: с чего начать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/best-heroes-for-beginners/",
+    "name": "Лучшие герои для новичков в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/position-1-carry/",
+    "name": "Как играть на керри (позиция 1)"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/position-2-mid/",
+    "name": "Как играть на миде (позиция 2)"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/position-3-offlane/",
+    "name": "Как играть на оффлейне (позиция 3)"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/position-4-soft-support/",
+    "name": "Как играть на четвёрке (позиция 4)"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/position-5-hard-support/",
+    "name": "Как играть на пятёрке (позиция 5)"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/laning-stage/",
+    "name": "Линия в Dota 2: как выиграть первые 10 минут"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/creep-aggro/",
+    "name": "Агро крипов: как управлять вниманием волны"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/wave-management/",
+    "name": "Управление волной: фриз, пуш и срез"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/stacking-pulling/",
+    "name": "Стаки и пуллы в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-camps-jungle/",
+    "name": "Лес в Dota 2: лагеря нейтралов после патча 7.41"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-items-madstone/",
+    "name": "Нейтральные предметы: мадстоун, артефакты и зачарования"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/farming-efficiency/",
+    "name": "Как фармить быстрее в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/ganking-rotations/",
+    "name": "Ганки и ротации: как выбрать цель и время"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/smoke-of-deceit/",
+    "name": "Smoke of Deceit: как пользоваться смоком"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dewarding-vision/",
+    "name": "Девард и борьба за обзор"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/teamfight-positioning/",
+    "name": "Позиционирование в драках"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/high-ground-siege/",
+    "name": "Как брать хайграунд"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/defending-comebacks/",
+    "name": "Как защищаться и делать камбэк"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/split-push/",
+    "name": "Сплит-пуш: давление на несколько линий"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/buyback-decisions/",
+    "name": "Выкуп в Dota 2: сколько стоит и когда выкупаться"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/courier-logistics/",
+    "name": "Курьер в Dota 2: как пользоваться"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/tp-scroll-usage/",
+    "name": "Свиток телепортации: почему он всегда должен быть с собой"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/minimap-awareness/",
+    "name": "Миникарта: как научиться на неё смотреть"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/micro-units-illusions/",
+    "name": "Микроконтроль: как управлять юнитами и иллюзиями"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/playing-vs-illusions/",
+    "name": "Как играть против иллюзий"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/aghanim-scepter-shard/",
+    "name": "Aghanim's Scepter и Shard: что дают и когда покупать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/innates-after-741/",
+    "name": "Врождённые способности после 7.41: фасетов больше нет"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-741-overview/",
+    "name": "Патч 7.41: главные изменения механик и карты"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/replay-analysis/",
+    "name": "Как разбирать свои реплеи"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/own-stats-sites/",
+    "name": "Как посмотреть свою статистику в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/team-communication/",
+    "name": "Общение в команде: пинги, колесо фраз и мьют"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dota-plus/",
+    "name": "Dota Plus: что даёт подписка и стоит ли её брать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/black-king-bar/",
+    "name": "Black King Bar: когда собирать БКБ и как его применять"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/blink-dagger/",
+    "name": "Blink Dagger: кому нужен даггер и как им пользоваться"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/hand-of-midas/",
+    "name": "Hand of Midas: когда мидас окупается"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/magic-wand/",
+    "name": "Magic Wand: почему его покупают почти все"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/heal-reduction-741/",
+    "name": "Как резать лечение в Dota 2: Spirit Vessel, Skadi и изменения 7.41"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dispel-basics/",
+    "name": "Развеивание в Dota 2: что снимает эффекты и что нет"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/tilt-control/",
+    "name": "Тильт в Dota 2: как не сливать серию матчей"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/how-not-to-die/",
+    "name": "Как меньше умирать в Dota 2: главные причины смертей"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/vision-fog-of-war/",
+    "name": "Обзор в Dota 2: туман войны, возвышенности и деревья"
   }
 ]
