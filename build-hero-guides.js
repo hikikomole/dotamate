@@ -240,7 +240,7 @@ ${analytics}
     <p class="hg-source">Источник матчапов: OpenDota, публичный агрегат по матчам. Всего в выборке этого героя ${escapeHtml(matches(g.matchupGames || 0))}, пар с выборкой от 15 матчей — ${escapeHtml(String(g.matchupPairs || 0))}. Данные обновляются вместе с пересборкой сайта, последняя — ${escapeHtml(String(store.fetched || '').slice(0, 10))}.</p>
   </section>
 </main>
-<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;

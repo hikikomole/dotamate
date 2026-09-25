@@ -58,7 +58,7 @@ ${analyticsSnippet}
 <main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:900px;">
 ${bodyHtml}
 </main>
-<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;

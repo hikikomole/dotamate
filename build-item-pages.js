@@ -165,7 +165,7 @@ async function main(){
   ${heroesHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ГЕРОИ</span><h2>Кто покупает этот предмет</h2></div><ul class="ip-heroes">${heroesHtml}</ul></section>`:''}
   ${x.lore?`<section class="ip-panel ip-lore"><div class="ip-panel-head"><span>ИСТОРИЯ</span><h2>История предмета</h2></div><p>${escapeHtml(x.lore)}</p></section>`:''}
 </main>
-<footer><div class="container">Dota Mate · неофициальный проект · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
 </body>
 </html>
 `;
