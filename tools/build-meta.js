@@ -116,7 +116,8 @@ function main() {
   const dayAgo = newest - 86400;
   const day = scored.filter(b => b.m.t >= dayAgo).slice(0, 6).map(row);
   const five = scored.slice(0, 6).map(row);
-  const list = scored.slice(0, TOP_ALL).map(row);
+  // «Последние билды»: самые свежие оценённые сборки, новые сверху.
+  const list = scored.slice().sort((a, b) => b.m.t - a.m.t || b.score - a.score).slice(0, TOP_ALL).map(row);
 
   // --- нишевые герои по позициям
   const hp = new Map(), ht = new Map();

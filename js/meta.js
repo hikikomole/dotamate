@@ -228,8 +228,7 @@
         }).join('') + '<span>итог линий по Stratz</span></div>' +
       '</div>' +
       team('Силы Света', rad, m, 'rad') + team('Силы Тьмы', dire, m, 'dire') +
-      (m.wr && m.wr.length > 2 ? chart('Вероятность победы Сил Света', m.wr.map(function (x) { return x * 100 - 50; }), 50, function (v) { return num(v + 50, 0) + '%'; }) : '') +
-      (m.nw && m.nw.length > 2 ? chart('Перевес по капиталу', m.nw, null, function (v) { return (v >= 0 ? 'Силы Света +' : 'Силы Тьмы +') + k(Math.abs(v)); }) : '') +
+      matchChart(m) +
       (m.bans.length ? '<div class="mx-block"><div class="mx-block-head"><h2>Баны</h2><span>' + m.bans.length + '</span></div><div class="mm-bans">' +
         m.bans.map(function (b) { return heroImg(m, b, ''); }).join('') + '</div></div>' : '') +
       '<div class="mm-out"><a class="btn red" href="https://stratz.com/matches/' + m.id + '" target="_blank" rel="noopener">Подробная аналитика на Stratz →</a>' +
@@ -248,38 +247,110 @@
           '<td><div class="mx-items mx-items-sm">' + p.it.map(function (i) { return itemIcon(m, i, null); }).join('') + (p.nt ? itemIcon(m, p.nt, null).replace('mx-item', 'mx-item mx-neutral') : '') + '</div></td></tr>';
       }).join('') + '</tbody></table></div></div>';
   }
-  // Линейный график по минутам: одна ось, центр — равенство сторон.
-  function chart(title, vals, fixed, fmt) {
-    var W = 800, H = 180, pad = 8, n = vals.length;
-    var max = fixed || Math.max.apply(null, vals.map(Math.abs)) || 1;
-    var x = function (i) { return pad + i * (W - 2 * pad) / (n - 1); };
-    var y = function (v) { return H / 2 - v / max * (H / 2 - pad); };
-    var line = vals.map(function (v, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join('');
-    var area = line + 'L' + x(n - 1).toFixed(1) + ' ' + H / 2 + 'L' + x(0).toFixed(1) + ' ' + H / 2 + 'Z';
-    var ticks = ''; for (var t = 10; t < n; t += 10) ticks += '<text x="' + x(t).toFixed(1) + '" y="' + (H - 2) + '">' + t + ':00</text><line class="g" x1="' + x(t).toFixed(1) + '" x2="' + x(t).toFixed(1) + '" y1="0" y2="' + H + '"/>';
-    var last = vals[n - 1];
-    return '<div class="mx-block mm-chart" data-vals="' + esc(JSON.stringify(vals)) + '" data-fixed="' + (fixed || '') + '">' +
-      '<div class="mx-block-head"><h2>' + title + '</h2><span>в конце: ' + esc(fmt(last)) + '</span></div>' +
-      '<div class="mm-plot"><svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="' + esc(title) + ' по минутам">' +
-      '<defs><clipPath id="c' + title.length + 'a"><rect x="0" y="0" width="' + W + '" height="' + H / 2 + '"/></clipPath><clipPath id="c' + title.length + 'b"><rect x="0" y="' + H / 2 + '" width="' + W + '" height="' + H / 2 + '"/></clipPath></defs>' +
-      ticks + '<line class="mid" x1="0" x2="' + W + '" y1="' + H / 2 + '" y2="' + H / 2 + '"/>' +
-      '<path class="a rad" d="' + area + '" clip-path="url(#c' + title.length + 'a)"/><path class="a dire" d="' + area + '" clip-path="url(#c' + title.length + 'b)"/>' +
-      '<path class="l" d="' + line + '"/><line class="cross" x1="0" x2="0" y1="0" y2="' + H + '" hidden/></svg>' +
-      '<div class="mm-tip" hidden></div><span class="mm-lab top">Силы Света</span><span class="mm-lab bot">Силы Тьмы</span></div></div>';
+  // Общий график матча по минутам: вероятность победы (левая шкала, %) и
+  // перевес по капиталу (правая шкала, золото). У обеих шкал ноль перевеса
+  // на одной центральной линии: 50% вероятности = 0 золота. Выше центра —
+  // перевес Сил Света, ниже — Сил Тьмы. Правая шкала симметрична (±max),
+  // иначе центр одной шкалы не совпал бы с центром другой.
+  var CW = 1000, CH = 300, CL = 52, CR = 92, CT = 16, CB = 30;
+  function niceMax(v) {
+    if (v <= 0) return 1000;
+    var p = Math.pow(10, Math.floor(Math.log(v) / Math.LN10)), n = v / p;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+  }
+  // Монотонная кубическая интерполяция (Фритч — Карлсон): кривая гладкая,
+  // но не выходит за соседние точки — пиков, которых не было в данных, нет.
+  function smooth(pts) {
+    var n = pts.length; if (n < 3) return pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('');
+    var d = [], m = [], i;
+    for (i = 0; i < n - 1; i++) d.push((pts[i + 1][1] - pts[i][1]) / (pts[i + 1][0] - pts[i][0]));
+    m[0] = d[0]; m[n - 1] = d[n - 2];
+    for (i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+    for (i = 0; i < n - 1; i++) {
+      if (d[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+      var a = m[i] / d[i], b = m[i + 1] / d[i], s = a * a + b * b;
+      if (s > 9) { var t = 3 / Math.sqrt(s); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; }
+    }
+    var out = 'M' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+    for (i = 0; i < n - 1; i++) {
+      var h = (pts[i + 1][0] - pts[i][0]) / 3;
+      out += 'C' + (pts[i][0] + h).toFixed(1) + ' ' + (pts[i][1] + m[i] * h).toFixed(1) + ' ' +
+        (pts[i + 1][0] - h).toFixed(1) + ' ' + (pts[i + 1][1] - m[i + 1] * h).toFixed(1) + ' ' +
+        pts[i + 1][0].toFixed(1) + ' ' + pts[i + 1][1].toFixed(1);
+    }
+    return out;
+  }
+  function matchChart(m) {
+    var wr = m.wr && m.wr.length > 1 ? m.wr : null, nw = m.nw && m.nw.length > 1 ? m.nw : null;
+    if (!wr && !nw) return '';
+    var mins = Math.max(wr ? wr.length : 0, nw ? nw.length : 0) - 1;
+    var nwMax = nw ? niceMax(Math.max.apply(null, nw.map(Math.abs))) : 1;
+    var x = function (i) { return CL + i * (CW - CL - CR) / mins; };
+    var mid = CT + (CH - CT - CB) / 2, half = (CH - CT - CB) / 2;
+    var yP = function (p) { return mid - (p - 0.5) * 2 * half; };        // 0..1
+    var yG = function (g) { return mid - g / nwMax * half; };            // золото
+    var s = '<defs><clipPath id="mmTop"><rect x="0" y="0" width="' + CW + '" height="' + mid + '"/></clipPath>' +
+      '<clipPath id="mmBot"><rect x="0" y="' + mid + '" width="' + CW + '" height="' + (CH - mid) + '"/></clipPath></defs>';
+    // сетка и шкалы
+    [0.25, 0.75].forEach(function (p) { s += '<line class="g" x1="' + CL + '" x2="' + (CW - CR) + '" y1="' + yP(p) + '" y2="' + yP(p) + '"/>'; });
+    s += '<line class="mid" x1="' + CL + '" x2="' + (CW - CR) + '" y1="' + mid + '" y2="' + mid + '"/>';
+    if (wr) [0.25, 0.5, 0.75].forEach(function (p) { s += '<text class="ax l" x="' + (CL - 8) + '" y="' + (yP(p) + 4) + '">' + p * 100 + '%</text>'; });
+    if (nw) [[nwMax, '+' + num(nwMax / 1000, nwMax % 1000 ? 1 : 0) + ' тыс.'], [0, '0'], [-nwMax, '−' + num(nwMax / 1000, nwMax % 1000 ? 1 : 0) + ' тыс.']].forEach(function (t) {
+      s += '<text class="ax r" x="' + (CW - CR + 8) + '" y="' + (yG(t[0]) + 4) + '">' + t[1] + '</text>';
+    });
+    for (var t = 0; t <= mins; t += 10) s += '<line class="g" x1="' + x(t) + '" x2="' + x(t) + '" y1="' + CT + '" y2="' + (CH - CB) + '"/>' +
+      (mins - t >= 4 ? '<text class="ax" x="' + x(t) + '" y="' + (CH - 8) + '">' + t + ':00</text>' : '');
+    s += '<text class="ax" x="' + x(mins) + '" y="' + (CH - 8) + '">' + mins + ':00</text>';
+    s += '<text class="side rad" x="' + (CL + 10) + '" y="' + (CT + 16) + '">Силы Света</text><text class="side dire" x="' + (CL + 10) + '" y="' + (CH - CB - 8) + '">Силы Тьмы</text>';
+    // линии: капитал — золотая, вероятность — зелёная выше центра и красная ниже
+    if (nw) s += '<path class="ln nw" d="' + smooth(nw.map(function (v, i) { return [x(i), yG(v)]; })) + '"/>';
+    if (wr) {
+      var d = smooth(wr.map(function (v, i) { return [x(i), yP(v)]; }));
+      s += '<path class="ln wr rad" d="' + d + '" clip-path="url(#mmTop)"/><path class="ln wr dire" d="' + d + '" clip-path="url(#mmBot)"/>';
+    }
+    s += '<line class="cross" x1="0" x2="0" y1="' + CT + '" y2="' + (CH - CB) + '" visibility="hidden"/>' +
+      '<circle class="dot wr" r="4" visibility="hidden"/><circle class="dot nw" r="4" visibility="hidden"/>';
+    var side = function (v) { return v >= 0 ? 'Силы Света' : 'Силы Тьмы'; };
+    var lastW = wr ? wr[wr.length - 1] : null, lastN = nw ? nw[nw.length - 1] : null;
+    return '<div class="mx-block mm-chart" data-wr="' + (wr ? esc(JSON.stringify(wr)) : '') + '" data-nw="' + (nw ? esc(JSON.stringify(nw)) : '') + '" data-mins="' + mins + '" data-nwmax="' + nwMax + '">' +
+      '<div class="mm-chart-head"><div><h2>Вероятность победы и капитал</h2><p>Две шкалы на одной временной оси. Выше центральной линии — перевес Сил Света, ниже — Сил Тьмы. ' +
+      'Слева — вероятность победы Сил Света по оценке Stratz, справа — разница в капитале команд.</p>' +
+      '<div class="mm-legend">' + (wr ? '<span><i class="wr"></i>Вероятность победы</span>' : '') + (nw ? '<span><i class="nw"></i>Капитал</span>' : '') + '</div></div>' +
+      '<div class="mm-chart-kpi">' +
+        (wr ? '<div><small>Вероятность победы в конце</small><b>' + num(Math.max(lastW, 1 - lastW) * 100, 1) + '% ' + (lastW >= 0.5 ? 'Силы Света' : 'Силы Тьмы') + '</b></div>' : '') +
+        (nw ? '<div><small>Разница в капитале в конце</small><b>' + side(lastN) + ' +' + k(Math.abs(lastN)) + '</b></div>' : '') +
+      '</div></div>' +
+      '<div class="mm-plot"><svg viewBox="0 0 ' + CW + ' ' + CH + '" role="img" aria-label="Вероятность победы и разница в капитале по минутам">' + s + '</svg><div class="mm-tip" hidden></div></div></div>';
   }
   function bindCharts(root) {
     root.querySelectorAll('.mm-chart').forEach(function (c) {
-      var vals = JSON.parse(c.getAttribute('data-vals')), fixed = +c.getAttribute('data-fixed') || 0;
-      var plot = c.querySelector('.mm-plot'), tip = c.querySelector('.mm-tip'), cross = c.querySelector('.cross');
-      function move(e) {
-        var r = plot.getBoundingClientRect(), f = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
-        var i = Math.round(f * (vals.length - 1)), v = vals[i], X = 8 + i * (800 - 16) / (vals.length - 1);
-        cross.setAttribute('x1', X); cross.setAttribute('x2', X); cross.hidden = false;
-        tip.hidden = false; tip.style.left = (100 * X / 800) + '%';
-        tip.innerHTML = '<b>' + i + ':00</b> ' + (fixed ? 'Силы Света ' + num(v + 50, 0) + '%' : (v >= 0 ? 'Силы Света +' : 'Силы Тьмы +') + k(Math.abs(v)));
+      var wr = c.getAttribute('data-wr') ? JSON.parse(c.getAttribute('data-wr')) : null;
+      var nw = c.getAttribute('data-nw') ? JSON.parse(c.getAttribute('data-nw')) : null;
+      var mins = +c.getAttribute('data-mins'), nwMax = +c.getAttribute('data-nwmax');
+      var plot = c.querySelector('.mm-plot'), svg = plot.querySelector('svg'), tip = c.querySelector('.mm-tip');
+      var cross = svg.querySelector('.cross'), dW = svg.querySelector('.dot.wr'), dN = svg.querySelector('.dot.nw');
+      var mid = CT + (CH - CT - CB) / 2, half = (CH - CT - CB) / 2;
+      function show(e) {
+        var r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width * CW;
+        var i = Math.min(Math.max(Math.round((sx - CL) / (CW - CL - CR) * mins), 0), mins), X = CL + i * (CW - CL - CR) / mins;
+        cross.setAttribute('x1', X); cross.setAttribute('x2', X); cross.setAttribute('visibility', 'visible');
+        var rows = '<b>' + i + ':00</b>';
+        if (wr && i < wr.length) {
+          dW.setAttribute('cx', X); dW.setAttribute('cy', mid - (wr[i] - 0.5) * 2 * half); dW.setAttribute('visibility', 'visible');
+          rows += '<span><i class="wr"></i>Силы Света ' + num(wr[i] * 100, 0) + '% · Силы Тьмы ' + num(100 - wr[i] * 100, 0) + '%</span>';
+        } else dW.setAttribute('visibility', 'hidden');
+        if (nw && i < nw.length) {
+          dN.setAttribute('cx', X); dN.setAttribute('cy', mid - nw[i] / nwMax * half); dN.setAttribute('visibility', 'visible');
+          rows += '<span><i class="nw"></i>' + (nw[i] === 0 ? 'Капитал равный' : (nw[i] > 0 ? 'Силы Света' : 'Силы Тьмы') + ' +' + k(Math.abs(nw[i]))) + '</span>';
+        } else dN.setAttribute('visibility', 'hidden');
+        tip.innerHTML = rows; tip.hidden = false;
+        var px = X / CW * r.width + (svg.getBoundingClientRect().left - plot.getBoundingClientRect().left);
+        tip.style.left = px + 'px'; tip.classList.toggle('flip', X > CW * 0.6);
       }
-      plot.addEventListener('pointermove', move);
-      plot.addEventListener('pointerleave', function () { tip.hidden = true; cross.hidden = true; });
+      function hide() { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); dW.setAttribute('visibility', 'hidden'); dN.setAttribute('visibility', 'hidden'); }
+      plot.addEventListener('pointermove', show);
+      plot.addEventListener('pointerdown', show);
+      plot.addEventListener('pointerleave', hide);
     });
   }
 

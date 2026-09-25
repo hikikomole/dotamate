@@ -133,20 +133,39 @@ body.d2-dark .mm-mid h1{margin:0!important;font-family:Oswald,Manrope,system-ui,
 .mm-lane b{font-size:13px}
 .mm-lane b.rad{color:var(--mx-rad)}
 .mm-lane b.dire{color:var(--mx-dire)}
-.mm-plot{position:relative;background:var(--mx-panel);border:1px solid var(--mx-line);border-radius:var(--rad-lg,14px);padding:10px;touch-action:pan-y}
-.mm-plot svg{display:block;width:100%;height:180px}
-.mm-plot .mid{stroke:var(--d2-muted-2,#6d7683);stroke-width:1;vector-effect:non-scaling-stroke}
-.mm-plot .g{stroke:var(--d2-line-soft,#1a1e24);stroke-width:1;vector-effect:non-scaling-stroke}
-.mm-plot text{fill:var(--d2-muted-2,#6d7683);font-size:10px;text-anchor:middle}
-.mm-plot .l{fill:none;stroke:var(--d2-text,#eef1f5);stroke-width:2;vector-effect:non-scaling-stroke}
-.mm-plot .a.rad{fill:var(--mx-rad);opacity:.28}
-.mm-plot .a.dire{fill:var(--mx-dire);opacity:.28}
-.mm-plot .cross{stroke:var(--d2-gold,#d9c187);stroke-width:1;vector-effect:non-scaling-stroke}
-.mm-tip{position:absolute;top:8px;transform:translateX(-50%);padding:5px 9px;background:#07080a;border:1px solid var(--mx-line);border-radius:6px;font-size:12px;color:var(--d2-text,#eef1f5);white-space:nowrap;pointer-events:none}
+.mm-chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:12px}
+body.d2-dark .mm-chart-head h2{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:500!important;font-size:18px!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+.mm-chart-head p{margin:6px 0 0;max-width:640px;font-size:12.5px;line-height:1.5;color:var(--d2-muted,#98a1ae)}
+.mm-legend{display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--d2-muted,#98a1ae)}
+.mm-legend span,.mm-tip span{display:inline-flex;align-items:center;gap:7px}
+.mm-legend i,.mm-tip i{display:inline-block;width:16px;height:3px;border-radius:2px}
+i.wr{background:linear-gradient(90deg,var(--mx-rad) 50%,var(--mx-dire) 50%)}
+i.nw{background:var(--d2-gold,#d9c187)}
+.mm-chart-kpi{display:flex;gap:26px;text-align:right;flex-shrink:0}
+.mm-chart-kpi small{display:block;font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--d2-muted-2,#6d7683)}
+.mm-chart-kpi b{font-size:15px;color:var(--d2-text,#eef1f5)}
+.mm-plot{position:relative;background:var(--mx-panel);border:1px solid var(--mx-line);border-radius:var(--rad-lg,14px);padding:10px 8px 4px;touch-action:pan-y}
+.mm-plot svg{display:block;width:100%;height:auto}
+.mm-plot .mid{stroke:var(--d2-muted,#98a1ae);stroke-width:1}
+.mm-plot .g{stroke:var(--d2-line,#23272f);stroke-width:1;stroke-dasharray:3 4}
+.mm-plot .ax{fill:var(--d2-muted,#98a1ae);font-size:13px;text-anchor:middle}
+.mm-plot .ax.l{text-anchor:end}
+.mm-plot .ax.r{text-anchor:start;fill:var(--d2-gold,#d9c187)}
+.mm-plot .side{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
+.mm-plot .side.rad{fill:var(--mx-rad)}
+.mm-plot .side.dire{fill:var(--mx-dire)}
+.mm-plot .ln{fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.mm-plot .ln.nw{stroke:var(--d2-gold,#d9c187)}
+.mm-plot .ln.wr.rad{stroke:var(--mx-rad)}
+.mm-plot .ln.wr.dire{stroke:var(--mx-dire)}
+.mm-plot .cross{stroke:var(--d2-muted,#98a1ae);stroke-width:1}
+.mm-plot .dot{stroke:var(--mx-panel);stroke-width:2}
+.mm-plot .dot.wr{fill:#fff}
+.mm-plot .dot.nw{fill:var(--d2-gold,#d9c187)}
+.mm-tip{position:absolute;top:12px;margin-left:12px;display:flex;flex-direction:column;gap:3px;padding:8px 11px;background:#07080a;border:1px solid var(--mx-line);border-radius:8px;font-size:12px;color:var(--d2-text,#eef1f5);white-space:nowrap;pointer-events:none;z-index:2}
+.mm-tip.flip{transform:translateX(-100%);margin-left:-12px}
 .mm-tip b{color:var(--d2-gold,#d9c187)}
-.mm-lab{position:absolute;left:18px;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
-.mm-lab.top{top:14px;color:var(--mx-rad)}
-.mm-lab.bot{bottom:14px;color:var(--mx-dire)}
+@media (max-width:720px){.mm-chart-head{flex-direction:column;gap:10px}.mm-chart-kpi{text-align:left}.mm-plot .ax{font-size:21px}.mm-plot .side{font-size:19px}.mm-plot .ln{stroke-width:4}.mm-tip{white-space:normal;max-width:62%;font-size:11.5px}}
 .mm-bans{display:flex;flex-wrap:wrap;gap:6px}
 .mm-bans img{width:64px;height:36px;object-fit:cover;border-radius:4px;filter:grayscale(1);opacity:.7}
 .mm-out{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 10px}
