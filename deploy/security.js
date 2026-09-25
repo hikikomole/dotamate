@@ -1,8 +1,9 @@
 /* DotaMate: согласие на cookies (152-ФЗ).
    Счётчик Яндекс.Метрики и реклама РСЯ размечены в HTML как
-   <script type="text/plain" data-consent="analytics|ads"> и запускаются
-   только после «Принять». Выбор хранится в localStorage (dmConsent).
-   Ссылка «Отключить cookies» (data-consent-revoke) отзывает согласие.
+   <script type="text/plain" data-consent="analytics|ads">.
+   Метрика запускается сразу (уведомление с возможностью отказа),
+   РСЯ — только после «Принять». Выбор хранится в localStorage (dmConsent).
+   Ссылка «Отключить cookies» (data-consent-revoke) выключает Метрику и рекламу.
    Файл подключён в <head> всех страниц, поэтому живёт здесь. */
 (function () {
   'use strict';
@@ -69,14 +70,14 @@
     var t = e.target && e.target.closest && e.target.closest('[data-consent-revoke]');
     if (!t) return;
     e.preventDefault();
-    save(null);
+    save({ v: VERSION, analytics: false, ads: false, t: new Date().toISOString() });
     clearYandexCookies();
     location.reload();
   });
 
   function init() {
     var c = read();
-    if (c && c.analytics) activate('analytics');
+    if (!c || c.analytics) activate('analytics');
     if (c && c.ads) activate('ads');
     if (!c) show();
   }
