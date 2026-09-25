@@ -574,7 +574,7 @@ function findItemById(id){
   const want=base!=null?base:n;
   return items.find(i=>Number(i.id)===want);
 }
-function phaseTitle(k){return ({start:'Старт · до 0:00',early:'Ранняя · 0–10 мин',mid:'Середина · 10–25 мин',late:'Поздняя · 25–40 мин',vlate:'Финал · 40+ мин'})[k]||k;}
+function phaseTitle(k){return ({start:'Старт · до 0:00',early:'Ранняя · 0–10',mid:'Середина · 10–25',late:'Поздняя · 25–40',vlate:'Финал · 40+'})[k]||k;}
 // Покупки предметов по фазам игры — data/hero-items.json, своя база матчей
 // (tools/build-hero-items.js). n — матчи героя, g — в скольких куплен предмет.
 // pos — 'all' или 'POSITION_n'. По роли: свой список из нашей базы, если у роли

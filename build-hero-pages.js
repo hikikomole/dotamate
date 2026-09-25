@@ -213,7 +213,7 @@ async function main(){
     const strongHtml=strongList?`<div class="hp-counters hp-matchups">${strongList}</div>`:'';
     // Покупки — data/hero-items.json (tools/build-hero-items.js): своя база,
     // время каждой покупки, пять фаз. Тот же расчёт, что в карточке и гайде героя.
-    const buyPhases=[['start','Старт · до 0:00'],['early','Ранняя · 0–10 мин'],['mid','Середина · 10–25 мин'],['late','Поздняя · 25–40 мин'],['vlate','Финал · 40+ мин']];
+    const buyPhases=[['start','Старт · до 0:00'],['early','Ранняя · 0–10'],['mid','Середина · 10–25'],['late','Поздняя · 25–40'],['vlate','Финал · 40+']];
     // Те же карточки, что и в блоке выше (.hb-sub/.hb-items/.hb-item).
     const pct0=(rows,n)=>`% — доля из ${n} матчей, в которых предмет куплен в этой фазе`;
     // Покупки: панель «все роли» и по панели на каждую роль с ≥ minRole матчей.
