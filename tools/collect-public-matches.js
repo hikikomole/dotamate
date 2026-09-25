@@ -169,7 +169,8 @@ async function main() {
     if (!rows.length) { console.log('Лента кончилась.'); break; }
 
     const good = rows.filter(valid);
-    written += appendRows(good);
+    const fresh = appendRows(good);
+    written += fresh;
 
     const ids = rows.map(m => m.match_id);
     const minId = Math.min(...ids), maxId = Math.max(...ids);
@@ -178,7 +179,8 @@ async function main() {
     else {
       // хвост: идём назад, пока не упрёмся в уже собранное
       lessThan = minId;
-      if (s.oldestSeen && minId <= s.newestSeen && requests > 1 && written === 0) stop = true;
+      // страница целиком из уже собранного — дошли до прошлого захода
+      if (s.oldestSeen && requests > 1 && good.length && fresh === 0) stop = true;
       if (!s.oldestSeen) s.oldestSeen = minId;
     }
     if (requests % 25 === 0) { console.log(`  запросов ${requests}/${budget}, новых матчей ${written}`); saveState(s); }

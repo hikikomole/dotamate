@@ -45,6 +45,7 @@ step('Покупки предметов по своей базе', 'node', ['too
 step('Страницы героев', 'node', ['build-hero-pages.js'], { cwd: ROOT });
 step('Гайды героев', 'node', ['build-hero-guides.js'], { cwd: ROOT });
 step('Статьи', 'node', ['build-guide-pages.js'], { cwd: ROOT });
+step('Статистика и аналитика', 'node', ['tools/build-stats.js'], { cwd: ROOT });
 step('Раскладка файлов в deploy', 'node', ['tools/sync-deploy.js'], { cwd: ROOT });
 
 const env = readEnv();

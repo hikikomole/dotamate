@@ -47,7 +47,7 @@ function main() {
   const vsN = new Array(PAIRS).fill(0), vsW = new Array(PAIRS).fill(0);
 
   let files = fs.existsSync(DIR) ? fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort() : [];
-  if (!files.length) throw new Error('База пуста — сначала запусти «Собрать матчи.cmd»');
+  if (!files.length) throw new Error('База пуста — сначала запусти «Обновить всё.cmd»');
 
   let total = 0, used = 0, minTime = Infinity, maxTime = 0;
   const rankHist = {};

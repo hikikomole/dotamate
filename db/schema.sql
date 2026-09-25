@@ -21,3 +21,19 @@ CREATE TABLE IF NOT EXISTS collector_state (
   value INTEGER NOT NULL,
   updated_at INTEGER NOT NULL
 );
+
+-- Обращения из формы обратной связи (/contact/). Сайт их только принимает,
+-- читает владелец: `Обращения.cmd` (tools/feedback-list.js).
+-- ip_hash — SHA-256 от IP для защиты от спама, обнуляется через 30 дней.
+CREATE TABLE IF NOT EXISTS feedback (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  created_at INTEGER NOT NULL,
+  topic      TEXT NOT NULL,
+  name       TEXT,
+  contact    TEXT,
+  message    TEXT NOT NULL,
+  ip_hash    TEXT,
+  status     TEXT NOT NULL DEFAULT 'new'
+);
+CREATE INDEX IF NOT EXISTS idx_feedback_ip ON feedback(ip_hash, created_at);
+CREATE INDEX IF NOT EXISTS idx_feedback_created ON feedback(created_at);

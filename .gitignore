@@ -33,3 +33,6 @@ data/meta-escape.json
 data/meta-match/
 deploy/data/meta-escape.json
 deploy/data/meta-match/
+
+# журнал ежедневного обновления (tools/daily-update.js)
+logs/

@@ -16,6 +16,7 @@ const guideStore = (() => {
 })();
 // Контрпики — один расчёт на весь сайт (tools/build-hero-counters.js,
 // своя база рейтинговых матчей). Нет файла — блоки показывают заглушку.
+const heroItems=JSON.parse(fs.readFileSync(path.join(__dirname,'data','hero-items.json'),'utf8'));
 const heroCounters = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-counters.json'), 'utf8')); }
   catch { return { heroes: {} }; }
@@ -210,27 +211,20 @@ async function main(){
     const strongList=(hc?.good||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
     const weakHtml=weakList?`<div class="hp-counters hp-matchups">${weakList}</div>`:'';
     const strongHtml=strongList?`<div class="hp-counters hp-matchups">${strongList}</div>`:'';
-    // У OpenDota нет времени покупки — только счётчики по четырём фазам,
-    // поэтому фазы сведены в две группы, а на карточке стоит число покупок.
-    const buyGroups=[
-      {keys:['start_game_items','early_game_items'],label:'Начало игры',note:'Старт и ранняя игра — сколько раз предмет купили в выборке'},
-      {keys:['mid_game_items','late_game_items'],label:'Середина и поздняя игра',note:'Сколько раз предмет купили в выборке'}
-    ];
-    // Те же карточки, что и в блоке выше (.hb-sub/.hb-items/.hb-item):
-    // на странице два среза покупок, и выглядеть они должны одинаково.
+    // Покупки — data/hero-items.json (tools/build-hero-items.js): своя база,
+    // время каждой покупки, пять фаз. Тот же расчёт, что в карточке и гайде героя.
+    const buyPhases=[['start','Старт · до 0:00'],['early','Ранняя · 0–10 мин'],['mid','Середина · 10–25 мин'],['late','Поздняя · 25–40 мин'],['vlate','Финал · 40+ мин']];
+    // Те же карточки, что и в блоке выше (.hb-sub/.hb-items/.hb-item).
+    const pct0=(rows,n)=>`% — доля из ${n} матчей героя, в которых предмет куплен в этой фазе`;
     const buyHtml=(()=>{
-      if(!gd?.items)return '';
-      return buyGroups.map(({keys,label,note})=>{
-        const sum=new Map();
-        for(const k of keys) for(const [id,c] of Object.entries(gd.items[k]||{})){
-          const real=itemVariants[Number(id)]??Number(id);
-          if(!itemById.has(real))continue;
-          sum.set(real,(sum.get(real)||0)+(Number(c)||0));
-        }
-        const rows=[...sum.entries()].map(([id,c])=>({id,c})).sort((x,y)=>y.c-x.c).slice(0,9);
+      const rec=heroItems.heroes?.[String(h.id)];
+      const n=Number(rec?.n)||0;
+      if(!rec||!n)return '';
+      return buyPhases.map(([k,label])=>{
+        const rows=(rec[k]||[]).map(r=>({id:itemVariants[Number(r.i)]??Number(r.i),g:Number(r.g)||0})).filter(r=>itemById.has(r.id));
         if(!rows.length)return '';
-        const cards=rows.map(r=>{const it=itemById.get(r.id);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен ${r.c} раз в выборке"><span class="hb-item-when">${r.c}</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
-        return `<div class="hb-sub"><h3>${label}</h3><em>${note}</em><div class="hb-items">${cards}</div></div>`;
+        const cards=rows.map(r=>{const it=itemById.get(r.id);const pct=Math.round(r.g/n*100);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен в ${pct}% матчей героя (${r.g} из ${n})"><span class="hb-item-when">${pct}%</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
+        return `<div class="hb-sub"><h3>${label}</h3><em>${pct0(rows,n)}</em><div class="hb-items">${cards}</div></div>`;
       }).filter(Boolean).join('');
     })();
     const title=`${h.localized_name} — билд, гайд и контрпики | Dota Mate`;
@@ -269,7 +263,7 @@ async function main(){
 <link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
-<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
 <div class="bg"></div>
@@ -314,8 +308,8 @@ async function main(){
   ${buildsHtml}
 
   ${buyHtml?`<section class="hp-buys container">
-    <h2>Покупки по всем рангам</h2>
-    <p class="hp-buys-note">Второй срез — OpenDota, публичные матчи всех рангов. Число на карточке — сколько раз предмет купили в выборке; времени покупки в этих данных нет. Выборка другая, поэтому предметы и цифры не обязаны совпадать с блоком выше.</p>
+    <h2>Реальные покупки по фазам</h2>
+    <p class="hp-buys-note">Второй срез — своя база рейтинговых матчей до 4500 MMR (${heroItems.matchesUsed.toLocaleString('ru-RU')} матчей текущего патча), время каждой покупки. Процент — в какой доле матчей героя предмет купили в этой фазе. Выборка и ранги другие, чем в блоке выше, поэтому предметы и цифры не обязаны совпадать.</p>
     ${buyHtml}
   </section>`:''}
 
@@ -384,7 +378,7 @@ async function main(){
 })();
 </script>
 </main>
-<footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;

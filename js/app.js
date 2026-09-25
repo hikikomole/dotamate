@@ -740,14 +740,25 @@ on('guidesGrid','click',e=>{const b=e.target.closest('[data-go]');if(b){closeMod
 on('modalContent','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 click('randomBtn',randomHero);
 click('close',closeModal);click('modalBg',closeModal);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('modal')?.classList.contains('show'))closeModal();});
-// Ссылки на героя с data-hero-open (таблица в статье о контрпиках): обычный
-// клик открывает карточку героя, Ctrl/Shift/колесо ведут по href как обычно.
-// Пока справочник героев не загрузился, клик тоже уходит по ссылке.
+// Быстрый просмотр героя в карточке вместо перехода на его страницу.
+// Работает для ссылок с data-hero-open (таблица в статье о контрпиках) и для
+// обычных ссылок /hero/<slug>/ на главной, в статистике, в META и в гайдах
+// (там же и /hero/<slug>/guide/). В каталоге /heroes/ и внутри самой карточки
+// ссылки ведут на страницу героя. Ctrl/Shift/колесо — всегда обычный переход;
+// пока справочник героев не загрузился, клик тоже уходит по ссылке.
+const HERO_PEEK_PAGES=/^\/(?:|stats\/|guides\/|meta\/(?:match\/)?|guide\/[^/]+\/)$/;
+function heroFromLink(a){
+  if(a.dataset.heroOpen)return heroes.find(x=>Number(x.id)===Number(a.dataset.heroOpen));
+  if(!HERO_PEEK_PAGES.test(location.pathname)||a.closest('#modal'))return null;
+  const m=(a.getAttribute('href')||'').match(/^\/hero\/([^/?#]+)\/(guide\/)?$/);
+  if(!m||(m[2]&&location.pathname!=='/guides/'))return null;
+  return heroes.find(x=>slugForHero(x)===decodeURIComponent(m[1]))||null;
+}
 document.addEventListener('click',e=>{
-  const a=e.target.closest('a[data-hero-open]');
+  const a=e.target.closest('a[data-hero-open],a[href^="/hero/"]');
   if(!a||e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
-  if(!heroes.some(x=>Number(x.id)===Number(a.dataset.heroOpen)))return;
-  e.preventDefault();openHero(Number(a.dataset.heroOpen));
+  const h=heroFromLink(a);if(!h)return;
+  e.preventDefault();openHero(Number(h.id));
 });
 const menuBtn=$('menu'),navMenu=$('navMenu');
 function setMenuOpen(o){if(!navMenu||!menuBtn)return;navMenu.classList.toggle('open',o);menuBtn.setAttribute('aria-expanded',String(o));}

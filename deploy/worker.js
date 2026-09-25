@@ -415,6 +415,62 @@ function mergedItemRedirect(url) {
   return Response.redirect(new URL('/item/' + target + '/', url).toString(), 301);
 }
 
+
+// Форма обратной связи: POST /api/feedback → таблица feedback в D1.
+// Защита: тот же Origin, ловушка для ботов (поле website), не быстрее 3 с
+// после открытия формы, не больше 3 обращений в час с одного IP и 200 в сутки всего.
+const FEEDBACK_TOPICS = new Set(['question', 'bug', 'personal_data', 'other']);
+const FEEDBACK_ORIGINS = new Set(['https://dotamate.ru', 'https://www.dotamate.ru']);
+
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function cleanText(v, max) {
+  if (typeof v !== 'string') return '';
+  return v.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);
+}
+
+async function handleFeedback(request, env) {
+  if (request.method !== 'POST') return jsonResponse({ error: 'method_not_allowed' }, 405);
+  if (!FEEDBACK_ORIGINS.has(request.headers.get('Origin') || '')) return jsonResponse({ error: 'forbidden' }, 403);
+  if (!env.DB) return jsonResponse({ error: 'unavailable' }, 503);
+  const len = Number(request.headers.get('Content-Length') || 0);
+  if (len > 20000) return jsonResponse({ error: 'too_large' }, 413);
+
+  let body;
+  try { body = await request.json(); } catch (e) { return jsonResponse({ error: 'bad_json' }, 400); }
+  if (!body || typeof body !== 'object') return jsonResponse({ error: 'bad_json' }, 400);
+
+  // Бот заполнил скрытое поле или отправил мгновенно: отвечаем «успешно», ничего не пишем.
+  const elapsed = Date.now() - Number(body.t || 0);
+  if (body.website || !(elapsed >= 3000)) return jsonResponse({ ok: true });
+
+  const topic = FEEDBACK_TOPICS.has(body.topic) ? body.topic : '';
+  const name = cleanText(body.name, 100);
+  const contact = cleanText(body.contact, 200);
+  const message = cleanText(body.message, 4000);
+  if (!topic) return jsonResponse({ error: 'bad_topic' }, 400);
+  if (message.length < 10) return jsonResponse({ error: 'short_message' }, 400);
+  if (body.consent !== true) return jsonResponse({ error: 'no_consent' }, 400);
+
+  const now = Date.now();
+  const ip = request.headers.get('CF-Connecting-IP') || '';
+  const ipHash = ip ? await sha256Hex('dotamate-feedback:' + ip) : null;
+  const perIp = ipHash ? await env.DB.prepare('SELECT COUNT(*) AS n FROM feedback WHERE ip_hash = ? AND created_at > ?')
+    .bind(ipHash, now - 3600e3).first() : { n: 0 };
+  if (perIp && perIp.n >= 3) return jsonResponse({ error: 'rate_limited' }, 429);
+  const perDay = await env.DB.prepare('SELECT COUNT(*) AS n FROM feedback WHERE created_at > ?').bind(now - 86400e3).first();
+  if (perDay && perDay.n >= 200) return jsonResponse({ error: 'rate_limited' }, 429);
+
+  await env.DB.batch([
+    env.DB.prepare('INSERT INTO feedback (created_at, topic, name, contact, message, ip_hash) VALUES (?, ?, ?, ?, ?, ?)')
+      .bind(now, topic, name || null, contact || null, message, ipHash),
+    env.DB.prepare('UPDATE feedback SET ip_hash = NULL WHERE ip_hash IS NOT NULL AND created_at < ?').bind(now - 30 * 86400e3)
+  ]);
+  return jsonResponse({ ok: true });
+}
+
 export default {
   async fetch(request, env) {
     try {
@@ -429,6 +485,7 @@ export default {
           headers: { 'Content-Type': 'text/html; charset=utf-8' }
         });
       }
+      if (url.pathname === '/api/feedback') return await handleFeedback(request, env);
       if (url.pathname.startsWith('/api/dota/')) {
         if (request.method !== 'GET') return jsonResponse({ error: 'method_not_allowed' }, 405);
         return await handleApi(url.pathname, env);
@@ -438,7 +495,7 @@ export default {
       // Необработанное исключение здесь означало страницу ошибки Cloudflare
       // вместо ответа сайта. Пишем причину в логи воркера и отвечаем сами.
       console.error('worker unhandled', request.method, request.url, e && e.stack || String(e));
-      const isApi = request.url.includes('/api/dota/');
+      const isApi = request.url.includes('/api/');
       if (isApi) return jsonResponse({ error: 'internal_error' }, 500);
       return new Response('Временная ошибка сервера. Обновите страницу.', {
         status: 500,

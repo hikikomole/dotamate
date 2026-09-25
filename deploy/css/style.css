@@ -661,3 +661,31 @@ body.dg-fs-lock{overflow:hidden}
 .guide-mini-open{display:inline-block;margin-top:8px;font-size:12px;font-weight:800;color:var(--comp-accent);text-decoration:none}
 .guide-mini-open:hover{text-decoration:underline}
 @media(max-width:560px){.home-cards-grid{grid-template-columns:1fr;gap:11px}.home-card{padding:16px}}
+
+/* Уведомление о cookies (security.js) */
+.dm-consent{position:fixed;right:16px;bottom:16px;z-index:10000;display:flex;align-items:center;gap:14px;max-width:calc(100vw - 32px);padding:12px 12px 12px 18px;border-radius:16px;background:rgba(18,20,26,.42);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,.14);box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);color:rgba(255,255,255,.88);font-size:14px;font-weight:300;line-height:1.4}
+.dm-consent-icon{flex:none;opacity:.85}
+.dm-consent-text{margin:0}
+.dm-consent a{color:#fff;font-weight:400;text-decoration:underline;text-underline-offset:3px}
+.dm-consent-btn{flex:none;padding:8px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.1);color:#fff;font:inherit;font-weight:500;white-space:nowrap;cursor:pointer}
+.dm-consent-btn:hover,.dm-consent-btn:focus-visible{background:rgba(255,255,255,.2)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.dm-consent{background:rgba(18,20,26,.94)}}
+@media (max-width:520px){.dm-consent{left:12px;right:12px;bottom:12px;max-width:none;gap:10px;padding:10px 10px 10px 14px;font-size:13px}}
+
+/* Форма обратной связи (/contact/, js/contact.js) */
+.fb-form{display:grid;gap:16px;max-width:620px}
+.fb-field{display:grid;gap:6px;font-size:14px;color:#c7cbd4}
+.fb-field small{opacity:.6;font-weight:400}
+.fb-field input,.fb-field select,.fb-field textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#f4f5f7;font:inherit;font-size:15px}
+.fb-field textarea{resize:vertical;min-height:130px}
+.fb-field select option{background:#15181f}
+.fb-field input:focus,.fb-field select:focus,.fb-field textarea:focus{outline:none;border-color:rgba(255,255,255,.4)}
+.fb-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.fb-check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#c7cbd4;line-height:1.5;cursor:pointer}
+.fb-check input{margin-top:3px}
+.fb-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.fb-submit{padding:10px 20px;border-radius:10px;border:0;background:#c23c2a;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.fb-submit:disabled{opacity:.5;cursor:default}
+.fb-status{font-size:14px}
+.fb-status.is-ok{color:#8fd19e}
+.fb-status.is-err{color:#ff8a7a}

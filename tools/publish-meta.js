@@ -13,7 +13,7 @@
  * выкладка отменяется — иначе вместе с данными на сайт уехала бы чужая
  * недоделанная работа.
  *
- * Запуск: node tools/publish-meta.js   (обычно из «Собрать META.cmd»)
+ * Запуск: node tools/publish-meta.js   (обычно из «Обновить всё.cmd»)
  */
 const fs = require('fs');
 const path = require('path');

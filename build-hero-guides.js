@@ -18,17 +18,21 @@ const ORIGIN = 'https://dotamate.ru';
 const DATA = path.join(__dirname, 'seo', 'hero-guide-data.json');
 
 const analytics = `<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
-<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->`;
+<!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->`;
 
+// Покупки — data/hero-items.json (tools/build-hero-items.js), тот же расчёт,
+// что в карточке героя и на странице героя. Ключ фазы — поле в hero-items.json.
 const PHASES = [
-  ['start_game_items', 'Старт', 'что покупают до выхода на линию'],
-  ['early_game_items', 'Ранняя игра', 'первые покупки на линии'],
-  ['mid_game_items', 'Середина игры', 'ключевые предметы средней стадии'],
-  ['late_game_items', 'Поздняя игра', 'во что герой собирается к концу'],
+  ['start', 'Старт · до 0:00', 'что покупают до выхода на линию'],
+  ['early', 'Ранняя · 0–10 мин', 'первые покупки на линии'],
+  ['mid', 'Середина · 10–25 мин', 'ключевые предметы средней стадии'],
+  ['late', 'Поздняя · 25–40 мин', 'во что герой собирается к концу'],
+  ['vlate', 'Финал · 40+ мин', 'что докупают в затяжной игре'],
 ];
 
 // Контрпики — один расчёт на весь сайт (tools/build-hero-counters.js,
 // своя база рейтинговых матчей). Нет файла — блоки показывают заглушку.
+const heroItems = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-items.json'), 'utf8'));
 const heroCounters = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-counters.json'), 'utf8')); }
   catch { return { heroes: {} }; }
@@ -124,18 +128,18 @@ async function main() {
     }).join('');
 
     const phaseHtml = PHASES.map(([key, label, hint]) => {
-      const raw = (g.items || {})[key] || {};
-      const rows = Object.entries(raw)
-        .map(([id, count]) => ({ id: variantById[Number(id)] ?? Number(id), count: Number(count) || 0 }))
-        .filter(r => itemName(r.id, itemsById))
-        .sort((x, y) => y.count - x.count).slice(0, 6);
+      const rec = (heroItems.heroes || {})[String(h.id)] || {};
+      const n = Number(rec.n) || 0;
+      const rows = (rec[key] || [])
+        .map(r => ({ id: variantById[Number(r.i)] ?? Number(r.i), count: Number(r.g) || 0 }))
+        .filter(r => itemName(r.id, itemsById));
       if (!rows.length) return '';
       const li = rows.map(r => {
         const key2 = itemKeyById.get(r.id);
         const s = itemSlugOf(key2);
         const name = escapeHtml(itemName(r.id, itemsById));
         const img = `/assets/items/${s}.png`;
-        return `<a href="/item/${s}/"><img loading="lazy" src="${img}" alt=""><b>${name}</b><small>${num(r.count)} покупок</small></a>`;
+        return `<a href="/item/${s}/"><img loading="lazy" src="${img}" alt=""><b>${name}</b><small>${n ? Math.round(r.count / n * 100) + '% · ' + num(r.count) + ' из ' + num(n) : num(r.count) + ' покупок'}</small></a>`;
       }).join('');
       return `<div class="hg-phase"><h3>${label}</h3><p class="hg-hint">${hint}</p><div class="hg-items">${li}</div></div>`;
     }).filter(Boolean).join('');
@@ -231,7 +235,7 @@ ${analytics}
 
   <section id="zakupy">
     <h2>Варианты закупов</h2>
-    <p>Это не «правильная сборка», а то, что игроки действительно покупают за этого героя — агрегированные данные OpenDota по стадиям игры. Число рядом с предметом — сколько раз его купили в выборке.</p>
+    <p>Это не «правильная сборка», а то, что игроки действительно покупают за этого героя: своя база рейтинговых матчей текущего патча (${num(heroItems.matchesUsed)} матчей, обновлено ${String(heroItems.builtAt).slice(0, 10).split('-').reverse().join('.')}), покупки разложены по времени. Процент — в какой доле матчей героя предмет купили в этой фазе.</p>
     ${phaseHtml ? `<div class="hg-phases">${phaseHtml}</div>` : '<p class="hg-nodata">Данных о покупках для этого героя в открытой статистике сейчас нет.</p>'}
   </section>
 
@@ -248,7 +252,7 @@ ${analytics}
     <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (${escapeHtml(String(heroCounters.slice || ''))}, ${escapeHtml(num(heroCounters.matchesUsed || 0))} матчей), обновлена ${escapeHtml(String(heroCounters.dataAt || '').slice(0, 10))}. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
   </section>
 </main>
-<footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;

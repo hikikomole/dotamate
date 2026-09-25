@@ -171,8 +171,12 @@ async function main() {
   try {
     log(`Начало ежедневного обновления (${ARGS.has('--auto') ? 'по расписанию' : 'вручную'}).`);
 
-    if (!await node('Сбор публичных матчей (OpenDota)', 'tools/collect-public-matches.js', ['--back', '1800'], { timeout: 2 * HOUR }))
+    // Сначала свежие матчи (хвост ленты до прошлого захода), история — на
+    // остаток дневного лимита. Раньше весь лимит уходил в --back, и база
+    // застыла на одних сутках.
+    if (!await node('Сбор свежих публичных матчей (OpenDota)', 'tools/collect-public-matches.js', [], { timeout: 2 * HOUR }))
       problems.push('сбор матчей');
+    await node('Докачка истории (OpenDota)', 'tools/collect-public-matches.js', ['--back', '1800'], { timeout: 2 * HOUR });
     await node('Состояние базы матчей', 'tools/collect-public-matches.js', ['--stats']);
 
     // 8000 запросов ≈ 1800 матчей в сутки (Stratz знает ~каждый четвёртый наш
@@ -188,6 +192,12 @@ async function main() {
     // выкладку: на сайте остаётся прошлый data/hero-items.json.
     if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');
 
+    // Роли 1–5 и билды (Stratz, Divine/Immortal) — до пересборки страниц героев,
+    // чтобы страница и карточка героя показывали один срез. Сбой оставляет
+    // вчерашний снимок.
+    if (!await node('Роли героев (Stratz)', 'fetch-hero-positions.js', [], { timeout: 0.25 * HOUR })) problems.push('роли героев');
+    if (!await node('Билды героев (Stratz)', 'fetch-hero-builds.js', [], { timeout: 0.75 * HOUR })) problems.push('билды героев');
+
     const abil = await abilities();
     if (abil === false) problems.push('способности');
 
@@ -202,6 +212,9 @@ async function main() {
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');
       if (!await node('Статьи', 'build-guide-pages.js')) problems.push('статьи');
     } else problems.push('контрпики');
+
+    // Раздел «Статистика и аналитика» и ежедневный снимок для динамики.
+    if (!await node('Статистика и аналитика', 'tools/build-stats.js')) problems.push('статистика');
 
     if (ARGS.has('--no-deploy')) { log('Флаг --no-deploy: выкладку пропускаю.'); return problems.length ? 1 : 0; }
 

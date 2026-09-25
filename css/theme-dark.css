@@ -641,7 +641,7 @@ body.d2-dark .hg-ability-art span{position:absolute!important;left:-7px!importan
 body.d2-dark .hg-ability b{display:block!important;color:#fff!important;font-size:13.5px!important;letter-spacing:1px!important;text-transform:uppercase!important;margin-bottom:7px!important}
 body.d2-dark .hg-ability p{margin:0 0 6px!important;font-size:14px!important;line-height:1.65!important;color:var(--d2-muted)!important}
 
-body.d2-dark .hg-phases{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;gap:9px!important;margin-top:8px!important}
+body.d2-dark .hg-phases{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(168px,1fr))!important;gap:9px!important;margin-top:8px!important}
 body.d2-dark .hg-phase{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:15px 16px!important}
 body.d2-dark .hg-phase h3{margin:0 0 4px!important;font-size:13px!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:#fff!important;border:0!important;padding:0!important}
 body.d2-dark .hg-phase .hg-hint{margin:0 0 12px!important}

@@ -1,0 +1,71 @@
+/* Раздел «Статистика и аналитика» (/stats/), js/stats.js */
+.st-summary{margin:0 0 18px}
+.st-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.st-cards article{background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:var(--rad-md,12px);padding:14px 16px}
+.st-cards span{display:block;color:var(--d2-muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.st-cards strong{display:block;color:var(--d2-gold);font-size:26px;margin:4px 0 2px}
+.st-cards small{color:var(--d2-muted-2);font-size:12px}
+.st-ranks{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:10px}
+.st-ranks div{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;font-size:12px;color:var(--d2-muted)}
+.st-ranks .st-bar{grid-column:1/-1;width:100%}
+.st-ranks b{color:var(--d2-text);font-weight:600}
+.st-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--d2-line)}
+.st-tabs button{background:transparent;border:1px solid var(--d2-line);color:var(--d2-muted);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.st-tabs button:hover{color:var(--d2-text);border-color:var(--d2-gold-dim)}
+.st-tabs button.on{background:rgba(217,193,135,.14);border-color:var(--d2-gold-dim);color:var(--d2-gold)}
+.st-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.st-toolbar select,.st-toolbar input{background:var(--d2-panel);border:1px solid var(--d2-line);color:var(--d2-text);border-radius:10px;padding:8px 10px;font:inherit;font-size:13px}
+.st-toolbar .search{display:flex;align-items:center;gap:6px;background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:10px;padding:0 10px;color:var(--d2-muted)}
+.st-toolbar .search input{border:0;padding:8px 0;background:transparent;outline:none;min-width:160px}
+.st-table-wrap{overflow-x:auto;border:1px solid var(--d2-line);border-radius:12px;background:var(--d2-panel)}
+.st-table{width:100%;border-collapse:collapse;font-size:13px}
+.st-table th{text-align:left;color:var(--d2-muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--d2-line);white-space:nowrap}
+.st-table td{padding:8px 12px;border-bottom:1px solid var(--d2-line-soft);color:var(--d2-text);white-space:nowrap}
+.st-table tr:last-child td{border-bottom:0}
+.st-table tbody tr:hover{background:var(--d2-panel-2)}
+.st-hero{display:inline-flex;align-items:center;gap:10px;color:var(--d2-text);text-decoration:none}
+.st-hero img{width:44px;height:25px;object-fit:cover;border-radius:4px;flex:none}
+.st-item img{width:34px;height:25px}
+.st-hero b{font-weight:600}
+.st-hero small{display:block;color:var(--d2-muted-2);font-size:11px;font-weight:400}
+.st-hero:hover b{color:var(--d2-gold)}
+.st-muted{color:var(--d2-muted-2)!important}
+.st-up{color:#79c77f}.st-down{color:#e07a7c}
+.st-bar{display:inline-block;vertical-align:middle;width:70px;height:5px;border-radius:3px;background:var(--d2-line);overflow:hidden;margin-left:6px}
+.st-bar>i{display:block;height:100%;background:var(--d2-gold-dim)}
+.st-tier{display:inline-grid;place-items:center;width:26px;height:22px;border-radius:6px;font-weight:800;font-size:12px}
+.st-tier-S{background:rgba(217,193,135,.2);color:var(--d2-gold)}
+.st-tier-A{background:rgba(121,199,127,.16);color:#79c77f}
+.st-tier-B{background:rgba(90,169,230,.14);color:#5aa9e6}
+.st-tier-C{background:rgba(152,161,174,.12);color:var(--d2-muted)}
+.st-tier-D{background:rgba(224,122,124,.14);color:#e07a7c}
+.st-heat{background-color:rgba(121,199,127,calc(var(--h) * .32));background-image:linear-gradient(rgba(224,122,124,calc(var(--h) * -.32)),rgba(224,122,124,calc(var(--h) * -.32)))}
+.st-note{color:var(--d2-muted-2);font-size:12px;line-height:1.6;margin:10px 0 0;max-width:900px}
+.st-h{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:22px 0 10px}
+.st-grid{display:grid;gap:12px}
+.st-grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.st-grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.st-card{background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:12px;padding:14px;min-width:0}
+.st-card h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:15px}
+.st-card h4{margin:12px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--d2-muted)}
+.st-pos{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(217,193,135,.14);color:var(--d2-gold);font-size:12px}
+.st-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.st-kpi div{background:var(--d2-panel-2);border-radius:8px;padding:6px 8px}
+.st-kpi span{display:block;font-size:10px;color:var(--d2-muted);text-transform:uppercase}
+.st-kpi b{color:var(--d2-gold)}
+.st-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.st-list .st-hero img{width:36px;height:20px}
+.st-hist{display:flex;align-items:flex-end;gap:4px;height:180px;padding:10px 12px 0;background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:12px}
+.st-hist div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
+.st-hist i{display:block;width:100%;background:var(--d2-gold-dim);border-radius:4px 4px 0 0;min-height:2px}
+.st-hist span{font-size:10px;color:var(--d2-muted-2);padding-bottom:6px}
+.st-stack{display:flex;width:140px;height:8px;border-radius:4px;overflow:hidden;background:var(--d2-line)}
+.st-stack i{display:block;height:100%}
+.st-stack .w{background:#79c77f}.st-stack .d{background:var(--d2-muted-2)}.st-stack .l{background:#e07a7c}
+.st-spark{width:120px;height:30px;display:block}
+.st-spark polyline{fill:none;stroke:var(--d2-gold);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.st-empty,.st-loading{background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:12px;padding:22px;color:var(--d2-muted)}
+.st-empty b{color:var(--d2-text);display:block;margin-bottom:6px}
+@media(max-width:1180px){.st-grid-5{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){.st-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.st-ranks{grid-template-columns:repeat(3,minmax(0,1fr))}.st-grid-2,.st-grid-5{grid-template-columns:1fr}}
+@media(max-width:560px){.st-ranks{grid-template-columns:repeat(2,minmax(0,1fr))}.st-toolbar>*{flex:1 1 100%}}

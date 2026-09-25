@@ -184,9 +184,22 @@
 <section class="section quick-stats-section" id="stats">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><div class="eyebrow">STATISTICS</div><h2>Статистика и аналитика</h2><p>Сравни характеристики героев, скорость, атрибуты и профессиональные показатели, если они доступны.</p></div>
-      <button class="btn ghost" id="statsRefresh">↻ Обновить</button>
+      <div><div class="eyebrow">STATISTICS</div><h2>Статистика и аналитика</h2><p>Своя база рейтинговых матчей до 4500 MMR: тир-лист, ранги, позиции, связки, предметы, длительность, линии и динамика. Обновляется каждый день.</p></div>
     </div>
+    <div class="st-summary" id="stSummary"><div class="st-loading">Загружаем статистику…</div></div>
+    <nav class="st-tabs" id="stTabs" aria-label="Разделы статистики">
+      <button type="button" data-tab="tier" class="on">Тир-лист</button>
+      <button type="button" data-tab="ranks">По рангам</button>
+      <button type="button" data-tab="positions">Позиции</button>
+      <button type="button" data-tab="pairs">Связки и контрпики</button>
+      <button type="button" data-tab="items">Предметы</button>
+      <button type="button" data-tab="matches">Матчи</button>
+      <button type="button" data-tab="lanes">Линии</button>
+      <button type="button" data-tab="trend">Динамика</button>
+      <button type="button" data-tab="pro">Про-сцена</button>
+    </nav>
+    <div class="st-pane" id="stPane" aria-live="polite"></div>
+    <div class="st-pro" id="stPro" hidden>
     <div class="quick-stats-grid">
       <article class="stat-card"><span class="stat-icon">⚔</span><strong id="quickHeroCount">—</strong><span>героев в базе</span></article>
       <article class="stat-card"><span class="stat-icon">◈</span><strong id="quickItemCount">—</strong><span>предметов в базе</span></article>
@@ -204,6 +217,7 @@
       <div class="table-wrap">
         <table class="stats-table"><thead><tr><th>Герой</th><th>Атрибут</th><th>Роли</th><th>Pro pick</th><th>Pro win</th><th>Winrate</th><th>Pro ban</th><th>Move</th><th>Attack</th></tr></thead><tbody id="statsBody"></tbody></table>
       </div>
+    </div>
     </div>
   </div>
 </section>

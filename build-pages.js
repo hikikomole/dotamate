@@ -60,11 +60,12 @@ const PAGES = [
   },
   {
     key: 'stats', dir: 'stats',
-    title: 'Винрейт героев Dota 2 — статистика, пики и баны | Dota Mate',
-    desc: 'Таблица героев Dota 2 по профессиональному winrate, пикам и банам. Сортировка по скорости, атаке и атрибутам, сравнение двух героев и аналитика покупок.',
+    title: 'Статистика Dota 2: тир-лист героев, винрейт по рангам и позициям | Dota Mate',
+    desc: 'Статистика Dota 2 по своей базе рейтинговых матчей до 4500 MMR: тир-лист героев, винрейт по рангам и позициям, связки и контрпики, популярные предметы, длительность матчей, линии и динамика по дням.',
     sections: ['stats'],
-    styles: ['/css/theme-dark.css'],
+    styles: ['/css/theme-dark.css', '/css/stats.css'],
     bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/stats.js', defer: true }],
   },
   {
     key: 'guides', dir: 'guides',
