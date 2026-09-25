@@ -80,7 +80,6 @@
       '<div class="mx-items">' + b.items.map(function (id, i) { return itemIcon(d, id, b.share[i]); }).join('') + '</div>' +
       '<div class="mx-card-foot">' + result(b.win) +
         '<span class="mx-kda">' + b.k + ' / ' + b.d + ' / ' + b.a + '</span>' +
-        '<span class="mx-who">' + (b.name ? esc(b.name) : 'Скрытый профиль') + (b.rank ? ' · ' + esc(b.rank) : '') + '</span>' +
         '<a class="mx-link" href="/meta/match/?id=' + b.match + '">Матч →</a>' +
       '</div></article>';
   }
@@ -99,8 +98,10 @@
     var st = { pos: 0, hero: '', wins: false, view: 'cards', shown: PAGE };
     var stamp = document.getElementById('mxStamp');
     getJson('/data/meta-escape.json').then(function (d) {
+      var span = date(d.window.from) === date(d.window.to) ? 'матчи за ' + date(d.window.from) : 'матчи с ' + date(d.window.from) + ' по ' + date(d.window.to);
+      var upd = new Date(d.generatedAt).toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
       stamp.innerHTML = '<b>' + num(d.matches) + '</b> матчей · <b>' + num(d.scored) + '</b> оценённых сборок<br>' +
-        esc(d.slice) + '<br>' + date(d.window.from) + ' — ' + date(d.window.to);
+        esc(d.slice) + '<br>' + span + ' · обновлено ' + esc(upd);
       fill('mxDay', d, d.day, 'За последние сутки необычных сборок не набралось.');
       fill('mxFive', d, d.five, 'Пока нет оценённых сборок.');
       heroList(d);

@@ -54,7 +54,7 @@ body.d2-dark .mx-block-head h2.dire{color:var(--mx-dire)!important}
 .mx-res{font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-size:11px}
 .mx-res.win{color:var(--mx-rad)}
 .mx-res.loss{color:var(--mx-dire)}
-.mx-kda{font-weight:700;color:var(--d2-text,#eef1f5)}
+.mx-kda{flex:1;font-weight:700;color:var(--d2-text,#eef1f5)}
 .mx-who{flex:1;min-width:0;color:var(--d2-muted,#98a1ae);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mx-link{font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--d2-gold,#d9c187);text-decoration:none;white-space:nowrap}
 .mx-link:hover{text-decoration:underline}

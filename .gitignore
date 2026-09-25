@@ -27,3 +27,9 @@ data/public-matches/
 
 # сырые детали матчей для раздела META (tools/collect-meta-matches.js)
 data/meta-matches/
+
+# данные META пересобираются после каждого сбора и выкладываются tools/publish-meta.js без коммита
+data/meta-escape.json
+data/meta-match/
+deploy/data/meta-escape.json
+deploy/data/meta-match/
