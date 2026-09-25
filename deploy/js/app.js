@@ -33,13 +33,13 @@ const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер
 const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠","Интеллект"],all:["✦","Универсальный"],universal:["✦","Универсальный"]};
 const guideData=[
  {cat:"heroes",icon:"🎯",tag:"GAMEPLAY",title:"Как выбирать героя под матч",text:"Смотри на роль, задачи состава, тип атаки и ограничения противников — а не только на то, кем удобнее играть.",slug:"hero-picking-basics"},
- {cat:"gameplay",icon:"⚔",tag:"GAMEPLAY",title:"Ласт-хит и денай: основа фарма в Dota 2",text:"Золото и опыт в Dota 2 не начисляются просто за нахождение рядом с крипами — их нужно добивать точным последним ударом.",slug:"last-hitting-denying"},
+ {cat:"gameplay",icon:"⚔",tag:"GAMEPLAY",title:"Как добивать крипов: ласт-хит и денай",text:"Золото и опыт в Dota 2 не начисляются просто за нахождение рядом с крипами — их нужно добивать точным последним ударом.",slug:"last-hitting-denying"},
  {cat:"gameplay",icon:"🗺",tag:"MAP",title:"Вард и контроль карты",text:"Вард — не просто предмет: это привычка планировать следующий безопасный участок карты, а не реагировать постфактум.",slug:"warding-map-control"},
  {cat:"items",icon:"◈",tag:"ITEMS",title:"Как собирать предметы: основы айтем билда",text:"Смотри не только на стоимость: важны характеристики, активные способности и то, под какую конкретно проблему матча собирается предмет.",slug:"itemization-basics"},
  {cat:"items",icon:"💠",tag:"ITEMS",title:"Магический и физический урон: во что упаковываться",text:"Разные типы урона контрятся разными предметами — защита, которая хорошо работает против одного, почти бесполезна против другого.",slug:"magic-vs-physical-resistance"},
  {cat:"heroes",icon:"👁",tag:"HEROES",title:"Как играть против невидимости",text:"Невидимость пугает новичков сильнее, чем должна — против неё есть предсказуемые и надёжные инструменты.",slug:"countering-invisibility"},
  {cat:"heroes",icon:"📊",tag:"HERO DATA",title:"Роли в Dota 2: кто за что отвечает в команде",text:"Роль — это ориентир, а не жёсткая клетка. Но понимание пяти классических ролей помогает быстрее находить своё место в команде.",slug:"roles-explained"},
- {cat:"gameplay",icon:"🧠",tag:"GAMEPLAY",title:"Основы драфта: игра начинается до первого крипа",text:"Пик героев определяет сильные и слабые стороны команды задолго до того, как на карте появится первый крипу.",slug:"draft-fundamentals"},
+ {cat:"gameplay",icon:"🧠",tag:"GAMEPLAY",title:"Драфт: как выбирать героев под состав",text:"Пик героев определяет сильные и слабые стороны команды задолго до того, как на карте появится первый крипу.",slug:"draft-fundamentals"},
  {cat:"heroes",icon:"📈",tag:"HERO DATA",title:"Винрейт в Dota 2: как читать статистику героев",text:"Pro picks показывают популярность на профессиональной сцене, а Pro win — победы именно среди этих матчей. Это разные метрики.",slug:"reading-hero-stats"},
  {cat:"gameplay",icon:"🧮",tag:"MMR",title:"Путь к повышению MMR: как тренироваться осознанно",text:"Калькулятор MMR показывает математический ориентир, а не гарантированный результат — реальный рост даёт осознанная практика.",slug:"mmr-climbing-mindset"},
  {cat:"heroes",icon:"⚔",tag:"BUILD",title:"Билд на керри: порядок покупок по этапам игры",text:"Керри слаб в начале и становится главной угрозой к поздней игре — билд должен закрывать именно эту кривую силы.",slug:"build-carry"},
@@ -53,6 +53,11 @@ const guideData=[
  {cat:"heroes",icon:"📐",tag:"МЕХАНИКИ",title:"Сила, ловкость и интеллект: что даёт одно очко",text:"Очко силы — это 22 здоровья, очко ловкости — 0.167 брони и +1 к скорости атаки. Переводим атрибуты в понятные числа.",slug:"attributes-explained"},
  {cat:"gameplay",icon:"🏰",tag:"КАРТА",title:"Объекты карты в 7.41: Рошан, Тормент, Шрайны и руны",text:"Рошан переезжает между двумя ямами, Тормент приходит с 15:00, руны мудрости заменили Шрайнами. Что где и когда.",slug:"map-objectives-741"},
  {cat:"gameplay",icon:"💰",tag:"ЭКОНОМИКА",title:"Золото и опыт: откуда берутся GPM и XPM",text:"Награда крипов, формула золота за убийство, потеря при смерти и цена выкупа — числа, по которым считается экономика матча.",slug:"gold-and-experience"},
+ {cat:"gameplay",icon:"🏅",tag:"РЕЙТИНГ",title:"Ранги в Dota 2 и MMR",text:"Все 8 рангов, MMR для каждой звезды и сколько игроков в каждом ранге.",slug:"ranks-mmr"},
+ {cat:"heroes",icon:"⚔",tag:"КОНТРПИКИ",title:"Таблица контрпиков",text:"Три самых неудобных соперника для каждого героя по 340 тысячам рейтинговых матчей.",slug:"counter-picks"},
+ {cat:"gameplay",icon:"🤝",tag:"ПОВЕДЕНИЕ",title:"Порядочность: как поднять",text:"Что закрывает низкая порядочность, какие жалобы на неё влияют и как её поднять.",slug:"conduct-score"},
+ {cat:"gameplay",icon:"⌨",tag:"НАСТРОЙКИ",title:"Консоль и FPS",text:"Как включить консоль, рабочие параметры запуска и настройки, которые поднимают FPS.",slug:"console-fps"},
+ {cat:"gameplay",icon:"⏳",tag:"СТАТИСТИКА",title:"Сколько длится матч",text:"Медианная длительность рейтинга, обычных игр и Turbo по 500 тысячам матчей.",slug:"match-duration"},
  {cat:"gameplay",icon:"🏰",tag:"ЭКОНОМИКА",title:"Сколько золота даёт вышка",text:"Командная награда и золото за последний удар по тирам, денай башни и казармы — таблица на актуальный патч.",slug:"tower-gold"},
  {cat:"gameplay",icon:"⏱",tag:"ТАЙМИНГИ",title:"Тайминги матча: что происходит на карте по минутам",text:"Волны, руны, шрайны, Тормент и окно Рошана идут по расписанию. Полная таблица таймингов и как готовиться заранее.",slug:"match-timings"},
  {cat:"gameplay",icon:"📖",tag:"СЛОВАРЬ",title:"Словарь терминов Dota 2",text:"Что значат ластхит, денай, ганк, керри, MMR и другие термины — короткие объяснения с ссылками на подробные гайды.",slug:"glossary",href:"/glossary/"}
@@ -239,7 +244,7 @@ function updateItemCounters(){const n=visibleItemCount();d2hSetText('quickItemCo
 // описания, история, примечания и бонусы уже на русском, числа подставлены.
 // Никаких запросов к Valve/OpenDota в рантайме — поэтому каталог и модалка
 // открываются мгновенно и одинаково на проде и в локальном превью.
-let itemHeroIndex=null,heroItemIndex=null,itemsReadyResolve=null;
+let itemHeroIndex=null,heroItemIndex=null,heroItemMatches=0,itemsReadyResolve=null;
 const itemsReady=new Promise(r=>{itemsReadyResolve=r;});
 async function loadItems(force=false){
   const status=document.getElementById('itemStatus');
@@ -263,7 +268,7 @@ async function loadItemHeroIndex(){
 }
 async function loadHeroItemIndex(){
   if(heroItemIndex)return heroItemIndex;
-  try{const r=await fetch(HERO_ITEMS_LOCAL);heroItemIndex=r.ok?((await r.json()).heroes||{}):{};}catch(e){heroItemIndex={};}
+  try{const r=await fetch(HERO_ITEMS_LOCAL);const j=r.ok?await r.json():{};heroItemIndex=j.heroes||{};heroItemMatches=Number(j.matchesUsed)||0;}catch(e){heroItemIndex={};}
   return heroItemIndex;
 }
 // Категория предмета. Раньше определялась по полю item_type из датафида
@@ -464,7 +469,7 @@ async function renderCountersInto(boxId, h, opts){
   box.innerHTML=rows.map(r=>{
     const x=heroes.find(z=>Number(z.id)===Number(r.id));
     if(!x)return '';
-    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}</b><i>${r.w.toFixed(1).replace('.',',')}% побед · ${statValue(r.g)} матчей</i></span>`;
+    const inner=`<img loading="lazy" src="${imageUrl(x)}" alt=""><span><b>${escapeHtml(x.localized_name)}</b><i>${r.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${(r.e!=null?r.e:r.w).toFixed(1).replace('.',',')}% · ${statValue(r.g)} матчей</i></span>`;
     return asLinks
       ? `<a class="qp-row" href="/hero/${escapeHtml(slugForHero(x))}/">${inner}</a>`
       : `<button type="button" class="qp-row" data-hero-open="${x.id}">${inner}</button>`;
@@ -477,15 +482,15 @@ async function renderCountersInto(boxId, h, opts){
 }
 
 /**
- * Покупки из data/hero-items.json — тот же срез OpenDota, что на страницах
- * героев, разложенный по стадиям игры. Раньше здесь стоял список из трёх
+ * Покупки из data/hero-items.json — своя база матчей (tools/build-hero-items.js),
+ * разложенная по стадиям игры. Раньше здесь стоял список из трёх
  * предметов, захардкоженный на роль: у всех керри он был одинаковый.
  */
 async function fillQuickPrepBuild(h){
   const box=document.getElementById('qpBuild');if(!box)return;
   const rec=(await loadHeroItemIndex())[String(h.id)];
   if(!rec){box.innerHTML='<p class="muted">По этому герою нет данных о покупках.</p>';return;}
-  const phases=[['start','Старт'],['early','Ранняя'],['mid','Середина'],['late','Поздняя']];
+  const phases=[['start','Старт'],['early','Ранняя'],['mid','Середина'],['late','Поздняя'],['vlate','После 40 мин']];
   const html=phases.map(([k,label])=>{
     const rows=(rec[k]||[]).slice(0,5).map(r=>{
       const it=findItemById(r.i);
@@ -519,18 +524,19 @@ function findItemById(id){
   const want=base!=null?base:n;
   return items.find(i=>Number(i.id)===want);
 }
-function phaseTitle(k){return ({start:'Старт',early:'Ранняя игра',mid:'Середина игры',late:'Поздняя игра'})[k]||k;}
-// Покупки предметов по фазам игры лежат в data/hero-items.json — тот же срез
-// OpenDota, что и в гайдах по героям, посчитанный при сборке сайта.
+function phaseTitle(k){return ({start:'Старт · до 0:00',early:'Ранняя · 0–10 мин',mid:'Середина · 10–25 мин',late:'Поздняя · 25–40 мин',vlate:'Очень поздняя · 40+ мин'})[k]||k;}
+// Покупки предметов по фазам игры — data/hero-items.json, своя база матчей
+// (tools/build-hero-items.js). n — матчи героя, g — в скольких куплен предмет.
 async function loadHeroItemPopularity(heroId){
   const box=document.getElementById('heroItemPopularity');if(!box)return;
   const rec=(await loadHeroItemIndex())[String(heroId)];
   if(!rec){box.innerHTML='<div class="item-pop-loading">По этому герою нет данных о покупках.</div>';return;}
-  const sections=['start','early','mid','late'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
-    const rows=rec[ph].map(r=>{const it=findItemById(r.i);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>${statValue(r.g)} игр</small></span></button>`:'';}).join('');
+  const n=Number(rec.n)||0;
+  const sections=['start','early','mid','late','vlate'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
+    const rows=rec[ph].map(r=>{const it=findItemById(r.i);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>${n?`${Math.round(r.g/n*100)}% · ${statValue(r.g)} из ${statValue(n)}`:`${statValue(r.g)} игр`}</small></span></button>`:'';}).join('');
     return `<div class="item-pop-phase"><h4>${phaseTitle(ph)}</h4>${rows||'<p class="muted">Нет данных</p>'}</div>`;
   }).join('');
-  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>OpenDota · срез посчитан при сборке сайта · по фазам игры</p></div></div><div class="item-pop-grid">${sections}</div>`;
+  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>Своя база матчей текущего патча · матчей героя: ${statValue(n)}${heroItemMatches?` из ${statValue(heroItemMatches)}`:''} · % — доля его матчей с покупкой</p></div></div><div class="item-pop-grid">${sections}</div>`;
   box.querySelectorAll('[data-item-pop]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemPop));
 }
 // Иконка способности: имя файла совпадает с внутренним ключом способности.
@@ -580,7 +586,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);fillHeroCounters(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);fillHeroCounters(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который
@@ -734,6 +740,15 @@ on('guidesGrid','click',e=>{const b=e.target.closest('[data-go]');if(b){closeMod
 on('modalContent','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 click('randomBtn',randomHero);
 click('close',closeModal);click('modalBg',closeModal);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('modal')?.classList.contains('show'))closeModal();});
+// Ссылки на героя с data-hero-open (таблица в статье о контрпиках): обычный
+// клик открывает карточку героя, Ctrl/Shift/колесо ведут по href как обычно.
+// Пока справочник героев не загрузился, клик тоже уходит по ссылке.
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[data-hero-open]');
+  if(!a||e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+  if(!heroes.some(x=>Number(x.id)===Number(a.dataset.heroOpen)))return;
+  e.preventDefault();openHero(Number(a.dataset.heroOpen));
+});
 const menuBtn=$('menu'),navMenu=$('navMenu');
 function setMenuOpen(o){if(!navMenu||!menuBtn)return;navMenu.classList.toggle('open',o);menuBtn.setAttribute('aria-expanded',String(o));}
 if(menuBtn&&navMenu){menuBtn.onclick=()=>setMenuOpen(!navMenu.classList.contains('open'));navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenuOpen(false)));}

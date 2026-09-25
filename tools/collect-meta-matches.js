@@ -24,6 +24,8 @@
  *   node tools/collect-meta-matches.js --max 500        — ограничить запросы
  *   node tools/collect-meta-matches.js --seconds 160    — ограничить время
  *   node tools/collect-meta-matches.js --stats          — что уже собрано
+ *   node tools/collect-meta-matches.js --backfill       — дозапросить покупки
+ *        для матчей, собранных до того, как сборщик начал их сохранять
  */
 const fs = require('fs');
 const path = require('path');
@@ -61,10 +63,18 @@ const Q = `query($id:Long!){ match(id:$id){
  players{ heroId isRadiant position lane kills deaths assists goldPerMinute experiencePerMinute
   numLastHits numDenies heroDamage towerDamage heroHealing networth level
   item0Id item1Id item2Id item3Id item4Id item5Id neutral0Id
+  stats{ itemPurchases{ time itemId } }
   steamAccountId steamAccount{ name isAnonymous } } } }`;
 
 const POS = { POSITION_1: 1, POSITION_2: 2, POSITION_3: 3, POSITION_4: 4, POSITION_5: 5 };
 const LANE = { SAFE_LANE: 's', MID_LANE: 'm', OFF_LANE: 'o', JUNGLE: 'j', ROAMING: 'r' };
+
+// Покупки игрока: [[секунда матча, itemId], …]. Время до 0:00 — отрицательное
+// (стартовая закупка). Читает tools/build-hero-items.js.
+function buys(p) {
+  const list = p.stats && p.stats.itemPurchases;
+  return Array.isArray(list) ? list.filter(x => x && x.itemId).map(x => [x.time | 0, x.itemId]) : null;
+}
 
 // Компактная строка: только то, что читает tools/build-meta.js.
 function pack(m) {
@@ -80,6 +90,7 @@ function pack(m) {
       nw: p.networth, lvl: p.level,
       it: [p.item0Id, p.item1Id, p.item2Id, p.item3Id, p.item4Id, p.item5Id].map(x => x || 0),
       nt: p.neutral0Id || 0,
+      b: buys(p),
       // имя показываем только если игрок сам открыл профиль
       acc: p.steamAccount && !p.steamAccount.isAnonymous ? p.steamAccountId : 0,
       name: p.steamAccount && !p.steamAccount.isAnonymous ? p.steamAccount.name : ''
@@ -87,14 +98,14 @@ function pack(m) {
   };
 }
 
-async function ask(token, id) {
+async function ask(token, id, query = Q) {
   for (let t = 1; t <= RATE_TRIES; t++) {
     let res;
     try {
       res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'User-Agent': 'STRATZ_API' },
-        body: JSON.stringify({ query: Q, variables: { id } })
+        body: JSON.stringify({ query, variables: { id } })
       });
     } catch (e) { await sleep(3000 * t); continue; }
     if (res.status === 429) { console.log('Stratz просит остыть, ждём', RATE_WAIT_MS / 1000, 'с'); await sleep(RATE_WAIT_MS); continue; }
@@ -137,8 +148,46 @@ function stats() {
   console.log('Матчей с деталями:', n, '| спрошено всего:', tried);
 }
 
+const QB = `query($id:Long!){ match(id:$id){ players{ heroId isRadiant stats{ itemPurchases{ time itemId } } } } }`;
+
+// Дозапрос покупок для старых строк. Файл переписывается целиком после
+// каждого прохода (через временный файл), прерывание ничего не теряет.
+async function backfill(token) {
+  const t0 = Date.now();
+  let asked = 0;
+  for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
+    const file = path.join(DIR, f);
+    const rows = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map(l => JSON.parse(l));
+    const todo = rows.filter(m => m.p.some(p => !('b' in p)));
+    let next = 0, changed = 0;
+    const worker = async () => {
+      while (next < todo.length) {
+        if (asked >= MAX_REQ || (MAX_SEC && (Date.now() - t0) / 1000 > MAX_SEC)) return;
+        const m = todo[next++];
+        asked++;
+        const got = await ask(token, m.id, QB);
+        const pl = got && got.players || [];
+        for (const p of m.p) {
+          const g = pl.find(x => x.heroId === p.h && (x.isRadiant ? 1 : 0) === p.r);
+          p.b = g ? buys(g) : null;
+        }
+        changed++;
+        await sleep(PAUSE_MS);
+      }
+    };
+    await Promise.all([worker(), worker()]);
+    if (changed) {
+      fs.writeFileSync(file + '.tmp', rows.map(r => JSON.stringify(r)).join('\n') + '\n');
+      fs.renameSync(file + '.tmp', file);
+    }
+    const left = rows.filter(m => m.p.some(p => !('b' in p))).length;
+    console.log(`${f}: дозапрошено ${changed}, осталось без покупок ${left}`);
+  }
+}
+
 async function main() {
   if (process.argv.includes('--stats')) return stats();
+  if (process.argv.includes('--backfill')) return backfill(readToken());
   const token = readToken();
   fs.mkdirSync(DIR, { recursive: true });
   const tried = new Set(fs.existsSync(TRIED) ? JSON.parse(fs.readFileSync(TRIED, 'utf8')) : []);

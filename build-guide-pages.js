@@ -12,7 +12,7 @@ function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;",
 const actionLabels={heroes:"Герои",items:"Предметы",stats:"Статистика",guides:"Гайды"};
 const actionHref=a=>({heroes:"/heroes/",items:"/items/",stats:"/stats/",guides:"/guides/"}[a]||"/guides/");
 
-const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script src="https://yandex.ru/ads/system/context.js" async></script><!-- End Yandex.RTB -->\n<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/112755250" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->`;
+const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->\n<!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->`;
 
 // Таблицы, которые считаются из data/ при каждой сборке, чтобы статья
 // не устаревала вместе с цифрами. Ключ — значение поля dataTable в разделе гайда.
@@ -26,13 +26,24 @@ const dataTables={
     const TOP=3;
     const byId=new Map(heroes.map(h=>[Number(h.id),h]));
     const rows=heroes.slice().sort((a,b)=>a.localized_name.localeCompare(b.localized_name,'en')).map(h=>{
-      const top=((C.heroes[String(h.id)]||{}).against||[]).slice(0,TOP).map(x=>{const o=byId.get(Number(x.id));return o?{t:`${o.localized_name} (${x.d.toFixed(1).replace('.',',').replace('-','−')})`,href:`/hero/${slug(o)}/`}:null;}).filter(Boolean);
-      return [{t:h.localized_name,href:`/hero/${slug(h)}/`},...[0,1,2].map(k=>top[k]||'—')];
+      const top=((C.heroes[String(h.id)]||{}).against||[]).slice(0,TOP).map(x=>{const o=byId.get(Number(x.id));return o?{t:`${o.localized_name} (${x.d.toFixed(1).replace('.',',').replace('-','−')})`,href:`/hero/${slug(o)}/`,hero:Number(o.id)}:null;}).filter(Boolean);
+      return [{t:h.localized_name,href:`/hero/${slug(h)}/`,hero:Number(h.id)},...[0,1,2].map(k=>top[k]||'—')];
     });
     return {head:['Герой','Контрпик 1','Контрпик 2','Контрпик 3'],rows,
       note:`${C.slice}, ${Number(C.matchesUsed).toLocaleString('ru-RU')} матчей, база обновлена ${String(C.dataAt).slice(0,10)}. В скобках — на сколько процентных пунктов герой выигрывает реже, чем ожидалось бы по силе обоих героев. Учитываются пары, сыгранные не меньше ${C.minGames} раз; прочерк — таких пар для героя пока нет.`};
   }
 };
+
+// Окно карточки героя и тот же набор скриптов, что на страницах разделов
+// (build-pages.js): карточку строит js/app.js, отдельной копии нет.
+const heroCardHtml=`<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
+<script src="/js/local-preview.js"></script>
+<script src="/js/reliable-data.js"></script>
+<script src="/js/item-variants.js"></script>
+<script src="/js/hero-roles.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/v43-features.js"></script>
+`;
 
 async function main(){
   const outRoot=path.join(__dirname,'deploy','guide');
@@ -68,7 +79,11 @@ async function main(){
     // и таблицу (table: {head:[], rows:[[]]}). Таблица оборачивается в контейнер
     // с горизонтальной прокруткой, иначе на телефоне она растягивает страницу.
     // Ячейка таблицы — строка или {t, href}: ссылка на страницу сайта.
-    const renderCell=c=>c&&typeof c==='object'?`<a href="${escapeHtml(c.href)}">${escapeHtml(c.t)}</a>`:escapeHtml(c);
+    // {t, href, hero} — ссылка на героя: js/app.js открывает по обычному клику
+    // карточку героя, а Ctrl/колесо и роботы идут по href на страницу героя.
+    const renderCell=c=>c&&typeof c==='object'?`<a href="${escapeHtml(c.href)}"${c.hero?` data-hero-open="${Number(c.hero)}"`:''}>${escapeHtml(c.t)}</a>`:escapeHtml(c);
+    // Карточке героя нужны окно и скрипты разделов — только статьям с такой таблицей.
+    const heroCard=g.sections.some(sec=>sec.dataTable==='counters');
     const renderTable=t=>`<div style="overflow-x:auto;margin:16px 0;"><table><thead><tr>${t.head.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map((c,ci)=>`<td>${ci===0?`<b style="color:#e8ecf3;">${renderCell(c)}</b>`:renderCell(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>${t.note?`<p style="font-size:13px;color:#8b919c;margin:6px 0 0;">${escapeHtml(t.note)}</p>`:''}</div>`;
     const bodyHtml=g.sections.map(sec=>{
       const parts=[];
@@ -141,7 +156,7 @@ ${faqJson?`<script type="application/ld+json">${faqJson.replace(/</g,'\\u003c')}
     <div class="linked-list">${relatedHtml}</div>
   </div>
 </main>
-<footer><div class="container">DOTAMATE PROJECT · <a href="/privacy/" style="color:inherit;">Конфиденциальность</a></div></footer>
+${heroCard?heroCardHtml:''}<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;

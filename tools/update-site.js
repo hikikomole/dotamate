@@ -6,7 +6,7 @@
  * считаться на тех же данных, иначе коэффициент будет от вчерашней матрицы),
  * потом раскладка файлов в deploy/ и деплой воркера.
  *
- * Запуск:  node tools/update-site.js   (или «Обновить сайт.cmd»)
+ * Запуск:  node tools/update-site.js   (или «Обновить всё.cmd»)
  */
 const { spawnSync } = require('child_process');
 const fs = require('fs');
@@ -41,6 +41,7 @@ function readEnv() {
 step('Матрицы по своей базе', 'node', ['tools/build-our-stats.js'], { cwd: ROOT });
 step('Калибровка прогноза', 'node', ['tools/build-draft-calibration.js'], { cwd: ROOT });
 step('Контрпики по своей базе', 'node', ['tools/build-hero-counters.js'], { cwd: ROOT });
+step('Покупки предметов по своей базе', 'node', ['tools/build-hero-items.js'], { cwd: ROOT });
 step('Страницы героев', 'node', ['build-hero-pages.js'], { cwd: ROOT });
 step('Гайды героев', 'node', ['build-hero-guides.js'], { cwd: ROOT });
 step('Статьи', 'node', ['build-guide-pages.js'], { cwd: ROOT });

@@ -244,7 +244,7 @@ function updateItemCounters(){const n=visibleItemCount();d2hSetText('quickItemCo
 // описания, история, примечания и бонусы уже на русском, числа подставлены.
 // Никаких запросов к Valve/OpenDota в рантайме — поэтому каталог и модалка
 // открываются мгновенно и одинаково на проде и в локальном превью.
-let itemHeroIndex=null,heroItemIndex=null,itemsReadyResolve=null;
+let itemHeroIndex=null,heroItemIndex=null,heroItemMatches=0,itemsReadyResolve=null;
 const itemsReady=new Promise(r=>{itemsReadyResolve=r;});
 async function loadItems(force=false){
   const status=document.getElementById('itemStatus');
@@ -268,7 +268,7 @@ async function loadItemHeroIndex(){
 }
 async function loadHeroItemIndex(){
   if(heroItemIndex)return heroItemIndex;
-  try{const r=await fetch(HERO_ITEMS_LOCAL);heroItemIndex=r.ok?((await r.json()).heroes||{}):{};}catch(e){heroItemIndex={};}
+  try{const r=await fetch(HERO_ITEMS_LOCAL);const j=r.ok?await r.json():{};heroItemIndex=j.heroes||{};heroItemMatches=Number(j.matchesUsed)||0;}catch(e){heroItemIndex={};}
   return heroItemIndex;
 }
 // Категория предмета. Раньше определялась по полю item_type из датафида
@@ -482,15 +482,15 @@ async function renderCountersInto(boxId, h, opts){
 }
 
 /**
- * Покупки из data/hero-items.json — тот же срез OpenDota, что на страницах
- * героев, разложенный по стадиям игры. Раньше здесь стоял список из трёх
+ * Покупки из data/hero-items.json — своя база матчей (tools/build-hero-items.js),
+ * разложенная по стадиям игры. Раньше здесь стоял список из трёх
  * предметов, захардкоженный на роль: у всех керри он был одинаковый.
  */
 async function fillQuickPrepBuild(h){
   const box=document.getElementById('qpBuild');if(!box)return;
   const rec=(await loadHeroItemIndex())[String(h.id)];
   if(!rec){box.innerHTML='<p class="muted">По этому герою нет данных о покупках.</p>';return;}
-  const phases=[['start','Старт'],['early','Ранняя'],['mid','Середина'],['late','Поздняя']];
+  const phases=[['start','Старт'],['early','Ранняя'],['mid','Середина'],['late','Поздняя'],['vlate','После 40 мин']];
   const html=phases.map(([k,label])=>{
     const rows=(rec[k]||[]).slice(0,5).map(r=>{
       const it=findItemById(r.i);
@@ -524,18 +524,19 @@ function findItemById(id){
   const want=base!=null?base:n;
   return items.find(i=>Number(i.id)===want);
 }
-function phaseTitle(k){return ({start:'Старт',early:'Ранняя игра',mid:'Середина игры',late:'Поздняя игра'})[k]||k;}
-// Покупки предметов по фазам игры лежат в data/hero-items.json — тот же срез
-// OpenDota, что и в гайдах по героям, посчитанный при сборке сайта.
+function phaseTitle(k){return ({start:'Старт · до 0:00',early:'Ранняя · 0–10 мин',mid:'Середина · 10–25 мин',late:'Поздняя · 25–40 мин',vlate:'Очень поздняя · 40+ мин'})[k]||k;}
+// Покупки предметов по фазам игры — data/hero-items.json, своя база матчей
+// (tools/build-hero-items.js). n — матчи героя, g — в скольких куплен предмет.
 async function loadHeroItemPopularity(heroId){
   const box=document.getElementById('heroItemPopularity');if(!box)return;
   const rec=(await loadHeroItemIndex())[String(heroId)];
   if(!rec){box.innerHTML='<div class="item-pop-loading">По этому герою нет данных о покупках.</div>';return;}
-  const sections=['start','early','mid','late'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
-    const rows=rec[ph].map(r=>{const it=findItemById(r.i);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>${statValue(r.g)} игр</small></span></button>`:'';}).join('');
+  const n=Number(rec.n)||0;
+  const sections=['start','early','mid','late','vlate'].filter(ph=>(rec[ph]||[]).length).map(ph=>{
+    const rows=rec[ph].map(r=>{const it=findItemById(r.i);return it?`<button class="item-pop-row" data-item-pop="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt=""><span><b>${escapeHtml(it.dname)}</b><small>${n?`${Math.round(r.g/n*100)}% · ${statValue(r.g)} из ${statValue(n)}`:`${statValue(r.g)} игр`}</small></span></button>`:'';}).join('');
     return `<div class="item-pop-phase"><h4>${phaseTitle(ph)}</h4>${rows||'<p class="muted">Нет данных</p>'}</div>`;
   }).join('');
-  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>OpenDota · срез посчитан при сборке сайта · по фазам игры</p></div></div><div class="item-pop-grid">${sections}</div>`;
+  box.innerHTML=`<div class="item-pop-head"><div><h3>📦 Реальные покупки предметов</h3><p>Своя база матчей текущего патча · матчей героя: ${statValue(n)}${heroItemMatches?` из ${statValue(heroItemMatches)}`:''} · % — доля его матчей с покупкой</p></div></div><div class="item-pop-grid">${sections}</div>`;
   box.querySelectorAll('[data-item-pop]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemPop));
 }
 // Иконка способности: имя файла совпадает с внутренним ключом способности.
@@ -585,7 +586,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);fillHeroCounters(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);loadHeroAbilities(h);fillHeroCounters(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который
@@ -739,6 +740,15 @@ on('guidesGrid','click',e=>{const b=e.target.closest('[data-go]');if(b){closeMod
 on('modalContent','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 click('randomBtn',randomHero);
 click('close',closeModal);click('modalBg',closeModal);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('modal')?.classList.contains('show'))closeModal();});
+// Ссылки на героя с data-hero-open (таблица в статье о контрпиках): обычный
+// клик открывает карточку героя, Ctrl/Shift/колесо ведут по href как обычно.
+// Пока справочник героев не загрузился, клик тоже уходит по ссылке.
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[data-hero-open]');
+  if(!a||e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+  if(!heroes.some(x=>Number(x.id)===Number(a.dataset.heroOpen)))return;
+  e.preventDefault();openHero(Number(a.dataset.heroOpen));
+});
 const menuBtn=$('menu'),navMenu=$('navMenu');
 function setMenuOpen(o){if(!navMenu||!menuBtn)return;navMenu.classList.toggle('open',o);menuBtn.setAttribute('aria-expanded',String(o));}
 if(menuBtn&&navMenu){menuBtn.onclick=()=>setMenuOpen(!navMenu.classList.contains('open'));navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenuOpen(false)));}
