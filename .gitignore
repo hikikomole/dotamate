@@ -36,3 +36,7 @@ deploy/data/meta-match/
 
 # журнал ежедневного обновления (tools/daily-update.js)
 logs/
+
+# временная копия сайта для проверки Netlify (25.09.2026), не нужна в репозитории
+netlify-site/
+.netlify/
