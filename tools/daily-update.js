@@ -36,6 +36,8 @@ const LOCK = path.join(LOGS, 'daily.lock');
 const STAMP = path.join(LOGS, 'last-success.txt');
 const ARGS = new Set(process.argv.slice(2));
 const IS_WIN = process.platform === 'win32';
+// С 26.09.2026 обновление идёт по cron на самом хостинге (~/dotamate-src), без компьютера владельца.
+const ON_SERVER = process.env.DOTAMATE_SERVER === '1';
 const HOUR = 3600000;
 
 fs.mkdirSync(LOGS, { recursive: true });
@@ -219,18 +221,22 @@ async function main() {
 
     if (ARGS.has('--no-deploy')) { log('Флаг --no-deploy: выкладку пропускаю.'); return problems.length ? 1 : 0; }
 
-    const foreign = foreignDeployChanges();
-    if (foreign === null) throw new Error('не найден git — не могу проверить deploy/ на чужие правки');
-    if (foreign.length) throw new Error('в deploy/ незакоммиченные правки кода, выкладка отменена:\n  ' + foreign.slice(0, 10).join('\n  '));
+    // На сервере git-копии нет: код туда приходит только через tools/push-server.js,
+    // то есть уже проверенным. Проверка чужих правок нужна лишь на рабочем компьютере.
+    if (!ON_SERVER) {
+      const foreign = foreignDeployChanges();
+      if (foreign === null) throw new Error('не найден git — не могу проверить deploy/ на чужие правки');
+      if (foreign.length) throw new Error('в deploy/ незакоммиченные правки кода, выкладка отменена:\n  ' + foreign.slice(0, 10).join('\n  '));
+    }
 
     if (!await node('Раскладка в deploy', 'tools/sync-deploy.js')) throw new Error('раскладка в deploy не прошла');
     pruneMetaMatches();
 
     // С 25.09.2026 сайт на Hostiman: одна SSH-выкладка вместо wrangler deploy.
     if (!await node('Выкладка на dotamate.ru', 'tools/deploy-hostiman.js', [], { timeout: 0.25 * HOUR }))
-      throw new Error('выкладка на Hostiman не прошла (см. журнал: ключ SSH или временная блокировка IP хостингом)');
+      throw new Error('выкладка на Hostiman не прошла (см. журнал)');
 
-    if (abil === true) {
+    if (abil === true && !ON_SERVER) { // на сервере нет git и токена GitHub
       await node('Проверка способностей на сайте', 'tools/verify-live-abilities.js');
       await node('Сохранение способностей в GitHub', 'tools/push-abilities.js');
     }

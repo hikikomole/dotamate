@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Показывает обращения из формы обратной связи (таблица feedback в D1).
+// Показывает обращения из формы обратной связи (SQLite на Hostiman, ~/dotamate-data/feedback.sqlite).
 //   node tools/feedback-list.js            — новые
 //   node tools/feedback-list.js all        — последние 50 любых
 //   node tools/feedback-list.js done 12    — пометить обращение 12 как отвеченное
@@ -14,16 +14,20 @@ for (const line of fs.readFileSync(path.join(root, '.env'), 'utf8').split(/\r?\n
   if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
 }
 
+// С 26.09.2026 обращения лежат на Hostiman: ~/dotamate-data/feedback.sqlite
+// (пишет deploy/api/index.php). SQL уходит на сервер через stdin одного
+// SSH-подключения и выполняется встроенным в хостинг PHP.
 function d1(sql) {
-  const args = ['wrangler', 'd1', 'execute', 'dotamate', '--remote', '--json', '--command', sql];
-  const opts = { cwd: path.join(root, 'deploy'), encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 };
-  // В Windows npx — это npx.cmd, его запускает cmd.exe и режет аргументы по пробелам.
-  // Поэтому там собираем одну строку и берём каждый аргумент в двойные кавычки
-  // (в SQL двойных кавычек нет — только одинарные).
-  const out = process.platform === 'win32'
-    ? execFileSync('cmd.exe', ['/d', '/s', '/c', '"npx ' + args.map(a => '"' + a + '"').join(' ') + '"'], { ...opts, windowsVerbatimArguments: true })
-    : execFileSync('npx', args, opts);
-  return JSON.parse(out.slice(out.indexOf('[')))[0].results || [];
+  const os = require('os');
+  const e = process.env;
+  const key = e.HOSTIMAN_SSH_KEY || path.join(os.homedir(), '.ssh', 'dotamate_hostiman');
+  const php = '$d=new PDO("sqlite:".getenv("HOME")."/dotamate-data/feedback.sqlite");'
+    + '$d->setAttribute(3,2);$q=$d->query(stream_get_contents(STDIN));'
+    + 'echo json_encode($q->columnCount()?$q->fetchAll(2):[],JSON_UNESCAPED_UNICODE);';
+  const out = execFileSync('ssh', ['-i', key, '-p', String(e.HOSTIMAN_SSH_PORT || 8228), '-o', 'BatchMode=yes',
+    (e.HOSTIMAN_SSH_USER || 's278486') + '@' + (e.HOSTIMAN_SSH_HOST || 'ruvip72.hostiman.ru'),
+    "php -r '" + php + "'"], { input: sql, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
+  return JSON.parse(out.slice(out.indexOf('[')));
 }
 
 const [cmd, arg] = process.argv.slice(2);

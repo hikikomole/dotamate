@@ -52,7 +52,9 @@ if (!/^[\w.\/-]+$/.test(webroot) || webroot.includes('..')) fail('недопус
 
 if (!fs.existsSync(path.join(DEPLOY, 'index.html'))) fail('в deploy/ нет index.html — сначала сборка и tools/sync-deploy.js');
 if (!fs.existsSync(path.join(DEPLOY, '.htaccess'))) fail('в deploy/ нет .htaccess (заголовки безопасности) — без него не выкладываю');
-if (!fs.existsSync(key)) fail('не найден SSH-ключ ' + key);
+// На самом хостинге (cron, DOTAMATE_SERVER=1) SSH не нужен: те же команды выполняются локально.
+const LOCAL = env.DOTAMATE_SERVER === '1';
+if (!LOCAL && !fs.existsSync(key)) fail('не найден SSH-ключ ' + key);
 
 const tarFile = path.join(os.tmpdir(), 'dotamate-deploy-' + process.pid + '.tar');
 const tarArgs = ['-cf', tarFile];
@@ -78,18 +80,23 @@ const remote = [
   `echo "files: $(find ~/${w} -type f | wc -l)"`
 ].join(' && ');
 
-console.log('\n=== Выкладка на ' + host + ' ===');
-// Код 255 — соединение не установилось (у владельца VPN с меняющимся выходом,
-// часть подключений обрывается на рукопожатии). Повторяем, архив читаем заново.
-const sshArgs = ['-i', key, '-p', port, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=20',
-  '-o', 'StrictHostKeyChecking=accept-new', user + '@' + host, remote];
-for (let attempt = 1; attempt <= 5; attempt++) {
-  r = spawnSync('ssh', sshArgs, { stdio: [fs.openSync(tarFile, 'r'), 'inherit', 'inherit'], timeout: 15 * 60 * 1000 });
-  if (r.error || r.status !== 255 || attempt === 5) break;
-  console.log('Соединение не установилось, попытка ' + (attempt + 1) + ' из 5 через 15 с…');
-  spawnSync(process.execPath, ['-e', 'setTimeout(()=>{},15000)']);
+if (LOCAL) {
+  console.log('\n=== Выкладка в ~/' + webroot + ' (на сервере) ===');
+  r = spawnSync('bash', ['-c', remote], { cwd: os.homedir(), stdio: [fs.openSync(tarFile, 'r'), 'inherit', 'inherit'], timeout: 15 * 60 * 1000 });
+} else {
+  console.log('\n=== Выкладка на ' + host + ' ===');
+  // Код 255 — соединение не установилось (у владельца VPN с меняющимся выходом,
+  // часть подключений обрывается на рукопожатии). Повторяем, архив читаем заново.
+  const sshArgs = ['-i', key, '-p', port, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=20',
+    '-o', 'StrictHostKeyChecking=accept-new', user + '@' + host, remote];
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    r = spawnSync('ssh', sshArgs, { stdio: [fs.openSync(tarFile, 'r'), 'inherit', 'inherit'], timeout: 15 * 60 * 1000 });
+    if (r.error || r.status !== 255 || attempt === 5) break;
+    console.log('Соединение не установилось, попытка ' + (attempt + 1) + ' из 5 через 15 с…');
+    spawnSync(process.execPath, ['-e', 'setTimeout(()=>{},15000)']);
+  }
 }
 try { fs.unlinkSync(tarFile); } catch (e) { /* временный файл, не критично */ }
-if (r.error) fail('ssh не запустился: ' + r.error.message);
+if (r.error) fail((LOCAL ? 'bash' : 'ssh') + ' не запустился: ' + r.error.message);
 if (r.status !== 0) fail('ssh вернул код ' + r.status + ' (если «Connection closed/timed out» — хостинг временно заблокировал IP, повторить позже)');
 console.log('Сайт обновлён: https://dotamate.ru/');

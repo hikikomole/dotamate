@@ -22,3 +22,15 @@ DirectoryIndex index.html
 <FilesMatch "^(_headers|\.assetsignore|worker\.js|wrangler\.jsonc)$">
   Require all denied
 </FilesMatch>
+
+# /api/* -> api/index.php (замена Cloudflare Worker с 26.09.2026)
+# и постоянные переадресации со старых адресов предметов (были в воркере).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^item/(dagon_[2-5])/?$ https://dotamate.ru/item/dagon/ [R=301,L]
+  RewriteRule ^item/(necronomicon_[23])/?$ https://dotamate.ru/item/necronomicon/ [R=301,L]
+  RewriteRule ^item/aghanims_shard_roshan/?$ https://dotamate.ru/item/aghanims_shard/ [R=301,L]
+  RewriteRule ^item/ultimate_scepter_roshan/?$ https://dotamate.ru/item/ultimate_scepter_2/ [R=301,L]
+  RewriteRule ^item/tango_single/?$ https://dotamate.ru/item/tango/ [R=301,L]
+  RewriteRule ^api/(dota/|feedback$) api/index.php [L]
+</IfModule>
