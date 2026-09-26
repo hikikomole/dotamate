@@ -12,7 +12,7 @@
  *   4a. Контрпики (data/hero-counters.json) и страницы, которые их показывают:
  *       герои, гайды героев, статьи /guide/. Все цифры контрпиков на сайте —
  *       из одного расчёта, поэтому пересобираются вместе.
- *   5. Раскладка в deploy/ и ОДИН wrangler deploy на всё.
+ *   5. Раскладка в deploy/ и ОДНА выкладка на Hostiman (tools/deploy-hostiman.js).
  *
  * Сбои сбора не останавливают выкладку: пропуски лента доберёт завтра, а
  * пересчёт идёт по тому, что уже есть. Сбой пересчёта — останавливает.
@@ -226,10 +226,9 @@ async function main() {
     if (!await node('Раскладка в deploy', 'tools/sync-deploy.js')) throw new Error('раскладка в deploy не прошла');
     pruneMetaMatches();
 
-    const env = readEnv();
-    if (!env.CLOUDFLARE_API_TOKEN) throw new Error('в .env нет CLOUDFLARE_API_TOKEN');
-    if (!await run('Выкладка на dotamate.ru', 'npx', ['wrangler', 'deploy'], { cwd: DEPLOY, env, shell: IS_WIN, timeout: 0.25 * HOUR }))
-      throw new Error('wrangler deploy завершился с ошибкой (чаще всего истёк токен Cloudflare)');
+    // С 25.09.2026 сайт на Hostiman: одна SSH-выкладка вместо wrangler deploy.
+    if (!await node('Выкладка на dotamate.ru', 'tools/deploy-hostiman.js', [], { timeout: 0.25 * HOUR }))
+      throw new Error('выкладка на Hostiman не прошла (см. журнал: ключ SSH или временная блокировка IP хостингом)');
 
     if (abil === true) {
       await node('Проверка способностей на сайте', 'tools/verify-live-abilities.js');

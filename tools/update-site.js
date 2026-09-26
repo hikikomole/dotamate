@@ -4,7 +4,7 @@
  *
  * Порядок важен: сначала матрицы по новой базе, потом калибровка (она должна
  * считаться на тех же данных, иначе коэффициент будет от вчерашней матрицы),
- * потом раскладка файлов в deploy/ и деплой воркера.
+ * потом раскладка файлов в deploy/ и выкладка на Hostiman (tools/deploy-hostiman.js).
  *
  * Запуск:  node tools/update-site.js   (или «Обновить всё.cmd»)
  */
@@ -24,20 +24,6 @@ function step(title, cmd, args, opts) {
   }
 }
 
-function readEnv() {
-  const f = path.join(ROOT, '.env');
-  if (!fs.existsSync(f)) return {};
-  const out = {};
-  for (const line of fs.readFileSync(f, 'utf8').split(/\r?\n/)) {
-    const s = line.trim();
-    if (!s || s.startsWith('#')) continue;
-    const i = s.indexOf('=');
-    if (i < 1) continue;
-    out[s.slice(0, i).trim()] = s.slice(i + 1).trim().replace(/^["']|["']$/g, '');
-  }
-  return out;
-}
-
 step('Матрицы по своей базе', 'node', ['tools/build-our-stats.js'], { cwd: ROOT });
 step('Калибровка прогноза', 'node', ['tools/build-draft-calibration.js'], { cwd: ROOT });
 step('Контрпики по своей базе', 'node', ['tools/build-hero-counters.js'], { cwd: ROOT });
@@ -48,16 +34,7 @@ step('Статьи', 'node', ['build-guide-pages.js'], { cwd: ROOT });
 step('Статистика и аналитика', 'node', ['tools/build-stats.js'], { cwd: ROOT });
 step('Раскладка файлов в deploy', 'node', ['tools/sync-deploy.js'], { cwd: ROOT });
 
-const env = readEnv();
-if (!env.CLOUDFLARE_API_TOKEN) {
-  console.error('\nВ .env нет CLOUDFLARE_API_TOKEN — деплой пропускаю.');
-  console.error('Данные пересчитаны и разложены, выкатить можно вручную из папки deploy.');
-  process.exit(1);
-}
-step('Деплой на Cloudflare', 'npx', ['wrangler', 'deploy'], {
-  cwd: DEPLOY,
-  env: Object.assign({}, process.env, env)
-});
+step('Выкладка на Hostiman', 'node', ['tools/deploy-hostiman.js'], { cwd: ROOT });
 
 const cal = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'draft-calibration.json'), 'utf8'));
 const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'our-meta.json'), 'utf8'));
