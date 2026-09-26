@@ -13,8 +13,6 @@ DirectoryIndex index.html
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
-  ExpiresByType text/css "access plus 1 hour"
-  ExpiresByType application/javascript "access plus 1 hour"
 </IfModule>
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/xml application/xml image/svg+xml
@@ -33,4 +31,13 @@ DirectoryIndex index.html
   RewriteRule ^item/ultimate_scepter_roshan/?$ https://dotamate.ru/item/ultimate_scepter_2/ [R=301,L]
   RewriteRule ^item/tango_single/?$ https://dotamate.ru/item/tango/ [R=301,L]
   RewriteRule ^api/(dota/|feedback$) api/index.php [L]
+</IfModule>
+
+# Страницы, данные, стили и скрипты меняются при ежедневном обновлении:
+# браузер каждый раз сверяется с сервером (быстрый ответ 304, если файл тот же),
+# поэтому свежие цифры видны без Ctrl+F5. Картинки кешируются на 30 дней.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html?|json|js|css|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>

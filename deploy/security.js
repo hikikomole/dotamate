@@ -84,3 +84,27 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+/* DotaMate: свежие данные без Ctrl+F5 (26.09.2026).
+   Файлы /data/*.json пересчитываются каждую ночь, а хостинг отдаёт их через
+   nginx без Cache-Control — браузер мог часами показывать вчерашние цифры.
+   Для запросов к /data/ просим браузер сверяться с сервером (cache: 'no-cache'):
+   если файл не менялся, ответ 304 без тела, лишнего трафика нет.
+   Явно указанный вызывающим режим cache не трогаем. Файл подключён в <head>
+   всех страниц раньше остальных скриптов, поэтому обёртка живёт здесь. */
+(function () {
+  'use strict';
+  var nativeFetch = window.fetch;
+  if (typeof nativeFetch !== 'function') return;
+  window.fetch = function (input, init) {
+    try {
+      var url = typeof input === 'string' ? input : (input && input.url) || '';
+      var u = new URL(url, location.href);
+      if (u.origin === location.origin && u.pathname.indexOf('/data/') === 0 &&
+          typeof input === 'string' && !(init && init.cache)) {
+        init = Object.assign({}, init, { cache: 'no-cache' });
+      }
+    } catch (e) { /* нестандартный адрес — отдаём как есть */ }
+    return nativeFetch.call(this, input, init);
+  };
+})();
