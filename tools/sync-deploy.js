@@ -18,10 +18,10 @@ const path = require('path');
 const ROOT = path.dirname(__dirname);
 const OUT = path.join(ROOT, 'deploy');
 const DIRS = ['css', 'js', 'assets', 'data'];
-const FILES = ['security.js', 'ads.txt', 'robots.txt', '_headers', 'sitemap.xml'];
+const FILES = ['security.js', 'ads.txt', 'robots.txt', '_headers', 'sitemap.xml'].concat(fs.readdirSync(ROOT).filter((n) => /^[0-9a-f]{32}\.txt$/.test(n))); // ключ IndexNow (tools/indexnow.js)
 // Сырая база собранных матчей на сайт не выкладывается: она растёт до сотен
 // мегабайт, а посетителю нужны только посчитанные по ней матрицы.
-const SKIP_DIRS = new Set(['public-matches', 'meta-matches', 'stats-history']);
+const SKIP_DIRS = new Set(['public-matches', 'public-matches-top', 'meta-matches', 'stats-history', 'steam-matches', 'steam-matches-turbo']);
 
 function copyDir(src, dst){
   if(!fs.existsSync(src)) return 0;

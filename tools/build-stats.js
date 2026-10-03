@@ -29,17 +29,23 @@
  *     времени первой покупки. Винрейт предмета не считается — он путает
  *     причину и следствие (дорогие предметы покупают в уже выигранных играх).
  *
- * Запуск: node tools/build-stats.js (после tools/build-our-stats.js,
+ * Источник ленты: --source opendota (по умолчанию) | steam — tools/match-source.js. Со steam
+ * ранг известен не у всех матчей (null — в разрез по рангам не идёт), у героев добавляются
+ * средние gpm/xpm по всем матчам, снимки истории пишутся в data/stats-history-steam/.
+ *
+ * Запуск: node tools/build-stats.js [--source steam] (после tools/build-our-stats.js,
  * tools/build-hero-counters.js и tools/build-hero-items.js)
  */
 const fs = require('fs');
 const path = require('path');
+const MS = require('./match-source.js');
+const SRC = MS.source();
 
 const ROOT = path.join(__dirname, '..');
 const D = f => path.join(ROOT, 'data', f);
 const read = f => JSON.parse(fs.readFileSync(D(f), 'utf8'));
 const OUT = D('stats.json');
-const HIST = D('stats-history');
+const HIST = D(SRC === 'steam' ? 'stats-history-steam' : 'stats-history'); // источники в одном ряду не смешиваются
 
 const MIN_DURATION = 900;          // как в build-our-stats.js
 const MIN_TIER = 1000;             // матчей героя для тира
@@ -68,22 +74,24 @@ const known = new Set(heroIds);
 const ourMeta = read('our-meta.json');
 
 // ---------- 1. Лента публичных матчей ----------
-const H = new Map(heroIds.map(id => [id, { n: 0, w: 0, rk: {}, du: {} }]));
+const H = new Map(heroIds.map(id => [id, { n: 0, w: 0, rk: {}, du: {}, g: 0, x: 0 }]));
 const durHist = new Map();
 let total = 0, radWins = 0, minT = Infinity, maxT = 0;
 const rankHist = {};
-for (const f of fs.readdirSync(D('public-matches')).filter(f => f.endsWith('.jsonl')).sort()) {
-  for (const line of fs.readFileSync(path.join(D('public-matches'), f), 'utf8').split('\n')) {
-    if (!line) continue;
-    let r; try { r = JSON.parse(line); } catch { continue; }
+// Steam: экономика игрока (gpm/xpm) — по match_id из сырых строк
+const ECO = new Map();
+if (SRC === 'steam') for (const m of MS.steamMatches()) ECO.set(m[0], m.slice(9, 19).map(p => [p[7], p[8]]));
+{
+  for (const r of MS.publicRows({ src: SRC, tier: 'base' })) {
     const [, start, dur, rank, lobby, mode, rw] = r;
     if (mode !== 22 || ![0, 7].includes(lobby) || dur < MIN_DURATION) continue;
     const team = r.slice(7, 17);
     if (team.some(h => !known.has(h))) continue;
     total++; if (rw) radWins++;
     if (start < minT) minT = start; if (start > maxT) maxT = start;
-    const rg = Math.min(6, Math.max(1, Math.floor(rank / 10)));
-    rankHist[rg] = (rankHist[rg] || 0) + 1;
+    const rg = rank == null ? null : Math.min(6, Math.max(1, Math.floor(rank / 10)));
+    if (rg) rankHist[rg] = (rankHist[rg] || 0) + 1;
+    const eco = ECO.get(r[0]);
     const bin = Math.min(80, Math.floor(dur / 300) * 5);
     durHist.set(bin, (durHist.get(bin) || 0) + 1);
     const db = DUR.find(([, a, b]) => dur >= a && dur < b)[0];
@@ -91,7 +99,8 @@ for (const f of fs.readdirSync(D('public-matches')).filter(f => f.endsWith('.jso
       const won = i < 5 ? rw === 1 : rw === 0;
       const x = H.get(h);
       x.n++; if (won) x.w++;
-      const k = x.rk[rg] || (x.rk[rg] = [0, 0]); k[0]++; if (won) k[1]++;
+      if (rg) { const k = x.rk[rg] || (x.rk[rg] = [0, 0]); k[0]++; if (won) k[1]++; }
+      if (eco) { x.g += eco[i][0]; x.x += eco[i][1]; }
       const d = x.du[db] || (x.du[db] = [0, 0]); d[0]++; if (won) d[1]++;
     });
   }
@@ -107,7 +116,9 @@ const heroRows = heroIds.map(id => {
   }
   const dur = {};
   for (const [k] of DUR) { const d = x.du[k]; if (d && d[0] >= MIN_DUR_BUCKET) dur[k] = [d[0], r1(d[1] / d[0] * 100)]; }
-  return { id, n: x.n, wr: x.n ? r1(x.w / x.n * 100) : null, lo: r1(wilsonLow(x.w, x.n) * 100), pr: r1(x.n / total * 100), rank, dur };
+  const row = { id, n: x.n, wr: x.n ? r1(x.w / x.n * 100) : null, lo: r1(wilsonLow(x.w, x.n) * 100), pr: r1(x.n / total * 100), rank, dur };
+  if (SRC === 'steam' && x.n) { row.gpm = Math.round(x.g / x.n); row.xpm = Math.round(x.x / x.n); }
+  return row;
 });
 const ranked = heroRows.filter(h => h.n >= MIN_TIER).sort((a, b) => b.lo - a.lo);
 const TIERS = ['S', 'A', 'B', 'C', 'D'];
@@ -239,11 +250,53 @@ const snaps = fs.readdirSync(HIST).filter(f => f.endsWith('.json')).sort().slice
 const history = { days: snaps.map(s => s.day), totals: snaps.map(s => s.total), heroes: {} };
 for (const id of heroIds) history.heroes[id] = snaps.map(s => (s.h[id] ? [s.h[id][1], s.h[id][2]] : null));
 
+// ---------- 5. Срезы тир-листа: Divine 5 и Immortal, про-сцена ----------
+// Строка героя: [id, матчей, винрейт %, надёжный винрейт (Уилсон) %, пикрейт %] (+ у про-сцены средние У/С/П).
+const slices = {};
+try {
+  const T = read('our-meta-top.json');
+  const used = T.matchesUsed;
+  slices.top = {
+    source: (SRC === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API, ранг матча из ленты OpenDota)' : 'Своя база рейтинговых матчей (OpenDota /publicMatches)') + ', Ranked All Pick, средний ранг матча Divine 5 и Immortal',
+    matches: used, from: T.firstMatchAt, to: T.lastMatchAt,
+    heroes: Object.entries(T.heroes).map(([id, h]) => [Number(id), h.matches, r1(h.wins / h.matches * 100), r1(wilsonLow(h.wins, h.matches) * 100), r1(h.matches / used * 100)])
+  };
+} catch (e) { console.warn('Срез Divine 5 и Immortal не добавлен:', e.message); }
+// Про-сцена — по разобранным реплеям архива эфира (только на сервере: ~/dotamate-collector/archive).
+// Без архива (рабочий компьютер) берётся прошлый срез из data/stats.json, чтобы его не потерять.
+const ARCHIVE = path.join(process.env.DOTAMATE_COLLECTOR || path.join(require('os').homedir(), 'dotamate-collector'), 'archive');
+try {
+  const idx = JSON.parse(fs.readFileSync(path.join(ARCHIVE, 'index.json'), 'utf8')).matches.filter(m => m.pro);
+  const P = new Map(), leagues = new Map();
+  let n = 0, from = Infinity, to = 0;
+  for (const im of idx) {
+    let m; try { m = JSON.parse(fs.readFileSync(path.join(ARCHIVE, 'matches', im.matchId + '.json'), 'utf8')); } catch { continue; }
+    if (!m.players || m.players.length !== 10) continue;
+    n++; from = Math.min(from, m.endTime); to = Math.max(to, m.endTime);
+    const lg = im.pro.league || '—'; leagues.set(lg, (leagues.get(lg) || 0) + 1);
+    for (const pl of m.players) {
+      const x = P.get(pl.heroId) || { n: 0, w: 0, k: 0, d: 0, a: 0 };
+      x.n++; if ((pl.team === 'radiant') === m.radiantWin) x.w++;
+      x.k += pl.k; x.d += pl.d; x.a += pl.a; P.set(pl.heroId, x);
+    }
+  }
+  if (n) slices.pro = {
+    source: 'Разобранные реплеи про-матчей (лента OpenDota /proMatches, реплеи Valve) из архива эфира DotaMate',
+    matches: n, from: new Date(from * 1000).toISOString(), to: new Date(to * 1000).toISOString(),
+    leagues: [...leagues].sort((a, b) => b[1] - a[1]),
+    heroes: [...P].map(([id, x]) => [id, x.n, r1(x.w / x.n * 100), r1(wilsonLow(x.w, x.n) * 100), r1(x.n / n * 100), r1(x.k / x.n), r1(x.d / x.n), r1(x.a / x.n)])
+  };
+} catch (e) {
+  try { const old = JSON.parse(fs.readFileSync(OUT, 'utf8')); if (old.slices && old.slices.pro) slices.pro = old.slices.pro; } catch { /* прошлого среза нет */ }
+  if (!slices.pro) console.warn('Срез про-сцены не добавлен:', e.message);
+}
+
 // ---------- запись ----------
 const out = {
   builtAt: new Date().toISOString(),
   base: {
-    source: 'Своя база рейтинговых матчей (OpenDota /publicMatches), 0–4500 MMR, Ranked All Pick',
+    source: SRC === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API), Ranked All Pick; ранг известен у ' + r1(Object.values(rankHist).reduce((a, b) => a + b, 0) / total * 100) + '% матчей'
+      : 'Своя база рейтинговых матчей (OpenDota /publicMatches), 0–4500 MMR, Ranked All Pick',
     matches: total, from: new Date(minT * 1000).toISOString(), to: new Date(maxT * 1000).toISOString(),
     ranks: Object.fromEntries(Object.entries(RANKS).map(([g, name]) => [g, { name, n: rankHist[g] || 0 }])),
     radiantWr: r1(radWins / total * 100),
@@ -253,7 +306,7 @@ const out = {
   roles: rolesNote,
   method: { minTier: MIN_TIER, minRank: MIN_RANK, minPair: MIN_PAIR, minPos: MIN_POS, minLane: MIN_LANE, minDur: MIN_DUR_BUCKET, durBuckets: DUR.map(([k, , , l]) => [k, l]) },
   heroes: heroRows, durSwing, synergy: synergy.slice(0, 40), antiSynergy: synergy.slice(-20).reverse(), counters: topCounters,
-  positions, lanes, items, history
+  positions, lanes, items, history, slices
 };
 fs.writeFileSync(OUT, JSON.stringify(out));
-console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
+console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);

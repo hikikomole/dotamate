@@ -28,6 +28,10 @@ data/public-matches/
 # сырые детали матчей для раздела META (tools/collect-meta-matches.js)
 data/meta-matches/
 
+# сырые матчи ленты Steam Web API (tools/collect-steam-matches.js)
+data/steam-matches/
+data/steam-matches-turbo/
+
 # данные META пересобираются после каждого сбора и выкладываются tools/publish-meta.js без коммита
 data/meta-escape.json
 data/meta-match/
@@ -40,3 +44,16 @@ logs/
 # временная копия сайта для проверки Netlify (25.09.2026), не нужна в репозитории
 netlify-site/
 .netlify/
+
+# Steam-аккаунт для сборщика реплеев — секрет
+Steam.txt
+
+# Пакет от Codex (27.09.2026): внутри secrets/ с логином Steam, ключом API,
+# реплеями и parsed.json с SteamID игроков — только локально
+Claude-Match-Archive-Handoff/
+/secrets/
+match-archive/
+
+# Сборка парсера реплеев (odota/parser + ParseCli), 28 МБ — на сервер заливается отдельно
+tools/replay-parser/*.jar
+tools/replay-parser/*.part*

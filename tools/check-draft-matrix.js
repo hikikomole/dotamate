@@ -1,8 +1,12 @@
 #!/usr/bin/env node
-/** Проверка data/draft-matrix.json: структура, покрытие, симметрия против живого Stratz. */
+/** Проверка data/draft-matrix.json: структура, покрытие, симметрия против живого Stratz.
+ *  node tools/check-draft-matrix.js [data/our-matrix.json] — своя матрица: структура и покрытие
+ *  (сверка со Stratz только для снимка Stratz — у него есть поле bracket). */
 const fs=require('fs'),path=require('path');
 const ROOT=path.join(__dirname,'..');
-const M=JSON.parse(fs.readFileSync(path.join(ROOT,'data','draft-matrix.json'),'utf8'));
+const FILE=process.argv[2]?path.resolve(process.argv[2]):path.join(ROOT,'data','draft-matrix.json');
+const M=JSON.parse(fs.readFileSync(FILE,'utf8'));
+console.log('Файл:',path.basename(FILE));
 const N=M.heroCount, ids=M.heroIds, pos=new Map(ids.map((id,i)=>[id,i]));
 const idx=(i,j)=>(i*(2*N-i-1))/2+(j-i-1);
 let fail=0; const bad=(m)=>{console.log('ПРОВАЛ:',m);fail++;};
@@ -32,6 +36,7 @@ console.log('Совокупный винрейт по vs:',wr.toFixed(3)+'% (о�
 if(Math.abs(wr-50)>1.5) bad('совокупный винрейт vs далёк от 50%');
 
 (async()=>{
+  if(!M.bracket){ console.log(fail?('ИТОГ: провалов '+fail):'ИТОГ: все проверки пройдены (без сверки со Stratz)'); process.exit(fail?1:0); }
   // Симметрия: сверяем три случайных героя со свежим ответом Stratz в обе стороны
   let raw=fs.readFileSync(path.join(ROOT,'stratz.capi.txt'),'utf8').trim();
   const token=(raw.includes('=')?raw.slice(raw.indexOf('=')+1):raw).replace(/\s/g,'');

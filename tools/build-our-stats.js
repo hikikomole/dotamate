@@ -12,13 +12,20 @@
  *   data/our-matrix.json — матрица пар в том же формате, что draft-matrix.json,
  *                          чтобы инструмент пика мог переключаться между срезами
  *
- * Запуск:  node tools/build-our-stats.js [--mode 22] [--turbo]
+ * Источник: --source opendota (по умолчанию) | steam — см. tools/match-source.js.
+ *
+ * Запуск:  node tools/build-our-stats.js [--tier top] [--turbo] [--source steam]
  */
 const fs = require('fs');
 const path = require('path');
+const MS = require('./match-source.js');
+const SRC = MS.source();
 
 const ROOT = path.join(__dirname, '..');
-const DIR = path.join(ROOT, 'data', 'public-matches');
+// Срез: base — наша база 0–4500 MMR, top — «Divine 5 и Immortal» (tools/collect-public-matches.js --tier top).
+const TIER = process.argv.includes('--tier') ? process.argv[process.argv.indexOf('--tier') + 1] : 'base';
+const TIERS = { base: { dir: 'public-matches', min: 0, max: 65, suffix: '' }, top: { dir: 'public-matches-top', min: 75, max: 85, suffix: '-top' } };
+if (!TIERS[TIER]) { console.error('Неизвестный срез: ' + TIER); process.exit(2); }
 const MIN_DURATION = 900;   // 15 минут: отсекаем брошенные игры
 
 function args() {
@@ -28,8 +35,8 @@ function args() {
     turbo,
     modes: turbo ? [23] : [22],
     lobbies: turbo ? [0] : [0, 7],
-    metaOut: path.join(ROOT, 'data', turbo ? 'our-meta-turbo.json' : 'our-meta.json'),
-    matrixOut: path.join(ROOT, 'data', turbo ? 'our-matrix-turbo.json' : 'our-matrix.json')
+    metaOut: path.join(ROOT, 'data', 'our-meta' + TIERS[TIER].suffix + (turbo ? '-turbo' : '') + '.json'),
+    matrixOut: path.join(ROOT, 'data', 'our-matrix' + TIERS[TIER].suffix + (turbo ? '-turbo' : '') + '.json')
   };
 }
 
@@ -46,20 +53,20 @@ function main() {
   const withN = new Array(PAIRS).fill(0), withW = new Array(PAIRS).fill(0);
   const vsN = new Array(PAIRS).fill(0), vsW = new Array(PAIRS).fill(0);
 
-  let files = fs.existsSync(DIR) ? fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort() : [];
-  if (!files.length) throw new Error('База пуста — сначала запусти «Обновить всё.cmd»');
+  const rows = MS.publicRows({ src: SRC, tier: TIER, turbo: A.turbo });
+  if (!rows.length) throw new Error(SRC === 'steam' ? 'База Steam пуста — сначала tools/collect-steam-matches.js' : 'База пуста — сначала запусти «Обновить всё.cmd»');
 
   let total = 0, used = 0, minTime = Infinity, maxTime = 0;
   const rankHist = {};
 
-  for (const f of files) {
-    const text = fs.readFileSync(path.join(DIR, f), 'utf8');
-    for (const line of text.split('\n')) {
-      if (!line) continue;
-      let r; try { r = JSON.parse(line); } catch { continue; }
+  {
+    for (const r of rows) {
       total++;
       const [, start, dur, rank, lobby, mode, radWin] = r;
       if (!A.modes.includes(mode) || !A.lobbies.includes(lobby) || dur < MIN_DURATION) continue;
+      // ранг вне среза не берём: срезы не смешиваются, даже если строка попала не в ту папку
+      // у Steam ранг известен не всегда (null); срез по рангу уже сделан в match-source.js
+      if (rank != null && (rank < TIERS[TIER].min || rank > TIERS[TIER].max)) continue;
       const rad = r.slice(7, 12), dire = r.slice(12, 17);
       const ri = rad.map(h => pos.get(h)), di = dire.map(h => pos.get(h));
       if (ri.some(x => x === undefined) || di.some(x => x === undefined)) continue;
@@ -67,7 +74,8 @@ function main() {
       used++;
       if (start < minTime) minTime = start;
       if (start > maxTime) maxTime = start;
-      rankHist[Math.floor(rank / 10)] = (rankHist[Math.floor(rank / 10)] || 0) + 1;
+      const rg = rank == null ? 'null' : Math.floor(rank / 10);
+      rankHist[rg] = (rankHist[rg] || 0) + 1;
 
       for (const i of ri) { heroMatches[i]++; if (radWin) heroWins[i]++; }
       for (const i of di) { heroMatches[i]++; if (!radWin) heroWins[i]++; }
@@ -97,8 +105,9 @@ function main() {
   if (!used) throw new Error('Под фильтр не попало ни одного матча');
 
   const meta = {
-    source: 'Своя база публичных матчей (OpenDota /publicMatches)',
-    slice: A.turbo ? 'Турбо, 0-4500 MMR' : 'Ranked All Pick, 0-4500 MMR',
+    source: MS.sourceLabel(SRC),
+    slice: TIER === 'top' ? 'Ranked All Pick, Divine 5 и Immortal (средний ранг матча 75–85 по ленте OpenDota)'
+      : SRC === 'steam' ? (A.turbo ? 'Турбо, все ранги' : 'Ranked All Pick, ранг неизвестен или 0-4500 MMR') : A.turbo ? 'Турбо, 0-4500 MMR' : 'Ranked All Pick, 0-4500 MMR',
     builtAt: new Date().toISOString(),
     matchesInBase: total,
     matchesUsed: used,
@@ -119,7 +128,7 @@ function main() {
   fs.writeFileSync(A.metaOut, JSON.stringify(meta));
 
   const matrix = {
-    source: 'Своя база публичных матчей (OpenDota /publicMatches)',
+    source: MS.sourceLabel(SRC),
     slice: meta.slice,
     fetchedAt: meta.builtAt,
     heroCount: N,

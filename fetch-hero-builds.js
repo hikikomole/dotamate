@@ -13,6 +13,12 @@
  * а поуровневый срез, и подписи на сайте сформулированы именно так.
  *
  * Запуск: node fetch-hero-builds.js
+ *
+ * --source steam: прокачка и таланты из ability_upgrades матчей Steam (data/steam-matches,
+ * tools/match-source.js) теми же функциями buildProgression/buildTalents. У Steam нет позиций
+ * и времени покупок, ранг известен редко — поэтому data/builds/ не трогается (контракт с
+ * фронтом — по позициям), а пишется сверка data/steam-builds-check.json: герой целиком
+ * против самой частой позиции Stratz. Запись в data/builds/ — после оценки позиции (T3).
  * Результат: data/builds/<heroId>.json (по файлу на героя — воркер отдаёт
  * билд конкретного героя, а не весь массив на 2,5 МБ).
  */
@@ -162,7 +168,58 @@ function buildItems(rows, totalMatches) {
   return { core, situational };
 }
 
+function steamBuilds() {
+  const MS = require('./tools/match-source.js');
+  const talentTree = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'talent-tree.json'), 'utf8')).heroes;
+  const heroes = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
+  // agg[hero] = { n, lvl: Map("ability:level" → [матчей, побед]), tal: Map(ability → [матчей, побед]) }
+  const agg = new Map();
+  let matches = 0;
+  for (const r of MS.steamMatches()) {
+    matches++;
+    for (const p of r.slice(9, 19)) {
+      const won = (p[1] < 128) === (r[5] === 1);
+      const a = agg.get(p[0]) || { n: 0, lvl: new Map(), tal: new Map() };
+      agg.set(p[0], a); a.n++;
+      const up = p[22] || [], first = new Map();
+      for (let i = 0; i < up.length; i += 2) if (!first.has(up[i])) first.set(up[i], i / 2 + 1);
+      for (const [ab, lvl] of first) {
+        const k = ab + ':' + lvl, x = a.lvl.get(k) || [0, 0]; x[0]++; if (won) x[1]++; a.lvl.set(k, x);
+        const t = a.tal.get(ab) || [0, 0]; t[0]++; if (won) t[1]++; a.tal.set(ab, t);
+      }
+    }
+  }
+  const out = { source: 'Steam Web API, ability_upgrades', builtAt: new Date().toISOString(), matches, heroes: {} };
+  let cmpLv = 0, sameLv = 0, cmpTal = 0, sameTal = 0;
+  for (const h of heroes) {
+    const a = agg.get(h.id); if (!a) continue;
+    const lvlRows = [...a.lvl].map(([k, [m, w]]) => { const [ab, lv] = k.split(':').map(Number); return { abilityId: ab, level: lv, matchCount: m, winCount: w }; });
+    const talRows = [...a.tal].map(([ab, [m, w]]) => ({ abilityId: ab, matchCount: m, winCount: w }));
+    const rec = { matches: a.n, progression: buildProgression(lvlRows), talents: buildTalents(talRows, talentTree[h.id] || {}) };
+    out.heroes[h.id] = rec;
+    // сверка с билдом Stratz на самой частой позиции
+    try {
+      const st = JSON.parse(fs.readFileSync(path.join(OUT_DIR, h.id + '.json'), 'utf8'));
+      const sp = st.positions[st.positionOrder[0]];
+      sp.progression.popular.steps.forEach((x, i) => {
+        const y = rec.progression.popular.steps[i];
+        if (x && y) { cmpLv++; if (x.abilityId === y.abilityId) sameLv++; }
+      });
+      for (const t of sp.talents) {
+        const y = rec.talents.find(z => z.level === t.level);
+        if (t.mostPicked && y && y.mostPicked) { cmpTal++; if (t.mostPicked === y.mostPicked) sameTal++; }
+      }
+    } catch { /* у героя нет билда Stratz */ }
+  }
+  out.compare = { levels: cmpLv, levelsSame: sameLv, talents: cmpTal, talentsSame: sameTal };
+  fs.writeFileSync(path.join(ROOT, 'data', 'steam-builds-check.json'), JSON.stringify(out));
+  const pc = (a, b) => b ? (a / b * 100).toFixed(1) + '%' : '—';
+  console.log(`Steam: ${matches} матчей, героев ${Object.keys(out.heroes).length}`);
+  console.log(`Сверка со Stratz (самая частая позиция): уровни 1–10 совпали ${sameLv}/${cmpLv} (${pc(sameLv, cmpLv)}), таланты ${sameTal}/${cmpTal} (${pc(sameTal, cmpTal)})`);
+}
+
 async function main() {
+  if (process.argv.includes('--source') && process.argv[process.argv.indexOf('--source') + 1] === 'steam') return steamBuilds();
   const token = readToken();
   const heroes = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
   const positions = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'hero-positions.json'), 'utf8')).heroes;

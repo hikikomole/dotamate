@@ -21,14 +21,23 @@
  * Линии в формулу не входят: в ленте публичных матчей нет позиций, а значит
  * лейновый вклад по истории не восстановить. Он остаётся отдельным показателем.
  *
- * Запуск:  node tools/build-draft-calibration.js
+ * Источник: --source opendota (по умолчанию) | steam — см. tools/match-source.js.
+ *
+ * Запуск:  node tools/build-draft-calibration.js [--tier top] [--source steam]
  */
 const fs = require('fs');
 const path = require('path');
+const MS = require('./match-source.js');
+const SRC = MS.source();
 
 const ROOT = path.join(__dirname, '..');
-const DIR = path.join(ROOT, 'data', 'public-matches');
-const OUT = path.join(ROOT, 'data', 'draft-calibration.json');
+// --tier top — срез Divine 5 и Immortal (data/public-matches-top, средний ранг матча 75–85,
+// как в tools/build-our-stats.js) → data/draft-calibration-top.json. По умолчанию — основной срез.
+const TIER = process.argv.includes('--tier') ? process.argv[process.argv.indexOf('--tier') + 1] : 'base';
+const TIERS = { base: { dir: 'public-matches', out: 'draft-calibration.json', min: -Infinity, max: Infinity, minMatches: 5000 },
+  top: { dir: 'public-matches-top', out: 'draft-calibration-top.json', min: 75, max: 85, minMatches: 5000 } };
+if (!TIERS[TIER]) { console.error('Неизвестный срез: ' + TIER); process.exit(2); }
+const OUT = path.join(ROOT, 'data', TIERS[TIER].out);
 const K = 50;                 // то же сглаживание, что в инструменте
 const MIN_DURATION = 900;
 const MODES = [22], LOBBIES = [0, 7];
@@ -40,15 +49,11 @@ function rng(seed) {
 }
 
 function loadMatches() {
-  const files = fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort();
   const out = [];
-  for (const f of files) {
-    for (const line of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
-      if (!line) continue;
-      let r; try { r = JSON.parse(line); } catch { continue; }
-      if (!MODES.includes(r[5]) || !LOBBIES.includes(r[4]) || r[2] < MIN_DURATION) continue;
-      out.push(r);
-    }
+  for (const r of MS.publicRows({ src: SRC, tier: TIER })) {
+    if (!MODES.includes(r[5]) || !LOBBIES.includes(r[4]) || r[2] < MIN_DURATION) continue;
+    if (r[3] != null && (r[3] < TIERS[TIER].min || r[3] > TIERS[TIER].max)) continue;
+    out.push(r);
   }
   return out;
 }
@@ -61,7 +66,7 @@ function main() {
   const PAIRS = (N * (N - 1)) / 2;
 
   const all = loadMatches();
-  if (all.length < 5000) throw new Error('Мало матчей для калибровки: ' + all.length + ', нужно хотя бы 5000');
+  if (all.length < TIERS[TIER].minMatches) throw new Error('Мало матчей для калибровки: ' + all.length + ', нужно хотя бы ' + TIERS[TIER].minMatches);
 
   // детерминированное перемешивание и деление 70/15/15
   const rnd = rng(20260924);
@@ -164,7 +169,8 @@ function main() {
   }
 
   fs.writeFileSync(OUT, JSON.stringify({
-    source: 'Логистическая калибровка по своей базе матчей',
+    source: 'Логистическая калибровка по своей базе матчей' + (SRC === 'steam' ? ' (Steam Web API)' : '') + (TIER === 'top' ? ' (Divine 5 и Immortal)' : ''),
+    tier: TIER,
     method: 'P = 1 / (1 + exp(-a * S)), a подобран по отложенной части базы',
     builtAt: new Date().toISOString(),
     matchesTotal: all.length,

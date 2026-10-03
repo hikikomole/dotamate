@@ -21,10 +21,16 @@
  * включая эту, n — всего сборок героя на позиции. Расходники не считаются.
  * Если сборок героя на позиции меньше MIN_BASE, база берётся по герою на всех
  * позициях; такая оценка помечается.
+ *
+ * Источник: --source opendota (по умолчанию: детали Stratz из data/meta-matches) | steam
+ * (финальный инвентарь из data/steam-matches, tools/match-source.js). У Steam нет позиций,
+ * линий и графиков — база долей только по герою целиком (byPos = 0), нишевые по позициям пусты.
  */
 const fs = require('fs');
 const path = require('path');
 const { slugForHero, imageUrl } = require('./hero-common.js');
+const MS = require('./match-source.js');
+const SRC = MS.source();
 
 const ROOT = path.join(__dirname, '..');
 const DIR = path.join(ROOT, 'data', 'meta-matches');
@@ -40,7 +46,20 @@ const NICHE_MIN = 10;       // и сыграно на ней не меньше �
 
 const read = f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
 
+// строка Steam (tools/collect-steam-matches.js) → запись в формате data/meta-matches
+function fromSteam(r) {
+  return {
+    id: r[0], rw: r[5], dur: r[3], t: r[2], rank: r[4], wr: [], nw: [], lanes: [], bans: r[8],
+    p: r.slice(9, 19).map(p => ({ h: p[0], r: p[1] < 128 ? 1 : 0, pos: null, k: p[2], d: p[3], a: p[4], gpm: p[7], xpm: p[8],
+      lh: p[5], dn: p[6], hd: p[11], td: p[12], hh: p[13], nw: p[10], lvl: p[9], it: p[14], nt: p[16], acc: 0, name: '' }))
+  };
+}
+
 function loadMatches() {
+  if (SRC === 'steam') {
+    // как кандидаты Stratz (collect-meta-matches.js): ranked AP от 20 минут, наш срез рангов
+    return MS.steamMatches().filter(r => r[3] >= 1200 && (r[4] == null || r[4] <= 65)).map(fromSteam);
+  }
   const byId = new Map();
   for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
     for (const line of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
@@ -71,7 +90,7 @@ function main() {
   const counted = id => { const it = itemById.get(id); return it && it.cat !== 'consumable'; };
 
   const all = loadMatches();
-  if (!all.length) throw new Error('Нет матчей: сначала node tools/collect-meta-matches.js');
+  if (!all.length) throw new Error(SRC === 'steam' ? 'Нет матчей Steam: сначала node tools/collect-steam-matches.js' : 'Нет матчей: сначала node tools/collect-meta-matches.js');
   const newest = all.reduce((x, m) => Math.max(x, m.t), 0);
   const matches = all.filter(m => m.t >= newest - WINDOW_DAYS * 86400);
 
@@ -85,12 +104,12 @@ function main() {
   // --- база долей: по герою+позиции и по герою целиком
   const base = new Map();
   const add = (k, items) => { let b = base.get(k); if (!b) base.set(k, b = { n: 0, c: new Map() }); b.n++; for (const i of items) b.c.set(i, (b.c.get(i) || 0) + 1); };
-  for (const b of builds) { add(b.p.h + ':' + b.p.pos, b.items); add(b.p.h + ':all', b.items); }
+  for (const b of builds) { if (b.p.pos) add(b.p.h + ':' + b.p.pos, b.items); add(b.p.h + ':all', b.items); }
 
   for (const b of builds) {
-    if (b.items.length < MIN_ITEMS || !b.p.pos) continue;
-    let bs = base.get(b.p.h + ':' + b.p.pos), byPos = true;
-    if (bs.n < MIN_BASE) { bs = base.get(b.p.h + ':all'); byPos = false; }
+    if (b.items.length < MIN_ITEMS || (!b.p.pos && SRC !== 'steam')) continue;
+    let bs = b.p.pos ? base.get(b.p.h + ':' + b.p.pos) : null, byPos = true;
+    if (!bs || bs.n < MIN_BASE) { bs = base.get(b.p.h + ':all'); byPos = false; }
     if (bs.n < MIN_BASE) continue;
     let s = 0; const share = {};
     for (const i of b.items) {
@@ -114,8 +133,8 @@ function main() {
     };
   };
   const dayAgo = newest - 86400;
-  const day = scored.filter(b => b.m.t >= dayAgo).slice(0, 6).map(row);
-  const five = scored.slice(0, 6).map(row);
+  const day = scored.filter(b => b.m.t >= dayAgo).slice(0, 5).map(row);
+  const five = scored.slice(0, 5).map(row);
   // «Последние билды»: самые свежие оценённые сборки, новые сверху.
   const list = scored.slice().sort((a, b) => b.m.t - a.m.t || b.score - a.score).slice(0, TOP_ALL).map(row);
 
@@ -152,8 +171,8 @@ function main() {
 
   const out = {
     generatedAt: new Date().toISOString(),
-    source: 'Stratz, матчи из нашей базы публичных матчей OpenDota',
-    slice: 'Ranked All Pick, 0–4500 MMR, матчи от 20 минут',
+    source: SRC === 'steam' ? 'Steam Web API, финальный инвентарь рейтинговых матчей' : 'Stratz, матчи из нашей базы публичных матчей OpenDota',
+    slice: SRC === 'steam' ? 'Ranked All Pick, ранг неизвестен или 0–4500 MMR, матчи от 20 минут' : 'Ranked All Pick, 0–4500 MMR, матчи от 20 минут',
     window: { from: matches.reduce((x, m) => Math.min(x, m.t), newest), to: newest, days: WINDOW_DAYS },
     matches: matches.length, builds: builds.length, scored: scored.length,
     rules: { minBase: MIN_BASE, minItems: MIN_ITEMS, nicheShare: NICHE_SHARE * 100, nicheMin: NICHE_MIN },
