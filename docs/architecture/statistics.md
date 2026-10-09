@@ -110,6 +110,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 | Прогноз драфта | DraftMate, /live, META | сумма парных отклонений → Platt (a), 70/15/15 | Steam all / OpenDota top | `our-matrix*.json`, `draft-calibration*.json` | daily | проверка на архиве эфира — `draft-archive-check.json` |
 | Шанс победы по ходу игры | /live, итоги матча | логистическая регрессия, пишется только если лучше 50 % | архив эфира | `live-winprob.json` | daily (сервер) | — |
 | Средние героя по минутам | /live карточки игроков | средние на отметках 5…60 мин, n ≥ 30 | архив эфира | `live-hero-avg.json` | daily (сервер) | — |
+| Свои позиции 1–5 (не на сайте до ready) | — | линия по координатам 1:00–8:00 + добивания к 10:00; 5 — поддержка на лёгкой линии | архив реплеев эфира → tools/archive-positions.js; эталон — Stratz (collect-meta-matches спрашивает матчи архива первыми, пишет только ALL_PICK_RANKED) | data/archive-positions.json, кеш archive/positions-cache.json | daily (сервер), 240 с | ready: точность 4/5 ≥ 85 % на ≥ 200 командах эталона; на 09.10 эталон 3 матча |
 | Прокачка/таланты | /hero/, карточка героя | поуровневый срез частот | Steam (+ Stratz предметы) | `data/builds/<id>.json`, `/api/dota/hero/<id>/build` | daily | — |
 | META «необычные сборки» | /meta/ | Σ −ln(p) leave-one-out | Steam (инвентарь) | `meta-escape.json`, `meta-match/` | daily | у Steam нет позиций |
 | Личная статистика /me | /me/ | Уилсон, z-тест двух долей, оценка позиции (порт модели в PHP) | Steam API по запросу посетителя (бюджет 60 000/сут) | `/api/dota/player/*` | по запросу, кеш 1 ч | сравнение со stats.json `wr` |
@@ -167,7 +168,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 - Р2. При долгом сбое Stratz `meta-matches` пустеют после смены патча (`m.t < patchTs`) — вкладки «Предметы/Линии»
   станут пустыми; пустого состояния у этих вкладок нет (`js/stats.js items()/lanes()`).
 
-## 6а. Статус исправлений (09.10.2026, в коде, ждёт выкладки)
+## 6а. Статус исправлений (выложено v71, 09.10.2026)
 
 Исправлено: В1 (подпись «выборка», `base.sampled/days`), В3 (дата снимка ролей), В4 (подписи среза Stratz, `base.stratz`),
 С1 (место по `lo`), С2 (пикрейт по рангу), С3 (про-срез: 1–4 не показываются, 5–9 «мало данных», 10+ в рейтинге),

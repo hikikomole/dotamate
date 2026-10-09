@@ -244,6 +244,9 @@ async function main() {
     // META, матрицы и прокачка больше от него не зависят.
     if (!await node('Детали матчей (Stratz, малый бюджет)', 'tools/collect-meta-matches.js', ['--max', new Date().getHours() < 8 ? '2000' : '300'], { timeout: HOUR }))
       problems.push('детали Stratz');
+    // Свои позиции 1–5 по архиву реплеев эфира и их сверка с позициями Stratz (только на сервере, где архив).
+    // На сайт не выводятся, пока в data/archive-positions.json не станет ready (см. сам сборщик). Сбой — прежний файл.
+    if (ON_SERVER && !await node('Позиции 1–5 по архиву эфира', 'tools/archive-positions.js', ['--seconds', '240'], { heap: 500, timeout: 0.1 * HOUR })) problems.push('позиции по архиву');
     // Реальные покупки предметов в карточке героя. Сбой не останавливает
     // выкладку: на сайте остаётся прошлый data/hero-items.json.
     if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');

@@ -117,6 +117,18 @@ async function ask(token, id, query = Q) {
   throw new Error('Stratz не отвечает после ' + RATE_TRIES + ' попыток');
 }
 
+// Матчи архива эфира (разобранные реплеи) — первыми: по ним проверяется своя разметка позиций 1–5
+// (tools/archive-positions.js), эталон — позиции Stratz. Пишутся только рейтинговые (ALL_PICK_RANKED),
+// чтобы срез Stratz (/stats/ «Предметы», «Линии») не смешивался с турнирными матчами.
+const ARCHIVE_INDEX = path.join(process.env.DOTAMATE_COLLECTOR || path.join(require('os').homedir(), 'dotamate-collector'), 'archive', 'index.json');
+function archiveCandidates(tried) {
+  let idx;
+  try { idx = JSON.parse(fs.readFileSync(ARCHIVE_INDEX, 'utf8')).matches; } catch { return []; }
+  const since = Date.now() / 1000 - 14 * 86400;
+  return idx.filter(m => !m.pro && m.endTime >= since && m.duration >= 900 && !tried.has(Number(m.matchId)))
+    .map(m => Object.assign([Number(m.matchId)], { archive: true }));
+}
+
 function candidates(tried) {
   const rows = [];
   for (const f of fs.readdirSync(SRC).filter(f => f.endsWith('.jsonl'))) {
@@ -191,8 +203,9 @@ async function main() {
   const token = readToken();
   fs.mkdirSync(DIR, { recursive: true });
   const tried = new Set(fs.existsSync(TRIED) ? JSON.parse(fs.readFileSync(TRIED, 'utf8')) : []);
-  const list = candidates(tried);
-  console.log('Кандидатов за', WINDOW_DAYS, 'дн.:', list.length);
+  const fromArchive = archiveCandidates(tried);
+  const list = fromArchive.concat(candidates(tried));
+  console.log('Кандидатов за', WINDOW_DAYS, 'дн.:', list.length, '(из архива эфира:', fromArchive.length + ')');
   const t0 = Date.now();
   let asked = 0, found = 0;
   const saveTried = () => fs.writeFileSync(TRIED, JSON.stringify([...tried]));
@@ -206,7 +219,7 @@ async function main() {
       asked++;
       const got = await ask(token, m[0]);
       tried.add(m[0]);
-      if (got && got.players && got.players.length === 10) {
+      if (got && got.players && got.players.length === 10 && (!m.archive || got.gameMode === 'ALL_PICK_RANKED')) {
         const day = new Date(got.startDateTime * 1000).toISOString().slice(0, 10);
         fs.appendFileSync(path.join(DIR, day + '.jsonl'), JSON.stringify(pack(got)) + '\n');
         found++;
