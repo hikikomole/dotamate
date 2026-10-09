@@ -65,7 +65,7 @@ public class MapProbe {
 
     @OnTickEnd
     public void onTickEnd(boolean synthetic) {
-        Entity g = entities.getByDtName("CDOTAGamerulesProxy");
+        Entity g = entities.stream().filter(Entities.byDtName("CDOTAGamerulesProxy")).findFirst().orElse(null);
         if (g == null) return;
         // Время как у odota/parser: round((serverTick или m_nPauseStartTick во время паузы - m_nTotalPausedTicks) / 30) - round(m_flGameStartTime)
         Double st = num(g, "m_pGameRules.m_flGameStartTime"), paused = num(g, "m_pGameRules.m_nTotalPausedTicks");
@@ -81,7 +81,7 @@ public class MapProbe {
         StringBuilder sb = new StringBuilder();
         int n = 0;
         for (String dt : new String[] { "CDOTA_BaseNPC_Creep_Lane", "CDOTA_BaseNPC_Creep_Siege" }) {
-            Iterator<Entity> it = entities.getAllByDtName(dt);
+            Iterator<Entity> it = entities.stream().filter(Entities.byDtName(dt)).iterator(); // Clarity 5: потоковый API вместо getAllByDtName
             while (it.hasNext()) {
                 Entity e = it.next();
                 Double life = num(e, "m_lifeState"), team = num(e, "m_iTeamNum");

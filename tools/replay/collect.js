@@ -44,7 +44,9 @@ const SKIP_CLUSTERS = new Set([413, 415, 417]); // Китай: из РФ ска�
 const MAX_AGE_S = 7 * 86400;
 const MIN_AGE_S = 15 * 60;   // реплей появляется у Valve не сразу после матча
 const MAX_TRIES = 3;
-const LIMIT = Math.min(5, Math.max(1, Number(process.argv[process.argv.indexOf('--limit') + 1]) || 3));
+// Потолок пачки 10 (тариф RuBig с 10.10.2026: 115 процессов, 3 ГБ). Ограничивают также salt — до 90 запросов
+// на аккаунт в сутки (pickAccount) — и время: запуск каждые 10 мин должен успеть до следующего.
+const LIMIT = Math.min(10, Math.max(1, Number(process.argv[process.argv.indexOf('--limit') + 1]) || 3));
 const KEEP_DAYS = process.argv.includes('--keep-days') ? Number(process.argv[process.argv.indexOf('--keep-days') + 1]) : 0; // 0 — не удалять
 
 const log = (...a) => console.log(new Date().toISOString(), ...a);
@@ -122,7 +124,16 @@ async function processMatch(id, state) {
   const dem = await decompress(id);
   const jsonl = path.join(WORK, id + '.jsonl');
   const p = spawnSync(JAVA, JAVA_FLAGS, { stdio: [fs.openSync(dem, 'r'), fs.openSync(jsonl, 'w'), 'pipe'], timeout: 5 * 60 * 1000 });
-  if (p.status !== 0) { state[id].lastError = 'parser exit ' + p.status; return false; }
+  if (p.status !== 0) {
+    // Текст ошибки — в журнал (раньше писался только код, причину нельзя было найти). Ссылки и длинные hex вырезаются.
+    const err = String(p.stderr || '').replace(/https?:\/\/\S+/g, 'URL').replace(/[0-9a-f]{24,}/gi, '***');
+    const exc = (err.match(/^.*(?:Exception|Error)\b.*$/m) || [''])[0].trim().slice(0, 160);
+    // Исключение разборщика (exit 1 + Exception) повторяется на том же файле — повтор только занимает место в пачке:
+    // такой матч больше не берём (skip). Снятие по таймауту/памяти (status null, сигнал) — случайное, его повторяем.
+    if (p.status === 1 && exc) { state[id].skip = 'parser: ' + exc; return false; }
+    state[id].lastError = 'parser exit ' + p.status + (p.signal ? ' ' + p.signal : '') + (exc ? ': ' + exc : '');
+    return false;
+  }
   const match = await normalize(jsonl);
   if (match.matchId !== id) throw new Error('в реплее другой match_id: ' + match.matchId);
   const probe = path.join(WORK, id + '.probe.jsonl');
@@ -243,7 +254,15 @@ async function main() {
     // у Valve около 100 запросов salt на аккаунт в сутки, держим запас — не больше 90.
     const acc = pickAccount(state, list.length);
     if (acc === null) { log('все аккаунты Steam исчерпали суточный запас'); for (const c of list) state[c.id].tries--; return; }
-    const salt = run(process.execPath, ['tools/replay-poc.js', ...list.flatMap(c => ['--match', c.id])], { timeout: 2 * 60 * 1000, env: { ...process.env, STEAM_ACCOUNT: String(acc) } });
+    // tools/replay-poc.js принимает не больше 5 match_id за вызов (10.10.2026 при --limit 6 весь запуск остался без salt) —
+    // пачку делим на части по 5, аккаунт тот же.
+    const salt = { code: 0, out: '' };
+    for (let i = 0; i < list.length; i += 5) {
+      const r = run(process.execPath, ['tools/replay-poc.js', ...list.slice(i, i + 5).flatMap(c => ['--match', c.id])], { timeout: 2 * 60 * 1000, env: { ...process.env, STEAM_ACCOUNT: String(acc) } });
+      if (r.code !== 0) salt.code = r.code;
+      salt.out += r.out + '\n';
+      if (/Steam Guard/.test(r.out)) break;
+    }
     if (salt.code !== 0) log('salt:', salt.out.trim().slice(-200));
     // Аккаунт требует код Steam Guard (новый вход с сервера) — выключаем его на сутки,
     // попытки матчей не тратим: в следующий запуск их возьмёт другой аккаунт.

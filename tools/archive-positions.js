@@ -15,7 +15,7 @@
  * Проверка — попутная: матчи архива, которые уже есть в data/meta-matches с позициями Stratz (новых запросов к Stratz
  * ради неё не делается — решение владельца 09.10.2026). Точность по каждой позиции и отдельно «4 против 5».
  *
- * Выход: data/archive-positions.json — метод, проверка, период и выборка, по героям [матчей, побед] на позициях 1–5.
+ * Выход: <archive>/positions-summary.json (вне data/, на сайт не идёт) — метод, проверка, период и выборка, по героям [матчей, побед] на позициях 1–5.
  * На сайт не выводится, пока не выполнены условия ready (точность 4 и 5 ≥ 85 % на ≥ 200 командах эталона).
  * Кеш разметки по матчам: <archive>/positions-cache.json (каждый матч размечается один раз).
  *
@@ -29,8 +29,11 @@ const { writeJsonAtomic } = require('./match-source.js');
 
 const ROOT = path.join(__dirname, '..');
 const ARCHIVE = path.join(process.env.DOTAMATE_COLLECTOR || path.join(os.homedir(), 'dotamate-collector'), 'archive');
-const CACHE = path.join(ARCHIVE, 'positions-cache.json');
-const OUT = path.join(ROOT, 'data', 'archive-positions.json');
+// Оба файла — рядом с архивом, вне data/: data/ целиком уходит на сайт (tools/sync-deploy.js), а интерфейс
+// результат пока не читает (решение владельца 10.10.2026: не публиковать до прохождения проверки позиций).
+// POS_CACHE / POS_OUT — другие пути для изолированной проверки.
+const CACHE = process.env.POS_CACHE || path.join(ARCHIVE, 'positions-cache.json');
+const OUT = process.env.POS_OUT || path.join(ARCHIVE, 'positions-summary.json');
 const META = path.join(ROOT, 'data', 'meta-matches');
 
 const LANE_FROM = 60, LANE_TO = 480;   // секунды матча, по которым определяется линия
