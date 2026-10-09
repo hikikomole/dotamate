@@ -57,10 +57,11 @@ const MIN_PAIR = 300;              // как у контрпиков
 const MIN_DUR_BUCKET = 300;
 const MIN_POS = 30;                // матчей героя на позиции (база Stratz меньше)
 const MIN_LANE = 30;
-// Про-матчи из архива эфира: 1–4 выбора — винрейт не показывается; 5–9 — число игр и «мало данных», вне рейтинга;
-// от 10 — винрейт и место в рейтинге (решение владельца 09.10.2026).
+// Про-матчи из архива эфира, считаются РАЗНЫЕ матчи (match_id), где героя выбрали (баны не считаются):
+// 1–4 — не показывается; 5–11 — число матчей и «мало данных», вне рейтинга; от 12 — винрейт и место в про-тир-листе
+// (решения владельца 09.10.2026: 5 и 10, затем порог участия поднят до 12).
 const MIN_PRO_SHOW = 5;
-const MIN_PRO_RANK = 10;
+const MIN_PRO_RANK = 12;
 const Z = 1.96;
 const RANKS = Object.assign({ 1: 'Рекрут', 2: 'Страж', 3: 'Рыцарь', 4: 'Герой', 5: 'Легенда', 6: 'Властелин' },
   SRC === 'steam' ? { 7: 'Божество 5 и Титан' } : {});
@@ -308,12 +309,18 @@ try {
   const idx = JSON.parse(fs.readFileSync(path.join(ARCHIVE, 'index.json'), 'utf8')).matches.filter(m => m.pro);
   const P = new Map(), leagues = new Map();
   let n = 0, from = Infinity, to = 0;
+  const seenPro = new Set();   // повтор match_id в индексе не должен раздувать выборку
   for (const im of idx) {
+    if (seenPro.has(String(im.matchId))) continue;
+    seenPro.add(String(im.matchId));
     let m; try { m = JSON.parse(fs.readFileSync(path.join(ARCHIVE, 'matches', im.matchId + '.json'), 'utf8')); } catch { continue; }
     if (!m.players || m.players.length !== 10) continue;
     n++; from = Math.min(from, m.endTime); to = Math.max(to, m.endTime);
     const lg = im.pro.league || '—'; leagues.set(lg, (leagues.get(lg) || 0) + 1);
+    const pickedHere = new Set();   // герой — один раз на матч
     for (const pl of m.players) {
+      if (pickedHere.has(pl.heroId)) continue;
+      pickedHere.add(pl.heroId);
       const x = P.get(pl.heroId) || { n: 0, w: 0, k: 0, d: 0, a: 0 };
       x.n++; if ((pl.team === 'radiant') === m.radiantWin) x.w++;
       x.k += pl.k; x.d += pl.d; x.a += pl.a; P.set(pl.heroId, x);
@@ -323,7 +330,7 @@ try {
     source: 'Разобранные реплеи про-матчей (лента OpenDota /proMatches, реплеи Valve) из архива эфира DotaMate',
     matches: n, from: new Date(from * 1000).toISOString(), to: new Date(to * 1000).toISOString(),
     leagues: [...leagues].sort((a, b) => b[1] - a[1]),
-    // Меньше MIN_PRO_RANK выборов — винрейт и «надёжный» не отдаются (null): на сайте 1–4 не показываются, 5–9 — «мало данных».
+    // Меньше MIN_PRO_RANK выборов — винрейт и «надёжный» не отдаются (null): на сайте 1–4 не показываются, 5–11 — «мало данных».
     heroes: [...P].map(([id, x]) => [id, x.n, x.n >= MIN_PRO_RANK ? r1(x.w / x.n * 100) : null, x.n >= MIN_PRO_RANK ? r1(wilsonLow(x.w, x.n) * 100) : null, r1(x.n / n * 100), r1(x.k / x.n), r1(x.d / x.n), r1(x.a / x.n)])
   };
 } catch (e) {

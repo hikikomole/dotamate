@@ -119,7 +119,7 @@
       .filter(r => !t.q || (H.get(r.id)?.localized_name || '').toLowerCase().includes(t.q));
     const k = t.sort;
     // Про-матчи из архива: 1–4 выбора не показываются; 5–9 — «мало данных», без винрейта и вне рейтинга (в конце списка).
-    const proShow = (S.method && S.method.minProShow) || 5, proRank = (S.method && S.method.minProRank) || 10;
+    const proShow = (S.method && S.method.minProShow) || 5, proRank = (S.method && S.method.minProRank) || 12;
     let proHidden = 0;
     if (isPro) { const all = rows.length; rows = rows.filter(r => r.n >= proShow); proHidden = all - rows.length; rows.forEach(r => { r.low = r.n < proRank; }); }
     rows.sort((a, b) => (a.low ? 1 : 0) - (b.low ? 1 : 0) || (k === 'name' ? H.get(a.id).localized_name.localeCompare(H.get(b.id).localized_name) : (b[k] ?? -1) - (a[k] ?? -1)));
