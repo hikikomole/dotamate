@@ -12,6 +12,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { writeJsonAtomic } = require('./tools/match-source.js');
 
 const ENDPOINT = 'https://api.stratz.com/graphql';
 const BRACKET = 'DIVINE_IMMORTAL';        // верхний брекет — ближе всего к «7000+ MMR» у D2PT
@@ -98,7 +99,7 @@ async function main() {
   };
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
+  writeJsonAtomic(OUT, JSON.stringify(out, null, 1));
   console.log(`OK: ${out.heroCount} героев -> ${path.relative(__dirname, OUT)}`);
 }
 

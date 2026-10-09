@@ -159,9 +159,22 @@ function outDir() {
   return abs;
 }
 
+/**
+ * Запись итогового JSON без окна с обрезанным файлом: во временный файл рядом, fsync, затем rename
+ * (атомарно в пределах одной файловой системы). Если процесс снимут посреди записи (SIGKILL по лимиту
+ * памяти хостинга), на месте останется прежний файл, а не половина нового.
+ */
+function writeJsonAtomic(file, data) {
+  const tmp = file + '.tmp';
+  const fd = fs.openSync(tmp, 'w');
+  try { fs.writeSync(fd, typeof data === 'string' ? data : JSON.stringify(data)); fs.fsyncSync(fd); }
+  finally { fs.closeSync(fd); }
+  fs.renameSync(tmp, file);
+}
+
 /** Подпись источника для полей source в выходных JSON. */
 function sourceLabel(src = source()) {
   return src === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API)' : 'Своя база публичных матчей (OpenDota /publicMatches)';
 }
 
-module.exports = { publicStream, DATA, outDir, steamFiles, steamRows, source, publicRows, steamMatches, steamStream, steamToPublic, STEAM_TIER, sourceLabel, readGz, steamToMeta, metaMatches };
+module.exports = { writeJsonAtomic, publicStream, DATA, outDir, steamFiles, steamRows, source, publicRows, steamMatches, steamStream, steamToPublic, STEAM_TIER, sourceLabel, readGz, steamToMeta, metaMatches };

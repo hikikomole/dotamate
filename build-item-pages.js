@@ -36,7 +36,7 @@ async function main(){
   // Общее правило каталога: рецепты и повторные уровни одного предмета
   // (Dagon 2–5, Necronomicon 2–3) своей страницы не получают — иначе в
   // выдаче пять одинаковых «Dagon». Данные о них остаются в items-ru.json,
-  // а старые адреса переадресуются на базовый предмет в deploy/worker.js.
+  // а старые адреса переадресуются на базовый предмет в deploy/.htaccess.
   const V=require('./js/item-variants.js');
   const variantMaps=V.buildVariantMaps(store);
   const entries=Object.entries(store).filter(([key,x])=>

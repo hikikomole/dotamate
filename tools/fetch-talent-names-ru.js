@@ -7,7 +7,7 @@
  * Stratz («+50 Jinada Gold Steal» -> «+50 к краже золота Jinada»).
  *
  * Источник — тот же файл локализации abilities_russian.txt, который уже
- * использует deploy/worker.js для описаний способностей.
+ * использует deploy/api/index.php для описаний способностей.
  *
  * Запуск: node tools/fetch-talent-names-ru.js
  */

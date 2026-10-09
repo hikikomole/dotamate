@@ -21,7 +21,7 @@ const REFRESH_DAYS = 90;
 const VDF_RU_URL = 'https://raw.githubusercontent.com/dotabuff/d2vpkr/master/dota/resource/localization/abilities_russian.txt';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// Алгоритм тот же, что в deploy/worker.js (getHeroAbilities + resolveRuText),
+// Алгоритм тот же, что в deploy/api/index.php (getHeroAbilities + resolveRuText),
 // но справочники берутся ОДИН раз на всех героев, а не на каждого отдельно.
 // Через воркер сбор занимал бы часы: он ходит в OpenDota на каждый запрос.
 function parseVdfTokens(text) {

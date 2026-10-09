@@ -992,8 +992,12 @@ build-guide-pages → sync-deploy → wrangler. Сбой контрпиков в
   ежедневный пересчёт — новый шаг добавлять в `tools/daily-update.js` с учётом зависимостей и того, стоп это или пропуск.
   Тяжёлое — под `flock heavy.lock`, лимит процессов 45.
 - **Фронтенд** — `js/*.js` читает `/data/*.json` и `/api/*`; статические страницы генерируются `build-*.js`.
-- **Наследие, не прод**: `server.js`, `preview-server.js`, `deploy/worker.js`, Docker/Caddy/MediaMTX, `js/v43-*`.
-  В них новую логику не добавлять.
+- **Удалены 09.10.2026** (решение владельца): `server.js` (трансляции/донаты), Cloudflare Worker (`deploy/worker.js`,
+  `wrangler.jsonc`, `tools/update-site.js`, `tools/publish-meta.js`), Docker/Caddy/MediaMTX, `db/schema.sql`, Netlify.
+  Упоминания их в старых разделах этого файла — история. Остались: `preview-server.js` (локальное превью),
+  `js/v43-features.js` (поиск Ctrl+K, в проде). Новую логику в `preview-server.js` не добавлять.
+- Запись итоговых `data/*.json` — только `writeJsonAtomic` из `tools/match-source.js`; перед раскладкой
+  `daily-update.js` проверяет, что все `data/*.json` читаются (`checkDataJson`).
 
 Правила для нового кода статистики:
 - Каждый показатель на странице — с источником, периодом и размером выборки; порог минимальной выборки — константой в сборщике и в `method` выходного файла.

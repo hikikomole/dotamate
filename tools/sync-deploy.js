@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Копирует статику из корня проекта в deploy/ перед `wrangler deploy`.
+// Копирует статику из корня проекта в deploy/ перед выкладкой (tools/deploy-hostiman.js).
 //
 // Зачем: wrangler выкатывает ровно содержимое deploy/ (см. wrangler.jsonc,
 // assets.directory = "./"). HTML туда пишут сборщики страниц, а css, js,
@@ -21,7 +21,7 @@ const DIRS = ['css', 'js', 'assets', 'data'];
 const FILES = ['security.js', 'ads.txt', 'robots.txt', '_headers', 'sitemap.xml'].concat(fs.readdirSync(ROOT).filter((n) => /^[0-9a-f]{32}\.txt$/.test(n))); // ключ IndexNow (tools/indexnow.js)
 // Сырая база собранных матчей на сайт не выкладывается: она растёт до сотен
 // мегабайт, а посетителю нужны только посчитанные по ней матрицы.
-const SKIP_DIRS = new Set(['public-matches', 'public-matches-top', 'meta-matches', 'stats-history', 'steam-matches', 'steam-matches-turbo', 'data-steam', 'builds-stratz']); // builds-stratz — хранилище предметов Stratz (U5), сайт читает data/builds // data-steam — параллельный расчёт U4, на сайт не идёт
+const SKIP_DIRS = new Set(['public-matches', 'public-matches-top', 'meta-matches', 'stats-history', 'stats-history-steam', 'steam-matches', 'steam-matches-turbo', 'data-steam', 'builds-stratz']); // builds-stratz — хранилище предметов Stratz (U5), сайт читает data/builds // data-steam — параллельный расчёт U4, на сайт не идёт
 
 function copyDir(src, dst){
   if(!fs.existsSync(src)) return 0;
@@ -30,7 +30,7 @@ function copyDir(src, dst){
   for(const e of fs.readdirSync(src, {withFileTypes:true})){
     const s = path.join(src, e.name), d = path.join(dst, e.name);
     if(e.isDirectory()){ if(SKIP_DIRS.has(e.name)) continue; n += copyDir(s, d); }
-    else { fs.copyFileSync(s, d); n++; }
+    else if (!e.name.endsWith('.tmp')) { fs.copyFileSync(s, d); n++; } // .tmp — недописанный файл writeJsonAtomic
   }
   return n;
 }

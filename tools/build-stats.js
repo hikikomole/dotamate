@@ -57,6 +57,10 @@ const MIN_PAIR = 300;              // как у контрпиков
 const MIN_DUR_BUCKET = 300;
 const MIN_POS = 30;                // матчей героя на позиции (база Stratz меньше)
 const MIN_LANE = 30;
+// Про-матчи из архива эфира: 1–4 выбора — винрейт не показывается; 5–9 — число игр и «мало данных», вне рейтинга;
+// от 10 — винрейт и место в рейтинге (решение владельца 09.10.2026).
+const MIN_PRO_SHOW = 5;
+const MIN_PRO_RANK = 10;
 const Z = 1.96;
 const RANKS = Object.assign({ 1: 'Рекрут', 2: 'Страж', 3: 'Рыцарь', 4: 'Герой', 5: 'Легенда', 6: 'Властелин' },
   SRC === 'steam' ? { 7: 'Божество 5 и Титан' } : {});
@@ -183,7 +187,7 @@ const itemKey = new Map(Object.entries(catalog).map(([k, v]) => [v.id, k]));
 const P = {};               // pos -> {n, gpm, xpm, heroes: Map}
 const L = new Map();        // hero -> [n, win, draw, loss]
 const IT = new Map();       // item -> {n, times[]}
-let sm = 0, players = 0;
+let sm = 0, players = 0, smFrom = Infinity, smTo = 0, smRankLo = Infinity, smRankHi = 0;
 const laneOf = (r, ln) => ln === 'm' ? 1 : ln === 's' ? (r ? 2 : 0) : ln === 'o' ? (r ? 0 : 2) : -1;
 for (const f of fs.readdirSync(D('meta-matches')).filter(f => f.endsWith('.jsonl')).sort()) {
   for (const line of fs.readFileSync(path.join(D('meta-matches'), f), 'utf8').split('\n')) {
@@ -191,6 +195,8 @@ for (const f of fs.readdirSync(D('meta-matches')).filter(f => f.endsWith('.jsonl
     const m = JSON.parse(line);
     if (m.t < patchTs) continue;
     sm++;
+    if (m.t < smFrom) smFrom = m.t; if (m.t > smTo) smTo = m.t;
+    if (m.rank >= 10) { if (m.rank < smRankLo) smRankLo = m.rank; if (m.rank > smRankHi) smRankHi = m.rank; }
     for (const p of m.p) {
       const won = p.r ? m.rw === 1 : m.rw === 0;
       if (p.pos >= 1 && p.pos <= 5) {
@@ -269,14 +275,14 @@ try {
   rolesNote = { fetchedAt: RP.fetchedAt, mainShare: MAIN_SHARE, pairs: RP.brackets };
   // Тот же список основных ролей — отдельным маленьким файлом для значков
   // ролей по всему сайту (js/hero-roles.js, data-hero-badges).
-  fs.writeFileSync(D('hero-main-roles.json'), JSON.stringify({ fetchedAt: RP.fetchedAt, mainShare: MAIN_SHARE,
+  MS.writeJsonAtomic(D('hero-main-roles.json'), JSON.stringify({ fetchedAt: RP.fetchedAt, mainShare: MAIN_SHARE,
     heroes: Object.fromEntries(heroRows.filter(h => h.ro && h.ro.length).map(h => [h.id, h.ro])) }));
 } catch (e) { console.warn('Роли не добавлены:', e.message); }
 
 // ---------- 4. История ----------
 fs.mkdirSync(HIST, { recursive: true });
 const day = new Date(maxT * 1000).toISOString().slice(0, 10);
-fs.writeFileSync(path.join(HIST, day + '.json'), JSON.stringify({ day, total, h: Object.fromEntries(heroRows.map(h => [h.id, [h.n, h.wr, h.pr]])) }));
+MS.writeJsonAtomic(path.join(HIST, day + '.json'), JSON.stringify({ day, total, h: Object.fromEntries(heroRows.map(h => [h.id, [h.n, h.wr, h.pr]])) }));
 const snaps = fs.readdirSync(HIST).filter(f => f.endsWith('.json')).sort().slice(-HISTORY_DAYS)
   .map(f => JSON.parse(fs.readFileSync(path.join(HIST, f), 'utf8')));
 const history = { days: snaps.map(s => s.day), totals: snaps.map(s => s.total), heroes: {} };
@@ -317,7 +323,8 @@ try {
     source: 'Разобранные реплеи про-матчей (лента OpenDota /proMatches, реплеи Valve) из архива эфира DotaMate',
     matches: n, from: new Date(from * 1000).toISOString(), to: new Date(to * 1000).toISOString(),
     leagues: [...leagues].sort((a, b) => b[1] - a[1]),
-    heroes: [...P].map(([id, x]) => [id, x.n, r1(x.w / x.n * 100), r1(wilsonLow(x.w, x.n) * 100), r1(x.n / n * 100), r1(x.k / x.n), r1(x.d / x.n), r1(x.a / x.n)])
+    // Меньше MIN_PRO_RANK выборов — винрейт и «надёжный» не отдаются (null): на сайте 1–4 не показываются, 5–9 — «мало данных».
+    heroes: [...P].map(([id, x]) => [id, x.n, x.n >= MIN_PRO_RANK ? r1(x.w / x.n * 100) : null, x.n >= MIN_PRO_RANK ? r1(wilsonLow(x.w, x.n) * 100) : null, r1(x.n / n * 100), r1(x.k / x.n), r1(x.d / x.n), r1(x.a / x.n)])
   };
 } catch (e) {
   try { const old = JSON.parse(fs.readFileSync(OUT, 'utf8')); if (old.slices && old.slices.pro) slices.pro = old.slices.pro; } catch { /* прошлого среза нет */ }
@@ -328,9 +335,14 @@ try {
 const out = {
   builtAt: new Date().toISOString(),
   base: {
-    source: SRC === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API), Ranked All Pick; ранг известен у ' + r1(Object.values(rankHist).reduce((a, b) => a + b, 0) / total * 100) + '% матчей'
+    source: SRC === 'steam' ? 'Выборка рейтинговых матчей Steam Web API (не все матчи), Ranked All Pick; ранг известен у ' + r1(Object.values(rankHist).reduce((a, b) => a + b, 0) / total * 100) + '% матчей'
       : 'Своя база рейтинговых матчей (OpenDota /publicMatches), ранги Рекрут–Властелин, Ranked All Pick',
     matches: total, from: new Date(minT * 1000).toISOString(), to: new Date(maxT * 1000).toISOString(),
+    // Steam: сбор выборочный (бюджет запросов, курсор прыгает к «сейчас»), не все рейтинговые матчи; days — дневных файлов в базе.
+    ...(SRC === 'steam' ? { sampled: true, days: MS.steamFiles().length } : {}),
+    // Детальные матчи Stratz (линии, покупки, позиции 1–5): свой срез — текущий патч, кандидаты из ленты OpenDota.
+    stratz: { matches: sm, from: sm ? new Date(smFrom * 1000).toISOString() : null, to: sm ? new Date(smTo * 1000).toISOString() : null,
+      rankLo: sm && smRankHi ? smRankLo : null, rankHi: sm && smRankHi ? smRankHi : null },
     ranks: Object.fromEntries(Object.entries(RANKS).map(([g, name]) => [g, { name, n: rankHist[g] || 0 }])),
     radiantWr: r1(radWins / total * 100),
     duration: [...durHist].sort((a, b) => a[0] - b[0]).map(([m, n]) => [m, n]),
@@ -338,12 +350,12 @@ const out = {
     src: SRC
   },
   roles: rolesNote,
-  method: { minTier: MIN_TIER, minRank: MIN_RANK, minPair: MIN_PAIR, minPos: MIN_POS, minLane: MIN_LANE, minDur: MIN_DUR_BUCKET, durBuckets: DUR.map(([k, , , l]) => [k, l]) },
+  method: { minProShow: MIN_PRO_SHOW, minProRank: MIN_PRO_RANK, minTier: MIN_TIER, minRank: MIN_RANK, minPair: MIN_PAIR, minPos: MIN_POS, minLane: MIN_LANE, minDur: MIN_DUR_BUCKET, durBuckets: DUR.map(([k, , , l]) => [k, l]) },
   heroes: heroRows, durSwing, synergy: synergy.slice(0, 40), antiSynergy: synergy.slice(-20).reverse(), counters: topCounters,
   positions, lanes, items, history, slices
 };
 if (SRC === 'steam') out.posSteam = { labeled: posLabeled, stratz: posStratz, model: PM ? { created: PM.model.meta.created || null, test: PM.model.meta.metrics && PM.model.meta.metrics.test ? { acc: PM.model.meta.metrics.test.acc, core3sup: PM.model.meta.metrics.test.core3sup } : null } : null, pos: posSteam };
-fs.writeFileSync(OUT, JSON.stringify(out));
+MS.writeJsonAtomic(OUT, out);
 console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}${SRC === 'steam' ? `, позиций Steam ${Object.keys(posSteam).length} (размечено матчей ${posLabeled}, из них по Stratz ${posStratz})` : ''}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
 }
 main().catch(e => { console.error(e && e.stack || e); process.exit(1); });

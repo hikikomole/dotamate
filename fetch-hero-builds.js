@@ -71,6 +71,8 @@ async function gql(token, query, tries = 3) {
       await sleep(1200 * (i + 1));
     }
   }
+  // Все попытки ушли на 429: раньше функция возвращала undefined и падало «reading 'constants'».
+  throw new Error('Stratz ответил HTTP 429 на все ' + tries + ' попытки');
 }
 
 const pct = (w, m) => (m ? Number((w / m * 100).toFixed(1)) : null);

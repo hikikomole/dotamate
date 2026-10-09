@@ -144,6 +144,26 @@ function foreignDeployChanges() {
   return out.split('\n').filter(Boolean).filter(l => { const f = l.slice(3).replace(/^"/, ''); return !GENERATED_DEPLOY.some(p => f.startsWith(p)); });
 }
 
+// Перед раскладкой: каждый итоговый data/*.json должен читаться. Обрезанный или битый файл
+// на сайт не уходит — выкладка отменяется, на сайте остаются вчерашние данные.
+function checkDataJson() {
+  const dir = path.join(ROOT, 'data');
+  const bad = [];
+  for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json'))) {
+    try { JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch (e) { bad.push(f + ' (' + e.message.slice(0, 80) + ')'); }
+  }
+  if (bad.length) throw new Error('битые файлы данных, выкладка отменена: ' + bad.join(', '));
+}
+
+// Что раньше попадало в deploy/data, но на сайт идти не должно (sync-deploy только добавляет файлы):
+// снимки истории /stats/ (в stats.json уходит только ряд) и недописанные .tmp.
+function pruneUnpublished() {
+  const hist = path.join(DEPLOY, 'data', 'stats-history-steam');
+  if (fs.existsSync(hist)) { fs.rmSync(hist, { recursive: true, force: true }); log('Убраны снимки истории из deploy/data.'); }
+  const dd = path.join(DEPLOY, 'data');
+  if (fs.existsSync(dd)) for (const f of fs.readdirSync(dd).filter(f => f.endsWith('.tmp'))) fs.unlinkSync(path.join(dd, f));
+}
+
 // sync-deploy только добавляет файлы; старые страницы матчей META убираем сами.
 function pruneMetaMatches() {
   const src = path.join(ROOT, 'data', 'meta-match');
@@ -219,7 +239,8 @@ async function main() {
     if (!await node('Предметы билдов (Stratz)', 'fetch-hero-builds.js', [], { timeout: 0.75 * HOUR })) problems.push('предметы билдов');
 
     // Stratz с U5 — малый бюджет: время покупок, линии, эталон позиций 4/5 (разметка Steam-матчей).
-    // Запуск 04:17 берёт до 2000 матчей, 10:17 — до 300: остаток лимита после утреннего сбора.
+    // Запуск 04:17 берёт до 2000 матчей. Запуск 10:17 — страховка: при успехе утром он пропускается
+    // (--auto, logs/last-success.txt), а после утреннего сбоя берёт до 300.
     // META, матрицы и прокачка больше от него не зависят.
     if (!await node('Детали матчей (Stratz, малый бюджет)', 'tools/collect-meta-matches.js', ['--max', new Date().getHours() < 8 ? '2000' : '300'], { timeout: HOUR }))
       problems.push('детали Stratz');
@@ -291,8 +312,10 @@ async function main() {
         'Код выкладывается только по команде владельца (claude/versiya-sayta.md), после неё ежедневная выкладка снова пойдёт сама.');
       return 2;
     }
+    checkDataJson();
     if (!await node('Раскладка в deploy', 'tools/sync-deploy.js')) throw new Error('раскладка в deploy не прошла');
     pruneMetaMatches();
+    pruneUnpublished();
 
     // С 25.09.2026 сайт на Hostiman: одна SSH-выкладка вместо wrangler deploy.
     if (!await node('Выкладка на dotamate.ru', 'tools/deploy-hostiman.js', [], { timeout: 0.25 * HOUR }))

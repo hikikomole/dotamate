@@ -167,7 +167,24 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 - Р2. При долгом сбое Stratz `meta-matches` пустеют после смены патча (`m.t < patchTs`) — вкладки «Предметы/Линии»
   станут пустыми; пустого состояния у этих вкладок нет (`js/stats.js items()/lanes()`).
 
+## 6а. Статус исправлений (09.10.2026, в коде, ждёт выкладки)
+
+Исправлено: В1 (подпись «выборка», `base.sampled/days`), В3 (дата снимка ролей), В4 (подписи среза Stratz, `base.stratz`),
+С1 (место по `lo`), С2 (пикрейт по рангу), С3 (про-срез: 1–4 не показываются, 5–9 «мало данных», 10+ в рейтинге),
+С4 (`stats-history-steam` и `.tmp` не выкладываются), С5 (подпись «Динамики»), С6 (комментарий: 10:17 — страховка),
+С7 (5 ответов API без текста исключения), Р2 (пустые состояния «Предметы/Линии»), атомарная запись и проверка JSON перед
+выкладкой, ошибка `reading 'constants'` (`fetch-hero-builds.js`). В2: период OpenDota не подписывается (решение владельца),
+срез архива переименован в «Про-матчи (архив эфира)». Р1 — не подтверждён, не менялся. Удалено наследие (§7).
+План и проверки — `docs/architecture/statistics-remediation-plan.md`.
+
 ## 7. Наследие и исключения
+
+**09.10.2026 удалены** (коммит до удаления — `6c348012`): `server.js`, `deploy/worker.js`, `deploy/wrangler.jsonc`,
+`deploy/.wrangler/`, `tools/update-site.js`, `tools/publish-meta.js`, `Dockerfile`, `docker-compose.yml`, `Caddyfile`,
+`mediamtx.yml`, `setup-secrets.sh`, `STREAMING_SETUP.md`, `README-v43-PLATFORM.md`, `docs/server-js-map.md`, `db/`,
+`.netlify/`, `netlify-site/`; из `package.json` — скрипт `start` и зависимости pg, redis, ws, jsonwebtoken, bcryptjs.
+Ниже — состояние до удаления (для истории).
+
 
 - `server.js`, `preview-server.js`, `deploy/worker.js`, `docker-compose.yml`, `Caddyfile`, `mediamtx.yml`, `js/v43-*.js`,
   `.d2h-data-cache-v43/` — не прод. `preview-server.js` — только локальное превью.

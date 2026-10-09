@@ -17,6 +17,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { writeJsonAtomic } = require('./match-source.js');
 
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'data', 'rank-positions.json');
@@ -75,7 +76,7 @@ async function main() {
     await sleep(500);
   }
   const out = { source: 'Stratz heroStats, groupByPosition', brackets: BRACKETS, groupToPair: GROUP_TO_PAIR, fetchedAt: new Date().toISOString(), pairs: ranks, all };
-  fs.writeFileSync(OUT, JSON.stringify(out));
+  writeJsonAtomic(OUT, out);
   console.log('OK ->', path.relative(ROOT, OUT), (fs.statSync(OUT).size / 1024).toFixed(0), 'КБ');
 }
 

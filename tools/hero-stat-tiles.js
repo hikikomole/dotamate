@@ -9,6 +9,22 @@ const sg = x => (x > 0 ? '+' : x < 0 ? '−' : '±') + f1(Math.abs(x));
 const nf = n => Number(n).toLocaleString('ru-RU');
 const bar = (w, lo = 40, hi = 60) => Math.max(2, Math.min(100, (w - lo) / (hi - lo) * 100)).toFixed(1);
 
+// Подпись выборки Steam (общие цифры) и среза Stratz (позиции 1–5, линии) — у них разные период и ранги.
+const dd = s => new Date(s).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', timeZone: 'UTC' });
+const RANK_NAMES = ['', 'Рекрут', 'Страж', 'Рыцарь', 'Герой', 'Легенда', 'Властелин', 'Божество', 'Титан'];
+function baseNote(S) {
+  const b = S.base;
+  return b.src === 'steam'
+    ? `Выборка рейтинговых матчей Steam всех рангов: ${nf(b.matches)} матчей с ${dd(b.from)} по ${dd(b.to)}.`
+    : `Своя база: ${nf(b.matches)} рейтинговых матчей.`;
+}
+function stratzNote(S) {
+  const z = S.base && S.base.stratz;
+  if (!z || !z.matches) return 'Детальные матчи Stratz текущего патча.';
+  const rk = z.rankLo ? `, ранги ${RANK_NAMES[Math.floor(z.rankLo / 10)] || '?'}–${RANK_NAMES[Math.floor(z.rankHi / 10)] || '?'}` : '';
+  return `Детальные матчи Stratz текущего патча: ${nf(z.matches)} матчей с ${dd(z.from)} по ${dd(z.to)}${rk}.`;
+}
+
 function render(h, ctx) {
   const { S, counters, heroItems, byId, itemById, itemVariants, escapeHtml: esc, slugForHero, imageUrl, minRole } = ctx;
   const id = Number(h.id);
@@ -21,7 +37,8 @@ function render(h, ctx) {
   // --- место и основная позиция
   let place = 0, ranked = [], mainPos = null, roShare = 0;
   if (st) {
-    ranked = S.heroes.filter(x => x.n >= (M.minTier || 0)).sort((a, b) => b.wr - a.wr);
+    // Как тир-лист /stats/: по нижней границе Уилсона (lo), чтобы место героя совпадало на обеих страницах.
+    ranked = S.heroes.filter(x => x.n >= (M.minTier || 0)).sort((a, b) => b.lo - a.lo);
     place = ranked.findIndex(x => x.id === id) + 1;
     const ro = [...(st.ro || [])].sort((a, b) => b[1] - a[1]);
     if (ro.length) { mainPos = ro[0][0]; roShare = ro[0][1]; }
@@ -33,17 +50,17 @@ function render(h, ctx) {
   if (ph) {
     const pool = P.heroes.filter(x => x.n >= (M.minPos || 0));
     const avgWr = pool.reduce((a, x) => a + x.wr * x.n, 0) / pool.reduce((a, x) => a + x.n, 0);
-    rolePlace = `${[...pool].sort((a, b) => b.wr - a.wr).findIndex(x => x.id === id) + 1} из ${pool.length}`;
+    rolePlace = `${[...pool].sort((a, b) => b.lo - a.lo).findIndex(x => x.id === id) + 1} из ${pool.length}`;
     const row = (k, v, a, isInt) => {
       const d = v - a, rel = Math.max(-1, Math.min(1, d / (Math.abs(a) * 0.12 || 1)));
       const up = d >= 0, shown = isInt ? (up ? '+' : '−') + nf(Math.abs(Math.round(d))) : sg(d) + ' пп';
       return `<tr><th>${k}</th><td>${isInt ? nf(v) : f1(v) + ' %'}</td><td class="hx-mut">${isInt ? nf(Math.round(a)) : f1(a) + ' %'}</td><td><span class="hx-dev"><i class="${up ? 'up' : 'dn'}" style="${up ? 'left' : 'right'}:50%;width:${(Math.abs(rel) * 50).toFixed(1)}%"></i></span><b class="${up ? 'up' : 'dn'}">${shown}</b></td></tr>`;
     };
     roleTile = `<article class="hx-tile hx-wide"><h2>${name} против других: ${POS[mainPos]}</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>${rolePlace}</b> героев (от ${M.minPos} игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>${rolePlace}</b> героев (от ${M.minPos} игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 ${row('Винрейт', ph.wr, avgWr)}${row('Золото в минуту', ph.gpm, P.gpm, 1)}${row('Опыт в минуту', ph.xpm, P.xpm, 1)}</tbody></table>
-<p class="hx-note">${nf(ph.n)} игр героя на позиции; среднее — по ${nf(P.n)} играм всех героев этой позиции.</p></article>`;
+<p class="hx-note">${nf(ph.n)} игр героя на позиции; среднее — по ${nf(P.n)} играм всех героев этой позиции. ${stratzNote(S)}</p></article>`;
   }
   // --- выводы по правилам с порогом
   const notes = [];
@@ -77,14 +94,14 @@ ${row('Винрейт', ph.wr, avgWr)}${row('Золото в минуту', ph.g
   </div>
   <div class="hx-kpis">
     ${st && st.tier ? kpi('Тир', `<span class="hx-tier ${tierCls}">${esc(st.tier)}</span>`) : ''}
-    ${st ? kpi('Винрейт', f1(st.wr) + ' %', place ? `место ${place} из ${ranked.length}` : '') : ''}
+    ${st ? kpi('Винрейт', f1(st.wr) + ' %', place ? `место ${place} из ${ranked.length} по надёжному винрейту` : '') : ''}
     ${st ? kpi('Пикрейт', f1(st.pr) + ' %') : ''}
     ${st ? kpi('Матчей', nf(st.n)) : ''}
     ${rolePlace ? kpi('Место в роли', rolePlace, POS[mainPos]) : ''}
     ${kpi('Сложность', `<span aria-label="Сложность ${cx} из 3">${'●'.repeat(cx)}<span class="hx-mut">${'●'.repeat(3 - cx)}</span></span>`)}
   </div>
   ${notes.length ? `<ul class="hx-notes">${notes.slice(0, 3).map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
-  ${st ? `<p class="hx-src">Своя база: ${nf(S.base.matches)} рейтинговых матчей${S.base.src === 'steam' ? ' всех рангов' : ''}. <a href="/stats/">Вся статистика героев</a></p>` : ''}
+  ${st ? `<p class="hx-src">${baseNote(S)} <a href="/stats/">Вся статистика героев</a></p>` : ''}
 </section>`;
 
   // --- плитки

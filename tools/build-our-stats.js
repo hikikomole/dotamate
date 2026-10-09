@@ -129,7 +129,7 @@ async function main() {
       pickrate: Number((heroMatches[i] / totalPicks * 100).toFixed(2))
     };
   });
-  fs.writeFileSync(A.metaOut, JSON.stringify(meta));
+  MS.writeJsonAtomic(A.metaOut, meta);
 
   const matrix = {
     source: MS.sourceLabel(SRC),
@@ -145,7 +145,7 @@ async function main() {
       vs: vsN.map((n, k) => [n, vsW[k]])
     }
   };
-  fs.writeFileSync(A.matrixOut, JSON.stringify(matrix));
+  MS.writeJsonAtomic(A.matrixOut, matrix);
 
   const obsVs = vsN.reduce((s, x) => s + x, 0) / PAIRS;
   const obsWith = withN.reduce((s, x) => s + x, 0) / PAIRS;

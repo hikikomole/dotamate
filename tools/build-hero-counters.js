@@ -23,6 +23,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { writeJsonAtomic } = require('./match-source.js');
 
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'data', 'hero-counters.json');
@@ -69,7 +70,7 @@ for (const h of heroes) {
   out[a] = { against, good };
 }
 
-fs.writeFileSync(OUT, JSON.stringify({
+writeJsonAtomic(OUT, JSON.stringify({
   source: M.source,
   slice: M.slice,
   matchesUsed: M.matchesUsed,

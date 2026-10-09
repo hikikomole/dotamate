@@ -1,6 +1,6 @@
 <?php
 // /api/* для dotamate.ru на хостинге Hostiman (с 26.09.2026 вместо Cloudflare Worker).
-// Контракт ответов тот же, что был у deploy/worker.js: фронтенд не меняется.
+// Контракт ответов унаследован от прежнего Cloudflare Worker (удалён 09.10.2026).
 // Кеш и база лежат ВНЕ корня сайта (~/dotamate-data): выкладка подменяет корень целиком.
 
 declare(strict_types=1);
@@ -1807,24 +1807,24 @@ try {
   if (strpos($path, '/api/dota/player/') === 0) send(['error' => 'bad_id'], 400);
   if (preg_match('#^/api/dota/hero/(\d+)/items$#', $path, $m)) {
     try { send(cached('hero-items-' . $m[1], 43200, fn() => getJson(OPENDOTA . '/heroes/' . $m[1] . '/itemPopularity'))); }
-    catch (Throwable $e) { send(['error' => 'hero_items_unavailable', 'message' => $e->getMessage()], 502); }
+    catch (Throwable $e) { error_log('dotamate api hero_items_unavailable: ' . stripSecrets($e->getMessage())); send(['error' => 'hero_items_unavailable'], 502); }
   }
   if (preg_match('#^/api/dota/hero/([a-zA-Z0-9_]+)/abilities$#', $path, $m)) {
     try { send(heroAbilities($m[1])); }
-    catch (Throwable $e) { send(['error' => 'hero_abilities_unavailable', 'message' => $e->getMessage()], 502); }
+    catch (Throwable $e) { error_log('dotamate api hero_abilities_unavailable: ' . stripSecrets($e->getMessage())); send(['error' => 'hero_abilities_unavailable'], 502); }
   }
   if ($path === '/api/dota/hero-positions') {
     // Живой Stratz с воркера давал 403 (токен привязан к IP), фактически всегда отдавался снимок.
     try { send(staticJson('/data/hero-positions.json')); }
-    catch (Throwable $e) { send(['error' => 'hero_positions_unavailable', 'message' => $e->getMessage()], 502); }
+    catch (Throwable $e) { error_log('dotamate api hero_positions_unavailable: ' . stripSecrets($e->getMessage())); send(['error' => 'hero_positions_unavailable'], 502); }
   }
   if (preg_match('#^/api/dota/hero/(\d+)/build$#', $path, $m)) {
     try { send(staticJson('/data/builds/' . $m[1] . '.json')); }
-    catch (Throwable $e) { send(['error' => 'hero_build_unavailable', 'message' => $e->getMessage()], 404); }
+    catch (Throwable $e) { error_log('dotamate api hero_build_unavailable: ' . stripSecrets($e->getMessage())); send(['error' => 'hero_build_unavailable'], 404); }
   }
   if ($path === '/api/dota/hero-stats') {
     try { send(heroStats()); }
-    catch (Throwable $e) { send(['error' => 'hero_stats_unavailable', 'message' => $e->getMessage()], 502); }
+    catch (Throwable $e) { error_log('dotamate api hero_stats_unavailable: ' . stripSecrets($e->getMessage())); send(['error' => 'hero_stats_unavailable'], 502); }
   }
   send(['error' => 'not_found'], 404);
 } catch (Throwable $e) {
