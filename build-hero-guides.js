@@ -10,6 +10,7 @@
 // Порядок сборки: tools/fetch-hero-guide-data.js -> build-hero-guides.js.
 // Запуск: node build-hero-guides.js
 
+const siteNav = require('./tools/site-nav');
 const fs = require('fs');
 const path = require('path');
 const { escapeHtml, slugForHero, imageUrl, roleText, attrInfo, officialHeroUrl, heroStats } = require('./tools/hero-common.js');
@@ -65,6 +66,9 @@ async function main() {
 
   const heroes = await (await fetch('https://api.opendota.com/api/heroStats')).json();
   const byId = new Map(heroes.map(h => [Number(h.id), h]));
+  // Характеристики 1-го уровня — официальный datafeed Valve (tools/valve-hero-stats.js).
+  const valveHero = require('./tools/valve-hero-stats.js');
+  const valveStats = await valveHero.load(heroes.map(x => x.id));
   const itemsRaw = await (await fetch('https://api.opendota.com/api/constants/items')).json();
   // Справочник предметов OpenDota шире нашего каталога: там есть
   // ward_observer, ward_sentry, harpoon и shadow_amulet, а страниц у них нет.
@@ -118,7 +122,8 @@ async function main() {
     const title = `Гайд по ${h.localized_name} в Dota 2: как играть, закупы и контрпики | Dota Mate`;
 
     // --- разделы ---
-    const stats = heroStats(h);
+    const vs = valveStats[h.id] || null;
+    const stats = valveHero.cells(vs);
     const statsHtml = stats.map(s => `<div><small>${escapeHtml(s.k)}</small><strong>${escapeHtml(String(s.v))}</strong></div>`).join('');
 
     const abilitiesHtml = (g.abilities || []).map((ab, i) => {
@@ -155,6 +160,22 @@ async function main() {
     const tableHead = '<thead><tr><th>Герой</th><th>Выборка</th><th>Winrate</th><th>К ожидаемому, п.п.</th></tr></thead>';
     const noData = `<p class="hg-nodata">Пар, сыгранных хотя бы ${heroCounters.minGames || 300} раз, для этого героя в нашей базе пока не набралось — поэтому таблицу не показываем.</p>`;
 
+    // «Что дальше»: ссылки только на существующие гайды; данные — те же контрпики
+    // и роли Valve, что на странице, без новых расчётов.
+    const hasGuide = o => o && guideData[String(o.id)];
+    const card = (o, note) => `<a href="/hero/${slugForHero(o)}/guide/"><img loading="lazy" src="${imageUrl(o)}" alt="">${escapeHtml(o.localized_name)}<small style="opacity:.7;margin-left:6px;">${escapeHtml(note)}</small><span>→</span></a>`;
+    const pickGuides = list => (list || []).map(m => byId.get(Number(m.id))).filter(hasGuide).slice(0, 3);
+    const nextCounters = pickGuides(hc.against).map(o => card(o, 'контрит ' + h.localized_name));
+    const nextTargets = pickGuides(hc.good).map(o => card(o, 'проигрывает ' + h.localized_name));
+    const myRoles = new Set(h.roles || []);
+    const similar = heroes.filter(o => o.id !== h.id && o.primary_attr === h.primary_attr && hasGuide(o))
+      .map(o => ({ o, k: (o.roles || []).filter(r => myRoles.has(r)).length }))
+      .filter(x => x.k > 0).sort((x, y) => y.k - x.k || x.o.id - y.o.id).slice(0, 3)
+      .map(x => card(x.o, 'похожие роли'));
+    const nextHtml = [...nextCounters, ...nextTargets, ...similar].join('') +
+      `<a href="/#draft=${h.id}----_----_"><img loading="lazy" src="${imageUrl(h)}" alt="">Собрать драфт с ${escapeHtml(h.localized_name)} в DraftMate<span>→</span></a>` +
+      `<a href="/guide/counter-picks/">Как работают контрпики<span>→</span></a>`;
+
     const lead = `${h.localized_name} — герой ${atk} с основным атрибутом «${a[1].toLowerCase()}». Роли по классификации Valve: ${roles.toLowerCase()}. Ниже — то, что видно из открытой статистики: реальные покупки по стадиям игры и результаты против конкретных героев.`;
 
     const ldjson = JSON.stringify({
@@ -175,7 +196,7 @@ async function main() {
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -184,7 +205,7 @@ async function main() {
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
@@ -197,17 +218,16 @@ ${analytics}
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a></nav>
+    ${siteNav.navHtml('heroes')}
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
 <main class="container article-main hg-main" style="padding-top:26px;padding-bottom:60px;max-width:960px;">
-  <nav aria-label="breadcrumb"><a href="/">Главная</a> / <a href="/heroes/">Герои</a> / <a href="/hero/${slug}/">${escapeHtml(h.localized_name)}</a> / Гайд</nav>
+  <nav aria-label="breadcrumb"> / <a href="/heroes/">Герои</a> / <a href="/hero/${slug}/">${escapeHtml(h.localized_name)}</a> / Гайд</nav>
   <div class="hg-head">
     <img class="hg-portrait" src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}">
     <div>
-      <div class="eyebrow">ГАЙД ПО ГЕРОЮ</div>
       <h1>${escapeHtml(h.localized_name)}</h1>
       <p class="hg-lead">${escapeHtml(lead)}</p>
       <div class="hero-detail-actions">
@@ -217,14 +237,14 @@ ${analytics}
   </div>
 
   <nav class="hg-toc" aria-label="Разделы гайда">
-    <a href="#kak-igrat">Как играть</a><a href="#osobennosti">Особенности</a><a href="#zakupy">Варианты закупов</a><a href="#kogo-kontrit">Кого контрит</a><a href="#kto-kontrit">Кто контрит</a>
+    <a href="#kak-igrat">Как играть</a><a href="#osobennosti">Особенности</a><a href="#zakupy">Варианты закупов</a><a href="#kogo-kontrit">Кого контрит</a><a href="#kto-kontrit">Кто контрит</a><a href="#dalshe">Что дальше</a>
   </nav>
 
   <section id="kak-igrat">
     <h2>Как играть</h2>
     <p>${escapeHtml(h.localized_name)} — ${atk === 'ближнего боя' ? 'герой ближнего боя' : 'герой дальнего боя'}, основной атрибут — ${escapeHtml(a[1].toLowerCase())}. Valve относит его к ролям: ${escapeHtml(roles.toLowerCase())}. Роль задаёт, чего от героя ждёт команда: ${escapeHtml(rolePlain(h))}</p>
-    <p>Базовая скорость передвижения — ${escapeHtml(String(h.move_speed || '—'))}, урон атаки на первом уровне — ${escapeHtml(h.base_attack_min != null ? `${h.base_attack_min}–${h.base_attack_max}` : '—')}, дальность атаки — ${escapeHtml(String(h.attack_range || '—'))}. Это те цифры, от которых зависит, как герой стоит на линии: на них опирайтесь, а не на общие советы.</p>
-    <div class="hg-stats">${statsHtml}</div>
+    ${vs ? `<p>Скорость передвижения — ${escapeHtml(String(vs.ms))}, урон атаки на первом уровне — ${escapeHtml(`${vs.dmin}–${vs.dmax}`)}, дальность атаки — ${escapeHtml(String(vs.range))}. Это те цифры, от которых зависит, как герой стоит на линии: на них опирайтесь, а не на общие советы.</p>` : ''}
+    ${statsHtml ? `<div class="hg-stats">${statsHtml}</div>` : ''}
     <p class="hg-note">Дальше по разделам: способности с официальным русским текстом Valve, реальные покупки по стадиям игры и две таблицы матчапов.</p>
   </section>
 
@@ -251,8 +271,14 @@ ${analytics}
     ${weakRows ? `<div style="overflow-x:auto;"><table class="hg-table">${tableHead}<tbody>${weakRows}</tbody></table></div>` : noData}
     <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (${escapeHtml(String(heroCounters.slice || ''))}, ${escapeHtml(num(heroCounters.matchesUsed || 0))} матчей), обновлена ${escapeHtml(String(heroCounters.dataAt || '').slice(0, 10))}. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
   </section>
+
+  <section id="dalshe">
+    <h2>Что дальше</h2>
+    <p>Гайды по героям, которые контрят ${escapeHtml(h.localized_name)} и которых он обыгрывает (по таблицам выше), герои с похожими ролями по классификации Valve и драфт с этим героем.</p>
+    <div class="linked-list">${nextHtml}</div>
+  </section>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 <script src="/js/hero-roles.js" defer></script>
 </body>
 </html>

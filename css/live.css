@@ -1,0 +1,290 @@
+/* Раздел «Эфир» (/live/). Пространство имён lv-, цвета — токены темы d2-dark. */
+.lv{--lv-rad:#5fbf6b;--lv-dire:#d9534f;--lv-panel:var(--d2-panel,#101216);--lv-line:var(--d2-line,#23272f)}
+body.d2-dark .lv{background:none!important}
+.lv-head{display:flex;justify-content:space-between;align-items:center;gap:8px 24px;margin:0 0 6px;flex-wrap:wrap}
+.lv-headline{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap}
+body.d2-dark .lv-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(30px,4vw,50px)!important;line-height:1.02!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
+.lv-lead{margin:0 0 12px;max-width:none;font-size:14.5px;line-height:1.6;color:var(--d2-muted,#98a1ae)}
+.lv-stamp{font-size:12.5px;line-height:1.7;color:var(--d2-muted,#98a1ae);text-align:right}
+.lv-stamp b{color:var(--d2-gold,#d9c187)}
+.lv-stamp a{color:var(--d2-gold,#d9c187)}
+
+.lv-score{display:flex;align-items:center;justify-content:center;gap:14px;font-family:Oswald,Manrope,system-ui,sans-serif}
+.lv-score .rad,.lv-score .dire{font-size:30px;font-weight:600;min-width:2ch;text-align:center}
+.lv-score .rad{color:var(--lv-rad)}.lv-score .dire{color:var(--lv-dire)}
+.lv-clock{font-size:20px;color:#fff;padding:2px 12px;border:1px solid var(--lv-line);border-radius:8px;min-width:6ch;text-align:center}
+
+.lv-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:stretch;margin-bottom:30px}
+/* Легенда — под картой, но не в высоте ряда: низ событий совпадает с низом карты */
+.lv-grid>div:first-child{position:relative}
+.lv-grid>div:first-child>.lv-legend{position:absolute;left:0;right:0;top:100%}
+.lv-mapwrap{position:relative;border:1px solid var(--lv-line);border-radius:var(--rad-lg,14px);overflow:hidden;background:#0d1410}
+.lv-mapwrap canvas{display:block;width:100%;aspect-ratio:1/1}
+.lv-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center;background:rgba(7,8,10,.72);color:#fff;font-size:16px}
+.lv-overlay[hidden]{display:none}
+.lv-overlay p{margin:0}
+.lv-muted{color:var(--d2-muted,#98a1ae);font-size:13px}
+.lv-legend{display:flex;flex-wrap:wrap;gap:14px;margin:8px 2px 0;font-size:12px;color:var(--d2-muted-2,#6d7683)}
+.lv-k-rad{background:var(--lv-rad)}.lv-k-dire{background:var(--lv-dire)}.lv-k-obs{background:#f2d16b}.lv-k-sen{background:#6fc3ff}
+.lv-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+.lv-side{display:flex;flex-direction:column;gap:12px}
+.lv-team{background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:var(--rad-lg,14px);padding:6px 10px}
+body.d2-dark .lv-team h2{margin:6px 0 4px!important;font-size:13px!important;letter-spacing:1.5px!important;text-transform:uppercase!important}
+body.d2-dark .lv-team.rad h2{color:var(--lv-rad)!important}body.d2-dark .lv-team.dire h2{color:var(--lv-dire)!important}
+.lv-row,.lv-cols{display:grid;grid-template-columns:44px minmax(0,1fr) 24px 40px 54px 38px 56px 38px;align-items:center;gap:7px}
+.lv-row{padding:5px 0;border-top:1px solid var(--lv-line);font-size:13px}
+.lv-cols{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--d2-muted-2,#6d7683);padding:2px 0}
+.lv-cols span:nth-child(n+3){text-align:center}.lv-cols span:nth-child(7){text-align:right}
+.lv-hero{width:44px;height:25px;object-fit:cover;border-radius:4px}
+.lv-row.is-dead .lv-hero{filter:grayscale(1);opacity:.5}
+.lv-who{min-width:0;display:flex;flex-direction:column;gap:3px}
+.lv-items{display:flex;flex-wrap:wrap;gap:2px;min-height:15px}
+/* предметы не залезают в колонку уровня: в узкой колонке переносятся на вторую строку */
+.lv-it{width:21px;height:15px;object-fit:cover;border-radius:2px;background:#0b0c0e}
+.lv-lh,.lv-xpm{text-align:center;color:var(--d2-muted,#98a1ae)}
+.lv-sum{margin:0 0 4px;font-size:12px;color:var(--d2-muted,#98a1ae)}
+.lv-sum b{color:var(--d2-text,#eef1f5);font-weight:600}
+.lv-tabs{display:inline-flex;gap:4px;margin-left:auto}
+.lv-tabs button{background:none;border:1px solid var(--lv-line);border-radius:6px;padding:3px 9px;font:inherit;font-size:12px;color:var(--d2-muted,#98a1ae);cursor:pointer}
+.lv-tabs button[aria-pressed="true"]{color:var(--d2-gold,#d9c187);border-color:var(--d2-gold-dim,#8d7b4f)}
+.lv-chat{color:var(--d2-muted,#98a1ae);font-style:italic}
+.lv-name{color:var(--d2-text,#eef1f5)!important;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-name:hover{color:var(--d2-gold,#d9c187)!important}
+.lv-lvl{text-align:center;color:var(--d2-muted,#98a1ae)}
+.lv-kd{text-align:center;color:#fff}
+.lv-nw{text-align:right;color:var(--d2-gold,#d9c187)}
+.lv-state{text-align:right;color:var(--lv-dire);font-size:12px}
+
+.lv-grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
+/* События тянутся до низа карты: лента absolute и не влияет на высоту ряда (мин. 150 px) */
+.lv-events{flex:1 1 auto;position:relative;min-height:150px}
+.lv-events .lv-feed{position:absolute;left:14px;right:14px;top:44px;bottom:12px;max-height:none}
+@media (max-width:1100px){.lv-grid{grid-template-columns:1fr;margin-bottom:0}.lv-grid>div:first-child>.lv-legend{position:static}.lv-events{min-height:0}.lv-events .lv-feed{position:static;max-height:260px}}
+.lv-block{background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:var(--rad-lg,14px);padding:12px 14px}
+.lv-block-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 10px}
+.lv-block{min-width:0}
+body.d2-dark .lv-block h2{margin:0 0 8px!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:500!important;font-size:16px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:#fff!important}
+.lv-block-head span{font-size:12.5px;color:var(--d2-gold,#d9c187)}
+/* Подпись справа фиксированной ширины — кнопки не прыгают при смене героя */
+#lvAdvNow{flex:0 0 230px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-block-head .lv-tabs{margin-left:auto}
+@media (max-width:480px){#lvAdvNow{flex-basis:100%;text-align:left}}
+#lvAdv{display:block;width:100%;height:140px}
+.lv-feed{list-style:none;margin:0;padding:0;max-height:260px;overflow:auto;font-size:13px}
+.lv-feed li{display:flex;gap:10px;padding:5px 0;border-top:1px solid var(--lv-line);color:var(--d2-text,#eef1f5)}
+.lv-feed li:first-child{border-top:0}
+.lv-feed time{flex-shrink:0;width:48px;color:var(--d2-muted-2,#6d7683);font-variant-numeric:tabular-nums}
+.lv-feed b.radiant{color:var(--lv-rad)}.lv-feed b.dire{color:var(--lv-dire)}
+.lv-note{margin:16px 0 0;font-size:12.5px;line-height:1.6;color:var(--d2-muted-2,#6d7683)}
+
+@media (max-width:900px){
+  .lv-grid,.lv-grid2{grid-template-columns:1fr}
+  .lv-stamp{text-align:left}
+}
+@media (max-width:480px){
+  .lv-row,.lv-cols{grid-template-columns:34px minmax(0,1fr) 20px 34px 44px 50px 30px;gap:5px}
+  .lv-row{font-size:12px}
+  .lv-hero{width:34px;height:19px}
+  .lv-xpm,.lv-cols span:nth-child(6){display:none}
+}
+.lv-pro{display:inline-block;padding:1px 7px;border-radius:5px;background:var(--d2-gold,#d9c187);color:#111;font-weight:700;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+
+/* драфт, роли, победа, график героев */
+.lv-board{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:14px 20px 18px;margin:0 0 8px;background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:12px;overflow:hidden}
+.lv-bteam{display:flex;flex-direction:column;gap:8px;min-width:0}
+.lv-bteam.rad{align-items:flex-end}.lv-bteam.dire{align-items:flex-start}
+.lv-bt-top{display:flex;align-items:baseline;gap:10px;max-width:100%}
+.lv-bt-name{font-family:Oswald,Manrope,system-ui,sans-serif;font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-bt-p{font-size:12.5px;font-weight:700;white-space:nowrap}
+.lv-bteam.rad .lv-bt-p{color:var(--lv-rad)}.lv-bteam.dire .lv-bt-p{color:var(--lv-dire)}
+.lv-mid{display:flex;flex-direction:column;align-items:center;gap:6px}
+.lv-board .lv-score{gap:10px}
+.lv-board .lv-score .rad,.lv-board .lv-score .dire{font-size:44px;line-height:1}
+.lv-score-sep{font-size:30px;color:var(--d2-muted-2,#6d7683)}
+.lv-board-bar{position:absolute;left:0;right:0;bottom:0;display:flex;height:4px}
+.lv-board-bar[hidden]{display:none}
+.lv-board-bar i.radiant{background:var(--lv-rad)}.lv-board-bar i.dire{background:var(--lv-dire)}
+.lv-draft{margin:0 0 14px}
+/* Под табло: по центру — «Как считается шанс победы» (всплывающее окно), справа — DraftMate. */
+.lv-prob-line{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;min-height:32px}
+.lv-how{grid-column:2;position:relative}
+.lv-how-btn{display:inline-flex;align-items:center;gap:7px;padding:5px 13px 5px 8px;background:transparent;border:1px solid var(--lv-line);border-radius:999px;color:var(--d2-muted,#98a1ae);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:color .15s,border-color .15s}
+.lv-how-btn::before{content:"i";display:inline-grid;place-items:center;width:16px;height:16px;border:1px solid currentColor;border-radius:50%;font:italic 700 10px/1 Georgia,serif}
+.lv-how-btn:hover,.lv-how-btn:focus-visible,.lv-how-btn[aria-expanded="true"]{color:var(--d2-gold,#d9c187);border-color:rgba(217,193,135,.45);outline:none}
+.lv-how-pop{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);z-index:50;width:min(440px,calc(100vw - 32px));box-sizing:border-box;padding:14px 16px;background:var(--lv-panel,#101216);border:1px solid rgba(217,193,135,.35);border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,.6);text-align:left}
+.lv-how-pop::before{content:"";position:absolute;top:-6px;left:50%;width:10px;height:10px;background:inherit;border-left:1px solid rgba(217,193,135,.35);border-top:1px solid rgba(217,193,135,.35);transform:translateX(-50%) rotate(45deg)}
+/* невидимый мостик через зазор под кнопкой: указатель не «уходит» по пути к окну */
+.lv-how-pop::after{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+.lv-how-pop>b{display:block;margin:0 0 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--d2-gold,#d9c187)}
+.lv-how-pop p{margin:0;font-size:13px;line-height:1.55;color:var(--d2-muted,#98a1ae)}
+.lv-how-pop p b{color:var(--d2-text,#eef1f5);font-weight:600}
+.lv-open{grid-column:3;justify-self:end;padding:5px 13px;border:1px solid rgba(217,193,135,.45);border-radius:999px;font-size:12.5px;font-weight:700;color:var(--d2-gold,#d9c187);text-decoration:none;white-space:nowrap;transition:background .15s}
+.lv-open:hover,.lv-open:focus-visible{background:rgba(217,193,135,.12)}
+@media (max-width:700px){.lv-prob-line{grid-template-columns:1fr;justify-items:center;gap:8px}.lv-how,.lv-open{grid-column:1;justify-self:center}}
+@media (max-width:900px){.lv-board{grid-template-columns:1fr 1fr;gap:12px;padding:12px 12px 16px}.lv-mid{grid-column:1/-1;order:-1}.lv-bteam.rad,.lv-bteam.dire{align-items:center}.lv-bteam .lv-draft-side{flex-wrap:wrap;justify-content:center}.lv-bt-top{flex-direction:column;align-items:center;gap:2px}.lv-bteam.dire .lv-bt-top{flex-direction:column-reverse}.lv-bt-name{font-size:16px}}
+.lv-draft-side{display:flex;gap:6px}
+.lv-pick{position:relative;display:block;width:64px;height:36px;border-radius:5px;overflow:hidden;border:2px solid transparent}
+.lv-draft-side.rad .lv-pick{border-color:var(--lv-rad)}.lv-draft-side.dire .lv-pick{border-color:var(--lv-dire)}
+.lv-pick img{width:100%;height:100%;object-fit:cover;display:block}
+.lv-pick .lv-pick-role{position:absolute;right:2px;bottom:2px;width:15px;height:15px;object-fit:contain;background:rgba(0,0,0,.65);border-radius:3px;padding:1px}
+.lv-herobox{position:relative;display:block;width:44px;height:25px}
+.lv-role{position:absolute;right:-3px;bottom:-3px;width:14px;height:14px;object-fit:contain;background:rgba(0,0,0,.7);border-radius:3px;padding:1px}
+.lv-win{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 26px;border-radius:10px;background:rgba(7,8,10,.82);border:1px solid var(--lv-line);text-align:center}
+.lv-win[hidden]{display:none}
+.lv-win b{font-family:Oswald,Manrope,system-ui,sans-serif;font-size:clamp(20px,3vw,30px);text-transform:uppercase;letter-spacing:1px}
+.lv-win b.radiant{color:var(--lv-rad)}.lv-win b.dire{color:var(--lv-dire)}
+.lv-win span{font-size:13px;color:var(--d2-muted,#98a1ae)}
+.lv-win small{font-size:12px;color:var(--d2-muted-2,#6d7683)}
+@media (max-width:480px){.lv-pick{width:46px;height:26px}.lv-draft-side{gap:4px}.lv-herobox{width:34px;height:19px}}
+/* Строки команд плотнее: предметы в строку с именем — колонка команд по высоте близка к карте */
+@media (min-width:1101px){
+  .lv-row{padding:3px 0}
+  .lv-who{flex-direction:row;align-items:center;gap:6px}
+  .lv-who .lv-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:0 1 auto;min-width:0}
+  .lv-items{flex:0 0 auto}
+}
+/* Плашка обрыва связи: fixed, вёрстку не сдвигает */
+.lv-conn{position:fixed;left:50%;top:76px;transform:translateX(-50%);width:max-content;z-index:50;max-width:calc(100% - 32px);padding:10px 16px;border-radius:10px;background:#5a1d1d;border:1px solid #a33;color:#fff;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.lv-conn.ok{background:#1d4a2a;border-color:#3a8a52}.lv-conn[hidden]{display:none}
+.lv-fi{width:22px;height:16px;object-fit:cover;border-radius:2px;vertical-align:-3px;margin-right:5px}
+/* CLS: резерв места под данные матча, которые приходят после загрузки страницы (пики, шанс, строка «Как считается», таблицы команд) */
+.lv-draft{min-height:32px}.lv-sum{min-height:18px}
+@media (min-width:1101px){#lvRad,#lvDire{min-height:160px}}
+@media (max-width:900px){.lv-bteam .lv-draft-side{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;align-content:start;min-height:78px}.lv-bt-p{min-height:18px}}
+@media (max-width:700px){.lv-draft{min-height:70px}}
+@media (max-width:480px){.lv-bteam .lv-draft-side{min-height:56px}}
+
+/* Шанс победы по ходу игры (под часами) и ссылка на итоги в плашке победы */
+.lv-wp{display:block;min-height:17px;font-size:12px;line-height:17px;color:var(--d2-muted,#98a1ae);white-space:nowrap;cursor:help}
+.lv-wp b{font-weight:700}.lv-wp b.rad{color:var(--lv-rad)}.lv-wp b.dire{color:var(--lv-dire)}
+.lv-win a.lv-res{margin-top:6px;font-size:13px;color:var(--d2-gold,#e8c46b);text-decoration:none;pointer-events:auto}.lv-win a.lv-res:hover{text-decoration:underline}
+
+/* Итоги матча (/live/match/?id=) */
+.lm-body{display:grid;gap:14px;margin-top:14px}
+.lm-msg{margin:0;color:var(--d2-muted,#98a1ae)}
+.lm-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.lm-res{display:flex;flex-direction:column;gap:2px}.lm-res b{font-family:Oswald,Manrope,system-ui,sans-serif;font-size:clamp(20px,3vw,28px);text-transform:uppercase;letter-spacing:.5px}
+.lm-res b.radiant{color:var(--lv-rad)}.lm-res b.dire{color:var(--lv-dire)}.lm-res span{font-size:13px;color:var(--d2-muted,#98a1ae)}
+.lm-top .lv-score{font-size:34px}
+.lm-links{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:14px}.lm-links a{color:var(--d2-gold,#e8c46b);text-decoration:none}.lm-links a:hover{text-decoration:underline}.lm-links a[hidden]{display:none}
+.lm-pred h2,.lm-moments h2,.lm-team h2{margin:0 0 10px}
+.lm-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.lm-card{display:flex;flex-direction:column;gap:4px;padding:12px;border:1px solid var(--lv-line);border-radius:10px}
+.lm-k{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--d2-muted,#98a1ae)}
+.lm-card b{font-size:20px}.lm-card b.ok{color:var(--lv-rad)}.lm-card b.no{color:var(--lv-dire)}
+.lm-card small,.lm-note{font-size:12px;color:var(--d2-muted-2,#6d7683)}.lm-note{margin:10px 0 0}
+.lm-card a{color:var(--d2-gold,#e8c46b)}
+.lm-charts{display:grid;gap:14px}
+.lm-leg{font-size:12px;color:var(--d2-muted,#98a1ae)}
+.lm-svg{display:block;width:100%;height:150px;margin-top:8px}
+.lm-svg line{stroke-width:2;vector-effect:non-scaling-stroke}.lm-svg line.rad{stroke:var(--lv-rad)}.lm-svg line.dire{stroke:var(--lv-dire)}
+.lm-svg .lm-mid{stroke:rgba(255,255,255,.2);stroke-width:1}.lm-svg .lm-grid{stroke:rgba(255,255,255,.06);stroke-width:1}.lm-svg .lm-mark{stroke:rgba(232,196,107,.45);stroke-width:1;stroke-dasharray:3 3}
+.lm-axis{position:relative;height:16px;font-size:11px;color:var(--d2-muted-2,#6d7683)}.lm-axis span{position:absolute;transform:translateX(-50%)}
+.lm-moments .lv-feed{max-height:none}
+.lm-scroll{overflow-x:auto}
+.lm-tbl{width:100%;border-collapse:collapse;font-size:14px}.lm-tbl th{font-size:12px;font-weight:600;color:var(--d2-muted,#98a1ae);text-align:right;padding:4px 8px}.lm-tbl td{padding:5px 8px;text-align:right;border-top:1px solid var(--lv-line);white-space:nowrap}
+.lm-tbl th:first-child,.lm-tbl td:first-child{text-align:left}
+.lm-hero{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none}.lm-hero img{border-radius:3px}
+.lm-team.radiant h2{color:var(--lv-rad)!important}.lm-team.dire h2{color:var(--lv-dire)!important}
+@media (max-width:600px){.lm-top{grid-template-columns:1fr auto}.lm-links{grid-column:1/-1;flex-direction:row;justify-content:space-between}.lm-svg{height:120px}}
+/* Карточка игрока (чат 3): строки таблиц выбирают игрока; место под карточку зарезервировано — без сдвигов при смене игрока */
+.lv-row{cursor:pointer}.lv-row:focus-visible{outline:2px solid var(--d2-gold,#d9c187);outline-offset:-2px}
+.lv-row.is-sel{background:rgba(217,193,135,.08);box-shadow:inset 3px 0 0 var(--d2-gold,#d9c187)}
+.lv-card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:12px 18px;min-height:236px;align-items:start}
+.lv-c-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:relative}
+.lv-c-head .lv-name{font-weight:700;font-size:16px}.lv-c-head .lv-name.radiant{color:var(--lv-rad)}.lv-c-head .lv-name.dire{color:var(--lv-dire)}
+.lv-c-head .lv-muted{flex-basis:100%;font-size:12px}
+.lv-c-items{display:flex;flex-wrap:wrap;gap:4px;min-height:24px;margin:8px 0}
+.lv-c-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.lv-c-tiles div{background:rgba(255,255,255,.03);border:1px solid var(--lv-line);border-radius:8px;padding:5px 7px;display:flex;flex-direction:column}
+.lv-c-tiles b{font-size:15px;color:#fff;font-variant-numeric:tabular-nums}.lv-c-tiles span{font-size:11px;color:var(--d2-muted,#98a1ae)}
+.lv-cmp{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.lv-cmp caption{text-align:left;font-size:12px;color:var(--d2-muted,#98a1ae);padding-bottom:6px;caption-side:top}
+.lv-cmp th{text-align:left;font-weight:400;color:var(--d2-muted,#98a1ae)}.lv-cmp td{text-align:right;padding:3px 0 3px 10px}
+.lv-cmp tr+tr{border-top:1px solid var(--lv-line)}.lv-cmp tr:first-child td{font-size:11px;color:var(--d2-muted,#98a1ae)}
+body.d2-dark .lv-imp h3{margin:0 0 6px!important;font-size:13px!important;font-weight:600!important;color:#fff!important}
+.lv-imp ul{list-style:none;margin:0 0 6px;padding:0}
+.lv-imp li{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:3px 0;font-size:13px}
+.lv-imp li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lv-imp b{color:var(--lv-rad);font-variant-numeric:tabular-nums}.lv-imp small{color:var(--d2-muted,#98a1ae);font-size:11px}
+.lv-imp .lv-muted{font-size:11px;line-height:1.35;margin:0}
+@media (max-width:1100px){.lv-card{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:390px}.lv-c-imp{grid-column:1/-1}}
+@media (max-width:640px){.lv-card{grid-template-columns:minmax(0,1fr);min-height:640px}.lv-c-imp{grid-column:auto}}
+/* Полоса матчей эфира (чат 4): одна строка, прокрутка вбок, высота зарезервирована до загрузки списка (CLS) */
+.lv-strip{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;min-height:96px;margin:0 0 12px;padding:0 0 6px;scrollbar-width:thin}
+.lv-strip-note{margin:0;align-self:center;font-size:13px;color:var(--d2-muted,#98a1ae)}
+.lv-sc{flex:0 0 212px;display:flex;flex-direction:column;gap:3px;min-width:0;height:88px;padding:8px 10px;text-align:left;font:inherit;color:inherit;background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:10px;cursor:pointer;scroll-snap-align:start}
+.lv-sc:hover{border-color:#3a404b}
+.lv-sc:focus-visible{outline:2px solid var(--d2-gold,#d9c187);outline-offset:1px}
+.lv-sc.on{border-color:var(--d2-gold,#d9c187);box-shadow:inset 0 0 0 1px var(--d2-gold,#d9c187)}
+.lv-sc>span{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.lv-sc-top{font-size:11.5px;color:var(--d2-muted,#98a1ae)}
+.lv-sc-top .lv-pro{padding:0 5px;font-size:10px;margin-right:2px}
+.lv-sc-mid{font-size:13.5px;font-weight:600;color:#e8e6e1}
+.lv-sc-h{height:10px;line-height:0}
+.lv-sc-h img{width:17px;height:10px;margin-right:1px;border-radius:2px;vertical-align:top}
+.lv-sc-h img.d{margin-left:6px}
+.lv-sc-sub{font-size:11.5px;color:var(--d2-muted,#98a1ae)}
+.lv-live{display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;background:#e04b3c;vertical-align:1px;animation:lvPulse 1.6s ease-in-out infinite}
+@keyframes lvPulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.lv-live{animation:none}}
+.lv-stamp{min-height:42.5px}
+.lv-tour{display:block}
+@media (max-width:560px){.lv-sc{flex-basis:208px}}
+
+/* Чат 5: опрос «кто победит» и частые слова чата. Высота зарезервирована — блоки не двигают страницу при загрузке. */
+.lv-grid3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+.lv-grid3 .lv-block{min-height:178px}
+#lvPoll{min-height:104px}
+#lvWords{min-height:104px}
+.lv-poll-btns{display:flex;gap:10px;margin:4px 0 10px}
+.lv-poll-btns button{flex:1 1 0;min-width:0;min-height:44px;padding:8px 12px;border-radius:10px;border:1px solid var(--lv-line);background:rgba(255,255,255,.04);color:#fff;font:600 15px/1.2 Manrope,system-ui,sans-serif;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lv-poll-btns button.rad{border-color:var(--lv-rad)}
+.lv-poll-btns button.dire{border-color:var(--lv-dire)}
+.lv-poll-btns button:hover,.lv-poll-btns button:focus-visible{background:rgba(255,255,255,.1)}
+.lv-poll-btns button:disabled{opacity:.5;cursor:wait}
+.lv-poll-row{display:flex;align-items:baseline;gap:8px;padding:3px 0;font-size:14px}
+.lv-poll-row span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lv-poll-row.rad b{color:var(--lv-rad)}.lv-poll-row.dire b{color:var(--lv-dire)}
+.lv-poll-row small{color:var(--d2-muted,#98a1ae);min-width:3em;text-align:right}
+.lv-poll-bar{height:8px;border-radius:4px;background:var(--lv-dire);overflow:hidden;margin:6px 0 8px}
+.lv-poll-bar i{display:block;height:100%;background:var(--lv-rad)}
+.lv-poll-note{margin:0 0 6px;font-size:13px;color:#e0b25c}
+.lv-words{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.lv-words li{display:flex;gap:6px;align-items:baseline;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06);font-size:14px;max-width:100%}
+.lv-words li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lv-words li b{color:#e0b25c;font-size:12px}
+.lv-words-note{font-size:11px!important;margin:6px 0 0}
+@media (max-width:760px){.lv-grid3{grid-template-columns:1fr}}
+/* «Сейчас в игре»: идущие матчи из Steam Web API (js/live.js, онлайн-режим) */
+.lv-air{display:inline-flex;align-items:center;gap:5px;margin-right:7px;padding:0 7px 0 6px;border-radius:4px;background:rgba(224,75,60,.15);color:#ff8273;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;line-height:17px;vertical-align:1px}
+.lv-air:before{content:"";width:6px;height:6px;border-radius:50%;background:#e04b3c;animation:lvPulse 1.6s ease-in-out infinite}
+.lv-sc-air{border-color:rgba(224,75,60,.3);background:linear-gradient(180deg,rgba(224,75,60,.07),transparent 55%),var(--lv-panel)}
+.lv-sc-air:hover{border-color:rgba(224,75,60,.6)}
+.lv-sc-air.on{border-color:#e04b3c;box-shadow:inset 0 0 0 1px #e04b3c}
+.lv-sc .lv-live{background:var(--d2-gold,#d9c187)}
+.lv-strip-sep{flex:0 0 1px;align-self:stretch;margin:8px 2px;background:var(--lv-line)}
+.lv-note-online{display:none}
+.lv.is-online .lv-grid3,.lv.is-online .lv-note-arch,.lv.is-online [data-adv="xp"],.lv.is-online .lv-legend .lv-lg-ward{display:none}
+.lv.is-online .lv-note-online{display:block}
+@media (prefers-reduced-motion:reduce){.lv-air:before{animation:none}}
+.lv-sc-air .lv-sc-sub b{color:#e8e6e1;font-weight:600}
+.lv-eye{float:right;font-style:normal;padding-left:15px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398a1ae' stroke-width='2'%3E%3Cpath d='M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E") left center/12px no-repeat}
+
+/* Частые слова в чате (/live/words/, js/live-words.js): облако кругов. */
+.lw-stamp{text-align:left!important;margin:0 0 14px}
+.lw-cloud{position:relative;width:100%;min-height:320px;margin:0 0 14px}
+.lw-empty{padding:40px 0;text-align:center}
+.lw-b{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;text-align:center;overflow:hidden;cursor:default;line-height:1.05;
+  background:radial-gradient(circle at 35% 30%,rgba(217,193,135,.28),rgba(217,193,135,.08));border:1px solid rgba(217,193,135,.35);color:var(--d2-text,#eef1f5);
+  animation:lwIn .5s cubic-bezier(.2,.8,.3,1.2) both;transition:transform .18s ease,box-shadow .18s ease;will-change:transform}
+.lw-b:hover{transform:scale(1.18);z-index:2;box-shadow:0 8px 26px rgba(0,0,0,.55),0 0 0 2px rgba(217,193,135,.5)}
+.lw-t1{background:radial-gradient(circle at 35% 30%,rgba(217,193,135,.6),rgba(141,123,79,.35));border-color:rgba(217,193,135,.75)}
+.lw-t2{background:radial-gradient(circle at 35% 30%,rgba(217,193,135,.42),rgba(141,123,79,.18));border-color:rgba(217,193,135,.55)}
+.lw-t4{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);color:var(--d2-muted,#98a1ae)}
+.lw-w{max-width:88%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.lw-n{margin-top:2px;color:var(--d2-gold,#d9c187);font-weight:600}
+.lw-note{max-width:900px;line-height:1.55}
+@keyframes lwIn{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+@media (prefers-reduced-motion:reduce){.lw-b{animation:none;transition:none}.lw-b:hover{transform:none}}
+.lv-words-note a{color:var(--d2-gold,#d9c187)}

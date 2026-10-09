@@ -48,7 +48,7 @@ function pick(h, slugs, extra) {
     id: h.id,
     name: h.localized_name,
     slug,
-    img: `/assets/heroes/${slug}.png`,
+    img: `/assets/heroes/${slug}.webp`,
   }, extra);
 }
 

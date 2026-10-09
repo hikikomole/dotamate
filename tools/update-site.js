@@ -24,14 +24,16 @@ function step(title, cmd, args, opts) {
   }
 }
 
-step('Матрицы по своей базе', 'node', ['tools/build-our-stats.js'], { cwd: ROOT });
-step('Калибровка прогноза', 'node', ['tools/build-draft-calibration.js'], { cwd: ROOT });
+step('Матрицы по своей базе (Steam, все ранги)', 'node', ['--max-old-space-size=1200', 'tools/build-our-stats.js', '--source', 'steam', '--tier', 'all', '--main'], { cwd: ROOT });
+step('Калибровка прогноза (Steam, все ранги)', 'node', ['--max-old-space-size=1200', 'tools/build-draft-calibration.js', '--source', 'steam', '--tier', 'all', '--main'], { cwd: ROOT });
 step('Контрпики по своей базе', 'node', ['tools/build-hero-counters.js'], { cwd: ROOT });
 step('Покупки предметов по своей базе', 'node', ['tools/build-hero-items.js'], { cwd: ROOT });
+step('Статистика страниц предметов', 'node', ['tools/build-item-stats.js'], { cwd: ROOT });
+// Статистика — до страниц героев: паспорт и плитки читают тот же data/stats.json, что и /stats/.
+step('Статистика и аналитика', 'node', ['tools/build-stats.js', '--source', 'steam'], { cwd: ROOT });
 step('Страницы героев', 'node', ['build-hero-pages.js'], { cwd: ROOT });
 step('Гайды героев', 'node', ['build-hero-guides.js'], { cwd: ROOT });
 step('Статьи', 'node', ['build-guide-pages.js'], { cwd: ROOT });
-step('Статистика и аналитика', 'node', ['tools/build-stats.js'], { cwd: ROOT });
 step('Раскладка файлов в deploy', 'node', ['tools/sync-deploy.js'], { cwd: ROOT });
 
 step('Выкладка на Hostiman', 'node', ['tools/deploy-hostiman.js'], { cwd: ROOT });

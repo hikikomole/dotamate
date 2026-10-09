@@ -12,7 +12,7 @@ const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠"
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 function slugForHero(h){const raw=String(h?.name||h?.localized_name||"").replace(/^npc_dota_hero_/,'');return heroSlug[h?.localized_name]||heroSlug[h?.name]||raw||"";}
 // Портрет героя лежит в репозитории (assets/heroes/), см. tools/fetch-hero-icons.py.
-function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.png`;}
+function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.webp`;}
 const RU_POSITIONS={POSITION_1:"Керри",POSITION_2:"Мид",POSITION_3:"Оффлейн",POSITION_4:"Поддержка",POSITION_5:"Полная поддержка"};
 // Роли героя словами. Приоритет у позиций (Stratz): именно их видит
 // пользователь в строке ролей, и шапка не должна ей противоречить.

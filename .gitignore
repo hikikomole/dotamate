@@ -57,3 +57,9 @@ match-archive/
 # Сборка парсера реплеев (odota/parser + ParseCli), 28 МБ — на сервер заливается отдельно
 tools/replay-parser/*.jar
 tools/replay-parser/*.part*
+
+# параллельный расчёт на Steam (tools/steam-parallel.js), на сайт не выкладывается
+data-steam/
+
+# Токен Telegram-бота — секрет (09.10.2026)
+telegram.txt

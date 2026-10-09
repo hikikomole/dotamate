@@ -14,11 +14,8 @@
  *
  * Запуск: node fetch-hero-builds.js
  *
- * --source steam: прокачка и таланты из ability_upgrades матчей Steam (data/steam-matches,
- * tools/match-source.js) теми же функциями buildProgression/buildTalents. У Steam нет позиций
- * и времени покупок, ранг известен редко — поэтому data/builds/ не трогается (контракт с
- * фронтом — по позициям), а пишется сверка data/steam-builds-check.json: герой целиком
- * против самой частой позиции Stratz. Запись в data/builds/ — после оценки позиции (T3).
+ * --source steam --out-dir D: прокачка и таланты из ability_upgrades матчей Steam по позициям
+ * модели U2 → D/builds/<heroId>.json (формат data/builds) и сверка D/builds-check.json (см. steamBuilds).
  * Результат: data/builds/<heroId>.json (по файлу на героя — воркер отдаёт
  * билд конкретного героя, а не весь массив на 2,5 МБ).
  */
@@ -37,7 +34,16 @@ const MIN_POSITION_SHARE = 5;
 const MIN_MATCHES = 30;       // порог, ниже которого винрейт — шум, а не сигнал
 const MAX_LEVEL = 10;         // глубина прокачки, как на эталоне
 const ROOT = __dirname;
-const OUT_DIR = path.join(ROOT, 'data', 'builds');
+// С U5 (09.10.2026) билды Stratz — только хранилище предметов (время покупок) и эталон 4/5: data/builds-stratz/.
+// Сайт читает data/builds/ — его собирает --source steam --site (прокачка и таланты Steam + предметы Stratz).
+const OUT_DIR = path.join(ROOT, 'data', 'builds-stratz');
+const SITE_DIR = path.join(ROOT, 'data', 'builds');
+// Первый запуск после U5: хранилища Stratz ещё нет — переносим в него прежние data/builds (там билды Stratz).
+function ensureStratzStore() {
+  if (fs.existsSync(OUT_DIR) || !fs.existsSync(SITE_DIR)) return;
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  for (const f of fs.readdirSync(SITE_DIR)) if (f.endsWith('.json')) fs.copyFileSync(path.join(SITE_DIR, f), path.join(OUT_DIR, f));
+}
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -168,58 +174,117 @@ function buildItems(rows, totalMatches) {
   return { core, situational };
 }
 
-function steamBuilds() {
+/**
+ * Прокачка и таланты по Steam (--source steam --out-dir D): ability_upgrades всех матчей data/steam-matches
+ * (все ранги), позиции — разметка U2 (tools/match-positions.js): 1/2/3 и «саппорт» (4 и 5 вместе; матчи
+ * Stratz с позициями 4/5 тоже идут в «саппорт»). Формат — как data/builds/<heroId>.json, ключи позиций
+ * POSITION_1/2/3 и POSITION_SUP, те же пороги отбора позиций и функции buildProgression/buildTalents.
+ * Времени покупок у Steam нет: items берутся из билда Stratz той же позиции (для саппорта — первой из 4/5
+ * в его positionOrder), поле itemsFrom это помечает. Пишет D/builds/ и сверку D/builds-check.json.
+ * В data/ не пишет: там билды Stratz, которые показывает сайт.
+ */
+async function steamBuilds() {
   const MS = require('./tools/match-source.js');
+  const MP = require('./tools/match-positions.js');
+  const OUT = MS.outDir();
+  // --site: запись в data/builds/ для сайта в контракте POSITION_1…5; без него — только в каталог --out-dir (сверка)
+  const SITE = process.argv.includes('--site');
+  if (!SITE && path.resolve(OUT) === path.resolve(ROOT, 'data')) throw new Error('--source steam: нужен --out-dir (например data-steam) или --site');
+  ensureStratzStore();
+  const outBuilds = SITE ? SITE_DIR : path.join(OUT, 'builds');
+  const heroPos = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'hero-positions.json'), 'utf8')).heroes || {}; } catch { return {}; } })();
   const talentTree = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'talent-tree.json'), 'utf8')).heroes;
   const heroes = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
-  // agg[hero] = { n, lvl: Map("ability:level" → [матчей, побед]), tal: Map(ability → [матчей, побед]) }
+  const model = MP.loadModel(), stratz = MP.stratzIndex();
+  const KEY = pos => pos === 1 || pos === 2 || pos === 3 ? 'POSITION_' + pos : 'POSITION_SUP';
+  // agg[hero] = { n, pos: { KEY: { n, lvl: Map("ability:level" → [матчей, побед]), tal: Map(ability → [матчей, побед]) } } }
   const agg = new Map();
-  let matches = 0;
-  for (const r of MS.steamMatches()) {
-    matches++;
-    for (const p of r.slice(9, 19)) {
+  let matches = 0, first = Infinity, last = 0;
+  for await (const r of MS.steamStream()) {
+    matches++; if (r[2] < first) first = r[2]; if (r[2] > last) last = r[2];
+    const lab = MP.labelSteamRow(r, model, stratz);
+    r.slice(9, 19).forEach((p, s) => {
       const won = (p[1] < 128) === (r[5] === 1);
-      const a = agg.get(p[0]) || { n: 0, lvl: new Map(), tal: new Map() };
-      agg.set(p[0], a); a.n++;
-      const up = p[22] || [], first = new Map();
-      for (let i = 0; i < up.length; i += 2) if (!first.has(up[i])) first.set(up[i], i / 2 + 1);
-      for (const [ab, lvl] of first) {
-        const k = ab + ':' + lvl, x = a.lvl.get(k) || [0, 0]; x[0]++; if (won) x[1]++; a.lvl.set(k, x);
-        const t = a.tal.get(ab) || [0, 0]; t[0]++; if (won) t[1]++; a.tal.set(ab, t);
+      let a = agg.get(p[0]); if (!a) agg.set(p[0], a = { n: 0, pos: {} });
+      a.n++;
+      const k = KEY(lab.p[s].pos);
+      const x = a.pos[k] || (a.pos[k] = { n: 0, lvl: new Map(), tal: new Map() });
+      x.n++;
+      const up = p[22] || [], firstLvl = new Map();
+      for (let i = 0; i < up.length; i += 2) if (!firstLvl.has(up[i])) firstLvl.set(up[i], i / 2 + 1);
+      for (const [ab, lvl] of firstLvl) {
+        const kk = ab + ':' + lvl, v = x.lvl.get(kk) || [0, 0]; v[0]++; if (won) v[1]++; x.lvl.set(kk, v);
+        const t = x.tal.get(ab) || [0, 0]; t[0]++; if (won) t[1]++; x.tal.set(ab, t);
       }
-    }
+    });
   }
-  const out = { source: 'Steam Web API, ability_upgrades', builtAt: new Date().toISOString(), matches, heroes: {} };
-  let cmpLv = 0, sameLv = 0, cmpTal = 0, sameTal = 0;
+  if (!matches) throw new Error('Нет матчей Steam: сначала node tools/collect-steam-matches.js');
+
+  fs.mkdirSync(outBuilds, { recursive: true });
+  const builtAt = new Date().toISOString();
+  const cmp = { levels: 0, levelsSame: 0, talents: 0, talentsSame: 0, positions: 0, heroes: 0 };
+  const byPos = {};
+  let written = 0;
   for (const h of heroes) {
     const a = agg.get(h.id); if (!a) continue;
-    const lvlRows = [...a.lvl].map(([k, [m, w]]) => { const [ab, lv] = k.split(':').map(Number); return { abilityId: ab, level: lv, matchCount: m, winCount: w }; });
-    const talRows = [...a.tal].map(([ab, [m, w]]) => ({ abilityId: ab, matchCount: m, winCount: w }));
-    const rec = { matches: a.n, progression: buildProgression(lvlRows), talents: buildTalents(talRows, talentTree[h.id] || {}) };
-    out.heroes[h.id] = rec;
-    // сверка с билдом Stratz на самой частой позиции
-    try {
-      const st = JSON.parse(fs.readFileSync(path.join(OUT_DIR, h.id + '.json'), 'utf8'));
-      const sp = st.positions[st.positionOrder[0]];
-      sp.progression.popular.steps.forEach((x, i) => {
-        const y = rec.progression.popular.steps[i];
-        if (x && y) { cmpLv++; if (x.abilityId === y.abilityId) sameLv++; }
-      });
-      for (const t of sp.talents) {
-        const y = rec.talents.find(z => z.level === t.level);
-        if (t.mostPicked && y && y.mostPicked) { cmpTal++; if (t.mostPicked === y.mostPicked) sameTal++; }
+    const ent = Object.entries(a.pos).map(([id, x]) => ({ id, x, share: x.n / a.n * 100 })).sort((p, q) => q.x.n - p.x.n);
+    let top = ent.slice(0, TOP_POSITIONS).filter(p => p.x.n >= MIN_POSITION_MATCHES && p.share >= MIN_POSITION_SHARE);
+    if (!top.length && ent.length) top = [ent[0]];   // как у Stratz: ведущая позиция, чтобы билд был
+    let st = null; try { st = JSON.parse(fs.readFileSync(path.join(OUT_DIR, h.id + '.json'), 'utf8')); } catch { /* нет билда Stratz */ }
+    const stratzKey = k => !st ? null : k === 'POSITION_SUP' ? st.positionOrder.find(q => q === 'POSITION_4' || q === 'POSITION_5') || null : (st.positions[k] ? k : null);
+    const positions = {};
+    let heroCmp = false;
+    for (const p of top) {
+      const lvlRows = [...p.x.lvl].map(([k, [m, w]]) => { const [ab, lv] = k.split(':').map(Number); return { abilityId: ab, level: lv, matchCount: m, winCount: w }; });
+      const talRows = [...p.x.tal].map(([ab, [m, w]]) => ({ abilityId: ab, matchCount: m, winCount: w }));
+      const sk = stratzKey(p.id), sp = sk ? st.positions[sk] : null;
+      const rec = { matches: p.x.n, progression: buildProgression(lvlRows), talents: buildTalents(talRows, talentTree[h.id] || {}),
+        items: sp ? sp.items : { core: [], situational: [] }, itemsFrom: sp ? 'stratz ' + sk : null };
+      positions[p.id] = rec;
+      byPos[p.id] = (byPos[p.id] || 0) + 1;
+      // сверка со Stratz той же позиции (Stratz — Divine/Immortal, Steam — все ранги)
+      if (sp) {
+        heroCmp = true; cmp.positions++;
+        sp.progression.popular.steps.forEach((x, i) => { const y = rec.progression.popular.steps[i]; if (x && y) { cmp.levels++; if (x.abilityId === y.abilityId) cmp.levelsSame++; } });
+        for (const t of sp.talents) { const y = rec.talents.find(z => z.level === t.level); if (t.mostPicked && y && y.mostPicked) { cmp.talents++; if (t.mostPicked === y.mostPicked) cmp.talentsSame++; } }
       }
-    } catch { /* у героя нет билда Stratz */ }
+    }
+    if (heroCmp) cmp.heroes++;
+    let order = top.map(p => p.id), outPos = positions;
+    if (SITE) {
+      // Сайт ждёт POSITION_1…5. Модель различает только «саппорт» (4 и 5 вместе): его прокачка и таланты
+      // идут в те ключи 4/5, что были у героя в билде Stratz; если их нет — в ключ с большим числом матчей
+      // по ролям Stratz (data/hero-positions.json). Предметы — Stratz того же ключа (время покупок у Steam нет).
+      const hp = (heroPos[String(h.id)] || {}).positions || {};
+      const supKeys = (st ? st.positionOrder.filter(q => q === 'POSITION_4' || q === 'POSITION_5') : []);
+      if (!supKeys.length) supKeys.push((hp.POSITION_4 || {}).matches > (hp.POSITION_5 || {}).matches ? 'POSITION_4' : 'POSITION_5');
+      order = []; outPos = {};
+      for (const id of top.map(p => p.id)) {
+        for (const k of id === 'POSITION_SUP' ? supKeys : [id]) {
+          const sp = st && st.positions[k] ? st.positions[k] : null;
+          outPos[k] = Object.assign({}, positions[id], { items: sp ? sp.items : { core: [], situational: [] }, itemsFrom: sp ? 'stratz ' + k : null },
+            id === 'POSITION_SUP' ? { supMerged: true } : {});
+          order.push(k);
+        }
+      }
+    }
+    fs.writeFileSync(path.join(outBuilds, h.id + '.json'), JSON.stringify({
+      heroId: h.id, heroName: h.localized_name, bracket: 'ALL', source: 'Steam Web API, ability_upgrades; позиции — модель U2',
+      fetchedAt: builtAt, matches: a.n, positionOrder: order, positions: outPos
+    }));
+    written++;
   }
-  out.compare = { levels: cmpLv, levelsSame: sameLv, talents: cmpTal, talentsSame: sameTal };
-  fs.writeFileSync(path.join(ROOT, 'data', 'steam-builds-check.json'), JSON.stringify(out));
-  const pc = (a, b) => b ? (a / b * 100).toFixed(1) + '%' : '—';
-  console.log(`Steam: ${matches} матчей, героев ${Object.keys(out.heroes).length}`);
-  console.log(`Сверка со Stratz (самая частая позиция): уровни 1–10 совпали ${sameLv}/${cmpLv} (${pc(sameLv, cmpLv)}), таланты ${sameTal}/${cmpTal} (${pc(sameTal, cmpTal)})`);
+  const pc = (x, y) => y ? Math.round(x / y * 1000) / 10 : null;
+  const check = { builtAt, matches, firstMatchAt: new Date(first * 1000).toISOString(), lastMatchAt: new Date(last * 1000).toISOString(),
+    heroes: written, positionsByKey: byPos, compare: Object.assign(cmp, { levelsPct: pc(cmp.levelsSame, cmp.levels), talentsPct: pc(cmp.talentsSame, cmp.talents) }) };
+  fs.writeFileSync(path.join(OUT, 'builds-check.json'), JSON.stringify(check, null, 1));
+  console.log(`Steam: ${matches} матчей, героев ${written}, позиций ${JSON.stringify(byPos)} → ${path.relative(ROOT, outBuilds)}/`);
+  console.log(`Сверка со Stratz (та же позиция): уровни 1–10 ${cmp.levelsSame}/${cmp.levels} (${check.compare.levelsPct}%), таланты ${cmp.talentsSame}/${cmp.talents} (${check.compare.talentsPct}%)`);
 }
 
 async function main() {
   if (process.argv.includes('--source') && process.argv[process.argv.indexOf('--source') + 1] === 'steam') return steamBuilds();
+  ensureStratzStore();
   const token = readToken();
   const heroes = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
   const positions = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'hero-positions.json'), 'utf8')).heroes;

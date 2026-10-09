@@ -7,6 +7,7 @@
 // по-английски, картинки — с CDN Steam, а сборка падала, если API недоступен.
 // Подборки предметов курируются руками в role-guide-content.js.
 
+const siteNav = require('./tools/site-nav');
 const fs = require('fs');
 const path = require('path');
 const data = require('./role-guide-content.js');
@@ -26,7 +27,7 @@ function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -37,7 +38,7 @@ function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
@@ -50,7 +51,7 @@ ${analyticsSnippet}
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a></nav>
+    ${siteNav.navHtml('guides')}
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
@@ -58,7 +59,7 @@ ${analyticsSnippet}
 <main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:900px;">
 ${bodyHtml}
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;
@@ -91,7 +92,7 @@ async function main(){
     const otherRoles=data.roles.filter(x=>x.slug!==r.slug).slice(0,3);
     const relatedHtml=otherRoles.map(x=>`<a href="/guide/${x.slug}/"><span style="font-size:20px;">${x.icon}</span>${escapeHtml(x.title)}<span>→</span></a>`).join('');
 
-    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / <a href="/guides/">Гайды</a> / ${escapeHtml(r.title)}</nav>
+    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"> / <a href="/guides/">Гайды</a> / ${escapeHtml(r.title)}</nav>
 <div class="eyebrow">${escapeHtml(r.tag)} · ${escapeHtml(r.role.toUpperCase())}</div>
 <h1 style="margin:6px 0 20px;">${escapeHtml(r.title)}</h1>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(r.excerpt)}</p>
@@ -129,7 +130,7 @@ ${stagesHtml}
     const relatedGuides=[...otherComparisons, ...data.roles.slice(0,2)];
     const relatedHtml=relatedGuides.map(x=>`<a href="/guide/${x.slug}/"><span style="font-size:20px;">${x.icon}</span>${escapeHtml(x.title)}<span>→</span></a>`).join('');
 
-    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / <a href="/guides/">Гайды</a> / ${escapeHtml(c.title)}</nav>
+    const bodyHtml=`<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"> / <a href="/guides/">Гайды</a> / ${escapeHtml(c.title)}</nav>
 <div class="eyebrow">${escapeHtml(c.tag)}</div>
 <h1 style="margin:6px 0 20px;">${escapeHtml(c.title)}</h1>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 16px;">${escapeHtml(c.excerpt)}</p>

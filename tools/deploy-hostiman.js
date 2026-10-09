@@ -56,6 +56,35 @@ if (!fs.existsSync(path.join(DEPLOY, '.htaccess'))) fail('в deploy/ нет .hta
 const LOCAL = env.DOTAMATE_SERVER === '1';
 if (!LOCAL && !fs.existsSync(key)) fail('не найден SSH-ключ ' + key);
 
+// ---------- Версия сайта: каждая выкладка = +1 ----------
+// Хостинг не отдаёт Cache-Control для js/css, и браузеры держат старые скрипты при новой разметке.
+// Поэтому при КАЖДОЙ выкладке номер версии растёт на 1 и пишется во все страницы deploy/:
+// ко всем своим /js/*.js, /css/*.css и /security.js добавляется ?v=<версия>, в <head> — <meta name="dotamate-version">,
+// в корень — version.json. Счётчик живёт на сервере (~/dotamate-data/site-version.json), поэтому выкладка — только
+// с сервера (DOTAMATE_SERVER=1): с рабочего компьютера счётчик и данные разошлись бы с сайтом.
+if (!LOCAL && !process.argv.includes('--from-pc')) fail('выкладка только с сервера: сначала node tools/push-server.js, затем на сервере ' +
+  'DOTAMATE_SERVER=1 node build-pages.js && node tools/sync-deploy.js && node tools/deploy-hostiman.js (см. claude/versiya-sayta.md в проекте)');
+const VERSION_FILE = path.join(os.homedir(), 'dotamate-data', 'site-version.json');
+let version = 1;
+try { version = (JSON.parse(fs.readFileSync(VERSION_FILE, 'utf8')).version || 0) + 1; } catch { /* первая выкладка с версией */ }
+function stampHtml(dir) {
+  let n = 0;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const f = path.join(dir, e.name);
+    if (e.isDirectory()) { if (e.name !== 'data' && e.name !== 'assets') n += stampHtml(f); continue; }
+    if (!e.name.endsWith('.html')) continue;
+    const html = fs.readFileSync(f, 'utf8');
+    let out = html.replace(/(src|href)="(\/(?:js|css)\/[\w.\/-]+\.(?:js|css)|\/security\.js)(?:\?v=[^"]*)?"/g, (m, attr, url) => `${attr}="${url}?v=${version}"`);
+    out = out.replace(/<meta name="dotamate-version" content="\d*">\n?/, '');
+    out = out.replace(/<head>/i, `<head>\n<meta name="dotamate-version" content="${version}">`);
+    if (out !== html) { fs.writeFileSync(f, out); n++; }
+  }
+  return n;
+}
+const stamped = stampHtml(DEPLOY);
+fs.writeFileSync(path.join(DEPLOY, 'version.json'), JSON.stringify({ version, deployedAt: new Date().toISOString() }));
+console.log(`Версия сайта: ${version} (страниц с метками: ${stamped})`);
+
 const tarFile = path.join(os.tmpdir(), 'dotamate-deploy-' + process.pid + '.tar');
 const tarArgs = ['-cf', tarFile];
 for (const e of EXCLUDE) tarArgs.push('--exclude=' + e);
@@ -99,4 +128,12 @@ if (LOCAL) {
 try { fs.unlinkSync(tarFile); } catch (e) { /* временный файл, не критично */ }
 if (r.error) fail((LOCAL ? 'bash' : 'ssh') + ' не запустился: ' + r.error.message);
 if (r.status !== 0) fail('ssh вернул код ' + r.status + ' (если «Connection closed/timed out» — хостинг временно заблокировал IP, повторить позже)');
-console.log('Сайт обновлён: https://dotamate.ru/');
+fs.mkdirSync(path.dirname(VERSION_FILE), { recursive: true });
+fs.writeFileSync(VERSION_FILE, JSON.stringify({ version, deployedAt: new Date().toISOString() }));
+console.log('Сайт обновлён: https://dotamate.ru/ — версия ' + version);
+// Отпечаток выложенного кода: ежедневное обновление выкладывает только данные и сверяет код с ним
+// (tools/code-fingerprint.js, tools/daily-update.js). Только на сервере — там лежит код, который собирал сайт.
+if (LOCAL) {
+  try { console.log('Отпечаток кода записан: ' + require('./code-fingerprint.js').record(version) + ' файлов'); }
+  catch (e) { console.error('Отпечаток кода НЕ записан: ' + e.message + ' — ежедневная выкладка будет заблокирована до следующей выкладки.'); }
+}

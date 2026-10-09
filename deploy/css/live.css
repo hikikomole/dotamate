@@ -1,0 +1,133 @@
+/* Раздел «Эфир» (/live/). Пространство имён lv-, цвета — токены темы d2-dark. */
+.lv{--lv-rad:#5fbf6b;--lv-dire:#d9534f;--lv-panel:var(--d2-panel,#101216);--lv-line:var(--d2-line,#23272f)}
+body.d2-dark .lv{background:none!important}
+.lv-head{display:flex;justify-content:space-between;align-items:center;gap:8px 24px;margin:0 0 6px;flex-wrap:wrap}
+.lv-headline{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap}
+body.d2-dark .lv-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(26px,3.2vw,34px)!important;line-height:1.05!important;text-transform:uppercase!important;color:#fff!important}
+.lv-lead{margin:0 0 12px;max-width:none;font-size:14.5px;line-height:1.6;color:var(--d2-muted,#98a1ae)}
+.lv-stamp{font-size:12.5px;line-height:1.7;color:var(--d2-muted,#98a1ae);text-align:right}
+.lv-stamp b{color:var(--d2-gold,#d9c187)}
+.lv-stamp a{color:var(--d2-gold,#d9c187)}
+
+.lv-score{display:flex;align-items:center;justify-content:center;gap:14px;font-family:Oswald,Manrope,system-ui,sans-serif}
+.lv-score .rad,.lv-score .dire{font-size:30px;font-weight:600;min-width:2ch;text-align:center}
+.lv-score .rad{color:var(--lv-rad)}.lv-score .dire{color:var(--lv-dire)}
+.lv-clock{font-size:20px;color:#fff;padding:2px 12px;border:1px solid var(--lv-line);border-radius:8px;min-width:6ch;text-align:center}
+
+.lv-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:stretch;margin-bottom:30px}
+/* Легенда — под картой, но не в высоте ряда: низ событий совпадает с низом карты */
+.lv-grid>div:first-child{position:relative}
+.lv-grid>div:first-child>.lv-legend{position:absolute;left:0;right:0;top:100%}
+.lv-mapwrap{position:relative;border:1px solid var(--lv-line);border-radius:var(--rad-lg,14px);overflow:hidden;background:#0d1410}
+.lv-mapwrap canvas{display:block;width:100%;aspect-ratio:1/1}
+.lv-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center;background:rgba(7,8,10,.72);color:#fff;font-size:16px}
+.lv-overlay[hidden]{display:none}
+.lv-overlay p{margin:0}
+.lv-muted{color:var(--d2-muted,#98a1ae);font-size:13px}
+.lv-legend{display:flex;flex-wrap:wrap;gap:14px;margin:8px 2px 0;font-size:12px;color:var(--d2-muted-2,#6d7683)}
+.lv-k-rad{background:var(--lv-rad)}.lv-k-dire{background:var(--lv-dire)}.lv-k-obs{background:#f2d16b}.lv-k-sen{background:#6fc3ff}
+.lv-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+.lv-side{display:flex;flex-direction:column;gap:12px}
+.lv-team{background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:var(--rad-lg,14px);padding:6px 10px}
+body.d2-dark .lv-team h2{margin:6px 0 4px!important;font-size:13px!important;letter-spacing:1.5px!important;text-transform:uppercase!important}
+body.d2-dark .lv-team.rad h2{color:var(--lv-rad)!important}body.d2-dark .lv-team.dire h2{color:var(--lv-dire)!important}
+.lv-row,.lv-cols{display:grid;grid-template-columns:44px minmax(0,1fr) 24px 40px 54px 38px 56px 38px;align-items:center;gap:7px}
+.lv-row{padding:5px 0;border-top:1px solid var(--lv-line);font-size:13px}
+.lv-cols{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--d2-muted-2,#6d7683);padding:2px 0}
+.lv-cols span:nth-child(n+3){text-align:center}.lv-cols span:nth-child(7){text-align:right}
+.lv-hero{width:44px;height:25px;object-fit:cover;border-radius:4px}
+.lv-row.is-dead .lv-hero{filter:grayscale(1);opacity:.5}
+.lv-who{min-width:0;display:flex;flex-direction:column;gap:3px}
+.lv-items{display:flex;gap:2px;min-height:15px}
+.lv-it{width:21px;height:15px;object-fit:cover;border-radius:2px;background:#0b0c0e}
+.lv-lh,.lv-xpm{text-align:center;color:var(--d2-muted,#98a1ae)}
+.lv-sum{margin:0 0 4px;font-size:12px;color:var(--d2-muted,#98a1ae)}
+.lv-sum b{color:var(--d2-text,#eef1f5);font-weight:600}
+.lv-tabs{display:inline-flex;gap:4px;margin-left:auto}
+.lv-tabs button{background:none;border:1px solid var(--lv-line);border-radius:6px;padding:3px 9px;font:inherit;font-size:12px;color:var(--d2-muted,#98a1ae);cursor:pointer}
+.lv-tabs button[aria-pressed="true"]{color:var(--d2-gold,#d9c187);border-color:var(--d2-gold-dim,#8d7b4f)}
+.lv-chat{color:var(--d2-muted,#98a1ae);font-style:italic}
+.lv-name{color:var(--d2-text,#eef1f5)!important;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-name:hover{color:var(--d2-gold,#d9c187)!important}
+.lv-lvl{text-align:center;color:var(--d2-muted,#98a1ae)}
+.lv-kd{text-align:center;color:#fff}
+.lv-nw{text-align:right;color:var(--d2-gold,#d9c187)}
+.lv-state{text-align:right;color:var(--lv-dire);font-size:12px}
+
+.lv-grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
+/* События тянутся до низа карты: лента absolute и не влияет на высоту ряда (мин. 150 px) */
+.lv-events{flex:1 1 auto;position:relative;min-height:150px}
+.lv-events .lv-feed{position:absolute;left:14px;right:14px;top:44px;bottom:12px;max-height:none}
+@media (max-width:1100px){.lv-grid{grid-template-columns:1fr;margin-bottom:0}.lv-grid>div:first-child>.lv-legend{position:static}.lv-events{min-height:0}.lv-events .lv-feed{position:static;max-height:260px}}
+.lv-block{background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:var(--rad-lg,14px);padding:12px 14px}
+.lv-block-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 10px}
+.lv-block{min-width:0}
+body.d2-dark .lv-block h2{margin:0 0 8px!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:500!important;font-size:16px!important;letter-spacing:1.3px!important;text-transform:uppercase!important;color:#fff!important}
+.lv-block-head span{font-size:12.5px;color:var(--d2-gold,#d9c187)}
+/* Подпись справа фиксированной ширины — кнопки не прыгают при смене героя */
+#lvAdvNow{flex:0 0 230px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-block-head .lv-tabs{margin-left:auto}
+@media (max-width:480px){#lvAdvNow{flex-basis:100%;text-align:left}}
+#lvAdv{display:block;width:100%;height:140px}
+.lv-feed{list-style:none;margin:0;padding:0;max-height:260px;overflow:auto;font-size:13px}
+.lv-feed li{display:flex;gap:10px;padding:5px 0;border-top:1px solid var(--lv-line);color:var(--d2-text,#eef1f5)}
+.lv-feed li:first-child{border-top:0}
+.lv-feed time{flex-shrink:0;width:48px;color:var(--d2-muted-2,#6d7683);font-variant-numeric:tabular-nums}
+.lv-feed b.radiant{color:var(--lv-rad)}.lv-feed b.dire{color:var(--lv-dire)}
+.lv-note{margin:16px 0 0;font-size:12.5px;line-height:1.6;color:var(--d2-muted-2,#6d7683)}
+
+@media (max-width:900px){
+  .lv-grid,.lv-grid2{grid-template-columns:1fr}
+  .lv-stamp{text-align:left}
+}
+@media (max-width:480px){
+  .lv-row,.lv-cols{grid-template-columns:34px minmax(0,1fr) 20px 34px 44px 50px 30px;gap:5px}
+  .lv-row{font-size:12px}
+  .lv-hero{width:34px;height:19px}
+  .lv-xpm,.lv-cols span:nth-child(6){display:none}
+}
+.lv-pro{display:inline-block;padding:1px 7px;border-radius:5px;background:var(--d2-gold,#d9c187);color:#111;font-weight:700;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+
+/* драфт, роли, победа, график героев */
+.lv-board{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:14px 20px 18px;margin:0 0 8px;background:var(--lv-panel);border:1px solid var(--lv-line);border-radius:12px;overflow:hidden}
+.lv-bteam{display:flex;flex-direction:column;gap:8px;min-width:0}
+.lv-bteam.rad{align-items:flex-end}.lv-bteam.dire{align-items:flex-start}
+.lv-bt-top{display:flex;align-items:baseline;gap:10px;max-width:100%}
+.lv-bt-name{font-family:Oswald,Manrope,system-ui,sans-serif;font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lv-bt-p{font-size:12.5px;font-weight:700;white-space:nowrap}
+.lv-bteam.rad .lv-bt-p{color:var(--lv-rad)}.lv-bteam.dire .lv-bt-p{color:var(--lv-dire)}
+.lv-mid{display:flex;flex-direction:column;align-items:center;gap:6px}
+.lv-board .lv-score{gap:10px}
+.lv-board .lv-score .rad,.lv-board .lv-score .dire{font-size:44px;line-height:1}
+.lv-score-sep{font-size:30px;color:var(--d2-muted-2,#6d7683)}
+.lv-board-bar{position:absolute;left:0;right:0;bottom:0;display:flex;height:4px}
+.lv-board-bar[hidden]{display:none}
+.lv-board-bar i.radiant{background:var(--lv-rad)}.lv-board-bar i.dire{background:var(--lv-dire)}
+.lv-draft{margin:0 0 14px}
+.lv-prob-more{font-size:12px;color:var(--d2-muted-2,#6d7683)}
+.lv-prob-more summary{cursor:pointer;width:max-content;max-width:100%;margin:0 auto;color:var(--d2-muted,#98a1ae)}
+.lv-prob-more p{margin:6px auto 0;max-width:760px;text-align:center;line-height:1.55}
+.lv-prob-more a{color:var(--d2-gold,#d9c187)}
+@media (max-width:900px){.lv-board{grid-template-columns:1fr 1fr;gap:12px;padding:12px 12px 16px}.lv-mid{grid-column:1/-1;order:-1}.lv-bteam.rad,.lv-bteam.dire{align-items:center}.lv-bteam .lv-draft-side{flex-wrap:wrap;justify-content:center}.lv-bt-top{flex-direction:column;align-items:center;gap:2px}.lv-bteam.dire .lv-bt-top{flex-direction:column-reverse}.lv-bt-name{font-size:16px}}
+.lv-draft-side{display:flex;gap:6px}
+.lv-pick{position:relative;display:block;width:64px;height:36px;border-radius:5px;overflow:hidden;border:2px solid transparent}
+.lv-draft-side.rad .lv-pick{border-color:var(--lv-rad)}.lv-draft-side.dire .lv-pick{border-color:var(--lv-dire)}
+.lv-pick img{width:100%;height:100%;object-fit:cover;display:block}
+.lv-pick .lv-pick-role{position:absolute;right:2px;bottom:2px;width:15px;height:15px;object-fit:contain;background:rgba(0,0,0,.65);border-radius:3px;padding:1px}
+.lv-herobox{position:relative;display:block;width:44px;height:25px}
+.lv-role{position:absolute;right:-3px;bottom:-3px;width:14px;height:14px;object-fit:contain;background:rgba(0,0,0,.7);border-radius:3px;padding:1px}
+.lv-win{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 26px;border-radius:10px;background:rgba(7,8,10,.82);border:1px solid var(--lv-line);text-align:center}
+.lv-win[hidden]{display:none}
+.lv-win b{font-family:Oswald,Manrope,system-ui,sans-serif;font-size:clamp(20px,3vw,30px);text-transform:uppercase;letter-spacing:1px}
+.lv-win b.radiant{color:var(--lv-rad)}.lv-win b.dire{color:var(--lv-dire)}
+.lv-win span{font-size:13px;color:var(--d2-muted,#98a1ae)}
+.lv-win small{font-size:12px;color:var(--d2-muted-2,#6d7683)}
+@media (max-width:480px){.lv-pick{width:46px;height:26px}.lv-draft-side{gap:4px}.lv-herobox{width:34px;height:19px}}
+/* Строки команд плотнее: предметы в строку с именем — колонка команд по высоте близка к карте */
+@media (min-width:1101px){
+  .lv-row{padding:3px 0}
+  .lv-who{flex-direction:row;align-items:center;gap:6px}
+  .lv-who .lv-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:0 1 auto;min-width:0}
+  .lv-items{flex:0 0 auto}
+}

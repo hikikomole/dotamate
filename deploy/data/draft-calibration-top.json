@@ -1,0 +1,20 @@
+{
+ "source": "Логистическая калибровка по своей базе матчей (Divine 5 и Immortal)",
+ "tier": "top",
+ "method": "P = 1 / (1 + exp(-a * S)), a подобран по отложенной части базы",
+ "builtAt": "2026-10-02T06:06:35.212Z",
+ "matchesTotal": 37651,
+ "matchesTrain": 26355,
+ "matchesFit": 5647,
+ "matchesTest": 5649,
+ "smoothingK": 50,
+ "laneIncluded": false,
+ "alpha": 0.00562,
+ "testLogLoss": 0.68165,
+ "baselineLogLoss": 0.69315,
+ "testBrier": 0.2443,
+ "baselineBrier": 0.25,
+ "testAccuracy": 56.26,
+ "absScoreP50": 34.4,
+ "absScoreP95": 101.3
+}

@@ -35,9 +35,13 @@ const ROOT = path.join(__dirname, '..');
 // как в tools/build-our-stats.js) → data/draft-calibration-top.json. По умолчанию — основной срез.
 const TIER = process.argv.includes('--tier') ? process.argv[process.argv.indexOf('--tier') + 1] : 'base';
 const TIERS = { base: { dir: 'public-matches', out: 'draft-calibration.json', min: -Infinity, max: Infinity, minMatches: 5000 },
-  top: { dir: 'public-matches-top', out: 'draft-calibration-top.json', min: 75, max: 85, minMatches: 5000 } };
+  top: { dir: 'public-matches-top', out: 'draft-calibration-top.json', min: 75, max: 85, minMatches: 5000 },
+  all: { dir: null, out: 'draft-calibration-all.json', min: -Infinity, max: Infinity, minMatches: 5000 } }; // all — только --source steam
 if (!TIERS[TIER]) { console.error('Неизвестный срез: ' + TIER); process.exit(2); }
-const OUT = path.join(ROOT, 'data', TIERS[TIER].out);
+if (TIER === 'all' && SRC !== 'steam') { console.error('Срез all — только для --source steam'); process.exit(2); }
+// --main: срез all пишется в основной draft-calibration.json (DraftMate «Все ранги», U5 09.10.2026)
+if (process.argv.includes('--main')) { if (TIER !== 'all') { console.error('--main — только для --tier all'); process.exit(2); } TIERS.all.out = 'draft-calibration.json'; }
+const OUT = path.join(MS.outDir(), TIERS[TIER].out); // --out-dir (по умолчанию data/)
 const K = 50;                 // то же сглаживание, что в инструменте
 const MIN_DURATION = 900;
 const MODES = [22], LOBBIES = [0, 7];
@@ -48,43 +52,55 @@ function rng(seed) {
   return function () { x ^= x << 13; x >>>= 0; x ^= x >> 17; x ^= x << 5; x >>>= 0; return x / 4294967296; };
 }
 
-function loadMatches() {
-  const out = [];
-  for (const r of MS.publicRows({ src: SRC, tier: TIER })) {
+/**
+ * Матчи под фильтр упакованы: 10 индексов героев (Uint8, порядок heroIds) + исход — 11 байт на матч,
+ * чтобы миллионы матчей Steam уложились в лимит памяти хостинга. Порядок матчей тот же, что у
+ * построчного чтения, поэтому деление 70/15/15 совпадает с прежним. Матч с неизвестным героем
+ * пропускается здесь (раньше — при подсчёте), в число матчей он не входит.
+ */
+async function loadMatches(pos) {
+  let H = new Uint8Array(11 << 16), n = 0;
+  for await (const r of MS.publicStream({ src: SRC, tier: TIER })) {
     if (!MODES.includes(r[5]) || !LOBBIES.includes(r[4]) || r[2] < MIN_DURATION) continue;
     if (r[3] != null && (r[3] < TIERS[TIER].min || r[3] > TIERS[TIER].max)) continue;
-    out.push(r);
+    const ix = r.slice(7, 17).map(h => pos.get(h));
+    if (ix.some(x => x === undefined)) continue;
+    if ((n + 1) * 11 > H.length) { const b = new Uint8Array(H.length * 2); b.set(H); H = b; }
+    H.set(ix, n * 11); H[n * 11 + 10] = r[6] === 1 ? 1 : 0; n++;
   }
-  return out;
+  return { H, n };
 }
 
-function main() {
+async function main() {
   const heroIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8'))
     .heroes.map(h => h.id).sort((a, b) => a - b);
   const N = heroIds.length, pos = new Map(heroIds.map((id, i) => [id, i]));
   const idx = (i, j) => (i * (2 * N - i - 1)) / 2 + (j - i - 1);
   const PAIRS = (N * (N - 1)) / 2;
 
-  const all = loadMatches();
+  const { H, n: total } = await loadMatches(pos);
+  const all = { length: total };
   if (all.length < TIERS[TIER].minMatches) throw new Error('Мало матчей для калибровки: ' + all.length + ', нужно хотя бы ' + TIERS[TIER].minMatches);
 
   // детерминированное перемешивание и деление 70/15/15
   const rnd = rng(20260924);
-  const order = all.map((m, i) => [rnd(), i]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  const key = new Float64Array(total); for (let i = 0; i < total; i++) key[i] = rnd();
+  const order = new Uint32Array(total).map((_, i) => i).sort((a, b) => key[a] - key[b]);
   const nTrain = Math.floor(order.length * 0.70), nFit = Math.floor(order.length * 0.15);
-  const train = order.slice(0, nTrain).map(i => all[i]);
-  const fit = order.slice(nTrain, nTrain + nFit).map(i => all[i]);
-  const test = order.slice(nTrain + nFit).map(i => all[i]);
+  const train = order.slice(0, nTrain);
+  const fit = order.slice(nTrain, nTrain + nFit);
+  const test = order.slice(nTrain + nFit);
   console.log('Матчей:', all.length, '| матрица:', train.length, '| подбор:', fit.length, '| проверка:', test.length);
 
   // матрица пар только по обучающей части
   const wN = new Float64Array(PAIRS), wW = new Float64Array(PAIRS);
   const vN = new Float64Array(PAIRS), vW = new Float64Array(PAIRS);
-  const teamIdx = m => [m.slice(7, 12).map(h => pos.get(h)), m.slice(12, 17).map(h => pos.get(h))];
+  const teamIdx = m => [Array.from(H.subarray(m * 11, m * 11 + 5)), Array.from(H.subarray(m * 11 + 5, m * 11 + 10))];
+  const won = m => H[m * 11 + 10];
   for (const m of train) {
     const [ri, di] = teamIdx(m);
     if (ri.some(x => x === undefined) || di.some(x => x === undefined)) continue;
-    const radWin = m[6] === 1;
+    const radWin = won(m) === 1;
     const same = (t, won) => {
       for (let a = 0; a < 5; a++) for (let b = a + 1; b < 5; b++) {
         const x = t[a], y = t[b], k = x < y ? idx(x, y) : idx(y, x);
@@ -112,7 +128,7 @@ function main() {
     for (const x of ri) for (const y of di) s += vsAdv(x, y);
     return s;
   }
-  const prep = set => set.map(m => ({ s: score(m), y: m[6] })).filter(x => x.s !== null);
+  const prep = set => Array.from(set, m => ({ s: score(m), y: won(m) })).filter(x => x.s !== null);
   const F = prep(fit), T = prep(test);
 
   const logloss = (rows, a) => {
@@ -169,7 +185,7 @@ function main() {
   }
 
   fs.writeFileSync(OUT, JSON.stringify({
-    source: 'Логистическая калибровка по своей базе матчей' + (SRC === 'steam' ? ' (Steam Web API)' : '') + (TIER === 'top' ? ' (Divine 5 и Immortal)' : ''),
+    source: 'Логистическая калибровка по своей базе матчей' + (SRC === 'steam' ? ' (Steam Web API)' : '') + (TIER === 'top' ? ' (Divine 5 и Immortal)' : TIER === 'all' ? ' (все ранги)' : ''),
     tier: TIER,
     method: 'P = 1 / (1 + exp(-a * S)), a подобран по отложенной части базы',
     builtAt: new Date().toISOString(),
@@ -187,4 +203,4 @@ function percentile(arr, p) {
   return a[Math.min(a.length - 1, Math.floor(a.length * p / 100))];
 }
 
-main();
+main().catch(e => { console.error('ОШИБКА:', e.message); process.exit(1); });

@@ -82,8 +82,87 @@
       '<b class="hm-adv-num ' + (sum.advantage >= 0 ? 'hm-up' : 'hm-down') + '">' + pp(sum.advantage) + '&nbsp;пп</b>' +
       '<span class="hm-adv-bar"><i style="width:' + share.toFixed(1) + '%"></i></span>' +
       '<small>Сумма парных отклонений, а не вероятность победы</small></div>' +
-      (recs ? '<div class="hm-recs"><span class="hm-recs-label">Кого добавить</span><div class="hm-recs-row">' + recs + '</div></div>' : '');
+      (recs ? '<div class="hm-recs"><span class="hm-recs-label">Кого добавить</span><div class="hm-recs-row">' + recs + '</div></div>' : '') +
+      '<div class="hm-builds" id="hmBuilds"></div>';
+    builds(picks);
   }
+
+  // ---------- что собирают выбранные герои (вариант А) ----------
+  // Только реальные покупки из нашей базы (data/hero-items.json, Stratz, по фазам матча).
+  // «Против этого драфта» честно посчитать пока нечем — показываем, что герой покупает обычно.
+  // Файлы грузятся лениво, после первого выбранного героя: ~400 КБ не нужны тем, кто драфт не трогает.
+  var itemData = null, itemLoading = null;
+  function loadItems() {
+    if (itemData) return Promise.resolve(itemData);
+    if (!itemLoading) itemLoading = Promise.all(['/data/hero-items.json', '/data/items-ru.json', '/data/item-impact.json'].map(function (u, i) {
+      return fetch(u).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .catch(function (e) { if (i === 2) return null; throw e; }); // без файла варианта Б работает вариант А
+    })).then(function (r) {
+      // items-ru.json: items — объект «ключ → предмет», не массив.
+      var byId = {}, byKey = r[1].items || {};
+      Object.keys(byKey).forEach(function (k) { byId[byKey[k].id] = byKey[k]; });
+      return (itemData = { heroes: r[0].heroes, src: r[0].source, items: byId, byKey: byKey, impact: r[2] });
+    }).catch(function (e) { itemLoading = null; throw e; });
+    return itemLoading;
+  }
+  function slugOf(icon) { var m = /\/assets\/heroes\/([a-z0-9_]+)\.png/.exec(icon || ''); return m ? m[1] : ''; }
+  // Вариант Б: игрок отмечает предметы в сборке героя (не больше MAX_BUILD), рядом — поправка к доле побед
+  // по data/item-impact.json (tools/build-item-impact.js). Это относительный эффект «этот предмет против обычной
+  // сборки героя» по наблюдениям, он не откалиброван и в прогноз по драфту не входит — показывается отдельно.
+  var MAX_BUILD = 6, chosen = {}; // heroId -> [item keys]
+  function pp1(v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1).replace('.', ','); }
+  function builds(picks) {
+    var box = document.getElementById('hmBuilds');
+    var ids = picks.radiant.filter(Boolean).concat(picks.dire.filter(Boolean));
+    if (!box || !ids.length) return;
+    loadItems().then(function (d) {
+      var a = api(), imp = d.impact && d.impact.heroes || {}, total = { radiant: 0, dire: 0 }, used = { radiant: 0, dire: 0 };
+      var row = function (id, side) {
+        var h = d.heroes[id], hero = a.hero(id); if (!hero) return '';
+        // «Обычно»: частые покупки середины и поздней игры без повторов, не больше 5.
+        var usual = function () {
+          if (!h) return '';
+          var seen = {}, out = [];
+          (h.mid || []).slice(0, 3).concat((h.late || []).slice(0, 3)).forEach(function (x) {
+            var it = d.items[String(x.i)]; if (!it || seen[x.i] || out.length >= 5) return; seen[x.i] = 1;
+            out.push('<span class="hm-bi" title="' + esc(it.dname) + ' — в ' + Math.round(100 * x.g / h.n) + '% матчей героя"><img src="' + esc(it.img) + '" alt="' + esc(it.dname) + '" loading="lazy"></span>');
+          });
+          return out.join('');
+        };
+        var hi = imp[id], sel = chosen[id] || [], effect = 0;
+        sel.forEach(function (k) { if (hi && hi[k]) effect += hi[k][0]; });
+        if (sel.length) { total[side] += effect; used[side]++; }
+        var opts = hi ? Object.keys(hi).sort(function (x, y) { return hi[x][3] - hi[y][3]; }).map(function (k) {
+          var it = d.byKey[k], on = sel.indexOf(k) >= 0; if (!it) return '';
+          return '<button type="button" class="hm-bi hm-bi-pick' + (on ? ' on' : '') + '" data-hero="' + id + '" data-item="' + esc(k) + '" aria-pressed="' + on + '" title="' + esc(it.dname) +
+            ' — ' + pp1(hi[k][0]) + ' п.п. к доле побед относительно обычной сборки героя (купил к ' + Math.round(hi[k][3] / 60) + '-й мин: ' + hi[k][1] + ' матчей, не покупал: ' + hi[k][2] + ')"><img src="' + esc(it.img) + '" alt="' + esc(it.dname) + '" loading="lazy"></button>';
+        }).join('') : '';
+        var slug = slugOf(a.icon(hero));
+        return '<div class="hm-build hm-build-' + side + '">' +
+          (slug ? '<a href="/hero/' + esc(slug) + '/guide/" title="Гайд: ' + esc(hero.localized_name || '') + '">' : '') + '<img class="hm-build-hero" src="' + a.icon(hero) + '" alt="" loading="lazy">' + (slug ? '</a>' : '') +
+          '<span class="hm-build-usual">' + usual() + '</span>' +
+          '<span class="hm-build-pick">' + (opts || '<small class="hm-build-none" title="Ни у одного предмета героя нет 100+ матчей в обеих группах">нет данных</small>') + '</span>' +
+          (sel.length ? '<b class="hm-build-eff ' + (effect >= 0 ? 'hm-up' : 'hm-down') + '">' + pp1(effect) + '</b>' : '') + '</div>';
+      };
+      var radRows = picks.radiant.filter(Boolean).map(function (id) { return row(id, 'radiant'); }).join('');
+      var direRows = picks.dire.filter(Boolean).map(function (id) { return row(id, 'dire'); }).join('');
+      var head = '<div class="hm-build-head"><span></span><span>Обычно</span><span>Сборка · нажмите предмет</span></div>';
+      var rows = radRows || direRows ? '<div class="hm-build-cols">' + (radRows ? '<div>' + head + radRows + '</div>' : '') + (direRows ? '<div>' + head + direRows + '</div>' : '') + '</div>' : '';
+      var sumLine = used.radiant || used.dire
+        ? '<p class="hm-build-sum">Поправка за сборку к доле побед: Свет <b>' + pp1(total.radiant) + '</b> п.п., Тьма <b>' + pp1(total.dire) + '</b> п.п.</p>' : '';
+      var n = d.impact ? d.impact.matches.toLocaleString('ru-RU') : '0';
+      if (box.isConnected) box.innerHTML = rows ? '<span class="hm-recs-label">Предметы героев</span>' + rows + sumLine +
+        '<details class="hm-build-how"><summary>Как считается</summary><p>«Обычно» — частые покупки героя в середине и конце игры (' + esc(d.src) + '). «Сборка» — предметы, по которым хватает данных (≥ ' +
+        (d.impact ? d.impact.minN : 100) + ' матчей в каждой группе, ' + n + ' детальных матчей Stratz, в основном ниже Divine): поправка показывает, насколько предмет, купленный вовремя, связан с победой сильнее или слабее обычной сборки этого героя. Это наблюдение, а не откалиброванный прогноз, поэтому в вероятность по драфту оно не входит.</p></details>' : '';
+    }).catch(function () { if (box.isConnected) box.innerHTML = '<small class="hm-build-src">Не удалось загрузить сборки — попробуйте обновить страницу.</small>'; });
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.hm-bi-pick'); if (!b) return;
+    var id = Number(b.getAttribute('data-hero')), k = b.getAttribute('data-item'), sel = chosen[id] || (chosen[id] = []);
+    var i = sel.indexOf(k);
+    if (i >= 0) sel.splice(i, 1); else if (sel.length < MAX_BUILD) sel.push(k);
+    var a = api(); if (a && a.ready()) builds(a.picks());
+  });
 
   // ---------- свой выбор героя, прямо в полосе ----------
   function buildPicker() {

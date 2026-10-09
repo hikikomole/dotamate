@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dota Mate — герои, предметы, статистика и гайды</title>
-<meta name="description" content="Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
+<meta name="description" content="DraftMate — драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
 <link rel="canonical" href="https://dotamate.ru/">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Dota Mate — герои, предметы, статистика и гайды">
-<meta property="og:description" content="Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
+<meta property="og:description" content="DraftMate — драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
 <meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
 <meta property="og:url" content="https://dotamate.ru/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dota Mate — герои, предметы, статистика и гайды">
-<meta name="twitter:description" content="Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
+<meta name="twitter:description" content="DraftMate — драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'">
 <!-- Oswald отдельной строкой с display=swap: это шрифт заголовков и логотипа,
      и при display=optional он на первом визите просто не применялся бы. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/theme-dark.css">
@@ -40,7 +40,7 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/" aria-current="page" class="active">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a></nav>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
     <div class="nav-spacer"></div><a class="dm-patch" href="/patch/7.41f/">Патч 7.41f</a><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
@@ -49,9 +49,8 @@
 <section class="hm" id="home-hero">
   <div class="container hm-top">
     <div class="hm-intro">
-      <p class="hm-eyebrow">Срез OpenDota · 24 сентября 2026</p>
-      <h1 class="hm-title">Что работает прямо сейчас</h1>
-      <p class="hm-lead">Около 440&nbsp;167 матчей ранга Divine и Immortal. Считаем сами и показываем, из чего посчитано — редакционных мнений тут нет.</p>
+      <h1 class="hm-title">Добро пожаловать!</h1>
+      <p class="hm-lead hm-welcome">Dotamate — проект о Dota 2, где всё считается по реальным матчам. Здесь видно, какие герои сейчас сильнее, кого брать против кого и что собирать, а в разделе <a href="/live/">«Эфир»</a> круглосуточно идут матчи.</p>
     </div>
     <div class="hm-find">
       <label class="hm-sr" for="globalSearch">Поиск героя, предмета или гайда</label>
@@ -74,18 +73,18 @@
   <div class="container">
     <div class="hm-draft" id="homeDraft">
       <div class="hm-draft-main">
-        <span class="hm-draft-label">Инструмент драфта</span>
+        <span class="hm-draft-label">DraftMate — инструмент драфта</span>
         <div class="hm-draft-rows">
-          <div class="hm-draft-row"><span class="hm-side hm-side-us">Мы</span><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
-          <div class="hm-draft-row"><span class="hm-side hm-side-them">Они</span><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
+          <div class="hm-draft-row"><span class="hm-side hm-side-us">Свет</span><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-us" data-side="radiant" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
+          <div class="hm-draft-row"><span class="hm-side hm-side-them">Тьма</span><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="0" aria-label="Слот 1, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="1" aria-label="Слот 2, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="2" aria-label="Слот 3, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="3" aria-label="Слот 4, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button><button type="button" class="hm-slot hm-slot-them" data-side="dire" data-slot="4" aria-label="Слот 5, пусто"><span class="hm-slot-plus" aria-hidden="true">+</span></button></div>
         </div>
+        <a class="hm-draft-go" href="#draftTool">Открыть DraftMate →</a>
       </div>
       <div class="hm-draft-verdict"><p class="hm-draft-hint">Нажми на пустой слот — выберешь героя прямо здесь. Посчитаем синергию, контрпики и расклад по линиям по матрице пар из матчей Divine и Immortal.</p></div>
-      <a class="hm-draft-go" href="#draftTool">Открыть драфт</a>
     </div>
   </div>
 
-  <div class="container hm-counters"><a class="hm-counter" href="/heroes/"><b>127</b><span>героев</span></a><a class="hm-counter" href="/items/"><b>253</b><span>предмета</span></a><a class="hm-counter" href="/guides/"><b>28</b><span>статей и 127 гайдов по героям</span></a><a class="hm-counter" href="#draftTool"><b>8&nbsp;001</b><span>пара героев в матрице</span></a></div>
+  <div class="container hm-counters"><a class="hm-counter" href="/heroes/"><b>127</b><span>героев</span></a><a class="hm-counter" href="/items/"><b>253</b><span>предмета</span></a><a class="hm-counter" href="/guides/"><b>228</b><span>статей и 127 гайдов по героям</span></a><a class="hm-counter" href="#draftTool"><b>8&nbsp;001</b><span>пара героев в матрице</span></a></div>
 </section>
 
 <section class="section draft-tool" id="draftTool">
@@ -93,15 +92,15 @@
     <div class="dt-shell">
       <div class="dt-head">
         <div>
-          <div class="eyebrow">ПИК ГЕРОЕВ</div>
-          <h2>Ranked All Pick <span class="dt-beta">BETA</span></h2>
+          <h2>DraftMate <span class="dt-beta">BETA</span></h2>
           <p>Синергия, контрпики и линии для обеих сторон. Ставь пики и баны своей игры — покажем, кого добрать.</p>
           <p class="dt-slice-note" id="dtSliceNote">—</p>
         </div>
         <div class="dt-head-actions">
           <div class="dt-side-switch dt-slice-switch" id="dtSliceSwitch">
-            <button type="button" data-slice="our" class="active">Наш ранг</button>
-            <button type="button" data-slice="stratz">Divine/Immortal</button>
+            <button type="button" data-slice="top" class="active">Divine 5 и Immortal</button>
+            <button type="button" data-slice="our">Рекрут–Властелин</button>
+            <button type="button" data-slice="stratz">Stratz</button>
           </div>
           <label class="dt-toggle" title="Оставить только героев, которых реально играют в этом ранге"><input type="checkbox" id="dtMetaOnly"><i></i>Только мета</label>
           <label class="dt-toggle" title="Не учитывать пары, по которым меньше 30 матчей"><input type="checkbox" id="dtConfident"><i></i>Скрыть малую выборку</label>
@@ -187,9 +186,15 @@
         </div>
       </div>
 
+      <div class="dt-recs dti" id="dtItems" hidden>
+        <h3>Предметы против состава</h3>
+        <p class="dti-note">Ориентир, а не обязательная сборка: только предметы, которые этот герой на своей роли действительно покупает в нашей базе, и только против угроз, которые есть у соперника. Наведи на предмет — покажем строку из описания Valve, на которой основан совет.</p>
+        <div class="dt-recs-grid dti-grid"></div>
+      </div>
+
       <details class="dt-method">
         <summary>Откуда числа и как они считаются</summary>
-        <p><b>Источники.</b> Срез «Наш ранг» — наша собственная база публичных матчей диапазона 0–4500 MMR, которую мы собираем сами из ленты OpenDota: по каждому матчу все десять героев и исход. Срез «Divine/Immortal» — Stratz <code>heroStats.matchUp</code>. Линии в обоих случаях берутся у Stratz (<code>heroStats.laneOutcome</code>, фактические исходы линии, а не прогноз золота на десятой минуте): в ленте публичных матчей данных о линиях нет вовсе. Дата снимка — <span id="dtFetched">—</span>.</p>
+        <p><b>Источники.</b> Основной срез «Divine 5 и Immortal» — наша собственная база публичных матчей со средним рангом Divine 5 и Immortal из ленты OpenDota: по каждому матчу все десять героев и исход. Выше Divine 5 лента средний ранг не уточняет, поэтому отдельного среза «7000+» нет. Срез «Рекрут–Властелин» — та же база для рангов от Рекрута до Властелина. Срез «Stratz» — <code>heroStats.matchUp</code> по матчам Divine/Immortal, вероятность для него не считается. Качество прогноза (срез <span id="dtCalSlice">—</span>): угадано <span id="dtCalAcc">—</span> исходов на <span id="dtCalN">—</span> отложенных матчах, которых модель не видела; log loss <span id="dtCalLL">—</span> против <span id="dtCalLLBase">—</span> у прогноза «50 на 50». <span id="dtArchiveCheck"></span> Линии в обоих случаях берутся у Stratz (<code>heroStats.laneOutcome</code>, фактические исходы линии, а не прогноз золота на десятой минуте): в ленте публичных матчей данных о линиях нет вовсе. Дата снимка — <span id="dtFetched">—</span>.</p>
         <p><b>Счёт.</b> Доля побед пары сглаживается к 50% по размеру выборки: <code>(победы + 25) / (матчи + 50)</code>. Так пара с двадцатью матчами весит меньше, чем пара с тысячей, но не выбрасывается. Дальше отклонения от 50% складываются в процентных пунктах: «Син» — по парам внутри команды, «Матч» — против каждого героя соперника, «Линия» — по паре на своей линии. Верхняя шкала — сумма всех отклонений.</p>
         <p><b>Почему тут перевес, а не проценты победы.</b> Сумма парных преимуществ считает пары независимыми, а они зависимы, и у резких драфтов разрыв завышается. Превратить перевес в честную вероятность можно только одним способом — подогнать коэффициент по исходам настоящих матчей. Пока такой подгонки нет, мы показываем то, что реально посчитано: насколько один драфт перевешивает другой. Чем больше число, тем сильнее перевес; сравнивать варианты пика между собой этим можно, читать как «вероятность победы» — нет.</p>
       </details>
@@ -199,17 +204,41 @@
   </div>
 </section>
 
+<section class="section hd" id="homeDaily" data-variant="a">
+  <div class="container hd-wrap">
+    <article class="hd-card">
+      <div class="hd-head"><h2>Герой дня</h2><span class="hd-day">меняется в 00:00 МСК</span></div>
+      <div class="hd-body">
+        <div class="hd-img"></div>
+        <div class="hd-main">
+          <a class="hd-name" href="/heroes/">&nbsp;</a>
+          <div class="hd-stats"><div><small>Винрейт</small><b>—</b></div><div><small>Матчей</small><b>—</b></div><div><small>Пикрейт</small><b>—</b></div><div><small>Позиция</small><b>—</b></div></div>
+        </div>
+      </div>
+      <div class="hd-mu"><div><small>Силён против</small><span class="hd-good"></span></div><div><small>Слаб против</small><span class="hd-bad"></span></div></div>
+      <div class="hd-links"><a class="hd-go-hero" href="/heroes/">Профиль</a><a class="hd-go-guide" href="/guides/">Гайд</a><a class="hd-go-counters" href="/heroes/">Контрпики</a></div>
+      <p class="hd-src">&nbsp;</p>
+    </article>
+    <article class="hq-card">
+      <div class="hd-head"><h2>Вопрос дня</h2><span class="hq-streak">&nbsp;</span></div>
+      <p class="hq-text">&nbsp;</p>
+      <div class="hq-opts"><button type="button" class="hq-opt" disabled></button><button type="button" class="hq-opt" disabled></button><button type="button" class="hq-opt" disabled></button><button type="button" class="hq-opt" disabled></button></div>
+      <div class="hq-foot"><p class="hq-result">&nbsp;</p><a class="hq-item" href="/items/">Предмет →</a></div>
+    </article>
+  </div>
+</section>
+
 <section class="section" id="home-cards">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><div class="eyebrow">РАЗДЕЛЫ</div><h2>Что есть на сайте</h2><p>Каждый раздел — отдельная страница с собственным поиском и фильтрами.</p></div>
+      <div><h2>Что есть на сайте</h2><p>Каждый раздел — отдельная страница с собственным поиском и фильтрами.</p></div>
     </div>
     <div class="home-cards-grid">
       <a class="home-card" href="/heroes/"><span class="home-card-icon">⚔</span><strong>Герои</strong><p>Все герои Dota 2 с ролями, характеристиками и контрпиками.</p><b>Открыть →</b></a>
       <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
       <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Winrate, пики и баны героев в профессиональных матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
-      <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в матчах до 4500 MMR.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в рейтинговых матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
     </div>
   </div>
@@ -218,7 +247,7 @@
 <section class="section companion-featured" id="featuredHeroes">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><div class="eyebrow">HERO SPOTLIGHT</div><h2>Быстрый выбор героя</h2><p>Открывай профиль героя и переходи прямо к его статистике, предметам и гайдам.</p></div>
+      <div><h2>Быстрый выбор героя</h2><p>Открывай профиль героя и переходи прямо к его статистике, предметам и гайдам.</p></div>
       <a class="section-link" href="/stats/">К статистике →</a>
     </div>
     <div id="featuredHeroesGrid" class="featured-heroes-grid"></div>
@@ -229,16 +258,20 @@
 
 </main>
 
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
-<script src="/js/local-preview.js"></script>
-<script src="/js/reliable-data.js"></script>
-<script src="/js/item-variants.js"></script>
-<script src="/js/hero-roles.js"></script>
-<script src="/js/app.js"></script>
+<script src="/js/local-preview.js" defer></script>
+<script src="/js/reliable-data.js" defer></script>
+<script src="/js/item-variants.js" defer></script>
+<script src="/js/hero-roles.js" defer></script>
+<script src="/js/search.js" defer></script>
+<script src="/js/app.js" defer></script>
+<script src="/js/draft-model.js" defer></script>
 <script src="/js/draft-tool.js" defer></script>
+<script src="/js/draft-items.js" defer></script>
 <script src="/js/home-draft.js" defer></script>
-<script src="/js/v43-features.js"></script>
+<script src="/js/home-daily.js" defer></script>
+<script src="/js/v43-features.js" defer></script>
 </body>
 </html>

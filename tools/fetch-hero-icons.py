@@ -37,6 +37,21 @@ def grab(url, dst):
         return True
     return False
 
+def webp_copies(dst_dir):
+    # Сайт показывает портреты в WebP (в ~10 раз легче PNG); PNG остаются
+    # для og:image и старых ссылок. Нужен Pillow; без него — только сообщение.
+    try:
+        from PIL import Image
+    except ImportError:
+        print("  Pillow не установлен — webp-копии портретов не обновлены"); return
+    made = 0
+    for f in os.listdir(dst_dir):
+        if not f.endswith(".png"): continue
+        src_f = os.path.join(dst_dir, f); dst_f = src_f[:-4] + ".webp"
+        if os.path.exists(dst_f) and os.path.getmtime(dst_f) >= os.path.getmtime(src_f): continue
+        Image.open(src_f).convert("RGBA").save(dst_f, "WEBP", quality=82, method=6); made += 1
+    print(f"  webp-копий портретов: {made}")
+
 def main():
     heroes, abilities = load()
     jobs = [("heroes", heroes), ("abilities", abilities)]
@@ -59,6 +74,7 @@ def main():
                 if os.path.exists(src_f) and not os.path.exists(dst_f):
                     open(dst_f, "wb").write(open(src_f, "rb").read())
                     print(f"  копия {site_name}.png из {valve_name}.png")
+            webp_copies(dst_dir)
         print(f"{kind}: {len(keys) - len(missing)} из {len(keys)}")
         if missing: print("  не нашлось (%d): %s" % (len(missing), ", ".join(missing[:40])))
 

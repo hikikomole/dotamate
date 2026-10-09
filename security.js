@@ -108,3 +108,18 @@
     return nativeFetch.call(this, input, init);
   };
 })();
+
+/* Версия сайта (tools/deploy-hostiman.js пишет <meta name="dotamate-version">): к запросам своих файлов /data/*
+   и /version.json дописывается ?v=<версия>. Хостинг кеширует статические JSON, а с новой версией меняется адрес —
+   после каждой выкладки посетитель сразу получает свежие данные. */
+(function () {
+  var m = document.querySelector('meta[name="dotamate-version"]'), v = m && m.getAttribute('content');
+  if (!v || typeof window.fetch !== 'function') return;
+  var orig = window.fetch;
+  window.fetch = function (input, init) {
+    if (typeof input === 'string' && /^\/(data\/|version\.json)/.test(input) && !/[?&]v=/.test(input)) {
+      input += (input.indexOf('?') < 0 ? '?' : '&') + 'v=' + encodeURIComponent(v);
+    }
+    return orig.call(this, input, init);
+  };
+})();

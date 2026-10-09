@@ -9,20 +9,41 @@
   function heroImg(h){try{return imageUrl(h)}catch{return ''}}
   function itemImg(i){try{return itemImage(i)}catch{return ''}}
 
+  // Поиск — js/search.js: оригинальные названия + синонимы Dota 2 + страницы сайта.
+  // Результаты — выпадающий список поверх страницы (css/home-hero.css), по 5 на группу.
+  let cursor=-1;
+  const row=(attrs,img,text)=>`<button type="button" ${attrs}>${img?`<img src="${img}" alt="" loading="lazy">`:''}<span class="sr-t">${esc(text)}</span></button>`;
+  function close(){const el=$('globalSearchResults');if(el){el.innerHTML='';el.classList.remove('show')}cursor=-1}
   function renderGlobal(q=''){
-    const el=$('globalSearchResults'); if(!el)return; q=q.trim().toLowerCase(); if(!q){el.innerHTML='';el.classList.remove('show');return}
-    const hs=ensureData().filter(h=>String(h.localized_name).toLowerCase().includes(q)).slice(0,5);
-    const is=getItems().filter(i=>String(i.dname||i.name).toLowerCase().includes(q)).slice(0,5);
-    const sections=[['Разделы',[['Герои','heroes'],['Предметы','items'],['Статистика','stats'],['Гайды','guides']].filter(x=>x[0].toLowerCase().includes(q))],['Герои',hs],['Предметы',is]];
-    let html=''; sections.forEach(([title,arr])=>{if(!arr.length)return;html+=`<div class="v43-search-group"><b>${title}</b>${arr.map(x=>title==='Разделы'?`<button data-v43-go="${x[1]}">→ ${esc(x[0])}</button>`:title==='Герои'?`<button data-v43-hero="${x.id}"><img src="${heroImg(x)}">${esc(x.localized_name)}</button>`:`<button data-v43-item="${esc(x.name)}"><img src="${itemImg(x)}">${esc(x.dname||x.name)}</button>`).join('')}</div>`});
+    const el=$('globalSearchResults'); if(!el)return; q=q.trim(); cursor=-1; if(!q){close();return}
+    const S=window.D2HSearch,low=q.toLowerCase();
+    const hs=(S?S.heroes(ensureData(),q):ensureData().filter(h=>String(h.localized_name).toLowerCase().includes(low))).slice(0,5);
+    const is=(S?S.items(getItems(),q):getItems().filter(i=>String(i.dname||i.name).toLowerCase().includes(low))).slice(0,5);
+    const ps=(S?S.pages(q):[]).slice(0,5);
+    let html='';
+    if(hs.length)html+=`<div class="v43-search-group"><b>Герои</b>${hs.map(x=>row(`data-v43-hero="${x.id}"`,heroImg(x),x.localized_name)).join('')}</div>`;
+    if(is.length)html+=`<div class="v43-search-group"><b>Предметы</b>${is.map(x=>row(`data-v43-item="${esc(x.name)}"`,itemImg(x),x.dname||x.name)).join('')}</div>`;
+    if(ps.length)html+=`<div class="v43-search-group"><b>Страницы</b>${ps.map(p=>`<a href="${esc(p.u)}"><span class="sr-t">${esc(p.t)}</span></a>`).join('')}</div>`;
     el.innerHTML=html||'<div class="empty">Ничего не найдено.</div>';el.classList.add('show');
   }
+  function rows(){return Array.from($('globalSearchResults')?.querySelectorAll('button,a')||[])}
+  function move(d){const r=rows();if(!r.length)return;r[cursor]?.classList.remove('is-active');cursor=(cursor+d+r.length)%r.length;r[cursor].classList.add('is-active');r[cursor].scrollIntoView({block:'nearest'})}
+  function activate(el){if(!el)return;if(el.dataset.v43Hero){close();openHero(Number(el.dataset.v43Hero));}else if(el.dataset.v43Item){close();openItem(el.dataset.v43Item);}else if(el.href){location.href=el.href;}}
 
   function bind(){
-    $('globalSearch')?.addEventListener('input',e=>renderGlobal(e.target.value));
-    document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('globalSearch')?.focus()}});
-    $('globalSearchResults')?.addEventListener('click',e=>{const h=e.target.closest('[data-v43-hero]'),it=e.target.closest('[data-v43-item]'),goEl=e.target.closest('[data-v43-go]');if(h){openHero(Number(h.dataset.v43Hero));return}if(it){openItem(it.dataset.v43Item);return}if(goEl){go(goEl.dataset.v43Go);$('globalSearch').value='';renderGlobal('');}});
+    const inp=$('globalSearch'),res=$('globalSearchResults');
+    inp?.addEventListener('input',e=>renderGlobal(e.target.value));
+    inp?.addEventListener('focus',e=>{if(e.target.value.trim())renderGlobal(e.target.value)});
+    inp?.addEventListener('keydown',e=>{
+      if(e.key==='ArrowDown'){e.preventDefault();move(1)}
+      else if(e.key==='ArrowUp'){e.preventDefault();move(-1)}
+      else if(e.key==='Enter'){const r=rows();const t=r[cursor>=0?cursor:0];if(t){e.preventDefault();activate(t)}}
+      else if(e.key==='Escape'){close();inp.blur()}
+    });
+    document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();inp?.focus()}});
+    document.addEventListener('click',e=>{if(res&&!e.target.closest('#globalSearchResults')&&e.target!==inp)close()});
+    res?.addEventListener('click',e=>{const t=e.target.closest('[data-v43-hero],[data-v43-item]');if(t)activate(t);});
   }
-  function boot(){bind();}
+  function boot(){bind();window.D2HSearch&&D2HSearch.onReady(()=>{const v=$('globalSearch')?.value;if(v)renderGlobal(v);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();

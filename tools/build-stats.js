@@ -30,8 +30,11 @@
  *     причину и следствие (дорогие предметы покупают в уже выигранных играх).
  *
  * Источник ленты: --source opendota (по умолчанию) | steam — tools/match-source.js. Со steam
- * ранг известен не у всех матчей (null — в разрез по рангам не идёт), у героев добавляются
- * средние gpm/xpm по всем матчам, снимки истории пишутся в data/stats-history-steam/.
+ * (с U3, 04.10.2026 — основной на сайте): все рейтинговые матчи всех рангов, чтение потоком;
+ * ранг известен не у всех матчей (из ленты OpenDota; null — в разрез по рангам не идёт, группа 7 —
+ * средний ранг матча Божество 5 и Титан); у героев добавляются средние gpm/xpm; posSteam — позиции
+ * 1/2/3/«поддержка» по разметке tools/match-positions.js (U2; поз. 4/5 Stratz — в positions, как раньше);
+ * снимки истории пишутся в data/stats-history-steam/.
  *
  * Запуск: node tools/build-stats.js [--source steam] (после tools/build-our-stats.js,
  * tools/build-hero-counters.js и tools/build-hero-items.js)
@@ -55,7 +58,10 @@ const MIN_DUR_BUCKET = 300;
 const MIN_POS = 30;                // матчей героя на позиции (база Stratz меньше)
 const MIN_LANE = 30;
 const Z = 1.96;
-const RANKS = { 1: 'Рекрут', 2: 'Страж', 3: 'Рыцарь', 4: 'Герой', 5: 'Легенда', 6: 'Властелин' };
+const RANKS = Object.assign({ 1: 'Рекрут', 2: 'Страж', 3: 'Рыцарь', 4: 'Герой', 5: 'Легенда', 6: 'Властелин' },
+  SRC === 'steam' ? { 7: 'Божество 5 и Титан' } : {});
+// Steam: ранг матча — из лент OpenDota (основная до Властелина, верхняя — Divine 5 и Immortal); 70–74 там не бывает.
+const rankGroup = rank => rank == null ? null : SRC === 'steam' && rank >= 70 ? (rank >= 75 ? 7 : null) : Math.min(6, Math.max(1, Math.floor(rank / 10)));
 const DUR = [['lt25', 0, 1500, 'до 25 мин'], ['25_35', 1500, 2100, '25–35 мин'], ['35_45', 2100, 2700, '35–45 мин'], ['gt45', 2700, Infinity, '45+ мин']];
 const HISTORY_DAYS = 60;
 
@@ -68,6 +74,7 @@ function wilsonLow(w, n) {
   return (p + z2 / (2 * n) - Z * Math.sqrt(p * (1 - p) / n + z2 / (4 * n * n))) / (1 + z2 / n);
 }
 
+async function main() {
 const heroes = read('heroes.json').heroes;
 const heroIds = heroes.map(h => Number(h.id));
 const known = new Set(heroIds);
@@ -78,33 +85,49 @@ const H = new Map(heroIds.map(id => [id, { n: 0, w: 0, rk: {}, du: {}, g: 0, x: 
 const durHist = new Map();
 let total = 0, radWins = 0, minT = Infinity, maxT = 0;
 const rankHist = {};
-// Steam: экономика игрока (gpm/xpm) — по match_id из сырых строк
-const ECO = new Map();
-if (SRC === 'steam') for (const m of MS.steamMatches()) ECO.set(m[0], m.slice(9, 19).map(p => [p[7], p[8]]));
-{
-  for (const r of MS.publicRows({ src: SRC, tier: 'base' })) {
-    const [, start, dur, rank, lobby, mode, rw] = r;
-    if (mode !== 22 || ![0, 7].includes(lobby) || dur < MIN_DURATION) continue;
-    const team = r.slice(7, 17);
-    if (team.some(h => !known.has(h))) continue;
-    total++; if (rw) radWins++;
-    if (start < minT) minT = start; if (start > maxT) maxT = start;
-    const rg = rank == null ? null : Math.min(6, Math.max(1, Math.floor(rank / 10)));
-    if (rg) rankHist[rg] = (rankHist[rg] || 0) + 1;
-    const eco = ECO.get(r[0]);
-    const bin = Math.min(80, Math.floor(dur / 300) * 5);
-    durHist.set(bin, (durHist.get(bin) || 0) + 1);
-    const db = DUR.find(([, a, b]) => dur >= a && dur < b)[0];
-    team.forEach((h, i) => {
-      const won = i < 5 ? rw === 1 : rw === 0;
-      const x = H.get(h);
-      x.n++; if (won) x.w++;
-      if (rg) { const k = x.rk[rg] || (x.rk[rg] = [0, 0]); k[0]++; if (won) k[1]++; }
-      if (eco) { x.g += eco[i][0]; x.x += eco[i][1]; }
-      const d = x.du[db] || (x.du[db] = [0, 0]); d[0]++; if (won) d[1]++;
+// Steam: позиции по разметке U2 (1/2/3/sup) — модель data/position-model.json, поз. 4/5 из Stratz, если матч там есть
+const PS = {};              // pos -> {n, gpm, xpm, heroes: Map}
+let PM = null, posLabeled = 0, posStratz = 0;
+if (SRC === 'steam') {
+  try { const MP = require('./match-positions.js'); PM = { MP, model: MP.loadModel(), stratz: MP.stratzIndex() }; }
+  catch (e) { console.warn('Позиции Steam не размечены:', e.message); }
+}
+function addRow(r, eco, raw) {
+  const [, start, dur, rank, lobby, mode, rw] = r;
+  if (mode !== 22 || ![0, 7].includes(lobby) || dur < MIN_DURATION) return;
+  const team = r.slice(7, 17);
+  if (team.some(h => !known.has(h))) return;
+  total++; if (rw) radWins++;
+  if (start < minT) minT = start; if (start > maxT) maxT = start;
+  const rg = rankGroup(rank);
+  if (rg) rankHist[rg] = (rankHist[rg] || 0) + 1;
+  const bin = Math.min(80, Math.floor(dur / 300) * 5);
+  durHist.set(bin, (durHist.get(bin) || 0) + 1);
+  const db = DUR.find(([, a, b]) => dur >= a && dur < b)[0];
+  team.forEach((h, i) => {
+    const won = i < 5 ? rw === 1 : rw === 0;
+    const x = H.get(h);
+    x.n++; if (won) x.w++;
+    if (rg) { const k = x.rk[rg] || (x.rk[rg] = [0, 0]); k[0]++; if (won) k[1]++; }
+    if (eco) { x.g += eco[i][0]; x.x += eco[i][1]; }
+    const d = x.du[db] || (x.du[db] = [0, 0]); d[0]++; if (won) d[1]++;
+  });
+  if (raw && PM) {
+    let lab; try { lab = PM.MP.labelSteamRow(raw, PM.model, PM.stratz); } catch { return; }
+    posLabeled++; if (lab.src === 'stratz') posStratz++;
+    lab.p.forEach((q, i) => {
+      const pos = q.pos === 4 || q.pos === 5 ? 'sup' : String(q.pos);
+      const won = raw[9 + i][1] < 128 ? rw === 1 : rw === 0;
+      const z = PS[pos] || (PS[pos] = { n: 0, gpm: 0, xpm: 0, heroes: new Map() });
+      z.n++; z.gpm += eco[i][0]; z.xpm += eco[i][1];
+      const hh = z.heroes.get(q.h) || [0, 0, 0, 0]; hh[0]++; if (won) hh[1]++; hh[2] += eco[i][0]; hh[3] += eco[i][1]; z.heroes.set(q.h, hh);
     });
   }
 }
+if (SRC === 'steam') {
+  // все рейтинговые матчи всех рангов, потоком (боевой объём не помещается в память)
+  for await (const raw of MS.steamStream()) addRow(MS.steamToPublic(raw), raw.slice(9, 19).map(p => [p[7], p[8]]), raw);
+} else for (const r of MS.publicRows({ src: SRC, tier: 'base' })) addRow(r, null, null);
 if (!total) throw new Error('База публичных матчей пуста');
 
 const heroRows = heroIds.map(id => {
@@ -173,7 +196,8 @@ for (const f of fs.readdirSync(D('meta-matches')).filter(f => f.endsWith('.jsonl
       if (p.pos >= 1 && p.pos <= 5) {
         const q = P[p.pos] || (P[p.pos] = { n: 0, gpm: 0, xpm: 0, heroes: new Map() });
         q.n++; q.gpm += p.gpm || 0; q.xpm += p.xpm || 0;
-        const hh = q.heroes.get(p.h) || [0, 0, 0, 0]; hh[0]++; if (won) hh[1]++; hh[2] += p.gpm || 0; hh[3] += p.xpm || 0; q.heroes.set(p.h, hh);
+        const hh = q.heroes.get(p.h) || [0, 0, 0, 0, 0, 0, 0, 0, 0]; hh[0]++; if (won) hh[1]++; hh[2] += p.gpm || 0; hh[3] += p.xpm || 0;
+        hh[4] += p.k || 0; hh[5] += p.d || 0; hh[6] += p.a || 0; hh[7] += p.hd || 0; hh[8] += p.lh || 0; q.heroes.set(p.h, hh);   // + K, D, A, урон, добивания (для /me)
       }
       const li = laneOf(p.r, p.ln);
       const out = li >= 0 && m.lanes ? m.lanes[li] : null;
@@ -201,9 +225,17 @@ const median = a => { const s = a.slice().sort((x, y) => x - y); return s.length
 const positions = {};
 for (const [pos, q] of Object.entries(P)) {
   const list = [...q.heroes].filter(([, v]) => v[0] >= MIN_POS)
-    .map(([h, v]) => ({ id: h, n: v[0], wr: r1(v[1] / v[0] * 100), lo: r1(wilsonLow(v[1], v[0]) * 100), gpm: Math.round(v[2] / v[0]), xpm: Math.round(v[3] / v[0]) }))
+    .map(([h, v]) => ({ id: h, n: v[0], wr: r1(v[1] / v[0] * 100), lo: r1(wilsonLow(v[1], v[0]) * 100), gpm: Math.round(v[2] / v[0]), xpm: Math.round(v[3] / v[0]),
+      k: r1(v[4] / v[0]), d: r1(v[5] / v[0]), a: r1(v[6] / v[0]), hd: Math.round(v[7] / v[0]), lh: Math.round(v[8] / v[0]) }))
     .sort((a, b) => b.lo - a.lo);
   positions[pos] = { n: q.n, gpm: Math.round(q.gpm / q.n), xpm: Math.round(q.xpm / q.n), heroes: list };
+}
+const posSteam = {};
+for (const [pos, q] of Object.entries(PS)) {
+  const list = [...q.heroes].filter(([, v]) => v[0] >= MIN_POS)
+    .map(([h, v]) => ({ id: h, n: v[0], wr: r1(v[1] / v[0] * 100), lo: r1(wilsonLow(v[1], v[0]) * 100), gpm: Math.round(v[2] / v[0]), xpm: Math.round(v[3] / v[0]) }))
+    .sort((a, b) => b.lo - a.lo);
+  posSteam[pos] = { n: q.n, gpm: Math.round(q.gpm / q.n), xpm: Math.round(q.xpm / q.n), heroes: list };
 }
 const lanes = [...L].filter(([, v]) => v[0] >= MIN_LANE)
   .map(([h, v]) => ({ id: h, n: v[0], win: r1(v[1] / v[0] * 100), draw: r1(v[2] / v[0] * 100), loss: r1(v[3] / v[0] * 100) }))
@@ -257,7 +289,8 @@ try {
   const T = read('our-meta-top.json');
   const used = T.matchesUsed;
   slices.top = {
-    source: (SRC === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API, ранг матча из ленты OpenDota)' : 'Своя база рейтинговых матчей (OpenDota /publicMatches)') + ', Ranked All Pick, средний ранг матча Divine 5 и Immortal',
+    // our-meta-top.json считается по ленте OpenDota top (tools/build-our-stats.js --tier top) при любом --source
+    source: (/Steam/.test(T.source || '') ? 'Своя база рейтинговых матчей (Steam Web API, ранг матча из ленты OpenDota)' : 'Своя база рейтинговых матчей (OpenDota /publicMatches)') + ', Ranked All Pick, средний ранг матча Divine 5 и Immortal',
     matches: used, from: T.firstMatchAt, to: T.lastMatchAt,
     heroes: Object.entries(T.heroes).map(([id, h]) => [Number(id), h.matches, r1(h.wins / h.matches * 100), r1(wilsonLow(h.wins, h.matches) * 100), r1(h.matches / used * 100)])
   };
@@ -296,17 +329,21 @@ const out = {
   builtAt: new Date().toISOString(),
   base: {
     source: SRC === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API), Ranked All Pick; ранг известен у ' + r1(Object.values(rankHist).reduce((a, b) => a + b, 0) / total * 100) + '% матчей'
-      : 'Своя база рейтинговых матчей (OpenDota /publicMatches), 0–4500 MMR, Ranked All Pick',
+      : 'Своя база рейтинговых матчей (OpenDota /publicMatches), ранги Рекрут–Властелин, Ranked All Pick',
     matches: total, from: new Date(minT * 1000).toISOString(), to: new Date(maxT * 1000).toISOString(),
     ranks: Object.fromEntries(Object.entries(RANKS).map(([g, name]) => [g, { name, n: rankHist[g] || 0 }])),
     radiantWr: r1(radWins / total * 100),
     duration: [...durHist].sort((a, b) => a[0] - b[0]).map(([m, n]) => [m, n]),
-    stratzMatches: sm, patch: read('patch-notes.json').version
+    stratzMatches: sm, patch: read('patch-notes.json').version,
+    src: SRC
   },
   roles: rolesNote,
   method: { minTier: MIN_TIER, minRank: MIN_RANK, minPair: MIN_PAIR, minPos: MIN_POS, minLane: MIN_LANE, minDur: MIN_DUR_BUCKET, durBuckets: DUR.map(([k, , , l]) => [k, l]) },
   heroes: heroRows, durSwing, synergy: synergy.slice(0, 40), antiSynergy: synergy.slice(-20).reverse(), counters: topCounters,
   positions, lanes, items, history, slices
 };
+if (SRC === 'steam') out.posSteam = { labeled: posLabeled, stratz: posStratz, model: PM ? { created: PM.model.meta.created || null, test: PM.model.meta.metrics && PM.model.meta.metrics.test ? { acc: PM.model.meta.metrics.test.acc, core3sup: PM.model.meta.metrics.test.core3sup } : null } : null, pos: posSteam };
 fs.writeFileSync(OUT, JSON.stringify(out));
-console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
+console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}${SRC === 'steam' ? `, позиций Steam ${Object.keys(posSteam).length} (размечено матчей ${posLabeled}, из них по Stratz ${posStratz})` : ''}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
+}
+main().catch(e => { console.error(e && e.stack || e); process.exit(1); });

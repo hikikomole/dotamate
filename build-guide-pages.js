@@ -2,6 +2,7 @@
 // Generates static, SEO-indexable articles under deploy/guide/<slug>/index.html
 // from the hand-written, evergreen content in guide-content.js.
 
+const siteNav = require('./tools/site-nav');
 const fs = require('fs');
 const path = require('path');
 const guides = require('./guide-content.js');
@@ -36,14 +37,31 @@ const dataTables={
 
 // Окно карточки героя и тот же набор скриптов, что на страницах разделов
 // (build-pages.js): карточку строит js/app.js, отдельной копии нет.
-const heroCardHtml=`<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
-<script src="/js/local-preview.js"></script>
-<script src="/js/reliable-data.js"></script>
-<script src="/js/item-variants.js"></script>
-<script src="/js/hero-roles.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/v43-features.js"></script>
-`;
+const heroCardHtml=require('./tools/hero-card.js');
+
+// «Предмет в цифрах»: ссылки на /item/ и до 6 героев, которые чаще всего
+// покупают предмет (data/item-heroes.json, OpenDota itemPopularity).
+// Связь статьи с предметами — tools/guide-items.js.
+const guideItems=require('./tools/guide-items.js').linkGuideItems();
+const itemHeroes=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-heroes.json'),'utf8')).items;}catch{return {};}})();
+const heroesById=new Map(JSON.parse(fs.readFileSync(path.join(__dirname,'data','heroes.json'),'utf8')).heroes.map(h=>[Number(h.id),h]));
+const {slugForHero:heroSlugOf,imageUrl:heroImgOf}=require('./tools/hero-common.js');
+function itemFactsHtml(slug){
+  const keys=guideItems.byGuide.get(slug);
+  if(!keys) return '';
+  const st=guideItems.store;
+  const itemsHtml=keys.map(k=>`<a href="/item/${guideItems.itemSlug(k)}/"><img src="${escapeHtml(st[k].img)}" alt="" loading="lazy">${escapeHtml(st[k].dname)}<span>${Number(st[k].cost)>0?Number(st[k].cost).toLocaleString('ru-RU')+' з.':'→'}</span></a>`).join('');
+  const sum=new Map();
+  for(const k of keys) for(const r of ((itemHeroes[st[k].id]||{}).heroes||[])) sum.set(r.h,(sum.get(r.h)||0)+Number(r.g||0));
+  const top=[...sum].sort((a,b)=>b[1]-a[1]).map(([id])=>heroesById.get(Number(id))).filter(Boolean).slice(0,6);
+  const heroesHtml=top.map(h=>`<a href="/hero/${heroSlugOf(h)}/"><img src="${heroImgOf(h)}" alt="" loading="lazy">${escapeHtml(h.localized_name)}<span>→</span></a>`).join('');
+  return `<div class="detail-section" style="margin-top:34px;">
+    <h3>Предмет в цифрах</h3>
+    <div class="linked-list">${itemsHtml}</div>${heroesHtml?`
+    <p style="color:#9aa0ab;font-size:13px;margin:16px 0 8px;">Чаще всего покупают (OpenDota):</p>
+    <div class="linked-list">${heroesHtml}</div>`:''}
+  </div>`;
+}
 
 async function main(){
   const outRoot=path.join(__dirname,'deploy','guide');
@@ -96,8 +114,9 @@ async function main(){
     }).join('');
 
     // deterministic "related" picks: next three guides in list order, wrapping around
-    const related=[];
-    for(let k=1;k<=3;k++) related.push(guides[(i+k)%guides.length]);
+    // сначала гайды той же темы (tag), затем следующие по списку; всего 4
+    const related=guides.filter((r,j)=>j!==i&&r.tag===g.tag).slice(0,2);
+    for(let k=1;related.length<4&&k<guides.length;k++){const r=guides[(i+k)%guides.length];if(!related.includes(r))related.push(r);}
     const relatedHtml=related.map(r=>`<a href="/guide/${r.slug}/"><span style="font-size:20px;">${r.icon}</span>${escapeHtml(r.title)}<span>→</span></a>`).join('');
 
     const html=`<!doctype html>
@@ -108,7 +127,7 @@ async function main(){
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -119,7 +138,7 @@ async function main(){
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
@@ -133,14 +152,14 @@ ${faqJson?`<script type="application/ld+json">${faqJson.replace(/</g,'\\u003c')}
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a></nav>
+    ${siteNav.navHtml('guides')}
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
 <main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:820px;">
   <nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;">
-    <a href="/">Главная</a> / <a href="/guides/">Гайды</a> / ${escapeHtml(g.title)}
+     / <a href="/guides/">Гайды</a> / ${escapeHtml(g.title)}
   </nav>
   <div class="eyebrow">${escapeHtml(g.tag)}</div>
   <h1 style="margin:6px 0 20px;">${escapeHtml(g.title)}</h1>
@@ -151,12 +170,13 @@ ${faqJson?`<script type="application/ld+json">${faqJson.replace(/</g,'\\u003c')}
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="${actionHref(g.action)}">Открыть раздел «${escapeHtml(actionLabels[g.action]||"Гайды")}» →</a>
   </div>
+  ${itemFactsHtml(g.slug)}
   <div class="detail-section" style="margin-top:34px;">
     <h3>Другие гайды</h3>
     <div class="linked-list">${relatedHtml}</div>
   </div>
 </main>
-${heroCard?heroCardHtml:''}<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+${heroCard?heroCardHtml:''}<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;
@@ -167,6 +187,7 @@ ${heroCard?heroCardHtml:''}<footer><div class="container footer-row"><span class
 
   fs.writeFileSync(path.join(__dirname,'guide-urls.json'),JSON.stringify(urls,null,2),'utf8');
   console.log(`Generated ${urls.length} guide pages.`);
+  console.log(`Статей о предметах со ссылкой на /item/: ${guideItems.byGuide.size}; не связаны (${guideItems.unlinked.length}): ${guideItems.unlinked.join(', ')}`);
 }
 
 main().catch(e=>{console.error(e);process.exit(1);});

@@ -5,7 +5,7 @@
    одним коммитом. Цвета — те же переменные темы; шрифт заголовков Oswald
    подключён в page-shell.html. */
 
-.hm{padding:0 0 26px;border-bottom:1px solid var(--d2-line,#23272f)}
+.hm{padding:0 0 26px}
 body.d2-dark .hm{background:none!important}
 
 /* --- шапка экрана: заголовок слева, поиск справа --- */
@@ -162,3 +162,28 @@ body.d2-dark .hm-col-head h2{margin:0!important;font-family:Oswald,Manrope,syste
 .hm-slot-x{position:absolute;inset:0;display:none;place-items:center;background:rgba(7,8,10,.74);color:var(--d2-str,#e4575a);font-size:17px;font-weight:700}
 .hm-slot.is-filled:hover .hm-slot-x,.hm-slot.is-filled:focus-visible .hm-slot-x{display:grid}
 @media (max-width:560px){.hm-picker{width:calc(100% - 28px);left:14px!important}.hm-draft-go{min-width:0}}
+
+/* Что собирают выбранные герои (js/home-draft.js, builds) */
+.hm-draft-verdict{flex-wrap:wrap}
+.hm-builds{flex-basis:100%;margin-top:4px;display:flex;flex-direction:column;gap:6px}
+.hm-build{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hm-build-hero{width:46px;height:26px;object-fit:cover;border-radius:4px}
+.hm-build-phase{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--d2-muted-2,#6d7683);margin-left:4px}
+.hm-bi img{width:34px;height:25px;object-fit:cover;border-radius:3px;display:block}
+.hm-build-more{margin-left:auto;font-size:12px;color:var(--d2-gold,#d9c187)!important}
+.hm-bi-pick{padding:0;border:1px solid var(--d2-line,#2a2f38);border-radius:5px;background:none;cursor:pointer;opacity:.55;line-height:0}
+.hm-bi-pick.on{opacity:1;border-color:var(--d2-gold,#d9c187);box-shadow:0 0 0 1px var(--d2-gold,#d9c187)}
+.hm-bi-pick:focus-visible{outline:2px solid var(--d2-gold,#d9c187);outline-offset:1px}
+.hm-build-radiant .hm-build-hero{box-shadow:0 0 0 2px #5fbf6b}.hm-build-dire .hm-build-hero{box-shadow:0 0 0 2px #d9534f}
+.hm-build-eff{font-size:12.5px}.hm-build-eff.hm-up{color:#5fbf6b}.hm-build-eff.hm-down{color:#d9534f}
+.hm-build-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:4px 24px}
+.hm-build-head{display:grid;grid-template-columns:50px minmax(0,190px) minmax(0,1fr);gap:8px;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--d2-muted-2,#6d7683);margin-bottom:2px}
+.hm-build-cols .hm-build{display:grid;grid-template-columns:50px minmax(0,190px) minmax(0,1fr) auto;gap:8px;align-items:center;flex-wrap:nowrap}
+.hm-build-usual,.hm-build-pick{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.hm-build-usual .hm-bi img,.hm-build-pick .hm-bi img{width:30px;height:22px}
+.hm-build-none{font-size:11.5px;color:var(--d2-muted-2,#6d7683)}
+.hm-build-how{font-size:11.5px;color:var(--d2-muted-2,#6d7683)}
+.hm-build-how summary{cursor:pointer;width:max-content}
+.hm-build-how p{margin:4px 0 0;line-height:1.5}
+.hm-build-sum{margin:2px 0 0;font-size:13px}
+.hm-build-src{display:block;font-size:11.5px;line-height:1.5;color:var(--d2-muted-2,#6d7683)}

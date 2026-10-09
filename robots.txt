@@ -3,3 +3,4 @@ Allow: /
 Disallow: /api/
 
 Sitemap: https://dotamate.ru/sitemap.xml
+Sitemap: https://dotamate.ru/pro/sitemap.xml

@@ -1,0 +1,353 @@
+{
+  "about": "Угрозы состава соперника и предметы против них. Правило = ручная разметка героев (имя способности из data/hero-abilities.json) и/или покупки героя из своей базы. У каждого предмета proof — регулярное выражение, которое ОБЯЗАНО совпасть с официальным русским описанием предмета (data/items-ru.json): так механика проверяется сборщиком, а не берётся на слово. Не совпало — сборка падает. Сборщик: tools/build-item-counters.js.",
+  "buyShare": 0.3,
+  "threats": {
+    "invis": {
+      "label": "невидимость",
+      "min": 1,
+      "abilityProof": "невидим|скрыва|незаметн|видимост",
+      "heroes": {
+        "riki": [
+          "Cloak and Dagger"
+        ],
+        "clinkz": [
+          "Skeleton Walk"
+        ],
+        "bounty_hunter": [
+          "Shadow Walk"
+        ],
+        "templar_assassin": [
+          "Meld"
+        ],
+        "mirana": [
+          "Moonlight Shadow"
+        ],
+        "nyx_assassin": [
+          "Vendetta"
+        ],
+        "weaver": [
+          "Shukuchi"
+        ],
+        "treant": [
+          "Nature's Guise"
+        ],
+        "sand_king": [
+          "Sand Storm"
+        ],
+        "slark": [
+          "Shadow Dance"
+        ],
+        "phantom_assassin": [
+          "Blur"
+        ]
+      },
+      "items": [
+        {
+          "key": "dust",
+          "proof": "раскрывает невидимых"
+        },
+        {
+          "key": "gem",
+          "proof": "видеть невидимых"
+        },
+        {
+          "key": "ward_dispenser",
+          "proof": "невидим"
+        }
+      ]
+    },
+    "heal": {
+      "label": "лечение",
+      "min": 1,
+      "abilityProof": "здоров|исцел|лечит|восстанавл|лечени|лечат|излечива",
+      "heroes": {
+        "necrolyte": [
+          "Death Pulse"
+        ],
+        "dazzle": [
+          "Shadow Wave"
+        ],
+        "omniknight": [
+          "Purification"
+        ],
+        "huskar": [
+          "Berserker's Blood"
+        ],
+        "chen": [
+          "Hand of God"
+        ],
+        "alchemist": [
+          "Chemical Rage"
+        ],
+        "wisp": [
+          "Tether"
+        ],
+        "abaddon": [
+          "Mist Coil"
+        ],
+        "legion_commander": [
+          "Press The Attack"
+        ],
+        "oracle": [
+          "Purifying Flames"
+        ],
+        "dawnbreaker": [
+          "Luminosity"
+        ],
+        "undying": [
+          "Soul Rip"
+        ],
+        "witch_doctor": [
+          "Voodoo Restoration"
+        ],
+        "warlock": [
+          "Shadow Word"
+        ],
+        "juggernaut": [
+          "Healing Ward"
+        ],
+        "enchantress": [
+          "Nature's Attendants"
+        ],
+        "life_stealer": [
+          "Feast"
+        ],
+        "doom_bringer": [
+          "Scorched Earth"
+        ],
+        "shredder": [
+          "Reactive Armor"
+        ],
+        "dragon_knight": [
+          "Dragon Blood"
+        ],
+        "treant": [
+          "Living Armor"
+        ]
+      },
+      "items": [
+        {
+          "key": "spirit_vessel",
+          "proof": "пополнение здоровья будет уменьшено"
+        },
+        {
+          "key": "skadi",
+          "proof": "уменьшает пополнение здоровья"
+        }
+      ]
+    },
+    "illus": {
+      "label": "иллюзии",
+      "min": 1,
+      "abilityProof": "иллюзи",
+      "heroes": {
+        "phantom_lancer": [
+          "Juxtapose"
+        ],
+        "naga_siren": [
+          "Mirror Image"
+        ],
+        "terrorblade": [
+          "Conjure Image"
+        ],
+        "chaos_knight": [
+          "Phantasm"
+        ],
+        "spectre": [
+          "Haunt"
+        ]
+      },
+      "buys": [
+        "manta"
+      ],
+      "items": [
+        {
+          "key": "sheepstick",
+          "proof": "уничтожает иллюзии"
+        },
+        {
+          "key": "radiance",
+          "proof": "На иллюзиях"
+        },
+        {
+          "key": "mjollnir",
+          "proof": "между случайными врагами"
+        },
+        {
+          "key": "bfury",
+          "proof": "врагам в радиусе"
+        }
+      ]
+    },
+    "evasion": {
+      "label": "уклонение",
+      "min": 1,
+      "abilityProof": "уклон|промах|увора",
+      "heroes": {
+        "phantom_assassin": [
+          "Immaterial"
+        ],
+        "brewmaster": [
+          "Drunken Brawler"
+        ],
+        "arc_warden": [
+          "Magnetic Field"
+        ],
+        "windrunner": [
+          "Windrun"
+        ]
+      },
+      "buys": [
+        "butterfly"
+      ],
+      "items": [
+        {
+          "key": "monkey_king_bar",
+          "proof": "сквозь уклонение"
+        },
+        {
+          "key": "bloodthorn",
+          "proof": "сквозь уклонение"
+        }
+      ]
+    },
+    "passive": {
+      "label": "сильные пассивные способности",
+      "min": 1,
+      "abilityBehavior": "Passive",
+      "heroes": {
+        "bristleback": [
+          "Bristleback"
+        ],
+        "phantom_assassin": [
+          "Coup de Grace"
+        ],
+        "spectre": [
+          "Dispersion"
+        ],
+        "huskar": [
+          "Berserker's Blood"
+        ],
+        "slark": [
+          "Essence Shift"
+        ],
+        "ursa": [
+          "Fury Swipes"
+        ],
+        "faceless_void": [
+          "Time Lock"
+        ],
+        "spirit_breaker": [
+          "Greater Bash"
+        ],
+        "viper": [
+          "Corrosive Skin"
+        ],
+        "axe": [
+          "Counter Helix"
+        ],
+        "antimage": [
+          "Mana Break"
+        ],
+        "sniper": [
+          "Headshot"
+        ],
+        "drow_ranger": [
+          "Marksmanship"
+        ]
+      },
+      "items": [
+        {
+          "key": "silver_edge",
+          "proof": "отключит пассивные способности"
+        }
+      ]
+    },
+    "target": {
+      "label": "направленный контроль",
+      "min": 2,
+      "auto": {
+        "behavior": "Unit Target",
+        "text": "оглуш|превраща|безмолв|обездвиж"
+      },
+      "items": [
+        {
+          "key": "sphere",
+          "proof": "Блокирует одно направленное заклинание"
+        },
+        {
+          "key": "lotus_orb",
+          "proof": "отражающий большинство направленных заклинаний"
+        }
+      ],
+      "exclude": [
+        "Tree Dance"
+      ]
+    },
+    "disable": {
+      "label": "много контроля",
+      "min": 3,
+      "auto": {
+        "text": "оглуш|превраща|безмолв|обездвиж|усыпл"
+      },
+      "exclude": [
+        "Attribute Shift (Agility Gain)",
+        "Attribute Shift (Strength Gain)",
+        "Shadow Walk",
+        "Nothl Projection",
+        "Summon Familiars",
+        "Tree Dance",
+        "Nature's Call",
+        "Cold Blooded",
+        "Inner Fire",
+        "Empowering Haste"
+      ],
+      "items": [
+        {
+          "key": "black_king_bar",
+          "proof": "Защищает владельца от действия отрицательных эффектов"
+        }
+      ]
+    },
+    "bkb": {
+      "label": "Black King Bar у врага",
+      "min": 1,
+      "buys": [
+        "black_king_bar"
+      ],
+      "items": [
+        {
+          "key": "abyssal_blade",
+          "proof": "Проходит сквозь невосприимчивость"
+        }
+      ]
+    },
+    "save": {
+      "label": "защитные эффекты",
+      "min": 1,
+      "buys": [
+        "ghost",
+        "glimmer_cape"
+      ],
+      "items": [
+        {
+          "key": "nullifier",
+          "proof": "развеивает с неё положительные эффекты"
+        }
+      ]
+    },
+    "physical": {
+      "label": "физический урон керри",
+      "min": 1,
+      "enemyPos": [
+        "POSITION_1"
+      ],
+      "items": [
+        {
+          "key": "ghost",
+          "proof": "защищает от физического урона"
+        }
+      ]
+    }
+  }
+}

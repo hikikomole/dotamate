@@ -4,8 +4,10 @@
  *
  * Заменяет четыре ручных запуска: «Собрать матчи», «Собрать META»,
  * «Обновить способности», «Обновить сайт». Порядок:
- *   1. Публичные матчи OpenDota (сырьё для матриц и кандидатов META).
- *   2. Детали матчей Stratz для META + пересборка витрины META.
+ *   1. Свежие публичные матчи OpenDota (ранг Steam-матчей, кандидаты Stratz) и срез Divine 5/Immortal.
+ *   2. Детали матчей Stratz — малый бюджет (время покупок, линии, эталон позиций 4/5).
+ *   С U5 (09.10.2026) матрица пар, турбо, калибровка, META и прокачка считаются по Steam
+ *   (data/steam-matches, сбор отдельной строкой crontab — tools/collect-steam-matches.js).
  *   3. Способности героев — только когда снимок устарел (сам скрипт следит
  *      за сроком), или всегда с флагом --force-abilities.
  *   4. Матрицы и калибровка по свежей базе.
@@ -13,6 +15,9 @@
  *       герои, гайды героев, статьи /guide/. Все цифры контрпиков на сайте —
  *       из одного расчёта, поэтому пересобираются вместе.
  *   5. Раскладка в deploy/ и ОДНА выкладка на Hostiman (tools/deploy-hostiman.js).
+ *      Выкладываются только данные и страницы из них: на сервере код сверяется с отпечатком
+ *      последней выкладки (tools/code-fingerprint.js) в начале и перед выкладкой. Код изменён
+ *      (push-server без «выкладывай») — всё пересчитывается, но выкладка блокируется.
  *
  * Сбои сбора не останавливают выкладку: пропуски лента доберёт завтра, а
  * пересчёт идёт по тому, что уже есть. Сбой пересчёта — останавливает.
@@ -95,7 +100,9 @@ function run(title, cmd, args, opts = {}) {
     });
   });
 }
-const node = (title, script, args = [], opts = {}) => run(title, process.execPath, [script, ...args], opts);
+// opts.heap (МБ): предел кучи для тяжёлых шагов Steam — общий лимит памяти аккаунта на хостинге ≈ 1,5–2 ГБ (LVE, сверх — SIGKILL)
+const node = (title, script, args = [], opts = {}) => run(title, process.execPath, [...(opts.heap ? ['--max-old-space-size=' + opts.heap] : []), script, ...args], opts);
+const STEAM_HEAP = 1200;
 
 function acquireLock() {
   try {
@@ -163,6 +170,18 @@ async function abilities() {
   return true; // снимок обновлён, после выкладки сохраним в GitHub
 }
 
+// Ежедневная выкладка — только данные: код на сервере должен совпадать с последней выкладкой.
+// Возвращает null (можно выкладывать) или текст причины блокировки.
+function codeChanged() {
+  try {
+    const r = require('./code-fingerprint.js').check();
+    if (r.missing) return 'нет отпечатка кода последней выкладки (' + require('./code-fingerprint.js').FILE + ').';
+    if (r.ok) { log('Код совпадает с выложенной версией ' + r.recorded.version + ' — выкладка данных разрешена.'); return null; }
+    return 'код на сервере изменён после выкладки версии ' + r.recorded.version + ' (' + r.changed.length + ' файлов: ' +
+      r.changed.slice(0, 10).join(', ') + (r.changed.length > 10 ? ' …' : '') + ').';
+  } catch (e) { return 'не удалось сверить код: ' + e.message; }
+}
+
 async function main() {
   if (ARGS.has('--auto') && fs.existsSync(STAMP) && fs.readFileSync(STAMP, 'utf8').trim() === today) {
     console.log('Сегодня сайт уже обновлён — пропускаю.');
@@ -172,52 +191,89 @@ async function main() {
   const problems = [];
   try {
     log(`Начало ежедневного обновления (${ARGS.has('--auto') ? 'по расписанию' : 'вручную'}).`);
+    let codeBlock = ON_SERVER ? codeChanged() : null;
+    if (codeBlock) log('Внимание: ' + codeBlock + ' Данные пересчитаю, выкладку пропущу.');
 
     // Сначала свежие матчи (хвост ленты до прошлого захода), история — на
     // остаток дневного лимита. Раньше весь лимит уходил в --back, и база
     // застыла на одних сутках.
     if (!await node('Сбор свежих публичных матчей (OpenDota)', 'tools/collect-public-matches.js', [], { timeout: 2 * HOUR }))
       problems.push('сбор матчей');
-    await node('Докачка истории (OpenDota)', 'tools/collect-public-matches.js', ['--back', '1800'], { timeout: 2 * HOUR });
+    // С U5 (09.10.2026) основная лента OpenDota нужна только свежая: ранг Steam-матчей (--fill-ranks за 3 дня)
+    // и кандидаты Stratz. Матрицы, калибровка, META и прокачка считаются по Steam — докачка истории не нужна.
     await node('Состояние базы матчей', 'tools/collect-public-matches.js', ['--stats']);
+    // Верхний срез «Divine 5 и Immortal» — своя папка и свой бюджет (400 из общих 1800 запросов
+    // OpenDota). Сбой не останавливает обновление: основной срез от него не зависит.
+    if (!await node('Сбор матчей Divine 5 / Immortal (OpenDota)', 'tools/collect-public-matches.js', ['--tier', 'top'], { timeout: HOUR }))
+      problems.push('сбор верхнего среза');
+    await node('Докачка истории Divine 5 / Immortal', 'tools/collect-public-matches.js', ['--tier', 'top', '--back', '400'], { timeout: HOUR });
 
-    // 8000 запросов ≈ 1800 матчей в сутки (Stratz знает ~каждый четвёртый наш
-    // матч) — на них держится выборка покупок у редких героев. Лимит Stratz
-    // 15 000 в сутки, остальным сборщикам остаётся запас.
-    if (!await node('Сбор деталей для META (Stratz)', 'tools/collect-meta-matches.js', ['--max', '8000'], { timeout: 2 * HOUR }))
-      problems.push('сбор META');
-    // Матчи, собранные до того, как сборщик начал сохранять покупки. Когда
-    // таких нет, шаг ничего не запрашивает.
-    await node('Покупки для старых матчей (Stratz)', 'tools/collect-meta-matches.js', ['--backfill', '--max', '2000'], { timeout: 0.5 * HOUR });
-    if (!await node('Витрина META', 'tools/build-meta.js')) problems.push('витрина META');
-    // Реальные покупки предметов в карточке героя. Сбой не останавливает
-    // выкладку: на сайте остаётся прошлый data/hero-items.json.
-    if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');
-
-    // Роли 1–5 и билды (Stratz, Divine/Immortal) — до пересборки страниц героев,
+    // Роли 1–5 и билды (Stratz, Divine/Immortal) — ДО деталей матчей: детали выбирают лимит Stratz до 429,
+    // и шедшие после них роли/билды падали во всех запусках с 25.09 по 09.10.2026. Должны быть до пересборки страниц героев,
     // чтобы страница и карточка героя показывали один срез. Сбой оставляет
     // вчерашний снимок.
     if (!await node('Роли героев (Stratz)', 'fetch-hero-positions.js', [], { timeout: 0.25 * HOUR })) problems.push('роли героев');
     if (!await node('Роли по рангам (Stratz)', 'tools/fetch-rank-positions.js', [], { timeout: 0.1 * HOUR })) problems.push('роли по рангам');
-    if (!await node('Билды героев (Stratz)', 'fetch-hero-builds.js', [], { timeout: 0.75 * HOUR })) problems.push('билды героев');
+    // Stratz пишет в data/builds-stratz/ (предметы по времени); data/builds/ для сайта — прокачка и таланты Steam
+    // по позициям модели U2 + предметы Stratz (fetch-hero-builds.js --source steam --site).
+    if (!await node('Предметы билдов (Stratz)', 'fetch-hero-builds.js', [], { timeout: 0.75 * HOUR })) problems.push('предметы билдов');
+
+    // Stratz с U5 — малый бюджет: время покупок, линии, эталон позиций 4/5 (разметка Steam-матчей).
+    // Запуск 04:17 берёт до 2000 матчей, 10:17 — до 300: остаток лимита после утреннего сбора.
+    // META, матрицы и прокачка больше от него не зависят.
+    if (!await node('Детали матчей (Stratz, малый бюджет)', 'tools/collect-meta-matches.js', ['--max', new Date().getHours() < 8 ? '2000' : '300'], { timeout: HOUR }))
+      problems.push('детали Stratz');
+    // Реальные покупки предметов в карточке героя. Сбой не останавливает
+    // выкладку: на сайте остаётся прошлый data/hero-items.json.
+    if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');
+    if (!await node('Предметы и победа (вариант Б драфта)', 'tools/build-item-impact.js')) problems.push('предметы и победа');
+    // DraftMate: предметы против состава. Сбой (в т.ч. описание предмета у Valve
+    // перестало подтверждать правило) оставляет прошлый data/item-counters.json.
+    if (!await node('Предметы против состава (DraftMate)', 'tools/build-item-counters.js')) problems.push('предметы против состава');
+    // Цифры на страницах предметов: сбой оставляет вчерашние страницы.
+    if (!await node('Статистика страниц предметов', 'tools/build-item-stats.js')) problems.push('статистика предметов');
+    else if (!await node('Страницы предметов', 'build-item-pages.js')) problems.push('страницы предметов');
+
+    if (!await node('Прокачка и таланты (Steam)', 'fetch-hero-builds.js', ['--source', 'steam', '--site'], { timeout: HOUR, heap: STEAM_HEAP })) problems.push('прокачка и таланты');
 
     const abil = await abilities();
     if (abil === false) problems.push('способности');
 
     // Без пересчёта матриц выкатывать нечего — здесь ошибка останавливает всё.
-    if (!await node('Матрицы по своей базе', 'tools/build-our-stats.js')) throw new Error('матрицы не пересчитались');
-    if (!await node('Калибровка прогноза', 'tools/build-draft-calibration.js')) throw new Error('калибровка не прошла');
+    // С U5: основной срез DraftMate «Все ранги» — все рейтинговые матчи Steam (data/our-matrix.json, our-meta.json,
+    // draft-calibration.json). Верхний срез «Divine 5 и Immortal» — по-прежнему лента OpenDota top.
+    if (!await node('Матрицы по своей базе (Steam, все ранги)', 'tools/build-our-stats.js', ['--source', 'steam', '--tier', 'all', '--main'], { heap: STEAM_HEAP })) throw new Error('матрицы не пересчитались');
+    if (!await node('Калибровка прогноза (Steam, все ранги)', 'tools/build-draft-calibration.js', ['--source', 'steam', '--tier', 'all', '--main'], { heap: STEAM_HEAP })) throw new Error('калибровка не прошла');
+    if (!await node('Матрица турбо (Steam)', 'tools/build-our-stats.js', ['--source', 'steam', '--turbo'], { heap: STEAM_HEAP })) problems.push('матрица турбо');
+    // META после матрицы и калибровки: прогноз на страницах матчей читает их.
+    if (!await node('Витрина META (Steam)', 'tools/build-meta.js', ['--source', 'steam'], { timeout: HOUR, heap: STEAM_HEAP })) problems.push('витрина META');
+    if (!await node('Матрицы верхнего среза', 'tools/build-our-stats.js', ['--tier', 'top'])) problems.push('матрицы верхнего среза');
+    // Прогноз DraftMate по умолчанию считается по срезу Divine 5 и Immortal: своя калибровка и
+    // независимая проверка на матчах эфира. Сбой оставляет вчерашние файлы.
+    if (!await node('Калибровка прогноза (Divine 5 и Immortal)', 'tools/build-draft-calibration.js', ['--tier', 'top'])) problems.push('калибровка верхнего среза');
+    else if (!await node('Проверка прогноза на матчах эфира', 'tools/check-draft-archive.js')) problems.push('проверка прогноза на эфире');
+    // Шанс победы по ходу игры (эфир /live, итоги матча): переобучение на архиве эфира — только на сервере, где архив.
+    // Сборщик сам не записывает модель, если она не лучше константы 50% (код 3): на сайте остаётся прежняя.
+    if (ON_SERVER && !await node('Шанс победы по ходу игры', 'tools/build-live-winprob.js', [], { heap: 500, timeout: 0.25 * HOUR })) problems.push('шанс по ходу игры (оставлена прежняя модель)');
+    // Средние по героям для карточек игроков в эфире — тоже по архиву эфира, только на сервере. Сбой оставляет прежний файл.
+    if (ON_SERVER && !await node('Средние по героям для эфира', 'tools/build-live-hero-avg.js', [], { heap: 500, timeout: 0.25 * HOUR })) problems.push('средние по героям для эфира (оставлен прежний файл)');
 
     // Контрпики и страницы с ними. Сбой здесь не ломает выкладку: на сайте
     // остаются вчерашние контрпики, а матрицы и META уедут свежими.
-    if (await node('Контрпики по своей базе', 'tools/build-hero-counters.js')) {
+    const countersOk = await node('Контрпики по своей базе', 'tools/build-hero-counters.js');
+    // Раздел «Статистика и аналитика» и ежедневный снимок для динамики. Строго
+    // после контрпиков (build-stats читает hero-counters.json) и до страниц героев:
+    // паспорт и плитки героя берут цифры из того же data/stats.json, что и /stats/.
+    // С U3 (04.10.2026) /stats/ считается по своей базе Steam (все рейтинговые матчи всех рангов).
+    // Перед этим ранг свежих Steam-матчей дозаполняется из только что собранной ленты OpenDota.
+    await node('Ранг Steam-матчей из OpenDota', 'tools/collect-steam-matches.js', ['--fill-ranks', '--days', '3'], { timeout: 0.5 * HOUR });
+    if (!await node('Статистика и аналитика', 'tools/build-stats.js', ['--source', 'steam'], { timeout: HOUR })) problems.push('статистика');
+    if (countersOk) {
       if (!await node('Страницы героев', 'build-hero-pages.js', [], { timeout: 0.5 * HOUR })) problems.push('страницы героев');
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');
       if (!await node('Статьи', 'build-guide-pages.js')) problems.push('статьи');
     } else problems.push('контрпики');
 
-    // Раздел «Статистика и аналитика» и ежедневный снимок для динамики.
-    if (!await node('Статистика и аналитика', 'tools/build-stats.js')) problems.push('статистика');
 
     if (ARGS.has('--no-deploy')) { log('Флаг --no-deploy: выкладку пропускаю.'); return problems.length ? 1 : 0; }
 
@@ -229,6 +285,12 @@ async function main() {
       if (foreign.length) throw new Error('в deploy/ незакоммиченные правки кода, выкладка отменена:\n  ' + foreign.slice(0, 10).join('\n  '));
     }
 
+    if (ON_SERVER && !codeBlock) codeBlock = codeChanged();
+    if (codeBlock) {
+      log('ВЫКЛАДКА ЗАБЛОКИРОВАНА: ' + codeBlock + '\nДанные пересчитаны в ~/dotamate-src/data, сайт остался в прежнем виде. ' +
+        'Код выкладывается только по команде владельца (claude/versiya-sayta.md), после неё ежедневная выкладка снова пойдёт сама.');
+      return 2;
+    }
     if (!await node('Раскладка в deploy', 'tools/sync-deploy.js')) throw new Error('раскладка в deploy не прошла');
     pruneMetaMatches();
 

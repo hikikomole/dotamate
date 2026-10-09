@@ -166,6 +166,21 @@
 .dt-method b{color:var(--d2-muted)}
 .dt-method summary{cursor:pointer;color:var(--d2-muted);font-weight:700;font-size:12px}
 
+/* предметы против состава (js/draft-items.js) */
+.dti-note{margin:0 0 12px;color:var(--d2-muted-2);font-size:12px;line-height:1.5}
+.dti-panel{padding-bottom:6px}
+.dti-hero{padding:10px 14px;border-top:1px solid var(--d2-line)}
+.dti-hero-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.dti-hero-head img{border-radius:3px;object-fit:cover}
+.dti-hero ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.dti-item{display:grid;gap:2px}
+.dti-name{display:flex;align-items:center;gap:8px;font-weight:700}
+.dti-name img{border-radius:3px;flex:none}
+.dti-name a{color:var(--d2-gold)!important;text-decoration:none!important}
+.dti-name a:hover,.dti-name a:focus-visible{text-decoration:underline!important}
+.dti-item small{color:var(--d2-muted);font-size:11.5px;line-height:1.4;padding-left:44px}
+.dti-item .dti-closes{color:var(--d2-muted-2)}
+.dti-hero .dt-zero{margin:0;font-size:12px}
 @media(max-width:1200px){
   .dt-roles{grid-template-columns:repeat(3,1fr)}
 }

@@ -1,0 +1,191 @@
+# Карта статистики и потоков данных DotaMate
+
+Аудит 09.10.2026 (только чтение). Сверено: код в `C:\Users\vsegd\Documents\DOTAMATE` и на сервере `~/dotamate-src`
+(md5 совпадают у `tools/daily-update.js`, `build-stats.js`, `match-source.js`, `build-our-stats.js`,
+`collect-steam-matches.js`, `sync-deploy.js`, `hero-stat-tiles.js`, `js/stats.js`, `deploy/api/index.php`);
+данные — с сервера (`data/stats.json`, собран 2026-10-09T09:00:40Z, md5 совпадает с `~/www/dotamate.ru/data/stats.json`).
+
+Обозначения: **[факт]** — подтверждено кодом/данными; **[предп.]** — вывод без прямой проверки; **[?]** — неизвестно.
+
+---
+
+## 1. Общая схема
+
+```
+Внешние источники                 Сборщики (cron на сервере)                  Хранилище (сервер, не в deploy)
+Steam Web API ─────────────────── tools/collect-steam-matches.js  ─────────── data/steam-matches[-turbo]/ДАТА.jsonl.gz
+OpenDota /publicMatches ───────── tools/collect-public-matches.js ─────────── data/public-matches[-top]/ДАТА.jsonl
+Stratz GraphQL (match) ────────── tools/collect-meta-matches.js   ─────────── data/meta-matches/ДАТА.jsonl
+Stratz heroStats ──────────────── fetch-hero-positions.js, tools/fetch-rank-positions.js, fetch-hero-builds.js
+Реплеи Valve + OpenDota proMatches tools/replay/collect.js ───────────────────── ~/dotamate-collector/archive/
+OpenDota proMatches ───────────── tools/pro/sync.js ──────────────────────────── ~/dotamate-data/pro/
+
+         │  чтение базы — только через tools/match-source.js (steamStream/publicStream/metaMatches)
+         ▼
+Расчёт (tools/build-*.js, порядок — tools/daily-update.js)  →  data/*.json
+         ▼
+tools/sync-deploy.js → deploy/data/ → tools/deploy-hostiman.js → ~/www/dotamate.ru/data/*.json (статика)
+         ▼
+Потребители: js/*.js (fetch /data/*.json), генераторы страниц build-*.js (статический HTML),
+deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
+```
+
+Прод-backend — **PHP** (`deploy/api/index.php`, `pro.php`) на Hostiman + статические JSON. `server.js`
+(Node, Postgres/Redis, стриминг), `deploy/worker.js` (Cloudflare), Docker/Caddy/MediaMTX — **в проде не работают**
+[факт: на сервере нет процесса server.js; CLAUDE.md «Хостинг с 26.09.2026»]. Это наследие (см. §7).
+
+## 2. Расписание (сервер, `~/dotamate-collector/crontab.txt`, время MSK)
+
+| Когда | Что | Замок |
+|---|---|---|
+| каждые 10 мин (:02) | `collect-steam-matches.js --budget 48 --keep-days 30` | heavy.lock + `.lock` сборщика |
+| каждые 10 мин (:06) | `tools/replay/collect.js --limit 5 --keep-days 7` (архив эфира) | heavy.lock |
+| :23, :53 | `tools/pro/sync.js` (/pro/) | heavy.lock, пропуск во время daily |
+| 04:17 и 10:17 | `tools/daily-update.js --auto` (весь пересчёт + выкладка данных) | `logs/daily.lock` |
+| 06:47 | `collect-steam-matches.js --fill-ranks --days 3` | `.lock` сборщика (без heavy.lock) |
+| 12:00 | `tg-post.js --send` (Telegram) | — |
+
+`--auto`: если `logs/last-success.txt` = сегодня, запуск пропускается (`daily-update.js:186`) — при успешном
+утреннем прогоне 10:17 ничего не делает, хотя комментарий о бюджете Stratz «10:17 — до 300» предполагает обратное.
+
+## 3. Порядок ежедневного пересчёта (`tools/daily-update.js`)
+
+1. OpenDota: свежая лента (base ≤ Властелин) → `public-matches`; срез top (Divine 5/Immortal) → `public-matches-top`.
+2. Stratz: роли (`hero-positions.json`), роли по рангам (`rank-positions.json`), предметы билдов → `builds-stratz/`.
+3. Stratz детали матчей (до 2000/300) → `meta-matches/`.
+4. Из `meta-matches`: `hero-items.json`, `item-impact.json`, `item-counters.json`, `item-stats.json` (+ страницы предметов).
+5. Steam: прокачка/таланты → `data/builds/<id>.json`.
+6. Способности (по сроку).
+7. **Матрицы Steam «все ранги»** → `our-meta.json`, `our-matrix.json` (сбой = стоп всего);
+   калибровка → `draft-calibration.json` (сбой = стоп); турбо; META (`meta-escape.json`, `meta-match/`);
+   срез top (OpenDota) → `our-*-top.json`, `draft-calibration-top.json`, `draft-archive-check.json`.
+8. Только на сервере: `live-winprob.json`, `live-hero-avg.json` (архив эфира).
+9. `build-hero-counters.js` → `hero-counters.json`.
+10. `collect-steam-matches.js --fill-ranks --days 3`, затем **`build-stats.js --source steam` → `stats.json`,
+    `hero-main-roles.json`, снимок `stats-history-steam/ДЕНЬ.json`**.
+11. Если контрпики ок: страницы героев, гайды героев, статьи (`deploy/hero/`, `deploy/guide/`).
+12. Проверка отпечатка кода (`code-fingerprint.js`) → `sync-deploy.js` → `deploy-hostiman.js`.
+
+Сбои сборщиков (шаги 1–6) не останавливают выкладку: остаются вчерашние файлы. В журналах 05–09.10 каждый день:
+«пропуски: сбор META, роли героев, роли по рангам, билды героев» (Stratz 429 / «не отвечает» /
+`Cannot read properties of undefined (reading 'constants')`) [факт: `logs/daily-2026-10-0*.log`].
+
+## 4. Показатели: что → где → как → откуда
+
+Базовые фильтры Steam-ленты [факт, `collect-steam-matches.js` + `build-stats.js addRow`]: lobby 7 + mode 22,
+длительность > 900 с, 10 игроков, нет leaver_status > 1, все герои известны `heroes.json`; дубликаты match_id
+отсеиваются внутри дневного файла (`match-source.js steamStream`).
+
+Состояние базы на 09.10 [факт]: 1 200 455 матчей, **с 02.10 15:19 по 09.10 08:20 UTC (≈7 дней, а не 30)**;
+дни 02.10–03.10 неполные (33 и 28 МБ против ~230 МБ у остальных); сбор выборочный — бюджет 48 запросов/10 мин,
+`jumps` 287, пропущено 3,9 млн seq (`_state.json`). Ранг известен у 20,9 % матчей.
+
+| Показатель | Страница / блок | Формула | Источник → сборщик | Файл / API | Обновление | Ограничения |
+|---|---|---|---|---|---|---|
+| Матчей в базе, период, патч | /stats/ сводка | count матчей после фильтров; min/max start_time | Steam → collect-steam → build-stats | stats.json `base` | daily | период = то, что лежит в steam-matches (сейчас 7 дн.) |
+| Победы Radiant | /stats/ сводка | radWins / total | Steam | `base.radiantWr` | daily | — |
+| Распределение по рангам | /stats/ сводка | матчей с известным рангом по группам 1–7 | ранг из OpenDota по match_id (`--fill-ranks`) | `base.ranks` | daily | ранг у 20,9 %; группы 70–74 (Божество 1–4) отсутствуют |
+| Винрейт героя | /stats/ тир-лист; паспорт героя; /me (сравнение) | w/n | Steam | `heroes[].wr` | daily | все ранги смешаны |
+| «Надёжный» винрейт | /stats/ | нижняя граница Уилсона 95 % | Steam | `heroes[].lo` | daily | проверено пересчётом: 0 расхождений |
+| Пикрейт | /stats/ | n/total (сумма по героям = 1000 %) | Steam | `heroes[].pr` | daily | при фильтре ранга показывается общий pr (см. п. С2) |
+| Тир S–D | /stats/, паспорт героя | квинтили `lo` среди героев с n ≥ 1000 | Steam | `heroes[].tier` | daily | относительный, не абсолютный |
+| Винрейт по рангу | /stats/ «По рангам», фильтр ранга; плитки героя | w/n в группе, n ≥ 300 | Steam + ранг OpenDota | `heroes[].rank[g]` | daily | группа 1: только 44 героя ≥ 300 → вкладка «копится» |
+| Винрейт по длительности | /stats/ «Матчи», плитки героя | w/n в корзинах <25/25–35/35–45/45+, n ≥ 300 | Steam | `heroes[].dur`, `durSwing` | daily | — |
+| Гистограмма длительности | /stats/ «Матчи» | матчей по 5 мин | Steam | `base.duration` | daily | сумма = matches (проверено) |
+| GPM/XPM героя | /stats/ (posSteam) | среднее за матч | Steam | `heroes[].gpm/xpm` | daily | — |
+| Позиции 1/2/3/«4–5» | /stats/ «Позиции» | модель `position-model.json` (тест acc 79,5 %), ровно 3 кор + 2 саппорта в команде | Steam + `match-positions.js` | `posSteam` | daily | оценка, не данные Valve |
+| Позиции 1–5 (Stratz) | плитка «против других» на /hero/ (`hero-stat-tiles.js`) | среднее по позиции; n ≥ 30 | Stratz детали, текущий патч, ранги ≤ 65 | `positions` | daily (если Stratz жив) | другой срез, чем тир-лист |
+| Роли героя (значки, «роль на ранге», фильтр позиции) | /stats/, сайт целиком (`hero-roles.js`) | доля позиции ≥ 10 %, сортировка по винрейту | Stratz heroStats по парам рангов | `heroes[].ro/rt`, `hero-main-roles.json`, `roles.fetchedAt` | daily, **фактически снимок 25.09** | Stratz падает ежедневно |
+| Связки союзников | /stats/ «Связки» | d = w − σ(logit pA + logit pB); пары ≥ 300 | Steam: our-matrix.json (pairs.with) + винрейты stats | `synergy`, `antiSynergy` | daily | пересчёт e/d: 0 расхождений |
+| Контрпики | /stats/, /hero/, гайды, /guide/counter-picks/, быстрая подготовка | log5: d = w − e; пары ≥ 300 | Steam: our-matrix (vs) + our-meta → build-hero-counters | `hero-counters.json`, `counters` | daily | зеркальных дублей в топ-40 нет (проверено) |
+| Покупки предметов (доля, медиана 1-й покупки) | /stats/ «Предметы» | игроков с покупкой / игроков с покупками | Stratz детали, текущий патч | `items` | daily | ранги ≤ 65, ≈17 тыс. матчей |
+| Исход линии | /stats/ «Линии», плитки героя | win/draw/loss по оценке Stratz, n ≥ 30 | Stratz | `lanes` | daily | ранги ≤ 65 |
+| Динамика | /stats/ «Динамика» | разница wr первого и последнего снимка | снимки build-stats | `history` (до 60 дн.) | daily | сейчас 1 снимок; каждый снимок — окно всей базы, а не день |
+| Срез Divine 5/Immortal | /stats/ тир-лист (селектор) | w/n, Уилсон, pr | OpenDota top → build-our-stats --tier top | `slices.top`; `our-meta-top.json` | daily | 255 662 матча, 29.09–09.10 |
+| Срез «Про-сцена» (архив) | /stats/ тир-лист (селектор) | w/n, Уилсон, средние K/D/A | реплеи архива эфира | `slices.pro` | daily (сервер) | 131 матч, **нет порога** (мин. n = 1) |
+| Pro pick / win / ban, «лучший pro winrate» | /stats/ вкладка «Про-сцена», главная («Избранные герои») | pro_win/pro_pick; порог 5 (таблица), 20 (сводка) | **живой OpenDota /heroStats** через `/api/dota/hero-stats` (кеш 24 ч) | API | 24 ч кеш | период и источник на странице не подписаны |
+| Реальные покупки по фазам | карточка героя, быстрая подготовка, DraftMate | доля в фазе, порог по доле | Stratz | `hero-items.json` | daily | — |
+| Статистика страниц предметов | /item/<key>/ | n, share, квартили времени, позиции, герои | Stratz | `item-stats.json` → build-item-pages.js | daily | — |
+| Эффект предмета (вариант Б) | DraftMate, главная | относит. эффект: (купил − не купил) − медиана героя | Stratz | `item-impact.json` | daily | наблюдение, не причинность (подписано в коде) |
+| Прогноз драфта | DraftMate, /live, META | сумма парных отклонений → Platt (a), 70/15/15 | Steam all / OpenDota top | `our-matrix*.json`, `draft-calibration*.json` | daily | проверка на архиве эфира — `draft-archive-check.json` |
+| Шанс победы по ходу игры | /live, итоги матча | логистическая регрессия, пишется только если лучше 50 % | архив эфира | `live-winprob.json` | daily (сервер) | — |
+| Средние героя по минутам | /live карточки игроков | средние на отметках 5…60 мин, n ≥ 30 | архив эфира | `live-hero-avg.json` | daily (сервер) | — |
+| Прокачка/таланты | /hero/, карточка героя | поуровневый срез частот | Steam (+ Stratz предметы) | `data/builds/<id>.json`, `/api/dota/hero/<id>/build` | daily | — |
+| META «необычные сборки» | /meta/ | Σ −ln(p) leave-one-out | Steam (инвентарь) | `meta-escape.json`, `meta-match/` | daily | у Steam нет позиций |
+| Личная статистика /me | /me/ | Уилсон, z-тест двух долей, оценка позиции (порт модели в PHP) | Steam API по запросу посетителя (бюджет 60 000/сут) | `/api/dota/player/*` | по запросу, кеш 1 ч | сравнение со stats.json `wr` |
+| Про-матчи | /pro/ | без расчётов статистики | OpenDota | `~/dotamate-data/pro` → pro.php | 30 мин | пометка при данных старше 90 мин |
+
+## 5. Где читается `data/stats.json`
+
+- `js/stats.js` — /stats/ (все вкладки, кроме «Про-сцена»).
+- `js/app.js` — вкладка «Про-сцена» /stats/ (`renderStats`, данные OpenDota, не stats.json).
+- `tools/hero-stat-tiles.js` ← `build-hero-pages.js` — плитки и паспорт на /hero/<slug>/.
+- `js/home-daily.js` — блоки главной; `js/me.js` — средний винрейт героя для /me.
+- `tools/fetch-rank-positions.js`, `tools/valve-hero-stats.js`, `tools/build-item-stats.js` — упоминают/читают (служебно).
+
+## 6. Найденные проблемы (подтверждённые)
+
+Критичных (ломающих данные) не найдено. Пересчёт по серверным данным: сумма пикрейтов 999,9 %, сумма
+матчей героев = 10 × матчей, общий винрейт 50,0 %, гистограмма = числу матчей, Уилсон и связки пересчитаны без расхождений.
+
+**Высокие**
+- В1. Неверное описание выборки: документы и подписи «30 дней / все рейтинговые матчи», фактически ≈7 дней (02.10–09.10)
+  и выборочный сбор (48 запросов/10 мин, 287 прыжков курсора). Влияет на понимание пользователем.
+- В2. Вкладка «Про-сцена» и «лучший pro winrate» — живые данные OpenDota `/heroStats` без указания источника,
+  периода и выборки (`stats/index.html:72`, `js/app.js:342–380`); рядом в селекторе тир-листа — другой «про»-срез
+  (131 матч архива). Две разные «про-статистики» на одной странице.
+- В3. Роли героев (значки, «Роль на ранге», фильтр позиции в тир-листе) — снимок Stratz от 25.09 (`stats.json roles.fetchedAt`);
+  обновление падает каждый день (журналы 05–09.10). Дата снимка на странице не показана.
+- В4. Смешение срезов на /stats/ и /hero/: тир-лист — Steam все ранги, 7 дней; «Предметы», «Линии», Stratz-позиции и
+  плитка «против других» — детальные матчи Stratz текущего патча, кандидаты из ленты OpenDota base (ранги ≤ 65),
+  ≈17 тыс. матчей (`build-stats.js:192`, `collect-meta-matches.js:120`). В подписях ранг Stratz-выборки не указан.
+
+**Средние**
+- С1. «Место по винрейту» на /hero/ сортирует по сырому `wr` (`tools/hero-stat-tiles.js:24`), /stats/ — по Уилсону `lo`:
+  место героя расходится между страницами.
+- С2. Фильтр ранга в тир-листе показывает пикрейт по всем рангам (`js/stats.js:93`, `pr: h.pr`).
+- С3. Срез «Про-сцена» (архив) выводит героев с 1 матчем (винрейт 0/100 %) — нет `MIN` (`build-stats.js:316`).
+- С4. `data/stats-history-steam/` публикуется на сайт: нет в `SKIP_DIRS` (`tools/sync-deploy.js:24`), подтверждено на
+  `~/www/dotamate.ru/data/`. Комментарий в build-stats говорит обратное. Не секрет, но лишние файлы.
+- С5. «Динамика»: каждый снимок — винрейт по всему окну базы (скользящее окно), подпись «по дням» вводит в заблуждение;
+  ряд Steam сейчас 1 снимок.
+- С6. `--auto` второго прогона 10:17 пропускается после успешного 04:17 (`daily-update.js:186`) — расписание Stratz
+  «2000 утром + 300 днём» на деле не работает.
+- С7. Ошибки API отдают `$e->getMessage()` клиенту (`deploy/api/index.php:1810` и соседние) — может раскрыть внутренние
+  URL. Ключей в URL OpenDota нет [предп.: не проверял все места].
+
+**Низкие**
+- Н1. Группа ранга 7 = 75–85; ранги 70–74 из ленты не приходят — на странице не пояснено.
+- Н2. Устаревшие комментарии: `fetch-hero-positions.js` (Worker), `build-meta.js` (0–4500 MMR), `build-stats.js`
+  заголовок (источник public-matches), CLAUDE.md «Стек/Структура» (server.js как backend, wrangler).
+- Н3. Дублирование формул: Уилсон — `build-stats.js`, `js/app.js wrScore`, `index.php wilson`; модель позиций —
+  `match-positions.js` и порт в `index.php`. Изменение одной копии не меняет другие.
+
+**Риски [предп., не подтверждено]**
+- Р1. `build-stats`/`build-our-stats` читают дневной файл, в который сборщик каждые 10 мин дописывает gzip-член, не под
+  heavy.lock: чтение недописанного члена может уронить расчёт. На 09.10 счётчики our-meta и stats совпали (1 200 455).
+- Р2. При долгом сбое Stratz `meta-matches` пустеют после смены патча (`m.t < patchTs`) — вкладки «Предметы/Линии»
+  станут пустыми; пустого состояния у этих вкладок нет (`js/stats.js items()/lanes()`).
+
+## 7. Наследие и исключения
+
+- `server.js`, `preview-server.js`, `deploy/worker.js`, `docker-compose.yml`, `Caddyfile`, `mediamtx.yml`, `js/v43-*.js`,
+  `.d2h-data-cache-v43/` — не прод. `preview-server.js` — только локальное превью.
+- `/api/dota/hero-stats`, `/api/dota/hero/<id>/items` — живой прокси OpenDota (единственные живые внешние статистики в /api).
+- Лента OpenDota base (`public-matches`) больше не источник цифр /stats/, нужна для ранга Steam-матчей и кандидатов Stratz.
+- Параллельный расчёт «,1» (`data-steam/`, `~/dotamate-steam/`) — не трогать (claude/start-novogo-chata.md).
+- Локальная `deploy/` и `data/` на компьютере устарели (stats.json от 25.09, в `deploy/js` нет 8 файлов из `js/`);
+  источник правды — сервер.
+
+## 8. Не проверено
+
+- Визуально на мобильных: только CSS (`css/stats.css` — `overflow-x:auto`, сетки 1 колонка ≤ 900 px); скриншотов не делал.
+- Живой ответ `/api/dota/hero-stats` и период OpenDota pro-статистики.
+- Дубликаты match_id между дневными файлами Steam (`--stats` читает всю базу — тяжело для лимитов хостинга, не запускал).
+- Корректность модели позиций и калибровки сверх метрик в файлах; `tools/replay/*`, `tools/pro/sync.js` — по заголовкам.
+- Тестов (unit) в проекте нет; есть проверочные скрипты `tools/check-*.js` — не запускались.
+
+## 9. Правило сопровождения
+
+Меняешь сборщик, формат `data/*.json`, порог, источник или порядок в `daily-update.js` — обнови этот файл
+(таблица §4, расписание §2, проблемы §6) в том же изменении.

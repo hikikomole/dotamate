@@ -32,7 +32,15 @@
  *   node tools/collect-steam-matches.js --budget 500
  *   node tools/collect-steam-matches.js --start-seq N      — только если курсора ещё нет
  *   node tools/collect-steam-matches.js --fill-ranks       — дозаполнить rank=null из OpenDota
+ *                                     (--days N: последние N дневных файлов, по умолчанию 3)
  *   node tools/collect-steam-matches.js --stats            — что собрано (+ проверка дублей)
+ * Параметры сбора:
+ *   --max-lag S    — если на старте курсор отстал от «сейчас» больше S секунд (по умолчанию 900),
+ *                    прыжок к текущему seq: при бюджете меньше полной ленты сбор идёт выборкой
+ *                    (подряд идущие куски каждые 10 мин), а не копит отставание.
+ *   --keep-days N  — удалять дневные файлы старше N дней (по умолчанию 30; 0 — не удалять).
+ * Файлы читаются потоком: дневной файл при боевом бюджете ~0,9 ГБ без сжатия — больше
+ * предельной длины строки V8, целиком в память не читается.
  */
 'use strict';
 const fs = require('fs');
@@ -40,6 +48,7 @@ const os = require('os');
 const path = require('path');
 const zlib = require('zlib');
 const https = require('https');
+const readline = require('readline');
 
 const ROOT = path.join(__dirname, '..');
 const DIR = path.join(ROOT, 'data', 'steam-matches');
@@ -55,6 +64,8 @@ const PAUSE_MIN = 1500, PAUSE_MAX = 6000, PAUSE_START = 2000;
 const WAIT_429 = 30000;          // T0: Retry-After в ответах 429 не приходит
 const TRIES = 6;                 // подряд неудач 5xx/сети — сдаёмся, курсор не двигаем
 const LOCK_STALE_MS = 6 * 3600 * 1000;
+const MAX_LAG_DEFAULT = 900;
+const KEEP_DAYS_DEFAULT = 30;
 
 const argv = process.argv.slice(2);
 const opt = n => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : undefined; };
@@ -106,6 +117,11 @@ function takeLock() {
   return false;
 }
 const dropLock = () => { try { fs.unlinkSync(LOCK); } catch {} };
+async function takeLockWait(ms) {
+  const until = Date.now() + ms;
+  while (!takeLock()) { if (Date.now() > until) return false; await sleep(10000); }
+  return true;
+}
 
 // ---------- HTTP ----------
 function get(method, params) {
@@ -178,29 +194,39 @@ function classify(m) {
 }
 
 // ---------- хранилище ----------
-function readDay(file) {
-  if (!fs.existsSync(file)) return [];
-  const txt = zlib.gunzipSync(fs.readFileSync(file)).toString('utf8'); // склеенные gzip-члены читаются целиком
-  return txt.split('\n').filter(Boolean).map(l => JSON.parse(l));
+// строки дневного файла потоком (склеенные gzip-члены поток Gunzip читает подряд)
+async function* dayLines(file) {
+  const rl = readline.createInterface({ input: fs.createReadStream(file).pipe(zlib.createGunzip()), crlfDelay: Infinity });
+  for await (const l of rl) if (l) yield l;
 }
-const known = {};
-function knownIds(file) {
-  if (!known[file]) known[file] = new Set(readDay(file).map(r => r[0]));
-  return known[file];
-}
+// Повторов нет по построению: лента идёт по возрастанию match_seq_num, курсор пишется после данных.
+// Окно сбоя между записью данных и курсора закрыто полем pendingTo (см. collect).
 function appendRows(dir, rows) {
   const byDay = {};
-  let n = 0;
   for (const r of rows) {
     const f = path.join(dir, dayOf(r[2]) + '.jsonl.gz');
-    const ids = knownIds(f);
-    if (ids.has(r[0])) continue;
-    ids.add(r[0]);
     (byDay[f] = byDay[f] || []).push(JSON.stringify(r));
-    n++;
   }
   for (const f of Object.keys(byDay)) fs.appendFileSync(f, zlib.gzipSync(byDay[f].join('\n') + '\n'));
+  return rows.length;
+}
+function pruneOld(keepDays) {
+  if (!(keepDays > 0)) return 0;
+  const cut = new Date(Date.now() - keepDays * 86400000).toISOString().slice(0, 10);
+  let n = 0;
+  for (const dir of [DIR, DIR_TURBO]) {
+    for (const f of fs.readdirSync(dir)) {
+      const m = /^(\d{4}-\d{2}-\d{2})\.jsonl\.gz$/.exec(f);
+      if (m && m[1] < cut) { fs.unlinkSync(path.join(dir, f)); n++; log('удалён по сроку хранения: ' + path.basename(dir) + '/' + f); }
+    }
+  }
   return n;
+}
+async function currentSeq() {
+  const r = await get('GetMatchHistory', { matches_requested: 1 });
+  const m = r.j && r.j.result && r.j.result.matches && r.j.result.matches[0];
+  if (!m) throw new Error('не удалось узнать текущий match_seq_num: HTTP ' + r.code);
+  return m.match_seq_num;
 }
 
 // ---------- режимы ----------
@@ -208,22 +234,33 @@ async function collect() {
   const st = loadState();
   const budget = Math.max(1, parseInt(opt('--budget') || RUN_BUDGET_DEFAULT, 10));
   const today = new Date().toISOString().slice(0, 10);
-  if (st.day !== today) { st.day = today; st.dayCalls = 0; }
+  if (st.day !== today) { st.day = today; st.dayCalls = 0; st.day429 = 0; st.day5xx = 0; }
 
+  const maxLag = parseInt(opt('--max-lag') || MAX_LAG_DEFAULT, 10);
+  if (st.pendingTo && st.pendingTo >= st.nextSeq) {
+    // прошлый запуск упал между записью данных и курсора — пачку не повторяем (без дублей)
+    log('незавершённая пачка до seq ' + st.pendingTo + ', курсор сдвинут за неё');
+    st.nextSeq = st.pendingTo + 1;
+  }
+  delete st.pendingTo;
   if (!st.nextSeq) {
     if (opt('--start-seq')) st.nextSeq = parseInt(opt('--start-seq'), 10);
-    else {
-      const r = await get('GetMatchHistory', { matches_requested: 1 });
-      const m = r.j && r.j.result && r.j.result.matches && r.j.result.matches[0];
-      if (!m) throw new Error('не удалось узнать текущий match_seq_num: HTTP ' + r.code);
-      st.nextSeq = m.match_seq_num; st.dayCalls++; st.calls++;
-    }
+    else { st.nextSeq = await currentSeq(); st.dayCalls++; st.calls++; }
     log('курсор не задан, старт с match_seq_num ' + st.nextSeq);
+  } else if (maxLag > 0 && st.lastEnd && Date.now() / 1000 - st.lastEnd > maxLag) {
+    const cur = await currentSeq(); st.dayCalls++; st.calls++;
+    if (cur > st.nextSeq) {
+      const lag = Math.round(Date.now() / 1000 - st.lastEnd);
+      st.skippedSeq = (st.skippedSeq || 0) + (cur - st.nextSeq); st.jumps = (st.jumps || 0) + 1;
+      log('отставание ' + lag + ' с > ' + maxLag + ' с — прыжок с seq ' + st.nextSeq + ' на ' + cur + ' (пропущено номеров ' + (cur - st.nextSeq) + ')');
+      st.nextSeq = cur;
+    } else log('отставание больше ' + maxLag + ' с, но голова ленты (' + cur + ') не впереди курсора ' + st.nextSeq + ' — без прыжка');
   } else log('продолжаю с курсора match_seq_num ' + st.nextSeq);
 
-  let pause = PAUSE_START, okRun = 0, fails = 0, calls = 0;
+  // пауза переносится между запусками: иначе каждый запуск заново упирается в 429
+  let pause = Math.min(PAUSE_MAX, Math.max(PAUSE_MIN, st.pause || PAUSE_START)), okRun = 0, fails = 0, calls = 0;
   const run = { req: 0, r429: 0, r5xx: 0, err: 0, seen: 0, ranked: 0, turbo: 0, rankedWithRank: 0,
-    dup: 0, other: 0, short: 0, bad: 0, leaver: 0, lagSec: null };
+    other: 0, short: 0, bad: 0, leaver: 0, lagSec: null };
   const t0 = Date.now();
 
   while (calls < budget) {
@@ -232,12 +269,12 @@ async function collect() {
     calls++; run.req++; st.dayCalls++; st.calls++;
     const res = r.j && r.j.result;
     if (r.code === 429) {
-      run.r429++; pause = Math.min(PAUSE_MAX, pause + 500); okRun = 0;
+      run.r429++; st.day429 = (st.day429 || 0) + 1; pause = Math.min(PAUSE_MAX, pause + 500); okRun = 0;
       log('429, жду ' + WAIT_429 / 1000 + ' с, пауза теперь ' + pause + ' мс');
       await sleep(WAIT_429); continue;
     }
     if (r.code !== 200 || !res || res.status !== 1 || !Array.isArray(res.matches)) {
-      if (r.code >= 500) run.r5xx++; else run.err++;
+      if (r.code >= 500) { run.r5xx++; st.day5xx = (st.day5xx || 0) + 1; } else run.err++;
       fails++;
       log('ошибка ' + r.code + ' ' + (r.err || (res && res.statusDetail) || '') + ', попытка ' + fails + '/' + TRIES);
       if (fails >= TRIES) { log('сдаюсь, курсор не сдвинут'); break; }
@@ -253,14 +290,14 @@ async function collect() {
       else if (c === 'turbo') turbo.push(row(m));
       else run[c]++;
     }
+    const last = ms[ms.length - 1];
+    st.pendingTo = last.match_seq_num; saveState(st);
     const wr = appendRows(DIR, ranked), wt = appendRows(DIR_TURBO, turbo);
-    run.dup += ranked.length - wr + turbo.length - wt;
     run.seen += ms.length; run.ranked += wr; run.turbo += wt;
     for (const x of ranked) if (x[4] != null) run.rankedWithRank++;
     st.seen += ms.length; st.ranked += wr; st.turbo += wt;
-    const last = ms[ms.length - 1];
-    st.nextSeq = last.match_seq_num + 1;
-    st.lastStart = last.start_time; st.updatedAt = new Date().toISOString();
+    st.nextSeq = last.match_seq_num + 1; delete st.pendingTo;
+    st.lastStart = last.start_time; st.lastEnd = last.start_time + last.duration; st.updatedAt = new Date().toISOString();
     saveState(st); // данные записаны раньше курсора: при сбое между ними — повтор, а не потеря
     run.lagSec = Math.round(Date.now() / 1000 - (last.start_time + last.duration));
     if (run.req % 25 === 0) log('запросов ' + run.req + ', ranked ' + run.ranked + ', турбо ' + run.turbo + ', отставание ' + run.lagSec + ' с, пауза ' + pause);
@@ -270,35 +307,57 @@ async function collect() {
     await sleep(pause);
   }
   run.minutes = +((Date.now() - t0) / 60000).toFixed(1);
-  run.nextSeq = st.nextSeq;
+  run.nextSeq = st.nextSeq; run.pause = pause; run.dayCalls = st.dayCalls;
+  st.pause = pause; saveState(st);
+  run.pruned = pruneOld(parseInt(opt('--keep-days') || KEEP_DAYS_DEFAULT, 10));
   log('ИТОГ ' + JSON.stringify(run));
 }
 
-function fillRanks() {
-  let filled = 0, still = 0;
+// Перезапись потоком во временный файл → rename. Только последние N файлов: у OpenDota ранг есть
+// лишь за свежие дни, старые файлы перечитывать незачем.
+async function fillRanks() {
+  const days = Math.max(1, parseInt(opt('--days') || 3, 10));
+  let filled = 0, still = 0, total = 0;
   for (const dir of [DIR, DIR_TURBO]) {
     if (!fs.existsSync(dir)) continue;
-    for (const f of fs.readdirSync(dir).filter(x => x.endsWith('.jsonl.gz')).sort()) {
-      const file = path.join(dir, f);
-      const rows = readDay(file);
-      let ch = 0;
-      for (const r of rows) if (r[4] == null) { const k = rankOf(r[0], r[2]); if (k) { r[4] = k; ch++; } else still++; }
-      if (ch) { writeAtomic(file, zlib.gzipSync(rows.map(r => JSON.stringify(r)).join('\n') + '\n')); filled += ch; }
+    for (const f of fs.readdirSync(dir).filter(x => x.endsWith('.jsonl.gz')).sort().slice(-days)) {
+      const file = path.join(dir, f), tmp = file + '.tmp';
+      const gz = zlib.createGzip();
+      const done = new Promise((ok, bad) => { const w = fs.createWriteStream(tmp); w.on('finish', ok); w.on('error', bad); gz.pipe(w); });
+      let ch = 0, n = 0, buf = [];
+      for await (const l of dayLines(file)) {
+        n++;
+        if (l.indexOf(',null,') > 0) {
+          const r = JSON.parse(l);
+          if (r[4] == null) {
+            const k = rankOf(r[0], r[2]);
+            if (k) { r[4] = k; ch++; buf.push(JSON.stringify(r)); } else { still++; buf.push(l); }
+          } else buf.push(l);
+        } else buf.push(l);
+        if (buf.length >= 5000) { if (!gz.write(buf.join('\n') + '\n')) await new Promise(r => gz.once('drain', r)); buf = []; }
+      }
+      if (buf.length) gz.write(buf.join('\n') + '\n');
+      gz.end(); await done;
+      total += n;
+      if (ch) { fs.renameSync(tmp, file); filled += ch; } else fs.unlinkSync(tmp);
+      log(path.basename(dir) + '/' + f + ': строк ' + n + ', ранг дозаполнен ' + ch);
     }
   }
-  log('ранг дозаполнен: ' + filled + ', без ранга осталось: ' + still);
+  log('ранг дозаполнен: ' + filled + ', без ранга осталось: ' + still + ' (просмотрено ' + total + ')');
 }
 
-function stats() {
+async function stats() {
   for (const dir of [DIR, DIR_TURBO]) {
     if (!fs.existsSync(dir)) continue;
     const ids = new Set();
     let n = 0, withRank = 0, dup = 0, bytes = 0;
     for (const f of fs.readdirSync(dir).filter(x => x.endsWith('.jsonl.gz')).sort()) {
       bytes += fs.statSync(path.join(dir, f)).size;
-      for (const r of readDay(path.join(dir, f))) {
-        n++; if (r[4] != null) withRank++;
-        if (ids.has(r[0])) dup++; else ids.add(r[0]);
+      for await (const l of dayLines(path.join(dir, f))) {
+        // match_id и rank — 1-е и 5-е поля, без полного разбора строки
+        const a = l.indexOf(','), id = l.slice(1, a);
+        n++; if (l.split(',', 5)[4] !== 'null') withRank++;
+        if (ids.has(id)) dup++; else ids.add(id);
       }
     }
     console.log(JSON.stringify({ dir: path.basename(dir), matches: n, withRank,
@@ -312,11 +371,12 @@ async function main() {
   fs.mkdirSync(DIR, { recursive: true });
   fs.mkdirSync(DIR_TURBO, { recursive: true });
   if (argv.includes('--stats')) return stats();
-  if (!takeLock()) { log('уже запущен другой сбор (' + LOCK + '), выхожу'); process.exitCode = 3; return; }
+  // --fill-ranks ждёт окончания текущего сбора (запуски каждые 10 мин, сбор ~5–8 мин)
+  if (!(argv.includes('--fill-ranks') ? await takeLockWait(20 * 60000) : takeLock())) { log('уже запущен другой сбор (' + LOCK + '), выхожу'); process.exitCode = 3; return; }
   const stop = () => { dropLock(); process.exit(130); };
   process.on('SIGINT', stop); process.on('SIGTERM', stop);
   try {
-    if (argv.includes('--fill-ranks')) return fillRanks();
+    if (argv.includes('--fill-ranks')) return await fillRanks();
     KEY = readKey();
     await collect();
   } finally { dropLock(); }

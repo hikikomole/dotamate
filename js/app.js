@@ -28,97 +28,16 @@ function loadHeroCounters(){
 }
 const LOCAL_MODE=location.protocol==="file:";
 const FALLBACK_IMG="data:image/svg+xml;utf8,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125"><rect width="100" height="125" fill="#ececf2"/><text x="50" y="66" font-size="12" fill="#777" text-anchor="middle" font-family="sans-serif">DOTA</text></svg>');
-let heroes=[],items=[],filter="all",itemFilter="all",guideFilter="all",lastFocusedEl=null,spotlightHeroId=null,spotlightTimer=null;
+let heroes=[],items=[],filter="all",itemFilter="all",lastFocusedEl=null,spotlightHeroId=null,spotlightTimer=null;
 const ruRoles={Carry:"Керри",Support:"Поддержка",Nuker:"Нюкер",Disabler:"Дизейблер",Jungler:"Лесник",Durable:"Танк",Escape:"Эскейп",Pusher:"Пушер",Initiator:"Инициация"};
 const attrs={str:["💪","Сила"],agi:["🏹","Ловкость"],int:["🧠","Интеллект"],all:["✦","Универсальный"],universal:["✦","Универсальный"]};
-const guideData=[
- {cat:"heroes",icon:"🎯",tag:"GAMEPLAY",title:"Как выбирать героя под матч",text:"Смотри на роль, задачи состава, тип атаки и ограничения противников — а не только на то, кем удобнее играть.",slug:"hero-picking-basics"},
- {cat:"gameplay",icon:"⚔",tag:"GAMEPLAY",title:"Как добивать крипов: ласт-хит и денай",text:"Золото и опыт в Dota 2 не начисляются просто за нахождение рядом с крипами — их нужно добивать точным последним ударом.",slug:"last-hitting-denying"},
- {cat:"gameplay",icon:"🗺",tag:"MAP",title:"Вард и контроль карты",text:"Вард — не просто предмет: это привычка планировать следующий безопасный участок карты, а не реагировать постфактум.",slug:"warding-map-control"},
- {cat:"items",icon:"◈",tag:"ITEMS",title:"Как собирать предметы: основы айтем билда",text:"Смотри не только на стоимость: важны характеристики, активные способности и то, под какую конкретно проблему матча собирается предмет.",slug:"itemization-basics"},
- {cat:"items",icon:"💠",tag:"ITEMS",title:"Магический и физический урон: во что упаковываться",text:"Разные типы урона контрятся разными предметами — защита, которая хорошо работает против одного, почти бесполезна против другого.",slug:"magic-vs-physical-resistance"},
- {cat:"heroes",icon:"👁",tag:"HEROES",title:"Как играть против невидимости",text:"Невидимость пугает новичков сильнее, чем должна — против неё есть предсказуемые и надёжные инструменты.",slug:"countering-invisibility"},
- {cat:"heroes",icon:"📊",tag:"HERO DATA",title:"Роли в Dota 2: кто за что отвечает в команде",text:"Роль — это ориентир, а не жёсткая клетка. Но понимание пяти классических ролей помогает быстрее находить своё место в команде.",slug:"roles-explained"},
- {cat:"gameplay",icon:"🧠",tag:"GAMEPLAY",title:"Драфт: как выбирать героев под состав",text:"Пик героев определяет сильные и слабые стороны команды задолго до того, как на карте появится первый крипу.",slug:"draft-fundamentals"},
- {cat:"heroes",icon:"📈",tag:"HERO DATA",title:"Винрейт в Dota 2: как читать статистику героев",text:"Pro picks показывают популярность на профессиональной сцене, а Pro win — победы именно среди этих матчей. Это разные метрики.",slug:"reading-hero-stats"},
- {cat:"gameplay",icon:"🧮",tag:"MMR",title:"Путь к повышению MMR: как тренироваться осознанно",text:"Калькулятор MMR показывает математический ориентир, а не гарантированный результат — реальный рост даёт осознанная практика.",slug:"mmr-climbing-mindset"},
- {cat:"heroes",icon:"⚔",tag:"BUILD",title:"Билд на керри: порядок покупок по этапам игры",text:"Керри слаб в начале и становится главной угрозой к поздней игре — билд должен закрывать именно эту кривую силы.",slug:"build-carry"},
- {cat:"heroes",icon:"🧠",tag:"BUILD",title:"Билд на мидера: универсальные приоритеты",text:"Мидер играет один на один и получает больше всего раннего опыта — итемизация должна реализовать это преимущество как можно раньше.",slug:"build-mid"},
- {cat:"heroes",icon:"🛡",tag:"BUILD",title:"Билд на оффлейн: выживание и инициация",text:"Оффлейнер играет в невыгодных условиях линии — итемизация здесь про выживание и пространство для команды, а не чистый фарм.",slug:"build-offlane"},
- {cat:"heroes",icon:"🔮",tag:"BUILD",title:"Билд на софт-саппорта",text:"Софт-саппорт жертвует частью фарма ради обзора и контроля, но обычно фармит немного больше хард-саппорта.",slug:"build-soft-support"},
- {cat:"heroes",icon:"💚",tag:"BUILD",title:"Билд на хард-саппорта",text:"Хард-саппорт почти не фармит — его золото почти целиком уходит на обзор карты и спасение союзников.",slug:"build-hard-support"},
- {cat:"items",icon:"👢",tag:"COMPARE",title:"Ботинки в Dota 2: какие выбрать",text:"Все герои начинают с одинаковых Boots of Speed, но апгрейд ботинок — одно из первых решений, которое сильно зависит от роли и героя.",slug:"boots-comparison"},
- {cat:"items",icon:"🛡",tag:"COMPARE",title:"Защитные предметы: что от чего спасает",text:"Разные защитные предметы решают разные угрозы — контроль, магический урон, физический урон или конкретное точечное заклинание.",slug:"defensive-items-comparison"},
- {cat:"items",icon:"🛡",tag:"МЕХАНИКИ",title:"Как считается урон: броня, магсопротивление и блок",text:"Броня, сопротивление магии и блок работают по формулам. Сколько на самом деле даёт единица брони и почему 60% от BKB — это не 60%.",slug:"damage-armor-magic-resist"},
- {cat:"heroes",icon:"📐",tag:"МЕХАНИКИ",title:"Сила, ловкость и интеллект: что даёт одно очко",text:"Очко силы — это 22 здоровья, очко ловкости — 0.167 брони и +1 к скорости атаки. Переводим атрибуты в понятные числа.",slug:"attributes-explained"},
- {cat:"gameplay",icon:"🏰",tag:"КАРТА",title:"Объекты карты в 7.41: Рошан, Тормент, Шрайны и руны",text:"Рошан переезжает между двумя ямами, Тормент приходит с 15:00, руны мудрости заменили Шрайнами. Что где и когда.",slug:"map-objectives-741"},
- {cat:"gameplay",icon:"💰",tag:"ЭКОНОМИКА",title:"Золото и опыт: откуда берутся GPM и XPM",text:"Награда крипов, формула золота за убийство, потеря при смерти и цена выкупа — числа, по которым считается экономика матча.",slug:"gold-and-experience"},
- {cat:"gameplay",icon:"🏅",tag:"РЕЙТИНГ",title:"Ранги в Dota 2 и MMR",text:"Все 8 рангов, MMR для каждой звезды и сколько игроков в каждом ранге.",slug:"ranks-mmr"},
- {cat:"heroes",icon:"⚔",tag:"КОНТРПИКИ",title:"Таблица контрпиков",text:"Три самых неудобных соперника для каждого героя по 340 тысячам рейтинговых матчей.",slug:"counter-picks"},
- {cat:"gameplay",icon:"🤝",tag:"ПОВЕДЕНИЕ",title:"Порядочность: как поднять",text:"Что закрывает низкая порядочность, какие жалобы на неё влияют и как её поднять.",slug:"conduct-score"},
- {cat:"gameplay",icon:"⌨",tag:"НАСТРОЙКИ",title:"Консоль и FPS",text:"Как включить консоль, рабочие параметры запуска и настройки, которые поднимают FPS.",slug:"console-fps"},
- {cat:"gameplay",icon:"⏳",tag:"СТАТИСТИКА",title:"Сколько длится матч",text:"Медианная длительность рейтинга, обычных игр и Turbo по 500 тысячам матчей.",slug:"match-duration"},
- {cat:"gameplay",icon:"🏰",tag:"ЭКОНОМИКА",title:"Сколько золота даёт вышка",text:"Командная награда и золото за последний удар по тирам, денай башни и казармы — таблица на актуальный патч.",slug:"tower-gold"},
- {cat:"gameplay",icon:"⏱",tag:"ТАЙМИНГИ",title:"Тайминги матча: что происходит на карте по минутам",text:"Волны, руны, шрайны, Тормент и окно Рошана идут по расписанию. Полная таблица таймингов и как готовиться заранее.",slug:"match-timings"},
- {cat:"gameplay",icon:"📖",tag:"СЛОВАРЬ",title:"Словарь терминов Dota 2",text:"Что значат ластхит, денай, ганк, керри, MMR и другие термины — короткие объяснения с ссылками на подробные гайды.",slug:"glossary",href:"/glossary/"},
- {cat:"gameplay",icon:"⛔",tag:"ПОВЕДЕНИЕ",title:"Low Priority в Dota 2: за что дают и как выйти",text:"ЛП — отдельная очередь для нарушителей. За что туда попадают, какие ограничения действуют и как выбраться, не застряв там снова.",slug:"low-priority"},
- {cat:"gameplay",icon:"📶",tag:"НАСТРОЙКИ",title:"Пинг и потеря пакетов в Dota 2: как проверить и снизить",text:"Чем задержка отличается от потерь, как выбрать сервер и что реально можно исправить со своей стороны.",slug:"ping-packet-loss"},
- {cat:"gameplay",icon:"🎹",tag:"НАСТРОЙКИ",title:"Горячие клавиши в Dota 2: быстрый каст, каст на себя и группы юнитов",text:"Быстрое применение, каст на себя, группы юнитов и клавиши предметов — как настроить управление, чтобы не терять секунды в драке.",slug:"hotkeys-binds"},
- {cat:"gameplay",icon:"⚙",tag:"НАСТРОЙКИ",title:"Настройки Dota 2 для новичка: что включить сразу",text:"Автоатака, денай правой кнопкой, быстрый каст, миникарта и интерфейс. Настройки, которые упрощают игру с первого матча.",slug:"settings-for-beginners"},
- {cat:"heroes",icon:"🧮",tag:"ГЕРОИ",title:"Сколько героев в Dota 2 и как они делятся",text:"127 героев: по атрибутам, типу атаки и сложности. Подсчёт по данным Valve в каталоге сайта, а не по памяти.",slug:"how-many-heroes"},
- {cat:"gameplay",icon:"🎮",tag:"РЕЖИМЫ",title:"Режимы игры в Dota 2: All Pick, Turbo, Ranked и другие",text:"Чем отличаются режимы, какие убрали из рейтинга в 2026 году, сколько длятся матчи в каждом и с какого начать новичку.",slug:"game-modes"},
- {cat:"gameplay",icon:"🌀",tag:"РЕЖИМЫ",title:"Турбо в Dota 2: чем отличается и чему учит",text:"Турбо в полтора раза короче обычного матча и сильно меняет экономику. Что в нём полезно тренировать, а какие привычки потом мешают в обычной игре.",slug:"turbo-mode"},
- {cat:"gameplay",icon:"🌱",tag:"НОВИЧКУ",title:"Dota 2 для новичка: с чего начать",text:"Первые 20 матчей: какие режимы, героев и настройки выбрать, что учить в первую очередь и чего не делать.",slug:"beginner-start"},
- {cat:"heroes",icon:"🛡",tag:"ГЕРОИ",title:"Лучшие герои для новичков в Dota 2",text:"Какие герои простые по оценке Valve и чем они хороши. Список по ролям из 55 героев со сложностью 1 и почему «простой» не значит «сильный».",slug:"best-heroes-for-beginners"},
- {cat:"gameplay",icon:"🗡",tag:"РОЛИ",title:"Как играть на керри (позиция 1)",text:"Задачи керри по этапам матча: линия, фарм, первый ключевой предмет, участие в драках и выкуп. Что отличает хорошего керри от просто фармящего.",slug:"position-1-carry"},
- {cat:"gameplay",icon:"🌟",tag:"РОЛИ",title:"Как играть на миде (позиция 2)",text:"Линия один на один, руны, первые ганки и тайминги. Почему мидер отвечает за темп всей команды.",slug:"position-2-mid"},
- {cat:"gameplay",icon:"🪓",tag:"РОЛИ",title:"Как играть на оффлейне (позиция 3)",text:"Сложная линия, выживание, давление на керри противника, командные предметы и инициация. Что делает хорошего тройку.",slug:"position-3-offlane"},
- {cat:"gameplay",icon:"🏹",tag:"РОЛИ",title:"Как играть на четвёрке (позиция 4)",text:"Софт-саппорт: давление на линии, ротации, стаки, смок-ганки и предметы спасения. Как четвёрка задаёт темп первым 15 минутам.",slug:"position-4-soft-support"},
- {cat:"gameplay",icon:"🛟",tag:"РОЛИ",title:"Как играть на пятёрке (позиция 5)",text:"Хард-саппорт: защита керри на линии, пуллы, обзор, выживание в драках. Роль, от которой зависит, доживёт ли команда до поздней игры.",slug:"position-5-hard-support"},
- {cat:"gameplay",icon:"🌾",tag:"ЛИНИЯ",title:"Линия в Dota 2: как выиграть первые 10 минут",text:"Добивание, денай, позиция относительно волны, харасс и регенерация. Что решает исход линии и как понять, что ты её выиграл.",slug:"laning-stage"},
- {cat:"gameplay",icon:"🐺",tag:"МЕХАНИКИ",title:"Агро крипов: как управлять вниманием волны",text:"Почему крипы и башни переключаются на героя, как сбросить агро и как пользоваться этим, чтобы подтягивать волну к своей башне.",slug:"creep-aggro"},
- {cat:"gameplay",icon:"🌊",tag:"МЕХАНИКИ",title:"Управление волной: фриз, пуш и срез",text:"Как держать волну у своей башни, когда её выпушить и зачем резать волны противника. Навык, который отличает средний уровень от высокого.",slug:"wave-management"},
- {cat:"gameplay",icon:"🧲",tag:"ЛЕС",title:"Стаки и пуллы в Dota 2",text:"Как отвести лагерь, чтобы в нём появилась ещё одна группа, и как оттянуть нейтралов на свою волну. Два главных навыка саппорта в первые 10 минут.",slug:"stacking-pulling"},
- {cat:"gameplay",icon:"🌲",tag:"ЛЕС",title:"Лес в Dota 2: лагеря нейтралов после патча 7.41",text:"Типы лагерей, что поменял патч 7.41 на карте и как фармить лес так, чтобы он не отнимал время у линий.",slug:"neutral-camps-jungle"},
- {cat:"items",icon:"💎",tag:"ПРЕДМЕТЫ",title:"Нейтральные предметы: мадстоун, артефакты и зачарования",text:"Как работает создание нейтральных предметов с патча 7.38, когда открываются тиры и что поменял 7.41 в зачарованиях.",slug:"neutral-items-madstone"},
- {cat:"gameplay",icon:"💰",tag:"ФАРМ",title:"Как фармить быстрее в Dota 2",text:"Маршруты, совмещение линии и леса, предметы для фарма и главный принцип — не стоять на месте. Почему у одних керри к 20-й минуте два предмета, а у других один.",slug:"farming-efficiency"},
- {cat:"gameplay",icon:"🎯",tag:"РОТАЦИИ",title:"Ганки и ротации: как выбрать цель и время",text:"Когда уходить с линии, кого ганкать, как подойти незаметно и когда ганк не окупится. Практика для мида и саппортов.",slug:"ganking-rotations"},
- {cat:"items",icon:"🌫",tag:"ПРЕДМЕТЫ",title:"Smoke of Deceit: как пользоваться смоком",text:"Самый дешёвый предмет, который выигрывает матчи. Как работает смок, когда его использовать и почему засмоканная группа всё равно проваливает ганки.",slug:"smoke-of-deceit"},
- {cat:"gameplay",icon:"🔦",tag:"ОБЗОР",title:"Девард и борьба за обзор",text:"Как находить и снимать варды противника, какие инструменты для этого есть и почему девард иногда ценнее собственного варда.",slug:"dewarding-vision"},
- {cat:"gameplay",icon:"⚔",tag:"ДРАКИ",title:"Позиционирование в драках",text:"Где стоять керри, саппорту и инициатору, почему драки проигрываются ещё до первой способности и как не умирать первым.",slug:"teamfight-positioning"},
- {cat:"gameplay",icon:"🏰",tag:"ОБЪЕКТЫ",title:"Как брать хайграунд",text:"Когда идти на базу противника, что изменилось в 7.40 для башен четвёртого уровня и почему заход без Аегиса так часто заканчивается камбэком.",slug:"high-ground-siege"},
- {cat:"gameplay",icon:"🛡",tag:"ДРАКИ",title:"Как защищаться и делать камбэк",text:"Как отбивать заходы на базу, чем пользоваться при защите и когда отстающая команда может переломить матч.",slug:"defending-comebacks"},
- {cat:"gameplay",icon:"🔀",tag:"СТРАТЕГИЯ",title:"Сплит-пуш: давление на несколько линий",text:"Как один герой отвлекает всю команду противника, какие герои для этого подходят и где проходит граница между сплит-пушем и игрой в одиночку.",slug:"split-push"},
- {cat:"gameplay",icon:"💸",tag:"ЭКОНОМИКА",title:"Выкуп в Dota 2: сколько стоит и когда выкупаться",text:"Цена выкупа, штраф к возрождению и три ситуации, когда выкуп выигрывает матч. И столько же, когда он его проигрывает.",slug:"buyback-decisions"},
- {cat:"gameplay",icon:"🐦",tag:"ЛОГИСТИКА",title:"Курьер в Dota 2: как пользоваться",text:"Личный курьер, доставка без похода на базу, защита курьера и что изменил патч 7.40. Логистика, которая экономит минуты за матч.",slug:"courier-logistics"},
- {cat:"items",icon:"🌀",tag:"ПРЕДМЕТЫ",title:"Свиток телепортации: почему он всегда должен быть с собой",text:"100 золота, которые спасают жизни, башни и драки. Как пользоваться ТП и что поменялось в 7.41.",slug:"tp-scroll-usage"},
- {cat:"gameplay",icon:"🗺",tag:"КАРТА",title:"Миникарта: как научиться на неё смотреть",text:"Как превратить взгляд на миникарту в привычку, что на ней искать и как это спасает от ганков лучше любого варда.",slug:"minimap-awareness"},
- {cat:"gameplay",icon:"👥",tag:"МЕХАНИКИ",title:"Микроконтроль: как управлять юнитами и иллюзиями",text:"Группы, выбор всех юнитов, раздельные приказы и тренировка. Навык, без которого герои с юнитами теряют половину силы.",slug:"micro-units-illusions"},
- {cat:"heroes",icon:"🪞",tag:"ГЕРОИ",title:"Как играть против иллюзий",text:"Как отличить настоящего героя от копий, какие способности и предметы наказывают иллюзий и как не тратить на них ключевой контроль.",slug:"playing-vs-illusions"},
- {cat:"items",icon:"🔮",tag:"ПРЕДМЕТЫ",title:"Aghanim's Scepter и Shard: что дают и когда покупать",text:"Как работают улучшения способностей, сколько они стоят, как шард связан с Тормент после 7.41 и как понять, нужен ли аганим твоему герою.",slug:"aghanim-scepter-shard"},
- {cat:"heroes",icon:"🧬",tag:"МЕХАНИКИ",title:"Врождённые способности после 7.41: фасетов больше нет",text:"Патч 7.41 удалил фасеты из игры и изменил врождённые способности. Что это значит и как теперь читать описание героя.",slug:"innates-after-741"},
- {cat:"gameplay",icon:"📜",tag:"ПАТЧ",title:"Патч 7.41: главные изменения механик и карты",text:"Фасеты, лечение, вампиризм, отражённый урон, Тормент, Рошан, Шрайны мудрости и крипы. Разбор общих изменений патча 7.41 по официальным заметкам Valve.",slug:"patch-741-overview"},
- {cat:"gameplay",icon:"🎬",tag:"ОБУЧЕНИЕ",title:"Как разбирать свои реплеи",text:"Что смотреть в записи матча, чтобы найти настоящие причины поражений. Простая схема на 15 минут вместо просмотра всей игры.",slug:"replay-analysis"},
- {cat:"gameplay",icon:"📊",tag:"СТАТИСТИКА",title:"Как посмотреть свою статистику в Dota 2",text:"Как открыть публичные данные матчей, что показывают OpenDota, Dotabuff и Stratz и чего они показать не могут.",slug:"own-stats-sites"},
- {cat:"gameplay",icon:"💬",tag:"ОБЩЕНИЕ",title:"Общение в команде: пинги, колесо фраз и мьют",text:"Как договариваться с командой быстро и без конфликтов. Пинги, колесо фраз, голосовой чат и когда лучше всех заглушить.",slug:"team-communication"},
- {cat:"gameplay",icon:"➕",tag:"ПОДПИСКА",title:"Dota Plus: что даёт подписка и стоит ли её брать",text:"Помощник по предметам и навыкам, уровни героев, испытания и осколки. Что входит в подписку и почему она не даёт игрового преимущества.",slug:"dota-plus"},
- {cat:"items",icon:"🟨",tag:"ПРЕДМЕТЫ",title:"Black King Bar: когда собирать БКБ и как его применять",text:"Что именно даёт БКБ, почему его длительность падает с каждым применением, от чего он не спасает и как понять, что пора собирать.",slug:"black-king-bar"},
- {cat:"items",icon:"✨",tag:"ПРЕДМЕТЫ",title:"Blink Dagger: кому нужен даггер и как им пользоваться",text:"Мгновенное перемещение на 1200, запрет после урона и три улучшения за 6800. Кому даггер обязателен, а кому — пустая трата золота.",slug:"blink-dagger"},
- {cat:"items",icon:"🪙",tag:"ПРЕДМЕТЫ",title:"Hand of Midas: когда мидас окупается",text:"Мидас превращает крипа в 160 золота. Как считать, окупится ли он, кому его покупают и почему в быстрых матчах он чаще вредит.",slug:"hand-of-midas"},
- {cat:"items",icon:"🪄",tag:"ПРЕДМЕТЫ",title:"Magic Wand: почему его покупают почти все",text:"460 золота, до 20 зарядов и по 15 здоровья и маны за заряд. Разбор, почему палка спасает жизни на линии и когда её можно не покупать.",slug:"magic-wand"},
- {cat:"items",icon:"🩸",tag:"ПРЕДМЕТЫ",title:"Как резать лечение в Dota 2: Spirit Vessel, Skadi и изменения 7.41",text:"Патч 7.41 изменил работу восстановления здоровья: снижение теперь режет все виды лечения. Что это значит и какие предметы брать против хила.",slug:"heal-reduction-741"},
- {cat:"items",icon:"🧹",tag:"МЕХАНИКИ",title:"Развеивание в Dota 2: что снимает эффекты и что нет",text:"Обычное и сильное развеивание, какие предметы его дают и почему часть эффектов не снимается ничем, кроме способностей.",slug:"dispel-basics"},
- {cat:"gameplay",icon:"🧊",tag:"ОБУЧЕНИЕ",title:"Тильт в Dota 2: как не сливать серию матчей",text:"Почему после двух поражений играется хуже, как распознать тильт до того, как он стоит рейтинга, и простые правила остановки.",slug:"tilt-control"},
- {cat:"gameplay",icon:"💀",tag:"ОБУЧЕНИЕ",title:"Как меньше умирать в Dota 2: главные причины смертей",text:"Смерть стоит золота, времени и даёт противнику награду. Разбор типичных причин смертей и привычек, которые их убирают.",slug:"how-not-to-die"},
- {cat:"gameplay",icon:"🌫",tag:"КАРТА",title:"Обзор в Dota 2: туман войны, возвышенности и деревья",text:"Как работает обзор: почему снизу не видно наверх, как деревья закрывают видимость и как это использовать в засадах и отступлении.",slug:"vision-fog-of-war"},
-];
 const heroSlug={"Anti-Mage":"antimage","Ancient Apparition":"ancient_apparition","Arc Warden":"arc_warden","Batrider":"batrider","Beastmaster":"beastmaster","Bloodseeker":"bloodseeker","Bounty Hunter":"bounty_hunter","Brewmaster":"brewmaster","Bristleback":"bristleback","Broodmother":"broodmother","Centaur Warrunner":"centaur","Chaos Knight":"chaos_knight","Clockwerk":"rattletrap","Crystal Maiden":"crystal_maiden","Dawnbreaker":"dawnbreaker","Death Prophet":"death_prophet","Dragon Knight":"dragon_knight","Drow Ranger":"drow_ranger","Earth Spirit":"earth_spirit","Earthshaker":"earthshaker","Elder Titan":"elder_titan","Ember Spirit":"ember_spirit","Enchantress":"enchantress","Faceless Void":"faceless_void","Grimstroke":"grimstroke","Gyrocopter":"gyrocopter","Hoodwink":"hoodwink","Huskar":"huskar","Invoker":"invoker","Io":"wisp","Jakiro":"jakiro","Juggernaut":"juggernaut","Keeper of the Light":"keeper_of_the_light","Kez":"kez","Kunkka":"kunkka","Largo":"largo","Legion Commander":"legion_commander","Leshrac":"leshrac","Lich":"lich","Lifestealer":"life_stealer","Lina":"lina","Lion":"lion","Lone Druid":"lone_druid","Luna":"luna","Lycan":"lycan","Magnus":"magnataur","Marci":"marci","Mars":"mars","Medusa":"medusa","Meepo":"meepo","Mirana":"mirana","Monkey King":"monkey_king","Morphling":"morphling","Muerta":"muerta","Naga Siren":"naga_siren","Nature's Prophet":"furion","Necrophos":"necrolyte","Night Stalker":"night_stalker","Nyx Assassin":"nyx_assassin","Ogre Magi":"ogre_magi","Omniknight":"omniknight","Oracle":"oracle","Outworld Destroyer":"obsidian_destroyer","Pangolier":"pangolier","Phantom Assassin":"phantom_assassin","Phantom Lancer":"phantom_lancer","Phoenix":"phoenix","Primal Beast":"primal_beast","Puck":"puck","Pudge":"pudge","Pugna":"pugna","Queen of Pain":"queenofpain","Razor":"razor","Riki":"riki","Ringmaster":"ringmaster","Rubick":"rubick","Sand King":"sand_king","Shadow Demon":"shadow_demon","Shadow Fiend":"nevermore","Shadow Shaman":"shadow_shaman","Silencer":"silencer","Skywrath Mage":"skywrath_mage","Slardar":"slardar","Slark":"slark","Snapfire":"snapfire","Sniper":"sniper","Spectre":"spectre","Spirit Breaker":"spirit_breaker","Storm Spirit":"storm_spirit","Sven":"sven","Techies":"techies","Templar Assassin":"templar_assassin","Terrorblade":"terrorblade","Tidehunter":"tidehunter","Timbersaw":"shredder","Tinker":"tinker","Tiny":"tiny","Treant Protector":"treant","Troll Warlord":"troll_warlord","Tusk":"tusk","Underlord":"abyssal_underlord","Undying":"undying","Ursa":"ursa","Vengeful Spirit":"vengeful_spirit","Venomancer":"venomancer","Viper":"viper","Visage":"visage","Void Spirit":"void_spirit","Warlock":"warlock","Weaver":"weaver","Windranger":"windrunner","Winter Wyvern":"winter_wyvern","Witch Doctor":"witch_doctor","Wraith King":"skeleton_king","Zeus":"zuus"};
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 function slugForHero(h){const raw=String(h?.name||h?.localized_name||"").replace(/^npc_dota_hero_/,'');return heroSlug[h?.localized_name]||heroSlug[h?.name]||raw||"";}
 // Портреты героев и иконки способностей лежат в репозитории (assets/heroes/,
 // assets/abilities/) — на CDN Valve остаются только видеоролики, которые
 // хостить у себя нецелесообразно.
-function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.png`;}
+function imageUrl(h){return `/assets/heroes/${slugForHero(h)}.webp`;}
 function itemSlug(name){return String(name||"").replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');}
 // Иконки лежат в репозитории (assets/items/): путь приходит готовым из
 // items-ru.json, у рецепта это иконка предмета, который из него собирается.
@@ -187,7 +106,7 @@ function normalizeItems(list){
   // Название рецепта берём от предмета: у OpenDota это либо английское
   // «X Recipe», либо (у трёх штук) вообще пусто, и тогда на карточку попадал
   // внутренний ключ вида recipe_wraith_pact.
-  for(const i of keep){const t=recipeTarget(i);if(t)i.dname=`${byKey.get(t).dname} — рецепт`;}
+  for(const i of keep){const t=recipeTarget(i);if(t)i.dname=`${byKey.get(t).dname} Recipe`;}
   return keep.sort((a,b)=>String(a.dname).localeCompare(String(b.dname)));
 }
 // Pro-stat enrichment: some hero-list sources in the loadHeroes() race (Valve's
@@ -379,7 +298,7 @@ function renderItems(){
     const cat=itemCategory(x);
     const catOk=category==='all'||cat===category||(category==='shop'&&cat==='item');
     const text=String(x.dname||'')+' '+itemDescriptionText(x)+' '+String(x.lore||'');
-    return priceOk&&catOk&&text.toLowerCase().includes(q);
+    return priceOk&&catOk&&(text.toLowerCase().includes(q)||(window.D2HSearch?D2HSearch.itemMatch(x,q):false));
   });
   const grid=document.getElementById('itemsGrid');
   if(!grid)return;
@@ -401,7 +320,9 @@ function renderHeroSpotlight(){const el=document.getElementById('featured');if(!
 // Карточка ведёт на статическую страницу героя: она проиндексирована и
 // содержит описание, а модальное окно этого не давало.
 function heroCard(h,mini=false){const a=attrInfo(h.primary_attr),name=escapeHtml(h.localized_name);return `<a class="hero-card ${mini?'mini-hero-card':''}" href="/hero/${escapeHtml(slugForHero(h))}/" aria-label="${name}" data-id="${h.id}"><img loading="lazy" src="${imageUrl(h)}" alt="${name}"><div class="hero-info"><div class="hero-name">${name}<span class="hr-badges" data-hero-badges="${h.id}"></span></div><div class="hero-role">${escapeHtml(roleText(h))}</div><span class="attr">${a[0]} ${escapeHtml(a[1])}</span></div></a>`;}
-function renderHeroes(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const list=heroes.filter(h=>(filter==='all'||h.primary_attr===filter)&&(h.localized_name||'').toLowerCase().includes(q));d2hSetHtml('heroesGrid',list.length?list.map(h=>heroCard(h)).join(''):'<div class="empty">Герой не найден 😢</div>');}
+// Поиск героя: оригинальное имя + синонимы Dota 2 (js/search.js).
+function d2hHeroMatch(h,q){return window.D2HSearch?D2HSearch.heroMatch(h,q):(h.localized_name||'').toLowerCase().includes(q);}
+function renderHeroes(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const list=heroes.filter(h=>(filter==='all'||h.primary_attr===filter)&&d2hHeroMatch(h,q));d2hSetHtml('heroesGrid',list.length?list.map(h=>heroCard(h)).join(''):'<div class="empty">Герой не найден 😢</div>');}
 function renderFeaturedHeroes(){const el=document.getElementById('featuredHeroesGrid');if(!el)return;const picks=heroes.filter(h=>h.pro_pick>0).sort((a,b)=>wrScore(b)-wrScore(a)).slice(0,4);const arr=picks.length?picks:heroes.slice(0,4);el.innerHTML=arr.map(h=>`<article class="featured-hero-card" data-id="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${h.pro_pick?winrate(h).toFixed(1)+'% pro WR · '+h.pro_pick+' пик.':'Профиль героя'}</span></div></article>`).join('');}
 // Самые покупаемые предметы — из того же локального индекса. Раньше блок
 // опрашивал OpenDota по десяти героям и на статике показывал «Выборка: 0».
@@ -424,7 +345,7 @@ function renderStats(){
   const attr=document.getElementById('statsAttr')?.value||'all';
   const atk=document.getElementById('statsAttack')?.value||'all';
   const role=document.getElementById('statsRole')?.value||'all';
-  let list=heroes.filter(h=>(h.localized_name||'').toLowerCase().includes(q)
+  let list=heroes.filter(h=>d2hHeroMatch(h,q)
     &&(attr==='all'||h.primary_attr===attr)
     &&(atk==='all'||h.attack_type===atk)
     &&(role==='all'||(role.startsWith('POSITION_')?(h.mainPositions||[]).includes(role):(h.roles||[]).includes(role))));
@@ -459,25 +380,32 @@ function renderStats(){
   </div><div class="stats-source-note">Источник профессиональных показателей: OpenDota Hero Stats. Winrate считается как Pro Wins / Pro Picks; герои с менее чем 20 pro picks не используются для карточки «лучший winrate».</div>`;
   if(document.getElementById('itemAnalytics') && !document.getElementById('itemAnalytics').dataset.loaded){document.getElementById('itemAnalytics').dataset.loaded='1';loadItemAnalytics();}
 }
-// Адрес гайда — /guide/<slug>/, кроме карточек со своим href: словарь терминов
-// живёт на /glossary/, и без этого ссылка вела на несуществующий /guide/glossary/.
-function guideHref(g){return g.href||`/guide/${g.slug}/`;}
-function renderGuides(){const list=guideData.filter(g=>guideFilter==='all'||g.cat===guideFilter);d2hSetHtml('guidesGrid',list.map(g=>`<article class="guide-card guide-rich-card"><div class="guide-art">${g.icon}</div><div><span>${g.tag}</span><h3><a href="${guideHref(g)}" style="color:inherit;text-decoration:none;">${g.title}</a></h3><p>${g.text}</p><a class="btn ghost guide-open" href="${guideHref(g)}">Читать гайд →</a></div><b>↗</b></article>`).join(''));}
 function randomHero(){if(!heroes.length)return;const h=heroes[Math.floor(Math.random()*heroes.length)];const rt=document.getElementById('randomToolText');if(rt)rt.textContent=`Сегодня судьба выбрала ${h.localized_name}. ${roleText(h)}.`;openHero(h.id);}
 // Строка пяти позиций в карточке героя. Пусто, пока снимок не загружен —
 // показывать рамку без чисел хуже, чем не показывать ничего.
 // Роли и базовые статы — один блок с общей сеткой колонок, как на странице
 // героя. Если снимок позиций ещё не пришёл, показываем одни статы: пустая
 // рамка вместо чисел хуже, чем её отсутствие.
+function statGridInner(stats){const c=(stats||[]).map(x=>`<div><small>${escapeHtml(String(x.k))}</small><strong>${escapeHtml(String(x.v))}</strong></div>`).join('');return c?`<div class="hs-label"><small>На 1-м</small><strong>уровне</strong></div>${c}`:'';}
 function heroRolesRowHtml(h,stats){
   const R=window.D2HRoles;
   const e=(R&&heroPositions)?heroPositions.heroes[String(h.id)]:null;
   const row=e?R.rowHtml(e,{escapeHtml}):'';
   const statCells=(stats||[]).map(x=>`<div><small>${escapeHtml(String(x.k))}</small><strong>${escapeHtml(String(x.v))}</strong></div>`).join('');
   const note=(row&&R)?`<p class="hr-note">${escapeHtml(R.sourceNote(heroPositions))}</p>`:'';
-  return `<section class="hp-bars detail-bars">${row}<div class="hp-statbar-grid"><div class="hs-label"><small>Базовые</small><strong>статы</strong></div>${statCells}</div>${note}</section>`;
+  return `<section class="hp-bars detail-bars">${row}<div class="hp-statbar-grid" data-hero-base${statCells?'':' hidden'}>${statGridInner(stats)}</div>${note}</section>`;
 }
-function heroStats(h){return [{k:'HP',v:h.base_health!=null?h.base_health:(h.base_str||0)*22+120},{k:'Mana',v:h.base_mana!=null?h.base_mana:(h.base_int||0)*12+75},{k:'Armor',v:h.base_agi!=null?(h.base_agi/6).toFixed(1):'—'},{k:'Damage',v:h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'},{k:'Move Speed',v:h.move_speed||'—'}];}
+// Характеристики 1-го уровня — официальный datafeed Valve, тот же файл, что у страниц героев
+// (tools/valve-hero-stats.js → data/hero-base-stats.json). Раньше окно брало base_health/base_mana
+// OpenDota — константы 120/75 без атрибутов. Нет данных — строка не выводится.
+const HERO_BASE_LOCAL="/data/hero-base-stats.json";
+let heroBase=null,heroBaseLoading=null;
+function loadHeroBase(){
+  if(heroBase)return Promise.resolve(heroBase);
+  if(!heroBaseLoading)heroBaseLoading=fetch(HERO_BASE_LOCAL).then(r=>r.ok?r.json():{}).then(j=>(heroBase=j.heroes||{})).catch(e=>{console.warn('hero-base-stats.json:',e.message);heroBaseLoading=null;return {};});
+  return heroBaseLoading;
+}
+function heroStats(h){const v=heroBase&&heroBase[h.id];if(!v)return [];const arm=Number(v.armor);return [{k:'Здоровье',v:v.hp},{k:'Мана',v:v.mp},{k:'Броня',v:Number.isFinite(arm)?arm.toFixed(1).replace('.',','):'—'},{k:'Урон',v:`${v.dmin}–${v.dmax}`},{k:'Скорость',v:v.ms}];}
 
 // --- Quick Prep: "60 секунд до пика" ---
 function quickPrepOptions(){const dl=document.getElementById('quickPrepHeroes');if(dl)dl.innerHTML=heroes.map(h=>`<option value="${escapeHtml(h.localized_name)}">`).join('');const chipsEl=document.getElementById('quickPrepChips');if(chipsEl){const top=[...heroes].filter(h=>Number(h.pro_pick||0)>0).sort((a,b)=>Number(b.pro_pick||0)-Number(a.pro_pick||0)).slice(0,5);const arr=top.length?top:heroes.slice(0,5);chipsEl.innerHTML=`<small>Попробуй:</small>`+arr.map(h=>`<button type="button" class="chip" data-quick-hero="${h.id}">${escapeHtml(h.localized_name)}</button>`).join('');}}
@@ -677,7 +605,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);bindHeroRoleSwitch(h);loadHeroAbilities(h);fillHeroCounters(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);if(!stats.length)loadHeroBase().then(()=>{const g=document.querySelector('#modalContent .detail-bars [data-hero-base]');const st=heroStats(h);if(g&&st.length&&document.querySelector(`#modalContent a[href="/hero/${slugForHero(h)}/"]`)){g.innerHTML=statGridInner(st);g.hidden=false;}});document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);bindHeroRoleSwitch(h);loadHeroAbilities(h);fillHeroCounters(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который
@@ -788,7 +716,6 @@ document.addEventListener('error',e=>{const img=e.target;if(!(img instanceof HTM
 // DATA BOOT: render guaranteed local data before optional UI event wiring.
 // This keeps file:// preview usable even if a non-critical control is missing.
 try{
-  renderGuides();
   const heroBootPromise=loadHeroes();
   const itemBootPromise=loadItems();
   // SEO deep link: static hero pages (/hero/<slug>/) link back here with ?openHero=<id>
@@ -816,9 +743,9 @@ click('resetChip',()=>{filter='all';if($('search'))$('search').value='';document
 on('statsSearch','input',renderStats);on('statsSort','change',renderStats);on('statsAttr','change',renderStats);on('statsAttack','change',renderStats);on('statsRole','change',renderStats);
 click('statsRefresh',()=>{d2hClearCache();loadHeroes(true);loadItems(true);});click('compareBtn',compareHeroes);
 on('itemSearch','input',renderItems);
+window.D2HSearch&&D2HSearch.onReady(()=>{if($('search')?.value)renderHeroes();if($('itemSearch')?.value)renderItems();if($('statsSearch')?.value)renderStats();});
 document.querySelectorAll('.item-filter').forEach(b=>b.addEventListener('click',()=>{itemFilter=b.dataset.itemFilter;document.querySelectorAll('.item-filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderItems();}));
 document.querySelectorAll('.item-category').forEach(b=>b.addEventListener('click',()=>{window.itemCategoryFilter=b.dataset.itemCategory;document.querySelectorAll('.item-category').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderItems();}));
-document.querySelectorAll('.guide-filter').forEach(b=>b.addEventListener('click',()=>{guideFilter=b.dataset.guideFilter;document.querySelectorAll('.guide-filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderGuides();}));
 // Сетка героев — обычные ссылки: клик, средняя кнопка, Enter и «открыть в
 // новой вкладке» работают сами, без перехвата.
 on('featuredHeroesGrid','click',e=>{const c=e.target.closest('.featured-hero-card');if(c){const h=heroes.find(x=>Number(x.id)===Number(c.dataset.id));if(h)location.href='/hero/'+slugForHero(h)+'/';}});
@@ -827,7 +754,6 @@ on('statsExtra','click',e=>{const b=e.target.closest('button[data-id]');if(b)ope
 on('quickPrepInput','input',e=>quickPrepSelectByName(e.target.value));
 on('quickPrepChips','click',e=>{const b=e.target.closest('[data-quick-hero]');if(!b)return;const h=heroes.find(x=>Number(x.id)===Number(b.dataset.quickHero));if(h){const inp=document.getElementById('quickPrepInput');if(inp)inp.value=h.localized_name;renderQuickPrep(h);}});
 on('quickPrepResult','click',e=>{const hb=e.target.closest('[data-hero-open]');if(hb){openHero(Number(hb.dataset.heroOpen));return;}const io_=e.target.closest('[data-item-open]');if(io_){openItem(io_.dataset.itemOpen);return;}const ib=e.target.closest('[data-item-by-name]');if(ib){const term=ib.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);}});
-on('guidesGrid','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 on('modalContent','click',e=>{const b=e.target.closest('[data-go]');if(b){closeModal();go(b.dataset.go);}});
 click('randomBtn',randomHero);
 click('close',closeModal);click('modalBg',closeModal);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('modal')?.classList.contains('show'))closeModal();});

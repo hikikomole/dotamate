@@ -152,7 +152,7 @@ async function main() {
 
   const heroes = (d.heroes || []).map(h => {
     const meta = H[h.hero_id] || null;
-    const img = meta ? '/assets/heroes/' + meta.slug + '.png' : null;
+    const img = meta ? '/assets/heroes/' + meta.slug + '.webp' : null;
     if (img && !exists(img)) missing.push('герой ' + meta.slug);
     return {
       id: h.hero_id,

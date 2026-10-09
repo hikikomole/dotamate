@@ -4,8 +4,8 @@
 .mx{--mx-rad:#5fbf6b;--mx-dire:#d9534f;--mx-panel:var(--d2-panel,#101216);--mx-line:var(--d2-line,#23272f)}
 body.d2-dark .mx{background:none!important}
 
-.mx-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin:6px 0 22px}
-body.d2-dark .mx-title{margin:6px 0 0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(30px,4vw,46px)!important;line-height:1.05!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
+.mx-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin:0 0 22px}
+body.d2-dark .mx-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(30px,4vw,50px)!important;line-height:1.02!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
 .mx-lead{margin:12px 0 0;max-width:680px;font-size:14.5px;line-height:1.6;color:var(--d2-muted,#98a1ae)}
 .mx-stamp{flex-shrink:0;text-align:right;font-size:12px;line-height:1.7;color:var(--d2-muted,#98a1ae)}
 .mx-stamp b{color:var(--d2-gold,#d9c187)}
@@ -69,6 +69,10 @@ body.d2-dark .mx-search input{width:160px;background:transparent!important;borde
 .mx-check input{accent-color:var(--d2-gold,#d9c187)}
 .mx-scroll{max-height:min(760px,78vh);overflow-y:auto;overscroll-behavior:contain;padding:2px 6px 2px 2px;border-top:1px solid var(--d2-line-soft,#1a1e24);border-bottom:1px solid var(--d2-line-soft,#1a1e24);padding-top:12px;padding-bottom:12px}
 .mx-scroll:focus-visible{outline:1px solid var(--d2-gold-dim,#8d7b4f)}
+/* Таблица внутри списка не прокручивается сама (общий .table-wrap даёт max-height:560px):
+   прокручивается .mx-scroll, по нему и идёт подгрузка. Вбок — по-прежнему внутри таблицы. */
+.mx-scroll .table-wrap{max-height:none;overflow:visible}
+@media(max-width:900px){.mx-scroll .table-wrap{overflow-x:auto;overflow-y:hidden}}
 body.d2-dark .mx-scroll .mx-table thead th{position:sticky;top:-12px;background:var(--d2-bg,#07080a)!important;z-index:1}
 .mx-sentinel{padding:14px;text-align:center;font-size:12px;color:var(--d2-muted-2,#6d7683)}
 .mx-more-btn{cursor:pointer;color:var(--d2-gold,#d9c187);font-weight:700}
@@ -176,3 +180,7 @@ i.nw{background:var(--d2-gold,#d9c187)}
   .mm-head{grid-template-columns:1fr 1fr;padding:16px}.mm-mid{grid-column:1/-1;order:-1}
   .mm-side b{font-size:34px}
 }
+/* Резерв места до загрузки данных: без него страница «прыгает» (CLS) */
+.mx-stamp{min-height:61px}
+.mx-scroll:has(#mxList:empty){min-height:min(760px,78vh)}
+@media(max-width:760px){.mx-stamp{min-height:82px}}

@@ -229,7 +229,7 @@ def main():
     for key, it in built.items():
         t = it["recipeFor"]
         if t and t in built:
-            it["dname"] = built[t]["dname"] + " — рецепт"
+            it["dname"] = built[t]["dname"] + " Recipe"  # как в английском клиенте Valve
             it["desc"] = [{"h": "", "t": "Рецепт для сборки предмета %s%s." %
                            (built[t]["dname"], (". Стоит %s золота" % it["cost"]) if it["cost"] else "")}]
             it["descOwn"] = True

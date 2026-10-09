@@ -5,6 +5,7 @@
 // guide/item pages by design -- this page exists partly to strengthen
 // that link graph for SEO.
 
+const siteNav = require('./tools/site-nav');
 const fs = require('fs');
 const path = require('path');
 const terms = require('./glossary-content.js');
@@ -38,8 +39,7 @@ const termsHtml = terms.map(t => `<div class="detail-section" style="margin-bott
 ${t.link ? `<a href="${t.link}" style="font-size:13px;font-weight:700;">${escapeHtml(t.linkText)} →</a>` : ''}
 </div>`).join('');
 
-const bodyHtml = `<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"><a href="/">Главная</a> / Словарь терминов</nav>
-<div class="eyebrow">СЛОВАРЬ</div>
+const bodyHtml = `<nav aria-label="breadcrumb" style="font-size:14px;opacity:.7;margin-bottom:16px;"> / Словарь терминов</nav>
 <h1 style="margin:6px 0 8px;">Словарь терминов Dota 2</h1>
 <p style="font-size:13px;opacity:.6;margin:0 0 20px;">Обновлено: ${updated}</p>
 <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">Короткие объяснения ${terms.length} терминов, которые чаще всего сбивают с толку новичков — от «ластхита» до MMR. Где нужно — ссылка на подробный гайд.</p>
@@ -57,7 +57,7 @@ const html = `<!doctype html>
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -68,7 +68,7 @@ const html = `<!doctype html>
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
@@ -81,7 +81,7 @@ ${analyticsSnippet}
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a></nav>
+    ${siteNav.navHtml('guides')}
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
@@ -89,7 +89,7 @@ ${analyticsSnippet}
 <main class="container article-main" style="padding-top:24px;padding-bottom:56px;max-width:820px;">
 ${bodyHtml}
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;

@@ -1,0 +1,85 @@
+/* Dota Mate — каталог /guides/ (разметка: build-pages.js guidesCatalog, логика: js/guides.js). */
+.gd{--gd-c:var(--d2-gold)}
+.gd-c-novice{--gd-c:#6fc46f}.gd-c-roles{--gd-c:#d9c187}.gd-c-mech{--gd-c:#5aa9e6}.gd-c-map{--gd-c:#4fc1b0}
+.gd-c-items{--gd-c:#c98cf0}.gd-c-team{--gd-c:#e4575a}.gd-c-rank{--gd-c:#e9965a}.gd-c-settings{--gd-c:#98a1ae}
+.gd-c-heroes{--gd-c:#e0b85a}.gd-c-patch{--gd-c:#8fa8ff}.gd-c-esports{--gd-c:#ff7ab6}
+.gd-card[data-grp=novice]{--gd-c:#6fc46f}.gd-card[data-grp=roles]{--gd-c:#d9c187}.gd-card[data-grp=mech]{--gd-c:#5aa9e6}.gd-card[data-grp=map]{--gd-c:#4fc1b0}
+.gd-card[data-grp=items]{--gd-c:#c98cf0}.gd-card[data-grp=team]{--gd-c:#e4575a}.gd-card[data-grp=rank]{--gd-c:#e9965a}.gd-card[data-grp=settings]{--gd-c:#98a1ae}
+.gd-card[data-grp=heroes]{--gd-c:#e0b85a}.gd-card[data-grp=patch]{--gd-c:#8fa8ff}.gd-card[data-grp=esports]{--gd-c:#ff7ab6}
+
+/* Шапка и поле поиска — общие классы главной (css/home-hero.css: .hm-top, .hm-find). */
+
+.gd-top{margin-bottom:22px}
+/* У секции уже есть общий отступ 30 px от шапки — второй (.hm-top) убираем. */
+.hm-top.gd-top{padding-top:0}
+
+.gd-chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 26px}
+.gd-chip{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--d2-line);background:var(--d2-panel-2);color:var(--d2-muted);font:600 13px/1 inherit;cursor:pointer;text-decoration:none;transition:color .15s,border-color .15s,background .15s}
+.gd-chip i{font-style:normal;font-size:11px;color:var(--d2-muted-2)}
+.gd-chip:hover{color:var(--d2-text);border-color:var(--d2-gold-dim)}
+.gd-chip.is-active{background:var(--d2-gold);border-color:var(--d2-gold);color:#14110a}
+.gd-chip.is-active i{color:rgba(20,17,10,.65)}
+.gd-chip.is-active .gd-subs{display:flex;gap:6px;flex-wrap:wrap;margin:-12px 0 26px;padding:12px;border:1px solid var(--d2-line-soft);border-radius:var(--rad-md);background:var(--d2-panel)}
+.gd-subs[hidden]{display:none}
+.gd-sub{height:32px;padding:0 12px;border-radius:999px;border:1px solid transparent;background:none;color:var(--d2-muted);font:600 12.5px/1 inherit;cursor:pointer}
+.gd-sub i{font-style:normal;font-size:11px;color:var(--d2-muted-2);margin-left:3px}
+.gd-sub:hover{color:var(--d2-text);border-color:var(--d2-line)}
+.gd-sub.is-active{color:#c98cf0;border-color:color-mix(in srgb,#c98cf0 45%,transparent);background:color-mix(in srgb,#c98cf0 10%,transparent)}
+.gd-sub:focus-visible{outline:2px solid var(--d2-gold);outline-offset:2px}
+.gd-dot{background:#14110a}
+.gd .gd-chip--link{font-size:13px;letter-spacing:0;text-transform:none;color:var(--d2-muted)}
+.gd-dot{width:8px;height:8px;border-radius:50%;background:var(--gd-c)}
+.gd-chip:focus-visible,.gd-card:focus-visible,.gd-hero-pill:focus-visible{outline:2px solid var(--d2-gold);outline-offset:2px}
+
+.gd-h{margin:0 0 14px;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--d2-muted);font-weight:800}
+.gd-list-head[hidden],.gd-empty[hidden],.gd-heroes[hidden],.gd-feat-wrap[hidden]{display:none}
+.gd-list-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.gd-count{color:var(--d2-muted-2);font-size:13px}
+.gd-feat-wrap{margin-bottom:30px}
+.gd-feat{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+.gd-card{position:relative;display:flex;gap:14px;padding:18px;border:1px solid var(--d2-line);border-radius:var(--rad-lg);background:var(--d2-panel);color:var(--d2-text);text-decoration:none;transition:transform .18s,border-color .18s,background .18s;min-width:0;overflow:hidden}
+.gd-card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:0 3px 3px 0;background:var(--gd-c);opacity:.85}
+.gd-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--gd-c) 55%,var(--d2-line));background:var(--d2-panel-2)}
+.gd-card[hidden]{display:none}
+.gd-ico{flex:0 0 46px;height:46px;display:grid;place-items:center;font-size:22px;border-radius:12px;background:color-mix(in srgb,var(--gd-c) 14%,transparent);border:1px solid color-mix(in srgb,var(--gd-c) 28%,transparent);color:var(--gd-c)}
+.gd-body{display:flex;flex-direction:column;gap:6px;min-width:0}
+.gd-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--d2-muted-2)}
+.gd-grp{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gd-c);font-weight:800}
+.gd-title{font-size:16px;line-height:1.3;font-weight:700}
+.gd-ex{font-size:13px;line-height:1.5;color:var(--d2-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gd-card--feat{flex-direction:column;padding:22px 20px;background:linear-gradient(160deg,color-mix(in srgb,var(--gd-c) 10%,var(--d2-panel)),var(--d2-panel) 60%)}
+.gd-card--feat::before{left:20px;right:auto;top:0;bottom:auto;width:40px;height:3px;border-radius:0 0 3px 3px}
+.gd-card--feat .gd-ico{flex-basis:auto;width:52px;height:52px;font-size:26px}
+.gd-card--feat .gd-ex{-webkit-line-clamp:3}
+
+.gd-heroes{margin-bottom:28px}
+.gd-hero-list{display:flex;flex-wrap:wrap;gap:10px}
+.gd-hero-pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border:1px solid var(--d2-line);border-radius:10px;background:var(--d2-panel);color:var(--d2-text);text-decoration:none;font-weight:600;font-size:14px;transition:border-color .15s}
+.gd-hero-pill img{width:48px;height:27px;object-fit:cover;border-radius:6px}
+.gd-hero-pill:hover{border-color:var(--d2-gold-dim)}
+.gd-hero-pill span::after{content:" — гайд";color:var(--d2-muted-2);font-weight:500}
+
+.gd-empty{display:flex;flex-direction:column;gap:6px;align-items:center;padding:46px 20px;border:1px dashed var(--d2-line);border-radius:var(--rad-lg);color:var(--d2-muted);text-align:center}
+.gd-empty b{color:var(--d2-text);font-size:16px}
+.gd-link{background:none;border:0;padding:0;color:var(--d2-gold);font:inherit;cursor:pointer;text-decoration:underline}
+
+@media(max-width:1100px){.gd-feat{grid-template-columns:repeat(2,1fr)}.gd-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+  .gd-chips{flex-wrap:nowrap;overflow-x:auto;padding:0 0 4px;scrollbar-width:none}
+  .gd-chips::-webkit-scrollbar{display:none}
+  .gd-chip{flex:0 0 auto}
+  .gd-subs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.gd-sub{flex:0 0 auto}
+  .gd-grid,.gd-feat{grid-template-columns:1fr}
+  .gd-card--feat{flex-direction:row;padding:18px}.gd-card--feat .gd-ico{width:46px;height:46px;font-size:22px}
+  .gd-card--feat::before{left:0;top:18px;bottom:18px;width:3px;height:auto;border-radius:0 3px 3px 0}
+}
+@media(prefers-reduced-motion:reduce){.gd-card,.gd-chip{transition:none}.gd-card:hover{transform:none}}
+
+/* Темы — всегда одной строкой: компактные чипы; если не помещается (узкий экран) — прокрутка вбок. */
+.gd-chips{flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.gd-chips::-webkit-scrollbar{display:none}
+.gd-chip{flex:0 0 auto;height:36px;padding:0 10px;gap:5px;font-size:12.5px;white-space:nowrap}
+.gd-chip i{font-size:10.5px}
+.gd .gd-chip--link{padding:0 10px;font-size:15px}

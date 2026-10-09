@@ -282,5 +282,605 @@
   {
     "loc": "https://dotamate.ru/guide/vision-fog-of-war/",
     "name": "Обзор в Dota 2: туман войны, возвышенности и деревья"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/battle-fury/",
+    "name": "Battle Fury: кому собирать и как он ускоряет фарм"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/radiance/",
+    "name": "Radiance: кому собирать радик и что он даёт"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/desolator/",
+    "name": "Desolator: как работает дезолятор и кому его брать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/daedalus/",
+    "name": "Daedalus: шанс крита, урон и кому собирать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/butterfly/",
+    "name": "Butterfly: уклонение, скорость атаки и кому брать бабочку"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/euls-wind-waker/",
+    "name": "Eul's Scepter и Wind Waker: как пользоваться еулом"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/force-staff-hurricane-pike/",
+    "name": "Force Staff и Hurricane Pike: как пользоваться форсом"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/glimmer-cape/",
+    "name": "Glimmer Cape: невидимость и барьер для саппорта"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/manta-style/",
+    "name": "Manta Style: иллюзии, развеивание и кому собирать манту"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/linkens-sphere/",
+    "name": "Linken's Sphere: как работает линка и кому её брать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/lotus-orb/",
+    "name": "Lotus Orb: как отражать заклинания лотусом"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/blade-mail/",
+    "name": "Blade Mail: как работает возврат урона"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/shadow-blade-silver-edge/",
+    "name": "Shadow Blade и Silver Edge: инвиз, урон и отключение пассивок"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/scythe-of-vyse/",
+    "name": "Scythe of Vyse: хекс, кому собирать и как применять"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/orchid-bloodthorn/",
+    "name": "Orchid и Bloodthorn: сайленс, урон и пробитие уклонения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/refresher-orb/",
+    "name": "Refresher Orb: когда рефрешер окупается"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/satanic/",
+    "name": "Satanic: вампиризм и когда собирать сатаник"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/heart-of-tarrasque/",
+    "name": "Heart of Tarrasque: сколько лечит и кому собирать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/assault-cuirass/",
+    "name": "Assault Cuirass: аура брони и скорости атаки"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/pipe-of-insight/",
+    "name": "Pipe of Insight: барьер от магии для всей команды"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/mekansm-guardian-greaves/",
+    "name": "Mekansm и Guardian Greaves: лечение для команды"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/diffusal-blade-disperser/",
+    "name": "Diffusal Blade и Disperser: сжигание маны и замедление"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/maelstrom-mjollnir/",
+    "name": "Maelstrom и Mjollnir: цепная молния и фарм"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/rod-of-atos-gleipnir/",
+    "name": "Rod of Atos и Gleipnir: как работает оцепенение"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/echo-sabre/",
+    "name": "Echo Sabre: двойной удар и замедление"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/skull-basher-abyssal-blade/",
+    "name": "Skull Basher и Abyssal Blade: оглушение от атак"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/nullifier/",
+    "name": "Nullifier: как снять с врага Ghost Scepter и Eul"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/ghost-scepter-ethereal-blade/",
+    "name": "Ghost Scepter и Ethereal Blade: бесплотный облик"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dagon/",
+    "name": "Dagon: урон по уровням и кому собирать дагон"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/shivas-guard/",
+    "name": "Shiva's Guard: броня, замедление и аура против скорости атаки"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/aeon-disk/",
+    "name": "Aeon Disk: как работает эон диск"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/octarine-core/",
+    "name": "Octarine Core: сокращение перезарядки на 25%"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/vanguard-crimson-guard/",
+    "name": "Vanguard и Crimson Guard: блок урона"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/bottle/",
+    "name": "Bottle: бутылка на миде и как хранить руны"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/armlet/",
+    "name": "Armlet of Mordiggian: как пользоваться армлетом"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/mask-of-madness/",
+    "name": "Mask of Madness: вампиризм и берсерк"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/sange-yasha-kaya/",
+    "name": "Sange and Yasha, Kaya and Sange, Yasha and Kaya: что выбрать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/monkey-king-bar/",
+    "name": "Monkey King Bar: пробитие уклонения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/solar-crest/",
+    "name": "Solar Crest: барьер и броня для союзника"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/divine-rapier/",
+    "name": "Divine Rapier: когда собирать рапиру"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/gem-of-true-sight/",
+    "name": "Gem of True Sight: как работает гем"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/soul-ring/",
+    "name": "Soul Ring: мана за здоровье"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/bracer-wraith-band-null-talisman/",
+    "name": "Bracer, Wraith Band и Null Talisman: что купить на линию"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/heavens-halberd/",
+    "name": "Heaven's Halberd: обезоруживание керри"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/bloodstone/",
+    "name": "Bloodstone: вампиризм заклинаниями"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/which-boots-to-buy/",
+    "name": "Какие ботинки собирать в Dota 2: Phase, Treads, Arcane, Tranquil"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/boots-of-travel/",
+    "name": "Boots of Travel: когда собирать тревела"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/phylactery-khanda/",
+    "name": "Phylactery и Khanda: дополнительный урон к заклинанию"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/parasma/",
+    "name": "Parasma: урон атаками для героев интеллекта"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/starting-items/",
+    "name": "Стартовые предметы в Dota 2: что купить в начале"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/aether-lens/",
+    "name": "Aether Lens: дальность заклинаний и кому собирать линзу"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/drum-of-endurance/",
+    "name": "Drum of Endurance: ускорение для всей команды"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/veil-of-discord/",
+    "name": "Veil of Discord: +10% к урону заклинаний по врагам"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/holy-locket/",
+    "name": "Holy Locket: лечение союзника и усиление хила"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/vladmirs-offering/",
+    "name": "Vladmir's Offering: аура вампиризма и урона"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/helm-of-the-dominator/",
+    "name": "Helm of the Dominator и Overlord: как брать нейтрала под контроль"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/pavise/",
+    "name": "Pavise: барьер от физического урона для союзника"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/moon-shard/",
+    "name": "Moon Shard: скорость атаки и зачем его съедать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/meteor-hammer/",
+    "name": "Meteor Hammer: урон по вышкам и оглушение"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/falcon-blade/",
+    "name": "Falcon Blade: ранний предмет для мидера и керри"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/orb-of-corrosion/",
+    "name": "Orb of Corrosion: замедление, минус броня и срез лечения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/mage-slayer/",
+    "name": "Mage Slayer: как ослабить заклинания противника"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/witch-blade/",
+    "name": "Witch Blade: отравление от интеллекта"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/revenants-brooch/",
+    "name": "Revenant's Brooch: магический крит"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dragon-lance/",
+    "name": "Dragon Lance: +130 к дальности атаки"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/hydras-breath-specialists-array/",
+    "name": "Hydra's Breath и Specialist's Array: атака по нескольким целям"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/crellas-crozier/",
+    "name": "Crella's Crozier: бесплотный облик и срез восстановления"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/consecrated-wraps/",
+    "name": "Consecrated Wraps: барьер от любого урона"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/essence-distiller/",
+    "name": "Essence Distiller: лечение союзника и ловушка с обзором"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/blink-upgrades/",
+    "name": "Arcane, Swift и Overwhelming Blink: какой даггер выбрать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dust-of-appearance/",
+    "name": "Dust of Appearance: как пользоваться пылью"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/buildings-health-armor/",
+    "name": "Сколько здоровья у вышки, бараков и трона в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/lane-creeps-stats/",
+    "name": "Крипы на линии: здоровье, урон и награда"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/invisible-heroes/",
+    "name": "Герои с невидимостью в Dota 2: полный список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/illusion-heroes/",
+    "name": "Герои с иллюзиями в Dota 2: список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/silence-heroes/",
+    "name": "Герои с сайленсом в Dota 2: список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/root-heroes/",
+    "name": "Герои с рутом (оцепенением) в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/global-abilities-heroes/",
+    "name": "Герои с глобальными способностями в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/hex-heroes/",
+    "name": "Хекс в Dota 2: какие герои и предметы превращают врага"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/crit-heroes/",
+    "name": "Герои с критическим уроном в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/bash-heroes/",
+    "name": "Герои с башем (оглушением от атак) в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/evasion-heroes/",
+    "name": "Герои с уклонением в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/break-heroes/",
+    "name": "Break в Dota 2: какие герои отключают пассивки"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/debuff-immunity-heroes/",
+    "name": "Герои с невосприимчивостью к эффектам (свой БКБ)"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/lifesteal-heroes/",
+    "name": "Герои с вампиризмом в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/ultimate-cooldowns/",
+    "name": "Перезарядка ультимейтов в Dota 2: самые долгие и самые короткие"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/passive-ultimates/",
+    "name": "Пассивные ультимейты в Dota 2: у каких героев ульту не нужно нажимать"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/the-international-winners/",
+    "name": "Победители The International: все чемпионы по годам"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/the-international-2026/",
+    "name": "The International 2026: итоги, финал и призовой фонд"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/the-international-prize-pools/",
+    "name": "Призовые фонды The International: самый большой и как они менялись"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/team-spirit-dota-2/",
+    "name": "Team Spirit в Dota 2: три титула The International"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dota-2-system-requirements/",
+    "name": "Системные требования Dota 2: пойдёт ли на моём компьютере"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/dota-2-release-history/",
+    "name": "Когда вышла Dota 2 и бесплатна ли она"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/new-heroes-dota-2/",
+    "name": "Новые герои Dota 2: последние добавленные"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/summon-heroes/",
+    "name": "Герои с призывом существ в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/healer-heroes/",
+    "name": "Герои с лечением союзников в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/disable-types/",
+    "name": "Виды контроля в Dota 2: стан, хекс, сайленс, рут, дизарм, break"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/building-protection/",
+    "name": "Защита построек: глиф, защита от обхода и аура вышек"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/strength-heroes/",
+    "name": "Герои силы в Dota 2: полный список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/agility-heroes/",
+    "name": "Герои ловкости в Dota 2: полный список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/intelligence-heroes/",
+    "name": "Герои интеллекта в Dota 2: полный список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/universal-heroes/",
+    "name": "Универсальные герои Dota 2: полный список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/melee-ranged-heroes/",
+    "name": "Герои ближнего и дальнего боя в Dota 2: список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/fastest-heroes/",
+    "name": "Самые быстрые герои Dota 2: базовая скорость передвижения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/attack-range-heroes/",
+    "name": "Дальность атаки героев Dota 2: у кого больше всего"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/base-attack-time-heroes/",
+    "name": "Базовое время атаки (BAT) героев Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/turn-rate-heroes/",
+    "name": "Скорость поворота героев Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/night-vision-heroes/",
+    "name": "Обзор героев днём и ночью: у кого он больше"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/attribute-gain-heroes/",
+    "name": "Прирост атрибутов: у каких героев он самый большой"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/hardest-heroes/",
+    "name": "Самые сложные герои Dota 2 по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-carry-heroes/",
+    "name": "Роль Carry в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-support-heroes/",
+    "name": "Роль Support в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-nuker-heroes/",
+    "name": "Роль Nuker в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-disabler-heroes/",
+    "name": "Роль Disabler в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-durable-heroes/",
+    "name": "Роль Durable в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-escape-heroes/",
+    "name": "Роль Escape в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-pusher-heroes/",
+    "name": "Роль Pusher в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/role-initiator-heroes/",
+    "name": "Роль Initiator в Dota 2: все герои по оценке Valve"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/projectile-speed-heroes/",
+    "name": "Скорость снаряда атаки у героев Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/strongest-heroes-level-1/",
+    "name": "Самые крепкие герои на 1 уровне: здоровье, урон и броня"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-741a/",
+    "name": "Патч 7.41a в Dota 2: все изменения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-741b/",
+    "name": "Патч 7.41b в Dota 2: все изменения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-741c/",
+    "name": "Патч 7.41c в Dota 2: все изменения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-741d/",
+    "name": "Патч 7.41d в Dota 2: все изменения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-741e/",
+    "name": "Патч 7.41e в Dota 2: все изменения"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-740/",
+    "name": "Патч 7.40 в Dota 2: что изменилось"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-739/",
+    "name": "Патч 7.39 в Dota 2: что изменилось"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-738/",
+    "name": "Патч 7.38 в Dota 2: что изменилось"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/patch-737/",
+    "name": "Патч 7.37 в Dota 2: что изменилось"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-items-tier-1/",
+    "name": "Нейтральные предметы 1 тира в Dota 2 (7.41f): список и зачарования"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-items-tier-2/",
+    "name": "Нейтральные предметы 2 тира в Dota 2 (7.41f): список и зачарования"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-items-tier-3/",
+    "name": "Нейтральные предметы 3 тира в Dota 2 (7.41f): список и зачарования"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-items-tier-4/",
+    "name": "Нейтральные предметы 4 тира в Dota 2 (7.41f): список и зачарования"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-items-tier-5/",
+    "name": "Нейтральные предметы 5 тира в Dota 2 (7.41f): список и зачарования"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/attack-speed-items/",
+    "name": "Предметы на скорость атаки в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/magic-resistance-items/",
+    "name": "Предметы на сопротивление магии в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/armor-items/",
+    "name": "Предметы на броню в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/lifesteal-items/",
+    "name": "Предметы с вампиризмом в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/health-items/",
+    "name": "Предметы на здоровье в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/movement-speed-items/",
+    "name": "Предметы на скорость передвижения в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/mana-items/",
+    "name": "Предметы на ману и восстановление маны в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/most-expensive-items/",
+    "name": "Самые дорогие предметы в Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/cheap-items/",
+    "name": "Дешёвые предметы в Dota 2: всё до 1000 золота"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/stun-heroes/",
+    "name": "Герои с оглушением (станом) в Dota 2: полный список"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/channeled-abilities/",
+    "name": "Способности с каналом в Dota 2: что можно сбить"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/ultimate-mana-cost/",
+    "name": "Самые дорогие по мане ультимейты Dota 2"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/all-heroes-list/",
+    "name": "Все герои Dota 2: список с атрибутами и ролями"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/item-recipes/",
+    "name": "Рецепты предметов в Dota 2: сколько стоит каждый"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/all-ultimates/",
+    "name": "Ультимейты всех героев Dota 2: перезарядка и мана"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/neutral-enhancements/",
+    "name": "Зачарования нейтральных предметов в Dota 2: все бонусы"
   }
 ]

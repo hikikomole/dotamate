@@ -27,12 +27,24 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const DIR = path.join(ROOT, 'data', 'public-matches');
+// Срезы базы. 0–4500 MMR — основной (Herald 1 … Ancient 5). верхний срез — отдельная папка,
+// чтобы статистика срезов не смешивалась. Лимит OpenDota (~2000 запросов в сутки с адреса)
+// общий на оба сбора, поэтому бюджеты в сумме 1800.
+const TIERS = {
+  base:     { dir: 'public-matches',          min: 10, max: 65, budget: 1400 },
+  // Лента OpenDota не отдаёт средний ранг выше 75 (проверено 02.10.2026: min_rank=80 -> все строки 75),
+  // поэтому отдельно Immortal не выделить: верхний срез — «Divine 5 и Immortal».
+  top:      { dir: 'public-matches-top',      min: 75, max: 85, budget: 400 },
+};
+const TIER_NAME = process.argv.includes('--tier') ? process.argv[process.argv.indexOf('--tier') + 1] : 'base';
+const TIER = TIERS[TIER_NAME];
+if (!TIER) { console.error('Неизвестный срез: ' + TIER_NAME + ' (есть: ' + Object.keys(TIERS).join(', ') + ')'); process.exit(2); }
+const DIR = path.join(ROOT, 'data', TIER.dir);
 const STATE = path.join(DIR, '_state.json');
 const API = 'https://api.opendota.com/api/publicMatches';
-const RANK_MIN = 10;          // Herald
-const RANK_MAX = 65;          // Ancient 5
-const DAY_BUDGET = 1800;      // с запасом от лимита OpenDota в 2000 запросов в сутки
+const RANK_MIN = TIER.min;    // Herald для base, Divine 5 для top
+const RANK_MAX = TIER.max;
+const DAY_BUDGET = TIER.budget; // в сумме по срезам 1800 — с запасом от лимита OpenDota в 2000
 const PAUSE_MS = 2000;        // 30 запросов в минуту — вдвое ниже разрешённых 60
 const RATE_WAIT_MS = 75000;   // сколько ждать, когда OpenDota просит остыть
 const RATE_TRIES = 6;         // столько раз подряд готовы переждать, прежде чем сдаться

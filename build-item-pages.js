@@ -8,6 +8,8 @@
 //
 // Рецепты своей страницы не получают: их карточка ведёт на собираемый предмет.
 
+const siteNav = require('./tools/site-nav');
+const heroCardHtml = require('./tools/hero-card.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -26,6 +28,10 @@ function trimTo(s,n){const t=String(s||'').trim();if(t.length<=n)return t;const 
 
 async function main(){
   const store=JSON.parse(fs.readFileSync(path.join(__dirname,'data','items-ru.json'),'utf8')).items;
+  const statsAll=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-stats.json'),'utf8'));}catch{return null;}})();
+  const impact=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-impact.json'),'utf8'));}catch{return null;}})();
+  // Статьи о предмете (/guide/) — tools/guide-items.js.
+  const guideByItem=require('./tools/guide-items.js').linkGuideItems().byItem;
   const usage=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-heroes.json'),'utf8')).items;}catch{return {};}})();
   // Общее правило каталога: рецепты и повторные уровни одного предмета
   // (Dagon 2–5, Necronomicon 2–3) своей страницы не получают — иначе в
@@ -44,11 +50,13 @@ async function main(){
       heroById.set(Number(h.id),h);
   }catch{}
 
-  const outRoot=path.join(__dirname,'deploy','item');
+  const outRoot=process.env.ITEM_OUT||path.join(__dirname,'deploy','item');
   fs.mkdirSync(outRoot,{recursive:true});
   const urls=[];
 
+  const only=process.env.ITEM_ONLY?process.env.ITEM_ONLY.split(','):null;
   for(const [key,x] of entries){
+    if(only&&!only.includes(key)) continue;
     const slug=itemSlug(key);
     if(!slug) continue;
     const dir=path.join(outRoot,slug);
@@ -93,10 +101,77 @@ async function main(){
     const heroesHtml=(use&&use.heroes||[]).map(r=>{
       const h=heroById.get(Number(r.h));
       const slug=h?slugForHero(h):'';
-      const icon=slug?`<img loading="lazy" src="/assets/heroes/${slug}.png" alt="">`:'';
+      const icon=slug?`<img loading="lazy" src="/assets/heroes/${slug}.webp" alt="">`:'';
       const inner=`${icon}<span><b>${escapeHtml(r.n)}</b><i>${r.g} покупок · чаще: ${escapeHtml(r.p)}</i></span>`;
       return slug?`<li><a href="/hero/${slug}/">${inner}</a></li>`:`<li>${inner}</li>`;
     }).join('');
+    // ---- Вариант A (02.10.2026): шапка, колонка цифр справа, дерево сборки, время покупки.
+    const st=statsAll&&statsAll.items[key]||null;
+    const nf=v=>Number(v).toLocaleString('ru-RU');
+    const pct=(a,b)=>(Math.round(a/b*1000)/10).toLocaleString('ru-RU');
+    const mins=s=>(Math.round(s/6)/10).toLocaleString('ru-RU');
+    const kicker=[x.cat==='neutral'?`Нейтральный${x.tier?` · тир ${x.tier}`:''}`:(x.catRu||'Предмет'),x.cost?`${nf(x.cost)} золота`:''].filter(Boolean).join(' · ');
+    const chips=[...(x.attr||[]).map(t=>`<span>${escapeHtml(t)}</span>`),
+      x.cd?`<span class="it-chip-m">КД ${x.cd} сек</span>`:'',x.mc?`<span class="it-chip-m">${x.mc} маны</span>`:'',x.charges?`<span class="it-chip-m">Зарядов: ${x.charges}</span>`:''].filter(Boolean).join('');
+    const node=(k,me)=>{const it=store[k];if(!it)return '';const t=variantMaps.byKey[it.recipeFor||k]||it.recipeFor||k;const d=store[t];if(!d)return '';
+      return me?`<span class="it-node it-me"><img src="${d.img}" alt="">${escapeHtml(d.dname)}</span>`:(t===key?'':`<a class="it-node" href="/item/${itemSlug(t)}/"><img src="${d.img}" alt="" loading="lazy">${escapeHtml(d.dname)}</a>`);};
+    const uniq=a=>[...new Set(a)];
+    const compN=uniq((x.comp||[]).map(k=>node(k)).filter(Boolean)).join('');
+    const intoN=uniq((x.into||[]).map(k=>node(k)).filter(Boolean)).join('');
+    const treeHtml=(compN||intoN)?`<div class="it-tree">${compN?`<div class="it-col">${compN}</div><span class="it-arr" aria-hidden="true">→</span>`:''}<div class="it-col">${node(key,true)}</div>${intoN?`<span class="it-arr" aria-hidden="true">→</span><div class="it-col">${intoN}</div>`:''}</div>`:'';
+    // ---- Вариант B (03.10.2026): свой шаблон под тип предмета.
+    // Дешёвые компоненты (до 1000 золота) — короткий шаблон; Blink, Yasha и т.п.
+    // в каталоге тоже «компоненты», но покупаются как самостоятельные предметы.
+    const isFull=y=>y.cat==='item'||(y.cat==='component'&&y.cost>=1000);
+    const type=x.cat==='neutral'?'neutral':x.cat==='consumable'?'cons':isFull(x)?'item':'comp';
+    const playersPct=s=>pct(s.n,statsAll.players);
+    const posNames=['Керри','Мид','Оффлейн','Саппорт 4','Саппорт 5'];
+    const clampMin=s=>Math.max(0,s);
+    // Время покупки — одна шкала 0–50 мин: полоса от q1 до q3, отметка медианы.
+    const timeBar=s=>{const sc=v=>Math.min(100,clampMin(v)/3000*100);const a=sc(s.t[0]),b=sc(s.t[2]),m=sc(s.t[1]);
+      const lab=v=>v<=0?'старт':mins(v)+'′';
+      return `<div class="itb-time" role="img" aria-label="Обычно покупают с ${lab(s.t[0])} по ${lab(s.t[2])}, медиана ${lab(s.t[1])}"><div class="itb-track"><i style="left:${a}%;width:${Math.max(1.5,b-a)}%"></i><b style="left:${m}%"></b></div><div class="itb-scale"><span>0</span><span>10′</span><span>20′</span><span>30′</span><span>40′</span><span>50′</span></div></div>`;};
+    let histHtml='',asideHtml='',summaryHtml='',compareHtml='',tierHtml='';
+    if(st&&type==='item'){
+      const posSum=st.pos.reduce((a,b)=>a+b,0)||1;
+      const topPos=st.pos.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]);
+      const posHtml=topPos.map(([v,i])=>`<div class="it-bar"><span>${posNames[i]}<b>${pct(v,posSum)}%</b></span><i><u style="width:${Math.round(v/topPos[0][0]*100)}%"></u></i></div>`).join('');
+      histHtml=timeBar(st)+`<p class="it-note">Половина покупок — до ${mins(st.t[1])} минуты; средние 50% — с ${st.t[0]<=0?'старта':mins(st.t[0])+' мин'} по ${mins(st.t[2])} мин. ${nf(st.n)} покупок в матчах текущего патча.</p>`;
+      summaryHtml=`<div class="itb-kpis">
+        <div><b>${playersPct(st)}%</b><span>игроков покупают</span></div>
+        <div><b>${st.t[1]<=0?'старт':mins(st.t[1])+'′'}</b><span>медиана покупки</span></div>
+        <div><b>${posNames[topPos[0][1]]}</b><span>чаще всего · ${pct(topPos[0][0],posSum)}%</span></div></div>`;
+      const heroRows=st.heroes.map(([hid,n,w])=>{const h=heroById.get(Number(hid));if(!h)return '';const sl=slugForHero(h);const r=Math.round(w/n*100);
+        return `<a class="it-hrow" href="/hero/${sl}/" data-hero-open="${Number(hid)}"><img loading="lazy" src="/assets/heroes/${sl}.webp" alt=""><span>${escapeHtml(h.localized_name||h.name||'')}</span><small>${n}</small><b class="${r>=55?'it-up':r<=45?'it-down':''}">${r}%</b></a>`;}).join('');
+      // Влияние на победу — из item-impact.json (купил до медианы vs не покупал, поправка на героя).
+      const impRows=impact?Object.entries(impact.heroes).map(([hid,m])=>m[key]?[hid,m[key]]:null).filter(Boolean)
+        .sort((a,b)=>b[1][0]-a[1][0]).slice(0,5).map(([hid,v])=>{const h=heroById.get(Number(hid));if(!h)return '';const sl=slugForHero(h);
+          const e=v[0];return `<a class="it-hrow" href="/hero/${sl}/" data-hero-open="${Number(hid)}"><img loading="lazy" src="/assets/heroes/${sl}.webp" alt=""><span>${escapeHtml(h.localized_name||h.name||'')}</span><small>${nf(v[1])}</small><b class="${e>=2?'it-up':e<=-2?'it-down':''}">${e>0?'+':''}${e.toLocaleString('ru-RU')}</b></a>`;}).join(''):'';
+      asideHtml=`<div class="it-card"><div class="it-kicker">Позиции</div>${posHtml}</div>
+        ${heroRows?`<div class="it-card"><div class="it-kicker">Кто покупает чаще</div><div class="it-hhead"><span>Герой</span><small>покупок</small><b>побед</b></div>${heroRows}<p class="it-note">Доля побед — наблюдение: поздние предметы чаще успевает купить выигрывающая сторона.</p></div>`:''}
+        ${impRows?`<div class="it-card"><div class="it-kicker">Кому даёт больше всего</div><div class="it-hhead"><span>Герой</span><small>матчей</small><b>п.п.</b></div>${impRows}<p class="it-note">Разница доли побед «купил вовремя» и «не покупал», с поправкой на силу героя и его другие предметы.</p></div>`:''}
+        <p class="it-src">${nf(statsAll.matches)} матчей Stratz из базы Dotamate, обновлено ${new Date(statsAll.builtAt).toLocaleDateString('ru-RU')}.</p>`;
+      // Сравнение с соседями по цене.
+      const near=entries.filter(([k,y])=>k!==key&&isFull(y)&&y.cost&&statsAll.items[k])
+        .sort((a,b)=>Math.abs(a[1].cost-x.cost)-Math.abs(b[1].cost-x.cost)).slice(0,5);
+      const rows=[[key,x],...near].sort((a,b)=>a[1].cost-b[1].cost).map(([k,y])=>{const s=statsAll.items[k];const me=k===key;
+        const nm=`<img src="${y.img}" alt="" loading="lazy">${escapeHtml(y.dname)}`;
+        return `<tr${me?' class="itb-me"':''}><td>${me?`<span>${nm}</span>`:`<a href="/item/${itemSlug(k)}/">${nm}</a>`}</td><td>${nf(y.cost)}</td><td>${s.t[1]<=0?'старт':mins(s.t[1])+'′'}</td><td>${playersPct(s)}%</td></tr>`;}).join('');
+      compareHtml=`<div class="itb-cmpw"><table class="itb-cmp"><thead><tr><th>Предмет</th><th>Цена</th><th>Медиана</th><th>Покупают</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    } else if(st&&(type==='comp'||type==='cons')){
+      const start=Math.round(st.hist[0]/st.n*100);
+      summaryHtml=`<p class="itb-line">Покупают <b>${playersPct(st)}%</b> игроков · ${start>=50?`<b>${start}%</b> покупок — на старте`:`медиана покупки — <b>${mins(st.t[1])}′</b>`}</p>`;
+    } else if(!st&&heroesHtml&&type==='item'){
+      asideHtml=`<div class="it-card"><div class="it-kicker">Кто покупает чаще</div><ul class="ip-heroes it-heroes-old">${heroesHtml}</ul><p class="it-src">Данные OpenDota.</p></div>`;
+    }
+    if(type==='neutral'&&x.tier){
+      tierHtml=entries.filter(([k,y])=>k!==key&&y.cat==='neutral'&&y.tier===x.tier)
+        .map(([k,y])=>`<a href="/item/${itemSlug(k)}/" title="${escapeHtml(y.dname)}"><img src="${y.img}" alt="" loading="lazy"><span>${escapeHtml(y.dname)}</span></a>`).join('');
+    }
+    // Похожие: тот же раздел каталога, ближайшие по цене, без вариантов и рецептов.
+    const similarHtml=x.cost&&x.cat!=='neutral'?entries.filter(([k,y])=>k!==key&&y.cat===x.cat&&y.cost)
+      .sort((a,b)=>Math.abs(a[1].cost-x.cost)-Math.abs(b[1].cost-x.cost)).slice(0,4)
+      .map(([k,y])=>`<a href="/item/${itemSlug(k)}/"><img src="${y.img}" alt="" loading="lazy">${escapeHtml(y.dname)}<span>${nf(y.cost)}</span></a>`).join(''):'';
     const meta=[
       x.cost?`<span>💰 ${x.cost} золота</span>`:(x.cat==='neutral'?`<span>Нейтральный${x.tier?` · тир ${x.tier}`:''}</span>`:''),
       x.cat==='neutral'?'':`<span>${escapeHtml(x.catRu||'Предмет')}</span>`,
@@ -113,7 +188,7 @@ async function main(){
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -124,7 +199,7 @@ async function main(){
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
@@ -138,34 +213,41 @@ async function main(){
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a></nav>
+    ${siteNav.navHtml('items')}
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
 <main class="container ip-main">
-  <nav aria-label="breadcrumb" class="ip-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">${escapeHtml(x.dname)}</span></nav>
-  <section class="ip-top">
-    <div class="ip-art"><img src="${img}" alt="${escapeHtml(x.dname)}"><span class="ip-qual">${escapeHtml(x.catRu||'Предмет')}</span></div>
-    <div class="ip-head">
-      <div class="eyebrow">ПРЕДМЕТ DOTA 2</div>
+  <nav aria-label="breadcrumb" class="ip-crumbs"> <span>›</span> <a href="/items/">Предметы</a> <span>›</span> <span aria-current="page">${escapeHtml(x.dname)}</span></nav>
+  <section class="it-top itb-top">
+    <div class="it-art"><img src="${img}" alt="${escapeHtml(x.dname)}" width="88" height="64"></div>
+    <div class="it-head">
+      <div class="it-kicker">${escapeHtml(kicker)}</div>
       <h1>${escapeHtml(x.dname)}</h1>
-      ${lead?`<p class="ip-lead">${escapeHtml(lead)}</p>`:''}
-      <div class="ip-chips">${meta}</div>
+      ${chips?`<div class="it-chips">${chips}</div>`:''}
     </div>
+    ${type==='item'?summaryHtml:''}
   </section>
-  ${descHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ОПИСАНИЕ</span><h2>Что делает предмет</h2></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<div class="ip-notes"><h3>Примечания</h3>${notesHtml}</div>`:''}</section>`:''}
-  ${attribHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ХАРАКТЕРИСТИКИ</span><h2>Что даёт в цифрах</h2></div><div class="ip-attrib">${attribHtml}</div></section>`:''}
-  ${levelsHtml?`<section class="ip-panel item-levels"><div class="ip-panel-head"><span>УЛУЧШЕНИЕ</span><h2>Уровни улучшения</h2></div>
-    <p class="item-levels-note">Предмет улучшается прямо в инвентаре: каждый следующий уровень покупается отдельно и усиливает все его показатели. Числа в характеристиках выше перечислены по уровням — от первого к последнему.</p>
-    ${levelsHtml}</section>`:''}
-
-  ${componentsHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>СБОРКА</span><h2>Собирается из</h2></div><div class="linked-list ip-recipe">${componentsHtml}</div></section>`:''}
-  ${intoHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ДАЛЬШЕ</span><h2>Входит в сборку</h2></div><div class="linked-list ip-recipe">${intoHtml}</div></section>`:''}
-  ${heroesHtml?`<section class="ip-panel"><div class="ip-panel-head"><span>ГЕРОИ</span><h2>Кто покупает этот предмет</h2></div><ul class="ip-heroes">${heroesHtml}</ul></section>`:''}
-  ${x.lore?`<section class="ip-panel ip-lore"><div class="ip-panel-head"><span>ИСТОРИЯ</span><h2>История предмета</h2></div><p>${escapeHtml(x.lore)}</p></section>`:''}
+  ${type!=='item'?summaryHtml:''}
+  <div class="it-grid${asideHtml?'':' itb-solo'}">
+    <div class="it-mainc">
+      ${type==='comp'&&treeHtml?`<section class="it-sec"><div class="ip-panel-head"><span>СБОРКА</span><h2>Во что собирается</h2></div>${treeHtml}</section>`:''}
+      ${histHtml?`<section class="it-sec"><div class="ip-panel-head"><span>ВРЕМЯ</span><h2>Когда покупают</h2></div>${histHtml}</section>`:''}
+      ${descHtml?`<section class="it-sec"><div class="ip-panel-head"><span>ЭФФЕКТ</span><h2>Что даёт</h2></div><div class="ip-desc">${descHtml}</div>${notesHtml?`<details class="itb-more"><summary>Примечания</summary><div class="ip-notes">${notesHtml}</div></details>`:''}</section>`:''}
+      ${guideByItem.has(key)?`<section class="it-sec"><div class="ip-panel-head"><span>ГАЙД</span><h2>Гайд по предмету</h2></div><div class="linked-list">${guideByItem.get(key).map(gd=>`<a href="/guide/${gd.slug}/">${escapeHtml(gd.title)}<span>→</span></a>`).join('')}</div></section>`:''}
+      ${levelsHtml?`<section class="it-sec item-levels"><div class="ip-panel-head"><span>УЛУЧШЕНИЕ</span><h2>Уровни улучшения</h2></div>
+        <p class="item-levels-note">Предмет улучшается прямо в инвентаре: каждый следующий уровень покупается отдельно и усиливает все его показатели. Числа в характеристиках перечислены по уровням — от первого к последнему.</p>
+        ${levelsHtml}</section>`:''}
+      ${type!=='comp'&&type!=='neutral'&&treeHtml?`<section class="it-sec"><div class="ip-panel-head"><span>СБОРКА</span><h2>${componentsHtml?'Из чего собирается и во что идёт':'Во что собирается'}</h2></div>${treeHtml}</section>`:''}
+      ${compareHtml?`<section class="it-sec"><div class="ip-panel-head"><span>СРАВНЕНИЕ</span><h2>Соседи по цене</h2></div>${compareHtml}</section>`:(type!=='neutral'&&similarHtml?`<section class="it-sec"><div class="ip-panel-head"><span>ПОХОЖИЕ</span><h2>Похожие предметы</h2></div><div class="linked-list ip-recipe">${similarHtml}</div></section>`:'')}
+      ${tierHtml?`<section class="it-sec"><div class="ip-panel-head"><span>ТИР ${x.tier}</span><h2>Другие нейтральные предметы тира</h2></div><div class="itb-tier">${tierHtml}</div></section>`:''}
+      ${x.lore?`<details class="it-sec itb-more ip-lore"><summary>История предмета</summary><p>${escapeHtml(x.lore)}</p></details>`:''}
+    </div>
+    ${asideHtml?`<aside class="it-aside">${asideHtml}</aside>`:''}
+  </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+${st&&st.heroes.length?heroCardHtml:''}<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;
@@ -174,7 +256,7 @@ async function main(){
     urls.push({loc:canonical,name:x.dname});
   }
 
-  fs.writeFileSync(path.join(__dirname,'item-urls.json'),JSON.stringify(urls,null,2),'utf8');
+  if(!only) fs.writeFileSync(path.join(__dirname,'item-urls.json'),JSON.stringify(urls,null,2),'utf8');
   console.log(`Generated ${urls.length} item pages.`);
 }
 

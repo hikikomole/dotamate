@@ -3,6 +3,7 @@
 // Logic ported from js/app.js (heroStats, roleSuggestions),
 // made deterministic (no Math.random() tiebreaker) so builds are reproducible.
 
+const siteNav = require('./tools/site-nav');
 const fs = require('fs');
 const path = require('path');
 // Карта слагов и помощники общие с build-hero-guides.js — см. tools/hero-common.js
@@ -17,6 +18,10 @@ const guideStore = (() => {
 // Контрпики — один расчёт на весь сайт (tools/build-hero-counters.js,
 // своя база рейтинговых матчей). Нет файла — блоки показывают заглушку.
 const heroItems=JSON.parse(fs.readFileSync(path.join(__dirname,'data','hero-items.json'),'utf8'));
+const heroStatTiles=require('./tools/hero-stat-tiles.js');
+const valveHero=require('./tools/valve-hero-stats.js');
+// Своя статистика героев (tools/build-stats.js). Нет файла — паспорт без цифр, плиток нет.
+const heroStatsAll=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','stats.json'),'utf8'));}catch(e){console.warn('stats.json не прочитан:',e.message);return null;}})();
 const heroCounters = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-counters.json'), 'utf8')); }
   catch { return { heroes: {} }; }
@@ -112,7 +117,6 @@ async function main(){
   // Ролики Valve остаются на CDN: это сотни мегабайт видео, хостить их у себя
   // незачем. Все картинки — локальные.
   const CDN_VID='https://cdn.steamstatic.com/apps/dota2/videos/dota_react/abilities/';
-  const CDN_RENDER='https://cdn.steamstatic.com/apps/dota2/videos/dota_react/heroes/renders/';
   // Каталожный слаг и слаг Valve расходятся (Anti-Mage -> antimage, но
   // Outworld Destroyer -> obsidian_destroyer), поэтому для ссылок на CDN
   // берём внутреннее имя героя, а не наш слаг.
@@ -169,6 +173,8 @@ async function main(){
     return key=>have.has(String(key));
   })();
 
+  // Характеристики 1-го уровня — официальный datafeed Valve (tools/valve-hero-stats.js).
+  const valveStats=await valveHero.load(heroes.map(x=>x.id));
   const outRoot=path.join(__dirname,'deploy','hero');
   fs.mkdirSync(outRoot,{recursive:true});
   const urls=[];
@@ -179,7 +185,7 @@ async function main(){
     const dir=path.join(outRoot,slug);
     fs.mkdirSync(dir,{recursive:true});
 
-    const stats=heroStats(h);
+    const stats=valveHero.cells(valveStats[h.id]);
     const a=attrInfo(h.primary_attr);
     const abilities=abilitiesOf(h);
     const rolesEntry=positionSnapshot.heroes?.[String(h.id)]||null;
@@ -198,47 +204,17 @@ async function main(){
       hasAbilityIcon:abilityIconExists,
       itemVariants,
       items:Object.fromEntries([...itemById.entries()].map(([id,v])=>[id,v])),
-      roleIcon:key=>heroRoles.icon(key)
+      roleIcon:key=>heroRoles.icon(key),
+      // Ситуативные предметы Stratz повторяют блок «Что покупают по ходу игры» — на странице только порядок основных.
+      coreOnly:true
     }):'';
 
     // --- блоки из реальных данных (см. guideStore выше) ---
     const gd=guideStore.heroes?.[String(h.id)]||null;
     const abilityText={};
     for(const ab of (gd?.abilities||[])){const t=cleanAbilityText(ab.desc);if(t)abilityText[ab.key]=t.length>240?t.slice(0,240).replace(/\s+\S*$/,'')+'…':t;}
-    const matchRow=m=>{const o=byId.get(Number(m.id));if(!o)return '';return `<a href="/hero/${slugForHero(o)}/"><img loading="lazy" src="${imageUrl(o)}" alt="${escapeHtml(o.localized_name)}"><b>${escapeHtml(o.localized_name)}<span class="hr-badges" data-hero-badges="${o.id}"></span></b><i>${m.w.toFixed(1).replace('.',',')}% побед вместо ожидаемых ${m.e.toFixed(1).replace('.',',')}% · ${escapeHtml(matchWord(m.g))}</i><span>→</span></a>`;};
-    const hc=heroCounters.heroes?.[String(h.id)]||null;
-    const weakList=(hc?.against||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
-    const strongList=(hc?.good||[]).slice(0,4).map(matchRow).filter(Boolean).join('');
-    const weakHtml=weakList?`<div class="hp-counters hp-matchups">${weakList}</div>`:'';
-    const strongHtml=strongList?`<div class="hp-counters hp-matchups">${strongList}</div>`:'';
-    // Покупки — data/hero-items.json (tools/build-hero-items.js): своя база,
-    // время каждой покупки, пять фаз. Тот же расчёт, что в карточке и гайде героя.
-    const buyPhases=[['start','Старт · до 0:00'],['early','Ранняя · 0–10'],['mid','Середина · 10–25'],['late','Поздняя · 25–40'],['vlate','Финал · 40+']];
-    // Те же карточки, что и в блоке выше (.hb-sub/.hb-items/.hb-item).
-    const pct0=(rows,n)=>`% — доля из ${n} матчей, в которых предмет куплен в этой фазе`;
-    // Покупки: панель «все роли» и по панели на каждую роль с ≥ minRole матчей.
-    // Переключает строка ролей (js/hero-builds.js); без JS видна панель «все роли».
-    const RU_POS={1:'Керри',2:'Мид',3:'Оффлейн',4:'Поддержка',5:'Полная поддержка'};
-    const phasesHtml=(rec)=>{
-      const n=Number(rec?.n)||0;
-      if(!rec||!n)return '';
-      return buyPhases.map(([k,label])=>{
-        const rows=(rec[k]||[]).map(r=>({id:itemVariants[Number(r.i)]??Number(r.i),g:Number(r.g)||0})).filter(r=>itemById.has(r.id));
-        if(!rows.length)return '';
-        const cards=rows.map(r=>{const it=itemById.get(r.id);const pct=Math.round(r.g/n*100);return `<a class="hb-item" href="/item/${it.slug}/" title="${escapeHtml(it.dname)} — куплен в ${pct}% матчей (${r.g} из ${n})"><span class="hb-item-when">${pct}%</span><img loading="lazy" src="/assets/items/${it.slug}.png" alt="${escapeHtml(it.dname)}" onerror="this.style.visibility='hidden'"><b>${escapeHtml(it.dname)}</b></a>`;}).join('');
-        return `<div class="hb-sub"><h3>${label}</h3><em>${pct0(rows,n)}</em><div class="hb-items">${cards}</div></div>`;
-      }).filter(Boolean).join('');
-    };
-    const buyHtml=(()=>{
-      const rec=heroItems.heroes?.[String(h.id)];
-      const all=phasesHtml(rec);
-      if(!all)return '';
-      const roles=Object.entries(rec.pos||{}).map(([p,r])=>`<div class="hp-buys-pane" data-pos="POSITION_${p}" hidden><p class="hp-buys-role">Роль: ${RU_POS[p]} · ${r.n} матчей героя на этой роли</p>${phasesHtml(r)}</div>`).join('');
-      return `<div class="hp-buys-pane on" data-pos="all">${all}</div>${roles}`;
-    })();
-    // Роли, у которых есть свои покупки, и сколько матчей у остальных — для
-    // строки ролей: кликабельна роль с билдом Stratz или своими покупками.
-    const buyRoles=(()=>{const rec=heroItems.heroes?.[String(h.id)]||{};const o={};for(const p of [1,2,3,4,5])o['POSITION_'+p]=rec.pos?.[p]?1:(rec.posN?.[p]||0);return o;})();
+    // Паспорт, плитки статистики, матчапы и покупки — tools/hero-stat-tiles.js
+    const hx=heroStatTiles.render(h,{S:heroStatsAll,counters:heroCounters,heroItems,byId,itemById,itemVariants,escapeHtml,slugForHero,imageUrl,minRole:heroItems.minRole||80});
     const title=`${h.localized_name} — билд, гайд и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
@@ -255,7 +231,7 @@ async function main(){
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(desc)}">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(desc)}">
@@ -266,7 +242,7 @@ async function main(){
 <meta name="twitter:description" content="${escapeHtml(desc)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
@@ -282,54 +258,35 @@ async function main(){
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/">Главная</a><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a></nav>
+    ${siteNav.navHtml('heroes')}
     <div class="nav-spacer"></div>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
 <main>
-  <section class="hp-hero">
-    <div class="hp-art">
-      <video class="hp-render" autoplay loop muted playsinline poster="${CDN_RENDER}${valveSlug(h)}.png" preload="none">
-        <source src="${CDN_RENDER}${valveSlug(h)}.webm" type="video/webm">
-      </video>
-      <span class="hp-art-fade"></span>
-    </div>
-    <div class="container hp-head">
-      <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/">Главная</a> <span>›</span> <a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">${escapeHtml(h.localized_name)}</span></nav>
-      <div class="hp-attr">${a[0]} ${escapeHtml(a[1])}</div>
-      <h1>${escapeHtml(h.localized_name)}</h1>
-      <p class="hp-tagline">${escapeHtml(roleText(h))}</p>
-      <p class="hp-lore">${introParagraph(h)}</p>
-      <div class="hp-facts">
-        <div><small>Тип атаки</small><b>${escapeHtml(h.attack_type==='Melee'?'Ближний бой':h.attack_type==='Ranged'?'Дальний бой':(h.attack_type||'—'))}</b></div>
-        <div><small>Сложность</small><b class="hp-pips" aria-label="Сложность ${h.complexity||1} из 3">${[1,2,3].map(i=>`<i class="${(h.complexity||1)>=i?'on':''}"></i>`).join('')}</b></div>
-      </div>
-    </div>
-  </section>
+  ${hx.passport}
+  <section class="container hx-rows">${hx.rows}</section>
+
+  <details class="container hx-more" open><summary><h2>Билд</h2></summary>
 
   <section class="hp-bars container"${rolesRow?` id="heroRoles" data-hero-id="${h.id}"`:''}>
+    ${rolesRow?`<p class="hb-hint">Роли героя: доля матчей и винрейт на каждой позиции. Нажмите на роль — прокачка, таланты и покупки ниже переключатся на неё. Затемнённая роль включится сама, когда на ней наберётся достаточно матчей.</p>`:''}
     ${rolesRow}
-    <div class="hp-statbar-grid">
-      <div class="hs-label"><small>Базовые</small><strong>статы</strong></div>
+    ${stats.length?`<div class="hp-statbar-grid">
+      <div class="hs-label"><small>На 1-м</small><strong>уровне</strong></div>
       ${stats.map(x=>`<div><small>${escapeHtml(x.k)}</small><strong>${escapeHtml(String(x.v))}</strong></div>`).join('')}
-    </div>
+    </div>`:''}
     ${rolesRow?`<p class="hr-note">${escapeHtml(heroRoles.sourceNote(positionSnapshot))}</p>`:''}
   </section>
 
   ${buildsHtml}
+  </details>
 
-  ${buyHtml?`<section class="hp-buys container" id="heroBuys" data-roles='${JSON.stringify(buyRoles)}' data-min-role="${heroItems.minRole||80}">
-    <h2>Реальные покупки по фазам</h2>
-    <p class="hp-buys-note">Второй срез — своя база рейтинговых матчей до 4500 MMR (${heroItems.matchesUsed.toLocaleString('ru-RU')} матчей текущего патча), время каждой покупки. Процент — в какой доле матчей героя предмет купили в этой фазе. Выборка и ранги другие, чем в блоке выше, поэтому предметы и цифры не обязаны совпадать.</p>
-    ${buyHtml}
-  </section>`:''}
 
-  ${abilities.length?`<section class="hp-abilities container">
-    <h2>Способности</h2>
+  ${abilities.length?`<details class="container hx-more"><summary><h2>Способности</h2></summary><section class="hp-abilities">
     <div class="hp-ab-layout">
       <div class="hp-ab-stage">
-        ${abilities.map((ab,i)=>`<video class="hp-ab-video${i===0?' on':''}" data-ab="${i}" ${i===0?'autoplay':''} loop muted playsinline preload="none" ${abilityIconExists(ab.key)?`poster="${CDN_IMG}${ab.key}.png"`:''}><source src="${CDN_VID}${valveSlug(h)}/${ab.key}.webm" type="video/webm"></video>`).join('')}
+        ${abilities.map((ab,i)=>`<video class="hp-ab-video${i===0?' on':''}" data-ab="${i}" loop muted playsinline preload="none" ${abilityIconExists(ab.key)?`poster="${CDN_IMG}${ab.key}.png"`:''}><source src="${CDN_VID}${valveSlug(h)}/${ab.key}.webm" type="video/webm"></video>`).join('')}
       </div>
       <div class="hp-ab-side">
         <div class="hp-ab-icons" role="tablist" aria-label="Способности героя">
@@ -342,18 +299,8 @@ async function main(){
         </div>`).join('')}
       </div>
     </div>
-  </section>`:''}
+  </section></details>`:''}
 
-  <section class="hp-links container">
-    <div>
-      <h2>Кто контрит ${escapeHtml(h.localized_name)}</h2>
-      ${weakHtml||`<p class="hp-buys-note">Пар с этим героем, сыгранных хотя бы ${heroCounters.minGames||300} раз, в нашей базе пока не набралось.</p>`}
-    </div>
-    <div>
-      <h2>Кого контрит ${escapeHtml(h.localized_name)}</h2>
-      ${strongHtml||`<p class="hp-buys-note">Пар с этим героем, сыгранных хотя бы ${heroCounters.minGames||300} раз, в нашей базе пока не набралось.</p>`}
-    </div>
-  </section>
 
 
   <section class="hp-guide-cta container">
@@ -378,6 +325,12 @@ async function main(){
       if(el.tagName==='VIDEO'){ if(on){ el.play().catch(function(){}); } else { el.pause(); } }
     });
   }
+  // Компьютер: блок «Способности» раскрыт и первый ролик играет сразу.
+  // Телефон: свёрнут и без автозапуска — не тратим мобильный трафик.
+  if(window.matchMedia&&window.matchMedia('(min-width: 761px)').matches){
+    var det=root.closest('details'); if(det) det.open=true;
+    show(0);
+  }
   icons.forEach(function(b){
     b.addEventListener('click',function(){show(b.dataset.ab);});
     b.addEventListener('keydown',function(e){
@@ -390,7 +343,7 @@ async function main(){
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;

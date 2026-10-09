@@ -20,7 +20,9 @@
   const TABS = ['tier', 'ranks', 'positions', 'pairs', 'items', 'matches', 'lanes', 'trend', 'pro'];
 
   let S = null, H = new Map(), I = new Map(), SH = new Map();
-  const state = { tier: { q: '', rank: 'all', pos: 'all', sort: 'lo' }, ranks: { sort: '6' } };
+  // Название основного среза: Steam (с 04.10.2026) — все рейтинговые матчи; OpenDota — ранги до Властелина.
+  const baseName = () => (S && S.base.src === 'steam' ? 'Все рейтинговые' : 'Рекрут–Властелин');
+  const state = { tier: { q: '', rank: 'all', pos: 'all', sort: 'lo', slice: 'base' }, ranks: { sort: '6' } };
 
   function heroSlug(h) {
     return typeof window.slugForHero === 'function' ? window.slugForHero(h) : String(h.name || '').replace(/^npc_dota_hero_/, '');
@@ -53,7 +55,7 @@
     const h = H.get(Number(id));
     if (!h) return '—';
     const slug = heroSlug(h);
-    return `<span class="st-herocell"><a class="st-hero" href="/hero/${esc(slug)}/"><img loading="lazy" src="/assets/heroes/${esc(slug)}.png" alt=""><span><b>${esc(h.localized_name)}</b>${sub ? `<small>${sub}</small>` : ''}</span></a><span class="st-roles">${heroRoles(id)}</span></span>`;
+    return `<span class="st-herocell"><a class="st-hero" href="/hero/${esc(slug)}/"><img loading="lazy" src="/assets/heroes/${esc(slug)}.webp" alt=""><span><b>${esc(h.localized_name)}</b>${sub ? `<small>${sub}</small>` : ''}</span></a><span class="st-roles">${heroRoles(id)}</span></span>`;
   }
   function item(id) {
     const x = I.get(Number(id));
@@ -69,10 +71,10 @@
     const b = S.base;
     const d = s => new Date(s).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
     const maxR = Math.max(...Object.values(b.ranks).map(r => r.n));
-    summary.innerHTML = `<div class="st-cards">
+    summary.innerHTML = `<p class="st-since">Данные с ${new Date(b.from).toLocaleDateString('ru-RU')}, матчей ${num(b.matches)}</p><div class="st-cards">
       <article><span>Матчей в базе</span><strong>${num(b.matches)}</strong><small>${d(b.from)} — ${d(b.to)} · патч ${esc(b.patch)}</small></article>
       <article><span>Победы Radiant</span><strong>${pct(b.radiantWr)}</strong><small>Dire — ${pct(Math.round((100 - b.radiantWr) * 10) / 10)}</small></article>
-      <article><span>Детальных матчей</span><strong>${num(b.stratzMatches)}</strong><small>позиции, линии, покупки (Stratz)</small></article>
+      <article><span>Детальных матчей</span><strong>${num(b.stratzMatches)}</strong><small>${S.posSteam ? 'линии, покупки (Stratz)' : 'позиции, линии, покупки (Stratz)'}</small></article>
       <article><span>Обновлено</span><strong>${new Date(S.builtAt).toLocaleDateString('ru-RU')}</strong><small>пересчёт каждый день</small></article>
     </div>
     <div class="st-ranks">${Object.values(b.ranks).map(r => `<div><span>${esc(r.name)}</span>${bar(r.n, maxR)}<b>${num(r.n)}</b></div>`).join('')}</div>`;
@@ -82,10 +84,14 @@
   function tier() {
     const t = state.tier;
     const inPos = t.pos === 'all' ? null : new Set(S.heroes.filter(h => (h.ro || []).some(r => String(r[0]) === t.pos)).map(h => h.id));
-    let rows = S.heroes.map(h => {
+    // Срез: base — основная своя база (ранги, тиры); top и pro — S.slices (tools/build-stats.js, раздел 5).
+    const sl = t.slice !== 'base' && S.slices && S.slices[t.slice] ? S.slices[t.slice] : null;
+    if (t.slice !== 'base' && !sl) t.slice = 'base';
+    const isPro = t.slice === 'pro';
+    let rows = (sl ? sl.heroes.map(h => ({ id: h[0], tier: null, n: h[1], wr: h[2], lo: h[3], pr: h[4], kda: isPro ? [h[5], h[6], h[7]] : null })) : S.heroes.map(h => {
       const r = t.rank === 'all' ? [h.n, h.wr, h.lo] : h.rank[t.rank];
       return r ? { id: h.id, tier: t.rank === 'all' ? h.tier : null, n: r[0], wr: r[1], lo: r[2], pr: h.pr } : null;
-    }).filter(Boolean)
+    })).filter(Boolean)
       .filter(r => !inPos || inPos.has(r.id))
       .filter(r => !t.q || (H.get(r.id)?.localized_name || '').toLowerCase().includes(t.q));
     const k = t.sort;
@@ -94,45 +100,62 @@
     const posOpts = `<option value="all">Все позиции</option>` + Object.entries(POS).map(([p, n]) => `<option value="${p}"${t.pos === p ? ' selected' : ''}>${p} · ${n}</option>`).join('');
     const sortOpts = [['lo', 'Надёжный винрейт'], ['wr', 'Винрейт'], ['pr', 'Пикрейт'], ['n', 'Матчей'], ['name', 'Имя']].map(([v, l]) => `<option value="${v}"${t.sort === v ? ' selected' : ''}>${l}</option>`).join('');
     const maxPr = Math.max(...rows.map(r => r.pr || 0), 1);
+    const sliceOpts = [['base', baseName()], ['top', 'Divine 5 и Immortal'], ['pro', 'Про-сцена']].filter(([v]) => v === 'base' || (S.slices && S.slices[v]))
+      .map(([v, l]) => `<option value="${v}"${t.slice === v ? ' selected' : ''}>${l}${v === 'base' ? '' : ' · ' + num(S.slices[v].matches) + ' матчей'}</option>`).join('');
+    const dd = x => new Date(x).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
     return `<div class="st-toolbar">
+      <select id="stSlice" aria-label="Срез матчей">${sliceOpts}</select>
       <label class="search">⌕ <input id="stQ" placeholder="Герой…" value="${esc(t.q)}"></label>
-      <select id="stRank" aria-label="Ранг">${rankOpts}</select>
+      ${sl ? '' : `<select id="stRank" aria-label="Ранг">${rankOpts}</select>`}
       <select id="stPos" aria-label="Позиция">${posOpts}</select>
       <select id="stSort" aria-label="Сортировка">${sortOpts}</select>
-    </div>` + table(['#', 'Тир', 'Герой', 'Роль на ранге', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'], rows.map((r, i) =>
+    </div>` + (sl ? table(['#', 'Герой', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'].concat(isPro ? ['У/С/П в среднем'] : []), rows.map((r, i) =>
+      `<tr><td class="st-muted">${i + 1}</td><td>${hero(r.id)}</td><td><b class="${r.wr >= 50 ? 'st-up' : 'st-down'}">${pct(r.wr)}</b></td><td>${pct(r.lo)}</td><td>${pct(r.pr)} ${bar(r.pr, maxPr)}</td><td class="st-muted">${num(r.n)}</td>${isPro ? `<td>${r.kda.map(x => String(x).replace('.', ',')).join(' / ')}</td>` : ''}</tr>`)) +
+      note(isPro
+        ? `По ${num(sl.matches)} про-матчам (${dd(sl.from)} — ${dd(sl.to)}), разобранным из реплеев Valve в архиве эфира: ${sl.leagues.slice(0, 3).map(l => esc(l[0]) + ' — ' + num(l[1])).join(', ')}${sl.leagues.length > 3 ? ' и др.' : ''}. Выборка пока маленькая: винрейт отдельного героя по нескольким матчам — не оценка силы, поэтому смотрите на «Надёжный» (нижняя граница интервала Уилсона, 95%). Пикрейт — доля про-матчей, где героя взяли. Тиров нет: для них мало матчей.`
+        : `По ${num(sl.matches)} рейтинговым матчам (${dd(sl.from)} — ${dd(sl.to)}) со средним рангом Divine 5 и Immortal по ленте OpenDota. Выше Divine 5 лента средний ранг не уточняет, поэтому отдельного среза «7000+ MMR» нет. «Надёжный» — нижняя граница интервала Уилсона (95%). Тиры и разрез по рангам — только в срезе «${baseName()}».`)
+      : table(['#', 'Тир', 'Герой', 'Роль на ранге', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'], rows.map((r, i) =>
       `<tr><td class="st-muted">${i + 1}</td><td>${r.tier ? `<span class="st-tier st-tier-${r.tier}">${r.tier}</span>` : '<span class="st-muted">—</span>'}</td><td>${hero(r.id)}</td><td>${roleCell(r.id, t.rank)}</td><td><b class="${r.wr >= 50 ? 'st-up' : 'st-down'}">${pct(r.wr)}</b></td><td>${pct(r.lo)}</td><td>${pct(r.pr)} ${bar(r.pr, maxPr)}</td><td class="st-muted">${num(r.n)}</td></tr>`)) +
-      note(`«Надёжный» — нижняя граница 95-процентного интервала Уилсона: у героя с малым числом матчей она ниже, поэтому случайная серия побед не выводит его в топ. Тиры S–D — пятые доли героев по этой границе (из героев с ${num(S.method.minTier)}+ матчей, по всем рангам). В разрезе ранга учитываются герои с ${num(S.method.minRank)}+ матчами. Роли — статистика Stratz по позициям: значки рядом с героем — роли, где у него ${S.roles ? S.roles.mainShare : 10}%+ матчей, первой идёт роль с лучшим винрейтом; «Роль на ранге» — самая частая роль героя на выбранном ранге. Stratz считает роли по парам рангов (Рекрут+Страж, Рыцарь+Герой, Легенда+Властелин), поэтому у соседних рангов роль общая. Фильтр позиции — по тем же основным ролям.`);
+      note(`«Надёжный» — нижняя граница 95-процентного интервала Уилсона: у героя с малым числом матчей она ниже, поэтому случайная серия побед не выводит его в топ. Тиры S–D — пятые доли героев по этой границе (из героев с ${num(S.method.minTier)}+ матчей, по всем рангам). В разрезе ранга учитываются герои с ${num(S.method.minRank)}+ матчами. Роли — статистика Stratz по позициям: значки рядом с героем — роли, где у него ${S.roles ? S.roles.mainShare : 10}%+ матчей, первой идёт роль с лучшим винрейтом; «Роль на ранге» — самая частая роль героя на выбранном ранге. Stratz считает роли по парам рангов (Рекрут+Страж, Рыцарь+Герой, Легенда+Властелин), поэтому у соседних рангов роль общая. Фильтр позиции — по тем же основным ролям.`));
   }
 
   // ---------- ранги ----------
   function ranks() {
-    const g = Object.keys(S.base.ranks);
+    // Группы 1–6 обязательны; группа 7 (Steam: средний ранг матча Божество 5 и Титан) — столбец, если есть хоть у одного героя.
+    const req = Object.keys(S.base.ranks).filter(x => x <= 6);
+    const g = req.concat(Object.keys(S.base.ranks).filter(x => x > 6 && S.heroes.some(h => h.rank[x])));
     const k = state.ranks.sort;
-    const rows = S.heroes.filter(h => g.every(x => h.rank[x]))
-      .map(h => ({ id: h.id, r: g.map(x => h.rank[x][1]), d: Math.round((h.rank['6'][1] - h.rank['1'][1]) * 10) / 10 }))
-      .sort((a, b) => k === 'd' ? b.d - a.d : k === '-d' ? a.d - b.d : b.r[g.indexOf(k)] - a.r[g.indexOf(k)]);
-    const cell = v => `<td class="st-heat" style="--h:${Math.max(-1, Math.min(1, (v - 50) / 6)).toFixed(2)}">${pct(v)}</td>`;
+    const rows = S.heroes.filter(h => req.every(x => h.rank[x]))
+      .map(h => ({ id: h.id, r: g.map(x => (h.rank[x] ? h.rank[x][1] : null)), d: Math.round((h.rank['6'][1] - h.rank['1'][1]) * 10) / 10 }))
+      .sort((a, b) => k === 'd' ? b.d - a.d : k === '-d' ? a.d - b.d : (b.r[g.indexOf(k)] ?? -1) - (a.r[g.indexOf(k)] ?? -1));
+    const cell = v => v == null ? '<td class="st-muted">—</td>' : `<td class="st-heat" style="--h:${Math.max(-1, Math.min(1, (v - 50) / 6)).toFixed(2)}">${pct(v)}</td>`;
     const opts = g.map(x => `<option value="${x}"${k === x ? ' selected' : ''}>Лучшие: ${esc(S.base.ranks[x].name)}</option>`).join('') +
       `<option value="d"${k === 'd' ? ' selected' : ''}>Сильнее на высоком ранге</option><option value="-d"${k === '-d' ? ' selected' : ''}>Сильнее на низком ранге</option>`;
+    if (!rows.length) return `<div class="st-empty"><b>Разрез по рангам копится</b><p>Ранг матча известен у части базы (средний ранг из ленты OpenDota). Таблица появится, когда у героев наберётся по ${num(S.method.minRank)}+ матчей в каждой группе от Рекрута до Властелина. Сейчас матчей с известным рангом: ${Object.values(S.base.ranks).map(r => esc(r.name) + ' — ' + num(r.n)).join(', ')}.</p></div>`;
     return `<div class="st-toolbar"><select id="stRankSort" aria-label="Сортировка">${opts}</select></div>` +
       table(['Герой', 'Роль', ...g.map(x => esc(S.base.ranks[x].name)), 'Властелин − Рекрут'], rows.map(r =>
         `<tr><td>${hero(r.id)}</td><td>${roleCell(r.id, 'all')}</td>${r.r.map(cell).join('')}<td><b class="${r.d >= 0 ? 'st-up' : 'st-down'}">${sgn(r.d)} п.п.</b></td></tr>`)) +
-      note(`Винрейт героя в каждой группе рангов своей базы. Показаны герои, у которых в каждой группе ${num(S.method.minRank)}+ матчей. Последний столбец — насколько лучше (или хуже) герой играется у Властелинов, чем у Рекрутов.`);
+      note(`Винрейт героя в каждой группе рангов своей базы. Показаны герои, у которых в каждой группе от Рекрута до Властелина ${num(S.method.minRank)}+ матчей${g.length > req.length ? '; «Божество 5 и Титан» — где матчей хватает, иначе «—»' : ''}. Ранг матча известен не у всех матчей базы (средний ранг из ленты OpenDota). Последний столбец — насколько лучше (или хуже) герой играется у Властелинов, чем у Рекрутов.`);
   }
 
   // ---------- позиции ----------
+  // Steam (S.posSteam): позиции 1/2/3 и «Поддержка 4–5» по разметке матчей моделью; без него — Stratz 1–5.
+  const POS_STEAM = { 1: 'Керри', 2: 'Мид', 3: 'Оффлейн', sup: 'Поддержка 4–5' };
   function positions() {
-    return `<div class="st-grid st-grid-5">${Object.entries(POS).map(([p, name]) => {
-      const q = S.positions[p];
+    const ST = S.posSteam && Object.keys(S.posSteam.pos || {}).length ? S.posSteam : null;
+    const src = ST ? ST.pos : S.positions;
+    return `<div class="st-grid ${ST ? 'st-grid-4' : 'st-grid-5'}">${Object.entries(ST ? POS_STEAM : POS).map(([p, name]) => {
+      const q = src[p];
       if (!q) return '';
       const best = q.heroes.slice(0, 8), worst = q.heroes.slice(-5).reverse();
       const row = h => `<li>${hero(h.id, `${pct(h.wr)} · ${num(h.n)} матчей · GPM ${h.gpm}`)}</li>`;
-      return `<article class="st-card"><h3><span class="st-pos">${p}</span>${name}</h3>
+      return `<article class="st-card"><h3><span class="st-pos">${p === 'sup' ? '4–5' : p}</span>${name}</h3>
         <div class="st-kpi"><div><span>GPM</span><b>${q.gpm}</b></div><div><span>XPM</span><b>${q.xpm}</b></div><div><span>Игроков</span><b>${num(q.n)}</b></div></div>
         <h4>Лучшие</h4><ol class="st-list">${best.map(row).join('')}</ol>
         <h4>Худшие</h4><ol class="st-list">${worst.map(row).join('')}</ol></article>`;
-    }).join('')}</div>` +
-      note(`Детальные матчи Stratz текущего патча (${num(S.base.stratzMatches)} матчей). GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции. Выборка растёт каждый день.`);
+    }).join('')}</div>` + (ST
+      ? note(`Все рейтинговые матчи базы (${num(ST.labeled)} матчей): позицию каждого игрока определяет наша модель по золоту, опыту, добиванию, урону и предметам${ST.model && ST.model.test ? ` — на проверочных матчах Stratz она верно отличает керри, мида, оффлейн и поддержку в ${pct(ST.model.test.core3sup)} случаев` : ''}. Поддержку 4 и 5 по данным Steam надёжно не разделить, поэтому они вместе. GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции.`)
+      : note(`Детальные матчи Stratz текущего патча (${num(S.base.stratzMatches)} матчей). GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции. Выборка растёт каждый день.`));
   }
 
   // ---------- связки и контрпики ----------
@@ -215,11 +238,12 @@
       const t = state.tier;
       const q = $('stQ');
       q.oninput = () => { t.q = q.value.trim().toLowerCase(); const pos = q.selectionStart; show('tier'); const n = $('stQ'); n.focus(); n.setSelectionRange(pos, pos); };
-      $('stRank').onchange = e => { t.rank = e.target.value; show('tier'); };
+      $('stSlice').onchange = e => { t.slice = e.target.value; show('tier'); };
+      if ($('stRank')) $('stRank').onchange = e => { t.rank = e.target.value; show('tier'); };
       $('stPos').onchange = e => { t.pos = e.target.value; show('tier'); };
       $('stSort').onchange = e => { t.sort = e.target.value; show('tier'); };
     }
-    if (tab === 'ranks') $('stRankSort').onchange = e => { state.ranks.sort = e.target.value; show('ranks'); };
+    if (tab === 'ranks' && $('stRankSort')) $('stRankSort').onchange = e => { state.ranks.sort = e.target.value; show('ranks'); };
   }
   tabs.addEventListener('click', e => {
     const b = e.target.closest('button[data-tab]'); if (!b) return;

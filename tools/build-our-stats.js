@@ -14,7 +14,7 @@
  *
  * Источник: --source opendota (по умолчанию) | steam — см. tools/match-source.js.
  *
- * Запуск:  node tools/build-our-stats.js [--tier top] [--turbo] [--source steam]
+ * Запуск:  node tools/build-our-stats.js [--tier top|all] [--turbo] [--source steam] [--main]
  */
 const fs = require('fs');
 const path = require('path');
@@ -24,8 +24,13 @@ const SRC = MS.source();
 const ROOT = path.join(__dirname, '..');
 // Срез: base — наша база 0–4500 MMR, top — «Divine 5 и Immortal» (tools/collect-public-matches.js --tier top).
 const TIER = process.argv.includes('--tier') ? process.argv[process.argv.indexOf('--tier') + 1] : 'base';
-const TIERS = { base: { dir: 'public-matches', min: 0, max: 65, suffix: '' }, top: { dir: 'public-matches-top', min: 75, max: 85, suffix: '-top' } };
+const TIERS = { base: { dir: 'public-matches', min: 0, max: 65, suffix: '' }, top: { dir: 'public-matches-top', min: 75, max: 85, suffix: '-top' },
+  all: { dir: null, min: -Infinity, max: Infinity, suffix: '-all' } }; // all — только --source steam: все рейтинговые матчи всех рангов
 if (!TIERS[TIER]) { console.error('Неизвестный срез: ' + TIER); process.exit(2); }
+if (TIER === 'all' && SRC !== 'steam') { console.error('Срез all — только для --source steam'); process.exit(2); }
+// --main: срез all пишется в основные файлы сайта (our-meta.json/our-matrix.json) — с U5 (09.10.2026) это матрица DraftMate «Все ранги»
+if (process.argv.includes('--main')) { if (TIER !== 'all') { console.error('--main — только для --tier all'); process.exit(2); } TIERS.all.suffix = ''; }
+const OUT_DIR = MS.outDir(); // --out-dir (по умолчанию data/)
 const MIN_DURATION = 900;   // 15 минут: отсекаем брошенные игры
 
 function args() {
@@ -35,12 +40,12 @@ function args() {
     turbo,
     modes: turbo ? [23] : [22],
     lobbies: turbo ? [0] : [0, 7],
-    metaOut: path.join(ROOT, 'data', 'our-meta' + TIERS[TIER].suffix + (turbo ? '-turbo' : '') + '.json'),
-    matrixOut: path.join(ROOT, 'data', 'our-matrix' + TIERS[TIER].suffix + (turbo ? '-turbo' : '') + '.json')
+    metaOut: path.join(OUT_DIR, 'our-meta' + TIERS[TIER].suffix + (turbo ? '-turbo' : '') + '.json'),
+    matrixOut: path.join(OUT_DIR, 'our-matrix' + TIERS[TIER].suffix + (turbo ? '-turbo' : '') + '.json')
   };
 }
 
-function main() {
+async function main() {
   const A = args();
   const heroesFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8'));
   const heroIds = heroesFile.heroes.map(h => h.id).sort((a, b) => a - b);
@@ -53,14 +58,12 @@ function main() {
   const withN = new Array(PAIRS).fill(0), withW = new Array(PAIRS).fill(0);
   const vsN = new Array(PAIRS).fill(0), vsW = new Array(PAIRS).fill(0);
 
-  const rows = MS.publicRows({ src: SRC, tier: TIER, turbo: A.turbo });
-  if (!rows.length) throw new Error(SRC === 'steam' ? 'База Steam пуста — сначала tools/collect-steam-matches.js' : 'База пуста — сначала запусти «Обновить всё.cmd»');
 
   let total = 0, used = 0, minTime = Infinity, maxTime = 0;
   const rankHist = {};
 
   {
-    for (const r of rows) {
+    for await (const r of MS.publicStream({ src: SRC, tier: TIER, turbo: A.turbo })) {
       total++;
       const [, start, dur, rank, lobby, mode, radWin] = r;
       if (!A.modes.includes(mode) || !A.lobbies.includes(lobby) || dur < MIN_DURATION) continue;
@@ -102,12 +105,13 @@ function main() {
     }
   }
 
+  if (!total) throw new Error(SRC === 'steam' ? 'База Steam пуста — сначала tools/collect-steam-matches.js' : 'База пуста — сначала запусти «Обновить всё.cmd»');
   if (!used) throw new Error('Под фильтр не попало ни одного матча');
 
   const meta = {
     source: MS.sourceLabel(SRC),
-    slice: TIER === 'top' ? 'Ranked All Pick, Divine 5 и Immortal (средний ранг матча 75–85 по ленте OpenDota)'
-      : SRC === 'steam' ? (A.turbo ? 'Турбо, все ранги' : 'Ranked All Pick, ранг неизвестен или 0-4500 MMR') : A.turbo ? 'Турбо, 0-4500 MMR' : 'Ranked All Pick, 0-4500 MMR',
+    slice: TIER === 'all' && !A.turbo ? 'Ranked All Pick, все ранги' : TIER === 'top' ? 'Ranked All Pick, Divine 5 и Immortal (средний ранг матча 75–85 по ленте OpenDota)'
+      : SRC === 'steam' ? (A.turbo ? 'Турбо, все ранги' : 'Ranked All Pick, ранг неизвестен или до Властелина') : A.turbo ? 'Турбо, ранги Рекрут–Властелин' : 'Ranked All Pick, ранги Рекрут–Властелин',
     builtAt: new Date().toISOString(),
     matchesInBase: total,
     matchesUsed: used,
@@ -156,4 +160,4 @@ function main() {
     path.basename(A.matrixOut), (fs.statSync(A.matrixOut).size / 1024).toFixed(0) + ' КБ');
 }
 
-main();
+main().catch(e => { console.error('ОШИБКА:', e.message); process.exit(1); });

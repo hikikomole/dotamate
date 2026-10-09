@@ -20,7 +20,7 @@
   const TABS = ['tier', 'ranks', 'positions', 'pairs', 'items', 'matches', 'lanes', 'trend', 'pro'];
 
   let S = null, H = new Map(), I = new Map(), SH = new Map();
-  const state = { tier: { q: '', rank: 'all', pos: 'all', sort: 'lo' }, ranks: { sort: '6' } };
+  const state = { tier: { q: '', rank: 'all', pos: 'all', sort: 'lo', slice: 'base' }, ranks: { sort: '6' } };
 
   function heroSlug(h) {
     return typeof window.slugForHero === 'function' ? window.slugForHero(h) : String(h.name || '').replace(/^npc_dota_hero_/, '');
@@ -82,10 +82,14 @@
   function tier() {
     const t = state.tier;
     const inPos = t.pos === 'all' ? null : new Set(S.heroes.filter(h => (h.ro || []).some(r => String(r[0]) === t.pos)).map(h => h.id));
-    let rows = S.heroes.map(h => {
+    // Срез: base — своя база до 4500 MMR (ранги, тиры); top и pro — S.slices (tools/build-stats.js, раздел 5).
+    const sl = t.slice !== 'base' && S.slices && S.slices[t.slice] ? S.slices[t.slice] : null;
+    if (t.slice !== 'base' && !sl) t.slice = 'base';
+    const isPro = t.slice === 'pro';
+    let rows = (sl ? sl.heroes.map(h => ({ id: h[0], tier: null, n: h[1], wr: h[2], lo: h[3], pr: h[4], kda: isPro ? [h[5], h[6], h[7]] : null })) : S.heroes.map(h => {
       const r = t.rank === 'all' ? [h.n, h.wr, h.lo] : h.rank[t.rank];
       return r ? { id: h.id, tier: t.rank === 'all' ? h.tier : null, n: r[0], wr: r[1], lo: r[2], pr: h.pr } : null;
-    }).filter(Boolean)
+    })).filter(Boolean)
       .filter(r => !inPos || inPos.has(r.id))
       .filter(r => !t.q || (H.get(r.id)?.localized_name || '').toLowerCase().includes(t.q));
     const k = t.sort;
@@ -94,14 +98,23 @@
     const posOpts = `<option value="all">Все позиции</option>` + Object.entries(POS).map(([p, n]) => `<option value="${p}"${t.pos === p ? ' selected' : ''}>${p} · ${n}</option>`).join('');
     const sortOpts = [['lo', 'Надёжный винрейт'], ['wr', 'Винрейт'], ['pr', 'Пикрейт'], ['n', 'Матчей'], ['name', 'Имя']].map(([v, l]) => `<option value="${v}"${t.sort === v ? ' selected' : ''}>${l}</option>`).join('');
     const maxPr = Math.max(...rows.map(r => r.pr || 0), 1);
+    const sliceOpts = [['base', 'До 4500 MMR'], ['top', 'Divine 5 и Immortal'], ['pro', 'Про-сцена']].filter(([v]) => v === 'base' || (S.slices && S.slices[v]))
+      .map(([v, l]) => `<option value="${v}"${t.slice === v ? ' selected' : ''}>${l}${v === 'base' ? '' : ' · ' + num(S.slices[v].matches) + ' матчей'}</option>`).join('');
+    const dd = x => new Date(x).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
     return `<div class="st-toolbar">
+      <select id="stSlice" aria-label="Срез матчей">${sliceOpts}</select>
       <label class="search">⌕ <input id="stQ" placeholder="Герой…" value="${esc(t.q)}"></label>
-      <select id="stRank" aria-label="Ранг">${rankOpts}</select>
+      ${sl ? '' : `<select id="stRank" aria-label="Ранг">${rankOpts}</select>`}
       <select id="stPos" aria-label="Позиция">${posOpts}</select>
       <select id="stSort" aria-label="Сортировка">${sortOpts}</select>
-    </div>` + table(['#', 'Тир', 'Герой', 'Роль на ранге', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'], rows.map((r, i) =>
+    </div>` + (sl ? table(['#', 'Герой', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'].concat(isPro ? ['У/С/П в среднем'] : []), rows.map((r, i) =>
+      `<tr><td class="st-muted">${i + 1}</td><td>${hero(r.id)}</td><td><b class="${r.wr >= 50 ? 'st-up' : 'st-down'}">${pct(r.wr)}</b></td><td>${pct(r.lo)}</td><td>${pct(r.pr)} ${bar(r.pr, maxPr)}</td><td class="st-muted">${num(r.n)}</td>${isPro ? `<td>${r.kda.map(x => String(x).replace('.', ',')).join(' / ')}</td>` : ''}</tr>`)) +
+      note(isPro
+        ? `По ${num(sl.matches)} про-матчам (${dd(sl.from)} — ${dd(sl.to)}), разобранным из реплеев Valve в архиве эфира: ${sl.leagues.slice(0, 3).map(l => esc(l[0]) + ' — ' + num(l[1])).join(', ')}${sl.leagues.length > 3 ? ' и др.' : ''}. Выборка пока маленькая: винрейт отдельного героя по нескольким матчам — не оценка силы, поэтому смотрите на «Надёжный» (нижняя граница интервала Уилсона, 95%). Пикрейт — доля про-матчей, где героя взяли. Тиров нет: для них мало матчей.`
+        : `По ${num(sl.matches)} рейтинговым матчам (${dd(sl.from)} — ${dd(sl.to)}) со средним рангом Divine 5 и Immortal по ленте OpenDota. Выше Divine 5 лента средний ранг не уточняет, поэтому отдельного среза «7000+ MMR» нет. «Надёжный» — нижняя граница интервала Уилсона (95%). Тиры и разрез по рангам — только в срезе «До 4500 MMR».`)
+      : table(['#', 'Тир', 'Герой', 'Роль на ранге', 'Винрейт', 'Надёжный', 'Пикрейт', 'Матчей'], rows.map((r, i) =>
       `<tr><td class="st-muted">${i + 1}</td><td>${r.tier ? `<span class="st-tier st-tier-${r.tier}">${r.tier}</span>` : '<span class="st-muted">—</span>'}</td><td>${hero(r.id)}</td><td>${roleCell(r.id, t.rank)}</td><td><b class="${r.wr >= 50 ? 'st-up' : 'st-down'}">${pct(r.wr)}</b></td><td>${pct(r.lo)}</td><td>${pct(r.pr)} ${bar(r.pr, maxPr)}</td><td class="st-muted">${num(r.n)}</td></tr>`)) +
-      note(`«Надёжный» — нижняя граница 95-процентного интервала Уилсона: у героя с малым числом матчей она ниже, поэтому случайная серия побед не выводит его в топ. Тиры S–D — пятые доли героев по этой границе (из героев с ${num(S.method.minTier)}+ матчей, по всем рангам). В разрезе ранга учитываются герои с ${num(S.method.minRank)}+ матчами. Роли — статистика Stratz по позициям: значки рядом с героем — роли, где у него ${S.roles ? S.roles.mainShare : 10}%+ матчей, первой идёт роль с лучшим винрейтом; «Роль на ранге» — самая частая роль героя на выбранном ранге. Stratz считает роли по парам рангов (Рекрут+Страж, Рыцарь+Герой, Легенда+Властелин), поэтому у соседних рангов роль общая. Фильтр позиции — по тем же основным ролям.`);
+      note(`«Надёжный» — нижняя граница 95-процентного интервала Уилсона: у героя с малым числом матчей она ниже, поэтому случайная серия побед не выводит его в топ. Тиры S–D — пятые доли героев по этой границе (из героев с ${num(S.method.minTier)}+ матчей, по всем рангам). В разрезе ранга учитываются герои с ${num(S.method.minRank)}+ матчами. Роли — статистика Stratz по позициям: значки рядом с героем — роли, где у него ${S.roles ? S.roles.mainShare : 10}%+ матчей, первой идёт роль с лучшим винрейтом; «Роль на ранге» — самая частая роль героя на выбранном ранге. Stratz считает роли по парам рангов (Рекрут+Страж, Рыцарь+Герой, Легенда+Властелин), поэтому у соседних рангов роль общая. Фильтр позиции — по тем же основным ролям.`));
   }
 
   // ---------- ранги ----------
@@ -215,7 +228,8 @@
       const t = state.tier;
       const q = $('stQ');
       q.oninput = () => { t.q = q.value.trim().toLowerCase(); const pos = q.selectionStart; show('tier'); const n = $('stQ'); n.focus(); n.setSelectionRange(pos, pos); };
-      $('stRank').onchange = e => { t.rank = e.target.value; show('tier'); };
+      $('stSlice').onchange = e => { t.slice = e.target.value; show('tier'); };
+      if ($('stRank')) $('stRank').onchange = e => { t.rank = e.target.value; show('tier'); };
       $('stPos').onchange = e => { t.pos = e.target.value; show('tier'); };
       $('stSort').onchange = e => { t.sort = e.target.value; show('tier'); };
     }

@@ -1,23 +1,13 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-title Dota Mate - obnovlenie vsego
+title Dota Mate - obnovlenie na servere
 echo.
-echo ================================================
-echo   Полное обновление dotamate.ru
-echo ================================================
+echo   Запуск обновления dotamate.ru на сервере (вне расписания).
+echo   По расписанию оно и так идёт каждую ночь в 04:17 МСК.
 echo.
-echo Матчи OpenDota, META из Stratz, способности (когда пора),
-echo пересчёт матриц и одна выкладка на сайт. Час-два.
-echo Прервать - Ctrl+C, собранное не теряется.
-echo Журнал - папка logs.
+node tools\server-update.js
 echo.
-where node >nul 2>nul
-if errorlevel 1 (
-  echo [ОШИБКА] Не найден Node.js.
-  pause
-  exit /b 1
-)
-node tools\daily-update.js %*
+echo   Посмотреть ход обновления:  node tools\server-update.js --log
 echo.
 pause

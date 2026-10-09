@@ -24,8 +24,20 @@
   "name": "META"
  },
  {
+  "loc": "https://dotamate.ru/live/",
+  "name": "Эфир Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/pro/",
+  "name": "Про-матчи Dota 2"
+ },
+ {
   "loc": "https://dotamate.ru/game/",
   "name": "Hook & Hit"
+ },
+ {
+  "loc": "https://dotamate.ru/me/",
+  "name": "Мой профиль Dota 2"
  },
  {
   "loc": "https://dotamate.ru/patch/7.41f/",

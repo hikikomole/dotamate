@@ -34,8 +34,9 @@ const SRC = MS.source();
 
 const ROOT = path.join(__dirname, '..');
 const DIR = path.join(ROOT, 'data', 'meta-matches');
-const OUT = path.join(ROOT, 'data', 'meta-escape.json');
-const OUT_MATCH = path.join(ROOT, 'data', 'meta-match');
+const OUT_DIR = MS.outDir(); // --out-dir (по умолчанию data/)
+const OUT = path.join(OUT_DIR, 'meta-escape.json');
+const OUT_MATCH = path.join(OUT_DIR, 'meta-match');
 
 const WINDOW_DAYS = 5;      // витрина: последние 5 дней от самого свежего матча
 const MIN_BASE = 30;        // сборок героя на позиции, чтобы считать долю по позиции
@@ -45,21 +46,10 @@ const NICHE_SHARE = 0.2;    // герой на позиции нишевый, е
 const NICHE_MIN = 10;       // и сыграно на ней не меньше стольких матчей
 
 const read = f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
-
-// строка Steam (tools/collect-steam-matches.js) → запись в формате data/meta-matches
-function fromSteam(r) {
-  return {
-    id: r[0], rw: r[5], dur: r[3], t: r[2], rank: r[4], wr: [], nw: [], lanes: [], bans: r[8],
-    p: r.slice(9, 19).map(p => ({ h: p[0], r: p[1] < 128 ? 1 : 0, pos: null, k: p[2], d: p[3], a: p[4], gpm: p[7], xpm: p[8],
-      lh: p[5], dn: p[6], hd: p[11], td: p[12], hh: p[13], nw: p[10], lvl: p[9], it: p[14], nt: p[16], acc: 0, name: '' }))
-  };
-}
+// матрица и калибровка для прогноза на страницах матчей: из каталога вывода, если там есть (data-steam/), иначе data/
+const readOut = f => fs.existsSync(path.join(OUT_DIR, f)) ? JSON.parse(fs.readFileSync(path.join(OUT_DIR, f), 'utf8')) : read(f);
 
 function loadMatches() {
-  if (SRC === 'steam') {
-    // как кандидаты Stratz (collect-meta-matches.js): ranked AP от 20 минут, наш срез рангов
-    return MS.steamMatches().filter(r => r[3] >= 1200 && (r[4] == null || r[4] <= 65)).map(fromSteam);
-  }
   const byId = new Map();
   for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
     for (const line of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
@@ -81,13 +71,30 @@ function wilson(w, n) {
 const RANKS = ['', 'Рекрут', 'Страж', 'Рыцарь', 'Герой', 'Легенда', 'Властелин', 'Божество', 'Титан'];
 const rankName = r => r ? (RANKS[Math.floor(r / 10)] || '') + (r % 10 ? ' ' + (r % 10) : '') : '';
 
-function main() {
+function refs() {
   const heroes = read('heroes.json').heroes;
   const heroById = new Map(heroes.map(h => [h.id, h]));
   const itemsRu = read('items-ru.json').items;
   const itemById = new Map();
   for (const [key, it] of Object.entries(itemsRu)) itemById.set(it.id, Object.assign({ key }, it));
   const counted = id => { const it = itemById.get(id); return it && it.cat !== 'consumable'; };
+  return { heroById, itemById, counted };
+}
+
+// справочники: только то, что попало на страницу
+function dicts(usedHeroes, usedItems, heroById, itemById) {
+  const heroDict = {}, itemDict = {};
+  for (const id of usedHeroes) { const h = heroById.get(id); if (h) heroDict[id] = { n: h.localized_name, img: imageUrl(h), slug: slugForHero(h) }; }
+  for (const id of usedItems) {
+    const it = itemById.get(id);
+    if (it) itemDict[id] = { n: it.dname, img: it.img, slug: it.cat === 'recipe' ? '' : it.key.replace(/^item_/, '').toLowerCase().replace(/[^a-z0-9_]/g, '_') };
+  }
+  return { heroDict, itemDict };
+}
+
+function main() {
+  if (SRC === 'steam') return mainSteam();
+  const { heroById, itemById, counted } = refs();
 
   const all = loadMatches();
   if (!all.length) throw new Error(SRC === 'steam' ? 'Нет матчей Steam: сначала node tools/collect-steam-matches.js' : 'Нет матчей: сначала node tools/collect-meta-matches.js');
@@ -161,18 +168,12 @@ function main() {
       });
   }
 
-  // --- справочники: только то, что попало на страницу
-  const heroDict = {}, itemDict = {};
-  for (const id of usedHeroes) { const h = heroById.get(id); if (h) heroDict[id] = { n: h.localized_name, img: imageUrl(h), slug: slugForHero(h) }; }
-  for (const id of usedItems) {
-    const it = itemById.get(id);
-    if (it) itemDict[id] = { n: it.dname, img: it.img, slug: it.cat === 'recipe' ? '' : it.key.replace(/^item_/, '').toLowerCase().replace(/[^a-z0-9_]/g, '_') };
-  }
+  const { heroDict, itemDict } = dicts(usedHeroes, usedItems, heroById, itemById);
 
   const out = {
     generatedAt: new Date().toISOString(),
     source: SRC === 'steam' ? 'Steam Web API, финальный инвентарь рейтинговых матчей' : 'Stratz, матчи из нашей базы публичных матчей OpenDota',
-    slice: SRC === 'steam' ? 'Ranked All Pick, ранг неизвестен или 0–4500 MMR, матчи от 20 минут' : 'Ranked All Pick, 0–4500 MMR, матчи от 20 минут',
+    slice: SRC === 'steam' ? 'Ranked All Pick, ранг неизвестен или до Властелина, матчи от 20 минут' : 'Ranked All Pick, ранги Рекрут–Властелин, матчи от 20 минут',
     window: { from: matches.reduce((x, m) => Math.min(x, m.t), newest), to: newest, days: WINDOW_DAYS },
     matches: matches.length, builds: builds.length, scored: scored.length,
     rules: { minBase: MIN_BASE, minItems: MIN_ITEMS, nicheShare: NICHE_SHARE * 100, nicheMin: NICHE_MIN },
@@ -185,9 +186,138 @@ function main() {
   writeMatches(matches.filter(m => usedMatches.has(m.id)), heroById, itemById);
 }
 
+/**
+ * META на Steam (--source steam): финальный инвентарь из data/steam-matches за последние WINDOW_DAYS,
+ * позиции — разметка U2 (tools/match-positions.js: 1/2/3/саппорт; где матч есть у Stratz — его позиции,
+ * 4 и 5 здесь сводятся в «саппорт»). Формула и пороги те же, что в main().
+ * На боевом объёме (сотни тысяч матчей в сутки) сборки хранятся в типизированных массивах, полные
+ * матчи читаются вторым проходом только для попавших на страницу.
+ */
+async function mainSteam() {
+  const MP = require('./match-positions.js');
+  const model = MP.loadModel(), stratz = MP.stratzIndex();
+  const { heroById, itemById, counted } = refs();
+  const POS = [null, 1, 2, 3, 'sup'];              // код позиции → значение pos в выходе
+  const grow = T => ({ a: new T(1 << 16), n: 0, push(v) { if (this.n === this.a.length) { const b = new T(this.a.length * 2); b.set(this.a); this.a = b; } this.a[this.n++] = v; } });
+  const mId = grow(Float64Array), mT = grow(Int32Array);
+  const bM = grow(Uint32Array), bH = grow(Uint16Array), bPos = grow(Uint8Array), bWin = grow(Uint8Array), bIt = grow(Uint32Array), bItN = grow(Uint8Array);
+  const items = grow(Uint16Array);
+  const keep = r => r[3] >= 1200 && (r[4] == null || r[4] <= 65);   // как кандидаты Stratz: ranked AP от 20 минут, ранг неизвестен или до Властелина
+
+  for await (const r of MS.steamStream({ days: WINDOW_DAYS + 1 })) {
+    if (!keep(r)) continue;
+    const lab = MP.labelSteamRow(r, model, stratz), mi = mId.n;
+    mId.push(r[0]); mT.push(r[2]);
+    for (let s = 0; s < 10; s++) {
+      const p = r[9 + s], pos = lab.p[s].pos;
+      bM.push(mi); bH.push(p[0]); bPos.push(pos === 1 || pos === 2 || pos === 3 ? pos : 4);
+      bWin.push((p[1] < 128) === (r[5] === 1) ? 1 : 0);
+      const set = [...new Set((p[14] || []).filter(counted))];
+      bIt.push(items.n); bItN.push(set.length); for (const i of set) items.push(i);
+    }
+  }
+  if (!mId.n) throw new Error('Нет матчей Steam: сначала node tools/collect-steam-matches.js');
+  let newest = 0; for (let i = 0; i < mT.n; i++) if (mT.a[i] > newest) newest = mT.a[i];
+  const from = newest - WINDOW_DAYS * 86400;
+  const inWin = b => mT.a[bM.a[b]] >= from;
+  const NB = bM.n;
+
+  // --- база долей: герой+позиция и герой целиком; счётчики для нишевых
+  const base = new Map(), hp = new Map(), ht = new Map();
+  const add = (k, b) => { let x = base.get(k); if (!x) base.set(k, x = { n: 0, c: new Map() }); x.n++; for (let j = bIt.a[b], e = j + bItN.a[b]; j < e; j++) x.c.set(items.a[j], (x.c.get(items.a[j]) || 0) + 1); };
+  let matches = 0, builds = 0, mFrom = newest;
+  for (let i = 0; i < mT.n; i++) if (mT.a[i] >= from) { matches++; if (mT.a[i] < mFrom) mFrom = mT.a[i]; }
+  for (let b = 0; b < NB; b++) {
+    if (!inWin(b)) continue;
+    builds++;
+    const h = bH.a[b], k = h * 8 + bPos.a[b];
+    add(k, b); add(h * 8, b);
+    let x = hp.get(k); if (!x) hp.set(k, x = { h, pos: POS[bPos.a[b]], n: 0, w: 0 });
+    x.n++; x.w += bWin.a[b];
+    ht.set(h, (ht.get(h) || 0) + 1);
+  }
+
+  // --- оценка каждой сборки
+  const score = new Float64Array(NB).fill(NaN), byPos = new Uint8Array(NB);
+  let scoredN = 0;
+  for (let b = 0; b < NB; b++) {
+    if (!inWin(b) || bItN.a[b] < MIN_ITEMS) continue;
+    const h = bH.a[b];
+    let bs = base.get(h * 8 + bPos.a[b]), bp = 1;
+    if (!bs || bs.n < MIN_BASE) { bs = base.get(h * 8); bp = 0; }
+    if (bs.n < MIN_BASE) continue;
+    let s = 0;
+    for (let j = bIt.a[b], e = j + bItN.a[b]; j < e; j++) s += -Math.log(((bs.c.get(items.a[j]) || 1) - 0.5) / bs.n);
+    score[b] = Math.round(s * 100) / 100; byPos[b] = bp; scoredN++;
+  }
+  const top5 = pred => { const t = []; for (let b = 0; b < NB; b++) { if (Number.isNaN(score[b]) || !pred(b)) continue; t.push(b); t.sort((x, y) => score[y] - score[x]); if (t.length > 5) t.pop(); } return t; };
+  const dayAgo = newest - 86400;
+  const dayB = top5(b => mT.a[bM.a[b]] >= dayAgo), fiveB = top5(() => true);
+  // «Последние билды»: TOP_ALL самых свежих оценённых, окно по времени расширяется, пока не наберётся
+  let listB = [];
+  for (let span = 3600; ; span *= 2) {
+    listB = []; for (let b = 0; b < NB; b++) if (!Number.isNaN(score[b]) && mT.a[bM.a[b]] >= newest - span) listB.push(b);
+    if (listB.length >= TOP_ALL || span >= WINDOW_DAYS * 86400) break;
+  }
+  listB = listB.sort((x, y) => mT.a[bM.a[y]] - mT.a[bM.a[x]] || score[y] - score[x]).slice(0, TOP_ALL);
+
+  // --- полные матчи только для попавших на страницу (второй проход)
+  const need = new Set([...dayB, ...fiveB, ...listB].map(b => mId.a[bM.a[b]]));
+  const full = new Map();
+  for await (const r of MS.steamStream({ days: WINDOW_DAYS + 1 })) {
+    if (!need.has(r[0])) continue;
+    const m = MS.steamToMeta(r), lab = MP.labelSteamRow(r, model, stratz);
+    m.p.forEach((q, i) => { q.pos = lab.p[i].pos; });
+    full.set(m.id, m);
+  }
+  const slotOf = b => b % 10; // сборки матча идут подряд по слотам 0–9
+
+  const usedHeroes = new Set(), usedItems = new Set(), usedMatches = new Set();
+  const row = b => {
+    const m = full.get(mId.a[bM.a[b]]), p = m.p[slotOf(b)];
+    const bs = byPos[b] ? base.get(p.h * 8 + bPos.a[b]) : base.get(p.h * 8);
+    const share = {};
+    for (let j = bIt.a[b], e = j + bItN.a[b]; j < e; j++) { const i = items.a[j], c = bs.c.get(i) || 1; share[i] = Math.round(1000 * (c - 1) / (bs.n - 1)) / 10; }
+    usedHeroes.add(p.h); usedMatches.add(m.id); p.it.forEach(i => i && usedItems.add(i));
+    return {
+      match: m.id, t: m.t, rank: rankName(m.rank), hero: p.h, pos: POS[bPos.a[b]], win: bWin.a[b],
+      score: score[b], byPos: byPos[b], baseN: bs.n,
+      items: p.it, share: p.it.map(i => (i && share[i] !== undefined) ? share[i] : null),
+      k: p.k, d: p.d, a: p.a, name: ''
+    };
+  };
+  const day = dayB.map(row), five = fiveB.map(row), list = listB.map(row);
+
+  // --- нишевые герои по позициям (у Steam нет имён игроков — player: null)
+  const niche = {};
+  for (const pos of [1, 2, 3, 'sup']) {
+    niche[pos] = [...hp.values()]
+      .filter(x => x.pos === pos && x.n >= NICHE_MIN && x.n / ht.get(x.h) <= NICHE_SHARE && x.w / x.n > 0.5)
+      .map(x => ({ x, lb: wilson(x.w, x.n) }))
+      .sort((a, b) => b.lb - a.lb).slice(0, 8)
+      .map(({ x }) => { usedHeroes.add(x.h); return { hero: x.h, games: x.n, wins: x.w, share: Math.round(1000 * x.n / ht.get(x.h)) / 10, player: null }; });
+  }
+
+  const { heroDict, itemDict } = dicts(usedHeroes, usedItems, heroById, itemById);
+  const out = {
+    generatedAt: new Date().toISOString(),
+    source: 'Steam Web API, финальный инвентарь рейтинговых матчей',
+    slice: 'Ranked All Pick, ранг неизвестен или до Властелина, матчи от 20 минут',
+    positions: 'Модель позиций U2 (1/2/3/саппорт, data/position-model.json); матчи Stratz — по Stratz, 4 и 5 сведены в «саппорт»',
+    window: { from: mFrom, to: newest, days: WINDOW_DAYS },
+    matches, builds, scored: scoredN,
+    rules: { minBase: MIN_BASE, minItems: MIN_ITEMS, nicheShare: NICHE_SHARE * 100, nicheMin: NICHE_MIN },
+    heroes: heroDict, items: itemDict, day, five, list, niche
+  };
+  fs.writeFileSync(OUT, JSON.stringify(out));
+  console.log(`Steam: матчей за ${WINDOW_DAYS} дн.: ${matches}, сборок: ${builds}, с оценкой: ${scoredN}`);
+  console.log(`${path.relative(ROOT, OUT)}: ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ`);
+  writeMatches([...full.values()].filter(m => usedMatches.has(m.id)), heroById, itemById);
+}
+
 // --- страницы матчей: прогноз драфта той же формулой, что инструмент драфта
 function draftModel() {
-  const mx = read('our-matrix.json'), cal = read('draft-calibration.json');
+  const mx = readOut('our-matrix.json'), cal = readOut('draft-calibration.json');
   const K = cal.smoothingK, a = cal.alpha, ids = mx.heroIds, N = ids.length;
   const pos = new Map(ids.map((id, i) => [id, i]));
   const idx = (i, j) => (i * (2 * N - i - 1)) / 2 + (j - i - 1);
@@ -223,7 +353,7 @@ function writeMatches(list, heroById, itemById) {
     out.p = m.p.map(p => Object.assign({}, p, { acc: undefined }));
     fs.writeFileSync(path.join(OUT_MATCH, m.id + '.json'), JSON.stringify(out));
   }
-  console.log(`Страниц матчей: ${list.length} (data/meta-match/)`);
+  console.log(`Страниц матчей: ${list.length} (${path.relative(ROOT, OUT_MATCH)}/)`);
 }
 
-main();
+Promise.resolve().then(main).catch(e => { console.error('ОШИБКА:', e.message); process.exit(1); });

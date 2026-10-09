@@ -16,29 +16,22 @@ const path = require('path');
 const ORIGIN = 'https://dotamate.ru';
 const ROOT = __dirname;
 
-const NAV = [
-  { key: 'home',   href: '/',        label: 'Главная' },
-  { key: 'heroes', href: '/heroes/', label: 'Герои' },
-  { key: 'items',  href: '/items/',  label: 'Предметы' },
-  { key: 'stats',  href: '/stats/',  label: 'Статистика' },
-  { key: 'guides', href: '/guides/', label: 'Гайды' },
-  { key: 'meta',   href: '/meta/',   label: 'META' },
-];
+const { NAV, navHtml } = require('./tools/site-nav');
 
 const PAGES = [
   {
     key: 'home', dir: '',
     title: 'Dota Mate — герои, предметы, статистика и гайды',
-    desc: 'Драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.',
+    desc: 'DraftMate — драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.',
     // draftTool идёт сразу за первым экраном — как на живой главной.
     // Раньше секции тут не было, и запуск сборщика стирал инструмент драфта
     // из index.html: разметка жила только в собранном файле.
-    sections: ['home-hero', 'draftTool', 'home-cards', 'featuredHeroes'],
+    sections: ['home-hero', 'draftTool', 'homeDaily', 'home-cards', 'featuredHeroes'],
     styles: ['/css/theme-dark.css', '/css/home-hero.css', '/css/draft-tool.css'],
     bodyClass: 'd2-dark',
     // defer у draft-tool.js сохраняет прежний порядок выполнения: скрипт
     // отрабатывает после v43-features.js, как было при ручной правке.
-    scripts: [{ src: '/js/draft-tool.js', defer: true }, { src: '/js/home-draft.js', defer: true }],
+    scripts: [{ src: '/js/draft-model.js', defer: true }, { src: '/js/draft-tool.js', defer: true }, { src: '/js/draft-items.js', defer: true }, { src: '/js/home-draft.js', defer: true }, { src: '/js/home-daily.js', defer: true }],
   },
   {
     key: 'heroes', dir: 'heroes',
@@ -61,7 +54,7 @@ const PAGES = [
   {
     key: 'stats', dir: 'stats',
     title: 'Статистика Dota 2: тир-лист героев, винрейт по рангам и позициям | Dota Mate',
-    desc: 'Статистика Dota 2 по своей базе рейтинговых матчей до 4500 MMR: тир-лист героев, винрейт по рангам и позициям, связки и контрпики, популярные предметы, длительность матчей, линии и динамика по дням.',
+    desc: 'Статистика Dota 2 по своей базе рейтинговых матчей всех рангов: тир-лист героев, винрейт по рангам и позициям, связки и контрпики, популярные предметы, длительность матчей, линии и динамика по дням.',
     sections: ['stats'],
     styles: ['/css/theme-dark.css', '/css/stats.css'],
     bodyClass: 'd2-dark',
@@ -72,13 +65,14 @@ const PAGES = [
     title: 'Гайды по Dota 2 — роли, драфт, итемизация | Dota Mate',
     desc: 'Практические гайды по Dota 2: роли на линиях, контроль карты, выбор предметов и драфт. Каждый гайд связан с героями и предметами из базы сайта.',
     sections: ['guides'],
-    styles: ['/css/theme-dark.css'],
+    styles: ['/css/theme-dark.css', '/css/home-hero.css', '/css/guides.css'],
     bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/guides.js', defer: true }],
   },
   {
     key: 'meta', dir: 'meta',
     title: 'META — необычные сборки Dota 2 и нишевые герои | Dota Mate',
-    desc: 'Редкие сборки предметов Dota 2 в рейтинговых матчах до 4500 MMR: оценка необычности каждой сборки, фильтры по герою и роли, нишевые герои по позициям.',
+    desc: 'Редкие сборки предметов Dota 2 в рейтинговых матчах Dota 2: оценка необычности каждой сборки, фильтры по герою и роли, нишевые герои по позициям.',
     sections: ['meta'],
     styles: ['/css/theme-dark.css', '/css/meta.css'],
     bodyClass: 'd2-dark',
@@ -96,6 +90,45 @@ const PAGES = [
     scripts: [{ src: '/js/meta.js', defer: true }],
   },
   {
+    key: 'live', dir: 'live',
+    title: 'Эфир Dota 2 — повторы матчей круглосуточно | Dota Mate',
+    desc: 'Круглосуточный эфир рейтинговых матчей Dota 2 по данным реплеев: позиции героев на карте, убийства, варды, разрушенные строения и капитал команд в реальном времени.',
+    sections: ['live'],
+    styles: ['/css/theme-dark.css', '/css/live.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/draft-model.js', defer: true }, { src: '/js/live-winprob.js', defer: true }, { src: '/js/live.js', defer: true }],
+  },
+  {
+    // Итоги матча эфира: содержимое рисует js/live-match.js по ?id=. Не индексируется (решение владельца 09.10.2026):
+    // десятки почти одинаковых страниц в день; про-матчи индексируются в /pro/match/<id>/.
+    key: 'live', dir: 'live/match', crumb: 'Итоги матча', noSitemap: true, noindex: true,
+    title: 'Итоги матча эфира | Dota Mate',
+    desc: 'Итоги матча из эфира Dota Mate: графики капитала и опыта, ключевые моменты и насколько угадали прогнозы по драфту и по ходу игры.',
+    sections: ['liveMatch'],
+    styles: ['/css/theme-dark.css', '/css/live.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/draft-model.js', defer: true }, { src: '/js/live-winprob.js', defer: true }, { src: '/js/live-match.js', defer: true }],
+  },
+  {
+    // Частые слова за всё время по чатам всех матчей эфира: js/live-words.js рисует облако по /api/live/words-all.
+    key: 'words', dir: 'live/words', crumb: 'Частые слова',
+    title: 'Частые слова в чате эфира Dota 2 | Dota Mate',
+    desc: 'Самые частые слова из чата матчей эфира Dota Mate: общий счётчик по всем матчам, который копится со временем. Облако слов — чем чаще слово, тем крупнее круг.',
+    sections: ['liveWords'],
+    styles: ['/css/theme-dark.css', '/css/live.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/live-words.js', defer: true }],
+  },
+  {
+    // Шаблон раздела /pro/: страницы рисует deploy/api/pro.php, подставляя содержимое между <!--PRO--> и <!--/PRO-->.
+    key: 'pro', dir: 'pro', crumb: 'Про-матчи',
+    title: 'Про-матчи Dota 2 — результаты, драфты и турниры | Dota Mate',
+    desc: 'Результаты профессиональных матчей Dota 2: счёт, пики и баны, статистика игроков и ключевые моменты, обновление каждые полчаса.',
+    sections: ['pro'],
+    styles: ['/css/theme-dark.css', '/css/pro.css'],
+    bodyClass: 'd2-dark',
+  },
+  {
     key: 'game', dir: 'game', crumb: 'Игра',
     title: 'Hook & Hit — мини-игра по Dota 2 в браузере | Dota Mate',
     desc: 'Браузерная мини-игра по мотивам Dota 2: уклоняйся от хуков, добивай крипов, отбивай красные хуки атакой. Два режима, рекорд сохраняется, установка не нужна.',
@@ -103,6 +136,16 @@ const PAGES = [
     scripts: ['/js/game.js'],
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
+  },  {
+    // Профиль игрока по Steam Web API (/api/dota/player/<id>/matches).
+    // Steam ID хранится только в браузере (localStorage dmSteamId).
+    key: 'me', dir: 'me',
+    title: 'Мой профиль Dota 2 — последние матчи и винрейт по героям | Dota Mate',
+    desc: 'Последние 100 матчей Dota 2 по Steam ID: победы и поражения, K/D/A, GPM, ваши герои и сравнение вашего винрейта с общим винрейтом героя. Без входа и регистрации.',
+    sections: ['me'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/me.js', defer: true }],
   },
 ];
 
@@ -110,14 +153,14 @@ const PAGES = [
 const HOME_CARDS = `<section class="section" id="home-cards">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><div class="eyebrow">РАЗДЕЛЫ</div><h2>Что есть на сайте</h2><p>Каждый раздел — отдельная страница с собственным поиском и фильтрами.</p></div>
+      <div><h2>Что есть на сайте</h2><p>Каждый раздел — отдельная страница с собственным поиском и фильтрами.</p></div>
     </div>
     <div class="home-cards-grid">
       <a class="home-card" href="/heroes/"><span class="home-card-icon">⚔</span><strong>Герои</strong><p>Все герои Dota 2 с ролями, характеристиками и контрпиками.</p><b>Открыть →</b></a>
       <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
       <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Winrate, пики и баны героев в профессиональных матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
-      <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в матчах до 4500 MMR.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в рейтинговых матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
     </div>
   </div>
@@ -238,13 +281,6 @@ function readSections() {
   return map;
 }
 
-function navHtml(activeKey) {
-  const links = NAV.map(n => {
-    const current = n.key === activeKey ? ' aria-current="page" class="active"' : '';
-    return `<a href="${n.href}"${current}>${n.label}</a>`;
-  }).join('');
-  return `<nav id="navMenu">${links}</nav>`;
-}
 
 function breadcrumbs(page) {
   if (page.key === 'home') return '';
@@ -276,9 +312,129 @@ if (PATCH) {
   });
 }
 
+// --- Каталог /guides/: карточки рисуются НА СБОРКЕ из guide-content.js,
+// role-guide-content.js и словаря — ссылки лежат в HTML (их видит робот),
+// а поиск и фильтры (js/guides.js) только скрывают/показывают готовые карточки.
+// Раньше список дублировался руками в js/app.js (guideData) и расходился с контентом.
+const GUIDE_GROUPS = [
+  { key: 'novice',  name: 'Новичку',            tags: ['НОВИЧКУ', 'РЕЖИМЫ', 'ПОДПИСКА', 'СЛОВАРЬ'] },
+  { key: 'roles',   name: 'Роли и драфт',       tags: ['РОЛИ', 'BUILD', 'КОНТРПИКИ', 'HEROES', 'GAMEPLAY'] },
+  { key: 'heroes',  name: 'Герои', tags: ['ГЕРОИ'] },
+  { key: 'mech',    name: 'Механики',    tags: ['МЕХАНИКИ', 'ЛИНИЯ', 'ЛЕС', 'ФАРМ', 'ЭКОНОМИКА'] },
+  { key: 'map',     name: 'Карта и обзор',      tags: ['MAP', 'КАРТА', 'ОБЗОР', 'РОТАЦИИ', 'ОБЪЕКТЫ', 'ТАЙМИНГИ', 'ЛОГИСТИКА'] },
+  { key: 'items',   name: 'Предметы',           tags: ['ITEMS', 'ПРЕДМЕТЫ', 'COMPARE'] },
+  { key: 'team',    name: 'Командная игра',     tags: ['ДРАКИ', 'СТРАТЕГИЯ', 'ОБЩЕНИЕ'] },
+  { key: 'rank',    name: 'Рейтинг',     tags: ['РЕЙТИНГ', 'MMR', 'ОБУЧЕНИЕ', 'ПОВЕДЕНИЕ', 'СТАТИСТИКА', 'HERO DATA'] },
+  { key: 'patch',   name: 'Патчи',              tags: ['ПАТЧ'] },
+  { key: 'esports', name: 'Киберспорт',         tags: ['КИБЕРСПОРТ'] },
+  { key: 'settings',name: 'Настройки',          tags: ['НАСТРОЙКИ'] },
+];
+// Точечные исключения: тег не совпадает со смыслом статьи.
+const GUIDE_GROUP_BY_SLUG = {
+  'last-hitting-denying': 'mech', 'how-many-heroes': 'novice', 'best-heroes-for-beginners': 'novice',
+  'roles-explained': 'roles', 'reading-hero-stats': 'rank', 'patch-741-overview': 'patch', 'playing-vs-illusions': 'roles',
+};
+// Подразделы темы «Предметы» (статей больше 60 — одним списком не найти).
+const GUIDE_ITEM_SUBS = [
+  { key: 'basics',  name: 'Основы и сравнения', slugs: ['itemization-basics','magic-vs-physical-resistance','heal-reduction-741','boots-comparison','defensive-items-comparison','which-boots-to-buy','neutral-items-madstone','aghanim-scepter-shard','starting-items','neutral-items-tier-1','neutral-items-tier-2','neutral-items-tier-3','neutral-items-tier-4','neutral-items-tier-5','neutral-enhancements','attack-speed-items','magic-resistance-items','armor-items','lifesteal-items','health-items','movement-speed-items','mana-items','most-expensive-items','cheap-items','item-recipes'] },
+  { key: 'early',   name: 'Ранние и расходники', slugs: ['bottle','bracer-wraith-band-null-talisman','magic-wand','soul-ring','tp-scroll-usage','smoke-of-deceit','gem-of-true-sight','hand-of-midas','boots-of-travel','falcon-blade','orb-of-corrosion','dust-of-appearance'] },
+  { key: 'damage',  name: 'Урон и фарм', slugs: ['battle-fury','radiance','desolator','daedalus','butterfly','maelstrom-mjollnir','echo-sabre','skull-basher-abyssal-blade','monkey-king-bar','divine-rapier','armlet','mask-of-madness','sange-yasha-kaya','satanic','diffusal-blade-disperser','dagon','parasma','phylactery-khanda','octarine-core','bloodstone','refresher-orb','witch-blade','revenants-brooch','dragon-lance','hydras-breath-specialists-array','moon-shard','meteor-hammer'] },
+  { key: 'defense', name: 'Защита', slugs: ['black-king-bar','manta-style','linkens-sphere','blade-mail','heart-of-tarrasque','aeon-disk','vanguard-crimson-guard','shivas-guard','ghost-scepter-ethereal-blade','crellas-crozier','consecrated-wraps','mage-slayer'] },
+  { key: 'control', name: 'Контроль и мобильность', slugs: ['blink-dagger','euls-wind-waker','force-staff-hurricane-pike','scythe-of-vyse','orchid-bloodthorn','rod-of-atos-gleipnir','nullifier','heavens-halberd','shadow-blade-silver-edge','blink-upgrades','aether-lens','helm-of-the-dominator'] },
+  { key: 'team',    name: 'Для команды и саппорта', slugs: ['glimmer-cape','lotus-orb','pipe-of-insight','mekansm-guardian-greaves','solar-crest','assault-cuirass','drum-of-endurance','veil-of-discord','holy-locket','vladmirs-offering','pavise','essence-distiller'] },
+];
+const GUIDE_FEATURED = ['beginner-start', 'roles-explained', 'last-hitting-denying', 'warding-map-control'];
+// Время чтения: слова всех текстов статьи / 180 слов в минуту (средняя скорость
+// чтения русского текста про себя), вверх до целой минуты.
+const READ_WPM = 180;
+function wordsIn(x) {
+  if (typeof x === 'string') return (x.match(/[0-9A-Za-zА-Яа-яЁё]+/g) || []).length;
+  if (Array.isArray(x)) return x.reduce((s, v) => s + wordsIn(v), 0);
+  if (x && typeof x === 'object') return Object.keys(x).filter(k => !['slug', 'icon', 'action', 'cat', 'role'].includes(k)).reduce((s, k) => s + wordsIn(x[k]), 0);
+  return 0;
+}
+function headingsIn(x, out = []) {
+  if (Array.isArray(x)) x.forEach(v => headingsIn(v, out));
+  else if (x && typeof x === 'object') for (const k of Object.keys(x)) { if ((k === 'h' || k === 'name' || k === 'title') && typeof x[k] === 'string') out.push(x[k]); else headingsIn(x[k], out); }
+  return out;
+}
+function guidesCatalog() {
+  const g = require(path.join(ROOT, 'guide-content.js'));
+  const r = require(path.join(ROOT, 'role-guide-content.js'));
+  const list = [
+    ...g.map(x => ({ ...x, href: `/guide/${x.slug}/` })),
+    ...r.roles.map(x => ({ ...x, href: `/guide/${x.slug}/` })),
+    ...r.comparisons.map(x => ({ ...x, href: `/guide/${x.slug}/` })),
+    { slug: 'glossary', href: '/glossary/', icon: '📖', tag: 'СЛОВАРЬ', title: 'Словарь терминов Dota 2',
+      excerpt: 'Что значат ластхит, денай, ганк, керри, MMR и другие термины — короткие объяснения со ссылками на подробные гайды.', sections: [] },
+  ];
+  const tagGroup = {};
+  GUIDE_GROUPS.forEach(gr => gr.tags.forEach(t => { tagGroup[t] = gr.key; }));
+  const counts = {}, subCounts = {};
+  // Русские синонимы предметов (data/search-aliases.json, официальные Valve + свои):
+  // предмет из заголовка статьи → его синонимы идут в поиск («бф», «радик», «линка»).
+  const itemDict = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'items-ru.json'), 'utf8')).items;
+  const itemAliases = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'search-aliases.json'), 'utf8')).items || {};
+  const itemNames = Object.entries(itemDict).filter(([, v]) => v && v.dname && v.cat !== 'recipe' && itemAliases)
+    .map(([k, v]) => ({ k, n: v.dname.toLowerCase() })).sort((a, b) => b.n.length - a.n.length);
+  const aliasesFor = title => {
+    const t = title.toLowerCase(), out = [];
+    for (const it of itemNames) if (t.includes(it.n)) out.push(...(itemAliases[it.k] || []));
+    return [...new Set(out)];
+  };
+  const items = list.map(x => {
+    const grp = GUIDE_GROUP_BY_SLUG[x.slug] || tagGroup[x.tag];
+    if (!grp) throw new Error(`гайд ${x.slug}: тег «${x.tag}» не привязан к группе каталога (GUIDE_GROUPS)`);
+    counts[grp] = (counts[grp] || 0) + 1;
+    const words = wordsIn(x);
+    const min = Math.max(1, Math.ceil(words / READ_WPM));
+    let sub = '';
+    if (grp === 'items') {
+      const sb = GUIDE_ITEM_SUBS.find(z => z.slugs.includes(x.slug));
+      if (!sb) throw new Error(`гайд о предмете ${x.slug} не привязан к подразделу (GUIDE_ITEM_SUBS)`);
+      sub = sb.key; subCounts[sub] = (subCounts[sub] || 0) + 1;
+    }
+    return { x, grp, sub, min, heads: headingsIn(x.sections || x.stages || x.items || []).filter(h => h !== x.title).concat(aliasesFor(x.title)) };
+  });
+  const gname = k => GUIDE_GROUPS.find(gr => gr.key === k).name;
+  const card = (it, featured) =>
+    `<a class="gd-card${featured ? ' gd-card--feat' : ''}" href="${esc(it.x.href)}" data-grp="${it.grp}"${it.sub ? ` data-sub="${it.sub}"` : ''}` +
+    ` data-t="${esc(it.x.title)}" data-h="${esc(it.heads.join(' · '))}" data-e="${esc(it.x.excerpt || '')}">` +
+    `<span class="gd-ico" aria-hidden="true">${esc(it.x.icon || '📘')}</span>` +
+    `<span class="gd-body"><span class="gd-meta"><b class="gd-grp gd-c-${it.grp}">${gname(it.grp)}</b><span>${it.min}&nbsp;мин</span></span>` +
+    `<strong class="gd-title">${esc(it.x.title)}</strong>` +
+    `<span class="gd-ex">${esc(it.x.excerpt || '')}</span></span></a>`;
+  const feat = GUIDE_FEATURED.map(s => items.find(it => it.x.slug === s)).filter(Boolean);
+  const chips = `<button type="button" class="gd-chip is-active" data-grp="all" aria-pressed="true">Все</button>` +
+    GUIDE_GROUPS.filter(gr => counts[gr.key]).map(gr =>
+      `<button type="button" class="gd-chip" data-grp="${gr.key}" aria-pressed="false"><span class="gd-dot gd-c-${gr.key}"></span>${gr.name}</button>`).join('');
+  const subChips = `<button type="button" class="gd-sub is-active" data-sub="all" aria-pressed="true">Все предметы</button>` +
+    GUIDE_ITEM_SUBS.filter(z => subCounts[z.key]).map(z =>
+      `<button type="button" class="gd-sub" data-sub="${z.key}" aria-pressed="false">${z.name}</button>`).join('');
+  // Список героев для блока «Гайды по героям» в поиске (id нужен для русских синонимов D2HSearch).
+  const heroesAll = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
+  const heroGuides = require(path.join(ROOT, 'hero-guide-urls.json')).map(u => {
+    const n = u.name.replace(/^Гайд по /, '');
+    const h = heroesAll.find(y => y.localized_name === n);
+    if (!h) throw new Error(`гайд героя без героя в data/heroes.json: ${u.name}`);
+    const short = h.name.replace(/^npc_dota_hero_/, '');
+    return { id: h.id, localized_name: n, u: new URL(u.loc).pathname, img: `/assets/heroes/${short}.webp` };
+  });
+  return {
+    total: items.length,
+    heroCount: heroGuides.length,
+    chips,
+    subChips,
+    featured: feat.map(it => card(it, true)).join(''),
+    grid: items.map(it => card(it, false)).join(''),
+    heroesJson: JSON.stringify(heroGuides).replace(/</g, '\\u003c'),
+  };
+}
+
 function build() {
   const shell = fs.readFileSync(path.join(ROOT, 'page-shell.html'), 'utf8');
   const sections = readSections();
+  const gc = guidesCatalog();
   const urls = [];
 
   for (const page of PAGES) {
@@ -293,7 +449,14 @@ function build() {
       .replace('{{META_STAMP}}', meta.stamp)
       .replace('{{META_MATCHES}}', meta.matches)
       .replace('{{PAIR_COUNT}}', meta.pairs)
-      .replace('{{HERO_COUNT}}', meta.heroCount);
+      .replace('{{HERO_COUNT}}', meta.heroCount)
+      .replace(/\{\{GUIDES_TOTAL\}\}/g, () => gc.total)
+      .replace('{{GUIDES_HERO_COUNT}}', () => gc.heroCount)
+      .replace('{{GUIDES_CHIPS}}', () => gc.chips)
+      .replace('{{GUIDES_SUBCHIPS}}', () => gc.subChips)
+      .replace('{{GUIDES_FEATURED}}', () => gc.featured)
+      .replace('{{GUIDES_GRID}}', () => gc.grid)
+      .replace('{{GUIDES_HEROES_JSON}}', () => gc.heroesJson);
     const scripts = (page.scripts || []).map(s => {
       const { src, ...attrs } = typeof s === 'string' ? { src: s } : s;
       const extra = Object.keys(attrs).filter(k => attrs[k]).map(k => ` ${k}`).join('');
@@ -312,7 +475,8 @@ function build() {
       .replace('{{PAGE_SCRIPTS}}', scripts)
       .replace('{{PAGE_STYLES}}', styles)
       .replace('{{BODY_CLASS}}', bodyClass)
-      .replace('{{PATCH_CHIP}}', meta.patchChip);
+      .replace('{{PATCH_CHIP}}', meta.patchChip)
+      .replace('<meta name="description"', page.noindex ? '<meta name="robots" content="noindex, follow">\n<meta name="description"' : '<meta name="description"');
 
     for (const base of [ROOT, path.join(ROOT, 'deploy')]) {
       const dir = page.dir ? path.join(base, page.dir) : base;
@@ -324,6 +488,7 @@ function build() {
   }
 
   fs.writeFileSync(path.join(ROOT, 'page-urls.json'), JSON.stringify(urls, null, 1));
+  console.log('data/live-items.json:', require('./tools/build-live-items').build(), 'предметов');
   console.log(`\nГотово: ${PAGES.length} страниц, page-urls.json обновлён.`);
 }
 
