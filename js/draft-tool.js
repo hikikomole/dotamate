@@ -877,9 +877,13 @@
     if (!note || !M) return;
     var when = M.fetchedAt ? new Date(M.fetchedAt).toLocaleDateString('ru-RU') : '';
     var n = (M.matchesUsed || 0).toLocaleString('ru-RU');
-    // Свои срезы (top, our) — без подписи по решению владельца 10.10.2026. У турбо — пояснение, что это другой режим.
-    note.hidden = state.slice !== 'turbo';
-    note.textContent = note.hidden ? '' : 'Турбо: своя база матчей Steam режима «Турбо» (' + n + ' матчей, пересчёт ' + when + '). Темп и экономика там другие — для рейтинговых игр берите «Все ранги» или «Divine 5 и Immortal».' + (calibs.turbo ? '' : ' Вероятность пока не считается: калибровки турбо ещё нет.');
+    // Свои срезы — без подписи над инструментом (решение владельца 10.10.2026): строка в шапке при переключении
+    // сдвигала весь инструмент. Пояснение к «Турбо» — подсказка кнопки и блок «Откуда числа».
+    note.hidden = true;
+    note.textContent = '';
+    var tb = sw && sw.querySelector('button[data-slice="turbo"]');
+    if (tb && matrices.turbo) tb.title = 'Своя база матчей Steam режима «Турбо»: ' + (matrices.turbo.matchesUsed || 0).toLocaleString('ru-RU') +
+      ' матчей. Темп и экономика там другие — для рейтинговых игр берите «Все ранги» или «Divine 5 и Immortal».';
   }
 
   function syncSideSwitch() {

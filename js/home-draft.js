@@ -37,6 +37,23 @@
   }
 
   function api() { return window.D2HDraft; }
+  // Пик в полном инструменте ниже по странице перерисовывает эту полосу (шанс, предметы — она растёт на сотни
+  // пикселей). Если полоса выше видимой части экрана, её рост сдвигал инструмент под курсором («страница прыгает»):
+  // компенсируем прокрутку на изменение высоты полосы (11.10.2026).
+  // Предметы и шанс дорисовываются асинхронно, поэтому следим за высотой полосы, а не за моментом перерисовки.
+  // Держим на месте сам инструмент (#draftTool): запоминаем его положение на экране при прокрутке и после
+  // каждого изменения высоты полосы возвращаем его туда же. Встроенная привязка прокрутки браузера срабатывает
+  // не всегда (на телефоне инструмент уезжал на сотни пикселей), а если сработала — разница будет нулевой.
+  var tool = document.getElementById('draftTool');
+  var toolTop = tool ? tool.getBoundingClientRect().top : 0;
+  if (tool) window.addEventListener('scroll', function () { toolTop = tool.getBoundingClientRect().top; }, { passive: true });
+  if (tool && window.ResizeObserver) new ResizeObserver(function () {
+    if (strip.getBoundingClientRect().top >= 0) { toolTop = tool.getBoundingClientRect().top; return; }  // полоса на экране — рост естественен
+    var d = tool.getBoundingClientRect().top - toolTop;
+    if (Math.abs(d) > 1) window.scrollBy(0, d);
+    toolTop = tool.getBoundingClientRect().top;
+  }).observe(strip);
+  function drawKeepingView() { draw(); }
 
   var rowsBox = strip.querySelector('.hm-draft-rows');
   var verdict = strip.querySelector('.hm-draft-verdict');
@@ -331,7 +348,7 @@
   window.addEventListener('resize', closePicker);
 
   function attach() {
-    if (window.D2HDraft) { window.D2HDraft.onChange(function () { closePicker(); draw(); }); draw(); return true; }
+    if (window.D2HDraft) { window.D2HDraft.onChange(function () { closePicker(); drawKeepingView(); }); draw(); return true; }
     return false;
   }
   if (!attach()) {
