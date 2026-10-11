@@ -173,7 +173,7 @@ function renderLanding(courses) {
   }).join('');
   return `<div class="ac-landing">` +
     `<header class="ac-head">` +
-    `<h1 class="page-title">Учебный центр Dota 2</h1>` +
+    `<h1 class="page-title">Учебный центр Dota&nbsp;2</h1>` +
     `<p class="ac-lead">Два маршрута по гайдам DOTAMATE: уроки идут по порядку, у каждого есть задание для практики, а в конце этапа — короткий тест с объяснениями. Отметки и результаты сохраняются только в этом браузере, без регистрации.</p>` +
     `<p class="ac-note" data-academy-storage hidden></p>` +
     `</header>` +
