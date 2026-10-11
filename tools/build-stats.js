@@ -353,6 +353,8 @@ const out = {
     radiantWr: r1(radWins / total * 100),
     duration: [...durHist].sort((a, b) => a[0] - b[0]).map(([m, n]) => [m, n]),
     stratzMatches: sm, patch: read('patch-notes.json').version,
+    // начало патча: все матчи Steam в выборке — не раньше него (tools/match-source.js patchSince)
+    patchFrom: MS.patchSince() ? new Date(MS.patchSince() * 1000).toISOString() : null,
     src: SRC
   },
   roles: rolesNote,

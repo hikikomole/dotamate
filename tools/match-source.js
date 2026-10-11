@@ -37,11 +37,28 @@ function readGz(file) {
   return zlib.gunzipSync(fs.readFileSync(file)).toString('utf8').split('\n').filter(Boolean).map(l => JSON.parse(l));
 }
 
-/** Файлы дневной базы Steam по порядку; days > 0 — только последние N. */
+/**
+ * Начало текущего патча (unix-время из data/patch-notes.json, решение владельца 11.10.2026): все сборщики
+ * читают только матчи текущего патча — тир-лист, контрпики, DraftMate, META и прокачка считаются по одному срезу.
+ * MATCH_ALL_PATCHES=1 — без отсечки (диагностика). Нет файла или времени — без отсечки (0).
+ * Версию патча файл получает только от tools/fetch-patch-notes.js; tools/check-reference-data.js сообщает, когда он устарел.
+ */
+let PATCH_SINCE = null;
+function patchSince() {
+  if (PATCH_SINCE !== null) return PATCH_SINCE;
+  PATCH_SINCE = 0;
+  if (process.env.MATCH_ALL_PATCHES === '1') return PATCH_SINCE;
+  try { PATCH_SINCE = Number(JSON.parse(fs.readFileSync(path.join(DATA, 'patch-notes.json'), 'utf8')).timestamp) || 0; } catch { /* без отсечки */ }
+  return PATCH_SINCE;
+}
+const inPatch = start => !(start < patchSince());
+
+/** Файлы дневной базы Steam по порядку (дни раньше начала патча не берутся); days > 0 — только последние N. */
 function steamFiles({ turbo = false, days = 0 } = {}) {
   const dir = path.join(DATA, turbo ? 'steam-matches-turbo' : 'steam-matches');
   if (!fs.existsSync(dir)) return [];
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.jsonl.gz')).sort().map(f => path.join(dir, f));
+  const since = patchSince(), firstDay = since ? new Date(since * 1000).toISOString().slice(0, 10) : '';
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.jsonl.gz') && f.slice(0, 10) >= firstDay).sort().map(f => path.join(dir, f));
   return days > 0 ? files.slice(-days) : files;
 }
 
@@ -60,7 +77,7 @@ function steamRows({ turbo = false, days = 0, filter = null, map = null, each = 
       let e = buf.indexOf(10, s); if (e < 0) e = buf.length;
       if (e > s) {
         let r = null; try { r = JSON.parse(buf.toString('utf8', s, e)); } catch { /* оборванная строка */ }
-        if (r && !seen.has(r[0])) { seen.add(r[0]); if (!filter || filter(r)) { if (each) each(r); else out.push(map ? map(r) : r); } }
+        if (r && !seen.has(r[0]) && inPatch(r[2])) { seen.add(r[0]); if (!filter || filter(r)) { if (each) each(r); else out.push(map ? map(r) : r); } }
       }
       s = e + 1;
     }
@@ -81,7 +98,7 @@ async function* steamStream({ turbo = false, days = 0 } = {}) {
     for await (const l of rl) {
       if (!l) continue;
       let r; try { r = JSON.parse(l); } catch { continue; } // оборванная строка
-      if (seen.has(r[0])) continue;
+      if (seen.has(r[0]) || !inPatch(r[2])) continue;
       seen.add(r[0]); yield r;
     }
   }
@@ -105,7 +122,7 @@ function publicRows({ src = source(), tier = 'base', turbo = false } = {}) {
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.jsonl')).sort()) {
     for (const line of fs.readFileSync(path.join(dir, f), 'utf8').split('\n')) {
       if (!line) continue;
-      try { out.push(JSON.parse(line)); } catch { /* оборванная строка */ }
+      try { const r = JSON.parse(line); if (inPatch(r[1])) out.push(r); } catch { /* оборванная строка */ }
     }
   }
   return out;
@@ -177,4 +194,4 @@ function sourceLabel(src = source()) {
   return src === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API)' : 'Своя база публичных матчей (OpenDota /publicMatches)';
 }
 
-module.exports = { writeJsonAtomic, publicStream, DATA, outDir, steamFiles, steamRows, source, publicRows, steamMatches, steamStream, steamToPublic, STEAM_TIER, sourceLabel, readGz, steamToMeta, metaMatches };
+module.exports = { patchSince, writeJsonAtomic, publicStream, DATA, outDir, steamFiles, steamRows, source, publicRows, steamMatches, steamStream, steamToPublic, STEAM_TIER, sourceLabel, readGz, steamToMeta, metaMatches };

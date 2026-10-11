@@ -91,7 +91,7 @@
     const days = Math.max(1, Math.round((new Date(b.to) - new Date(b.from)) / 864e5));
     const maxR = Math.max(...Object.values(b.ranks).map(r => r.n));
     const since = b.src === 'steam'
-      ? `Выборка рейтинговых матчей Steam (не все матчи): с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} по ${new Date(b.to).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} (≈${days} сут., UTC), матчей ${num(b.matches)}`
+      ? `Выборка рейтинговых матчей Steam (не все матчи): с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} по ${new Date(b.to).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} (≈${days} сут., UTC), матчей ${num(b.matches)}${b.patchFrom ? `; только патч ${esc(b.patch)} (вышел ${new Date(b.patchFrom).toLocaleDateString('ru-RU', { timeZone: 'UTC' })})` : ''}`
       : `Данные с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })}, матчей ${num(b.matches)}`;
     // Пересчёт идёт каждую ночь (daily-update, 04:17 МСК). Старше 36 ч — обновление не дошло до сайта: говорим прямо.
     const built = new Date(S.builtAt), ageH = (Date.now() - built.getTime()) / 36e5;

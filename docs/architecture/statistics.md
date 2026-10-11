@@ -248,3 +248,8 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 - 1.4 (11.10.2026): `tools/check-reference-data.js` — шаг daily-update перед матрицами: версия `data/patch-notes.json` против
   списка патчей Valve и hero_id последнего закрытого дня Steam (50 тыс. строк) против `data/heroes.json`. Ничего не обновляет;
   расхождение → «пропуск: справочники», текст в `logs/reference-check.txt` и сообщение владельцу в Telegram. Не стоп.
+- 2.1 (11.10.2026, решение владельца — «только текущий патч»): `tools/match-source.js` отсекает матчи Steam (и строки
+  OpenDota в `publicRows`) раньше `data/patch-notes.json timestamp` — во всех сборщиках сразу: /stats/, контрпики, связки,
+  DraftMate (матрица и калибровка), META, прокачка, модель позиций. `stats.json base.patchFrom`, подпись на /stats/
+  «только патч X (вышел …)». `MATCH_ALL_PATCHES=1` — без отсечки. Отсечка сдвигается только после
+  `node tools/fetch-patch-notes.js` (сигнал — `check-reference-data.js`); в первые сутки нового патча выборка мала.
