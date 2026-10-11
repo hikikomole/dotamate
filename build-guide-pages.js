@@ -40,7 +40,7 @@ const dataTables={
 const heroCardHtml=require('./tools/hero-card.js');
 
 // «Предмет в цифрах»: ссылки на /item/ и до 6 героев, которые чаще всего
-// покупают предмет (data/item-heroes.json, OpenDota itemPopularity).
+// покупают предмет (data/item-heroes.json, tools/build-hero-items.js — своя база покупок Stratz).
 // Связь статьи с предметами — tools/guide-items.js.
 const guideItems=require('./tools/guide-items.js').linkGuideItems();
 const itemHeroes=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-heroes.json'),'utf8')).items;}catch{return {};}})();

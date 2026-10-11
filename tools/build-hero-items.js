@@ -119,4 +119,33 @@ const out = {
 fs.writeFileSync(OUT, JSON.stringify(out));
 const ns = Object.values(heroes).map(h => h.n).sort((a, b) => a - b);
 console.log(`hero-items.json: ролей с покупками ${roleBlocks}, ${Object.keys(heroes).length} героев из ${heroIds.length}, матчей ${matches}, выборка на героя min ${ns[0]} / медиана ${ns[ns.length >> 1]} / max ${ns[ns.length - 1]}`);
+
+// data/item-heroes.json — «предмет → герои, которые его покупают» (модалка предмета js/app.js, /item/, статьи о
+// предметах) из этих же покупок вместо снимка OpenDota itemPopularity (решение владельца 11.10.2026, п. 3.2).
+// g — сумма по фазам числа матчей героя с покупкой (как в прежнем формате), p — фаза, где покупают чаще всего.
+{
+  const PHASE_RU = { start: 'Старт', early: 'Ранняя', mid: 'Середина', late: 'Поздняя', vlate: 'Поздняя' };
+  const names = new Map(read('heroes.json').heroes.map(h => [Number(h.id), h.localized_name]));
+  const byItem = new Map();   // itemId -> heroId -> { g, ph: {Старт: n, …} }
+  for (const [hid, h] of acc) {
+    if (!h.n) continue;
+    for (const [ph] of PHASES) for (const [iid, g] of h.c[ph]) {
+      const per = byItem.get(iid) || byItem.set(iid, new Map()).get(iid);
+      const r = per.get(hid) || per.set(hid, { g: 0, ph: {} }).get(hid);
+      r.g += g; r.ph[PHASE_RU[ph]] = (r.ph[PHASE_RU[ph]] || 0) + g;
+    }
+  }
+  const items = {};
+  for (const [iid, per] of byItem) {
+    const rows = [...per].map(([hid, r]) => ({ h: hid, n: names.get(hid) || String(hid), g: r.g,
+      p: Object.entries(r.ph).sort((a, b) => b[1] - a[1])[0][0] })).sort((a, b) => b.g - a.g);
+    const totals = {};
+    for (const r of per.values()) for (const [p, g] of Object.entries(r.ph)) totals[p] = (totals[p] || 0) + g;
+    items[iid] = { heroes: rows.slice(0, 8), totals, games: rows.reduce((s, r) => s + r.g, 0), heroCount: rows.length };
+  }
+  if (Object.keys(items).length >= 50) require('./match-source.js').writeJsonAtomic(path.join(ROOT, 'data', 'item-heroes.json'), {
+    source: 'Своя база матчей (Stratz, покупки по времени), патч ' + (patch.version || '?') + ', матчей ' + matches, builtAt: out.builtAt, items });
+  else console.warn('item-heroes.json не обновлён: предметов мало (' + Object.keys(items).length + ')');
+  console.log('item-heroes.json: предметов ' + Object.keys(items).length);
+}
 if (missing.length) { console.error('Нет покупок у героев:', missing.join(', ')); process.exit(1); }

@@ -285,7 +285,7 @@ python3 tools/fetch-item-sources.py     # OpenDota constants/items + локал�
 python3 tools/fetch-valve-items-ru.py   # русский datafeed по каждому предмету (~4 мин)
 python3 tools/fetch-item-icons.py       # иконки в assets/items/
 python3 tools/build-items-ru.py         # data/items-ru.json
-python3 tools/build-item-heroes.py      # data/item-heroes.json + data/hero-items.json
+python3 tools/build-item-heroes.py      # УСТАРЕЛО с 11.10.2026: item-heroes.json и hero-items.json считает tools/build-hero-items.js (daily); не запускать — затрёт свои данные снимком OpenDota
 node build-item-pages.js                # 262 страницы предметов
 node build-sitemap.js
 node tools/sync-deploy.js               # копирует статику в deploy/

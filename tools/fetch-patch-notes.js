@@ -14,7 +14,7 @@
 // подсветка — то, чем список Valve отличается от простого перечня.
 //
 // Запуск: node tools/fetch-patch-notes.js [версия]
-//         без аргумента берётся версия из data/home-meta.json
+//         без аргумента — последний патч из списка Valve (при недоступности — версия из data/home-meta.json)
 
 const fs = require('fs');
 const path = require('path');
@@ -100,7 +100,9 @@ async function currentPatch() {
 }
 
 async function main() {
-  const version = process.argv[2] || readJson('data/home-meta.json', {}).patch || await currentPatch();
+  // Сначала — последний патч из списка Valve: home-meta.json с 11.10.2026 берёт версию из этого же файла
+  // (через stats.json), и его версия в приоритете навсегда закрепила бы старый патч.
+  const version = process.argv[2] || await currentPatch() || readJson('data/home-meta.json', {}).patch;
   if (!version) throw new Error('не удалось определить версию патча');
 
   const url = 'https://www.dota2.com/datafeed/patchnotes?version=' + encodeURIComponent(version) + '&language=russian';

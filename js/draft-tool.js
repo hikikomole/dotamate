@@ -7,7 +7,7 @@
  *   /data/our-matrix.json     — матрица пар по нашей базе Steam: все рейтинговые матчи всех рангов
  *   /data/our-matrix-turbo.json, our-meta-turbo.json, draft-calibration-turbo.json — срез «Турбо» (своя база Steam, game_mode 23)
  *   /api/dota/hero-positions  — доли и винрейты героев по пяти позициям
- *   /data/lane-matrix.json    — исходы линий по парам (Stratz laneOutcome)
+ *   /data/lane-matrix.json    — исходы линий по парам: свой расчёт по деталям Stratz (tools/build-lane-matrix.js)
  *
  * Снимки, а не живые запросы: Stratz пускает токен не больше чем с двух
  * IP-адресов за 15 минут, а Cloudflare Worker ходит наружу с разных адресов.

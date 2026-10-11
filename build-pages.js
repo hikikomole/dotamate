@@ -170,7 +170,7 @@ const HOME_CARDS = `<section class="section" id="home-cards">
 // Всё это рисуется НА СБОРКЕ, а не в браузере. Причин две. Первая: ссылки на
 // героев должны лежать в HTML, иначе робот их не увидит и вся глубина обхода
 // пропадёт. Вторая: первый экран не должен прыгать, пока грузятся данные.
-// Числа берём из data/home-meta.json (tools/fetch-home-meta.js) и из тех же
+// Числа берём из data/home-meta.json (tools/build-home-meta.js, из data/stats.json) и из тех же
 // карт адресов, по которым собирается sitemap, — выдумывать тут нечего.
 const HOME_META = path.join(ROOT, 'data', 'home-meta.json');
 
@@ -220,7 +220,7 @@ function homeMeta() {
   const lists =
     metaColumn('Тащат', `винрейт · от ${ru(m.minMatches)} матчей`, carry, '/stats/', 'Весь список винрейта') +
     metaColumn('Берут чаще всего', 'матчей за срез', picked, '/heroes/', `Все ${countOf('hero-urls.json')} героев`) +
-    metaColumn('Банят на про', 'банов · и сколько раз взяли', banned, '/stats/#pro', 'Про-сцена целиком');
+    metaColumn('Банят чаще всего', 'банов · и сколько раз взяли', banned, '/stats/', 'Вся статистика');
 
   const articles = countOf('guide-urls.json') + countOf('role-guide-urls.json');
   const heroGuides = countOf('hero-guide-urls.json');
@@ -235,7 +235,7 @@ function homeMeta() {
     counter('#draftTool', pairs, plural(pairs, 'пара', 'пары', 'пар') + ' героев в матрице');
 
   const d = new Date(m.fetchedAt);
-  const stamp = `Срез ${esc(m.source.split(' ')[0])} · ` +
+  const stamp = `Срез ${esc(m.stampLabel || m.source.split(' ')[0])} · ` +
     d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(' г.', '');
 
   // Чип ведёт на разбор патча, когда страница собрана; иначе остаётся меткой.

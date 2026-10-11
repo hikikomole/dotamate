@@ -264,3 +264,9 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
   (`build-draft-calibration.js --source steam --tier turbo`, шаг daily после матрицы турбо; на сервере 11.10: 837 854 матча,
   проверка 136 195, угадано 58,2 %, log loss 0,672 против 0,693). `data/draft-matrix.json` (снимок Stratz 23.09) сайтом больше
   не читается: DraftMate — без него, счётчик пар на главной — из `our-matrix.json`.
+- 3.2 (11.10.2026, решение владельца — «заменить своим расчётом»): `lane-matrix.json` — `tools/build-lane-matrix.js`;
+  `skill-chains.json` — `fetch-hero-builds.js --source steam --site`; `home-meta.json` — `tools/build-home-meta.js` из
+  `stats.json` (+ `bn` — баны героя в `stats.json heroes`; колонка «Банят чаще всего»), главная пересобирается в daily
+  (`build-pages.js`); `item-heroes.json` — `tools/build-hero-items.js`. `draft-matrix.json` не читается (п. 3.1).
+  `fetch-patch-notes.js` берёт версию сначала из списка Valve (home-meta теперь повторяет версию из patch-notes).
+  Подробно — `data-independence.md`.

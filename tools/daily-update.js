@@ -271,6 +271,8 @@ async function main() {
     // выкладку: на сайте остаётся прошлый data/hero-items.json.
     if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');
     if (!await node('Предметы и победа (вариант Б драфта)', 'tools/build-item-impact.js')) problems.push('предметы и победа');
+    // Исходы линий DraftMate — свой расчёт по тем же деталям Stratz (вместо снимка heroStats.laneOutcome, 11.10.2026).
+    if (!await node('Исходы линий (DraftMate)', 'tools/build-lane-matrix.js')) problems.push('исходы линий');
     // DraftMate: предметы против состава. Сбой (в т.ч. описание предмета у Valve
     // перестало подтверждать правило) оставляет прошлый data/item-counters.json.
     if (!await node('Предметы против состава (DraftMate)', 'tools/build-item-counters.js')) problems.push('предметы против состава');
@@ -322,6 +324,9 @@ async function main() {
     // Перед этим ранг свежих Steam-матчей дозаполняется из только что собранной ленты OpenDota.
     await node('Ранг Steam-матчей из OpenDota', 'tools/collect-steam-matches.js', ['--fill-ranks', '--days', '3'], { timeout: 0.5 * HOUR });
     if (!await node('Статистика и аналитика', 'tools/build-stats.js', ['--source', 'steam'], { timeout: HOUR })) problems.push('статистика');
+    // Главная: три списка меты из того же stats.json (вместо снимка OpenDota, 11.10.2026) и пересборка страниц разделов.
+    else if (!await node('Мета на главной', 'tools/build-home-meta.js')) problems.push('мета на главной');
+    else if (!await node('Страницы разделов (главная)', 'build-pages.js', [], { timeout: 0.25 * HOUR })) problems.push('страницы разделов');
     if (countersOk) {
       if (!await node('Страницы героев', 'build-hero-pages.js', [], { timeout: 0.5 * HOUR })) problems.push('страницы героев');
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');

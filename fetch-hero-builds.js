@@ -37,6 +37,8 @@ const ROOT = __dirname;
 // С U5 (09.10.2026) билды Stratz — только хранилище предметов (время покупок) и эталон 4/5: data/builds-stratz/.
 // Сайт читает data/builds/ — его собирает --source steam --site (прокачка и таланты Steam + предметы Stratz).
 const OUT_DIR = path.join(ROOT, 'data', 'builds-stratz');
+const SEQ_KEEP = 400;   // вариантов последовательности 1–10 на героя и позицию в памяти
+const SEQ_MIN = 30;     // матчей у варианта, чтобы показать его как «популярный» или «лучший по винрейту»
 const SITE_DIR = path.join(ROOT, 'data', 'builds');
 // Первый запуск после U5: хранилища Stratz ещё нет — переносим в него прежние data/builds (там билды Stratz).
 function ensureStratzStore() {
@@ -210,9 +212,16 @@ async function steamBuilds() {
       let a = agg.get(p[0]); if (!a) agg.set(p[0], a = { n: 0, pos: {} });
       a.n++;
       const k = KEY(lab.p[s].pos);
-      const x = a.pos[k] || (a.pos[k] = { n: 0, lvl: new Map(), tal: new Map() });
+      const x = a.pos[k] || (a.pos[k] = { n: 0, lvl: new Map(), tal: new Map(), seq: new Map() });
       x.n++;
       const up = p[22] || [], firstLvl = new Map();
+      // Точная последовательность уровней 1–10 (вместо снимка OpenDota data/skill-chains.json, 11.10.2026).
+      if (SITE && up.length >= 20) {
+        const key = [up[0], up[2], up[4], up[6], up[8], up[10], up[12], up[14], up[16], up[18]].join(',');
+        const v = x.seq.get(key) || [0, 0]; v[0]++; if (won) v[1]++; x.seq.set(key, v);
+        // память: держим не больше SEQ_KEEP×2 вариантов, редкие отбрасываем (на верх списка не влияют)
+        if (x.seq.size > SEQ_KEEP * 2) x.seq = new Map([...x.seq].sort((a, b) => b[1][0] - a[1][0]).slice(0, SEQ_KEEP));
+      }
       for (let i = 0; i < up.length; i += 2) if (!firstLvl.has(up[i])) firstLvl.set(up[i], i / 2 + 1);
       for (const [ab, lvl] of firstLvl) {
         const kk = ab + ':' + lvl, v = x.lvl.get(kk) || [0, 0]; v[0]++; if (won) v[1]++; x.lvl.set(kk, v);
@@ -226,6 +235,15 @@ async function steamBuilds() {
   const builtAt = new Date().toISOString();
   const cmp = { levels: 0, levelsSame: 0, talents: 0, talentsSame: 0, positions: 0, heroes: 0 };
   const byPos = {};
+  const chains = {};   // data/skill-chains.json: heroes[id][POSITION_k] = { popular, highestWin, variantsCounted, sampleMatches }
+  const chainOf = x => {
+    const list = [...x.seq].map(([k, [n, w]]) => ({ seq: k.split(',').map(Number), matches: n, wins: w, winrate: Math.round(w / n * 1000) / 10 }))
+      .sort((a, b) => b.matches - a.matches);
+    if (!list.length || list[0].matches < SEQ_MIN) return null;
+    const min = Math.max(SEQ_MIN, Math.ceil(list[0].matches * 0.1));
+    const best = list.filter(v => v.matches >= min).sort((a, b) => b.winrate - a.winrate || b.matches - a.matches)[0];
+    return { popular: list[0], highestWin: best, variantsCounted: list.length, sampleMatches: list.reduce((s, v) => s + v.matches, 0) };
+  };
   let written = 0;
   for (const h of heroes) {
     const a = agg.get(h.id); if (!a) continue;
@@ -266,6 +284,8 @@ async function steamBuilds() {
           const sp = st && st.positions[k] ? st.positions[k] : null;
           outPos[k] = Object.assign({}, positions[id], { items: sp ? sp.items : { core: [], situational: [] }, itemsFrom: sp ? 'stratz ' + k : null },
             id === 'POSITION_SUP' ? { supMerged: true } : {});
+          const ch = a.pos[id] ? chainOf(a.pos[id]) : null;
+          if (ch) (chains[h.id] = chains[h.id] || {})[k] = ch;
           order.push(k);
         }
       }
@@ -277,6 +297,13 @@ async function steamBuilds() {
     written++;
   }
   const pc = (x, y) => y ? Math.round(x / y * 1000) / 10 : null;
+  if (SITE) {
+    // Пустой или почти пустой расчёт прежний файл не затирает: страница героя тогда показывает поуровневый срез.
+    if (Object.keys(chains).length >= 100) MS.writeJsonAtomic(path.join(ROOT, 'data', 'skill-chains.json'), {
+      source: 'Steam Web API, ability_upgrades (рейтинговые матчи всех рангов, текущий патч); позиции — модель U2, саппорт 4/5 общий',
+      updatedAt: builtAt, minMatches: SEQ_MIN, heroes: chains });
+    else console.warn('skill-chains.json не обновлён: последовательностей мало (' + Object.keys(chains).length + ' героев)');
+  }
   const check = { builtAt, matches, firstMatchAt: new Date(first * 1000).toISOString(), lastMatchAt: new Date(last * 1000).toISOString(),
     heroes: written, positionsByKey: byPos, compare: Object.assign(cmp, { levelsPct: pc(cmp.levelsSame, cmp.levels), talentsPct: pc(cmp.talentsSame, cmp.talents) }) };
   fs.writeFileSync(path.join(OUT, 'builds-check.json'), JSON.stringify(check, null, 1));

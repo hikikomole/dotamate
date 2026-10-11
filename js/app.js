@@ -637,8 +637,8 @@ function itemDescriptionText(x){return (x?.desc||[]).map(b=>[b.h,b.t].filter(Boo
 function itemDescBlocks(x){return (x?.desc||[]).map(b=>`<div class="ip-block">${b.h?`<h4>${escapeHtml(b.h)}</h4>`:''}${(b.t||'').split('\n').filter(Boolean).map(t=>`<p>${escapeHtml(t)}</p>`).join('')}</div>`).join('')||'<p class="muted">Описание отсутствует.</p>';}
 function itemMetaChips(x){const out=[];if(x.cost)out.push(`💰 ${statValue(x.cost)} золота`);else if(x.cat==='neutral')out.push(`Нейтральный${x.tier?` · тир ${x.tier}`:''}`);if(x.mc)out.push(`Мана ${statValue(x.mc)}`);if(x.cd)out.push(`Перезарядка ${x.cd} сек`);if(x.charges)out.push(`Зарядов: ${x.charges}`);return out;}
 function itemLinkChips(list){return (list||[]).map(k=>{const it=items.find(i=>i.name===k);return it?`<button class="ip-chip" data-item-open="${escapeHtml(it.name)}"><img src="${itemImage(it)}" alt="">${escapeHtml(it.dname)}</button>`:'';}).join('');}
-// Связь «предмет -> герои» посчитана заранее (tools/build-item-heroes.py) по тем
-// же данным OpenDota, что и гайды. В рантайме — ни одного запроса.
+// Связь «предмет -> герои» посчитана заранее (tools/build-hero-items.js, своя база покупок) — как и
+// карточка героя. В рантайме — ни одного запроса.
 function itemHeroUsage(x){
   const rec=(itemHeroIndex||{})[String(x.id)];
   if(!rec||!(rec.heroes||[]).length)return '<p class="muted">Заметной статистики покупок по этому предмету нет.</p>';

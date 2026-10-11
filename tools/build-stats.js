@@ -86,7 +86,7 @@ const known = new Set(heroIds);
 const ourMeta = read('our-meta.json');
 
 // ---------- 1. Лента публичных матчей ----------
-const H = new Map(heroIds.map(id => [id, { n: 0, w: 0, rk: {}, du: {}, g: 0, x: 0 }]));
+const H = new Map(heroIds.map(id => [id, { n: 0, w: 0, rk: {}, du: {}, g: 0, x: 0, bn: 0 }]));
 const durHist = new Map();
 let total = 0, radWins = 0, minT = Infinity, maxT = 0;
 const rankHist = {};
@@ -117,6 +117,8 @@ function addRow(r, eco, raw) {
     if (eco) { x.g += eco[i][0]; x.x += eco[i][1]; }
     const d = x.du[db] || (x.du[db] = [0, 0]); d[0]++; if (won) d[1]++;
   });
+  // баны рейтинговых матчей Steam (строка: [.., bans[hero_id…], ..]) — список «Банят чаще всего» на главной
+  if (raw && Array.isArray(raw[8])) for (const b of raw[8]) { const x = H.get(b); if (x) x.bn++; }
   if (raw && PM) {
     let lab; try { lab = PM.MP.labelSteamRow(raw, PM.model, PM.stratz); } catch { return; }
     posLabeled++; if (lab.src === 'stratz') posStratz++;
@@ -146,6 +148,7 @@ const heroRows = heroIds.map(id => {
   for (const [k] of DUR) { const d = x.du[k]; if (d && d[0] >= MIN_DUR_BUCKET) dur[k] = [d[0], r1(d[1] / d[0] * 100)]; }
   const row = { id, n: x.n, wr: x.n ? r1(x.w / x.n * 100) : null, lo: r1(wilsonLow(x.w, x.n) * 100), pr: r1(x.n / total * 100), rank, dur };
   if (SRC === 'steam' && x.n) { row.gpm = Math.round(x.g / x.n); row.xpm = Math.round(x.x / x.n); }
+  if (SRC === 'steam') row.bn = x.bn;
   return row;
 });
 const ranked = heroRows.filter(h => h.n >= MIN_TIER).sort((a, b) => b.lo - a.lo);
