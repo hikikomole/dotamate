@@ -199,8 +199,9 @@ async function* dayLines(file) {
   const rl = readline.createInterface({ input: fs.createReadStream(file).pipe(zlib.createGunzip()), crlfDelay: Infinity });
   for await (const l of rl) if (l) yield l;
 }
-// Повторов нет по построению: лента идёт по возрастанию match_seq_num, курсор пишется после данных.
-// Окно сбоя между записью данных и курсора закрыто полем pendingTo (см. collect).
+// Повторов нет по построению: лента идёт по возрастанию match_seq_num. Перед записью пачки в _state.json пишется
+// pendingTo; если процесс упал между записью данных и курсора, следующий запуск сдвигает курсор за эту пачку —
+// без повтора, ценой возможной потери недописанной пачки (выборка и так неполная).
 function appendRows(dir, rows) {
   const byDay = {};
   for (const r of rows) {
@@ -298,7 +299,7 @@ async function collect() {
     st.seen += ms.length; st.ranked += wr; st.turbo += wt;
     st.nextSeq = last.match_seq_num + 1; delete st.pendingTo;
     st.lastStart = last.start_time; st.lastEnd = last.start_time + last.duration; st.updatedAt = new Date().toISOString();
-    saveState(st); // данные записаны раньше курсора: при сбое между ними — повтор, а не потеря
+    saveState(st); // курсор после данных; сбой между ними закрыт pendingTo (пачка не повторяется)
     run.lagSec = Math.round(Date.now() / 1000 - (last.start_time + last.duration));
     if (run.req % 25 === 0) log('запросов ' + run.req + ', ranked ' + run.ranked + ', турбо ' + run.turbo + ', отставание ' + run.lagSec + ' с, пауза ' + pause);
     // неполная пачка бывает и в глубине ленты (99 из 100) — «догнали» только вблизи текущего времени

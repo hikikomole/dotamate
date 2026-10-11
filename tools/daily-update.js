@@ -111,9 +111,12 @@ function acquireLock() {
     fs.closeSync(fd);
     return true;
   } catch {
-    // Замок старше 6 часов — остался от выключенного посреди работы компьютера.
+    // Замок брошен, если его процесс уже не живёт (сбой, перезагрузка); живой процесс замок держит,
+    // сколько бы он ни шёл, — второй прогон параллельно не стартует. Старше 12 ч — снимаем в любом случае.
+    let pid = 0; try { pid = Number(fs.readFileSync(LOCK, 'utf8')) || 0; } catch { /* пустой замок */ }
+    let alive = false; if (pid) { try { process.kill(pid, 0); alive = true; } catch (e) { alive = e.code === 'EPERM'; } }
     const age = Date.now() - fs.statSync(LOCK).mtimeMs;
-    if (age > 6 * HOUR) { fs.unlinkSync(LOCK); return acquireLock(); }
+    if (!alive || age > 12 * HOUR) { fs.unlinkSync(LOCK); return acquireLock(); }
     return false;
   }
 }
@@ -149,7 +152,11 @@ function foreignDeployChanges() {
 function checkDataJson() {
   const dir = path.join(ROOT, 'data');
   const bad = [];
-  for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json'))) {
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'));
+  // и вложенные файлы, которые читает сайт: билды героев и страницы матчей META
+  for (const sub of ['builds', 'meta-match']) if (fs.existsSync(path.join(dir, sub)))
+    for (const f of fs.readdirSync(path.join(dir, sub)).filter(f => f.endsWith('.json'))) files.push(sub + '/' + f);
+  for (const f of files) {
     try { JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch (e) { bad.push(f + ' (' + e.message.slice(0, 80) + ')'); }
   }
   if (bad.length) throw new Error('битые файлы данных, выкладка отменена: ' + bad.join(', '));

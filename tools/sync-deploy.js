@@ -45,4 +45,11 @@ for(const f of FILES){
   const s = path.join(ROOT, f);
   if(fs.existsSync(s)){ fs.copyFileSync(s, path.join(OUT, f)); total++; console.log(`${f}`); }
 }
-console.log(`Итого скопировано: ${total}`);
+// Файлы верхнего уровня deploy/data, которых больше нет в data/ (сборщик выведен из работы), на сайт не идут:
+// иначе устаревший файл публикуется вечно. Папки (builds, meta-match …) не трогаем.
+let removed = 0;
+const dd = path.join(OUT, 'data');
+if (fs.existsSync(dd)) for (const e of fs.readdirSync(dd, { withFileTypes: true })) {
+  if (e.isFile() && e.name.endsWith('.json') && !fs.existsSync(path.join(ROOT, 'data', e.name))) { fs.unlinkSync(path.join(dd, e.name)); removed++; console.log('убран из deploy/data: ' + e.name); }
+}
+console.log(`Итого скопировано: ${total}${removed ? ', убрано устаревших: ' + removed : ''}`);

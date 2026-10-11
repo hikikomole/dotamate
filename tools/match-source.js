@@ -21,6 +21,10 @@ const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 const readline = require('readline');
+// Файл текущего дня сборщик Steam дописывает gzip-членами каждые 10 минут, и чтение может застать член недописанным.
+// Z_SYNC_FLUSH: распаковать всё, что есть, без ошибки «unexpected end of file» (п. 1.2 плана, 11.10.2026); оборванная
+// последняя строка отсеется на JSON.parse.
+const GZ = { finishFlush: zlib.constants.Z_SYNC_FLUSH };
 
 const ROOT = path.join(__dirname, '..');
 const DATA = path.join(ROOT, 'data');
@@ -34,7 +38,7 @@ function source() {
 
 function readGz(file) {
   // склеенные gzip-члены (дописывание по пачкам) gunzipSync читает целиком
-  return zlib.gunzipSync(fs.readFileSync(file)).toString('utf8').split('\n').filter(Boolean).map(l => JSON.parse(l));
+  return zlib.gunzipSync(fs.readFileSync(file), GZ).toString('utf8').split('\n').filter(Boolean).map(l => JSON.parse(l));
 }
 
 /**
@@ -71,7 +75,7 @@ function steamFiles({ turbo = false, days = 0 } = {}) {
 function steamRows({ turbo = false, days = 0, filter = null, map = null, each = null } = {}) {
   const out = [];
   for (const file of steamFiles({ turbo, days })) {
-    const buf = zlib.gunzipSync(fs.readFileSync(file)); // склеенные gzip-члены читаются целиком
+    const buf = zlib.gunzipSync(fs.readFileSync(file), GZ); // склеенные gzip-члены читаются целиком
     const seen = new Set();
     for (let s = 0; s < buf.length;) {
       let e = buf.indexOf(10, s); if (e < 0) e = buf.length;
@@ -94,7 +98,7 @@ function steamMatches({ turbo = false, days = 0 } = {}) {
 async function* steamStream({ turbo = false, days = 0 } = {}) {
   for (const file of steamFiles({ turbo, days })) {
     const seen = new Set();
-    const rl = readline.createInterface({ input: fs.createReadStream(file).pipe(zlib.createGunzip()), crlfDelay: Infinity });
+    const rl = readline.createInterface({ input: fs.createReadStream(file).pipe(zlib.createGunzip(GZ)), crlfDelay: Infinity });
     for await (const l of rl) {
       if (!l) continue;
       let r; try { r = JSON.parse(l); } catch { continue; } // оборванная строка

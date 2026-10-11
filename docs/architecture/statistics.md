@@ -270,3 +270,10 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
   (`build-pages.js`); `item-heroes.json` — `tools/build-hero-items.js`. `draft-matrix.json` не читается (п. 3.1).
   `fetch-patch-notes.js` берёт версию сначала из списка Valve (home-meta теперь повторяет версию из patch-notes).
   Подробно — `data-independence.md`.
+- 1.2 (11.10.2026): `match-source.js` распаковывает gzip с `Z_SYNC_FLUSH` — недописанный член файла текущего дня читается
+  до места обрыва без ошибки (проверено на склейке из полного и обрезанного члена: 4 строки, без исключения). Замок
+  `heavy.lock` daily не берёт: шаги идут часами, сборщик Steam стоял бы всё это время.
+- Этап 4 (11.10.2026): `sync-deploy.js` убирает из `deploy/data` верхнеуровневые *.json, которых нет в `data/`;
+  `checkDataJson` проверяет и `data/builds/*.json`, `data/meta-match/*.json`; `daily.lock` снимается, если его процесс
+  не жив (или старше 12 ч); комментарии `collect-steam-matches.js` о `pendingTo` приведены к коду.
+  Старая копия проекта `Desktop\Dotamate` (26.09) — переименовать или удалить владельцу: в ней `deploy-hostiman.js` без защиты.
