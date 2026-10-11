@@ -19,10 +19,10 @@
     }).then(function (j) {
       if (t) clearTimeout(t);
       if (!j || !Array.isArray(j.words)) throw new Error('Неверный ответ сервера.');
-      data = j; showMeta(j); lastW = 0; layout();
+      data = j; if (meta) showMeta(j); lastW = 0; layout();
     }).catch(function (e) {
       if (t) clearTimeout(t);
-      meta.textContent = '';
+      if (meta) meta.textContent = '';
       cloud.innerHTML = '<p class="lv-muted lw-empty">Не удалось загрузить слова: ' + esc(e.name === 'AbortError' ? 'сервер не ответил за 20 секунд.' : e.message) + ' Обновите страницу позже.</p>';
       if (window.console) console.warn('Частые слова:', e);
     });
@@ -37,17 +37,21 @@
 
   // Раскладка: радиусы ∝ √n, масштаб подбирается под площадь поля; затем спираль от центра.
   function layout() {
-    if (!data) return;
+    if (!data || !cloud) return;
     var W = cloud.clientWidth; if (!W || W === lastW) return; lastW = W;
-    var words = data.words.slice(0, W < 560 ? 45 : W < 1000 ? 70 : 100);
+    var words = data.words.slice(0, W < 560 ? 60 : W < 1000 ? 95 : 140);
     if (!words.length) { cloud.style.height = ''; cloud.innerHTML = '<p class="lv-muted lw-empty">В чате матчей пока не набралось слов — загляните позже.</p>'; return; }
     var H0 = W < 560 ? W * 1.25 : W * 0.55, max = words[0][1];
     var sum = words.reduce(function (a, w) { return a + w[1]; }, 0);
-    var k = Math.sqrt(H0 * W * 0.5 / (Math.PI * sum)), rMax = Math.min(W * (W < 560 ? 0.2 : 0.12), k * Math.sqrt(max));
-    k = rMax / Math.sqrt(max);
+    // Масштаб считаем по площади уже ограниченных кругов (самые частые не крупнее 7-го слова), иначе облако сжимается.
+    var nCap = words[Math.min(6, words.length - 1)][1], capSum = words.reduce(function (a, w) { return a + Math.min(w[1], nCap); }, 0);
+    var k = Math.sqrt(H0 * W * 0.5 / (Math.PI * capSum));
+    k = Math.min(k, W * (W < 560 ? 0.2 : 0.12) / Math.sqrt(nCap));
     var rMin = W < 560 ? 23 : 24, placed = [], cx = W / 2, cy = H0 / 2, gap = 4;
+    // Самые частые слова не раздуваются: радиус ограничен 7-м по частоте словом, при наведении круг растёт до размера 3-го.
+    var rOf = function (i) { return Math.max(rMin, k * Math.sqrt(words[Math.min(i, words.length - 1)][1])); }, rCap = rOf(6), rHover = rOf(2);
     words.forEach(function (w) {
-      var r = Math.max(rMin, k * Math.sqrt(w[1])), x = cx, y = cy;
+      var r0 = Math.max(rMin, k * Math.sqrt(w[1])), r = Math.min(r0, rCap), hs = r0 > rCap ? Math.max(1.18, rHover / r) : 1.18, x = cx, y = cy;
       for (var a = 0, i = 0; i < 6000; i++, a += 0.12) {
         var d = 2.2 * a; x = cx + d * Math.cos(a); y = cy + d * Math.sin(a) * (W < 560 ? 1.3 : 0.7);
         if (x - r < 0 || x + r > W) continue;
@@ -55,7 +59,7 @@
         for (var j = 0; j < placed.length; j++) { var p = placed[j], dx = p.x - x, dy = p.y - y, rr = p.r + r + gap; if (dx * dx + dy * dy < rr * rr) { ok = false; break; } }
         if (ok) break;
       }
-      placed.push({ x: x, y: y, r: r, w: w[0], n: w[1] });
+      placed.push({ x: x, y: y, r: r, hs: hs, w: w[0], n: w[1] });
     });
     var top = Infinity, bot = -Infinity;
     placed.forEach(function (p) { top = Math.min(top, p.y - p.r); bot = Math.max(bot, p.y + p.r); });
@@ -63,12 +67,12 @@
     cloud.innerHTML = placed.map(function (p, i) {
       var len = Math.max(p.w.length, 2), fs = Math.min(p.r * 0.5, (p.r * 1.7) / (len * 0.62)), share = p.n / max;
       var tier = share > 0.5 ? 1 : share > 0.2 ? 2 : share > 0.08 ? 3 : 4;
-      return '<div class="lw-b lw-t' + tier + '" role="listitem" title="' + esc(p.w) + ' — ' + num(p.n) + '" aria-label="' + esc(p.w) + ', ' + num(p.n) + ' ' + plural(p.n, 'раз', 'раза', 'раз') + '" style="left:' + (p.x - p.r).toFixed(1) + 'px;top:' + (p.y - p.r - top + 4).toFixed(1) + 'px;width:' + (2 * p.r).toFixed(1) + 'px;height:' + (2 * p.r).toFixed(1) + 'px;animation-delay:' + Math.min(i * 18, 900) + 'ms">'
+      return '<div class="lw-b lw-t' + tier + '" role="listitem" title="' + esc(p.w) + ' — ' + num(p.n) + '" aria-label="' + esc(p.w) + ', ' + num(p.n) + ' ' + plural(p.n, 'раз', 'раза', 'раз') + '" style="left:' + (p.x - p.r).toFixed(1) + 'px;top:' + (p.y - p.r - top + 4).toFixed(1) + 'px;width:' + (2 * p.r).toFixed(1) + 'px;height:' + (2 * p.r).toFixed(1) + 'px;--hs:' + p.hs.toFixed(3) + ';animation-delay:' + Math.min(i * 18, 900) + 'ms">'
         + '<span class="lw-w" style="font-size:' + Math.max(10, fs).toFixed(1) + 'px">' + esc(p.w) + '</span>'
         + (p.r >= 34 ? '<span class="lw-n" style="font-size:' + Math.max(10, Math.min(16, p.r * 0.22)).toFixed(1) + 'px">' + num(p.n) + '</span>' : '') + '</div>';
     }).join('');
     var els = cloud.querySelectorAll('.lw-b');
-    nodes = placed.map(function (p, i) { return { el: els[i], hx: p.x, hy: p.y - top + 4, r: p.r, x: 0, y: 0, vx: 0, vy: 0 }; });
+    nodes = placed.map(function (p, i) { return { el: els[i], hx: p.x, hy: p.y - top + 4, r: p.r, hs: p.hs, x: 0, y: 0, vx: 0, vy: 0 }; });
     bounds = { w: W, h: Math.ceil(bot - top + 8) };
   }
 
@@ -77,7 +81,7 @@
   // Цикл requestAnimationFrame идёт, только пока есть движение; при prefers-reduced-motion отключено.
   var nodes = [], bounds = null, ptr = null, raf = 0;
   var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
-  var FORCE_R = 130, FORCE = 4, SPRING = 0.06, DAMP = 0.82, MAXOFF = 0.45;
+  var FORCE_R = 130, FORCE = 3, SPRING = 0.035, DAMP = 0.88, MAXOFF = 0.45;
   function step() {
     raf = 0; var moving = false, i, j, n, a, b;
     for (i = 0; i < nodes.length; i++) {
@@ -85,7 +89,7 @@
       n.vx -= n.x * SPRING; n.vy -= n.y * SPRING; n.er = n.r;
       if (ptr) {
         var dx = cx - ptr.x, dy = cy - ptr.y, d = Math.sqrt(dx * dx + dy * dy) || 0.01, reach = FORCE_R + n.r * 0.5;
-        if (d < n.r && ptr.mouse) n.er = n.r * 1.18;   // круг под курсором увеличен :hover — соседи учитывают его размер
+        if (d < n.r && ptr.mouse) n.er = n.r * n.hs;   // круг под курсором увеличен :hover — соседи учитывают его размер
         if (d < reach) { var f = FORCE * Math.pow(1 - d / reach, 2) * (40 / (n.r + 20)); n.vx += dx / d * f; n.vy += dy / d * f; }
       }
     }

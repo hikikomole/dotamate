@@ -185,7 +185,7 @@ body.d2-dark .hp-crumbs{font-size:12px!important;color:var(--d2-muted-2)!importa
 body.d2-dark .hp-crumbs a{color:var(--d2-muted-2)!important;text-decoration:none!important}
 body.d2-dark .hp-crumbs a:hover{color:var(--d2-gold)!important}
 body.d2-dark .hp-attr{font-size:11px!important;font-weight:800!important;letter-spacing:2.4px!important;text-transform:uppercase!important;color:var(--d2-gold)!important;margin-bottom:6px!important}
-body.d2-dark .hp-hero h1{margin:0!important;font-size:clamp(42px,7vw,86px)!important;line-height:.95!important;font-weight:900!important;letter-spacing:-1px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .hp-hero h1{margin:0!important;font-size:clamp(32px,5vw,62px)!important;line-height:.95!important;font-weight:900!important;letter-spacing:-1px!important;text-transform:uppercase!important;color:#fff!important}
 body.d2-dark .hp-tagline{margin:10px 0 0!important;font-size:13px!important;font-weight:800!important;letter-spacing:1.8px!important;text-transform:uppercase!important;color:var(--d2-int)!important}
 body.d2-dark .hp-lore{margin:20px 0 0!important;max-width:52ch!important;font-size:14px!important;line-height:1.75!important;color:var(--d2-muted)!important}
 body.d2-dark .hp-facts{display:flex!important;gap:34px!important;margin:26px 0 0!important}
@@ -293,7 +293,7 @@ body.d2-dark .home-bg::after{content:""!important;position:absolute!important;in
 body.d2-dark .home-bg-toggle{position:absolute!important;z-index:2!important;right:14px!important;bottom:14px!important;width:34px!important;height:34px!important;display:grid!important;place-items:center!important;padding:0!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-md)!important;background:rgba(7,8,10,.62)!important;color:var(--d2-muted-2)!important;font-size:11px!important;line-height:1!important;cursor:pointer!important;backdrop-filter:blur(6px)!important;transition:color .18s,border-color .18s!important}
 body.d2-dark .home-bg-toggle:hover{color:var(--d2-gold)!important;border-color:var(--d2-gold-dim)!important}
 
-body.d2-dark .hero h1{font-size:clamp(40px,5.8vw,70px)!important;line-height:.98!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important;text-shadow:0 4px 34px rgba(0,0,0,.65)!important}
+body.d2-dark .hero h1{font-size:clamp(30px,4vw,50px)!important;line-height:.98!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important;text-shadow:0 4px 34px rgba(0,0,0,.65)!important}
 body.d2-dark .hero h1 span{color:var(--d2-gold)!important}
 body.d2-dark .hero p{color:#c3cad4!important;font-size:16px!important;text-shadow:0 2px 18px rgba(0,0,0,.6)!important}
 body.d2-dark .hero-stats strong{color:#fff!important}
@@ -398,7 +398,7 @@ body.d2-dark .featured-hero-card span{font-size:11px!important;font-weight:800!i
 
 /* Секция тянет собственный светлый градиент — гасим до фона страницы */
 body.d2-dark .items-section-v3{background:none!important;border-top:0!important;border-bottom:0!important}
-body.d2-dark .items-v3-head h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .items-v3-head :is(h1,h2){font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important}
 body.d2-dark .items-v3-head p{color:var(--d2-muted)!important}
 body.d2-dark .items-v3-summary{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-lg)!important;box-shadow:none!important}
 body.d2-dark .items-v3-summary strong{color:var(--d2-gold)!important}
@@ -462,7 +462,7 @@ body.d2-dark .ip-top{display:grid!important;grid-template-columns:300px 1fr!impo
 body.d2-dark .ip-art{position:relative!important;background:linear-gradient(160deg,#141821,#0a0c10)!important;border:1px solid var(--d2-line)!important;display:grid!important;place-items:center!important;padding:34px 26px!important;min-height:210px!important}
 body.d2-dark .ip-art img{width:100%!important;max-width:210px!important;height:auto!important;display:block!important;filter:drop-shadow(0 18px 34px rgba(0,0,0,.7))!important}
 body.d2-dark .ip-qual{position:absolute!important;top:10px!important;left:10px!important;padding:5px 9px!important;background:rgba(7,8,10,.8)!important;border:1px solid var(--d2-line)!important;color:var(--d2-gold)!important;font-size:9.5px!important;font-weight:800!important;letter-spacing:1.2px!important;text-transform:uppercase!important}
-body.d2-dark .ip-head h1{font-size:clamp(30px,4.4vw,52px)!important;line-height:1!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important;margin:6px 0 16px!important}
+body.d2-dark .ip-head h1{font-size:clamp(26px,3.2vw,38px)!important;line-height:1!important;letter-spacing:2px!important;text-transform:uppercase!important;color:#fff!important;margin:6px 0 16px!important}
 body.d2-dark .ip-lead{color:#c3cad4!important;font-size:15.5px!important;line-height:1.7!important;max-width:660px!important;margin:0 0 20px!important}
 body.d2-dark .ip-chips{display:flex!important;flex-wrap:wrap!important;gap:7px!important;margin-bottom:22px!important}
 body.d2-dark .ip-chips span{padding:8px 12px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;color:var(--d2-muted)!important;font-size:11.5px!important;font-weight:700!important;letter-spacing:.6px!important}
@@ -472,7 +472,7 @@ body.d2-dark .ip-panel{margin-top:30px!important;padding-top:26px!important;bord
 body.d2-dark .ip-panel:first-of-type{border-top:0!important}
 body.d2-dark .ip-panel-head{margin-bottom:16px!important}
 body.d2-dark .ip-panel-head span{display:block!important;color:var(--d2-gold)!important;font-size:10.5px!important;font-weight:800!important;letter-spacing:2.6px!important}
-body.d2-dark .ip-panel-head h2{font-size:clamp(20px,2.4vw,28px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:6px 0 0!important}
+body.d2-dark .ip-panel-head h2{font-size:clamp(18px,2vw,22px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:6px 0 0!important}
 body.d2-dark .ip-panel-head small{display:block!important;margin-top:7px!important;color:var(--d2-muted-2)!important;font-size:11px!important}
 body.d2-dark .ip-panel .ability-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important;gap:10px!important}
 /* .ability-card в style.css — сетка 52px + текст под иконку, а у карточек
@@ -548,8 +548,8 @@ body.d2-dark .item-card-open{display:none!important}
 
 /* ========== страницы-статьи: гайды, роли, словарь, политика ========== */
 body.d2-dark .article-main{color:var(--d2-text)!important}
-body.d2-dark .article-main h1{font-size:clamp(28px,4vw,44px)!important;line-height:1.08!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
-body.d2-dark .article-main h2{font-size:clamp(20px,2.6vw,28px)!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#fff!important;margin:34px 0 12px!important;padding-top:22px!important;border-top:1px solid var(--d2-line-soft)!important}
+body.d2-dark .article-main h1{font-size:clamp(24px,2.8vw,34px)!important;line-height:1.08!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .article-main h2{font-size:clamp(18px,2vw,22px)!important;letter-spacing:1px!important;text-transform:uppercase!important;color:#fff!important;margin:34px 0 12px!important;padding-top:22px!important;border-top:1px solid var(--d2-line-soft)!important}
 body.d2-dark .article-main h3{font-size:17px!important;letter-spacing:.6px!important;color:#fff!important;margin:22px 0 10px!important}
 body.d2-dark .article-main p,body.d2-dark .article-main li{color:#c3cad4!important;font-size:15.5px!important;line-height:1.75!important}
 body.d2-dark .article-main strong,body.d2-dark .article-main b{color:#fff!important}
@@ -577,7 +577,7 @@ body.d2-dark .hero-cover{grid-template-columns:170px 1fr!important;gap:22px!impo
 body.d2-dark .hero-cover-art{display:block!important;border:1px solid var(--d2-line)!important}
 body.d2-dark .hero-cover-art:hover{border-color:var(--d2-gold-dim)!important}
 body.d2-dark .hero-cover>a>img,body.d2-dark .hero-cover>img{width:100%!important;height:auto!important;aspect-ratio:3/4!important;object-fit:cover!important;border-radius:var(--rad-lg)!important;display:block!important}
-body.d2-dark .hero-cover h2{font-size:clamp(26px,3.4vw,40px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;margin:4px 0 8px!important}
+body.d2-dark .hero-cover h2{font-size:clamp(24px,2.6vw,30px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;margin:4px 0 8px!important}
 body.d2-dark .hero-cover h2 a{color:#fff!important;text-decoration:none!important}
 body.d2-dark .hero-cover h2 a:hover{color:var(--d2-gold)!important}
 body.d2-dark .hero-cover p{color:var(--d2-muted)!important;font-size:13.5px!important;margin:0 0 16px!important}
@@ -677,7 +677,7 @@ body.d2-dark .hp-matchups b{grid-column:2!important;font-size:13.5px!important}
 body.d2-dark .hp-matchups i{grid-column:2!important;grid-row:2!important;font-style:normal!important;color:var(--d2-muted-2)!important;font-size:11px!important;letter-spacing:.4px!important}
 body.d2-dark .hp-matchups span{grid-column:3!important;grid-row:1/3!important}
 body.d2-dark .hp-buys{margin-top:34px!important}
-body.d2-dark .hp-buys h2{font-size:clamp(20px,2.4vw,28px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 6px!important}
+body.d2-dark .hp-buys h2{font-size:clamp(18px,2vw,22px)!important;letter-spacing:1.6px!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 6px!important}
 body.d2-dark .hp-buys-note{color:var(--d2-muted-2)!important;font-size:12.5px!important;margin:0 0 14px!important}
 body.d2-dark .hp-buy-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))!important;gap:9px!important}
 body.d2-dark .hp-buy-col{background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;padding:14px 15px!important}
@@ -715,7 +715,7 @@ body.d2-dark .item-profile-v3{color:var(--d2-text)!important}
 body.d2-dark .item-profile-art{background:#0a0c10!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-lg)!important;padding:8px!important}
 body.d2-dark .item-profile-art img{border-radius:var(--rad-sm)!important;aspect-ratio:11/8!important;width:100%!important;height:auto!important;object-fit:cover!important;background:#0a0c10!important}
 body.d2-dark .item-profile-art>span{background:var(--d2-gold)!important;color:#14110a!important;border-radius:var(--rad-sm)!important;letter-spacing:.8px!important;text-transform:uppercase!important}
-body.d2-dark .item-profile-title h2{font-size:clamp(26px,3.2vw,38px)!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .item-profile-title h2{font-size:clamp(24px,2.6vw,30px)!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:#fff!important}
 body.d2-dark .item-profile-title h2 a{color:#fff!important;text-decoration:none!important}
 body.d2-dark .item-profile-title h2 a:hover{color:var(--d2-gold)!important}
 body.d2-dark .item-profile-meta span{background:var(--d2-panel-2)!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-sm)!important;color:var(--d2-muted)!important;font-size:10.5px!important;padding:6px 10px!important}
@@ -1324,7 +1324,7 @@ body.d2-dark main>section.section:first-child{padding-top:30px!important}
 /* Единый шрифт заголовков страниц — как «Добро пожаловать!» на главной (css/home-hero.css .hm-title).
    Заголовки разделов (.page-title) — тот же размер; h1 статей, героев и предметов — тот же шрифт,
    размер у каждого типа страницы свой. */
-html body.d2-dark .page-title.page-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(30px,4vw,50px)!important;line-height:1.02!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
+html body.d2-dark .page-title.page-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(26px,3vw,36px)!important;line-height:1.02!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
 body.d2-dark h1,body.d2-dark :is(.hp-hero,.hero,.ip-head,.article-main,.hg-main) h1{font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;letter-spacing:.5px!important;text-transform:uppercase!important}
 html body.d2-dark :is(.page-title,.lv-title,.mx-title) + p{margin-top:14px!important}
 
@@ -1333,7 +1333,7 @@ body.d2-dark .it-top{display:flex;gap:22px;align-items:center;padding:6px 0 26px
 body.d2-dark .it-art{flex:none;width:116px;height:88px;display:grid;place-items:center;background:linear-gradient(160deg,#141821,#0a0c10);border:1px solid var(--d2-line);border-radius:var(--rad-lg)}
 body.d2-dark .it-art img{width:88px;height:auto;display:block;border-radius:var(--rad-sm)}
 body.d2-dark .it-kicker{color:var(--d2-gold);font-size:10.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-body.d2-dark .it-head h1{font-size:clamp(30px,4.4vw,52px);line-height:1;letter-spacing:2px;text-transform:uppercase;color:#fff;margin:0 0 12px}
+body.d2-dark .it-head h1{font-size:clamp(26px,3.2vw,38px);line-height:1;letter-spacing:2px;text-transform:uppercase;color:#fff;margin:0 0 12px}
 body.d2-dark .it-chips{display:flex;flex-wrap:wrap;gap:6px}
 body.d2-dark .it-chips span{padding:6px 10px;background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:var(--rad-sm);color:var(--d2-text);font-size:12.5px;font-weight:600}
 body.d2-dark .it-chips .it-chip-m{color:var(--d2-muted)}
@@ -1394,7 +1394,7 @@ body.d2-dark .it-heroes-old{grid-template-columns:1fr}
 .hx-pass,.hx-rows{--up:#6fc46f;--dn:#e4575a}
 .hx-pass{display:grid;grid-template-columns:256px 1fr;gap:14px 24px;padding-top:30px;align-items:start}
 .hx-portrait{width:256px;height:144px;object-fit:cover;border-radius:var(--rad-md);border:1px solid var(--d2-line);grid-row:1/3}
-.hx-id h1{font:600 44px/1.05 Oswald,sans-serif;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px}
+.hx-id h1{font:600 36px/1.05 Oswald,sans-serif;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px}
 .hx-id h1 span{display:block;font:400 15px/1.3 Inter,system-ui,sans-serif;text-transform:none;letter-spacing:0;color:var(--d2-muted)}
 .hx-sub{color:var(--d2-muted);margin:0;display:flex;align-items:center;gap:6px}
 .hx-attr{width:10px;height:10px;border-radius:50%;display:inline-block}
@@ -1455,8 +1455,11 @@ b.up{color:var(--up)}b.dn{color:var(--dn)}
 .hx-more>summary:after{content:" ▾";color:var(--d2-gold)}
 .hx-more>section.container{padding-left:0;padding-right:0}
 @media (max-width:1100px){.hx-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.hx-row{flex-wrap:wrap}.hx-row>.hx-tile{flex:1 1 300px}}
-@media (max-width:700px){.hx-pass{grid-template-columns:1fr;padding-top:20px}.hx-portrait{width:100%;height:auto;aspect-ratio:16/9;grid-row:auto}.hx-kpis{grid-column:1}.hx-id h1{font-size:34px}
-.hx-notes{grid-template-columns:1fr}.hx-row{flex-direction:column}.hx-row>.hx-tile{flex:none}.hx-cmp{font-size:13px}.hx-dev{min-width:40px}.hx-two{grid-template-columns:1fr}.hx-phase{flex-direction:column;align-items:flex-start;gap:4px}.hx-phase h3{width:auto}}
+/* Таблица «против других» и длинные названия способностей не должны раздвигать узкую колонку (768px: страница была шире окна). */
+@media (max-width:1100px){.hx-cmp th,.hx-cmp td{padding:6px 4px}.hx-cmp td:last-child{gap:6px}.hx-cmp b{min-width:0}.hx-dev{min-width:24px}}
+.hp-ab-side h3{overflow-wrap:anywhere}
+@media (max-width:700px){.hx-pass{grid-template-columns:1fr;padding-top:20px}.hx-portrait{width:100%;height:auto;aspect-ratio:16/9;grid-row:auto}.hx-kpis{grid-column:1}.hx-id h1{font-size:28px}
+.hx-notes{grid-template-columns:1fr}.hx-row{flex-direction:column;flex-wrap:nowrap}.hx-cmp th,.hx-cmp td{padding:6px 4px}.hx-cmp td:last-child{gap:6px}.hx-cmp b{min-width:0}.hx-row>.hx-tile{flex:none}.hx-cmp{font-size:13px}.hx-dev{min-width:24px}.hx-two{grid-template-columns:1fr}.hx-phase{flex-direction:column;align-items:flex-start;gap:4px}.hx-phase h3{width:auto}}
 .hx-items a{color:inherit;text-decoration:none}.hx-tile .hp-buys-note{font-size:12px;color:var(--d2-muted-2);margin:0 0 12px}.hx-note a{color:var(--d2-gold)}
 .hx-more .hp-abilities{padding-top:12px}
 
@@ -1832,3 +1835,14 @@ body.d2-dark .topbar .nav .nav-dd-menu a.active{color:var(--d2-gold)!important}
   body.d2-dark .topbar .nav-dd-menu:before{display:none}
   body.d2-dark .topbar .nav .nav-dd-menu a{padding:10px 12px!important;text-transform:none!important;letter-spacing:0!important;font-size:14px!important}
 }
+/* Форма «Сравнить героев» (вкладка «Про-сцена», js/app.js compareHeroes) */
+body.d2-dark .compare-form{display:grid;gap:14px;max-width:440px}
+body.d2-dark .compare-form label{display:grid;gap:6px;color:var(--d2-muted)!important;font-size:13px}
+body.d2-dark .compare-form select{background:var(--d2-panel)!important;color:var(--d2-text)!important;border:1px solid var(--d2-line)!important;border-radius:10px;padding:10px;font:inherit;min-height:44px}
+body.d2-dark .compare-form .compare-err{margin:0;color:#e88!important;min-height:1em}
+body.d2-dark .compare-form .btn{justify-self:start;min-height:44px}
+.hx-sub{flex-wrap:wrap}.hx-sub>span{flex:1 1 0;min-width:0}.hx-sub .hx-src{flex:0 0 100%;padding-left:14px;font-size:12px;color:var(--d2-muted-2)}
+/* Шапка 761–1023px: пункты меню не помещались (на 768px страница была 982px шириной), а кнопка
+   меню появляется только до 760px. Здесь меню ужимается; чип патча прячется, пока ему не хватает места. */
+@media (min-width:761px) and (max-width:1023px){body.d2-dark .topbar .nav{gap:14px!important}body.d2-dark .topbar .nav nav{gap:12px!important}body.d2-dark .topbar .nav nav a,body.d2-dark .topbar .nav .nav-dd>a{font-size:11.5px!important;letter-spacing:.4px!important}}
+@media (min-width:761px) and (max-width:859px){body.d2-dark .topbar .dm-patch{display:none!important}}

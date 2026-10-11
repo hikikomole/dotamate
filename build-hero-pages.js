@@ -218,7 +218,7 @@ async function main(){
     const title=`${h.localized_name} — билд, гайд и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
-    const desc=(typeof storedDesc==='string'&&storedDesc.includes(h.localized_name))?storedDesc:fallbackDesc;
+    const descBody=typeof storedDesc==='string'&&storedDesc.includes(h.localized_name)?(storedDesc.split(/(?<=[.!])\s+/).slice(0,-1).join(' ')||storedDesc):'';const desc=descBody?`Билд на ${h.localized_name} и контрпики. ${descBody}`:fallbackDesc; // «билд» в начало, CTA-фраза из seo/hero-descriptions.json отбрасывается
     const canonical=`https://dotamate.ru/hero/${slug}/`;
     const img=imageUrl(h);
     const ldjson=JSON.stringify({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":h.localized_name,"item":canonical}]});
@@ -343,7 +343,7 @@ async function main(){
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
 `;

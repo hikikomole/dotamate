@@ -39,7 +39,7 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/" aria-current="page" class="active">Эфир</a><a href="/me/">Мой профиль</a></nav>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/" class="active">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/" aria-current="page" class="active">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
     <div class="nav-spacer"></div><a class="dm-patch" href="/patch/7.41f/">Патч 7.41f</a><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
@@ -54,7 +54,8 @@
       </div>
       <div class="lv-stamp" id="lvStamp">Подключаемся к эфиру…</div>
     </div>
-    <p class="lv-lead">Круглосуточные повторы про-матчей и рейтинговых игр по данным реплея. Матч идёт в реальном времени, и все зрители видят одну и ту же секунду. Результаты и драфты турниров — в разделе <a href="/pro/">Про-матчи</a>.</p>
+    <p class="lv-lead">Круглосуточные повторы про-матчей и рейтинговых игр по данным реплея. Матч идёт в реальном времени, и в общем эфире все зрители видят одну и ту же секунду; любой матч из полосы ниже можно посмотреть с начала. Матчи с пометкой «В эфире» идут прямо сейчас — с задержкой трансляции, которую ставит Valve. Результаты и драфты турниров — в разделе <a href="/pro/">Про-матчи</a>.</p>
+    <div class="lv-strip" id="lvStrip" role="group" aria-label="Матчи эфира"><p class="lv-strip-note">Загружаем матчи…</p></div>
     <div class="lv-board" aria-live="polite">
       <div class="lv-bteam rad">
         <div class="lv-bt-top"><span class="lv-bt-name" id="lvScoreRadName">Radiant</span><span class="lv-bt-p" id="lvProbRad"></span></div>
@@ -63,6 +64,7 @@
       <div class="lv-mid">
         <div class="lv-score"><span class="rad" id="lvScoreRad">0</span><span class="lv-score-sep">:</span><span class="dire" id="lvScoreDire">0</span></div>
         <span class="lv-clock" id="lvClock">0:00</span>
+        <span class="lv-wp" id="lvWp"></span>
       </div>
       <div class="lv-bteam dire">
         <div class="lv-bt-top"><span class="lv-bt-p" id="lvProbDire"></span><span class="lv-bt-name" id="lvScoreDireName">Dire</span></div>
@@ -79,7 +81,7 @@
           <div class="lv-overlay" id="lvOverlay"><p>Загружаем эфир…</p></div>
           <div class="lv-win" id="lvWin" hidden></div>
         </div>
-        <div class="lv-legend"><span><i class="lv-k-rad"></i>Radiant</span><span><i class="lv-k-dire"></i>Dire</span><span><i class="lv-k-obs"></i>Observer</span><span><i class="lv-k-sen"></i>Sentry</span><span>✕ — смерть героя</span></div>
+        <div class="lv-legend"><span><i class="lv-k-rad"></i>Radiant</span><span><i class="lv-k-dire"></i>Dire</span><span class="lv-lg-ward"><i class="lv-k-obs"></i>Observer</span><span class="lv-lg-ward"><i class="lv-k-sen"></i>Sentry</span><span>✕ — смерть героя</span></div>
       </div>
       <div class="lv-side">
         <div class="lv-team rad"><h2 id="lvRadName">Radiant</h2><p class="lv-sum" id="lvRadSum"></p><div class="lv-cols"><span></span><span></span><span>Ур.</span><span>У/С</span><span>Д/Д</span><span>XPM</span><span>Капитал</span><span></span></div><div id="lvRad"></div></div>
@@ -88,9 +90,15 @@
       </div>
     </div>
     <div class="lv-grid2">
+      <div class="lv-block lv-card" id="lvCard"></div>
       <div class="lv-block"><div class="lv-block-head"><h2>Преимущество</h2><span class="lv-tabs"><button type="button" data-adv="heroes" aria-pressed="true">Герои</button><button type="button" data-adv="gold" aria-pressed="false">Капитал</button><button type="button" data-adv="xp" aria-pressed="false">Опыт</button></span><span id="lvAdvNow"></span></div><canvas id="lvAdv" role="img" aria-label="График разницы капитала или опыта команд по минутам"></canvas></div>
     </div>
-    <p class="lv-note"><span id="lvHeatNote"></span> Матчи берутся из ленты публичных рейтинговых игр и разбираются с реплея Valve; ники игроков не показываются. Капитал и уровень обновляются раз в 10 секунд, позиции — каждую секунду.</p>
+    <div class="lv-grid3">
+      <div class="lv-block lv-poll"><h2>Кто победит?</h2><div id="lvPoll" aria-live="polite"><p class="lv-muted">Загружаем опрос…</p></div></div>
+      <div class="lv-block lv-wordsb"><h2>Частые слова в чате</h2><div id="lvWords"><p class="lv-muted">Загружаем…</p></div><p class="lv-muted lv-words-note">За все матчи эфира, счёт копится. <a href="/live/words/">Облако слов →</a></p></div>
+    </div>
+    <p class="lv-note lv-note-online">Матч «В эфире» — по данным Steam Web API, с задержкой трансляции Valve (2–15 минут, у каждого матча своя). Позиции героев обновляются раз в 3–5 секунд, между обновлениями движение сглажено. Крипов и вардов в этих данных нет. Смерть отмечается по росту счётчика смертей, убийца указывается, только когда его можно определить однозначно; лента и график капитала ведутся с момента, когда матч впервые открыли на сайте.</p>
+    <p class="lv-note lv-note-arch"><span id="lvHeatNote"></span> Матчи берутся из ленты публичных рейтинговых игр и разбираются с реплея Valve; ники игроков не показываются. Капитал и уровень обновляются раз в 10 секунд, позиции — каждую секунду.</p>
   </div>
 </section>
 <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
@@ -98,7 +106,7 @@
 
 </main>
 
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
 <script src="/js/local-preview.js" defer></script>
@@ -108,6 +116,7 @@
 <script src="/js/search.js" defer></script>
 <script src="/js/app.js" defer></script>
 <script src="/js/draft-model.js" defer></script>
+<script src="/js/live-winprob.js" defer></script>
 <script src="/js/live.js" defer></script>
 <script src="/js/v43-features.js" defer></script>
 </body>

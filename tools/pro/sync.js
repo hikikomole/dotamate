@@ -109,6 +109,25 @@ async function syncFeed() {
 
 // --- подробности матча ---
 const SIDE = (slot) => (Number(slot) >= 128 ? 1 : 0);
+const DETAIL_V = 2;                // формат matches/<id>.json; старые перечитываются по очереди (25 за проход)
+// Ключевые покупки: собираемые предметы от 1400 золота (без рецептов). Ключ OpenDota purchase_log → id предмета.
+let BIG = null;
+function bigItems() {
+  if (BIG) return BIG;
+  BIG = new Map();
+  const items = (readJson(path.join(ROOT, 'data', 'items-ru.json'), {}).items) || {};
+  for (const [key, it] of Object.entries(items)) if (it && it.id && !key.startsWith('recipe_') && Number(it.cost) >= 1400 && Array.isArray(it.comp) && it.comp.length) BIG.set(key, it.id);
+  return BIG;
+}
+function keyBuys(log) {
+  const big = bigItems(), seen = new Set(), out = [];
+  for (const b of Array.isArray(log) ? log : []) {
+    const id = big.get(String(b && b.key || '').replace(/^item_/, ''));
+    if (!id || seen.has(id) || int(b.time) === null) continue;
+    seen.add(id); out.push([int(b.time), id]);
+  }
+  return out.sort((a, b) => a[0] - b[0]).slice(0, 10);
+}
 function compactMatch(m) {
   const team = (t, id, name) => ({ id: int(id), name: str(name || (t && t.name), 60), tag: str(t && t.tag, 20),
     logo: /^https:\/\/[a-z0-9.-]+\.(steamusercontent|steamstatic|akamaihd)\.(com|net)\//i.test(String(t && t.logo_url || '')) ? String(t.logo_url).slice(0, 300) : '' });
@@ -133,17 +152,21 @@ function compactMatch(m) {
     k: int(p.kills), d: int(p.deaths), a: int(p.assists), lh: int(p.last_hits), dn: int(p.denies),
     nw: int(p.net_worth), gpm: int(p.gold_per_min), xpm: int(p.xp_per_min), lvl: int(p.level),
     it: [p.item_0, p.item_1, p.item_2, p.item_3, p.item_4, p.item_5].map(int).filter((x) => x > 0), nt: int(p.item_neutral) || 0,
+    bp: [p.backpack_0, p.backpack_1, p.backpack_2].map(int).filter((x) => x > 0), sc: p.aghanims_scepter ? 1 : 0, sh: p.aghanims_shard ? 1 : 0,
+    hd: int(p.hero_damage), td: int(p.tower_damage), hh: int(p.hero_healing), bb: int(p.buyback_count),
+    obs: int(p.obs_placed), sen: int(p.sen_placed), stk: int(p.camps_stacked), ru: int(p.rune_pickups), kp: keyBuys(p.purchase_log),
   })).sort((a, b) => a.slot - b.slot);
   const adv = Array.isArray(m.radiant_gold_adv) ? m.radiant_gold_adv.slice(0, 200).map(int) : [];
+  const xadv = Array.isArray(m.radiant_xp_adv) ? m.radiant_xp_adv.slice(0, 200).map(int) : [];
   return {
-    v: 1, id: int(m.match_id), start: int(m.start_time), dur: int(m.duration), patch: int(m.patch),
+    v: DETAIL_V, id: int(m.match_id), start: int(m.start_time), dur: int(m.duration), patch: int(m.patch),
     league: { id: int(m.leagueid), name: str(m.league && m.league.name, 120), tier: str(m.league && m.league.tier, 20) },
     ser: int(m.series_id), st: int(m.series_type),
     radiant: team(m.radiant_team, m.radiant_team_id, m.radiant_name), dire: team(m.dire_team, m.dire_team_id, m.dire_name),
     rs: int(m.radiant_score), ds: int(m.dire_score), rw: m.radiant_win ? 1 : 0,
     parsed: (m.od_data && m.od_data.has_parsed) || obj.length > 0 ? 1 : 0,
     pb: (m.picks_bans || []).map((x) => [int(x.hero_id), x.is_pick ? 1 : 0, int(x.team), int(x.order)]).filter((x) => x[0] > 0).sort((a, b) => a[3] - b[3]),
-    players, obj, tf, adv, fetched: now(),
+    players, obj, tf, adv, xadv, fetched: now(),
   };
 }
 async function syncDetails() {
@@ -151,6 +174,7 @@ async function syncDetails() {
   const queue = Object.values(state.feed).filter((f) => {
     const s = state.det[f.id];
     if (!s) return true;
+    if (s.has && (s.v || 1) < DETAIL_V && !s.gone) return true;   // старый формат — перечитать один раз
     if (s.parsed || s.tries >= MAX_TRIES || s.gone) return false;
     return t - s.last >= REFETCH_S && t - (f.start + f.dur) <= REFETCH_MAX_AGE_S;
   }).sort((a, b) => b.start - a.start).slice(0, MAX_DETAILS);
@@ -164,7 +188,7 @@ async function syncDetails() {
     const c = compactMatch(m);
     if (!c.players.length || c.players.length !== 10) { log('матч ' + f.id + ': игроков ' + c.players.length + ', пропуск'); continue; }
     writeJson(path.join(MATCHES, f.id + '.json'), c);
-    s.parsed = c.parsed; s.has = 1;
+    s.parsed = c.parsed; s.has = 1; s.v = DETAIL_V;
     // Лента иногда отстаёт в названии лиги/команд — подробности точнее.
     Object.assign(f, { ln: c.league.name || f.ln, tier: c.league.tier, r: [c.radiant.id, c.radiant.name || f.r[1]], d: [c.dire.id, c.dire.name || f.d[1]], rs: c.rs, ds: c.ds, rw: c.rw,
       rp: c.pb.filter((x) => x[1] && x[2] === 0).map((x) => x[0]), dp: c.pb.filter((x) => x[1] && x[2] === 1).map((x) => x[0]) });

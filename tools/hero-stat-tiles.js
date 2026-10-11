@@ -90,7 +90,7 @@ ${row('Винрейт', ph.wr, avgWr)}${row('Золото в минуту', ph.g
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">${name}</span></nav>
     <h1>${name} <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr ${A[1]}"></i>${A[0]} · ${h.attack_type === 'Melee' ? 'Ближний бой' : h.attack_type === 'Ranged' ? 'Дальний бой' : '—'}${mainPos ? ` · ${POS[mainPos]} в ${f1(roShare)} % игр` : ''}</p>
+    <p class="hx-sub"><i class="hx-attr ${A[1]}"></i><span>${A[0]} · ${h.attack_type === 'Melee' ? 'Ближний бой' : h.attack_type === 'Ranged' ? 'Дальний бой' : '—'}${mainPos ? ` · ${POS[mainPos]} в ${f1(roShare)} % игр` : ''}</span>${mainPos ? '<small class="hx-src">роли — Stratz, все ранги</small>' : ''}</p>
   </div>
   <div class="hx-kpis">
     ${st && st.tier ? kpi('Тир', `<span class="hx-tier ${tierCls}">${esc(st.tier)}</span>`) : ''}
@@ -142,7 +142,7 @@ ${row('Винрейт', ph.wr, avgWr)}${row('Золото в минуту', ph.g
       const roles = Object.entries(rec.pos || {}).map(([p, r]) => { const b = pane(r); return b ? `<div class="hp-buys-pane" data-pos="POSITION_${p}" hidden><p class="hp-buys-role">Роль: ${POS[p]} · ${nf(r.n)} матчей героя на этой роли</p>${b}</div>` : ''; }).join('');
       const buyRoles = {}; for (const p of [1, 2, 3, 4, 5]) buyRoles['POSITION_' + p] = rec.pos && rec.pos[p] ? 1 : ((rec.posN && rec.posN[p]) || 0);
       buys = `<article class="hx-tile" id="heroBuys" data-roles='${JSON.stringify(buyRoles)}' data-min-role="${minRole}"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база матчей текущего патча (${nf(heroItems.matchesUsed)} матчей с временем покупок). % — доля матчей героя, где предмет купили в этой фазе (всего ${nf(rec.n)}).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (${nf(heroItems.matchesUsed)} матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего ${nf(rec.n)}).</p>
 <div class="hp-buys-pane on" data-pos="all">${all}</div>${roles}</article>`;
     }
   }

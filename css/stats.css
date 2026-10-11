@@ -43,6 +43,8 @@
 .st-note{color:var(--d2-muted-2);font-size:12px;line-height:1.6;margin:10px 0 0;max-width:900px}
 .st-h{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:22px 0 10px}
 .st-grid{display:grid;gap:12px}
+/* Колонки сетки не растягиваются под ширину таблицы: широкая таблица прокручивается внутри своей обёртки. */
+.st-grid>*{min-width:0}
 .st-grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .st-grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .st-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -69,7 +71,7 @@
 .st-empty,.st-loading{background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:12px;padding:22px;color:var(--d2-muted)}
 .st-empty b{color:var(--d2-text);display:block;margin-bottom:6px}
 @media(max-width:1180px){.st-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.st-grid-5{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:900px){.st-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.st-ranks{grid-template-columns:repeat(3,minmax(0,1fr))}.st-grid-2,.st-grid-4,.st-grid-5{grid-template-columns:1fr}}
+@media(max-width:900px){.st-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.st-ranks{grid-template-columns:repeat(3,minmax(0,1fr))}.st-grid-2,.st-grid-4,.st-grid-5{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:560px){.st-ranks{grid-template-columns:repeat(2,minmax(0,1fr))}.st-toolbar>*{flex:1 1 100%}}
 
 /* Роли героя */
@@ -87,8 +89,8 @@
 .st-table th{position:sticky;top:var(--st-sticky,64px);z-index:3;background:var(--d2-panel)}
 /* На узком экране шапка держится внутри прокручиваемой вбок таблицы: отступ под шапку сайта
    тут не нужен, иначе шапка таблицы съезжает на первую строку и над ней пустое место. */
-@media(max-width:900px){.st-table th{top:0}}
-@media(min-width:901px){.st-table-wrap{overflow:visible}.st-table thead th:first-child{border-top-left-radius:12px}.st-table thead th:last-child{border-top-right-radius:12px}}
+@media(max-width:1279px){.st-table th{top:0}}
+@media(min-width:1280px){.st-table-wrap{overflow:visible}.st-grid .st-table-wrap{overflow-x:auto}.st-grid .st-table th{top:0}.st-table thead th:first-child{border-top-left-radius:12px}.st-table thead th:last-child{border-top-right-radius:12px}}
 /* Подсветка шапки: золотистый оттенок и линия снизу, чтобы при прокрутке
    она не сливалась со строками таблицы. */
 .st-table th{background:linear-gradient(0deg,rgba(217,193,135,.07),rgba(217,193,135,.07)),var(--d2-panel-2);color:var(--d2-gold);box-shadow:inset 0 -1px 0 var(--d2-gold-dim),0 6px 12px -8px rgba(0,0,0,.8)}
@@ -96,3 +98,7 @@
 .st-summary:has(> .st-loading){min-height:176px}
 .st-pane:empty,.st-pane:has(> .st-loading:only-child){min-height:100vh}
 @media(max-width:760px){.st-summary:has(> .st-loading){min-height:469px}}
+/* Панель фильтров «Про-сцены»: на ширине до ~1100px кнопки и списки не помещались в ряд и раздвигали страницу. */
+.stats-toolbar{flex-wrap:wrap}.stats-toolbar .search{flex:1 1 220px}
+/* Имя героя в таблице «Про-сцены» — ссылка на страницу героя; выглядит как текст строки. */
+.table-hero a{color:inherit;text-decoration:none}.table-hero a:hover{color:var(--d2-gold)}.table-hero a:focus-visible{outline:2px solid var(--d2-gold);outline-offset:2px;border-radius:4px}

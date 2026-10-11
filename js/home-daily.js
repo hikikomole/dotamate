@@ -34,6 +34,8 @@
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
+  // Слаг адреса героя: карта js/app.js (slugForHero) — у Vengeful Spirit адрес не совпадает с name.
+  const heroSlug = h => (typeof window.slugForHero === 'function' ? window.slugForHero(h) : '') || String(h.name || '').replace('npc_dota_hero_', '');
   function goal(name) {
     try { if (typeof window.ym === 'function') window.ym(112755250, 'reachGoal', name); } catch (_) {}
   }
@@ -60,7 +62,7 @@
     const rng = seedRng('hero:' + today);
     const id = ids[Math.floor(rng() * ids.length)];
     const h = byId.get(id), s = st.get(id);
-    const slug = String(h.name).replace('npc_dota_hero_', '');
+    const slug = heroSlug(h);
     const href = '/hero/' + slug + '/';
 
     $('.hd-img').innerHTML = `<img src="/assets/heroes/${esc(slug)}.webp" alt="${esc(h.localized_name)}" width="128" height="72" decoding="async">`;
@@ -77,7 +79,7 @@
     const c = counters.heroes && counters.heroes[id];
     const mu = (arr, sign) => (arr || []).slice(0, 3).map(x => {
       const o = byId.get(Number(x.id)); if (!o) return '';
-      const os = String(o.name).replace('npc_dota_hero_', '');
+      const os = heroSlug(o);
       return `<a href="/hero/${esc(os)}/" title="${esc(o.localized_name)}: ${sign}${Math.abs(x.d).toString().replace('.', ',')} п.п. по ${nf.format(x.g)} матчам"><img src="/assets/heroes/${esc(os)}.webp" alt="${esc(o.localized_name)}" width="40" height="23" loading="lazy" decoding="async"></a>`;
     }).join('');
     $('.hd-good').innerHTML = mu(c && c.good, '+') || '<span>—</span>';

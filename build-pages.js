@@ -158,7 +158,7 @@ const HOME_CARDS = `<section class="section" id="home-cards">
     <div class="home-cards-grid">
       <a class="home-card" href="/heroes/"><span class="home-card-icon">⚔</span><strong>Герои</strong><p>Все герои Dota 2 с ролями, характеристиками и контрпиками.</p><b>Открыть →</b></a>
       <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
-      <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Winrate, пики и баны героев в профессиональных матчах.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Тир-лист и винрейт героев по рангам, позициям и связкам — своя база рейтинговых матчей.</p><b>Открыть →</b></a>
       <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
       <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в рейтинговых матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
@@ -220,7 +220,7 @@ function homeMeta() {
   const lists =
     metaColumn('Тащат', `винрейт · от ${ru(m.minMatches)} матчей`, carry, '/stats/', 'Весь список винрейта') +
     metaColumn('Берут чаще всего', 'матчей за срез', picked, '/heroes/', `Все ${countOf('hero-urls.json')} героев`) +
-    metaColumn('Банят на про', 'банов · и сколько раз взяли', banned, '/stats/', 'Про-сцена целиком');
+    metaColumn('Банят на про', 'банов · и сколько раз взяли', banned, '/stats/#pro', 'Про-сцена целиком');
 
   const articles = countOf('guide-urls.json') + countOf('role-guide-urls.json');
   const heroGuides = countOf('hero-guide-urls.json');

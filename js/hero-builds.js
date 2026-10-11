@@ -238,7 +238,7 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
             ${progressionHtml(chainToBranch(chain.popular), 'Самая популярная', 'реальная последовательность прокачки', ctx)}
             ${progressionHtml(chainToBranch(chain.highestWin), 'Лучшая по винрейту', 'наибольший процент побед', ctx)}
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Таланты и роли — ${v.supMerged ? 'рейтинговые матчи всех рангов (Steam), поддержка 4 и 5 — общий билд' : build.bracket === 'ALL' ? 'рейтинговые матчи всех рангов (Steam)' : 'матчи Divine/Immortal (Stratz)'}.</p>`
+          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Таланты по ролям — ${v.supMerged ? 'рейтинговые матчи всех рангов (Steam), поддержка 4 и 5 — общий билд' : build.bracket === 'ALL' ? 'рейтинговые матчи всех рангов (Steam)' : 'матчи Divine/Immortal (Stratz)'}.</p>`
         : `<h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p>${legend}<div class="hb-progressions">
             ${progressionHtml(v.progression.popular, 'Частый выбор', 'самая популярная способность на каждом уровне', ctx)}
             ${progressionHtml(v.progression.highestWin, 'Выбор по винрейту', 'лучший процент побед на каждом уровне', ctx)}

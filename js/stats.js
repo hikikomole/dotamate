@@ -64,7 +64,7 @@
   }
   const bar = (v, max, cls) => `<i class="st-bar ${cls || ''}"><i style="width:${Math.max(0, Math.min(100, v / max * 100)).toFixed(1)}%"></i></i>`;
   const note = t => `<p class="st-note">${t}</p>`;
-  const table = (head, rows) => `<div class="st-table-wrap"><table class="st-table"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+  const table = (head, rows) => `<div class="st-table-wrap"><table class="st-table"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length ? rows.join('') : `<tr><td colspan="${head.length}" class="st-muted">Ничего не найдено — измените поиск или фильтры.</td></tr>`}</tbody></table></div>`;
 
   const ddm = s => new Date(s).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', timeZone: 'UTC' });
   const RANK_NAMES = ['', 'Рекрут', 'Страж', 'Рыцарь', 'Герой', 'Легенда', 'Властелин', 'Божество', 'Титан'];
@@ -87,11 +87,12 @@
   // ---------- сводка ----------
   function renderSummary() {
     const b = S.base;
-    const d = s => new Date(s).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+    const d = ddm;
+    const days = Math.max(1, Math.round((new Date(b.to) - new Date(b.from)) / 864e5));
     const maxR = Math.max(...Object.values(b.ranks).map(r => r.n));
     const since = b.src === 'steam'
-      ? `Выборка рейтинговых матчей Steam (не все матчи): с ${new Date(b.from).toLocaleDateString('ru-RU')}${b.days ? `, ${b.days} дн.` : ''}, матчей ${num(b.matches)}`
-      : `Данные с ${new Date(b.from).toLocaleDateString('ru-RU')}, матчей ${num(b.matches)}`;
+      ? `Выборка рейтинговых матчей Steam (не все матчи): с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} по ${new Date(b.to).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} (≈${days} сут., UTC), матчей ${num(b.matches)}`
+      : `Данные с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })}, матчей ${num(b.matches)}`;
     summary.innerHTML = `<p class="st-since">${since}</p><div class="st-cards">
       <article><span>Матчей в базе</span><strong>${num(b.matches)}</strong><small>${d(b.from)} — ${d(b.to)} · патч ${esc(b.patch)}</small></article>
       <article><span>Победы Radiant</span><strong>${pct(b.radiantWr)}</strong><small>Dire — ${pct(Math.round((100 - b.radiantWr) * 10) / 10)}</small></article>
@@ -183,7 +184,7 @@
         <h4>Лучшие</h4><ol class="st-list">${best.map(row).join('')}</ol>
         <h4>Худшие</h4><ol class="st-list">${worst.map(row).join('')}</ol></article>`;
     }).join('')}</div>` + (ST
-      ? note(`Все рейтинговые матчи базы (${num(ST.labeled)} матчей): позицию каждого игрока определяет наша модель по золоту, опыту, добиванию, урону и предметам${ST.model && ST.model.test ? ` — на проверочных матчах Stratz она верно отличает керри, мида, оффлейн и поддержку в ${pct(ST.model.test.core3sup)} случаев` : ''}. Поддержку 4 и 5 по данным Steam надёжно не разделить, поэтому они вместе. GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции.`)
+      ? note(`Все рейтинговые матчи базы (${num(ST.labeled)} матчей): позицию каждого игрока определяет наша модель по золоту, опыту, добиванию, урону и предметам${ST.model && ST.model.test ? ` — на проверочных матчах Stratz она верно отличает керри, мида, оффлейн и поддержку в ${pct(Math.round(ST.model.test.core3sup * 10) / 10)} случаев` : ''}. Поддержку 4 и 5 по данным Steam надёжно не разделить, поэтому они вместе. GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции.`)
       : note(`Детальные матчи Stratz текущего патча (${num(S.base.stratzMatches)} матчей). GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции. ${stratzSrc()}.`));
   }
 
@@ -255,7 +256,7 @@
   const R = { tier, ranks, positions, pairs, items, matches, lanes, trend };
   function show(tab) {
     if (!TABS.includes(tab)) tab = 'tier';
-    tabs.querySelectorAll('button').forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+    tabs.querySelectorAll('button').forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
     if (pro) pro.hidden = tab !== 'pro';
     pane.hidden = tab === 'pro';
     if (tab !== 'pro') {
@@ -280,6 +281,16 @@
     const b = e.target.closest('button[data-tab]'); if (!b) return;
     history.replaceState(null, '', '#' + b.dataset.tab);
     show(b.dataset.tab);
+  });
+  // Стрелки влево/вправо, Home/End — переход между вкладками (шаблон WAI-ARIA tabs).
+  tabs.addEventListener('keydown', e => {
+    const list = [...tabs.querySelectorAll('button[data-tab]')], i = list.indexOf(document.activeElement);
+    if (i < 0) return;
+    const j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: list.length - 1 }[e.key];
+    if (j == null) return;
+    e.preventDefault();
+    const b = list[(j + list.length) % list.length];
+    b.focus(); b.click();
   });
   window.addEventListener('hashchange', () => show(location.hash.slice(1)));
 

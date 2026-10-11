@@ -45,6 +45,8 @@ function itemImage(x){const p=String(x&&x.img||"");return p.startsWith("/assets/
 function roleText(h){return (typeof positionText==="function"&&positionText(h))||(h.roles||[]).map(x=>ruRoles[x]||x).join(" / ")||"Герой";}
 function attrInfo(a){return attrs[a]||attrs.all;}
 function officialHeroUrl(h){return "https://www.dota2.com/hero/"+slugForHero(h).replace(/_/g,'');}
+const PRO_MIN_WR=5;// меньше 5 про-пиков — винрейт не показываем: 0 % или 100 % по 1–4 матчам ничего не значат
+const wrRu=v=>v.toFixed(1).replace('.',',')+'%';
 function winrate(h){return h.pro_pick?Number(h.pro_win||0)/Number(h.pro_pick)*100:0;}
 // Нижняя граница доверительного интервала Уилсона (95%) для доли побед.
 // Нужна там, где герои сравниваются по winrate: у героя с одним пиком и одной
@@ -223,11 +225,11 @@ async function loadItems(force=false){
     const j=await r.json();
     items=Object.entries(j.items||{}).map(([name,v])=>({...v,name})).sort((a,b)=>String(a.dname).localeCompare(String(b.dname),'ru'));
     rebuildItemVariantMaps();renderItems();updateItemCounters();
-    if(status)status.textContent=`Загружено ${items.length} предметов · русская база`;
+    if(status)status.textContent=`Загружено ${visibleItemCount()} предметов · русская база`;
   }catch(err){
     console.warn('Item loader:',err);
     if(typeof localItems==='function'){try{items=normalizeItems(localItems());rebuildItemVariantMaps();renderItems();updateItemCounters();}catch(e){}}
-    if(status)status.textContent=items.length?`Загружено ${items.length} предметов · резервная база`:'База предметов не загрузилась.';
+    if(status)status.textContent=items.length?`Загружено ${visibleItemCount()} предметов · резервная база`:'База предметов не загрузилась.';
   }finally{if(itemsReadyResolve){itemsReadyResolve();itemsReadyResolve=null;}}
 }
 async function loadItemHeroIndex(){
@@ -326,19 +328,6 @@ function renderHeroes(){const q=(document.getElementById('search')?.value||'').t
 function renderFeaturedHeroes(){const el=document.getElementById('featuredHeroesGrid');if(!el)return;const picks=heroes.filter(h=>h.pro_pick>0).sort((a,b)=>wrScore(b)-wrScore(a)).slice(0,4);const arr=picks.length?picks:heroes.slice(0,4);el.innerHTML=arr.map(h=>`<article class="featured-hero-card" data-id="${h.id}"><img src="${imageUrl(h)}" alt=""><div><b>${escapeHtml(h.localized_name)}</b><small>${escapeHtml(roleText(h))}</small><span>${h.pro_pick?winrate(h).toFixed(1)+'% pro WR · '+h.pro_pick+' пик.':'Профиль героя'}</span></div></article>`).join('');}
 // Самые покупаемые предметы — из того же локального индекса. Раньше блок
 // опрашивал OpenDota по десяти героям и на статике показывал «Выборка: 0».
-function renderItemAnalytics(rows){
-  const el=document.getElementById('itemAnalytics');if(!el)return;
-  el.innerHTML=`<div class="stats-item-analytics"><div class="stats-analytics-head"><div><span>ITEM ANALYTICS</span><h3>📦 Самые покупаемые предметы</h3></div><small>Выборка: ${rows.length} предметов</small></div><div class="stats-item-table">${rows.map((r,i)=>`<button data-item-analytics="${escapeHtml(r.item.name)}"><span class="rank">${i+1}</span><img src="${itemImage(r.item)}" alt=""><span class="item-a-name"><b>${escapeHtml(r.item.dname)}</b><small>${r.heroes} героев · чаще: ${escapeHtml(r.bestPhase)}</small></span><strong>${statValue(r.games)}</strong></button>`).join('')}</div></div>`;
-  el.querySelectorAll('[data-item-analytics]').forEach(b=>b.onclick=()=>openItem(b.dataset.itemAnalytics));
-}
-async function loadItemAnalytics(){
-  const el=document.getElementById('itemAnalytics');if(!el)return;
-  await itemsReady;
-  const idx=await loadItemHeroIndex();
-  const rows=Object.entries(idx).map(([id,r])=>({item:findItemById(id),games:Number(r.games||0),heroes:Number(r.heroCount||0),bestPhase:Object.entries(r.totals||{}).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Середина'})).filter(r=>r.item&&r.games).sort((a,b)=>b.games-a.games).slice(0,12);
-  if(rows.length)renderItemAnalytics(rows);
-  else el.innerHTML='<div class="stats-analytics-loading">Данные о покупках не загрузились.</div>';
-}
 function renderStats(){
   const q=(document.getElementById('statsSearch')?.value||'').trim().toLowerCase();
   const sort=document.getElementById('statsSort')?.value||'winrate';
@@ -349,7 +338,7 @@ function renderStats(){
     &&(attr==='all'||h.primary_attr===attr)
     &&(atk==='all'||h.attack_type===atk)
     &&(role==='all'||(role.startsWith('POSITION_')?(h.mainPositions||[]).includes(role):(h.roles||[]).includes(role))));
-  const wr=h=>Number(h.pro_pick||0)>=5?winrate(h):-1;
+  const wr=h=>Number(h.pro_pick||0)>=PRO_MIN_WR?winrate(h):-1;
   list.sort((a,b)=>sort==='name'?a.localized_name.localeCompare(b.localized_name)
     :sort==='move'?Number(b.move_speed||0)-Number(a.move_speed||0)
     :sort==='attack'?Number(b.base_attack_min||0)-Number(a.base_attack_min||0)
@@ -357,13 +346,13 @@ function renderStats(){
     :sort==='pro_ban'?Number(b.pro_ban||0)-Number(a.pro_ban||0)
     :wr(b)-wr(a));
   const body=document.getElementById('statsBody');
-  if(body) body.innerHTML=list.map(h=>`<tr data-id="${h.id}"><td><div class="table-hero"><img src="${imageUrl(h)}" alt=""><b>${escapeHtml(h.localized_name)}</b></div></td><td>${attrInfo(h.primary_attr)[0]} ${escapeHtml(attrInfo(h.primary_attr)[1])}</td><td>${escapeHtml(roleText(h))}</td><td>${statValue(h.pro_pick)}</td><td>${statValue(h.pro_win)}</td><td>${h.pro_pick?winrate(h).toFixed(1)+'%':'—'}</td><td>${statValue(h.pro_ban)}</td><td>${h.move_speed||'—'}</td><td>${h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'}</td></tr>`).join('');
+  if(body) body.innerHTML=list.map(h=>`<tr data-id="${h.id}"><td><div class="table-hero"><img src="${imageUrl(h)}" alt=""><a href="/hero/${escapeHtml(slugForHero(h))}/"><b>${escapeHtml(h.localized_name)}</b></a></div></td><td>${attrInfo(h.primary_attr)[0]} ${escapeHtml(attrInfo(h.primary_attr)[1])}</td><td>${escapeHtml(roleText(h))}</td><td>${statValue(h.pro_pick)}</td><td>${statValue(h.pro_win)}</td><td>${Number(h.pro_pick||0)>=PRO_MIN_WR?wrRu(winrate(h)):h.pro_pick?'<span class="st-muted">мало данных</span>':'—'}</td><td>${statValue(h.pro_ban)}</td><td>${h.move_speed||'—'}</td><td>${h.base_attack_min!=null?`${h.base_attack_min}–${h.base_attack_max}`:'—'}</td></tr>`).join('');
   const withPro=heroes.filter(h=>Number(h.pro_pick||0)>0);
   const reliable=withPro.filter(h=>Number(h.pro_pick||0)>=20);
   const best=[...reliable].sort((a,b)=>winrate(b)-winrate(a))[0];
   const mostPicked=[...withPro].sort((a,b)=>Number(b.pro_pick||0)-Number(a.pro_pick||0))[0];
   const mostBanned=[...heroes].sort((a,b)=>Number(b.pro_ban||0)-Number(a.pro_ban||0))[0];
-  const bestEl=document.getElementById('bestWinrate');if(bestEl)bestEl.textContent=best?winrate(best).toFixed(1)+'%':'—';
+  const bestEl=document.getElementById('bestWinrate');if(bestEl)bestEl.textContent=best?wrRu(winrate(best)):'—';
   const pp=document.getElementById('proPicks');if(pp)pp.textContent=heroes.reduce((s,h)=>s+Number(h.pro_pick||0),0).toLocaleString('ru-RU');
   const avg=Math.round(heroes.reduce((s,h)=>s+Number(h.move_speed||0),0)/Math.max(1,heroes.length));
   const ranged=heroes.filter(h=>h.attack_type==='Ranged').length;
@@ -373,12 +362,11 @@ function renderStats(){
     <article><small>Средняя скорость</small><strong>${avg}</strong><span>по всей базе</span></article>
     <article><small>Дальние атаки</small><strong>${ranged}</strong><span>из ${heroes.length}</span></article>
     <article><small>Универсальные</small><strong>${uni}</strong><span>героев</span></article>
-    <article><small>Лучший pro WR</small><strong>${best?winrate(best).toFixed(1)+'%':'—'}</strong><span>${best?escapeHtml(best.localized_name):'нет данных'}</span></article>
+    <article><small>Лучший pro WR</small><strong>${best?wrRu(winrate(best)):'—'}</strong><span>${best?escapeHtml(best.localized_name):'нет данных'}</span></article>
   </div><div class="stats-highlights">
     <div><b>Самые популярные в Pro</b>${[...withPro].sort((a,b)=>Number(b.pro_pick||0)-Number(a.pro_pick||0)).slice(0,5).map(h=>`<button data-id="${h.id}"><img src="${imageUrl(h)}">${escapeHtml(h.localized_name)}<strong>${statValue(h.pro_pick)}</strong></button>`).join('')}</div>
     <div><b>Чаще всего банят</b>${[...heroes].sort((a,b)=>Number(b.pro_ban||0)-Number(a.pro_ban||0)).slice(0,5).map(h=>`<button data-id="${h.id}"><img src="${imageUrl(h)}">${escapeHtml(h.localized_name)}<strong>${statValue(h.pro_ban)}</strong></button>`).join('')}</div>
-  </div><div class="stats-source-note">Источник профессиональных показателей: OpenDota Hero Stats. Winrate считается как Pro Wins / Pro Picks; герои с менее чем 20 pro picks не используются для карточки «лучший winrate».</div>`;
-  if(document.getElementById('itemAnalytics') && !document.getElementById('itemAnalytics').dataset.loaded){document.getElementById('itemAnalytics').dataset.loaded='1';loadItemAnalytics();}
+  </div><div class="stats-source-note">Источник профессиональных показателей: OpenDota Hero Stats. Винрейт = победы / пики в про-матчах; при меньше чем 5 пиках вместо процента — «мало данных», для карточки «лучший pro winrate» нужно 20+ пиков. Один про-матч даёт 10 пиков (по 5 героев у команды). Источник — другой, чем у вкладок своей базы: не смешивайте эти цифры с тир-листом.</div>`;
 }
 function randomHero(){if(!heroes.length)return;const h=heroes[Math.floor(Math.random()*heroes.length)];const rt=document.getElementById('randomToolText');if(rt)rt.textContent=`Сегодня судьба выбрала ${h.localized_name}. ${roleText(h)}.`;openHero(h.id);}
 // Строка пяти позиций в карточке героя. Пусто, пока снимок не загружен —
@@ -534,7 +522,7 @@ async function loadHeroItemPopularity(heroId,pos='all'){
   let head,body,note='';
   if(!p||own){
     const r=own||rec,n=Number(r.n)||0;
-    head=`Своя база матчей текущего патча${p?` · роль «${HERO_ROLE_RU[pos]}»`:''} · матчей героя${p?' на роли':''}: ${statValue(n)}${!p&&heroItemMatches?` из ${statValue(heroItemMatches)}`:''} · % — доля его матчей с покупкой`;
+    head=`Детальные матчи Stratz текущего патча${p?` · роль «${HERO_ROLE_RU[pos]}»`:''} · матчей героя${p?' на роли':''}: ${statValue(n)}${!p&&heroItemMatches?` из ${statValue(heroItemMatches)}`:''} · % — доля его матчей с покупкой`;
     body=itemPhasesHtml(r);
   }else{
     const b=await loadHeroBuild(heroId);const v=b&&b.positions&&b.positions[pos];
@@ -605,7 +593,7 @@ function heroGuideLinks(h){const b='/hero/'+slugForHero(h)+'/guide/';return [
   {href:b+'#kogo-kontrit',title:'Кого контрит',text:'Против кого статистика лучше'},
   {href:b+'#kto-kontrit',title:'Кто контрит',text:'Против кого статистика хуже'},
 ];}
-function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);if(!stats.length)loadHeroBase().then(()=>{const g=document.querySelector('#modalContent .detail-bars [data-hero-base]');const st=heroStats(h);if(g&&st.length&&document.querySelector(`#modalContent a[href="/hero/${slugForHero(h)}/"]`)){g.innerHTML=statGridInner(st);g.hidden=false;}});document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">HERO PROFILE</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);bindHeroRoleSwitch(h);loadHeroAbilities(h);fillHeroCounters(h);}
+function openHero(id){const h=heroes.find(x=>Number(x.id)===Number(id));if(!h)return;lastFocusedEl=document.activeElement;const a=attrInfo(h.primary_attr),stats=heroStats(h);if(!stats.length)loadHeroBase().then(()=>{const g=document.querySelector('#modalContent .detail-bars [data-hero-base]');const st=heroStats(h);if(g&&st.length&&document.querySelector(`#modalContent a[href="/hero/${slugForHero(h)}/"]`)){g.innerHTML=statGridInner(st);g.hidden=false;}});document.getElementById('modalContent').innerHTML=`<div class="hero-detail"><div class="hero-cover"><a class="hero-cover-art" href="/hero/${escapeHtml(slugForHero(h))}/"><img src="${imageUrl(h)}" alt="${escapeHtml(h.localized_name)}"></a><div><div class="eyebrow">Карточка героя</div><h2><a href="/hero/${escapeHtml(slugForHero(h))}/">${escapeHtml(h.localized_name)}</a></h2><p>${a[0]} ${a[1]} · ${escapeHtml(h.attack_type||'Тип атаки')} · ${escapeHtml(roleText(h))}</p><div class="hero-detail-actions"><a class="btn red" href="/hero/${escapeHtml(slugForHero(h))}/">Страница героя →</a><a class="btn ghost" href="/hero/${escapeHtml(slugForHero(h))}/guide/">Гайд по герою →</a></div></div></div>${heroRolesRowHtml(h,stats)}<div class="detail-section"><h3>Кто его контрит</h3><div class="qp-list" id="heroCounters"><p class="muted">Загружаем матчапы…</p></div></div><div class="detail-section item-popularity-section" id="heroItemPopularity"><div class="item-pop-loading">Загружаем реальные покупки предметов…</div></div><div class="detail-section"><h3>Способности</h3><div class="ability-grid" id="heroAbilities"><div class="item-pop-loading">Загружаем реальные способности героя…</div></div></div><div class="detail-section"><h3>Гайд по герою</h3><div class="hero-guide-links">${heroGuideLinks(h).map(g=>`<a href="${g.href}"><b>${g.title}</b><small>${g.text}</small><span>→</span></a>`).join('')}</div></div></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();document.querySelectorAll('[data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));document.querySelectorAll('[data-item-by-name]').forEach(b=>b.onclick=()=>{const term=b.dataset.itemByName.toLowerCase();const x=items.find(i=>String(i.dname).toLowerCase().includes(term.split(' ')[0]));if(x)openItem(x.name);});loadHeroItemPopularity(h.id);bindHeroRoleSwitch(h);loadHeroAbilities(h);fillHeroCounters(h);}
 function closeModal(){document.getElementById('modal').classList.remove('show');if(lastFocusedEl?.focus)lastFocusedEl.focus();}
 // Данные о предметах больше не догружаются из сети: описание, история,
 // примечания, бонусы и картинка приходят из data/items-ru.json, который
@@ -707,7 +695,9 @@ async function openItem(name){
   document.querySelectorAll('#modalContent [data-hero-open]').forEach(b=>b.onclick=()=>openHero(Number(b.dataset.heroOpen)));
 }
 
-function compareHeroes(){const names=prompt('Введи двух героев через запятую, например: Invoker, Lina');if(!names)return;const [aName,bName]=names.split(',').map(x=>x.trim().toLowerCase());const a=heroes.find(h=>h.localized_name.toLowerCase()===aName)||heroes.find(h=>h.localized_name.toLowerCase().includes(aName));const b=heroes.find(h=>h.localized_name.toLowerCase()===bName)||heroes.find(h=>h.localized_name.toLowerCase().includes(bName));if(!a||!b){alert('Не удалось найти обоих героев.');return;}const rows=[['Атрибут',attrInfo(a.primary_attr)[1],attrInfo(b.primary_attr)[1]],['Move Speed',a.move_speed||'—',b.move_speed||'—'],['Damage',a.base_attack_min!=null?`${a.base_attack_min}–${a.base_attack_max}`:'—',b.base_attack_min!=null?`${b.base_attack_min}–${b.base_attack_max}`:'—'],['Pro Winrate',a.pro_pick?winrate(a).toFixed(1)+'%':'—',b.pro_pick?winrate(b).toFixed(1)+'%':'—'],['Pro Picks',statValue(a.pro_pick),statValue(b.pro_pick)]];document.getElementById('modalContent').innerHTML=`<div class="compare-detail"><div class="compare-head"><div><img src="${imageUrl(a)}"><h2>${escapeHtml(a.localized_name)}</h2></div><strong>VS</strong><div><img src="${imageUrl(b)}"><h2>${escapeHtml(b.localized_name)}</h2></div></div><table class="compare-table"><tbody>${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();}
+// Сравнение двух героев: форма в модалке вместо prompt()/alert() — их нельзя оформить и неудобно заполнять на телефоне.
+function compareHeroes(){if(!heroes.length)return;const opts=[...heroes].sort((x,y)=>x.localized_name.localeCompare(y.localized_name)).map(h=>`<option value="${h.id}">${escapeHtml(h.localized_name)}</option>`).join('');document.getElementById('modalContent').innerHTML=`<form class="compare-form" id="compareForm"><h2>Сравнить героев</h2><label>Первый герой <select name="a" required><option value="">— выберите —</option>${opts}</select></label><label>Второй герой <select name="b" required><option value="">— выберите —</option>${opts}</select></label><p class="compare-err" role="alert"></p><button class="btn" type="submit">Сравнить</button></form>`;const f=document.getElementById('compareForm');f.onsubmit=e=>{e.preventDefault();const a=heroes.find(h=>String(h.id)===f.a.value),b=heroes.find(h=>String(h.id)===f.b.value);if(!a||!b||a===b){f.querySelector('.compare-err').textContent='Выберите двух разных героев.';return;}compareRender(a,b);};lastFocusedEl=document.activeElement;document.getElementById('modal').classList.add('show');f.a.focus();}
+function compareRender(a,b){const rows=[['Атрибут',attrInfo(a.primary_attr)[1],attrInfo(b.primary_attr)[1]],['Скорость',a.move_speed||'—',b.move_speed||'—'],['Урон',a.base_attack_min!=null?`${a.base_attack_min}–${a.base_attack_max}`:'—',b.base_attack_min!=null?`${b.base_attack_min}–${b.base_attack_max}`:'—'],['Про-винрейт',Number(a.pro_pick||0)>=PRO_MIN_WR?wrRu(winrate(a)):'—',Number(b.pro_pick||0)>=PRO_MIN_WR?wrRu(winrate(b)):'—'],['Про-пики',statValue(a.pro_pick),statValue(b.pro_pick)]];document.getElementById('modalContent').innerHTML=`<div class="compare-detail"><div class="compare-head"><div><img src="${imageUrl(a)}"><h2>${escapeHtml(a.localized_name)}</h2></div><strong>VS</strong><div><img src="${imageUrl(b)}"><h2>${escapeHtml(b.localized_name)}</h2></div></div><table class="compare-table"><tbody>${rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>`;document.getElementById('modal').classList.add('show');document.getElementById('close').focus();}
 // Картинки лежат у нас, перебирать домены CDN больше не нужно. Осталась
 // единственная страховка: если файла нет, вместо «битой» иконки показываем
 // нейтральную заглушку, один раз на элемент.
@@ -749,7 +739,7 @@ document.querySelectorAll('.item-category').forEach(b=>b.addEventListener('click
 // Сетка героев — обычные ссылки: клик, средняя кнопка, Enter и «открыть в
 // новой вкладке» работают сами, без перехвата.
 on('featuredHeroesGrid','click',e=>{const c=e.target.closest('.featured-hero-card');if(c){const h=heroes.find(x=>Number(x.id)===Number(c.dataset.id));if(h)location.href='/hero/'+slugForHero(h)+'/';}});
-on('statsBody','click',e=>{const tr=e.target.closest('tr[data-id]');if(tr)openHero(Number(tr.dataset.id));});
+on('statsBody','click',e=>{if(e.target.closest('a'))return;const tr=e.target.closest('tr[data-id]');if(tr)openHero(Number(tr.dataset.id));});
 on('statsExtra','click',e=>{const b=e.target.closest('button[data-id]');if(b)openHero(Number(b.dataset.id));});
 on('quickPrepInput','input',e=>quickPrepSelectByName(e.target.value));
 on('quickPrepChips','click',e=>{const b=e.target.closest('[data-quick-hero]');if(!b)return;const h=heroes.find(x=>Number(x.id)===Number(b.dataset.quickHero));if(h){const inp=document.getElementById('quickPrepInput');if(inp)inp.value=h.localized_name;renderQuickPrep(h);}});

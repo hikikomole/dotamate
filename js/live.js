@@ -119,7 +119,7 @@
   // и /api/live/online/<server_steam_id> (матч). Valve отдаёт их с задержкой трансляции (2–15 мин). Сервер переводит
   // координаты в клетки карты архива, поэтому карта, таблицы и графики — те же, что у повторов. Позиции приходят раз
   // в 3–5 с: показ идёт на ONLINE_LAG с позади последнего кадра, между кадрами — плавно. Крипов и вардов в этих данных нет.
-  var ONLINE_POLL = 4000, ONLINE_LAG = 8, ONLIST = null, ONL = null;
+  var ONLINE_POLL = 4000, ONLINE_LAG = 8, ONLINE_NEXT = 20000, ONLIST = null, ONL = null;
   function urlOnline() { var v = null; try { v = new URLSearchParams(location.search).get('g'); } catch (_) {} return v && /^\d{6,12}$/.test(v) ? v : null; }
   var online = null;                         // номер идущего матча (match_id) или null
   function loadOnline() {
@@ -173,6 +173,8 @@
   }
   function onlineFrame() {
     var nowMs = Date.now(), m = ONL.m;
+    // Матч закончился или пропал из трансляции — через ONLINE_NEXT мс сами переходим на самый смотримый из идущих (нет — в общий эфир).
+    if ((m && m.ended) || ONL.gone) { if (!ONL.endAt) ONL.endAt = nowMs; else if (nowMs - ONL.endAt > ONLINE_NEXT) { nextOnline(); return; } }
     if (!ONL.busy && !ONL.gone && !(m && m.ended) && nowMs - ONL.at > ONLINE_POLL && retryDue()) pollOnline();
     if (!m) {
       drawMap(null, 0); $('lvWin').hidden = true; overlay.hidden = false;
@@ -195,6 +197,11 @@
     var sec = Math.floor(t);
     if (sec !== lastSecond || ONL.dirty) { ONL.dirty = false; lastSecond = sec; panel(m, null, t); }
   }
+  function nextOnline() {
+    var cur = online, g = ONLIST ? ONLIST.games.filter(function (x) { return x.matchId !== cur && !x.ended; }).sort(function (a, b) { return (b.viewers || 0) - (a.viewers || 0); })[0] : null;
+    if (g) { switchOnline(g.matchId, false); try { history.replaceState(null, '', '/live/?g=' + g.matchId); } catch (_) {} }
+    else { switchTo(null, false); try { history.replaceState(null, '', '/live/'); } catch (_) {} }
+  }
   function setMode() {
     root.classList.toggle('is-online', !!online);
     Array.prototype.forEach.call(document.querySelectorAll('.lv-cols span:nth-child(6)'), function (s) { s.textContent = online ? 'Зол.' : 'XPM'; s.title = online ? 'Золото на руках' : 'Опыт в минуту'; });
@@ -203,7 +210,7 @@
   function switchOnline(id, push) {
     if (online === id && ONL) return;
     online = id; own = null; ownItem = null; ownMissing = false; lastItem = null; lastSecond = null; errorShown = false; manual = true;
-    ONL = { sid: null, m: null, at: 0, busy: false, gone: false, err: null, disp: null, wall: 0, gotAt: 0, dirty: true };
+    ONL = { sid: null, m: null, at: 0, busy: false, gone: false, endAt: 0, err: null, disp: null, wall: 0, gotAt: 0, dirty: true };
     overlay.hidden = true; overlay._h = null; $('lvWin').hidden = true; setMode();
     if (push !== false) { try { history.pushState(null, '', '/live/?g=' + id); } catch (_) {} }
     goal('live_online'); renderStrip();
@@ -577,7 +584,7 @@
     if (m.live) {
       if (!m.ended) { if (!el.hidden) el.hidden = true; return; }
       var w = m.radiantWin == null ? '' : m.radiantWin ? m.pro.radiant : m.pro.dire;
-      var lh = (w ? '<b class="' + (m.radiantWin ? 'radiant' : 'dire') + '">Победа ' + esc(w) + '</b><span>трон разрушен</span>' : '<b>Матч завершён</b><span>Valve больше не присылает данные этого матча</span>') + '<small>Выберите другой матч в полосе выше.</small>';
+      var lh = (w ? '<b class="' + (m.radiantWin ? 'radiant' : 'dire') + '">Победа ' + esc(w) + '</b><span>трон разрушен</span>' : '<b>Матч завершён</b><span>Valve больше не присылает данные этого матча</span>') + '<small>Через несколько секунд включится другой идущий матч.</small>';
       if (el.innerHTML !== lh) el.innerHTML = lh;
       el.hidden = false; return;
     }
@@ -697,11 +704,12 @@
   var hoverX = null, hoverY = null, heroSel = 0, hoverHero = null;
   function drawHeroes(m, t, W, H) {
     // Как график капитала героев в игре: ось времени растягивается до текущей секунды, сетка по капиталу и минутам.
-    var n = Math.max(0, Math.floor((t - m.econFrom) / m.econStep) + 1), maxT = Math.max(60, t);
+    // В эфире «В эфире» история капитала есть только с момента, когда матч открыли на сайте: ось — с начала истории, а не с 0:00.
+    var n = Math.max(0, Math.floor((t - m.econFrom) / m.econStep) + 1), x0 = m.live ? Math.max(0, m.econFrom) : 0, maxT = Math.max(x0 + 60, t);
     var max = 1000;
     m.players.forEach(function (p) { for (var i = 0; i < Math.min(n, p.econ.nw.length); i++) if (p.econ.nw[i] > max) max = p.econ.nw[i]; });
     var L = 40, B = 18, R = 26;
-    var X = function (k) { return L + (W - L - R) * (m.econFrom + k * m.econStep) / maxT; }, Y = function (v) { return H - B - (H - B - 10) * v / max; };
+    var X = function (k) { return L + (W - L - R) * (m.econFrom + k * m.econStep - x0) / (maxT - x0); }, Y = function (v) { return H - B - (H - B - 10) * v / max; };
     var step = [1000, 2000, 5000, 10000, 20000].filter(function (s) { return max / s <= 5; })[0] || 20000;
     actx.font = '10px Manrope,system-ui,sans-serif'; actx.fillStyle = 'rgba(255,255,255,.4)'; actx.lineWidth = 1;
     actx.textAlign = 'right'; actx.textBaseline = 'middle';
@@ -709,14 +717,14 @@
       actx.strokeStyle = 'rgba(255,255,255,' + (g ? '.07' : '.18') + ')'; actx.beginPath(); actx.moveTo(L, Y(g)); actx.lineTo(W - R, Y(g)); actx.stroke();
       actx.fillText(g ? (g / 1000) + 'k' : '0', L - 6, Y(g));
     }
-    var tstep = [60, 120, 300, 600].filter(function (s) { return maxT / s <= 8; })[0] || 600;
+    var tstep = [60, 120, 300, 600].filter(function (s) { return (maxT - x0) / s <= 8; })[0] || 600;
     actx.textAlign = 'center'; actx.textBaseline = 'top';
-    for (var tt = 0; tt <= maxT; tt += tstep) actx.fillText(Math.round(tt / 60) + ':00', L + (W - L - R) * tt / maxT, H - B + 4);
+    for (var tt = Math.ceil(x0 / tstep) * tstep; tt <= maxT; tt += tstep) actx.fillText(Math.round(tt / 60) + ':00', L + (W - L - R) * (tt - x0) / (maxT - x0), H - B + 4);
     // Наведение на линию — подсветка этого героя; клик закрепляет выбор. По умолчанию выбран первый герой.
     // Остальные линии бледнее, у Dire — пунктир, чтобы команды не сливались.
     var k0 = null, hov = null;
     if (hoverX != null && n > 1) {
-      k0 = Math.max(0, Math.min(n - 1, Math.round(((hoverX - L) / (W - L - R) * maxT - m.econFrom) / m.econStep)));
+      k0 = Math.max(0, Math.min(n - 1, Math.round(((hoverX - L) / (W - L - R) * (maxT - x0) + x0 - m.econFrom) / m.econStep)));
       m.players.forEach(function (p) { var v = p.econ.nw[k0]; if (v == null) return; var dy = Math.abs(Y(v) - hoverY); if (dy < 14 && (!hov || dy < hov[1])) hov = [p, dy]; });
     }
     var sel = hov ? hov[0] : (m.players.filter(function (p) { return p.slot === heroSel; })[0] || m.players[0]);
@@ -750,10 +758,10 @@
     actx.setTransform(s.d, 0, 0, s.d, 0, 0); actx.clearRect(0, 0, W, H);
     if (advKind === 'heroes') return drawHeroes(m, t, W, H);
     var n = 0; while (n < m.adv.t.length && m.adv.t[n] <= t) n++;
-    var maxT = Math.max(60, m.adv.t[m.adv.t.length - 1] || 60);
+    var x0 = m.live && m.adv.t.length ? m.adv.t[0] : 0, maxT = Math.max(x0 + 60, m.adv.t[m.adv.t.length - 1] || 60);
     var series = advKind === 'xp' ? m.adv.xp : m.adv.gold;
     var lim = 1000; for (var k = 0; k < n; k++) lim = Math.max(lim, Math.abs(series[k]));
-    var X = function (tt) { return 8 + (W - 16) * tt / maxT; }, Y = function (g) { return H / 2 - (H / 2 - 10) * g / lim; };
+    var X = function (tt) { return 8 + (W - 16) * (tt - x0) / (maxT - x0); }, Y = function (g) { return H / 2 - (H / 2 - 10) * g / lim; };
     actx.strokeStyle = 'rgba(255,255,255,.15)'; actx.lineWidth = 1; actx.beginPath(); actx.moveTo(8, H / 2); actx.lineTo(W - 8, H / 2); actx.stroke();
     if (n < 2) return;
     for (var i = 1; i < n; i++) {

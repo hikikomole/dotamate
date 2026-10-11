@@ -3,7 +3,7 @@
 body.d2-dark .lv{background:none!important}
 .lv-head{display:flex;justify-content:space-between;align-items:center;gap:8px 24px;margin:0 0 6px;flex-wrap:wrap}
 .lv-headline{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap}
-body.d2-dark .lv-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(30px,4vw,50px)!important;line-height:1.02!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
+body.d2-dark .lv-title{margin:0!important;font-family:Oswald,Manrope,system-ui,sans-serif!important;font-weight:600!important;font-size:clamp(26px,3vw,36px)!important;line-height:1.02!important;letter-spacing:.5px!important;text-transform:uppercase!important;color:#fff!important}
 .lv-lead{margin:0 0 12px;max-width:none;font-size:14.5px;line-height:1.6;color:var(--d2-muted,#98a1ae)}
 .lv-stamp{font-size:12.5px;line-height:1.7;color:var(--d2-muted,#98a1ae);text-align:right}
 .lv-stamp b{color:var(--d2-gold,#d9c187)}
@@ -277,8 +277,8 @@ body.d2-dark .lv-imp h3{margin:0 0 6px!important;font-size:13px!important;font-w
 .lw-empty{padding:40px 0;text-align:center}
 .lw-b{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;text-align:center;overflow:hidden;cursor:default;line-height:1.05;
   background:radial-gradient(circle at 35% 30%,rgba(217,193,135,.28),rgba(217,193,135,.08));border:1px solid rgba(217,193,135,.35);color:var(--d2-text,#eef1f5);
-  animation:lwIn .5s cubic-bezier(.2,.8,.3,1.2) both;transition:transform .18s ease,box-shadow .18s ease;will-change:transform}
-.lw-b:hover{transform:scale(1.18);z-index:2;box-shadow:0 8px 26px rgba(0,0,0,.55),0 0 0 2px rgba(217,193,135,.5)}
+  animation:lwIn .5s cubic-bezier(.2,.8,.3,1.2) both;transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease;will-change:transform}
+.lw-b:hover{transform:scale(var(--hs,1.18));z-index:2;box-shadow:0 8px 26px rgba(0,0,0,.55),0 0 0 2px rgba(217,193,135,.5)}
 .lw-t1{background:radial-gradient(circle at 35% 30%,rgba(217,193,135,.6),rgba(141,123,79,.35));border-color:rgba(217,193,135,.75)}
 .lw-t2{background:radial-gradient(circle at 35% 30%,rgba(217,193,135,.42),rgba(141,123,79,.18));border-color:rgba(217,193,135,.55)}
 .lw-t4{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);color:var(--d2-muted,#98a1ae)}

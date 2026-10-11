@@ -877,11 +877,9 @@
     if (!note || !M) return;
     var when = M.fetchedAt ? new Date(M.fetchedAt).toLocaleDateString('ru-RU') : '';
     var n = (M.matchesUsed || 0).toLocaleString('ru-RU');
-    note.textContent = state.slice === 'top'
-      ? 'Считаем по своей базе: ' + n + ' матчей Ranked All Pick со средним рангом Divine 5 и Immortal, снимок от ' + when + '. Линии — по срезу Stratz Divine/Immortal.'
-      : state.slice === 'our'
-        ? 'Считаем по своей базе: ' + n + ' рейтинговых матчей Ranked All Pick всех рангов (Steam), снимок от ' + when + '. Линии — по срезу Stratz Divine/Immortal.'
-        : 'Считаем по срезу Stratz: матчи ранга Divine/Immortal, снимок от ' + when + '. Вероятность не считается — калибровка есть только у своих срезов.';
+    // Свои срезы (top, our) — без подписи по решению владельца 10.10.2026; у Stratz остаётся пояснение, почему нет вероятности.
+    note.hidden = state.slice === 'top' || state.slice === 'our';
+    note.textContent = note.hidden ? '' : 'Считаем по срезу Stratz: матчи ранга Divine/Immortal, снимок от ' + when + '. Вероятность не считается — калибровка есть только у своих срезов.';
   }
 
   function syncSideSwitch() {

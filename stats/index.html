@@ -39,7 +39,7 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/" aria-current="page" class="active">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/" aria-current="page" class="active">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
     <div class="nav-spacer"></div><a class="dm-patch" href="/patch/7.41f/">Патч 7.41f</a><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
@@ -49,35 +49,34 @@
 <section class="section quick-stats-section" id="stats">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><h2 class="page-title">Статистика и аналитика</h2><p>Своя база рейтинговых матчей всех рангов: тир-лист, ранги, позиции, связки, предметы, длительность, линии и динамика. В тир-листе — также срезы Divine 5 и Immortal и про-сцена. Обновляется каждый день.</p></div>
+      <div><h1 class="page-title">Статистика и аналитика</h1><p>Своя база рейтинговых матчей всех рангов: тир-лист, ранги, позиции, связки, предметы, длительность, линии и динамика. В тир-листе — также срезы Divine 5 и Immortal и про-сцена. Обновляется каждый день.</p></div>
     </div>
     <div class="st-summary" id="stSummary"><div class="st-loading">Загружаем статистику…</div></div>
-    <nav class="st-tabs" id="stTabs" aria-label="Разделы статистики">
-      <button type="button" data-tab="tier" class="on">Тир-лист</button>
-      <button type="button" data-tab="ranks">По рангам</button>
-      <button type="button" data-tab="positions">Позиции</button>
-      <button type="button" data-tab="pairs">Связки и контрпики</button>
-      <button type="button" data-tab="items">Предметы</button>
-      <button type="button" data-tab="matches">Матчи</button>
-      <button type="button" data-tab="lanes">Линии</button>
-      <button type="button" data-tab="trend">Динамика</button>
-      <button type="button" data-tab="pro">Про-сцена</button>
+    <nav class="st-tabs" id="stTabs" role="tablist" aria-label="Разделы статистики">
+      <button type="button" role="tab" aria-controls="stPane" data-tab="tier" class="on">Тир-лист</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="ranks">По рангам</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="positions">Позиции</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="pairs">Связки и контрпики</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="items">Предметы</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="matches">Матчи</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="lanes">Линии</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="trend">Динамика</button>
+      <button type="button" role="tab" aria-controls="stPro" data-tab="pro">Про-сцена</button>
     </nav>
-    <div class="st-pane" id="stPane" aria-live="polite"></div>
-    <div class="st-pro" id="stPro" hidden>
+    <div class="st-pane" id="stPane" role="tabpanel" aria-label="Статистика" aria-live="polite"></div>
+    <div class="st-pro" id="stPro" role="tabpanel" aria-label="Про-сцена" hidden>
     <div class="quick-stats-grid">
       <article class="stat-card"><span class="stat-icon">⚔</span><strong id="quickHeroCount">—</strong><span>героев в базе</span></article>
       <article class="stat-card"><span class="stat-icon">◈</span><strong id="quickItemCount">—</strong><span>предметов в базе</span></article>
       <article class="stat-card"><span class="stat-icon">📈</span><strong id="bestWinrate">—</strong><span>лучший pro winrate</span></article>
-      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>pro picks в базе</span></article>
+      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>пиков в про-матчах</span></article>
     </div>
     <div class="stats-extra" id="statsExtra"></div>
-    <div id="itemAnalytics" class="item-analytics-wrap"></div>
     <div class="stats-panel">
       <div class="stats-toolbar">
         <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
         <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="POSITION_1">Керри</option><option value="POSITION_2">Мид</option><option value="POSITION_3">Оффлейн</option><option value="POSITION_4">Поддержка</option><option value="POSITION_5">Полная поддержка</option></select>
-        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
+        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="pro_ban">Pro ban</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
       </div>
       <div class="table-wrap">
         <table class="stats-table"><thead><tr><th>Герой</th><th>Атрибут</th><th>Роли</th><th>Pro pick</th><th>Pro win</th><th>Winrate</th><th>Pro ban</th><th>Move</th><th>Attack</th></tr></thead><tbody id="statsBody"></tbody></table>
@@ -91,7 +90,7 @@
 
 </main>
 
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
 <script src="/js/local-preview.js" defer></script>

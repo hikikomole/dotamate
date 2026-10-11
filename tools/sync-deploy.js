@@ -18,7 +18,7 @@ const path = require('path');
 const ROOT = path.dirname(__dirname);
 const OUT = path.join(ROOT, 'deploy');
 const DIRS = ['css', 'js', 'assets', 'data'];
-const FILES = ['security.js', 'ads.txt', 'robots.txt', '_headers', 'sitemap.xml'].concat(fs.readdirSync(ROOT).filter((n) => /^[0-9a-f]{32}\.txt$/.test(n))); // ключ IndexNow (tools/indexnow.js)
+const FILES = ['security.js', 'ads.txt', 'robots.txt', 'favicon.ico', '_headers', 'sitemap.xml'].concat(fs.readdirSync(ROOT).filter((n) => /^[0-9a-f]{32}\.txt$/.test(n))); // ключ IndexNow (tools/indexnow.js)
 // Сырая база собранных матчей на сайт не выкладывается: она растёт до сотен
 // мегабайт, а посетителю нужны только посчитанные по ней матрицы.
 const SKIP_DIRS = new Set(['public-matches', 'public-matches-top', 'meta-matches', 'stats-history', 'stats-history-steam', 'steam-matches', 'steam-matches-turbo', 'data-steam', 'builds-stratz']); // builds-stratz — хранилище предметов Stratz (U5), сайт читает data/builds // data-steam — параллельный расчёт U4, на сайт не идёт

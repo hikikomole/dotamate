@@ -7,7 +7,7 @@
 declare(strict_types=1);
 if (!defined('DOTAMATE_API')) { http_response_code(404); exit; }
 
-const PRO_STALE = 5400;              // с: данные старше полутора часов — пометка «источник недоступен»
+const PRO_STALE = 21600;             // с: данные старше 6 ч — пометка «Данные на …» (сбор не идёт во время ежедневного обновления, а оно длится до 2–3 ч)
 const PRO_LIST_MAX = 60;             // матчей на /pro/
 const PRO_LEAGUES_DAYS = 30;         // турниры на /pro/ — с матчами за последние N дней
 const PRO_MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
@@ -47,7 +47,7 @@ function proStamp(): string {
   $s = proJson('status.json') ?: [];
   $ok = (int)($s['lastOk'] ?? 0);
   if (!$ok) return '';
-  if (time() - $ok > PRO_STALE) return '<p class="pr-stale" role="status">Данные на ' . proDate($ok) . '. Источник (OpenDota) сейчас не отвечает — показаны последние сохранённые результаты.</p>';
+  if (time() - $ok > PRO_STALE) return '<p class="pr-stale" role="status">Данные на ' . proDate($ok) . '.</p>';
   return '<p class="pr-stamp">Обновлено ' . proDate($ok) . '. Данные: <a href="https://www.opendota.com/" rel="noopener" target="_blank">OpenDota</a>.</p>';
 }
 
@@ -132,8 +132,7 @@ function proHome(): void {
   $lgHtml = '';
   foreach ($lgs as $l) $lgHtml .= '<a class="pr-lg" href="/pro/league/' . $l['id'] . '/"><b>' . proH($l['name']) . '</b><span>' . proH(proRange($l['first'], $l['last'])) . ' · ' . $l['n'] . ' ' . proPlural($l['n'], 'игра', 'игры', 'игр') . ($l['tier'] && proTier($l['tier']) ? ' · ' . proTier($l['tier']) : '') . '</span></a>';
   $body = '<h1 class="page-title">Про-матчи Dota 2</h1>'
-    . '<p class="pr-lead">Результаты профессиональных матчей: счёт, драфт (пики и баны по порядку), статистика игроков и ключевые моменты — первая кровь, Рошан, башни и казармы. Повторы матчей на карте — в <a href="/live/">эфире</a>.</p>'
-    . proStamp()
+    . '<div class="pr-intro"><p>Счёт, драфт, статистика игроков и ключевые моменты про-матчей. Повторы на карте — в <a href="/live/">эфире</a>.</p>' . proStamp() . '</div>'
     . ($lgHtml ? '<h2 class="pr-h2">Турниры за последние ' . PRO_LEAGUES_DAYS . ' дней</h2><div class="pr-lgs">' . $lgHtml . '</div>' : '')
     . '<h2 class="pr-h2">Последние матчи</h2>' . proRowsByDay(array_slice($all, 0, PRO_LIST_MAX))
     . '<p class="pr-note">Здесь только сыгранные матчи. Расписания будущих игр в открытых источниках без договора нет, поэтому календаря пока нет.</p>';
@@ -179,6 +178,13 @@ function proLeague(int $id): void {
 }
 
 // --- /pro/match/<id>/ ---
+function proNum(int $n): string { return number_format($n, 0, ',', ' '); }
+function proK(int $n): string { return $n >= 10000 ? str_replace('.', ',', (string)round($n / 1000, 1)) . 'k' : proNum($n); }
+// Линия графика: точки по минутам, общий масштаб для золота и опыта.
+function proLine(array $v, int $W, int $H, int $max, int $n): string {
+  $pts = []; foreach ($v as $k => $x) $pts[] = round($k * $W / max(1, $n), 1) . ',' . round($H / 2 - $x * ($H / 2 - 6) / $max, 1);
+  return implode(' ', $pts);
+}
 function proMatch(string $id): void {
   if (!preg_match('/^\d{6,12}$/', $id)) proNotFound('Неверный номер матча.');
   $m = json_decode((string)@file_get_contents(proDir() . '/matches/' . $id . '.json'), true);
@@ -187,19 +193,21 @@ function proMatch(string $id): void {
   $win = $m['rw'] ? $r : $d; $lgName = $m['league']['name'] ?: 'Турнир';
   $bySlot = []; foreach ($m['players'] as $p) $bySlot[(int)$p['slot']] = $p;
   $sideName = fn(int $s) => $s === 0 ? $r : $d;
+  $has = fn(string $k) => (bool)array_filter($m['players'], fn($p) => isset($p[$k]) && $p[$k] !== null);   // поле есть хотя бы у одного игрока (формат v2, разобранный реплей)
+  $sum = function (string $k, int $s) use ($m): int { $t = 0; foreach ($m['players'] as $p) if ((int)$p['s'] === $s) $t += (int)($p[$k] ?? 0); return $t; };
 
   // серия
-  $series = '';
+  $series = ''; $serLbl = proSeriesLabel($m['st'] ?? null);
   if (!empty($m['ser'])) {
     $games = array_values(array_filter(proIndex(), fn($x) => (int)($x['ser'] ?? 0) === (int)$m['ser']));
     usort($games, fn($a, $b) => $a['start'] <=> $b['start']);
     if (count($games) > 1) {
       $li = '';
       foreach ($games as $k => $g) {
-        $lbl = 'Игра ' . ($k + 1) . ': ' . proH(proTeam($g['r'] ?? [], 'Radiant')) . ' ' . (int)$g['rs'] . ':' . (int)$g['ds'] . ' ' . proH(proTeam($g['d'] ?? [], 'Dire'));
-        $li .= (string)$g['id'] === $id ? '<li aria-current="true"><b>' . $lbl . '</b></li>' : ($g['has'] ? '<li><a href="/pro/match/' . (int)$g['id'] . '/">' . $lbl . '</a></li>' : '<li>' . $lbl . '</li>');
+        $lbl = '<span>Игра ' . ($k + 1) . '</span> ' . proH(proTeam($g['r'] ?? [], 'Radiant')) . ' <b>' . (int)$g['rs'] . ':' . (int)$g['ds'] . '</b> ' . proH(proTeam($g['d'] ?? [], 'Dire'));
+        $li .= (string)$g['id'] === $id ? '<li aria-current="true">' . $lbl . '</li>' : ($g['has'] ? '<li><a href="/pro/match/' . (int)$g['id'] . '/">' . $lbl . '</a></li>' : '<li>' . $lbl . '</li>');
       }
-      $series = '<h2 class="pr-h2">Серия ' . proH(proSeriesLabel($m['st'])) . '</h2><ol class="pr-series">' . $li . '</ol>';
+      $series = '<section class="pr-card"><h2 class="pr-h2">Серия ' . proH($serLbl) . '</h2><ol class="pr-series">' . $li . '</ol></section>';
     }
   }
   // драфт
@@ -218,56 +226,125 @@ function proMatch(string $id): void {
     return $o . '</div>';
   };
   $dmHash = implode('-', $picks[0]) . '_' . implode('-', $picks[1]) . '_' . implode('-', array_merge($bans[0], $bans[1]));
-  $draft = '<h2 class="pr-h2">Драфт</h2><div class="pr-draft">' . $teamDraft(0) . $teamDraft(1) . '</div>'
-    . ($order ? '<details class="pr-order"><summary>Порядок пиков и банов</summary><ol>' . $order . '</ol></details>' : '')
-    . (count($picks[0]) === 5 && count($picks[1]) === 5 ? '<p><a class="pr-btn" href="/#draft=' . proH($dmHash) . '">Открыть драфт в DraftMate →</a></p>' : '');
-  // игроки
-  $ptab = function (int $s) use ($m, $sideName): string {
-    $o = '<h3 class="pr-h3 ' . ($s ? 'dire' : 'rad') . '">' . proH($sideName($s)) . '</h3><div class="pr-tablewrap"><table class="pr-table pr-players"><thead><tr><th>Герой</th><th>Игрок</th><th>У/С/П</th><th>Капитал</th><th>Добито/Не отдано</th><th>Золото/мин</th><th>Опыт/мин</th><th>Предметы</th></tr></thead><tbody>';
-    foreach ($m['players'] as $p) {
-      if ((int)$p['s'] !== $s) continue;
-      $it = ''; foreach ($p['it'] as $i) $it .= proItemImg((int)$i);
-      if (!empty($p['nt'])) $it .= '<span class="pr-nt">' . proItemImg((int)$p['nt']) . '</span>';
-      $o .= '<tr><td>' . proHeroImg((int)$p['h'], 'pr-mini') . '</td><td>' . proH($p['n'] ?: '—') . '</td><td>' . (int)$p['k'] . '/' . (int)$p['d'] . '/' . (int)$p['a'] . '</td><td>' . number_format((int)$p['nw'], 0, ',', ' ') . '</td><td>' . (int)$p['lh'] . '/' . (int)$p['dn'] . '</td><td>' . (int)$p['gpm'] . '</td><td>' . (int)$p['xpm'] . '</td><td class="pr-items">' . $it . '</td></tr>';
-    }
-    return $o . '</tbody></table></div>';
-  };
-  // ключевые моменты
+  $replay = is_file(liveMatchFile((string)(int)$m['id']));   // матч есть в архиве эфира — можно смотреть повтор на карте
+  $btns = '<div class="pr-btns">' . ($replay ? '<a class="pr-btn pr-btn-main" href="/live/?m=' . (int)$m['id'] . '">Смотреть повтор на карте →</a>' : '')
+    . (count($picks[0]) === 5 && count($picks[1]) === 5 ? '<a class="pr-btn" href="/#draft=' . proH($dmHash) . '">Открыть драфт в DraftMate →</a>' : '') . '</div>';
+  $draft = '<section class="pr-card"><h2 class="pr-h2">Драфт</h2><div class="pr-draft">' . $teamDraft(0) . $teamDraft(1) . '</div>'
+    . ($order ? '<details class="pr-order"><summary>Порядок пиков и банов</summary><ol>' . $order . '</ol></details>' : '') . '</section>';
+
+  // ключевые моменты и счётчики строений
   $lane = ['top' => 'на верхней линии', 'mid' => 'на центре', 'bot' => 'на нижней линии'];
-  $ev = [];
+  $ev = []; $towers = [0, 0]; $rax = [0, 0]; $rosh = [0, 0]; $fb = null;
   foreach ($m['obj'] as $o) {
     [$t, $type, $side] = [$o[0], $o[1], (int)$o[2]];
-    if ($type === 'fb') { $p = $bySlot[(int)($o[3] ?? -1)] ?? null; $ev[] = [$t, 'Первая кровь — ' . proH($sideName($side)) . ($p ? ' (' . proH(proHero((int)$p['h'])['name']) . ')' : ''), 'fb']; }
-    elseif ($type === 'rosh') $ev[] = [$t, 'Рошан убит — ' . proH($sideName($side)), 'rosh'];
-    elseif ($type === 'tower' && preg_match('/^tower([1-4])(?:_(top|mid|bot))?$/', (string)$o[3], $x)) $ev[] = [$t, proH($sideName($side)) . ' теряет башню ' . $x[1] . '-го уровня' . (isset($x[2]) ? ' ' . $lane[$x[2]] : ''), 'tower'];
-    elseif ($type === 'rax' && preg_match('/^melee(?:_(top|mid|bot))?$/', (string)$o[3], $x)) $ev[] = [$t, proH($sideName($side)) . ' теряет казармы' . (isset($x[1]) ? ' ' . $lane[$x[1]] : ''), 'rax'];
+    if ($type === 'fb') { $fb = [(int)$t, $side]; $p = $bySlot[(int)($o[3] ?? -1)] ?? null; $ev[] = [$t, 'Первая кровь — ' . proH($sideName($side)) . ($p ? ' (' . proH(proHero((int)$p['h'])['name']) . ')' : ''), 'fb']; }
+    elseif ($type === 'rosh') { $rosh[$side]++; $ev[] = [$t, 'Рошан убит — ' . proH($sideName($side)), 'rosh']; }
+    elseif ($type === 'tower' && preg_match('/^tower([1-4])(?:_(top|mid|bot))?$/', (string)$o[3], $x)) { $towers[1 - $side]++; $ev[] = [$t, proH($sideName($side)) . ' теряет башню ' . $x[1] . '-го уровня' . (isset($x[2]) ? ' ' . $lane[$x[2]] : ''), 'tower']; }
+    elseif ($type === 'rax' && preg_match('/^melee(?:_(top|mid|bot))?$/', (string)$o[3], $x)) { $rax[1 - $side]++; $ev[] = [$t, proH($sideName($side)) . ' теряет казармы' . (isset($x[1]) ? ' ' . $lane[$x[1]] : ''), 'rax']; }
     elseif ($type === 'fort') $ev[] = [$t, 'Трон ' . proH($sideName($side)) . ' разрушен', 'fort'];
   }
   foreach ($m['tf'] as [$a, $b, $n]) $ev[] = [(int)$a, 'Драка: ' . (int)$n . ' ' . proPlural((int)$n, 'смерть', 'смерти', 'смертей') . ' за ' . proClock((int)$b - (int)$a), 'tf'];
   usort($ev, fn($a, $b) => $a[0] <=> $b[0]);
   $evHtml = ''; foreach ($ev as [$t, $txt, $cls]) $evHtml .= '<li class="' . $cls . '"><time>' . proClock((int)$t) . '</time><span>' . $txt . '</span></li>';
-  $moments = $evHtml ? '<h2 class="pr-h2">Ключевые моменты</h2><ol class="pr-moments">' . $evHtml . '</ol><p class="pr-note">Время — от начала игры (горна). Моменты взяты из разобранного реплея.</p>'
-    : '<h2 class="pr-h2">Ключевые моменты</h2><p class="pr-note">Реплей этого матча ещё не разобран — моменты появятся позже.</p>';
-  // график преимущества
-  $chart = '';
-  $adv = array_map('intval', $m['adv'] ?? []);
-  if (count($adv) >= 3) {
-    $W = 640; $H = 140; $max = max(1000, max(array_map('abs', $adv))); $n = count($adv) - 1; $pts = [];
-    foreach ($adv as $k => $v) $pts[] = round($k * $W / $n, 1) . ',' . round($H / 2 - $v * ($H / 2 - 6) / $max, 1);
-    $chart = '<h2 class="pr-h2">Преимущество по золоту</h2><figure class="pr-chart"><svg viewBox="0 0 ' . $W . ' ' . $H . '" preserveAspectRatio="none" role="img" aria-label="Разница капитала команд по минутам">'
-      . '<line x1="0" y1="' . ($H / 2) . '" x2="' . $W . '" y2="' . ($H / 2) . '" class="z"/><polyline points="' . implode(' ', $pts) . '"/></svg>'
-      . '<figcaption><span class="rad">↑ ' . proH($r) . '</span> <span>макс. ±' . number_format($max, 0, ',', ' ') . ' золота · ' . $n . ' мин</span> <span class="dire">↓ ' . proH($d) . '</span></figcaption></figure>';
+  $moments = '<section class="pr-card"><h2 class="pr-h2">Ключевые моменты</h2>' . ($evHtml ? '<ol class="pr-moments">' . $evHtml . '</ol><p class="pr-note">Время — от начала игры (горна), по разобранному реплею.</p>'
+    : '<p class="pr-note">Реплей этого матча ещё не разобран — моменты появятся позже.</p>') . '</section>';
+
+  // сравнение команд: строка «Свет — показатель — Тьма» с полосой долей
+  $parsed = !empty($m['obj']);
+  $cmpRows = [['Убийства', (int)$m['rs'], (int)$m['ds'], true], ['Капитал', $sum('nw', 0), $sum('nw', 1), true], ['Добито крипов', $sum('lh', 0), $sum('lh', 1), true]];
+  if ($has('hd')) $cmpRows[] = ['Урон героям', $sum('hd', 0), $sum('hd', 1), true];
+  if ($has('td')) $cmpRows[] = ['Урон по строениям', $sum('td', 0), $sum('td', 1), true];
+  if ($parsed) { $cmpRows[] = ['Башни снесено', $towers[0], $towers[1], true]; $cmpRows[] = ['Казармы снесено', $rax[0], $rax[1], true]; $cmpRows[] = ['Рошан', $rosh[0], $rosh[1], true]; }
+  if ($has('obs')) $cmpRows[] = ['Варды (обзор/невид.)', $sum('obs', 0) + $sum('sen', 0), $sum('obs', 1) + $sum('sen', 1), true, $sum('obs', 0) . '/' . $sum('sen', 0), $sum('obs', 1) . '/' . $sum('sen', 1)];
+  $cmp = '';
+  foreach ($cmpRows as $row) {
+    [$lbl, $a, $b] = $row; $tot = max(1, $a + $b); $pa = round($a * 100 / $tot, 1);
+    $ta = $row[4] ?? ($a >= 10000 ? proK($a) : proNum($a)); $tb = $row[5] ?? ($b >= 10000 ? proK($b) : proNum($b));
+    $cmp .= '<div class="pr-cmp-row"><b class="rad' . ($a > $b ? ' lead' : '') . '">' . proH($ta) . '</b><span class="pr-cmp-l">' . proH($lbl) . '<i class="pr-bar" aria-hidden="true"><i style="width:' . $pa . '%"></i></i></span><b class="dire' . ($b > $a ? ' lead' : '') . '">' . proH($tb) . '</b></div>';
   }
-  $logo = fn(array $t) => $t['logo'] ? '<img class="pr-logo" src="' . proH($t['logo']) . '" alt="" width="48" height="48" loading="lazy" referrerpolicy="no-referrer">' : '';
+  $facts = [];
+  if ($fb) $facts[] = 'Первая кровь ' . proClock($fb[0]) . ' — ' . proH($sideName($fb[1]));
+  if ($serLbl) $facts[] = 'Серия ' . proH($serLbl);
+  if (!empty($m['league']['tier']) && proTier((string)$m['league']['tier'])) $facts[] = proTier((string)$m['league']['tier']) . ' турнир';
+
+  // график преимущества: золото и (если есть) опыт
+  $chart = '';
+  $adv = array_map('intval', $m['adv'] ?? []); $xadv = array_map('intval', $m['xadv'] ?? []);
+  if (count($adv) >= 3) {
+    $W = 640; $H = 170; $n = count($adv) - 1;
+    $max = max(1000, max(array_map('abs', $adv)), $xadv ? max(array_map('abs', $xadv)) : 0);
+    $grid = ''; foreach ([10, 20, 30, 40, 50, 60, 70, 80] as $mn) if ($mn < $n) $grid .= '<line x1="' . round($mn * $W / $n, 1) . '" y1="0" x2="' . round($mn * $W / $n, 1) . '" y2="' . $H . '" class="g"/>';
+    $peakR = max($adv); $peakD = min($adv);
+    $chart = '<section class="pr-card"><h2 class="pr-h2">Преимущество по ходу матча</h2><figure class="pr-chart"><svg viewBox="0 0 ' . $W . ' ' . $H . '" preserveAspectRatio="none" role="img" aria-label="Разница капитала' . ($xadv ? ' и опыта' : '') . ' команд по минутам">'
+      . $grid . '<line x1="0" y1="' . ($H / 2) . '" x2="' . $W . '" y2="' . ($H / 2) . '" class="z"/>'
+      . (count($xadv) >= 3 ? '<polyline class="xp" points="' . proLine($xadv, $W, $H, $max, count($xadv) - 1) . '"/>' : '')
+      . '<polyline points="' . proLine($adv, $W, $H, $max, $n) . '"/></svg>'
+      . '<figcaption><span class="rad">↑ ' . proH($r) . '</span><span class="pr-legend"><i class="lg-g"></i>золото' . (count($xadv) >= 3 ? ' <i class="lg-x"></i>опыт' : '') . ' · шкала ±' . proNum($max) . ' · ' . $n . ' мин</span><span class="dire">↓ ' . proH($d) . '</span></figcaption></figure>'
+      . '<p class="pr-note">Наибольший перевес: ' . proH($r) . ' — ' . proNum(max(0, $peakR)) . ' золота, ' . proH($d) . ' — ' . proNum(max(0, -$peakD)) . ' золота.</p></section>';
+  }
+
+  // лучшие в матче (по полям, которые есть в данных)
+  $best = '';
+  foreach ([['k', 'Больше всех убийств', ''], ['nw', 'Наибольший капитал', ' золота'], ['hd', 'Урон героям', ''], ['td', 'Урон по строениям', ''], ['hh', 'Лечение', ''], ['lh', 'Добито крипов', ''], ['obs', 'Поставил вардов обзора', ''], ['stk', 'Стаков лагерей', '']] as [$k, $lbl, $suf]) {
+    if (!$has($k)) continue;
+    $top = null; foreach ($m['players'] as $p) if ($top === null || (int)($p[$k] ?? 0) > (int)($top[$k] ?? 0)) $top = $p;
+    if (!$top || (int)($top[$k] ?? 0) <= 0) continue;
+    $best .= '<div class="pr-best ' . ((int)$top['s'] ? 'dire' : 'rad') . '">' . proHeroImg((int)$top['h'], 'pr-mini') . '<span><small>' . proH($lbl) . '</small><b>' . proNum((int)$top[$k]) . $suf . '</b> ' . proH($top['n'] ?: proHero((int)$top['h'])['name']) . '</span></div>';
+  }
+  $best = $best ? '<section class="pr-card"><h2 class="pr-h2">Лучшие в матче</h2><div class="pr-bests">' . $best . '</div></section>' : '';
+
+  // игроки
+  $cols = ['hd' => 'Урон героям', 'td' => 'Урон строениям', 'hh' => 'Лечение'];
+  $cols = array_filter($cols, fn($k) => $has($k), ARRAY_FILTER_USE_KEY);
+  $wards = $has('obs');
+  $ptab = function (int $s) use ($m, $sideName, $cols, $wards): string {
+    $o = '<h3 class="pr-h3 ' . ($s ? 'dire' : 'rad') . '">' . proH($sideName($s)) . ((int)$m['rw'] === ($s ? 0 : 1) ? ' <em class="pr-win">Победа</em>' : '') . '</h3><div class="pr-tablewrap"><table class="pr-table pr-players"><thead><tr><th>Герой</th><th>Игрок</th><th title="Уровень">Ур.</th><th title="Убийства / смерти / помощь">У/С/П</th><th>Капитал</th><th title="Добито / не отдано">Добито</th><th title="Золото и опыт в минуту">З/мин · О/мин</th>';
+    foreach ($cols as $lbl) $o .= '<th>' . $lbl . '</th>';
+    if ($wards) $o .= '<th title="Варды обзора / невидимости">Варды</th>';
+    $o .= '<th>Предметы</th></tr></thead><tbody>';
+    foreach ($m['players'] as $p) {
+      if ((int)$p['s'] !== $s) continue;
+      $it = ''; foreach ($p['it'] as $i) $it .= proItemImg((int)$i);
+      $extra = '';
+      if (!empty($p['nt'])) $extra .= '<span class="pr-nt" title="Нейтральный предмет">' . proItemImg((int)$p['nt']) . '</span>';
+      if (!empty($p['bp'])) { $extra .= '<span class="pr-bp" title="Рюкзак">'; foreach ($p['bp'] as $i) $extra .= proItemImg((int)$i); $extra .= '</span>'; }
+      if (!empty($p['sc'])) $extra .= '<span class="pr-tag" title="Aghanim\'s Scepter">Аганим</span>';
+      if (!empty($p['sh'])) $extra .= '<span class="pr-tag" title="Aghanim\'s Shard">Шард</span>';
+      $hh = proHero((int)$p['h']);
+      $o .= '<tr><td class="pr-hcell">' . proHeroImg((int)$p['h'], 'pr-mini') . '<span>' . proH($hh['name']) . '</span></td><td class="pr-pname">' . proH($p['n'] ?: '—') . '</td><td>' . (int)($p['lvl'] ?? 0) . '</td><td class="pr-kda">' . (int)$p['k'] . '/' . (int)$p['d'] . '/' . (int)$p['a'] . '</td><td>' . proNum((int)$p['nw']) . '</td><td>' . (int)$p['lh'] . '/' . (int)$p['dn'] . '</td><td>' . (int)$p['gpm'] . ' · ' . (int)$p['xpm'] . '</td>';
+      foreach (array_keys($cols) as $k) $o .= '<td>' . (isset($p[$k]) ? proNum((int)$p[$k]) : '—') . '</td>';
+      if ($wards) $o .= '<td>' . (isset($p['obs']) ? (int)$p['obs'] . '/' . (int)($p['sen'] ?? 0) : '—') . '</td>';
+      $o .= '<td><div class="pr-items">' . $it . $extra . '</div></td></tr>';
+    }
+    return $o . '</tbody></table></div>';
+  };
+  // ключевые покупки по времени
+  $buys = '';
+  if ($has('kp')) {
+    foreach ([0, 1] as $s) {
+      $rows = '';
+      foreach ($m['players'] as $p) {
+        if ((int)$p['s'] !== $s || empty($p['kp'])) continue;
+        $chips = ''; foreach ($p['kp'] as [$t, $iid]) { $img = proItemImg((int)$iid); if ($img !== '') $chips .= '<span class="pr-kp">' . $img . '<time>' . proClock((int)$t) . '</time></span>'; }
+        if ($chips !== '') $rows .= '<div class="pr-kprow">' . proHeroImg((int)$p['h'], 'pr-mini') . '<div class="pr-kps">' . $chips . '</div></div>';
+      }
+      if ($rows !== '') $buys .= '<div class="pr-kpteam"><h3 class="pr-h3 ' . ($s ? 'dire' : 'rad') . '">' . proH($sideName($s)) . '</h3>' . $rows . '</div>';
+    }
+    if ($buys !== '') $buys = '<section class="pr-card pr-wide"><h2 class="pr-h2">Ключевые покупки</h2><div class="pr-kpgrid">' . $buys . '</div><p class="pr-note">Первая покупка собираемых предметов от 1400 золота; время — минуты от горна.</p></section>';
+  }
+
+  $logo = fn(array $t) => $t['logo'] ? '<img class="pr-logo" src="' . proH($t['logo']) . '" alt="" width="56" height="56" loading="lazy" referrerpolicy="no-referrer">' : '';
   $body = '<h1 class="page-title pr-title-sm">' . proH($r) . ' — ' . proH($d) . '</h1>'
     . '<p class="pr-lead"><a href="/pro/league/' . (int)$m['league']['id'] . '/">' . proH($lgName) . '</a> · ' . proDate((int)$m['start']) . ' · длительность ' . proClock((int)$m['dur']) . '</p>'
-    . '<div class="pr-board"><div class="pr-bt rad' . ($m['rw'] ? ' win' : '') . '">' . $logo($m['radiant']) . '<b>' . proH($r) . '</b>' . ($m['rw'] ? '<em>Победа</em>' : '') . '</div>'
-    . '<div class="pr-bscore">' . (int)$m['rs'] . ' : ' . (int)$m['ds'] . '<small>убийства</small></div>'
-    . '<div class="pr-bt dire' . (!$m['rw'] ? ' win' : '') . '">' . $logo($m['dire']) . '<b>' . proH($d) . '</b>' . (!$m['rw'] ? '<em>Победа</em>' : '') . '</div></div>'
-    . $draft . $chart . $moments
-    . '<h2 class="pr-h2">Игроки</h2>' . $ptab(0) . $ptab(1)
-    . $series
-    . '<p class="pr-src">Источник данных: <a href="https://www.opendota.com/matches/' . (int)$m['id'] . '" rel="noopener" target="_blank">OpenDota, матч ' . (int)$m['id'] . '</a>. Повторы матчей на карте — в <a href="/live/">эфире</a>.</p>';
+    . '<div class="pr-board"><div class="pr-bhead"><div class="pr-bt rad' . ($m['rw'] ? ' win' : '') . '">' . $logo($m['radiant']) . '<span><b>' . proH($r) . '</b><small>Свет</small></span>' . ($m['rw'] ? '<em>Победа</em>' : '') . '</div>'
+    . '<div class="pr-bscore">' . (int)$m['rs'] . ' : ' . (int)$m['ds'] . '<small>' . proClock((int)$m['dur']) . '</small></div>'
+    . '<div class="pr-bt dire' . (!$m['rw'] ? ' win' : '') . '">' . $logo($m['dire']) . '<span><b>' . proH($d) . '</b><small>Тьма</small></span>' . (!$m['rw'] ? '<em>Победа</em>' : '') . '</div></div>'
+    . '<div class="pr-cmp">' . $cmp . '</div>'
+    . ($facts ? '<p class="pr-facts">' . implode(' · ', $facts) . '</p>' : '') . $btns . '</div>'
+    . '<div class="pr-mgrid">' . $draft . $chart . $moments . '<div class="pr-side">' . $best . $series . '</div></div>'
+    . '<section class="pr-card pr-wide"><h2 class="pr-h2">Игроки</h2>' . $ptab(0) . $ptab(1) . '</section>'
+    . $buys
+    . '<p class="pr-src">Источник данных: <a href="https://www.opendota.com/matches/' . (int)$m['id'] . '" rel="noopener" target="_blank">OpenDota, матч ' . (int)$m['id'] . '</a>' . ($replay ? '; повтор на карте — из нашего разбора реплея' : '') . '.</p>';
   $url = 'https://dotamate.ru/pro/match/' . (int)$m['id'] . '/';
   $heroes = implode(', ', array_map(fn($h) => proHero($h)['name'], array_merge(array_slice($picks[0], 0, 2), array_slice($picks[1], 0, 2))));
   proPage(200, $r . ' vs ' . $d . ' — ' . $lgName . ', ' . proDate((int)$m['start'], false) . ' | Dota Mate',

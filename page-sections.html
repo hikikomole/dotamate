@@ -158,7 +158,7 @@
 <section class="section" id="heroes">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><h2 class="page-title">Все герои Dota 2</h2><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
+      <div><h1 class="page-title">Все герои Dota 2</h1><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
     </div>
     <div class="toolbar">
       <label class="search">⌕ <input id="search" placeholder="Поиск героя..." autocomplete="off"></label>
@@ -189,35 +189,34 @@
 <section class="section quick-stats-section" id="stats">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><h2 class="page-title">Статистика и аналитика</h2><p>Своя база рейтинговых матчей всех рангов: тир-лист, ранги, позиции, связки, предметы, длительность, линии и динамика. В тир-листе — также срезы Divine 5 и Immortal и про-сцена. Обновляется каждый день.</p></div>
+      <div><h1 class="page-title">Статистика и аналитика</h1><p>Своя база рейтинговых матчей всех рангов: тир-лист, ранги, позиции, связки, предметы, длительность, линии и динамика. В тир-листе — также срезы Divine 5 и Immortal и про-сцена. Обновляется каждый день.</p></div>
     </div>
     <div class="st-summary" id="stSummary"><div class="st-loading">Загружаем статистику…</div></div>
-    <nav class="st-tabs" id="stTabs" aria-label="Разделы статистики">
-      <button type="button" data-tab="tier" class="on">Тир-лист</button>
-      <button type="button" data-tab="ranks">По рангам</button>
-      <button type="button" data-tab="positions">Позиции</button>
-      <button type="button" data-tab="pairs">Связки и контрпики</button>
-      <button type="button" data-tab="items">Предметы</button>
-      <button type="button" data-tab="matches">Матчи</button>
-      <button type="button" data-tab="lanes">Линии</button>
-      <button type="button" data-tab="trend">Динамика</button>
-      <button type="button" data-tab="pro">Про-сцена</button>
+    <nav class="st-tabs" id="stTabs" role="tablist" aria-label="Разделы статистики">
+      <button type="button" role="tab" aria-controls="stPane" data-tab="tier" class="on">Тир-лист</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="ranks">По рангам</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="positions">Позиции</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="pairs">Связки и контрпики</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="items">Предметы</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="matches">Матчи</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="lanes">Линии</button>
+      <button type="button" role="tab" aria-controls="stPane" data-tab="trend">Динамика</button>
+      <button type="button" role="tab" aria-controls="stPro" data-tab="pro">Про-сцена</button>
     </nav>
-    <div class="st-pane" id="stPane" aria-live="polite"></div>
-    <div class="st-pro" id="stPro" hidden>
+    <div class="st-pane" id="stPane" role="tabpanel" aria-label="Статистика" aria-live="polite"></div>
+    <div class="st-pro" id="stPro" role="tabpanel" aria-label="Про-сцена" hidden>
     <div class="quick-stats-grid">
       <article class="stat-card"><span class="stat-icon">⚔</span><strong id="quickHeroCount">—</strong><span>героев в базе</span></article>
       <article class="stat-card"><span class="stat-icon">◈</span><strong id="quickItemCount">—</strong><span>предметов в базе</span></article>
       <article class="stat-card"><span class="stat-icon">📈</span><strong id="bestWinrate">—</strong><span>лучший pro winrate</span></article>
-      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>pro picks в базе</span></article>
+      <article class="stat-card"><span class="stat-icon">●</span><strong id="proPicks">—</strong><span>пиков в про-матчах</span></article>
     </div>
     <div class="stats-extra" id="statsExtra"></div>
-    <div id="itemAnalytics" class="item-analytics-wrap"></div>
     <div class="stats-panel">
       <div class="stats-toolbar">
         <label class="search">⌕ <input id="statsSearch" placeholder="Поиск в статистике..."></label>
         <select id="statsAttr"><option value="all">Все атрибуты</option><option value="str">Сила</option><option value="agi">Ловкость</option><option value="int">Интеллект</option><option value="universal">Универсальные</option></select><select id="statsAttack"><option value="all">Любая атака</option><option value="Melee">Ближний бой</option><option value="Ranged">Дальний бой</option></select><select id="statsRole"><option value="all">Все роли</option><option value="POSITION_1">Керри</option><option value="POSITION_2">Мид</option><option value="POSITION_3">Оффлейн</option><option value="POSITION_4">Поддержка</option><option value="POSITION_5">Полная поддержка</option></select>
-        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
+        <button class="btn ghost" id="compareBtn">⚖ Сравнить</button><select id="statsSort"><option value="winrate">Winrate</option><option value="pro_pick">Pro picks</option><option value="pro_ban">Pro ban</option><option value="move">Скорость</option><option value="attack">Атака</option><option value="name">Имя</option></select>
       </div>
       <div class="table-wrap">
         <table class="stats-table"><thead><tr><th>Герой</th><th>Атрибут</th><th>Роли</th><th>Pro pick</th><th>Pro win</th><th>Winrate</th><th>Pro ban</th><th>Move</th><th>Attack</th></tr></thead><tbody id="statsBody"></tbody></table>
@@ -233,7 +232,7 @@
   <div class="container">
     <div class="items-v3-head">
       <div>
-        <h2 class="page-title">Арсенал Dota 2</h2>
+        <h1 class="page-title">Арсенал Dota 2</h1>
         <p>Полная витрина предметов. Открывай любой предмет, чтобы увидеть официальные данные Valve и реальные связи с героями.</p>
       </div>
       <div class="items-v3-summary"><strong id="itemVisibleCount">—</strong><span>показывается</span><small><b id="itemCountHero2">—</b> в базе</small></div>
@@ -311,7 +310,7 @@
 <section class="section dg-section" id="game">
   <div class="container">
     <div class="section-head companion-section-head">
-      <div><h2 class="page-title">Hook &amp; Hit</h2><p>Уклоняйся от крюков, добивай крипов и отбивай красные хуки атакой — прямо в браузере, без установки.</p></div>
+      <div><h1 class="page-title">Hook &amp; Hit</h1><p>Уклоняйся от крюков, добивай крипов и отбивай красные хуки атакой — прямо в браузере, без установки.</p></div>
     </div>
     <div class="dg-wrap">
       <p class="dg-note">Клик или тап по полю — движение с ускорением. Клик по крипу или красному хуку — атака.</p>
@@ -530,10 +529,7 @@
 <section class="section lv lw" id="liveWords">
   <div class="container">
     <h1 class="lv-title">Частые слова в чате</h1>
-    <p class="lv-lead">Общая статистика чата эфира: слова из сообщений всех игроков во всех матчах складываются в один счётчик и копятся со временем — со сменой матча ничего не обнуляется. Чем чаще слово, тем крупнее круг.</p>
-    <p class="lv-stamp lw-stamp" id="lwMeta" aria-live="polite">Загружаем…</p>
     <div class="lw-cloud" id="lwCloud" role="list" aria-label="Частые слова в чате эфира"></div>
-    <p class="lv-muted lw-note">Регистр и знаки препинания не учитываются: «Привет!» и «привет» — одно слово, ё и е — тоже. Слово считается один раз на сообщение; ссылки и служебные слова (и, the, que…) убраны, мат не фильтруется. Источник — чат игроков из реплеев матчей эфира /live/.</p>
   </div>
 </section>
 <section class="section lv lm" id="liveMatch">
