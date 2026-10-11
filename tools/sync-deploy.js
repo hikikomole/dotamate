@@ -49,7 +49,10 @@ for(const f of FILES){
 // иначе устаревший файл публикуется вечно. Папки (builds, meta-match …) не трогаем.
 let removed = 0;
 const dd = path.join(OUT, 'data');
+// Только в deploy/data, без пары в data/, живут запасные справочники PHP-API (deploy/api/index.php constantsMap:
+// /api/dota/hero/<имя>/abilities, когда OpenDota недоступна) — их не трогаем (v90 их убрал по ошибке, v91 вернул).
+const DEPLOY_ONLY = new Set(['abilities.json', 'hero_abilities.json']);
 if (fs.existsSync(dd)) for (const e of fs.readdirSync(dd, { withFileTypes: true })) {
-  if (e.isFile() && e.name.endsWith('.json') && !fs.existsSync(path.join(ROOT, 'data', e.name))) { fs.unlinkSync(path.join(dd, e.name)); removed++; console.log('убран из deploy/data: ' + e.name); }
+  if (e.isFile() && e.name.endsWith('.json') && !DEPLOY_ONLY.has(e.name) && !fs.existsSync(path.join(ROOT, 'data', e.name))) { fs.unlinkSync(path.join(dd, e.name)); removed++; console.log('убран из deploy/data: ' + e.name); }
 }
 console.log(`Итого скопировано: ${total}${removed ? ', убрано устаревших: ' + removed : ''}`);

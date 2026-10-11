@@ -277,3 +277,5 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
   `checkDataJson` проверяет и `data/builds/*.json`, `data/meta-match/*.json`; `daily.lock` снимается, если его процесс
   не жив (или старше 12 ч); комментарии `collect-steam-matches.js` о `pendingTo` приведены к коду.
   Старая копия проекта `Desktop\Dotamate` (26.09) — переименовать или удалить владельцу: в ней `deploy-hostiman.js` без защиты.
+- v90 → v91: `sync-deploy.js` в v90 убрал `deploy/data/abilities.json` и `hero_abilities.json` — запасные справочники
+  PHP-API (`constantsMap`), у которых нет пары в `data/`. Возвращены, в `sync-deploy.js` — список `DEPLOY_ONLY`.
