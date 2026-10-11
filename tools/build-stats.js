@@ -162,7 +162,9 @@ const M = read('our-matrix.json');
 const idsM = M.heroIds.map(Number);
 const N = idsM.length;
 const pIdx = (i, j) => (i * (2 * N - i - 1)) / 2 + (j - i - 1);
-const baseWr = new Map(heroRows.map(h => [h.id, h.wr / 100]));
+// Ожидаемая доля побед — по винрейтам из our-meta.json: та же выборка и тот же момент, что у матрицы пар
+// (build-our-stats пишет их вместе). Винрейты тир-листа считаются позже — сборщик Steam успевает дописать матчи.
+const baseWr = new Map(Object.entries(ourMeta.heroes || {}).map(([id, h]) => [Number(id), h.matches ? h.wins / h.matches : 0]));
 const synergy = [];
 for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
   const [n, w] = M.pairs.with[pIdx(i, j)];
@@ -359,6 +361,8 @@ const out = {
   },
   roles: rolesNote,
   method: { minProShow: MIN_PRO_SHOW, minProRank: MIN_PRO_RANK, minTier: MIN_TIER, minRank: MIN_RANK, minPair: MIN_PAIR, minPos: MIN_POS, minLane: MIN_LANE, minDur: MIN_DUR_BUCKET, durBuckets: DUR.map(([k, , , l]) => [k, l]) },
+  // контрпики берутся из hero-counters.json как есть; если его пересчёт сегодня упал, тут дата прошлого расчёта
+  countersAt: C.builtAt || null,
   heroes: heroRows, durSwing, synergy: synergy.slice(0, 40), antiSynergy: synergy.slice(-20).reverse(), counters: topCounters,
   positions, lanes, items, history, slices
 };

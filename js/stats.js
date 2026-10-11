@@ -200,6 +200,7 @@
     return `<h3 class="st-h">Лучшие связки союзников</h3>` + table(head, S.synergy.slice(0, 20).map(syn)) +
       `<h3 class="st-h">Худшие связки</h3>` + table(head, S.antiSynergy.slice(0, 10).map(syn)) +
       `<h3 class="st-h">Самые жёсткие контрпики</h3>` + table(['Герой', 'Роль', 'Кто контрит', 'Роль', 'Побед героя', 'Ожидалось', 'Разница, п.п.', 'Матчей'], S.counters.slice(0, 20).map(cnt)) +
+      (S.countersAt && new Date(S.builtAt) - new Date(S.countersAt) > 20 * 36e5 ? `<p class="st-stale" role="status">Контрпики — расчёт от ${new Date(S.countersAt).toLocaleDateString('ru-RU')}: сегодня они не пересчитались, связки и остальные цифры — свежие.</p>` : '') +
       note(`Ожидаемая доля побед считается по общим винрейтам обоих героев (сложение логитов — тот же метод, что у контрпиков на страницах героев), разница — насколько пара выигрывает чаще или реже ожидаемого. Учитываются пары, сыгранные ${num(S.method.minPair)}+ раз.`);
   }
 
