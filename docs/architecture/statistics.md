@@ -245,3 +245,6 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 - 1.3 (11.10.2026): /stats/ — при `builtAt` старше 36 ч над сводкой плашка «Данные от …, ежедневное обновление задерживается» (`js/stats.js`, `.st-stale` в `css/stats.css`).
   `daily-update.js` при блокировке выкладки (код 2) и фатальной ошибке шлёт сообщение в личный Telegram владельца
   (`~/dotamate-data/telegram.env`: TG_TOKEN + TG_ALERT_CHAT; без TG_ALERT_CHAT — ничего не делает; публичный канал TG_CHAT не используется).
+- 1.4 (11.10.2026): `tools/check-reference-data.js` — шаг daily-update перед матрицами: версия `data/patch-notes.json` против
+  списка патчей Valve и hero_id последнего закрытого дня Steam (50 тыс. строк) против `data/heroes.json`. Ничего не обновляет;
+  расхождение → «пропуск: справочники», текст в `logs/reference-check.txt` и сообщение владельцу в Telegram. Не стоп.

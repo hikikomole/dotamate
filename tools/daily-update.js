@@ -283,6 +283,14 @@ async function main() {
     const abil = await abilities();
     if (abil === false) problems.push('способности');
 
+    // Справочники (патч, герои) daily не обновляет сам — только сигнал владельцу. Не стоп: устаревший патч
+    // сужает срез Stratz, неизвестный герой выкидывает свои матчи, но остальные цифры верны.
+    if (!await node('Проверка справочников (патч, герои)', 'tools/check-reference-data.js', [], { timeout: 0.1 * HOUR })) {
+      let msg = ''; try { msg = fs.readFileSync(path.join(LOGS, 'reference-check.txt'), 'utf8').trim(); } catch { /* проверка не дошла до записи */ }
+      problems.push('справочники');
+      if (msg) await alertOwner('справочники устарели:\n' + msg);
+    }
+
     // Без пересчёта матриц выкатывать нечего — здесь ошибка останавливает всё.
     // С U5: основной срез DraftMate «Все ранги» — все рейтинговые матчи Steam (data/our-matrix.json, our-meta.json,
     // draft-calibration.json). Верхний срез «Divine 5 и Immortal» — по-прежнему лента OpenDota top.
