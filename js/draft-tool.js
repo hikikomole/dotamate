@@ -5,7 +5,7 @@
  *   /data/draft-calibration-top.json, draft-calibration.json — коэффициент перевода перевеса в вероятность по срезу
  *   /data/our-matrix-top.json — матрица пар по нашей базе Divine 5 и Immortal (срез по умолчанию)
  *   /data/our-matrix.json     — матрица пар по нашей базе Steam: все рейтинговые матчи всех рангов
- *   /data/draft-matrix.json   — матрица пар (Stratz heroStats.matchUp, Divine/Immortal)
+ *   /data/our-matrix-turbo.json, our-meta-turbo.json, draft-calibration-turbo.json — срез «Турбо» (своя база Steam, game_mode 23)
  *   /api/dota/hero-positions  — доли и винрейты героев по пяти позициям
  *   /data/lane-matrix.json    — исходы линий по парам (Stratz laneOutcome)
  *
@@ -43,7 +43,7 @@
   if (!root) return;
 
   var M = null, heroes = [], heroById = {}, posData = {}, mainRoles = null, matrixIdx = {}, metaThreshold = 0;
-  var matrices = {};     // 'top', 'our' и 'stratz' — срезы одной и той же структуры
+  var matrices = {};     // 'top', 'our' и 'turbo' — срезы одной и той же структуры (срез Stratz убран 11.10.2026)
   var metas = {};        // герои своих срезов (top, our): матчи, винрейт, доля пиков
   var archiveCheck = null; // проверка на матчах эфира (tools/check-draft-archive.js)
   var calibs = {};       // калибровка перевеса в вероятность победы — своя у каждого своего среза
@@ -859,7 +859,7 @@
     put('dtCalBr', c ? ru(c.testBrier, 3) : '—');
     put('dtCalAcc', c ? ru(c.testAccuracy, 1) + '%' : '—');
     put('dtCalN', c ? c.matchesTest.toLocaleString('ru-RU') : '—');
-    put('dtCalSlice', state.slice === 'top' ? 'Divine 5 и Immortal' : state.slice === 'our' ? 'Все ранги' : 'Stratz — калибровки нет');
+    put('dtCalSlice', state.slice === 'top' ? 'Divine 5 и Immortal' : state.slice === 'our' ? 'Все ранги' : state.slice === 'turbo' ? 'Турбо' : '—');
     var a = archiveCheck && archiveCheck.all;
     put('dtArchiveCheck', state.slice === 'top' && a
       ? 'Отдельная проверка на матчах эфира DotaMate, которых нет в базе: ' + a.matches.toLocaleString('ru-RU') + ' матчей' +
@@ -877,9 +877,9 @@
     if (!note || !M) return;
     var when = M.fetchedAt ? new Date(M.fetchedAt).toLocaleDateString('ru-RU') : '';
     var n = (M.matchesUsed || 0).toLocaleString('ru-RU');
-    // Свои срезы (top, our) — без подписи по решению владельца 10.10.2026; у Stratz остаётся пояснение, почему нет вероятности.
-    note.hidden = state.slice === 'top' || state.slice === 'our';
-    note.textContent = note.hidden ? '' : 'Считаем по срезу Stratz: матчи ранга Divine/Immortal, снимок от ' + when + '. Вероятность не считается — калибровка есть только у своих срезов.';
+    // Свои срезы (top, our) — без подписи по решению владельца 10.10.2026. У турбо — пояснение, что это другой режим.
+    note.hidden = state.slice !== 'turbo';
+    note.textContent = note.hidden ? '' : 'Турбо: своя база матчей Steam режима «Турбо» (' + n + ' матчей, пересчёт ' + when + '). Темп и экономика там другие — для рейтинговых игр берите «Все ранги» или «Divine 5 и Immortal».' + (calibs.turbo ? '' : ' Вероятность пока не считается: калибровки турбо ещё нет.');
   }
 
   function syncSideSwitch() {
@@ -902,14 +902,16 @@
       getJson('/data/our-matrix.json').catch(function () { return null; }),
       getJson('/api/dota/hero-positions').catch(function () { return getJson('/data/hero-positions.json'); }),
       getJson('/data/heroes.json'),
-      getJson('/data/draft-matrix.json'),
+      getJson('/data/our-matrix-turbo.json').catch(function () { return null; }),
       getJson('/data/our-meta.json').catch(function () { return null; }),
       getJson('/data/draft-calibration.json').catch(function () { return null; }),
       getJson('/data/hero-main-roles.json').catch(function () { return null; }),
       getJson('/data/our-matrix-top.json').catch(function () { return null; }),
       getJson('/data/our-meta-top.json').catch(function () { return null; }),
       getJson('/data/draft-calibration-top.json').catch(function () { return null; }),
-      getJson('/data/draft-archive-check.json').catch(function () { return null; })
+      getJson('/data/draft-archive-check.json').catch(function () { return null; }),
+      getJson('/data/our-meta-turbo.json').catch(function () { return null; }),
+      getJson('/data/draft-calibration-turbo.json').catch(function () { return null; })
     ]).then(function (res) {
       archiveCheck = res[10] && res[10].all ? res[10] : null;
       mainRoles = (res[6] && res[6].heroes) || null;
@@ -919,8 +921,11 @@
       if (res[9] && res[9].alpha) calibs.top = res[9];
       matrices.top = res[7];
       matrices.our = res[0];
-      matrices.stratz = res[3];
-      if (!matrices[state.slice]) state.slice = matrices.our ? 'our' : 'stratz';
+      matrices.turbo = res[3];
+      metas.turbo = (res[11] && res[11].heroes) || null;
+      if (res[12] && res[12].alpha) calibs.turbo = res[12];
+      if (!matrices[state.slice]) state.slice = matrices.our ? 'our' : 'turbo';
+      if (!matrices[state.slice]) { $('dtState').textContent = 'Данные драфта не загрузились. Обновите страницу.'; loading = false; return; }
       M = matrices[state.slice];
       posData = (res[1] && res[1].heroes) || {};
       var raw = (res[2] && res[2].heroes) || [];

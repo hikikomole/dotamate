@@ -259,3 +259,8 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 - 2.3 и 2.5 не делались: решения владельца 09.10 — второй запуск 10:17 остаётся страховкой только после фатального сбоя (В2,
   исправлен комментарий в daily-update.js), период данных OpenDota на «Про-сцене» не подписывается.
 - 2.4: CLAUDE.md — расписание 04:17 и 10:17 МСК (сервер в МСК), выкладка только на сервере по команде владельца.
+- 3.1 (11.10.2026, решение владельца — «подключить к DraftMate»): срез «Турбо» в DraftMate вместо среза Stratz —
+  `our-matrix-turbo.json`, `our-meta-turbo.json`, своя калибровка `draft-calibration-turbo.json`
+  (`build-draft-calibration.js --source steam --tier turbo`, шаг daily после матрицы турбо; на сервере 11.10: 837 854 матча,
+  проверка 136 195, угадано 58,2 %, log loss 0,672 против 0,693). `data/draft-matrix.json` (снимок Stratz 23.09) сайтом больше
+  не читается: DraftMate — без него, счётчик пар на главной — из `our-matrix.json`.

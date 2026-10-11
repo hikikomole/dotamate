@@ -36,15 +36,17 @@ const ROOT = path.join(__dirname, '..');
 const TIER = process.argv.includes('--tier') ? process.argv[process.argv.indexOf('--tier') + 1] : 'base';
 const TIERS = { base: { dir: 'public-matches', out: 'draft-calibration.json', min: -Infinity, max: Infinity, minMatches: 5000 },
   top: { dir: 'public-matches-top', out: 'draft-calibration-top.json', min: 75, max: 85, minMatches: 5000 },
-  all: { dir: null, out: 'draft-calibration-all.json', min: -Infinity, max: Infinity, minMatches: 5000 } }; // all — только --source steam
+  all: { dir: null, out: 'draft-calibration-all.json', min: -Infinity, max: Infinity, minMatches: 5000 },  // all — только --source steam
+  // turbo — DraftMate «Турбо» (11.10.2026): тот же отбор, что у build-our-stats.js --turbo (game_mode 23, lobby 0, ранг неизвестен или ≤ 65)
+  turbo: { dir: null, out: 'draft-calibration-turbo.json', min: 0, max: 65, minMatches: 5000, modes: [23], lobbies: [0] } };
 if (!TIERS[TIER]) { console.error('Неизвестный срез: ' + TIER); process.exit(2); }
-if (TIER === 'all' && SRC !== 'steam') { console.error('Срез all — только для --source steam'); process.exit(2); }
+if ((TIER === 'all' || TIER === 'turbo') && SRC !== 'steam') { console.error('Срезы all и turbo — только для --source steam'); process.exit(2); }
 // --main: срез all пишется в основной draft-calibration.json (DraftMate «Все ранги», U5 09.10.2026)
 if (process.argv.includes('--main')) { if (TIER !== 'all') { console.error('--main — только для --tier all'); process.exit(2); } TIERS.all.out = 'draft-calibration.json'; }
 const OUT = path.join(MS.outDir(), TIERS[TIER].out); // --out-dir (по умолчанию data/)
 const K = 50;                 // то же сглаживание, что в инструменте
 const MIN_DURATION = 900;
-const MODES = [22], LOBBIES = [0, 7];
+const MODES = TIERS[TIER].modes || [22], LOBBIES = TIERS[TIER].lobbies || [0, 7];
 
 // Воспроизводимое перемешивание: один и тот же файл даёт одно и то же деление.
 function rng(seed) {
@@ -60,7 +62,7 @@ function rng(seed) {
  */
 async function loadMatches(pos) {
   let H = new Uint8Array(11 << 16), n = 0;
-  for await (const r of MS.publicStream({ src: SRC, tier: TIER })) {
+  for await (const r of MS.publicStream({ src: SRC, tier: TIER === 'turbo' ? 'base' : TIER, turbo: TIER === 'turbo' })) {
     if (!MODES.includes(r[5]) || !LOBBIES.includes(r[4]) || r[2] < MIN_DURATION) continue;
     if (r[3] != null && (r[3] < TIERS[TIER].min || r[3] > TIERS[TIER].max)) continue;
     const ix = r.slice(7, 17).map(h => pos.get(h));

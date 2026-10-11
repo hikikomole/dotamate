@@ -296,7 +296,9 @@ async function main() {
     // draft-calibration.json). Верхний срез «Divine 5 и Immortal» — по-прежнему лента OpenDota top.
     if (!await node('Матрицы по своей базе (Steam, все ранги)', 'tools/build-our-stats.js', ['--source', 'steam', '--tier', 'all', '--main'], { heap: STEAM_HEAP })) throw new Error('матрицы не пересчитались');
     if (!await node('Калибровка прогноза (Steam, все ранги)', 'tools/build-draft-calibration.js', ['--source', 'steam', '--tier', 'all', '--main'], { heap: STEAM_HEAP })) throw new Error('калибровка не прошла');
+    // Срез «Турбо» DraftMate (11.10.2026): матрица и своя калибровка. Сбой оставляет вчерашние файлы.
     if (!await node('Матрица турбо (Steam)', 'tools/build-our-stats.js', ['--source', 'steam', '--turbo'], { heap: STEAM_HEAP })) problems.push('матрица турбо');
+    else if (!await node('Калибровка прогноза (турбо)', 'tools/build-draft-calibration.js', ['--source', 'steam', '--tier', 'turbo'], { heap: STEAM_HEAP })) problems.push('калибровка турбо');
     // META после матрицы и калибровки: прогноз на страницах матчей читает их.
     if (!await node('Витрина META (Steam)', 'tools/build-meta.js', ['--source', 'steam'], { timeout: HOUR, heap: STEAM_HEAP })) problems.push('витрина META');
     if (!await node('Матрицы верхнего среза', 'tools/build-our-stats.js', ['--tier', 'top'])) problems.push('матрицы верхнего среза');

@@ -225,7 +225,7 @@ function homeMeta() {
   const articles = countOf('guide-urls.json') + countOf('role-guide-urls.json');
   const heroGuides = countOf('hero-guide-urls.json');
   let pairs = 0;
-  try { pairs = require(path.join(ROOT, 'data', 'draft-matrix.json')).pairCount || 0; } catch (e) {}
+  try { pairs = require(path.join(ROOT, 'data', 'our-matrix.json')).pairCount || 0; } catch (e) {}
   const counter = (href, num, text) =>
     `<a class="hm-counter" href="${href}"><b>${ru(num)}</b><span>${text}</span></a>`;
   const counters =
