@@ -7,6 +7,7 @@ const NAV = [
   { key: 'items',  href: '/items/',  label: 'Предметы' },
   { key: 'stats',  href: '/stats/',  label: 'Статистика' },
   { key: 'guides', href: '/guides/', label: 'Гайды' },
+  { key: 'academy', href: '/academy/', label: 'Учебный центр' },
   { key: 'meta',   href: '/meta/',   label: 'META' },
   // «Эфир» — выпадающее меню (09.10.2026): трансляция, про-матчи, частые слова. keys — какие страницы подсвечивают пункт.
   { key: 'live',   href: '/live/',   label: 'Эфир', keys: ['live', 'pro', 'words'], sub: [

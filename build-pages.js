@@ -17,6 +17,8 @@ const ORIGIN = 'https://dotamate.ru';
 const ROOT = __dirname;
 
 const { NAV, navHtml } = require('./tools/site-nav');
+const { COURSES } = require('./academy-content');
+const { renderLanding, renderCourse, renderIndex, validateCourses } = require('./tools/academy-render');
 
 const PAGES = [
   {
@@ -68,6 +70,35 @@ const PAGES = [
     styles: ['/css/theme-dark.css', '/css/home-hero.css', '/css/guides.css'],
     bodyClass: 'd2-dark',
     scripts: [{ src: '/js/guides.js', defer: true }],
+  },
+  // Учебный центр: маршруты обучения по гайдам (tools/academy-render.js, данные — academy-content.js).
+  // Прогресс хранится только в браузере (js/academy.js), на сервер не уходит.
+  {
+    key: 'academy', dir: 'academy', academy: 'landing',
+    title: 'Учебный центр Dota 2 — маршруты обучения для новичков и для роста рейтинга | Dota Mate',
+    desc: 'Учебный центр DOTAMATE: маршрут «С нуля» для новичков и «Поднять рейтинг» для рейтинговых игроков. Уроки по порядку, практика и мини-тесты, прогресс без регистрации.',
+    sections: ['academy'],
+    styles: ['/css/theme-dark.css', '/css/academy.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/academy.js', defer: true }],
+  },
+  {
+    key: 'academy', dir: 'academy/beginner', academy: 'beginner', crumb: 'С нуля', parent: { name: 'Учебный центр', dir: 'academy' },
+    title: 'Dota 2 с нуля — маршрут обучения для новичка: уроки и тесты | Dota Mate',
+    desc: 'Маршрут обучения Dota 2 с нуля: настройки и режимы, роли и простые герои, линия и добивание, фарм и карта, драки и разбор реплеев. 18 уроков и мини-тесты.',
+    sections: ['academy'],
+    styles: ['/css/theme-dark.css', '/css/academy.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/academy.js', defer: true }],
+  },
+  {
+    key: 'academy', dir: 'academy/rank-up', academy: 'rank-up', crumb: 'Поднять рейтинг', parent: { name: 'Учебный центр', dir: 'academy' },
+    title: 'Как поднять рейтинг в Dota 2 — маршрут тренировок: уроки и тесты | Dota Mate',
+    desc: 'Маршрут для роста MMR в Dota 2: разбор реплеев и статистики, пул героев и драфт, экономика линии, тайминги карты, выкуп и контроль тильта. 19 уроков и мини-тесты.',
+    sections: ['academy'],
+    styles: ['/css/theme-dark.css', '/css/academy.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/academy.js', defer: true }],
   },
   {
     key: 'meta', dir: 'meta',
@@ -160,6 +191,7 @@ const HOME_CARDS = `<section class="section" id="home-cards">
       <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
       <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Тир-лист и винрейт героев по рангам, позициям и связкам — своя база рейтинговых матчей.</p><b>Открыть →</b></a>
       <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/academy/"><span class="home-card-icon">🎓</span><strong>Учебный центр</strong><p>Два маршрута — «С нуля» и «Поднять рейтинг»: уроки по порядку, практика и мини-тесты.</p><b>Открыть →</b></a>
       <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в рейтинговых матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
     </div>
@@ -287,15 +319,16 @@ function breadcrumbs(page) {
   const nav = NAV.find(n => n.key === page.key);
   const label = page.crumb || (nav ? nav.label : ('Патч ' + (patchData() || {}).version));
   const url = `${ORIGIN}/${page.dir}/`;
+  // parent — промежуточный уровень (Главная › Учебный центр › С нуля).
+  const trail = [{ name: 'Главная', item: ORIGIN + '/' }]
+    .concat(page.parent ? [{ name: page.parent.name, item: `${ORIGIN}/${page.parent.dir}/` }] : [], [{ name: label, item: url }]);
   const ld = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Главная', item: ORIGIN + '/' },
-      { '@type': 'ListItem', position: 2, name: label, item: url },
-    ],
+    itemListElement: trail.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, item: t.item })),
   };
+  const mid = page.parent ? `<a href="/${page.parent.dir}/">${page.parent.name}</a> <span>›</span> ` : '';
   return `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n` +
-    `<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> <span aria-current="page">${label}</span></div>`;
+    `<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> ${mid}<span aria-current="page">${label}</span></div>`;
 }
 
 // Страница патча добавляется к списку разделов, пока есть снимок заметок.
@@ -436,6 +469,15 @@ function build() {
   const sections = readSections();
   const gc = guidesCatalog();
   const urls = [];
+  // Учебный центр: данные проверяются до записи любой страницы — битая ссылка на гайд останавливает сборку.
+  validateCourses(COURSES);
+  const academyIndex = renderIndex(COURSES);
+  const academyHtml = view => {
+    if (view === 'landing') return renderLanding(COURSES) + academyIndex;
+    const course = COURSES.find(c => c.id === view);
+    if (!course) throw new Error(`Учебный центр: нет курса «${view}»`);
+    return renderCourse(course, { patch: PATCH }) + academyIndex;
+  };
 
   for (const page of PAGES) {
     const missing = page.sections.filter(id => !sections[id]);
@@ -456,7 +498,8 @@ function build() {
       .replace('{{GUIDES_SUBCHIPS}}', () => gc.subChips)
       .replace('{{GUIDES_FEATURED}}', () => gc.featured)
       .replace('{{GUIDES_GRID}}', () => gc.grid)
-      .replace('{{GUIDES_HEROES_JSON}}', () => gc.heroesJson);
+      .replace('{{GUIDES_HEROES_JSON}}', () => gc.heroesJson)
+      .replace('{{ACADEMY_CONTENT}}', () => page.academy ? academyHtml(page.academy) : '');
     const scripts = (page.scripts || []).map(s => {
       const { src, ...attrs } = typeof s === 'string' ? { src: s } : s;
       const extra = Object.keys(attrs).filter(k => attrs[k]).map(k => ` ${k}`).join('');

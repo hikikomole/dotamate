@@ -20,6 +20,18 @@
   "name": "Гайды по Dota 2"
  },
  {
+  "loc": "https://dotamate.ru/academy/",
+  "name": "Учебный центр Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/beginner/",
+  "name": "Dota 2 с нуля"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/rank-up/",
+  "name": "Как поднять рейтинг в Dota 2"
+ },
+ {
   "loc": "https://dotamate.ru/meta/",
   "name": "META"
  },
