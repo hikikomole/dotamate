@@ -195,7 +195,11 @@ async function main() {
   console.log('Кандидатов за', WINDOW_DAYS, 'дн.:', list.length);
   const t0 = Date.now();
   let asked = 0, found = 0;
-  const saveTried = () => fs.writeFileSync(TRIED, JSON.stringify([...tried]));
+  // Через .tmp: обрыв посреди записи не портит список (иначе следующий запуск падает на JSON.parse).
+  const saveTried = () => { fs.writeFileSync(TRIED + '.tmp', JSON.stringify([...tried])); fs.renameSync(TRIED + '.tmp', TRIED); };
+  // daily-update снимает шаг по таймауту SIGTERM — finally не выполнится, а без сохранения
+  // уже дописанные матчи будут запрошены и записаны повторно.
+  for (const sig of ['SIGTERM', 'SIGINT']) process.on(sig, () => { try { saveTried(); } catch { /* выходим всё равно */ } process.exit(130); });
   // Два запроса параллельно: Stratz отвечает ~0,6 с, по одному выходит 1,5 запроса в секунду.
   let next = 0;
   const worker = async () => {

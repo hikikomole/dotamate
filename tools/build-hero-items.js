@@ -58,10 +58,9 @@ const phaseOf = t => PHASES.find(([, a, b]) => t >= a && t < b)[0];
 const newAcc = () => ({ n: 0, c: Object.fromEntries(PHASES.map(([k]) => [k, new Map()])) });
 const acc = new Map(heroIds.map(id => [id, Object.assign(newAcc(), { pos: {} })]));
 let matches = 0;
-for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
-  for (const line of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
-    if (!line) continue;
-    const m = JSON.parse(line);
+// Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
+for (const m of require('./match-source.js').metaMatches()) {
+  {
     if (m.t < since) continue;
     let used = false;
     for (const p of m.p) {

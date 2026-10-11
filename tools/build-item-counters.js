@@ -97,10 +97,9 @@ const phaseIdx = t => PHASES.findIndex(([, a, b]) => t >= a && t < b);
 const acc = new Map();      // heroId -> { n, any: Map(itemId -> матчей), pos: {p: {n, it: Map(itemId -> [5])}} }
 const dir = path.join(ROOT, 'data', 'meta-matches');
 let matches = 0;
-for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.jsonl')).sort()) {
-  for (const line of fs.readFileSync(path.join(dir, f), 'utf8').split('\n')) {
-    if (!line) continue;
-    const m = JSON.parse(line);
+// Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
+for (const m of require('./match-source.js').metaMatches()) {
+  {
     if (m.t < since) continue;
     let used = false;
     for (const p of m.p) {

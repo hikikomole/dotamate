@@ -30,10 +30,9 @@ const byId = new Map(Object.entries(ITEMS).map(([key, v]) => [Number(v.id), { ke
 
 const H = new Map(); // hero -> { n, w, items: Map(itemId -> [[t, win, dur]]) , games: [[win, dur, Set(items)]] }
 let matches = 0; const ranks = {};
-for (const f of fs.readdirSync(D('meta-matches')).filter(f => f.endsWith('.jsonl')).sort()) {
-  for (const line of fs.readFileSync(path.join(D('meta-matches'), f), 'utf8').split('\n')) {
-    if (!line) continue;
-    let m; try { m = JSON.parse(line); } catch { continue; }
+// Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
+for (const m of require('./match-source.js').metaMatches()) {
+  {
     if (!m.p || m.p.length !== 10 || !m.dur) continue;
     matches++; const g = Math.floor((m.rank || 0) / 10); ranks[g] = (ranks[g] || 0) + 1;
     for (const p of m.p) {

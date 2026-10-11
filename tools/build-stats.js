@@ -190,10 +190,9 @@ const L = new Map();        // hero -> [n, win, draw, loss]
 const IT = new Map();       // item -> {n, times[]}
 let sm = 0, players = 0, smFrom = Infinity, smTo = 0, smRankLo = Infinity, smRankHi = 0;
 const laneOf = (r, ln) => ln === 'm' ? 1 : ln === 's' ? (r ? 2 : 0) : ln === 'o' ? (r ? 0 : 2) : -1;
-for (const f of fs.readdirSync(D('meta-matches')).filter(f => f.endsWith('.jsonl')).sort()) {
-  for (const line of fs.readFileSync(path.join(D('meta-matches'), f), 'utf8').split('\n')) {
-    if (!line) continue;
-    const m = JSON.parse(line);
+// Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
+for (const m of require('./match-source.js').metaMatches()) {
+  {
     if (m.t < patchTs) continue;
     sm++;
     if (m.t < smFrom) smFrom = m.t; if (m.t > smTo) smTo = m.t;

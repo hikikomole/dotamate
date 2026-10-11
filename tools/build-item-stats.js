@@ -32,10 +32,9 @@ const since = Number(read('patch-notes.json').timestamp) || 0;
 
 const acc = new Map();
 let matches = 0, players = 0;
-for (const f of fs.readdirSync(DIR).filter(f => f.endsWith('.jsonl')).sort()) {
-  for (const line of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
-    if (!line) continue;
-    let m; try { m = JSON.parse(line); } catch { continue; }
+// Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
+for (const m of require('./match-source.js').metaMatches()) {
+  {
     if (!m.p || m.p.length !== 10 || (m.t || 0) < since) continue;
     let used = false;
     for (const p of m.p) {
