@@ -18,6 +18,7 @@ const ROOT = __dirname;
 
 const { NAV, navHtml } = require('./tools/site-nav');
 const { COURSES } = require('./academy-content');
+const acLessons = id => COURSES.find(c => c.id === id).modules.reduce((s, m) => s + m.lessons.length, 0);
 const { renderLanding, renderCourse, renderIndex, validateCourses } = require('./tools/academy-render');
 
 const PAGES = [
@@ -72,7 +73,7 @@ const PAGES = [
     scripts: [{ src: '/js/guides.js', defer: true }],
   },
   // Учебный центр: маршруты обучения по гайдам (tools/academy-render.js, данные — academy-content.js).
-  // Прогресс хранится только в браузере (js/academy.js), на сервер не уходит.
+  // Прогресс хранится только в браузере (js/academy-store.js, интерфейс — js/academy.js), на сервер не уходит.
   {
     key: 'academy', dir: 'academy', academy: 'landing',
     title: 'Учебный центр Dota 2 — маршруты обучения для новичков и для роста рейтинга | Dota Mate',
@@ -80,25 +81,25 @@ const PAGES = [
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/academy.js', defer: true }],
+    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
   },
   {
     key: 'academy', dir: 'academy/beginner', academy: 'beginner', crumb: 'С нуля', parent: { name: 'Учебный центр', dir: 'academy' },
     title: 'Dota 2 с нуля — маршрут обучения для новичка: уроки и тесты | Dota Mate',
-    desc: 'Маршрут обучения Dota 2 с нуля: настройки и режимы, роли и простые герои, линия и добивание, фарм и карта, драки и разбор реплеев. 18 уроков и мини-тесты.',
+    desc: `Маршрут обучения Dota 2 с нуля: настройки и режимы, роли и простые герои, линия и добивание, фарм и карта, драки и разбор реплеев. ${acLessons('beginner')} уроков, игровые ситуации, мини-тесты и задания на матч.`,
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/academy.js', defer: true }],
+    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
   },
   {
     key: 'academy', dir: 'academy/rank-up', academy: 'rank-up', crumb: 'Поднять рейтинг', parent: { name: 'Учебный центр', dir: 'academy' },
     title: 'Как поднять рейтинг в Dota 2 — маршрут тренировок: уроки и тесты | Dota Mate',
-    desc: 'Маршрут для роста MMR в Dota 2: разбор реплеев и статистики, пул героев и драфт, экономика линии, тайминги карты, выкуп и контроль тильта. 19 уроков и мини-тесты.',
+    desc: `Маршрут для роста MMR в Dota 2: разбор реплеев и статистики, пул героев и драфт, экономика линии, тайминги карты, выкуп и контроль тильта. ${acLessons('rank-up')} уроков, игровые ситуации, мини-тесты и задания на матч.`,
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/academy.js', defer: true }],
+    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
   },
   {
     key: 'meta', dir: 'meta',

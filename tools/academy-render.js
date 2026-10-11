@@ -142,57 +142,198 @@ function duration(min) {
   return `≈&nbsp;${h}&nbsp;ч${m ? `&nbsp;${m}&nbsp;мин` : ''} чтения`;
 }
 
-// Справочник ID для js/academy.js: по нему браузер проверяет сохранённый
-// прогресс (неизвестные ID отбрасываются) и находит следующий урок. Кладётся на
-// все страницы центра, чтобы сохранение с одной страницы не стирало прогресс
+// Шаги этапа — в этом порядке их проходит посетитель и считает js/academy-store.js.
+const STEPS = [
+  { key: 'read', label: 'Прочитай' },
+  { key: 'scenario', label: 'Разбери ситуацию' },
+  { key: 'quiz', label: 'Проверь себя' },
+  { key: 'practice', label: 'Сыграй и запиши' },
+];
+const LETTERS = ['A', 'B', 'C'];
+
+// Шаги маршрута: уроки + ситуации + по тесту на этап + задания (одно на урок).
+function courseSteps(course) {
+  return course.modules.reduce((s, m) => s + m.lessons.length * 2 + m.scenarios.length + 1, 0);
+}
+function courseScenarios(course) {
+  return course.modules.reduce((s, m) => s + m.scenarios.length, 0);
+}
+
+// Справочник ID для js/academy-store.js: по нему браузер проверяет сохранённый
+// прогресс (неизвестные ID отбрасываются) и считает шаги. Кладётся на все
+// страницы центра, чтобы сохранение с одной страницы не стирало прогресс
 // другого маршрута.
 function renderIndex(courses) {
-  const data = { version: 1, courses: {} };
+  const data = { version: 2, courses: {} };
   for (const c of validateCourses(courses)) {
     data.courses[c.id] = {
       title: c.title,
       href: courseHref(c),
-      modules: c.modules.map(m => m.id),
-      lessons: courseLessons(c).map(l => ({ id: l.id, title: l.title })),
+      modules: c.modules.map(m => ({
+        id: m.id,
+        title: m.title,
+        lessons: m.lessons.map(l => ({ id: l.id, title: l.title })),
+        scenarios: m.scenarios.map(s => s.id),
+        quiz: true,
+      })),
     };
   }
   return `<script type="application/json" id="academyIndex">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
 }
 
-function progressBlock(course, total) {
-  return `<div class="ac-progress" data-academy-progress>` +
-    `<div class="ac-bar" role="progressbar" aria-label="Пройдено уроков маршрута «${esc(course.title)}»" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="0"><span class="ac-bar-fill"></span></div>` +
-    `<p class="ac-progress-text" data-academy-progress-text>Отмечено 0 из ${total} ${plural(total, 'урока', 'уроков', 'уроков')}</p>` +
-    `</div>`;
+// Кольцо прогресса: r=27 → длина окружности 169.65; заполнение задаёт JS.
+function ring(size) {
+  return `<svg class="ac-ring" data-academy-ring width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true">` +
+    `<circle cx="32" cy="32" r="27" class="ac-ring-bg"/>` +
+    `<circle cx="32" cy="32" r="27" class="ac-ring-fill" stroke-dasharray="169.65" stroke-dashoffset="169.65" transform="rotate(-90 32 32)"/></svg>`;
+}
+
+function renderStageNav(course) {
+  const items = course.modules.map((m, i) =>
+    `<li><a href="#module-${esc(m.id)}" data-academy-nav="${esc(m.id)}"><span class="ac-dot">${i + 1}</span>` +
+    `<span><strong>${esc(m.title)}</strong><small data-academy-nav-state>${m.lessons.length}&nbsp;${plural(m.lessons.length, 'урок', 'урока', 'уроков')}</small></span></a></li>`).join('');
+  const chips = course.modules.map((m, i) =>
+    `<a href="#module-${esc(m.id)}" data-academy-nav="${esc(m.id)}"><span class="ac-dot">${i + 1}</span>${esc(m.title)}</a>`).join('');
+  return {
+    side: `<nav class="ac-side" aria-label="Этапы маршрута"><p class="ac-h">Этапы маршрута</p><ol>${items}</ol>` +
+      `<p class="ac-side-foot"><span aria-hidden="true">📓</span> <span data-academy-diary-count>Дневник пока пуст</span></p></nav>`,
+    chips: `<nav class="ac-chiprow" aria-label="Этапы маршрута (лента)">${chips}</nav>`,
+  };
+}
+
+function renderLessonRow(l) {
+  const g = guides().get(l.guideSlug);
+  const a = lessonAnchor(l);
+  return `<li class="ac-lesson" id="${esc(a)}" data-academy-lesson="${esc(l.id)}">` +
+    `<input type="checkbox" class="ac-check" data-academy-done aria-label="Урок пройден: ${esc(l.title)}">` +
+    `<div class="ac-lesson-main"><strong id="${esc(a)}-title">${esc(l.title)}</strong> <span class="ac-tag" data-academy-badge></span>` +
+    `<span class="ac-lesson-sum">${esc(l.summary)}</span></div>` +
+    `<span class="ac-time">${lessonMinutes(l)}&nbsp;мин</span>` +
+    `<a class="ac-open" href="${guideHref(l.guideSlug)}" data-academy-open>Открыть<span class="ac-sr">: ${esc(g.title)}</span></a>` +
+    `</li>`;
+}
+
+function renderScenario(s, i, total) {
+  const opts = s.options.map((o, n) =>
+    `<button type="button" class="ac-opt" data-academy-choice="${n}" aria-pressed="false"><i aria-hidden="true">${LETTERS[n]}</i>` +
+    `<span class="ac-opt-text"><span class="ac-sr">${LETTERS[n]}. </span>${esc(o.text)}</span>` +
+    `<span class="ac-opt-fb" data-academy-opt-fb hidden></span></button>`).join('');
+  const reveal = s.options.map((o, n) =>
+    `<li data-academy-feedback="${n}"><b>${LETTERS[n]}${n === s.bestIndex ? ' — лучший вариант' : ''}.</b> <span>${esc(o.feedback)}</span></li>`).join('');
+  const src = s.sources.map(g => `<a href="${guideHref(g)}">«${esc(guides().get(g).title)}»</a>`).join(', ');
+  return `<article class="ac-sit" data-academy-scenario="${esc(s.id)}" data-best="${s.bestIndex}" aria-labelledby="${esc(s.id)}-q">` +
+    `<p class="ac-sit-head"><b>Ситуация ${i + 1} из ${total}</b><span>${esc(s.context)}</span></p>` +
+    `<p class="ac-sit-q" id="${esc(s.id)}-q">${esc(s.prompt)}</p>` +
+    `<div class="ac-opts" role="group" aria-label="Варианты действий">${opts}</div>` +
+    `<p class="ac-sit-live" data-academy-sit-live aria-live="polite"></p>` +
+    `<details class="ac-sit-reveal"><summary>Показать разбор</summary><ol>${reveal}</ol></details>` +
+    `<p class="ac-src">Источник: ${src}${s.checked ? `, ${esc(s.checked)}` : ''}.</p>` +
+    `<div class="ac-sit-nav"><button type="button" class="ac-link-btn" data-academy-sit-go="prev">← Предыдущая</button>` +
+    `<button type="button" class="ac-link-btn" data-academy-sit-go="next">Следующая →</button>` +
+    `<a class="ac-cta ac-cta-sm" href="#" data-academy-to-quiz>К тесту →</a></div>` +
+    `</article>`;
+}
+
+function renderPractice(m) {
+  const tasks = m.lessons.map(l =>
+    `<li class="ac-task"><label><input type="checkbox" class="ac-check" data-academy-task="${esc(l.id)}"><span>${esc(l.practice)}</span></label></li>`).join('');
+  return `<div class="ac-two">` +
+    `<div class="ac-box"><p class="ac-h">Задания на следующий матч</p><ul class="ac-tasks">${tasks}</ul></div>` +
+    `<form class="ac-box ac-diary" data-academy-diary="${esc(m.id)}">` +
+    `<label class="ac-h" for="diary-${esc(m.id)}">Дневник этапа</label>` +
+    `<p class="ac-nojs">Дневник и отметки работают при включённом JavaScript.</p>` +
+    `<textarea id="diary-${esc(m.id)}" name="text" maxlength="500" rows="3" placeholder="Что получилось в матче, а что нет?" aria-describedby="diary-${esc(m.id)}-c"></textarea>` +
+    `<div class="ac-row"><span id="diary-${esc(m.id)}-c" data-academy-diary-count-chars>0 / 500 · только в этом браузере</span>` +
+    `<button type="submit" class="ac-cta ac-cta-sm">Сохранить запись</button></div>` +
+    `<ol class="ac-entries" data-academy-diary-list></ol>` +
+    `</form></div>`;
+}
+
+function renderStage(m, i) {
+  const panels = {
+    read: `<ol class="ac-lessons">${m.lessons.map(renderLessonRow).join('')}</ol>`,
+    scenario: m.scenarios.map((s, n) => renderScenario(s, n, m.scenarios.length)).join(''),
+    quiz: renderQuiz(m, i),
+    practice: renderPractice(m),
+  };
+  const tabs = STEPS.map((st, n) =>
+    `<button type="button" class="ac-step" role="tab" id="${esc(m.id)}-${st.key}-tab" data-academy-step="${st.key}" aria-controls="${esc(m.id)}-${st.key}" aria-selected="false">` +
+    `<i aria-hidden="true">${n + 1}</i><span>${st.label}<small data-academy-step-count></small></span></button>`).join('');
+  const sections = STEPS.map((st, n) =>
+    `<section class="ac-panel" role="tabpanel" id="${esc(m.id)}-${st.key}" data-academy-panel="${st.key}" aria-labelledby="${esc(m.id)}-${st.key}-tab">` +
+    `<h3 class="ac-panel-title">Шаг ${n + 1} · ${st.label}</h3>${panels[st.key]}</section>`).join('');
+  return `<details class="ac-stage" id="module-${esc(m.id)}" data-academy-module="${esc(m.id)}" open>` +
+    `<summary><span class="ac-num">Этап ${i + 1}</span><span class="ac-stage-main"><span class="ac-stage-title">${esc(m.title)}</span>` +
+    `<span class="ac-stats"><span class="ac-stat" data-academy-stat="read">Чтение 0/${m.lessons.length}</span>` +
+    `<span class="ac-stat" data-academy-stat="scenario">Ситуации 0/${m.scenarios.length}</span>` +
+    `<span class="ac-stat" data-academy-stat="quiz">Тест —</span>` +
+    `<span class="ac-stat" data-academy-stat="practice">Практика 0/${m.lessons.length}</span></span></span>` +
+    `<span class="ac-stage-badge" data-academy-stage-badge></span><span class="ac-chev" aria-hidden="true">⌄</span></summary>` +
+    `<div class="ac-stage-body"><p class="ac-intro">${esc(m.intro)}</p>` +
+    `<div class="ac-steps" role="tablist" aria-label="Шаги этапа ${i + 1}">${tabs}</div>${sections}</div>` +
+    `</details>`;
+}
+
+function renderCourse(course, opts = {}) {
+  validateCourse(course);
+  const lessons = courseLessons(course);
+  const scen = courseScenarios(course);
+  const steps = courseSteps(course);
+  const nav = renderStageNav(course);
+  const patch = opts.patch && text(opts.patch.version)
+    ? ` Изменения последнего патча — на странице <a href="/patch/${encodeURIComponent(opts.patch.version)}/">«Патч ${esc(opts.patch.version)}»</a>.`
+    : '';
+  return `<div class="ac-course" data-academy-course="${esc(course.id)}">` +
+    `<section class="ac-hero"><div class="ac-hero-main">` +
+    `<p class="ac-kicker"><a href="/academy/">Учебный центр</a> · маршрут</p>` +
+    `<h1 class="page-title">${esc(course.title)}</h1>` +
+    `<p class="ac-lead">${esc(course.description)}</p><p class="ac-for">${esc(course.audience)}</p>` +
+    `<ul class="ac-facts"><li>${course.modules.length}&nbsp;${plural(course.modules.length, 'этап', 'этапа', 'этапов')}</li>` +
+    `<li>${lessons.length}&nbsp;${plural(lessons.length, 'урок', 'урока', 'уроков')}</li>` +
+    `<li>${scen}&nbsp;${plural(scen, 'ситуация', 'ситуации', 'ситуаций')}</li><li>${duration(courseMinutes(course))}</li></ul>` +
+    `</div><div class="ac-next">` +
+    `<div class="ac-ring-row">${ring(64)}<div><b data-academy-percent>0%</b><span data-academy-summary>0 из ${steps} ${plural(steps, 'шага', 'шагов', 'шагов')}</span></div></div>` +
+    `<a class="ac-cta" href="#module-${esc(course.modules[0].id)}" data-academy-continue>Начать маршрут<small data-academy-continue-sub>Этап 1 · Прочитай</small></a>` +
+    `<button type="button" class="ac-reset" data-academy-reset>Сбросить прогресс маршрута</button>` +
+    `<p class="ac-note" data-academy-storage role="status" hidden></p>` +
+    `</div></section>` +
+    nav.chips +
+    `<div class="ac-grid">${nav.side}<div class="ac-stages">${course.modules.map((m, i) => renderStage(m, i)).join('')}` +
+    `<p class="ac-src ac-foot">Уроки ведут на гайды DOTAMATE; ситуации и тесты составлены по ним. Числа, которые меняются с патчами, помечены датой проверки.${patch}</p>` +
+    `</div></div></div>`;
 }
 
 function renderLanding(courses) {
   validateCourses(courses);
+  const AUD = { beginner: ['Для новичков', 'ac-green'], 'rank-up': ['Для рейтинговых игр', 'ac-gold'] };
   const cards = courses.map(c => {
     const lessons = courseLessons(c);
-    const first = lessons[0];
-    const modules = c.modules.map(m => `<li>${esc(m.title)}</li>`).join('');
-    return `<article class="ac-route" data-academy-course="${esc(c.id)}" data-academy-lessons="${esc(lessons.map(l => l.id).join(' '))}" aria-labelledby="ac-route-${esc(c.id)}">` +
-      `<h2 class="ac-route-title" id="ac-route-${esc(c.id)}"><a href="${courseHref(c)}">${esc(c.title)}</a></h2>` +
-      `<p class="ac-route-for">${esc(c.audience)}</p>` +
+    const scen = courseScenarios(c);
+    const steps = courseSteps(c);
+    const [aud, cls] = AUD[c.id] || ['', ''];
+    const track = c.modules.map(m => `<span data-academy-track="${esc(m.id)}" title="${esc(m.title)}"></span>`).join('');
+    const labels = c.modules.map(m => `<span>${esc(m.title)}</span>`).join('');
+    return `<article class="ac-route ${cls}" data-academy-course="${esc(c.id)}" aria-labelledby="ac-route-${esc(c.id)}">` +
+      `<p class="ac-kicker ac-aud">${esc(aud)}</p>` +
+      `<h2 class="page-title ac-route-title" id="ac-route-${esc(c.id)}"><a href="${courseHref(c)}">${esc(c.title)}</a></h2>` +
       `<p class="ac-route-desc">${esc(c.description)}</p>` +
-      `<ul class="ac-facts"><li>${c.modules.length}&nbsp;${plural(c.modules.length, 'этап', 'этапа', 'этапов')}</li><li>${lessons.length}&nbsp;${plural(lessons.length, 'урок', 'урока', 'уроков')}</li><li>${duration(courseMinutes(c))}</li></ul>` +
-      `<ol class="ac-route-modules">${modules}</ol>` +
-      progressBlock(c, lessons.length) +
-      `<div class="ac-route-actions">` +
-      `<a class="btn ac-btn ac-continue" href="${courseHref(c)}#${lessonAnchor(first)}" data-academy-continue>Начать маршрут</a>` +
-      `<a class="ac-link" href="${courseHref(c)}">Все уроки маршрута</a>` +
-      `</div>` +
+      `<div class="ac-track" aria-hidden="true">${track}</div><div class="ac-track-labels" aria-hidden="true">${labels}</div>` +
+      `<p class="ac-meta" data-academy-route-meta>${c.modules.length}&nbsp;этапов · ${lessons.length}&nbsp;${plural(lessons.length, 'урок', 'урока', 'уроков')} · ${scen}&nbsp;${plural(scen, 'ситуация', 'ситуации', 'ситуаций')} · ${steps}&nbsp;${plural(steps, 'шаг', 'шага', 'шагов')} · ${duration(courseMinutes(c))}</p>` +
+      `<a class="ac-cta ac-cta-ghost" href="${courseHref(c)}" data-academy-continue>Начать маршрут</a>` +
       `</article>`;
   }).join('');
   return `<div class="ac-landing">` +
-    `<header class="ac-head">` +
     `<h1 class="page-title">Учебный центр Dota&nbsp;2</h1>` +
-    `<p class="ac-lead">Два маршрута по гайдам DOTAMATE: уроки идут по порядку, у каждого есть задание для практики, а в конце этапа — короткий тест с объяснениями. Отметки и результаты сохраняются только в этом браузере, без регистрации.</p>` +
-    `<p class="ac-note" data-academy-storage hidden></p>` +
-    `</header>` +
-    `<div class="ac-routes">${cards}</div>` +
-    `</div>`;
+    `<p class="ac-lead">Два маршрута по гайдам DOTAMATE. В каждом этапе — уроки, игровые ситуации, короткий тест и задания на реальный матч. Прогресс и дневник хранятся только в этом браузере, без регистрации.</p>` +
+    `<p class="ac-note" data-academy-storage role="status" hidden></p>` +
+    `<div class="ac-resume" data-academy-resume hidden>${ring(54)}<div class="ac-resume-text"><b data-academy-resume-title></b><span data-academy-resume-sub></span></div>` +
+    `<a class="ac-cta" href="#" data-academy-resume-go>Продолжить →</a></div>` +
+    `<ol class="ac-how">` +
+    `<li><b><i aria-hidden="true">📖</i>Читай</b><span>Короткие уроки ведут на подробные гайды сайта.</span></li>` +
+    `<li><b><i aria-hidden="true">🧭</i>Разбирай</b><span>Игровые ситуации: выбери решение и узнай, почему оно сработает.</span></li>` +
+    `<li><b><i aria-hidden="true">✅</i>Проверяй</b><span>Тест из трёх вопросов с объяснением каждого ответа.</span></li>` +
+    `<li><b><i aria-hidden="true">🎮</i>Играй</b><span>Задания на матч и дневник: что получилось, что нет.</span></li></ol>` +
+    `<div class="ac-routes">${cards}</div></div>`;
 }
 
 function renderQuiz(m, index) {
@@ -210,7 +351,7 @@ function renderQuiz(m, index) {
       `</fieldset>`;
   }).join('');
   return `<form class="ac-quiz" data-academy-quiz="${esc(m.id)}" aria-labelledby="quiz-${esc(m.id)}-title" novalidate>` +
-    `<h3 class="ac-quiz-title" id="quiz-${esc(m.id)}-title">Мини-тест: этап ${index + 1}</h3>` +
+    `<p class="ac-h" id="quiz-${esc(m.id)}-title">Мини-тест: ${m.quiz.length}&nbsp;${plural(m.quiz.length, 'вопрос', 'вопроса', 'вопросов')}</p>` +
     `<p class="ac-quiz-hint">Проверка не ограничивает маршрут: можно отвечать сколько угодно раз и читать дальше при любом результате.</p>` +
     questions +
     `<div class="ac-quiz-actions"><button type="submit" class="btn ac-btn">Проверить ответы</button><button type="button" class="btn ghost ac-btn" data-academy-retry hidden>Пройти ещё раз</button></div>` +
@@ -219,53 +360,4 @@ function renderQuiz(m, index) {
     `</form>`;
 }
 
-function renderCourse(course, opts = {}) {
-  validateCourse(course);
-  const lessons = courseLessons(course);
-  const toc = course.modules.map((m, i) =>
-    `<li><a href="#module-${esc(m.id)}"><span class="ac-step">Этап ${i + 1}</span> ${esc(m.title)}</a></li>`).join('');
-  const modules = course.modules.map((m, i) => {
-    const items = m.lessons.map(l => {
-      const g = guides().get(l.guideSlug);
-      return `<li class="ac-lesson" id="${esc(lessonAnchor(l))}" data-academy-lesson="${esc(l.id)}">` +
-        `<div class="ac-lesson-head"><h3 class="ac-lesson-title" id="${esc(lessonAnchor(l))}-title">${esc(l.title)}</h3><span class="ac-badge" data-academy-badge></span></div>` +
-        `<p class="ac-lesson-sum">${esc(l.summary)}</p>` +
-        `<p class="ac-practice"><b>Практика:</b> ${esc(l.practice)}</p>` +
-        `<div class="ac-lesson-actions">` +
-        `<a class="btn ghost ac-btn" href="${guideHref(l.guideSlug)}" data-academy-open>Открыть материал<span class="ac-sr">: ${esc(g.title)}</span></a>` +
-        `<span class="ac-min">«${esc(g.title)}» · ${lessonMinutes(l)}&nbsp;мин</span>` +
-        `<label class="ac-done"><input type="checkbox" data-academy-done aria-describedby="${esc(lessonAnchor(l))}-title"> Пройдено</label>` +
-        `</div>` +
-        `</li>`;
-    }).join('');
-    return `<section class="ac-module" id="module-${esc(m.id)}" data-academy-module="${esc(m.id)}" aria-labelledby="module-${esc(m.id)}-title">` +
-      `<h2 class="ac-module-title" id="module-${esc(m.id)}-title"><span class="ac-step">Этап ${i + 1}</span> ${esc(m.title)}</h2>` +
-      `<p class="ac-module-intro">${esc(m.intro)}</p>` +
-      `<ol class="ac-lessons">${items}</ol>` +
-      renderQuiz(m, i) +
-      `</section>`;
-  }).join('');
-  const patch = opts.patch && text(opts.patch.version)
-    ? ` Изменения последнего патча — на странице <a href="/patch/${encodeURIComponent(opts.patch.version)}/">«Патч ${esc(opts.patch.version)}»</a>.`
-    : '';
-  return `<div class="ac-course" data-academy-course="${esc(course.id)}" data-academy-lessons="${esc(lessons.map(l => l.id).join(' '))}">` +
-    `<header class="ac-head">` +
-    `<p class="ac-kicker"><a href="/academy/">Учебный центр</a> · маршрут</p>` +
-    `<h1 class="page-title">${esc(course.title)}</h1>` +
-    `<p class="ac-lead">${esc(course.description)}</p>` +
-    `<p class="ac-route-for">${esc(course.audience)}</p>` +
-    `<ul class="ac-facts"><li>${course.modules.length}&nbsp;${plural(course.modules.length, 'этап', 'этапа', 'этапов')}</li><li>${lessons.length}&nbsp;${plural(lessons.length, 'урок', 'урока', 'уроков')}</li><li>${duration(courseMinutes(course))}</li></ul>` +
-    progressBlock(course, lessons.length) +
-    `<div class="ac-head-actions">` +
-    `<a class="btn ac-btn ac-continue" href="#${esc(lessonAnchor(lessons[0]))}" data-academy-continue>Начать: ${esc(lessons[0].title)}</a>` +
-    `<button type="button" class="btn ghost ac-btn" data-academy-reset>Сбросить прогресс маршрута</button>` +
-    `</div>` +
-    `<p class="ac-note" data-academy-storage hidden></p>` +
-    `<p class="ac-src">Уроки ведут на гайды DOTAMATE. Числа, которые меняются с патчами, в тестах помечены датой проверки.${patch}</p>` +
-    `</header>` +
-    `<nav class="ac-toc" aria-label="Этапы маршрута"><ol>${toc}</ol></nav>` +
-    modules +
-    `</div>`;
-}
-
-module.exports = { renderLanding, renderCourse, renderIndex, validateCourses };
+module.exports = { renderLanding, renderCourse, renderIndex, validateCourses, courseSteps };
