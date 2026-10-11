@@ -66,7 +66,11 @@
     Object.keys(index.courses).forEach(function (id) {
       var v = raw.courses[id];
       if (!v || typeof v !== 'object') return;
-      s.courses[id] = sanitizeCourse({ completedLessons: v.completedLessons, bestScores: v.bestScores, lastLessonId: v.lastLessonId, updatedAt: Date.now() }, ids(index, id));
+      var c = sanitizeCourse({ completedLessons: v.completedLessons, bestScores: v.bestScores, lastLessonId: v.lastLessonId }, ids(index, id));
+      // MVP сохранял оба маршрута при каждой записи: время ставим только маршруту с прогрессом,
+      // иначе панель «Продолжить» выберет пустой маршрут.
+      if (c.completedLessons.length || Object.keys(c.bestScores).length) c.updatedAt = Date.now();
+      s.courses[id] = c;
     });
     return s;
   }
@@ -84,20 +88,26 @@
   function save(state) {
     try { window.localStorage.setItem(KEY, JSON.stringify(state)); return true; } catch (e) { return false; }
   }
+  // Состояние в памяти. Используется, когда хранилище недоступно или запись в него
+  // не удалась (переполнено): иначе следующее чтение вернуло бы старые данные и
+  // отметка посетителя пропала бы сразу, а не после перезагрузки.
   var memory = null;
+  var writeFailed = false;
   // Перечитать хранилище, применить изменение, сохранить. fn возвращает id изменённого курса.
   function mutate(index, fn) {
     var loaded = load(index);
-    var state = loaded.storageOk ? loaded.state : (memory || loaded.state);
+    var useMemory = memory && (!loaded.storageOk || writeFailed);
+    var state = useMemory ? memory : loaded.state;
     var courseId = fn(state);
     if (courseId && state.courses[courseId]) state.courses[courseId].updatedAt = Date.now();
     var ok = loaded.storageOk && save(state);
+    writeFailed = !ok;
     memory = state;
     return { state: state, ok: ok };
   }
   function current(index) {
     var loaded = load(index);
-    if (!loaded.storageOk && memory) return { state: memory, storageOk: false, migrated: false };
+    if (memory && (!loaded.storageOk || writeFailed)) return { state: memory, storageOk: false, migrated: false };
     if (loaded.migrated) save(loaded.state);
     return loaded;
   }

@@ -115,12 +115,17 @@
       fb.hidden = false;
     });
     var live = $(sit, '[data-academy-sit-live]');
-    if (live && announce) live.textContent = choice === best ? 'Ответ сохранён. Это лучший вариант.' : 'Ответ сохранён. Лучший вариант — ' + LETTERS[best] + '.';
+    if (live && announce) live.textContent = (announce === 'saved' ? 'Ответ сохранён. ' : 'Ответ принят, но не сохранён в браузере. ') +
+      (choice === best ? 'Это лучший вариант.' : 'Лучший вариант — ' + LETTERS[best] + '.');
   }
   function openStage(id) {
     var d = document.getElementById('module-' + id);
     if (d) d.open = true;
     return d;
+  }
+  function hashId() {
+    var h = (location.hash || '').slice(1);
+    try { return decodeURIComponent(h); } catch (e) { return ''; } // испорченный хеш — как без хеша
   }
   function goTo(el) {
     if (el && el.scrollIntoView) el.scrollIntoView({ block: 'start' });
@@ -270,7 +275,7 @@
         cta.textContent = sum.next ? 'Продолжить: ' + S.STEP_LABEL[sum.next.step] : 'Маршрут пройден — повторить';
         cta.setAttribute('href', info.href + '#module-' + (sum.next ? sum.next.moduleId : sum.modules[0].id));
       }
-      if (c.updatedAt > 0 && (!latest || c.updatedAt > latest.c.updatedAt)) latest = { id: id, c: c, sum: sum, info: info };
+      if (active && c.updatedAt > 0 && (!latest || c.updatedAt > latest.c.updatedAt)) latest = { id: id, c: c, sum: sum, info: info };
     });
     var panel = $(root, '[data-academy-resume]');
     if (!panel) return;
@@ -429,8 +434,8 @@
     if ((el = t.closest('[data-academy-choice]'))) {
       var sit = el.closest('[data-academy-scenario]'), courseId = courseOf(el);
       var n = Number(el.getAttribute('data-academy-choice')), sid = sit.getAttribute('data-academy-scenario');
-      if (courseId) change(function (st) { st.courses[courseId].scenarioChoices[sid] = n; return courseId; });
-      renderScenarioState(sit, n, true);
+      var saved = courseId ? change(function (st) { st.courses[courseId].scenarioChoices[sid] = n; return courseId; }).ok : false;
+      renderScenarioState(sit, n, saved ? 'saved' : 'memory');
       return;
     }
 
@@ -554,7 +559,7 @@
     var id = root.getAttribute('data-academy-course');
     if (!INDEX.courses[id]) return;
     var st = state(), c = st.courses[id], sum = S.compute(INDEX, st, id);
-    var hash = decodeURIComponent((location.hash || '').slice(1));
+    var hash = hashId();
     var target = sum.next ? sum.next.moduleId : sum.modules[0].id, targetStep = null, focusEl = null;
     if (/^lesson-/.test(hash)) {
       var li = document.getElementById(hash);
@@ -584,7 +589,7 @@
   // браузер не раскрывает свёрнутый этап, если ссылка ведёт на сам этап,
   // и не показывает урок из неактивной вкладки — делаем это сами.
   window.addEventListener('hashchange', function () {
-    var hash = decodeURIComponent((location.hash || '').slice(1)), el = hash && document.getElementById(hash);
+    var hash = hashId(), el = hash && document.getElementById(hash);
     if (!el || !el.closest('.ac-course')) return;
     var stage = /^lesson-/.test(hash) ? stageOf(el) : /^module-/.test(hash) ? el : null;
     if (!stage) return;
