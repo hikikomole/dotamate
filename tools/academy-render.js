@@ -61,7 +61,7 @@ function validateCourse(course) {
   need(ID_RE.test(course.slug || ''), c, 'slug курса — латиница, цифры и дефисы');
   for (const k of ['title', 'audience', 'description']) need(text(course[k]), c, `пустое поле ${k}`);
   need(Array.isArray(course.modules) && course.modules.length > 0, c, 'нет этапов');
-  const moduleIds = new Set(), lessonIds = new Set(), questionIds = new Set();
+  const moduleIds = new Set(), lessonIds = new Set(), questionIds = new Set(), scenarioIds = new Set();
   for (const m of course.modules) {
     const w = `${c}, этап «${m && m.id}»`;
     need(m && ID_RE.test(m.id || ''), w, 'id этапа — латиница, цифры и дефисы');
@@ -88,6 +88,20 @@ function validateCourse(course) {
       need(Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < 3, qw, 'correctIndex должен быть 0, 1 или 2');
       need(q.checked === undefined || (text(q.checked) && guides().has(q.sourceSlug)), qw, `у патч-зависимого вопроса нет даты проверки или гайд-источник «${q.sourceSlug}» не найден`);
     }
+    need(Array.isArray(m.scenarios) && m.scenarios.length === 2, w, 'нужно ровно 2 ситуации (scenarios)');
+    m.scenarios.forEach((s, si) => {
+      const sw = `${w}, ситуация «${s && s.id}»`;
+      need(s && s.id === `${m.id}-s${si + 1}`, sw, `id ситуации должен быть ${m.id}-s${si + 1}`);
+      need(!scenarioIds.has(s.id), sw, 'id ситуации повторяется в курсе');
+      scenarioIds.add(s.id);
+      need(text(s.context) && text(s.prompt), sw, 'пустой контекст или текст ситуации');
+      need(Array.isArray(s.options) && s.options.length === 3, sw, 'нужно ровно три варианта');
+      s.options.forEach((o, oi) => need(o && text(o.text) && text(o.feedback), sw, `вариант ${oi + 1}: пустой текст или разбор`));
+      need(Number.isInteger(s.bestIndex) && s.bestIndex >= 0 && s.bestIndex < 3, sw, 'bestIndex должен быть 0, 1 или 2');
+      need(Array.isArray(s.sources) && s.sources.length >= 1 && s.sources.length <= 2, sw, 'sources — 1–2 гайда');
+      s.sources.forEach(g => need(guides().has(g), sw, `гайд «${g}» не найден в guide-content.js`));
+      need(s.checked === undefined || text(s.checked), sw, 'поле checked пустое');
+    });
   }
   return course;
 }
