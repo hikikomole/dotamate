@@ -580,6 +580,19 @@
     if (focusEl) goTo(focusEl);
   }
 
+  // Смена только хеша на той же странице (ссылка на этап или урок, «Назад»):
+  // браузер не раскрывает свёрнутый этап, если ссылка ведёт на сам этап,
+  // и не показывает урок из неактивной вкладки — делаем это сами.
+  window.addEventListener('hashchange', function () {
+    var hash = decodeURIComponent((location.hash || '').slice(1)), el = hash && document.getElementById(hash);
+    if (!el || !el.closest('.ac-course')) return;
+    var stage = /^lesson-/.test(hash) ? stageOf(el) : /^module-/.test(hash) ? el : null;
+    if (!stage) return;
+    stage.open = true;
+    if (/^lesson-/.test(hash)) selectTab(stage, 'read', false);
+    goTo(el);
+  });
+
   each($$(document, '.ac-course[data-academy-course]'), initCourse);
   if ($(document, '.ac-landing')) renderAll();
 })();
