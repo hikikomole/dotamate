@@ -218,7 +218,7 @@ function renderCourse(course, opts = {}) {
         `<p class="ac-lesson-sum">${esc(l.summary)}</p>` +
         `<p class="ac-practice"><b>Практика:</b> ${esc(l.practice)}</p>` +
         `<div class="ac-lesson-actions">` +
-        `<a class="btn ghost ac-btn" href="${guideHref(l.guideSlug)}" data-academy-open>Открыть материал<span class="hm-sr">: ${esc(g.title)}</span></a>` +
+        `<a class="btn ghost ac-btn" href="${guideHref(l.guideSlug)}" data-academy-open>Открыть материал<span class="ac-sr">: ${esc(g.title)}</span></a>` +
         `<span class="ac-min">«${esc(g.title)}» · ${lessonMinutes(l)}&nbsp;мин</span>` +
         `<label class="ac-done"><input type="checkbox" data-academy-done aria-describedby="${esc(lessonAnchor(l))}-title"> Пройдено</label>` +
         `</div>` +

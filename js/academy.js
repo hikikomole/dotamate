@@ -74,12 +74,21 @@
     }
   }
 
+  // Перед каждым изменением перечитываем хранилище: в другой вкладке могли
+  // отметить уроки другого маршрута, и запись старой копии их бы стёрла.
+  function refresh() {
+    if (!storageOk) return;
+    var fresh = loadProgress(INDEX.courses);
+    if (storageOk) progress = fresh;
+  }
+
   function course(courseId) {
     if (!progress.courses[courseId]) progress.courses[courseId] = emptyCourse();
     return progress.courses[courseId];
   }
 
   function setLessonComplete(courseId, lessonId, complete) {
+    refresh();
     if (lessonIds(courseId).indexOf(lessonId) === -1) return;
     var c = course(courseId);
     var i = c.completedLessons.indexOf(lessonId);
@@ -89,6 +98,7 @@
   }
 
   function saveQuizScore(courseId, moduleId, score) {
+    refresh();
     var c = course(courseId);
     if (!(moduleId in c.bestScores) || score > c.bestScores[moduleId]) c.bestScores[moduleId] = score;
     saveProgress(progress);
@@ -96,12 +106,14 @@
   }
 
   function resetCourse(courseId) {
+    refresh();
     progress.courses[courseId] = emptyCourse();
     saveProgress(progress);
   }
 
   function setLastLesson(courseId, lessonId) {
     if (lessonIds(courseId).indexOf(lessonId) === -1) return;
+    refresh();
     course(courseId).lastLessonId = lessonId;
     saveProgress(progress);
   }
@@ -298,6 +310,13 @@
     if (!form) return;
     e.preventDefault();
     gradeQuiz(form);
+  });
+
+  // Прогресс изменили в другой вкладке — показываем актуальное состояние.
+  window.addEventListener('storage', function (e) {
+    if (e.key !== KEY && e.key !== null) return;
+    refresh();
+    renderAll();
   });
 
   if (!storageOk) showStorageNote();
