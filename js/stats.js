@@ -93,11 +93,15 @@
     const since = b.src === 'steam'
       ? `Выборка рейтинговых матчей Steam (не все матчи): с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} по ${new Date(b.to).toLocaleDateString('ru-RU', { timeZone: 'UTC' })} (≈${days} сут., UTC), матчей ${num(b.matches)}`
       : `Данные с ${new Date(b.from).toLocaleDateString('ru-RU', { timeZone: 'UTC' })}, матчей ${num(b.matches)}`;
-    summary.innerHTML = `<p class="st-since">${since}</p><div class="st-cards">
+    // Пересчёт идёт каждую ночь (daily-update, 04:17 МСК). Старше 36 ч — обновление не дошло до сайта: говорим прямо.
+    const built = new Date(S.builtAt), ageH = (Date.now() - built.getTime()) / 36e5;
+    const stale = Number.isFinite(ageH) && ageH > 36;
+    const staleNote = stale ? `<p class="st-stale" role="status">Данные от ${built.toLocaleDateString('ru-RU')} — ежедневное обновление задерживается. Цифры ниже верны на эту дату.</p>` : '';
+    summary.innerHTML = `${staleNote}<p class="st-since">${since}</p><div class="st-cards">
       <article><span>Матчей в базе</span><strong>${num(b.matches)}</strong><small>${d(b.from)} — ${d(b.to)} · патч ${esc(b.patch)}</small></article>
       <article><span>Победы Radiant</span><strong>${pct(b.radiantWr)}</strong><small>Dire — ${pct(Math.round((100 - b.radiantWr) * 10) / 10)}</small></article>
       <article><span>Детальных матчей</span><strong>${num(b.stratzMatches)}</strong><small>${S.posSteam ? 'линии, покупки (Stratz)' : 'позиции, линии, покупки (Stratz)'}${b.stratz && b.stratz.from ? ` · ${ddm(b.stratz.from)} — ${ddm(b.stratz.to)}` : ''}</small></article>
-      <article><span>Обновлено</span><strong>${new Date(S.builtAt).toLocaleDateString('ru-RU')}</strong><small>пересчёт каждый день</small></article>
+      <article><span>Обновлено</span><strong>${new Date(S.builtAt).toLocaleDateString('ru-RU')}</strong><small>${stale ? 'обновление задерживается' : 'пересчёт каждый день'}</small></article>
     </div>
     <div class="st-ranks">${Object.values(b.ranks).map(r => `<div><span>${esc(r.name)}</span>${bar(r.n, maxR)}<b>${num(r.n)}</b></div>`).join('')}</div>`;
   }

@@ -242,3 +242,6 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
   (раньше `JSON.parse` без try ронял три сборщика навсегда). На локальной базе 23–26.09: 2023 строки → 1999 матчей (24 повтора).
 - `collect-meta-matches.js`: `_tried.json` пишется через `.tmp` + rename и сохраняется по SIGTERM/SIGINT (таймаут шага в
   daily-update) — источник повторов закрыт.
+- 1.3 (11.10.2026): /stats/ — при `builtAt` старше 36 ч над сводкой плашка «Данные от …, ежедневное обновление задерживается» (`js/stats.js`, `.st-stale` в `css/stats.css`).
+  `daily-update.js` при блокировке выкладки (код 2) и фатальной ошибке шлёт сообщение в личный Telegram владельца
+  (`~/dotamate-data/telegram.env`: TG_TOKEN + TG_ALERT_CHAT; без TG_ALERT_CHAT — ничего не делает; публичный канал TG_CHAT не используется).

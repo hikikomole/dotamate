@@ -49,6 +49,7 @@
 .st-grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .st-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .st-since{color:var(--d2-muted);font-size:13px;margin:0 0 10px}
+.st-stale{margin:0 0 10px;padding:10px 12px;border:1px solid rgba(217,193,135,.45);border-left-width:4px;border-radius:8px;background:rgba(217,193,135,.08);color:var(--d2-gold);font-size:14px}
 .st-card{background:var(--d2-panel);border:1px solid var(--d2-line);border-radius:12px;padding:14px;min-width:0}
 .st-card h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:15px}
 .st-card h4{margin:12px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--d2-muted)}

@@ -202,6 +202,29 @@ function codeChanged() {
   } catch (e) { return 'не удалось сверить код: ' + e.message; }
 }
 
+// Уведомление владельцу о сбое (личный чат, не публичный канал): ~/dotamate-data/telegram.env,
+// TG_TOKEN и TG_ALERT_CHAT. Нет TG_ALERT_CHAT — молча ничего не делаем. Ошибки отправки не роняют
+// обновление; текст ошибки не пишем в журнал — в нём может оказаться адрес с токеном.
+function alertOwner(text) {
+  if (!ON_SERVER) return Promise.resolve();
+  let env = {};
+  try {
+    const f = path.join(require('os').homedir(), 'dotamate-data', 'telegram.env');
+    for (const l of fs.readFileSync(f, 'utf8').split(/\r?\n/)) { const m = l.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/); if (m) env[m[1]] = m[2].replace(/^["']|["']$/g, ''); }
+  } catch { return Promise.resolve(); }
+  if (!env.TG_TOKEN || !env.TG_ALERT_CHAT) return Promise.resolve();
+  const body = JSON.stringify({ chat_id: env.TG_ALERT_CHAT, text: 'dotamate.ru: ' + scrub(text).slice(0, 3500), disable_web_page_preview: true });
+  return new Promise(resolve => {
+    const req = require('https').request({ hostname: 'api.telegram.org', path: '/bot' + env.TG_TOKEN + '/sendMessage', method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) }, timeout: 15000 }, res => {
+      res.resume(); res.on('end', () => { log(res.statusCode === 200 ? 'Уведомление владельцу отправлено.' : 'Уведомление не отправлено: HTTP ' + res.statusCode); resolve(); });
+    });
+    req.on('timeout', () => req.destroy(new Error('timeout')));
+    req.on('error', () => { log('Уведомление не отправлено (сеть).'); resolve(); });
+    req.end(body);
+  });
+}
+
 async function main() {
   if (ARGS.has('--auto') && fs.existsSync(STAMP) && fs.readFileSync(STAMP, 'utf8').trim() === today) {
     console.log('Сегодня сайт уже обновлён — пропускаю.');
@@ -310,6 +333,7 @@ async function main() {
     if (codeBlock) {
       log('ВЫКЛАДКА ЗАБЛОКИРОВАНА: ' + codeBlock + '\nДанные пересчитаны в ~/dotamate-src/data, сайт остался в прежнем виде. ' +
         'Код выкладывается только по команде владельца (claude/versiya-sayta.md), после неё ежедневная выкладка снова пойдёт сама.');
+      await alertOwner('ежедневная выкладка данных ЗАБЛОКИРОВАНА — ' + codeBlock + ' Данные на сайте не обновлены. Нужна выкладка кода («выкладывай»).');
       return 2;
     }
     checkDataJson();
@@ -333,6 +357,7 @@ async function main() {
     return 0;
   } catch (e) {
     log('ОШИБКА: ' + scrub(e.message) + '\nСайт остался в прежнем виде. Следующая попытка — при следующем запуске.');
+    await alertOwner('ежедневное обновление остановлено: ' + e.message + ' Сайт остался в прежнем виде.');
     return 1;
   } finally {
     try { fs.unlinkSync(LOCK); } catch { /* уже нет */ }
