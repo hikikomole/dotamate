@@ -574,4 +574,7 @@ const SCENARIOS = {
 };
 for (const c of COURSES) for (const m of c.modules) m.scenarios = SCENARIOS[m.id];
 
+// Маршруты по ролям — отдельным файлом; ситуации у них внутри этапов.
+COURSES.push(...require('./academy-roles-content.js').ROLE_COURSES);
+
 module.exports = { COURSES };

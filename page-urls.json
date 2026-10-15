@@ -24,12 +24,36 @@
   "name": "Учебный центр Dota 2"
  },
  {
+  "loc": "https://dotamate.ru/academy/match/",
+  "name": "Разбор матча Dota 2 по Steam ID"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/practice/",
+  "name": "Тренировка Dota 2"
+ },
+ {
   "loc": "https://dotamate.ru/academy/beginner/",
   "name": "Dota 2 с нуля"
  },
  {
   "loc": "https://dotamate.ru/academy/rank-up/",
   "name": "Как поднять рейтинг в Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/carry/",
+  "name": "Как играть на керри в Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/mid/",
+  "name": "Как играть на миде в Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/offlane/",
+  "name": "Как играть на оффлейне в Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/academy/support/",
+  "name": "Как играть на саппорте в Dota 2"
  },
  {
   "loc": "https://dotamate.ru/meta/",

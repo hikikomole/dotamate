@@ -289,10 +289,43 @@
     if (fill) fill.style.strokeDashoffset = String(169.65 * (1 - latest.sum.percent / 100));
   }
 
+  // Главная: цели из разборов матчей, экзамены и счётчики (js/academy-records.js; без него блоки скрыты).
+  function renderRecords(root) {
+    var RC = window.DMAcademyRecords;
+    if (!RC) return;
+    var m = RC.matches.load().state, d = RC.drill.load().state;
+    var goals = m.goals.filter(function (g) { return !g.done; }).slice(0, 5);
+    var box = $(root, '[data-academy-goals]'), list = $(root, '[data-academy-goal-list]');
+    if (box && list) {
+      box.hidden = !goals.length;
+      list.textContent = '';
+      goals.forEach(function (g) {
+        var li = document.createElement('li');
+        var label = document.createElement('label');
+        var cb = document.createElement('input');
+        cb.type = 'checkbox'; cb.className = 'ac-check'; cb.setAttribute('data-academy-goal', g.id);
+        var span = document.createElement('span');
+        span.textContent = g.text;
+        label.appendChild(cb); label.appendChild(span); li.appendChild(label);
+        list.appendChild(li);
+      });
+    }
+    var tm = $(root, '[data-academy-tool="match"]');
+    if (tm && m.analyses.length) tm.textContent = 'Разборов: ' + m.analyses.length + ' · целей: ' + m.goals.filter(function (g) { return !g.done; }).length + ' →';
+    var seen = Object.keys(d.items).length;
+    var td = $(root, '[data-academy-tool="drill"]');
+    if (td && seen) td.textContent = 'Отвечено: ' + seen + ' · серия ' + RC.streak(d.days) + ' ' + plural(RC.streak(d.days), 'день', 'дня', 'дней') + ' →';
+    each($$(root, '[data-academy-exam]'), function (p) {
+      var e = d.exams[p.getAttribute('data-academy-exam')];
+      p.hidden = !e;
+      if (e) p.textContent = 'Экзамен: лучший результат ' + e.best + '%' + (e.best >= 80 ? ' · ✓ сдан' : '');
+    });
+  }
+
   function renderAll() {
     var st = state();
     each($$(document, '.ac-course[data-academy-course]'), function (r) { renderCoursePage(r, st); });
-    each($$(document, '.ac-landing'), function (r) { renderLandingPage(r, st); });
+    each($$(document, '.ac-landing'), function (r) { renderLandingPage(r, st); renderRecords(r); });
   }
 
   // ---------- тест (поведение MVP) ----------
@@ -394,6 +427,14 @@
   document.addEventListener('change', function (e) {
     var t = e.target;
     if (!t.closest) return;
+    if (t.matches('[data-academy-goal]') && window.DMAcademyRecords) {
+      var gid = t.getAttribute('data-academy-goal');
+      var r = window.DMAcademyRecords.matches.mutate(function (st) { st.goals.forEach(function (g) { if (g.id === gid) g.done = t.checked; }); });
+      if (!r.ok) showStorageNote();
+      var li = t.closest('li');
+      if (li) li.classList.toggle('is-done', t.checked);
+      return;
+    }
     var courseId = courseOf(t);
     if (!courseId) return;
     if (t.matches('[data-academy-done]')) {
@@ -528,7 +569,8 @@
   });
 
   window.addEventListener('storage', function (e) {
-    if (e.key === S.KEY || e.key === null) renderAll();
+    var RC = window.DMAcademyRecords;
+    if (e.key === S.KEY || e.key === null || (RC && (e.key === RC.KEY_M || e.key === RC.KEY_D))) renderAll();
   });
 
   // ---------- переходы к шагу ----------

@@ -207,7 +207,7 @@ for (const m of require('./match-source.js').metaMatches()) {
       if (p.pos >= 1 && p.pos <= 5) {
         const q = P[p.pos] || (P[p.pos] = { n: 0, gpm: 0, xpm: 0, heroes: new Map() });
         q.n++; q.gpm += p.gpm || 0; q.xpm += p.xpm || 0;
-        const hh = q.heroes.get(p.h) || [0, 0, 0, 0, 0, 0, 0, 0, 0]; hh[0]++; if (won) hh[1]++; hh[2] += p.gpm || 0; hh[3] += p.xpm || 0;
+        const hh = q.heroes.get(p.h) || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; hh[0]++; hh[9] += m.dur || 0; if (won) hh[1]++; hh[2] += p.gpm || 0; hh[3] += p.xpm || 0;
         hh[4] += p.k || 0; hh[5] += p.d || 0; hh[6] += p.a || 0; hh[7] += p.hd || 0; hh[8] += p.lh || 0; q.heroes.set(p.h, hh);   // + K, D, A, урон, добивания (для /me)
       }
       const li = laneOf(p.r, p.ln);
@@ -237,7 +237,7 @@ const positions = {};
 for (const [pos, q] of Object.entries(P)) {
   const list = [...q.heroes].filter(([, v]) => v[0] >= MIN_POS)
     .map(([h, v]) => ({ id: h, n: v[0], wr: r1(v[1] / v[0] * 100), lo: r1(wilsonLow(v[1], v[0]) * 100), gpm: Math.round(v[2] / v[0]), xpm: Math.round(v[3] / v[0]),
-      k: r1(v[4] / v[0]), d: r1(v[5] / v[0]), a: r1(v[6] / v[0]), hd: Math.round(v[7] / v[0]), lh: Math.round(v[8] / v[0]) }))
+      k: r1(v[4] / v[0]), d: r1(v[5] / v[0]), a: r1(v[6] / v[0]), hd: Math.round(v[7] / v[0]), lh: Math.round(v[8] / v[0]), m: r1(v[9] / v[0] / 60) }))   // m — средняя длительность матча, мин (Учебный центр, разбор матча: показатели «в минуту»)
     .sort((a, b) => b.lo - a.lo);
   positions[pos] = { n: q.n, gpm: Math.round(q.gpm / q.n), xpm: Math.round(q.xpm / q.n), heroes: list };
 }

@@ -19,7 +19,24 @@ const ROOT = __dirname;
 const { NAV, navHtml } = require('./tools/site-nav');
 const { COURSES } = require('./academy-content');
 const acLessons = id => COURSES.find(c => c.id === id).modules.reduce((s, m) => s + m.lessons.length, 0);
-const { renderLanding, renderCourse, renderIndex, validateCourses } = require('./tools/academy-render');
+const acItems = () => COURSES.reduce((s, c) => s + c.modules.reduce((x, m) => x + m.quiz.length + m.scenarios.length, 0), 0);
+// Маршруты по ролям (academy-roles-content.js): страница на каждый, тексты описаний — из данных курса.
+const ROLE_SEO = {
+  carry: 'Как играть на керри в Dota 2 — маршрут обучения позиции 1',
+  mid: 'Как играть на миде в Dota 2 — маршрут обучения позиции 2',
+  offlane: 'Как играть на оффлейне в Dota 2 — маршрут обучения позиции 3',
+  support: 'Как играть на саппорте в Dota 2 — маршрут обучения позиций 4 и 5',
+};
+const rolePages = () => COURSES.filter(c => c.group === 'role').map(c => ({
+  key: 'academy', dir: `academy/${c.slug}`, academy: c.id, crumb: c.title, parent: { name: 'Учебный центр', dir: 'academy' },
+  title: `${ROLE_SEO[c.id] || `${c.title} — маршрут обучения Dota 2`} | Dota Mate`,
+  desc: `${c.description} ${acLessons(c.id)} уроков, игровые ситуации, мини-тесты и задания на матч.`,
+  sections: ['academy'],
+  styles: ['/css/theme-dark.css', '/css/academy.css'],
+  bodyClass: 'd2-dark',
+  scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
+}));
+const { renderLanding, renderCourse, renderIndex, renderMatchPage, renderPracticePage, validateCourses } = require('./tools/academy-render');
 
 const PAGES = [
   {
@@ -76,12 +93,30 @@ const PAGES = [
   // Прогресс хранится только в браузере (js/academy-store.js, интерфейс — js/academy.js), на сервер не уходит.
   {
     key: 'academy', dir: 'academy', academy: 'landing',
-    title: 'Учебный центр Dota 2 — маршруты обучения для новичков и для роста рейтинга | Dota Mate',
-    desc: 'Учебный центр DOTAMATE: маршрут «С нуля» для новичков и «Поднять рейтинг» для рейтинговых игроков. Уроки по порядку, практика и мини-тесты, прогресс без регистрации.',
+    title: 'Учебный центр Dota 2 — обучение по ролям, разбор матча и тренировка | Dota Mate',
+    desc: 'Учебный центр DOTAMATE: маршруты «С нуля», «Поднять рейтинг» и по ролям — керри, мид, оффлейн, поддержка. Разбор своего матча с рекомендациями, тренировка решений и экзамен, прогресс без регистрации.',
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
+    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy-records.js', defer: true }, { src: '/js/academy.js', defer: true }],
+  },
+  {
+    key: 'academy', dir: 'academy/match', academy: 'match', crumb: 'Разбор матча', parent: { name: 'Учебный центр', dir: 'academy' },
+    title: 'Разбор матча Dota 2 по Steam ID — анализ игры и рекомендации | Dota Mate',
+    desc: 'Бесплатный разбор матча Dota 2: выбери игру по Steam ID или введи цифры с табло. Сравнение с игроками на том же герое и позиции, сильные стороны, зоны роста, уроки и цели на следующий матч.',
+    sections: ['academy'],
+    styles: ['/css/theme-dark.css', '/css/academy.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/academy-records.js', defer: true }, { src: '/js/academy-analysis.js', defer: true }, { src: '/js/academy-match.js', defer: true }],
+  },
+  {
+    key: 'academy', dir: 'academy/practice', academy: 'practice', crumb: 'Тренировка', parent: { name: 'Учебный центр', dir: 'academy' },
+    title: 'Тренировка Dota 2 — вопросы, игровые ситуации и экзамен | Dota Mate',
+    desc: `Тренировка решений в Dota 2: ${acItems()} вопросов и игровых ситуаций по линии, фарму, карте и дракам. Случайные подходы, работа над ошибками и экзамен по маршруту обучения.`,
+    sections: ['academy'],
+    styles: ['/css/theme-dark.css', '/css/academy.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/academy-records.js', defer: true }, { src: '/js/academy-practice.js', defer: true }],
   },
   {
     key: 'academy', dir: 'academy/beginner', academy: 'beginner', crumb: 'С нуля', parent: { name: 'Учебный центр', dir: 'academy' },
@@ -180,6 +215,8 @@ const PAGES = [
     scripts: [{ src: '/js/me.js', defer: true }],
   },
 ];
+// Маршруты по ролям — сразу после «Поднять рейтинг» (порядок влияет только на page-urls.json).
+PAGES.splice(PAGES.findIndex(p => p.dir === 'academy/rank-up') + 1, 0, ...rolePages());
 
 // Карточки-входы в разделы: на главной вместо самих каталогов.
 const HOME_CARDS = `<section class="section" id="home-cards">
@@ -192,7 +229,7 @@ const HOME_CARDS = `<section class="section" id="home-cards">
       <a class="home-card" href="/items/"><span class="home-card-icon">◈</span><strong>Предметы</strong><p>Каталог предметов с ценами, эффектами и сборкой.</p><b>Открыть →</b></a>
       <a class="home-card" href="/stats/"><span class="home-card-icon">📈</span><strong>Статистика</strong><p>Тир-лист и винрейт героев по рангам, позициям и связкам — своя база рейтинговых матчей.</p><b>Открыть →</b></a>
       <a class="home-card" href="/guides/"><span class="home-card-icon">📘</span><strong>Гайды</strong><p>Роли, драфт, итемизация и контроль карты.</p><b>Открыть →</b></a>
-      <a class="home-card" href="/academy/"><span class="home-card-icon">🎓</span><strong>Учебный центр</strong><p>Два маршрута — «С нуля» и «Поднять рейтинг»: уроки по порядку, практика и мини-тесты.</p><b>Открыть →</b></a>
+      <a class="home-card" href="/academy/"><span class="home-card-icon">🎓</span><strong>Учебный центр</strong><p>Маршруты для новичков, для роста рейтинга и по ролям, разбор своего матча с рекомендациями и тренировка решений.</p><b>Открыть →</b></a>
       <a class="home-card" href="/meta/"><span class="home-card-icon">✦</span><strong>META</strong><p>Необычные сборки и нишевые герои в рейтинговых матчах.</p><b>Открыть →</b></a>
       <a class="home-card" href="/glossary/"><span class="home-card-icon">🔤</span><strong>Глоссарий</strong><p>Термины Dota 2 простыми словами.</p><b>Открыть →</b></a>
     </div>
@@ -475,6 +512,8 @@ function build() {
   const academyIndex = renderIndex(COURSES);
   const academyHtml = view => {
     if (view === 'landing') return renderLanding(COURSES) + academyIndex;
+    if (view === 'match') return renderMatchPage(COURSES);
+    if (view === 'practice') return renderPracticePage(COURSES);
     const course = COURSES.find(c => c.id === view);
     if (!course) throw new Error(`Учебный центр: нет курса «${view}»`);
     return renderCourse(course, { patch: PATCH }) + academyIndex;

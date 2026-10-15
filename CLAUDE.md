@@ -975,6 +975,20 @@ build-guide-pages → sync-deploy → wrangler. Сбой контрпиков в
 автоматически, поэтому проверка «чужих правок в deploy/» их пропускает
 (`GENERATED_DEPLOY` в daily-update.js). Руками эти папки не править — только исходники.
 
+## Учебный центр v3 (15.10.2026)
+
+`/academy/` — 6 маршрутов (`academy-content.js` + роли в `academy-roles-content.js`), `/academy/match/` — разбор
+матча (`js/academy-analysis.js` считает, `js/academy-match.js` рисует), `/academy/practice/` — тренировка
+(`js/academy-practice.js`). Разметку всех страниц центра даёт `tools/academy-render.js`, адреса — `build-pages.js`.
+Хранение посетителя — только браузер (`js/academy-store.js`, `js/academy-records.js`). Подробно —
+`docs/superpowers/specs/2026-10-15-uchebny-tsentr-v3-design.md`.
+
+- ID курсов, этапов, уроков, вопросов и ситуаций не менять — на них держится прогресс в браузере.
+- Каталог рекомендаций разбора (`REC` в `js/academy-analysis.js`) ссылается на гайды и этапы — сборка падает, если их нет.
+- Эталон разбора — `positions` в `data/stats.json` (поле `m` — средняя длительность). Меняешь формат — проверь
+  `node tools/check-academy-analysis.js` и страницу разбора.
+- Сборка в облачной копии пересобирает и главную из устаревших `data/` — в коммит брать только страницы центра.
+
 ## Backend и статистика — актуальная структура (аудит 09.10.2026, приоритетнее устаревших разделов выше)
 
 Перед любым изменением статистики (сборщики, формулы, пороги, формат `data/*.json`, порядок шагов)

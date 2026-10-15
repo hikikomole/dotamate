@@ -515,7 +515,7 @@
       return `<div class="me-md-team"><div class="me-md-h"><b class="${rad ? 'me-md-rad' : 'me-md-dire'}">${rad ? 'Свет' : 'Тьма'}</b>${won ? '<span class="me-md-win">Победа</span>' : ''}</div>` +
         `<div class="me-md-scroll"><table class="me-md-t"><thead><tr><th>Герой</th><th>Поз.</th><th>K/D/A</th><th>GPM</th><th>XPM</th><th>Добив.</th><th>Ценность</th><th>Урон</th><th>Предметы</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
     };
-    return `<div class="me-md">${team(true)}${team(false)}<p class="me-md-note">Длительность ${dur(D.duration)} · позиции — оценка модели · <a href="https://www.dotabuff.com/matches/${esc(D.matchId)}" target="_blank" rel="noopener nofollow">матч на Dotabuff ↗</a></p></div>`;
+    return `<div class="me-md">${team(true)}${team(false)}<p class="me-md-note">Длительность ${dur(D.duration)} · позиции — оценка модели · <a href="/academy/match/?m=${esc(D.matchId)}">разбор с рекомендациями →</a> · <a href="https://www.dotabuff.com/matches/${esc(D.matchId)}" target="_blank" rel="noopener nofollow">матч на Dotabuff ↗</a></p></div>`;
   }
   async function loadDetail(R, mid) {
     R.details[mid] = 'loading'; render();
