@@ -56,6 +56,10 @@ ok(low.recs[0].id === 'deaths' || low.recs[0].id === 'farm', 'рекоменда
 ok(low.recs.find(r => r.id === 'farm').stage.course === 'carry', 'позиция 1 → этапы маршрута «Керри»');
 ok(/не больше|не меньше/.test(low.task.text), 'задание на матч — измеримая цель на уровне эталона');
 
+// Рекомендация из ответа при нормальном показателе — текстовое задание, а не уже выполненная цифра.
+const fromAns = A.analyze(Object.assign({}, same, { gpm: 700, answers: { hard: 'farm' } }), { stats });
+ok(fromAns.recs[0].id === 'farm' && !/не меньше|не больше/.test(fromAns.task.text), 'рекомендация из ответа при показателе выше эталона → задание без числовой цели');
+
 // Поддержке не советуют фарм по одним цифрам, но советуют по ответу «тяжело фармить».
 const sup = A.analyze({ heroId: 5, pos: 5, win: false, duration: 2400, gpm: 150, xpm: 460, k: 2, d: 8, a: 14, lh: 5, hd: 8000 }, { stats });
 ok(!sup.recs.some(r => r.id === 'farm'), 'поддержка: низкий GPM сам по себе не даёт рекомендацию «Фарм»');

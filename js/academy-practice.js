@@ -204,7 +204,7 @@
     if (t.matches('[data-dr-answer]') && run) { answer(Number(t.getAttribute('data-dr-answer'))); return; }
     if (t.matches('[data-dr-next]') && run) { next(); return; }
     if (t.matches('[data-dr-quit]')) { if (run && run.answers.some(a => a !== null) && run.mode !== 'exam') { run.items = run.items.slice(0, run.answers.filter(a => a !== null).length); finish(); } else back(); return; }
-    if (t.matches('[data-dr-again]') && run) { const m = run.mode, c = run.course; start(m, c); return; }
+    if (t.matches('[data-dr-again]') && run) { const m = run.mode, c = run.course; back(); start(m, c); return; }   // back(): сообщение «ошибок нет» видно в выборе режима
     if (t.matches('[data-dr-back]')) { back(); return; }
     if (t.matches('[data-dr-reset]')) {
       let ok = false;

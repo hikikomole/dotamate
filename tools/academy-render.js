@@ -368,7 +368,7 @@ const SUBNAV = [
 ];
 function renderSubnav(active) {
   return `<nav class="ac-subnav" aria-label="Разделы Учебного центра"><ul>` + SUBNAV.map(([k, href, label]) =>
-    `<li><a href="${href}"${k === active ? ' aria-current="page"' : ''}>${label}</a></li>`).join('') + `</ul></nav>`;
+    `<li><a href="${href}"${k === active ? ` aria-current="${k === 'routes' ? 'true' : 'page'}"` : ''}>${label}</a></li>`).join('') + `</ul></nav>`;
 }
 
 // ---------- Разбор матча (/academy/match/) ----------
@@ -433,10 +433,10 @@ function renderMatchPage(courses) {
     field('gpm', 'Золото в минуту *', 'min="0" max="2000" required') + field('xpm', 'Опыт в минуту *', 'min="0" max="3000" required') +
     field('hd', 'Урон по героям', 'min="0" max="300000"', 'необязательно') +
     `</div><p class="ac-form-err" data-mt-err role="alert"></p><button type="submit" class="ac-cta ac-cta-sm">Разобрать матч</button></form></div></section>` +
-    `<section class="ac-card" id="result" data-mt-result hidden aria-labelledby="mt-res-h" tabindex="-1"><h2 class="ac-card-h" id="mt-res-h"><i aria-hidden="true">2</i>Разбор</h2><div data-mt-out aria-live="polite"></div></section>` +
+    `<section class="ac-card" id="result" data-mt-result hidden aria-labelledby="mt-res-h" tabindex="-1"><h2 class="ac-card-h" id="mt-res-h"><i aria-hidden="true">2</i>Разбор</h2><p class="ac-sr" data-mt-status role="status" aria-live="polite"></p><div data-mt-out></div></section>` +
     `<section class="ac-card" id="history" aria-labelledby="mt-hist-h"><h2 class="ac-card-h" id="mt-hist-h"><i aria-hidden="true">3</i>Мои цели и разборы</h2>` +
     `<div data-mt-history><p class="ac-hint">Здесь появятся сохранённые разборы, цели на следующие матчи и то, что повторяется из матча в матч. Всё хранится только в этом браузере.</p></div></section>` +
-    `<section class="ac-card ac-method" aria-labelledby="mt-method-h"><h2 class="ac-card-h" id="mt-method-h">Как считается разбор</h2>` +
+    `<section class="ac-card ac-method" id="method" aria-labelledby="mt-method-h"><h2 class="ac-card-h" id="mt-method-h">Как считается разбор</h2>` +
     `<ul class="ac-method-list">` +
     `<li><b>Эталон</b> — средний игрок на этом же герое и этой же позиции по базе рейтинговых матчей сайта (страница <a href="/stats/">«Статистика»</a>): золото и опыт в минуту, убийства, смерти, помощь, урон по героям и добивания. Если героя на этой позиции в базе мало, сравнение идёт со средним по позиции — только по золоту и опыту.</li>` +
     `<li><b>Всё «в минуту».</b> Добивания, смерти, участие в убийствах и урон делятся на длительность матча, у эталона — на среднюю длительность его матчей. Иначе длинный матч всегда выглядел бы лучше короткого.</li>` +

@@ -106,6 +106,8 @@
   let cur = null;        // { id, input }
   let steamId = '';
   let listRows = [];
+  let pendingMatch = null;   // ?m= пришёл без сохранённого Steam ID
+  const status = t => { const s = $('[data-mt-status]'); if (s) s.textContent = t; };
 
   function setMsg(text, kind) {
     const m = $('[data-mt-msg]');
@@ -159,13 +161,13 @@
       if (me) {
         const team = D.players.filter(p => p.radiant === me.radiant).map(p => ({ hero: p.hero, me: p.me, k: p.k, d: p.d, a: p.a, nw: p.nw, hd: p.hd, td: p.td, gpm: p.gpm, xpm: p.xpm, lh: p.lh }));
         const pos = me.pos === 'sup' || [1, 2, 3].includes(me.pos) ? me.pos : null;
-        return Object.assign(base, { heroId: me.hero, pos: pos || 'sup', posModel: pos || undefined, win: D.radiantWin === me.radiant, duration: D.duration, gameMode: D.gameMode,
+        return Object.assign(base, { heroId: me.hero, pos, posModel: pos || undefined, win: D.radiantWin === me.radiant, duration: D.duration, gameMode: D.gameMode,
           k: me.k, d: me.d, a: me.a, lh: me.lh, dn: me.dn, gpm: me.gpm, xpm: me.xpm, hd: me.hd, td: me.td, nw: me.nw, items: me.items, team: team.length === 5 ? team : undefined });
       }
     }
     if (!row) return null;
     const pos = row.pos === 'sup' || [1, 2, 3].includes(row.pos) ? row.pos : null;
-    return Object.assign(base, { heroId: row.heroId, pos: pos || 'sup', posModel: pos || undefined, win: row.win, duration: row.duration, gameMode: row.gameMode,
+    return Object.assign(base, { heroId: row.heroId, pos, posModel: pos || undefined, win: row.win, duration: row.duration, gameMode: row.gameMode,
       k: row.k, d: row.d, a: row.a, lh: row.lastHits, gpm: row.gpm, xpm: row.xpm, hd: row.heroDamage, nw: row.netWorth, items: row.items });
   }
   async function pickSteam(mid) {
@@ -174,6 +176,11 @@
     const res = await api(`/api/dota/match/${encodeURIComponent(mid)}?me=${encodeURIComponent(steamId)}`);
     const input = inputFromSteam(row, res.ok ? res.data : null);
     if (!input) { setMsg('Подробности этого матча недоступны. Загрузи список матчей заново или введи цифры вручную.', 'err'); return; }
+    // Переход по ссылке ?m= без строки списка: дата, тип лобби и выбранная раньше позиция — из прошлого разбора этого матча.
+    const prev = R.matches.load().state.analyses.find(a => a.id === 'm' + input.matchId);
+    if (prev) ['start', 'lobbyType'].forEach(k => { if (input[k] == null && prev.input[k] != null) input[k] = prev.input[k]; });
+    if (prev && prev.input.answers) input.answers = prev.input.answers;
+    if (prev && !row) input.pos = prev.input.pos;
     setMsg(res.ok ? '' : 'Подробности всех игроков недоступны — разбор без контекста команды.', res.ok ? '' : 'err');
     open(input, true);
   }
@@ -207,6 +214,12 @@
 
   // ---------- разбор ----------
   function open(input, save, id) {
+    if (input.pos == null) {                    // модель не оценила позицию — сначала выбор, без сохранения
+      cur = { id: null, input, needPos: true };
+      renderResult();
+      showResultSection();
+      return;
+    }
     const clean = R.cleanInput(input);
     if (!clean) { setMsg('Данные этого матча неполные — разобрать его не получится. Попробуй другой матч или введи цифры вручную.', 'err'); return; }
     let saved = { ok: true, id: id || null };
@@ -214,6 +227,9 @@
     cur = { id: saved.id, input: clean };
     renderResult();
     renderHistory();
+    showResultSection();
+  }
+  function showResultSection() {
     const sec = $('[data-mt-result]');
     sec.hidden = false;
     sec.scrollIntoView({ block: 'start' });
@@ -222,12 +238,15 @@
   // Изменение уже открытого разбора (позиция, ответы): пересчёт и перезапись той же записи.
   function update(fn) {
     if (!cur) return;
+    if (cur.needPos) { fn(cur.input); if (cur.input.pos != null) open(cur.input, true); return; }
+    const a = document.activeElement;
+    const focusKey = a && root.contains(a) ? (a.id ? '#' + a.id : a.name ? `input[name="${a.name}"][value="${a.value}"]` : '') : '';
     fn(cur.input);
     if (cur.id) {
       const r = R.matches.mutate(st => { const a = st.analyses.find(x => x.id === cur.id); if (a) a.input = R.cleanInput(cur.input) || a.input; });
       storageNote(r.ok);
     }
-    renderResult();
+    renderResult(focusKey);
     renderHistory();
   }
 
@@ -269,32 +288,50 @@
         `<label><input type="radio" name="${k}" value="${v}"${ans[k] === v ? ' checked' : ''}> <span>${l}</span></label>`).join('') + `</div></fieldset>`).join('') + `</form>`;
   }
 
-  function renderResult() {
+  // focusKey — селектор элемента, на котором был фокус до пересчёта (радиокнопка, выбор позиции): блок
+  // перерисовывается целиком, и без этого клавиатура теряла бы место.
+  function renderResult(focusKey) {
     const out = $('[data-mt-out]');
     const input = cur.input;
-    out.innerHTML = '<p class="ac-hint">Считаем…</p>';
+    if (!focusKey) out.innerHTML = '<p class="ac-hint">Считаем…</p>';
+    const restore = () => {
+      if (!focusKey) return;
+      const el = out.querySelector(focusKey);
+      if (el) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } }
+    };
     loadData().then(data => {
       if (!cur || cur.input !== input) return;
       const res = A.analyze(input, data);
       const h = data.heroes.get(Number(input.heroId));
       const name = h ? h.name : 'Герой #' + input.heroId;
-      const kind = input.gameMode === A.TURBO ? 'Turbo' : input.lobbyType === 7 ? 'рейтинговый' : input.source === 'steam' ? 'обычный' : '';
-      const posOpts = [1, 2, 3, 4, 5].map(p => `<option value="${p}"${input.pos === p ? ' selected' : ''}>Позиция ${p}</option>`).join('') +
+      // Тип лобби неизвестен (переход по ссылке без списка матчей) — не подписываем и не предупреждаем.
+      const kind = input.gameMode === A.TURBO ? 'Turbo' : input.lobbyType === 7 ? 'рейтинговый' : input.lobbyType != null && input.source === 'steam' ? 'обычный' : '';
+      const posOpts = (input.pos == null ? '<option value="" selected>Выбери позицию</option>' : '') +
+        [1, 2, 3, 4, 5].map(p => `<option value="${p}"${input.pos === p ? ' selected' : ''}>Позиция ${p}</option>`).join('') +
         (input.pos === 'sup' ? '<option value="sup" selected>Поддержка (4–5)</option>' : '');
-      const modelHint = input.source === 'steam' && input.posModel ? `оценка модели: ${esc(posLabel(input.posModel))} — поправь, если играл иначе` : 'от неё зависит эталон';
+      const modelHint = input.source === 'steam' && input.posModel ? `оценка модели: ${esc(posLabel(input.posModel))} — поправь, если играл иначе`
+        : input.pos == null ? 'модель сайта не смогла оценить позицию' : 'от неё зависит эталон';
       let html = `<div class="ac-mr-head${input.win ? ' is-win' : ' is-loss'}">${heroImg(h, 96, 54, true)}<div class="ac-mr-title"><b>${esc(name)}</b>` +
         `<span><em>${input.win ? 'Победа' : 'Поражение'}</em> · ${dur(input.duration)} · ${input.k}/${input.d}/${input.a}${kind ? ' · ' + kind : ''}${input.start ? ' · ' + esc(dateOf(input.start)) : ''}${input.matchId ? ` · <a href="https://www.dotabuff.com/matches/${esc(input.matchId)}" target="_blank" rel="noopener nofollow">матч на Dotabuff ↗</a>` : ''}</span></div>` +
         `<label class="ac-mr-pos" for="mt-pos-edit"><span>Твоя позиция</span><select id="mt-pos-edit" data-mt-posedit>${posOpts}</select><small>${modelHint}</small></label></div>`;
 
+      if (input.pos == null) {
+        out.innerHTML = html + '<p class="ac-note">Выбери, на какой позиции ты играл в этом матче, — от неё зависит, с кем сравнивать.</p>';
+        status('Выбери позицию, чтобы получить разбор.');
+        restore();
+        return;
+      }
       if (!res.ok) {
         const why = { short: `Матч короче ${A.MIN_DURATION / 60} минут — по нему нельзя судить об игре.`, turbo: 'Turbo не разбирается: золото и опыт там начисляются иначе, сравнивать с обычными матчами нельзя.',
           no_base: 'Для этого героя и позиции в базе сайта пока нет эталона. Попробуй выбрать другую позицию.', pos: 'Выбери позицию.' }[res.error] || 'Этот матч не удалось разобрать.';
         out.innerHTML = html + `<p class="ac-note">${why}</p>`;
+        status(why);
+        restore();
         return;
       }
       const notes = [];
       if (res.baseline.kind === 'position') notes.push(`Героя на этой позиции в базе мало — сравнение идёт со средним игроком позиции и только по золоту и опыту.`);
-      if (input.source === 'steam' && input.lobbyType !== 7) notes.push('Это не рейтинговый матч, а эталон — по рейтинговым. Сравнение примерное.');
+      if (input.source === 'steam' && input.lobbyType != null && input.lobbyType !== 7) notes.push('Это не рейтинговый матч, а эталон — по рейтинговым. Сравнение примерное.');
       if (!input.win) notes.push('Матч проигран: в поражениях почти все показатели ниже среднего. Смотри на самые большие отставания.');
       const low = res.metrics.filter(m => m.verdict === 'low').length, good = res.metrics.filter(m => m.verdict === 'good').length;
       const b = res.baseline;
@@ -341,6 +378,8 @@
       html += questionsBlock(input.answers || {});
       html += `<div class="ac-mr-actions"><a class="ac-cta ac-cta-sm ac-cta-ghost" href="#pick" data-mt-again>Разобрать другой матч</a><a class="ac-cta ac-cta-sm ac-cta-ghost" href="#history">Мои разборы</a></div>`;
       out.innerHTML = html;
+      status(`Разбор готов. Заметно лучше среднего — ${good}, заметно хуже — ${low}.${recs.length ? ' Главное — ' + recs[0].title.toLowerCase() + '.' : ''}`);
+      restore();
     }).catch(e => {
       console.error('[academy-match]', e);
       out.innerHTML = '<p class="ac-note">Не удалось загрузить справочники сайта для разбора. Проверь связь и обнови страницу.</p>';
@@ -351,7 +390,7 @@
   function renderHistory() {
     const box = $('[data-mt-history]');
     const st = R.matches.load().state;
-    if (!st.analyses.length && !st.goals.length) return;
+    if (!st.analyses.length && !st.goals.length) { box.innerHTML = '<p class="ac-hint">Разборов и целей пока нет. Всё хранится только в этом браузере.</p>'; return; }
     loadData().catch(() => null).then(data => {
       const H = data ? data.heroes : new Map();
       let html = '';
@@ -416,18 +455,17 @@
       storageNote(R.matches.mutate(st => { st.analyses = st.analyses.filter(a => a.id !== id); }).ok);
       if (cur && cur.id === id) cur.id = null;
       renderHistory();
-      if (!R.matches.load().state.analyses.length && !R.matches.load().state.goals.length) $('[data-mt-history]').innerHTML = '<p class="ac-hint">Разборов пока нет.</p>';
     }
   });
   root.addEventListener('keydown', e => {
     const t = e.target;
     if (!t.matches || !t.matches('[data-mt-tab]') || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
     e.preventDefault();
-    selectTab(t.getAttribute('data-mt-tab') === 'steam' ? 'manual' : 'steam', true);
+    selectTab(e.key === 'Home' ? 'steam' : e.key === 'End' ? 'manual' : t.getAttribute('data-mt-tab') === 'steam' ? 'manual' : 'steam', true);
   });
   root.addEventListener('change', e => {
     const t = e.target;
-    if (t.matches('[data-mt-posedit]')) { const v = t.value === 'sup' ? 'sup' : Number(t.value); update(i => { i.pos = v; }); return; }
+    if (t.matches('[data-mt-posedit]')) { if (!t.value) return; const v = t.value === 'sup' ? 'sup' : Number(t.value); update(i => { i.pos = v; }); return; }
     if (t.closest('[data-mt-questions]') && t.type === 'radio') { update(i => { i.answers = Object.assign({}, i.answers, { [t.name]: t.value }); }); return; }
     if (t.matches('[data-mt-goaldone]')) {
       const id = t.getAttribute('data-mt-goaldone');
@@ -444,6 +482,7 @@
       saveId(p.id);
       $('[data-mt-forget]').hidden = false;
       showList(p.id);
+      if (pendingMatch) { const m = pendingMatch; pendingMatch = null; pickSteam(m); }
       return;
     }
     if (f.matches('[data-mt-manual]')) {
@@ -462,8 +501,8 @@
   renderHistory();
   // ?m=<номер матча> — переход из «Моего профиля»: матч уже в кеше сервера.
   const qm = new URLSearchParams(location.search).get('m');
-  if (qm && /^\d{1,19}$/.test(qm) && saved) {
-    steamId = saved;
-    pickSteam(qm);
+  if (qm && /^\d{1,19}$/.test(qm)) {
+    if (saved) { steamId = saved; pickSteam(qm); }
+    else { pendingMatch = qm; setMsg('Чтобы открыть матч из «Моего профиля», введи свой Steam ID — матч разберётся сразу после этого.'); }
   }
 })();

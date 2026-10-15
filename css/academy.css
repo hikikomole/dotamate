@@ -284,7 +284,7 @@ html:not(.ac-js) .ac-diary textarea,html:not(.ac-js) .ac-diary .ac-row,html:not(
 .ac-subnav ul{display:flex;gap:6px;margin:0;padding:0 0 4px;list-style:none;overflow-x:auto;scrollbar-width:none}
 .ac .ac-subnav a{display:block;padding:8px 14px;border:1px solid var(--d2-line);border-radius:var(--rad-pill);background:var(--d2-panel);color:var(--d2-muted);font:700 12.5px/1.2 Manrope,Inter,system-ui,sans-serif;text-decoration:none;white-space:nowrap}
 .ac .ac-subnav a:hover{border-color:var(--d2-gold-dim);color:#fff}
-.ac .ac-subnav a[aria-current="page"]{border-color:var(--ac-g);background:rgba(217,193,135,.12);color:var(--ac-g)}
+.ac .ac-subnav a[aria-current]{border-color:var(--ac-g);background:rgba(217,193,135,.12);color:var(--ac-g)}
 .ac-sec{margin:30px 0 6px;font:800 13px/1.3 Manrope,Inter,system-ui,sans-serif;letter-spacing:1.4px;text-transform:uppercase;color:var(--d2-muted)}
 .ac-sec+.ac-routes{margin-top:12px}
 .ac-sec-sub{margin:0 0 14px;max-width:760px;color:var(--d2-muted-2);font-size:14px;line-height:1.5}
