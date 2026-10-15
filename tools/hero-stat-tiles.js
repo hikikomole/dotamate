@@ -91,6 +91,7 @@ ${row('Винрейт', ph.wr, avgWr)}${row('Золото в минуту', ph.g
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">${name}</span></nav>
     <h1>${name} <span>— билд, контрпики, винрейт</span></h1>
     <p class="hx-sub"><i class="hx-attr ${A[1]}"></i><span>${A[0]} · ${h.attack_type === 'Melee' ? 'Ближний бой' : h.attack_type === 'Ranged' ? 'Дальний бой' : '—'}${mainPos ? ` · ${POS[mainPos]} в ${f1(roShare)} % игр` : ''}</span>${mainPos ? '<small class="hx-src">роли — Stratz, все ранги</small>' : ''}</p>
+    <button type="button" class="hx-fav" data-myhero="${Number(h.id)}" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     ${st && st.tier ? kpi('Тир', `<span class="hx-tier ${tierCls}">${esc(st.tier)}</span>`) : ''}

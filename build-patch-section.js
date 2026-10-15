@@ -130,7 +130,7 @@ function patchSection(p) {
   const head =
     '<header class="pt-head">' +
       '<p class="eyebrow">Официальные заметки Valve · ' + esc(ruDate(p.timestamp)) + '</p>' +
-      '<h2 class="pt-title">Патч ' + esc(p.version) + '</h2>' +
+      '<h1 class="pt-title">Патч ' + esc(p.version) + '</h1>' +
       '<p class="pt-lead">Изменились ' + c.heroes + ' ' + plural(c.heroes, 'герой', 'героя', 'героев') +
         ' и ' + (c.items + c.neutrals) + ' ' + plural(c.items + c.neutrals, 'предмет', 'предмета', 'предметов') +
         '. Текст изменений — русская локализация Valve с dota2.com/datafeed; имена, значки и ссылки наши.</p>' +

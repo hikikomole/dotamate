@@ -1849,3 +1849,32 @@ body.d2-dark .compare-form .btn{justify-self:start;min-height:44px}
 @media (min-width:1024px) and (max-width:1239px){body.d2-dark .topbar .nav nav{gap:14px!important}body.d2-dark .topbar .nav nav a,body.d2-dark .topbar .nav .nav-dd>a{font-size:11.5px!important;letter-spacing:.5px!important}}
 @media (min-width:761px) and (max-width:1023px){body.d2-dark .topbar .nav{gap:14px!important}body.d2-dark .topbar .nav nav{gap:9px!important}body.d2-dark .topbar .nav nav a,body.d2-dark .topbar .nav .nav-dd>a{font-size:10.5px!important;letter-spacing:.2px!important}}
 @media (min-width:761px) and (max-width:939px){body.d2-dark .topbar .dm-patch{display:none!important}}
+/* Страница героя: переходы в инструменты (build-hero-pages.js, цели Метрики data-goal — js/app.js) */
+body.d2-dark .hp-tools{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin-top:14px!important;margin-bottom:40px!important}
+body.d2-dark .hp-tool{display:block!important;padding:16px 18px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-lg)!important;color:var(--d2-text)!important;text-decoration:none!important}
+body.d2-dark .hp-tool:hover{border-color:var(--d2-gold-dim)!important}
+body.d2-dark .hp-tool b{display:block!important;color:#fff!important;font-size:15px!important}
+body.d2-dark .hp-tool b::after{content:" →";color:var(--d2-gold)}
+body.d2-dark .hp-tool small{display:block!important;margin-top:4px!important;color:var(--d2-muted)!important;font-size:12.5px!important;line-height:1.45!important}
+@media(max-width:760px){body.d2-dark .hp-tools{grid-template-columns:1fr!important}}
+/* «Мои герои»: кнопка в шапке героя (tools/hero-stat-tiles.js) и блок на /heroes/ (js/my-heroes.js) */
+.hx-fav{align-self:flex-start!important;margin-top:10px!important;padding:6px 12px!important;background:transparent!important;border:1px solid var(--d2-line)!important;border-radius:999px!important;color:var(--d2-text)!important;font:inherit!important;font-size:13px!important;cursor:pointer!important}
+.hx-fav:hover,.hx-fav:focus-visible{border-color:var(--d2-gold-dim)!important}
+.hx-fav.is-on{border-color:var(--d2-gold-dim)!important;color:var(--d2-gold)!important}
+.mh{margin:0 0 22px!important;padding:16px 18px!important;background:var(--d2-panel)!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-lg)!important}
+.mh[hidden]{display:none!important}
+.mh-title{margin:0 0 10px!important;font-size:18px!important;color:#fff!important}
+.mh-hint,.mh-src{margin:0!important;color:var(--d2-muted)!important;font-size:14px!important}
+.mh-src{margin-top:10px!important;font-size:12px!important;color:var(--d2-muted-2)!important}
+.mh-list{list-style:none!important;margin:0!important;padding:0!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:10px!important}
+.mh-card{position:relative!important;display:flex!important;flex-direction:column!important;gap:6px!important;padding:10px 34px 10px 10px!important;border:1px solid var(--d2-line)!important;border-radius:var(--rad-md,8px)!important;min-width:0!important}
+.mh-link{display:flex!important;align-items:center!important;gap:10px!important;color:#fff!important;text-decoration:none!important;font-weight:700!important;min-width:0!important}
+.mh-link img{flex:0 0 auto!important;width:64px!important;height:36px!important;object-fit:cover!important;border-radius:4px!important}
+.mh-link span{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.mh-wr{color:var(--d2-text)!important;font-size:14px!important}
+.mh-trend{color:var(--d2-muted)!important;font-size:12px!important;white-space:nowrap!important}
+.mh-trend.up{color:#6fcf7f!important}
+.mh-trend.down{color:#e8776b!important}
+.mh-patch{align-self:flex-start!important;padding:2px 8px!important;border:1px solid var(--d2-gold-dim)!important;border-radius:999px!important;color:var(--d2-gold)!important;font-size:12px!important;text-decoration:none!important}
+.mh-del{position:absolute!important;top:6px!important;right:6px!important;width:26px!important;height:26px!important;padding:0!important;background:transparent!important;border:0!important;color:var(--d2-muted)!important;font-size:18px!important;line-height:1!important;cursor:pointer!important}
+.mh-del:hover,.mh-del:focus-visible{color:#fff!important}

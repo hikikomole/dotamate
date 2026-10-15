@@ -22,15 +22,22 @@ const acLessons = id => COURSES.find(c => c.id === id).modules.reduce((s, m) => 
 const acItems = () => COURSES.reduce((s, c) => s + c.modules.reduce((x, m) => x + m.quiz.length + m.scenarios.length, 0), 0);
 // Маршруты по ролям (academy-roles-content.js): страница на каждый, тексты описаний — из данных курса.
 const ROLE_SEO = {
-  carry: 'Как играть на керри в Dota 2 — маршрут обучения позиции 1',
-  mid: 'Как играть на миде в Dota 2 — маршрут обучения позиции 2',
-  offlane: 'Как играть на оффлейне в Dota 2 — маршрут обучения позиции 3',
-  support: 'Как играть на саппорте в Dota 2 — маршрут обучения позиций 4 и 5',
+  carry: 'Как играть на керри в Dota 2 — обучение позиции 1',
+  mid: 'Как играть на миде в Dota 2 — обучение позиции 2',
+  offlane: 'Как играть на оффлейне в Dota 2 — обучение позиции 3',
+  support: 'Как играть на саппорте в Dota 2 — позиции 4 и 5',
+};
+// Короткие описания для поиска (до ~160 знаков вместе с числом уроков); длинные — в данных курса.
+const ROLE_DESC = {
+  carry: 'Как играть на керри: линия и добивание, фарм и первый предмет, драки, выкуп и осада базы.',
+  mid: 'Как играть на миде: линия один на один, руны и ротации, драки и Blink Dagger.',
+  offlane: 'Как играть на оффлейне: трудная линия, инициация и пространство, командные предметы.',
+  support: 'Как играть на саппорте: линия, пуллы и стаки, обзор и девард, спасение союзников.',
 };
 const rolePages = () => COURSES.filter(c => c.group === 'role').map(c => ({
   key: 'academy', dir: `academy/${c.slug}`, academy: c.id, crumb: c.title, parent: { name: 'Учебный центр', dir: 'academy' },
   title: `${ROLE_SEO[c.id] || `${c.title} — маршрут обучения Dota 2`} | Dota Mate`,
-  desc: `${c.description} ${acLessons(c.id)} уроков, игровые ситуации, мини-тесты и задания на матч.`,
+  desc: `${ROLE_DESC[c.id] || c.description} ${acLessons(c.id)} уроков, ситуации, тесты и задания на матч.`,
   sections: ['academy'],
   styles: ['/css/theme-dark.css', '/css/academy.css'],
   bodyClass: 'd2-dark',
@@ -42,7 +49,7 @@ const PAGES = [
   {
     key: 'home', dir: '',
     title: 'Dota Mate — герои, предметы, статистика и гайды',
-    desc: 'DraftMate — драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. 127 героев, 253 предмета, сборки и гайды.',
+    desc: 'DraftMate — драфт Dota 2 по числам: синергия, контрпики и расклад по линиям на 8001 паре героев из матчей Divine и Immortal. Герои, предметы, сборки и гайды.',
     // draftTool идёт сразу за первым экраном — как на живой главной.
     // Раньше секции тут не было, и запуск сборщика стирал инструмент драфта
     // из index.html: разметка жила только в собранном файле.
@@ -56,12 +63,13 @@ const PAGES = [
   {
     key: 'heroes', dir: 'heroes',
     title: 'Все герои Dota 2 — характеристики, роли и контрпики | Dota Mate',
-    desc: 'Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.',
+    desc: 'Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, билд и контрпики по своей базе матчей.',
     sections: ['heroes', 'featuredHeroes'],
     // Тёмное оформление включено на всех шести разделах и на статических
     // страницах героев и предметов — светлой темы на сайте не осталось.
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/my-heroes.js', defer: true }],
   },
   {
     key: 'items', dir: 'items',
@@ -73,8 +81,8 @@ const PAGES = [
   },
   {
     key: 'stats', dir: 'stats',
-    title: 'Статистика Dota 2: тир-лист героев, винрейт по рангам и позициям | Dota Mate',
-    desc: 'Статистика Dota 2 по своей базе рейтинговых матчей всех рангов: тир-лист героев, винрейт по рангам и позициям, связки и контрпики, популярные предметы, длительность матчей, линии и динамика по дням.',
+    title: 'Статистика Dota 2: тир-лист, винрейт по рангам и позициям | Dota Mate',
+    desc: 'Статистика Dota 2 по своей базе рейтинговых матчей всех рангов: тир-лист, винрейт по рангам и позициям, связки, контрпики, предметы, линии и динамика.',
     sections: ['stats'],
     styles: ['/css/theme-dark.css', '/css/stats.css'],
     bodyClass: 'd2-dark',
@@ -93,8 +101,8 @@ const PAGES = [
   // Прогресс хранится только в браузере (js/academy-store.js, интерфейс — js/academy.js), на сервер не уходит.
   {
     key: 'academy', dir: 'academy', academy: 'landing',
-    title: 'Учебный центр Dota 2 — обучение по ролям, разбор матча и тренировка | Dota Mate',
-    desc: 'Учебный центр DOTAMATE: маршруты «С нуля», «Поднять рейтинг» и по ролям — керри, мид, оффлейн, поддержка. Разбор своего матча с рекомендациями, тренировка решений и экзамен, прогресс без регистрации.',
+    title: 'Учебный центр Dota 2: обучение, разбор матча, тренировка | Dota Mate',
+    desc: 'Учебный центр DOTAMATE: маршруты для новичков, для роста рейтинга и по ролям, разбор своего матча с рекомендациями, тренировка и экзамен без регистрации.',
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
@@ -102,8 +110,8 @@ const PAGES = [
   },
   {
     key: 'academy', dir: 'academy/match', academy: 'match', crumb: 'Разбор матча', parent: { name: 'Учебный центр', dir: 'academy' },
-    title: 'Разбор матча Dota 2 по Steam ID — анализ игры и рекомендации | Dota Mate',
-    desc: 'Бесплатный разбор матча Dota 2: выбери игру по Steam ID или введи цифры с табло. Сравнение с игроками на том же герое и позиции, сильные стороны, зоны роста, уроки и цели на следующий матч.',
+    title: 'Разбор матча Dota 2 по Steam ID: анализ и советы | Dota Mate',
+    desc: 'Бесплатный разбор матча Dota 2 по Steam ID или цифрам с табло: сравнение с игроками на том же герое и позиции, зоны роста, уроки и цели на следующий матч.',
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
@@ -112,7 +120,7 @@ const PAGES = [
   {
     key: 'academy', dir: 'academy/practice', academy: 'practice', crumb: 'Тренировка', parent: { name: 'Учебный центр', dir: 'academy' },
     title: 'Тренировка Dota 2 — вопросы, игровые ситуации и экзамен | Dota Mate',
-    desc: `Тренировка решений в Dota 2: ${acItems()} вопросов и игровых ситуаций по линии, фарму, карте и дракам. Случайные подходы, работа над ошибками и экзамен по маршруту обучения.`,
+    desc: `Тренировка решений в Dota 2: ${acItems()} вопросов и игровых ситуаций по линии, фарму, карте и дракам. Работа над ошибками и экзамен по маршруту обучения.`,
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
@@ -120,8 +128,8 @@ const PAGES = [
   },
   {
     key: 'academy', dir: 'academy/beginner', academy: 'beginner', crumb: 'С нуля', parent: { name: 'Учебный центр', dir: 'academy' },
-    title: 'Dota 2 с нуля — маршрут обучения для новичка: уроки и тесты | Dota Mate',
-    desc: `Маршрут обучения Dota 2 с нуля: настройки и режимы, роли и простые герои, линия и добивание, фарм и карта, драки и разбор реплеев. ${acLessons('beginner')} уроков, игровые ситуации, мини-тесты и задания на матч.`,
+    title: 'Dota 2 с нуля — обучение для новичка: уроки и тесты | Dota Mate',
+    desc: `Обучение Dota 2 с нуля: настройки, роли и простые герои, линия и добивание, фарм, карта и драки. ${acLessons('beginner')} уроков, ситуации, тесты и задания на матч.`,
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
@@ -129,12 +137,23 @@ const PAGES = [
   },
   {
     key: 'academy', dir: 'academy/rank-up', academy: 'rank-up', crumb: 'Поднять рейтинг', parent: { name: 'Учебный центр', dir: 'academy' },
-    title: 'Как поднять рейтинг в Dota 2 — маршрут тренировок: уроки и тесты | Dota Mate',
-    desc: `Маршрут для роста MMR в Dota 2: разбор реплеев и статистики, пул героев и драфт, экономика линии, тайминги карты, выкуп и контроль тильта. ${acLessons('rank-up')} уроков, игровые ситуации, мини-тесты и задания на матч.`,
+    title: 'Как поднять рейтинг в Dota 2 — маршрут тренировок | Dota Mate',
+    desc: `Как поднять MMR в Dota 2: разбор матчей, пул героев и драфт, экономика линии, тайминги карты и драки. ${acLessons('rank-up')} уроков, ситуации, тесты и задания на матч.`,
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
     scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy-records.js', defer: true }, { src: '/js/academy.js', defer: true }],
+  },
+  // DraftMate отдельной страницей (тот же инструмент, что на главной: секция draftTool, js/draft-tool.js) —
+  // адрес под поиск «драфт / контрпики», ссылки со страниц героев ведут сюда с героем в слоте (#draft=<id>__).
+  {
+    key: 'draft', dir: 'draft', crumb: 'DraftMate',
+    title: 'DraftMate — драфт Dota 2: контрпики и синергия героев | Dota Mate',
+    desc: 'Драфт Dota 2 по числам: синергия союзников, контрпики и линии для обеих сторон по парам героев из рейтинговых матчей. Срезы Divine–Immortal, все ранги и Турбо.',
+    sections: ['draftIntro', 'draftTool'],
+    styles: ['/css/theme-dark.css', '/css/draft-tool.css'],
+    bodyClass: 'd2-dark',
+    scripts: [{ src: '/js/draft-model.js', defer: true }, { src: '/js/draft-tool.js', defer: true }, { src: '/js/draft-items.js', defer: true }],
   },
   {
     key: 'meta', dir: 'meta',
@@ -159,7 +178,7 @@ const PAGES = [
   {
     key: 'live', dir: 'live',
     title: 'Эфир Dota 2 — повторы матчей круглосуточно | Dota Mate',
-    desc: 'Круглосуточный эфир рейтинговых матчей Dota 2 по данным реплеев: позиции героев на карте, убийства, варды, разрушенные строения и капитал команд в реальном времени.',
+    desc: 'Круглосуточный эфир рейтинговых матчей Dota 2 по данным реплеев: позиции героев на карте, убийства, варды, разрушенные строения и капитал команд онлайн.',
     sections: ['live'],
     styles: ['/css/theme-dark.css', '/css/live.css'],
     bodyClass: 'd2-dark',
@@ -208,7 +227,7 @@ const PAGES = [
     // Steam ID хранится только в браузере (localStorage dmSteamId).
     key: 'me', dir: 'me',
     title: 'Мой профиль Dota 2 — последние матчи и винрейт по героям | Dota Mate',
-    desc: 'Последние 100 матчей Dota 2 по Steam ID: победы и поражения, K/D/A, GPM, ваши герои и сравнение вашего винрейта с общим винрейтом героя. Без входа и регистрации.',
+    desc: 'Последние 100 матчей Dota 2 по Steam ID: победы и поражения, K/D/A, GPM, ваши герои и сравнение с общим винрейтом героя. Без входа и регистрации.',
     sections: ['me'],
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',

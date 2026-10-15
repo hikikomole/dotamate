@@ -64,12 +64,17 @@ async function main() {
   const store = JSON.parse(fs.readFileSync(DATA, 'utf8'));
   const guideData = store.heroes || {};
 
-  const heroes = await (await fetch('https://api.opendota.com/api/heroStats')).json();
+  // OpenDota с сервера сайта отвечает нестабильно: при сбое — локальные снимки (data/heroes.json, data/items-ru.json).
+  const odota = async (url, fallback) => {
+    try { const r = await fetch(url, { signal: AbortSignal.timeout(20000) }); if (!r.ok) throw new Error('HTTP ' + r.status); const j = await r.json(); if (!j || typeof j !== 'object') throw new Error('пустой ответ'); return j; }
+    catch (e) { console.warn('OpenDota недоступна (' + url.replace(/^.*\/api\//, '') + ': ' + e.message + ') — локальный снимок'); return fallback(); }
+  };
+  const heroes = await odota('https://api.opendota.com/api/heroStats', () => JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'heroes.json'), 'utf8')).heroes);
   const byId = new Map(heroes.map(h => [Number(h.id), h]));
   // Характеристики 1-го уровня — официальный datafeed Valve (tools/valve-hero-stats.js).
   const valveHero = require('./tools/valve-hero-stats.js');
   const valveStats = await valveHero.load(heroes.map(x => x.id));
-  const itemsRaw = await (await fetch('https://api.opendota.com/api/constants/items')).json();
+  const itemsRaw = await odota('https://api.opendota.com/api/constants/items', () => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'items-ru.json'), 'utf8')).items).map(([k, v]) => [k, { id: v.id, dname: v.dname }])));
   // Справочник предметов OpenDota шире нашего каталога: там есть
   // ward_observer, ward_sentry, harpoon и shadow_amulet, а страниц у них нет.
   // Раньше гайды ссылались на них — 63 битых адреса на 63 страницах. Берём
@@ -119,7 +124,8 @@ async function main() {
     const roles = roleText(h);
     const atk = h.attack_type === 'Melee' ? 'ближнего боя' : 'дальнего боя';
     const canonical = `${ORIGIN}/hero/${slug}/guide/`;
-    const title = `Гайд по ${h.localized_name} в Dota 2: как играть, закупы и контрпики | Dota Mate`;
+    // Заголовок до 70 знаков (дальше поисковики обрезают): длинное имя — без «как играть».
+    const title = [`Гайд по ${h.localized_name} в Dota 2: как играть, закупы и контрпики | Dota Mate`, `Гайд по ${h.localized_name} в Dota 2: закупы и контрпики | Dota Mate`, `Гайд по ${h.localized_name} в Dota 2 | Dota Mate`].find(t => t.length <= 70) || `Гайд по ${h.localized_name} | Dota Mate`;
 
     // --- разделы ---
     const vs = valveStats[h.id] || null;
@@ -186,7 +192,9 @@ async function main() {
         { "@type": "ListItem", "position": 4, "name": "Гайд", "item": canonical }]
     });
 
-    const desc = `Гайд по ${h.localized_name}: роли (${roles}), способности с официальными русскими описаниями, реальные закупы по стадиям игры и таблицы «кого контрит» и «кто контрит» по данным OpenDota.`.slice(0, 300);
+    // Описание до ~160 знаков. Закупы и контрпики — своя база матчей сайта (hero-items.json, hero-counters.json), не OpenDota.
+    const desc = [`Гайд по ${h.localized_name}: роли (${roles}), способности, закупы по стадиям игры, кого контрит и кто контрит — по своей базе матчей.`,
+      `Гайд по ${h.localized_name}: способности, закупы по стадиям игры, кого контрит и кто контрит — по своей базе матчей.`].find(t => t.length <= 160) || `Гайд по ${h.localized_name}: способности, закупы и контрпики по своей базе матчей.`;
 
     const html = `<!doctype html>
 <html lang="ru">

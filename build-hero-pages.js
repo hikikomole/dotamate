@@ -61,9 +61,34 @@ const skillChains = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'skill-chains.json'), 'utf8')).heroes; }
   catch { return {}; }
 })();
+// Русские названия талантов (data/talents-ru.json, локализация Valve) для талантов из дерева героя.
+// В русском тексте числа — подстановки {s:…}; число берётся из английского названия дерева (Stratz,
+// уже подставлено), только если оно там одно и подстановка в русском тексте одна и та же. Иначе —
+// английское название, как раньше: неверное число хуже английского слова. data/talent-values.json
+// для этого не годится — у части героев там номера слотов, а не значения (Axe: 12, 17, 19…).
 const talentNames = (() => {
-  try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talents-ru.json'), 'utf8')).byAbilityId; }
-  catch { return {}; }
+  try {
+    const ru = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talents-ru.json'), 'utf8'));
+    const idx = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ability-index.json'), 'utf8')).abilities;
+    const tree = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talent-tree.json'), 'utf8')).heroes;
+    const out = {};
+    for (const lv of Object.values(tree)) for (const arr of Object.values(lv)) for (const t of arr) {
+      const key = idx[t.abilityId] && idx[t.abilityId].name;
+      // byAbilityId часто уже с числом («+150 к урону от Meat Hook») — берём его; иначе шаблон byKey.
+      const ready = ru.byAbilityId[t.abilityId];
+      let s = ready && /[А-Яа-яЁё]/.test(ready) && !/\{s:/.test(ready) ? ready : (key && ru.byKey[key]) || ready;
+      if (!s || !/[А-Яа-яЁё]/.test(s)) continue;
+      const ph = s.match(/\{s:[A-Za-z0-9_]+\}/g) || [];
+      if (ph.length) {
+        const n = String(t.title || '').match(/\d+(?:\.\d+)?/g) || [];
+        if (n.length !== 1 || new Set(ph).size !== 1) continue;
+        s = s.replace(/\{s:[A-Za-z0-9_]+\}/g, n[0]);
+      }
+      s = s.replace(/(\d)\.(\d)/g, '$1,$2');   // десятичная запятая, как на всём сайте
+      if (!/\{s:|%[a-z_]+%/i.test(s)) out[t.abilityId] = s;
+    }
+    return out;
+  } catch { return {}; }
 })();
 const abilityIndex = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ability-index.json'), 'utf8')).abilities; }
@@ -89,9 +114,18 @@ function introParagraph(h){
 }
 
 async function main(){
-  const res=await fetch('https://api.opendota.com/api/heroStats');
-  if(!res.ok) throw new Error('OpenDota heroStats failed: '+res.status);
-  const heroes=await res.json();
+  // OpenDota с сервера сайта отвечает нестабильно (522/521): при сбое или таймауте — снимок data/heroes.json
+  // (те же поля, tools/build-heroes-snapshot.py), иначе 127 страниц героев не собрались бы вовсе.
+  let heroes;
+  try{
+    const res=await fetch('https://api.opendota.com/api/heroStats',{signal:AbortSignal.timeout(20000)});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    heroes=await res.json();
+    if(!Array.isArray(heroes)||!heroes.length) throw new Error('пустой ответ');
+  }catch(e){
+    console.warn('OpenDota heroStats недоступен ('+e.message+') — беру data/heroes.json');
+    heroes=JSON.parse(fs.readFileSync(path.join(__dirname,'data','heroes.json'),'utf8')).heroes;
+  }
   // OpenDota не отдаёт complexity (шкалу сложности 1–3) — она есть только в
   // datafeed Valve и лежит в нашей data/heroes.json. Без этого слияния код
   // `h.complexity||1` рисовал единицу ВСЕМ героям, включая Invoker и Meepo.
@@ -108,9 +142,18 @@ async function main(){
 
   // Способности: ключи по героям и их названия. Иконки и ролики лежат на том
   // же Steam CDN, откуда сайт уже берёт портреты, и собираются по ключу.
-  async function grab(url){const r=await fetch(url);if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
-  const heroAbilities=await grab('https://api.opendota.com/api/constants/hero_abilities');
-  const abilityMeta=await grab('https://api.opendota.com/api/constants/abilities');
+  async function grab(url){const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
+  let heroAbilities,abilityMeta;
+  try{
+    heroAbilities=await grab('https://api.opendota.com/api/constants/hero_abilities');
+    abilityMeta=await grab('https://api.opendota.com/api/constants/abilities');
+  }catch(e){
+    // Запасной путь — снимок data/hero-abilities.json (ключи, названия, тип применения; без типа урона).
+    console.warn('OpenDota constants недоступны ('+e.message+') — способности из data/hero-abilities.json');
+    const snap=JSON.parse(fs.readFileSync(path.join(__dirname,'data','hero-abilities.json'),'utf8')).heroes||{};
+    heroAbilities={};abilityMeta={};
+    for(const h of heroes){const list=snap[String(h.id)]||[];heroAbilities[h.name]={abilities:list.map(a=>a.key)};for(const a of list)abilityMeta[a.key]={dname:a.dname,behavior:a.behavior};}
+  }
   const RU_BEHAVIOR={'Passive':'Пассивная','No Target':'Без цели','Unit Target':'По цели','Point Target':'В точку','AOE':'По площади','Channeled':'Прерываемая','Toggle':'Переключаемая','Aura':'Аура','Autocast':'Автокаст','Hidden':'Скрытая'};
   const RU_DMG={'Physical':'физический','Magical':'магический','Pure':'чистый'};
   const CDN_IMG='/assets/abilities/';
@@ -198,7 +241,7 @@ async function main(){
     const buildsHtml=buildData?heroBuilds.sectionsHtml(buildData,{
       escapeHtml,
       abilities:abilityIndex,
-      talentNames:null, // русские названия готовы в data/talents-ru.json — включаются заменой на talentNames
+      talentNames, // русские названия (см. talentNames выше); нет русского — английское из дерева
       chains:skillChains[h.id]||null,
       talentTitles,
       hasAbilityIcon:abilityIconExists,
@@ -247,6 +290,7 @@ async function main(){
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
 <script type="application/ld+json">${ldjson}</script>
@@ -310,7 +354,16 @@ async function main(){
     </div>
     <a class="btn red" href="/hero/${slug}/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для ${escapeHtml(h.localized_name)}">
+    <a class="hp-tool" href="/draft/#draft=${h.id}__" data-goal="hero_to_draft"><b>Драфт с ${escapeHtml(h.localized_name)}</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.

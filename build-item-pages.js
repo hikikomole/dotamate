@@ -64,7 +64,7 @@ async function main(){
 
     const img=x.img||`/assets/items/${slug}.png`;
     const ogImage=`https://dotamate.ru${img}`;
-    const title=`${x.dname} — предмет Dota 2: характеристики и описание | Dota Mate`;
+    const title=[`${x.dname} — предмет Dota 2: характеристики и описание | Dota Mate`,`${x.dname} — предмет Dota 2: описание и сборка | Dota Mate`,`${x.dname} — предмет Dota 2 | Dota Mate`].find(t=>t.length<=70)||`${x.dname} | Dota Mate`;   // до 70 знаков: дальше поисковики обрезают
     const storedDesc=seoDesc[slug];
     const desc=(typeof storedDesc==='string'&&storedDesc.includes(x.dname))?storedDesc:trimTo(`${x.dname}. ${descText(x)}`,300);
     const lead=trimTo(descText(x),150);

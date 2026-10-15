@@ -160,6 +160,10 @@
     <div class="section-head companion-section-head">
       <div><h1 class="page-title">Все герои Dota 2</h1><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
     </div>
+    <section class="mh" id="myHeroes" aria-labelledby="mhTitle" hidden>
+      <h2 class="mh-title" id="mhTitle">Мои герои</h2>
+      <div class="mh-body" data-mh-body></div>
+    </section>
     <div class="toolbar">
       <label class="search">⌕ <input id="search" placeholder="Поиск героя..." autocomplete="off"></label>
       <div class="chips">
@@ -329,7 +333,7 @@
         </div>
 
         <div id="dgStart" class="dg-overlay">
-          <h1>HOOK &amp; HIT</h1>
+          <div class="dg-title" role="heading" aria-level="2">HOOK &amp; HIT</div>
           <p>Кликайте по карте для движения с <b style="color:#64b5f6">ускорением</b>.<br><b style="color:#ff5252">Красные хуки можно отбивать атакой!</b><br>Скорость хуков растёт каждые 20 секунд.<br>Добивайте крипов подряд — награда за серию растёт до <b style="color:#ffb300">x2</b>.<br>В бесконечном режиме на старте <b class="dg-gold">200 золота</b>, каждый пропущенный хук стоит <b style="color:#ff5252">20</b>: на нуле игра заканчивается.</p>
           <div class="dg-btn-group">
             <button id="dgStartClassic" type="button" class="dg-btn">КЛАССИКА (3 ЖИЗНИ)</button>
@@ -339,7 +343,7 @@
         </div>
 
         <div id="dgOver" class="dg-overlay dg-hide">
-          <h1 id="dgOverTitle">РЕЗУЛЬТАТЫ ИГРЫ</h1>
+          <div class="dg-title" id="dgOverTitle" role="heading" aria-level="2">РЕЗУЛЬТАТЫ ИГРЫ</div>
           <div id="dgRecord" class="dg-record dg-hide"></div>
           <div class="dg-stats-summary">
             <div>Время игры: <span id="dgFinalTime" class="dg-time">00:00</span></div>
@@ -543,4 +547,16 @@
 </section>
 <section class="section ac" id="academy">
   <div class="container">{{ACADEMY_CONTENT}}</div>
+</section>
+<section class="section dr-intro" id="draftIntro">
+  <div class="container">
+    <h1 class="page-title">DraftMate — драфт Dota 2 по числам</h1>
+    <p class="dr-lead">Ставь пики и баны своего матча — DraftMate покажет синергию союзников, контрпики против соперников и расклад по линиям для обеих сторон и подскажет, кого добрать. Расчёт идёт по парам героев из рейтинговых матчей базы сайта.</p>
+    <ul class="dr-facts">
+      <li><b>Срезы.</b> По умолчанию — матчи Divine 5 и Immortal; есть все ранги и Турбо.</li>
+      <li><b>Выборка.</b> «Скрыть малую выборку» убирает пары, сыгранные меньше 30 раз; «Только мета» оставляет героев, которых реально играют в этом ранге.</li>
+      <li><b>Ссылка.</b> Кнопка «Ссылка» сохраняет драфт в адресе — его можно отправить команде.</li>
+    </ul>
+    <p class="dr-more">Как читать контрпики — в <a href="/guide/counter-picks/">таблице контрпиков</a> и гайде <a href="/guide/draft-fundamentals/">«Основы драфта»</a>; после матча — <a href="/academy/match/">разбор своей игры</a>.</p>
+  </div>
 </section>

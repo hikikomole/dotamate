@@ -52,9 +52,8 @@
   }
 
   /**
-   * Название таланта. Сейчас английское — как в исходных данных Stratz.
-   * Русские переводы уже собраны в data/talents-ru.json: чтобы включить их,
-   * достаточно передать их в ctx.talentNames из сборщика страниц.
+   * Название таланта: русское из ctx.talentNames (сборщик build-hero-pages.js, локализация Valve
+   * с числом из дерева талантов), иначе английское из дерева или Stratz.
    */
   function talentLabel(abilityId, meta, ctx) {
     const ru = ctx.talentNames && ctx.talentNames[abilityId];
@@ -176,7 +175,7 @@
           ? 'Решает игрок'
           : `Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}`;
         return `<div class="hb-tal-cell${isPick ? ' is-picked' : ''}${isWin && !isPick ? ' is-win' : ''}${unused ? ' is-unused' : ''}">
-          <b>${esc(cleanTalent(o.title) || talentLabel(o.abilityId, a, ctx))}</b>
+          <b>${esc((ctx.talentNames && ctx.talentNames[o.abilityId] && cleanTalent(ctx.talentNames[o.abilityId])) || cleanTalent(o.title) || talentLabel(o.abilityId, a, ctx))}</b>
           <span>${esc(stats)}</span>
           ${unused ? '' : tag}
         </div>`;

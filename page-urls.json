@@ -13,7 +13,7 @@
  },
  {
   "loc": "https://dotamate.ru/stats/",
-  "name": "Статистика Dota 2: тир-лист героев, винрейт по рангам и позициям | Dota Mate"
+  "name": "Статистика Dota 2: тир-лист, винрейт по рангам и позициям | Dota Mate"
  },
  {
   "loc": "https://dotamate.ru/guides/",
@@ -21,11 +21,11 @@
  },
  {
   "loc": "https://dotamate.ru/academy/",
-  "name": "Учебный центр Dota 2"
+  "name": "Учебный центр Dota 2: обучение, разбор матча, тренировка | Dota Mate"
  },
  {
   "loc": "https://dotamate.ru/academy/match/",
-  "name": "Разбор матча Dota 2 по Steam ID"
+  "name": "Разбор матча Dota 2 по Steam ID: анализ и советы | Dota Mate"
  },
  {
   "loc": "https://dotamate.ru/academy/practice/",
@@ -54,6 +54,10 @@
  {
   "loc": "https://dotamate.ru/academy/support/",
   "name": "Как играть на саппорте в Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/draft/",
+  "name": "DraftMate"
  },
  {
   "loc": "https://dotamate.ru/meta/",

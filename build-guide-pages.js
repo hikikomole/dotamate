@@ -75,7 +75,7 @@ async function main(){
 
     const canonical=`https://dotamate.ru/guide/${g.slug}/`;
     const desc=g.excerpt;
-    const title=`${g.title} | Гайд Dota Mate`;
+    const title=[`${g.title} | Гайд Dota Mate`,`${g.title} | Dota Mate`].find(t=>t.length<=70)||g.title;   // до 70 знаков (дальше поисковики обрезают): длинное название статьи — без приписки
     const ldjson=JSON.stringify({
       "@context":"https://schema.org","@type":"Article",
       "headline":g.title,"description":g.excerpt,

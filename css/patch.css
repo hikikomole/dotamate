@@ -92,7 +92,7 @@ body.d2-dark .pt-hero-name{margin:0!important;font-family:Oswald,Manrope,system-
 }
 /* --- телефон --- */
 @media (max-width:560px){
-  .pt-hero{margin:0 -14px;padding:16px 14px}
+  .pt-hero{margin:0 -12px;padding:16px 12px}
   .pt-band{margin-top:30px}
   .pt-row{gap:12px;padding:14px 0}
   .pt-portrait{width:54px;height:30px}

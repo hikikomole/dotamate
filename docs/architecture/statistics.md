@@ -124,6 +124,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 - `js/app.js` — вкладка «Про-сцена» /stats/ (`renderStats`, данные OpenDota, не stats.json).
 - `tools/hero-stat-tiles.js` ← `build-hero-pages.js` — плитки и паспорт на /hero/<slug>/.
 - `js/home-daily.js` — блоки главной; `js/me.js` — средний винрейт героя для /me.
+- `js/my-heroes.js` — блок «Мои герои» на /heroes/: `heroes[].wr` и `history` (разница с самым ранним снимком не старше 7 дней).
 - `tools/fetch-rank-positions.js`, `tools/valve-hero-stats.js`, `tools/build-item-stats.js` — упоминают/читают (служебно).
 
 ## 6. Найденные проблемы (подтверждённые)

@@ -339,6 +339,9 @@ async function main() {
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');
       if (!await node('Статьи', 'build-guide-pages.js')) problems.push('статьи');
     } else problems.push('контрпики');
+    // Sitemap после всех сборщиков страниц: lastmod — дата реального изменения страницы (build-sitemap.js).
+    // Сбой не останавливает выкладку — остаётся прежний sitemap.
+    if (!await node('Карта сайта (sitemap)', 'build-sitemap.js')) problems.push('sitemap');
 
 
     if (ARGS.has('--no-deploy')) { log('Флаг --no-deploy: выкладку пропускаю.'); return problems.length ? 1 : 0; }

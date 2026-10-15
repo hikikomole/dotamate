@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Все герои Dota 2 — характеристики, роли и контрпики | Dota Mate</title>
-<meta name="description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.">
+<meta name="description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, билд и контрпики по своей базе матчей.">
 <link rel="canonical" href="https://dotamate.ru/heroes/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Все герои Dota 2 — характеристики, роли и контрпики | Dota Mate">
-<meta property="og:description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.">
+<meta property="og:description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, билд и контрпики по своей базе матчей.">
 <meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
 <meta property="og:url" content="https://dotamate.ru/heroes/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Все герои Dota 2 — характеристики, роли и контрпики | Dota Mate">
-<meta name="twitter:description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, рекомендуемый билд и контрпики по живым данным OpenDota.">
+<meta name="twitter:description" content="Каталог всех героев Dota 2 с поиском и фильтром по атрибутам. У каждого героя роли, характеристики, билд и контрпики по своей базе матчей.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'">
@@ -50,6 +50,10 @@
     <div class="section-head companion-section-head">
       <div><h1 class="page-title">Все герои Dota 2</h1><p>Живая база героев. Карточка героя связана со статистикой, предметами и гайдами.</p></div>
     </div>
+    <section class="mh" id="myHeroes" aria-labelledby="mhTitle" hidden>
+      <h2 class="mh-title" id="mhTitle">Мои герои</h2>
+      <div class="mh-body" data-mh-body></div>
+    </section>
     <div class="toolbar">
       <label class="search">⌕ <input id="search" placeholder="Поиск героя..." autocomplete="off"></label>
       <div class="chips">
@@ -89,7 +93,7 @@
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/search.js" defer></script>
 <script src="/js/app.js" defer></script>
-
+<script src="/js/my-heroes.js" defer></script>
 <script src="/js/v43-features.js" defer></script>
 </body>
 </html>

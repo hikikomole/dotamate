@@ -562,7 +562,7 @@ a.qp-hero>div{flex:1 1 auto;min-width:0}
 #game .dg-gold{color:#ffd700}#game .dg-lives{color:#ff5d6c}#game .dg-time{color:#64b5f6}
 #game .dg-canvas{display:block;width:100%;height:100%;cursor:crosshair;touch-action:none;user-select:none;-webkit-user-select:none}
 #game .dg-overlay{position:absolute;inset:50px 0 0 0;background:rgba(10,14,19,.94);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:20;color:#fff;text-align:center;padding:18px;overflow-y:auto}
-#game .dg-overlay h1{font-size:clamp(24px,5vw,36px);color:#e54e42;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
+#game .dg-overlay :is(h1,.dg-title){font-size:clamp(24px,5vw,36px);color:#e54e42;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
 #game .dg-overlay p{font-size:14px;color:#a3b1c2;margin-bottom:22px;max-width:500px;line-height:1.6}
 #game .dg-btn-group{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 #game .dg-btn{background:#a83232;color:#fff;border:1px solid #e54e42;padding:13px 26px;font-size:14px;font-weight:800;cursor:pointer;border-radius:var(--rad-sm);transition:background .15s;font-family:inherit}
@@ -573,7 +573,7 @@ a.qp-hero>div{flex:1 1 auto;min-width:0}
 #game .dg-btn-small:hover{background:#f44336}
 #game .dg-stats-summary{background:rgba(255,255,255,.05);padding:16px 34px;border-radius:var(--rad-md);margin-bottom:22px;display:flex;flex-direction:column;gap:9px;font-size:15px;text-align:left}
 #game .dg-hide{display:none!important}
-@media(max-width:560px){#game .dg-overlay h1{font-size:22px}#game .dg-overlay p{font-size:12.5px}#game .dg-btn{padding:11px 18px;font-size:13px}#game .dg-ui-bar{font-size:10.5px;padding:0 12px;height:42px}#game .dg-stats-summary{padding:14px 20px;font-size:13px}}
+@media(max-width:560px){#game .dg-overlay :is(h1,.dg-title){font-size:22px}#game .dg-overlay p{font-size:12.5px}#game .dg-btn{padding:11px 18px;font-size:13px}#game .dg-ui-bar{font-size:10.5px;padding:0 12px;height:42px}#game .dg-stats-summary{padding:14px 20px;font-size:13px}}
 
 /* --- мини-игра: серия, низкое золото, рекорд, полный экран --- */
 #game .dg-streak{color:#ffb300}
@@ -623,7 +623,7 @@ body.dg-fs-lock{overflow:hidden}
    кнопка "Играть снова" уезжала за нижний край. Ужимаем шрифты и отступы. */
 @media(max-width:560px){
   #game .dg-overlay{inset:42px 0 0 0;padding:12px}
-  #game .dg-overlay h1{font-size:19px;margin-bottom:7px}
+  #game .dg-overlay :is(h1,.dg-title){font-size:19px;margin-bottom:7px}
   #game .dg-overlay p{margin-bottom:12px;line-height:1.45}
   #game .dg-record{font-size:12.5px;margin-bottom:9px}
   #game .dg-stats-summary{padding:10px 16px;font-size:12px;gap:5px;margin-bottom:13px}
@@ -689,3 +689,4 @@ body.dg-fs-lock{overflow:hidden}
 .fb-status{font-size:14px}
 .fb-status.is-ok{color:#8fd19e}
 .fb-status.is-err{color:#ff8a7a}
+#game .dg-overlay .dg-title{font-weight:800;line-height:1.15;margin-top:0}
