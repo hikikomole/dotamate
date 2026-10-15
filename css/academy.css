@@ -536,3 +536,29 @@ body.d2-dark .ac h2.ac-sec{font:800 13px/1.3 Manrope,Inter,system-ui,sans-serif!
 body.d2-dark .ac h2.ac-h{font:800 12px/1.3 Manrope,Inter,system-ui,sans-serif!important;letter-spacing:1.4px!important;color:var(--d2-muted)!important;margin:0 0 10px!important}
 body.d2-dark .ac p.ac-mr-rec-t{color:#fff!important}
 body.d2-dark .ac .ac-routes-4 h2.ac-route-title{font-size:clamp(22px,2.2vw,28px)!important;letter-spacing:1px!important;overflow-wrap:anywhere}
+
+/* ---------- Маршрут и разборы матчей (15.10.2026) ---------- */
+.ac-mx{margin:0 0 18px;padding:16px 18px;border:1px solid var(--d2-line);border-left:4px solid var(--d2-int);border-radius:var(--rad-lg);background:var(--d2-panel)}
+.ac-mx p{margin:0 0 8px;font-size:14.5px;line-height:1.55;color:var(--d2-text)}
+.ac-mx .ac-cta{margin-top:6px}
+.ac-mx-list{display:grid;gap:6px;margin:0 0 8px;padding:0;list-style:none;font-size:14.5px;line-height:1.5}
+.ac-mx-list li::before{content:"▸ ";color:var(--ac-warn)}
+.ac-mx-ok{color:var(--d2-muted)!important}
+.ac-mx-role{padding-top:8px;border-top:1px solid var(--d2-line-soft)}
+.ac-stat[hidden]{display:none}
+.ac-stat.bad{color:var(--ac-bad)}
+.ac-stat-rec{background:rgba(233,150,90,.14);color:var(--ac-warn)}
+.ac-mcheck{margin:0 0 14px;border-color:color-mix(in srgb,var(--d2-int) 45%,var(--d2-line))}
+.ac-mcheck-what{margin:0 0 10px;font-size:14px;line-height:1.5;color:var(--d2-muted)}
+.ac-mcheck-list{display:grid;gap:6px;margin:0 0 12px;padding:0;list-style:none}
+.ac-mcheck-list:empty{display:none}
+.ac-mcheck-list li{display:flex;flex-wrap:wrap;gap:4px 10px;padding:8px 10px;border-radius:var(--rad-md);background:var(--d2-panel);font-size:13px}
+.ac-mcheck-when{font-weight:700;color:var(--d2-text)}
+.ac-mcheck-v{color:var(--d2-muted)}
+.ac-mcheck-v.is-good{color:var(--ac-ok)}
+.ac-mcheck-v.is-low{color:var(--ac-bad)}
+.ac-cross-drill{display:block;color:var(--d2-text)}
+.ac-cross-drill[hidden]{display:none}
+.ac-suggest{margin:0 0 22px;padding:12px 16px;border:1px solid var(--d2-line);border-left:4px solid var(--d2-int);border-radius:var(--rad-lg);background:var(--d2-panel);font-size:14.5px;line-height:1.5}
+.ac-suggest[hidden]{display:none}
+.ac-mr-stages{display:flex;flex-wrap:wrap;gap:8px}

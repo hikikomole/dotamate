@@ -14,6 +14,10 @@
   var MAX_ANALYSES = 30, MAX_GOALS = 12, MAX_DAYS = 120, MAX_TEXT = 300;
   var POS = [1, 2, 3, 4, 5, 'sup'];
   var NUMS = ['k', 'd', 'a', 'lh', 'dn', 'gpm', 'xpm', 'hd', 'td', 'nw'];
+  var VERDICTS = ['good', 'ok', 'low', 'na'];
+  var METRIC_KEYS = ['gpm', 'xpm', 'lh', 'deaths', 'ka', 'hd'];
+  var AREAS = ['lane', 'farm', 'xp', 'deaths', 'fights', 'damage', 'objectives', 'items', 'vision', 'positioning', 'macro', 'draft', 'tilt'];
+  var ROLES = ['carry', 'mid', 'offlane', 'support'];
   var ANS = { lane: ['won', 'even', 'lost', 'unknown'], deaths: ['ganked', 'fight', 'greedy', 'few', 'unknown'], hard: ['farm', 'fights', 'map', 'draft', 'none'], mood: ['calm', 'annoyed', 'tilt'] };
 
   function fin(v, lo, hi) { return typeof v === 'number' && isFinite(v) && v >= lo && v <= hi; }
@@ -54,6 +58,15 @@
     return o;
   }
 
+  // Краткий итог разбора (js/academy-analysis.js → summary): оценки показателей, зоны роста, роль.
+  function cleanSum(x) {
+    if (!x || typeof x !== 'object' || !x.v || typeof x.v !== 'object') return null;
+    var v = {};
+    METRIC_KEYS.forEach(function (k) { if (VERDICTS.indexOf(x.v[k]) !== -1) v[k] = x.v[k]; });
+    var recs = Array.isArray(x.recs) ? x.recs.filter(function (a, i, arr) { return AREAS.indexOf(a) !== -1 && arr.indexOf(a) === i; }) : [];
+    return { v: v, recs: recs, role: ROLES.indexOf(x.role) !== -1 ? x.role : null, turbo: x.turbo === true };
+  }
+
   function blankM() { return { version: 1, analyses: [], goals: [] }; }
   function blankD() { return { version: 1, items: {}, exams: {}, days: [] }; }
 
@@ -63,7 +76,10 @@
     (Array.isArray(raw.analyses) ? raw.analyses : []).forEach(function (e) {
       if (s.analyses.length >= MAX_ANALYSES || !e || typeof e.id !== 'string' || !fin(e.saved, 0, 1e14)) return;
       var input = cleanInput(e.input);
-      if (input && !s.analyses.some(function (x) { return x.id === e.id; })) s.analyses.push({ id: e.id.slice(0, 40), saved: e.saved, input: input });
+      if (!input || s.analyses.some(function (x) { return x.id === e.id; })) return;
+      var a = { id: e.id.slice(0, 40), saved: e.saved, input: input }, sum = cleanSum(e.sum);
+      if (sum) a.sum = sum;
+      s.analyses.push(a);
     });
     (Array.isArray(raw.goals) ? raw.goals : []).forEach(function (g) {
       if (s.goals.length >= MAX_GOALS || !g || typeof g.id !== 'string' || !str(g.text, MAX_TEXT).trim() || !fin(g.created, 0, 1e14)) return;
@@ -135,7 +151,7 @@
 
   window.DMAcademyRecords = {
     KEY_M: KEY_M, KEY_D: KEY_D, MAX_ANALYSES: MAX_ANALYSES, MAX_GOALS: MAX_GOALS, MAX_TEXT: MAX_TEXT,
-    cleanInput: cleanInput, sanitizeM: sanitizeM, sanitizeD: sanitizeD,
+    cleanInput: cleanInput, cleanSum: cleanSum, sanitizeM: sanitizeM, sanitizeD: sanitizeD,
     matches: M, drill: D, uid: uid, today: today, streak: streak, own: own,
     // Сохранить разбор (повтор того же матча заменяет старую запись). Возвращает { ok, id }.
     saveAnalysis: function (input) {
@@ -148,6 +164,14 @@
         st.analyses = st.analyses.slice(0, MAX_ANALYSES);
       });
       return { ok: r.ok, id: id };
+    },
+    // Записать краткий итог разбора, если он изменился (страница разбора пересчитывает его при каждом показе).
+    setSummary: function (id, sum) {
+      var clean = cleanSum(sum);
+      if (!id || !clean) return { ok: true };
+      var cur = M.load().state.analyses.filter(function (a) { return a.id === id; })[0];
+      if (!cur || JSON.stringify(cur.sum || null) === JSON.stringify(clean)) return { ok: true };
+      return M.mutate(function (st) { st.analyses.forEach(function (a) { if (a.id === id) a.sum = clean; }); });
     },
     addGoal: function (text, area) {
       var t = str(text, MAX_TEXT).trim();

@@ -122,14 +122,36 @@ function addRow(r, eco, raw) {
   if (raw && PM) {
     let lab; try { lab = PM.MP.labelSteamRow(raw, PM.model, PM.stratz); } catch { return; }
     posLabeled++; if (lab.src === 'stratz') posStratz++;
-    lab.p.forEach((q, i) => {
-      const pos = q.pos === 4 || q.pos === 5 ? 'sup' : String(q.pos);
-      const won = raw[9 + i][1] < 128 ? rw === 1 : rw === 0;
-      const z = PS[pos] || (PS[pos] = { n: 0, gpm: 0, xpm: 0, heroes: new Map() });
-      z.n++; z.gpm += eco[i][0]; z.xpm += eco[i][1];
-      const hh = z.heroes.get(q.h) || [0, 0, 0, 0]; hh[0]++; if (won) hh[1]++; hh[2] += eco[i][0]; hh[3] += eco[i][1]; z.heroes.set(q.h, hh);
-    });
+    posAdd(PS, raw, lab);
   }
+}
+// Позиция игрока строки Steam в накопитель: [n, побед, gpm, xpm, k, d, a, урон, добивания, длительность, с]
+// (поля игрока — tools/collect-steam-matches.js: [hero, slot, k, d, a, lh, dn, lvl, nw?, …] как в steamToMeta).
+// K/D/A, урон, добивания и длительность — эталон «Разбора матча» Учебного центра (js/academy-analysis.js).
+function posAdd(T, raw, lab) {
+  const rw = raw[5], dur = raw[3];
+  lab.p.forEach((q, i) => {
+    const pos = q.pos === 4 || q.pos === 5 ? 'sup' : String(q.pos);
+    const p = raw[9 + i];
+    const won = p[1] < 128 ? rw === 1 : rw === 0;
+    const z = T[pos] || (T[pos] = { n: 0, gpm: 0, xpm: 0, dur: 0, heroes: new Map() });
+    z.n++; z.gpm += p[7] || 0; z.xpm += p[8] || 0; z.dur += dur;
+    const hh = z.heroes.get(q.h) || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; hh[0]++; if (won) hh[1]++; hh[2] += p[7] || 0; hh[3] += p[8] || 0;
+    hh[4] += p[2] || 0; hh[5] += p[3] || 0; hh[6] += p[4] || 0; hh[7] += p[11] || 0; hh[8] += p[5] || 0; hh[9] += dur;
+    z.heroes.set(q.h, hh);
+  });
+}
+// Накопитель позиций → { pos: { n, gpm, xpm, m, heroes: [{ id, n, wr, lo, gpm, xpm, k, d, a, hd, lh, m }] } }; m — средняя длительность, мин.
+function posOut(T) {
+  const out = {};
+  for (const [pos, q] of Object.entries(T)) {
+    const list = [...q.heroes].filter(([, v]) => v[0] >= MIN_POS)
+      .map(([h, v]) => ({ id: h, n: v[0], wr: r1(v[1] / v[0] * 100), lo: r1(wilsonLow(v[1], v[0]) * 100), gpm: Math.round(v[2] / v[0]), xpm: Math.round(v[3] / v[0]),
+        k: r1(v[4] / v[0]), d: r1(v[5] / v[0]), a: r1(v[6] / v[0]), hd: Math.round(v[7] / v[0]), lh: Math.round(v[8] / v[0]), m: r1(v[9] / v[0] / 60) }))
+      .sort((a, b) => b.lo - a.lo);
+    out[pos] = { n: q.n, gpm: Math.round(q.gpm / q.n), xpm: Math.round(q.xpm / q.n), m: r1(q.dur / q.n / 60), heroes: list };
+  }
+  return out;
 }
 if (SRC === 'steam') {
   // все рейтинговые матчи всех рангов, потоком (боевой объём не помещается в память)
@@ -241,12 +263,27 @@ for (const [pos, q] of Object.entries(P)) {
     .sort((a, b) => b.lo - a.lo);
   positions[pos] = { n: q.n, gpm: Math.round(q.gpm / q.n), xpm: Math.round(q.xpm / q.n), heroes: list };
 }
-const posSteam = {};
-for (const [pos, q] of Object.entries(PS)) {
-  const list = [...q.heroes].filter(([, v]) => v[0] >= MIN_POS)
-    .map(([h, v]) => ({ id: h, n: v[0], wr: r1(v[1] / v[0] * 100), lo: r1(wilsonLow(v[1], v[0]) * 100), gpm: Math.round(v[2] / v[0]), xpm: Math.round(v[3] / v[0]) }))
-    .sort((a, b) => b.lo - a.lo);
-  posSteam[pos] = { n: q.n, gpm: Math.round(q.gpm / q.n), xpm: Math.round(q.xpm / q.n), heroes: list };
+const posSteam = posOut(PS);
+
+// ---------- 3а. Турбо: эталон «Разбора матча» для матчей Turbo ----------
+// Последние TURBO_DAYS дневных файлов data/steam-matches-turbo (сбор — tools/collect-steam-matches.js), позиции —
+// та же модель, что у рейтинговых (обучена на рейтинговых матчах; в Turbo её точность не измерялась).
+// Сбой или пустая база — остаётся прошлый posTurbo из stats.json, а не пустое место.
+const TURBO_DAYS = 7;
+let posTurbo = null;
+if (SRC === 'steam' && PM) {
+  try {
+    const PT = {}; let tn = 0, tFrom = Infinity, tTo = 0;
+    for await (const raw of MS.steamStream({ turbo: true, days: TURBO_DAYS })) {
+      if (raw[6] !== 23 || !(raw[3] >= MIN_DURATION)) continue;
+      let lab; try { lab = PM.MP.labelSteamRow(raw, PM.model, null); } catch { continue; }
+      tn++; if (raw[2] < tFrom) tFrom = raw[2]; if (raw[2] > tTo) tTo = raw[2];
+      posAdd(PT, raw, lab);
+    }
+    if (tn) posTurbo = { source: 'Матчи Turbo из Steam Web API (выборка), все ранги; позиции — оценка модели сайта, обученной на рейтинговых матчах',
+      matches: tn, days: TURBO_DAYS, from: new Date(tFrom * 1000).toISOString(), to: new Date(tTo * 1000).toISOString(), minPos: MIN_POS, pos: posOut(PT) };
+  } catch (e) { console.warn('Эталон Турбо не посчитан:', e.message); }
+  if (!posTurbo) { try { posTurbo = JSON.parse(fs.readFileSync(OUT, 'utf8')).posTurbo || null; } catch { /* прошлого нет */ } }
 }
 const lanes = [...L].filter(([, v]) => v[0] >= MIN_LANE)
   .map(([h, v]) => ({ id: h, n: v[0], win: r1(v[1] / v[0] * 100), draw: r1(v[2] / v[0] * 100), loss: r1(v[3] / v[0] * 100) }))
@@ -369,8 +406,9 @@ const out = {
   heroes: heroRows, durSwing, synergy: synergy.slice(0, 40), antiSynergy: synergy.slice(-20).reverse(), counters: topCounters,
   positions, lanes, items, history, slices
 };
+if (posTurbo) out.posTurbo = posTurbo;
 if (SRC === 'steam') out.posSteam = { labeled: posLabeled, stratz: posStratz, model: PM ? { created: PM.model.meta.created || null, test: PM.model.meta.metrics && PM.model.meta.metrics.test ? { acc: PM.model.meta.metrics.test.acc, core3sup: PM.model.meta.metrics.test.core3sup } : null } : null, pos: posSteam };
 MS.writeJsonAtomic(OUT, out);
-console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}${SRC === 'steam' ? `, позиций Steam ${Object.keys(posSteam).length} (размечено матчей ${posLabeled}, из них по Stratz ${posStratz})` : ''}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
+console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}${SRC === 'steam' ? `, позиций Steam ${Object.keys(posSteam).length} (размечено матчей ${posLabeled}, из них по Stratz ${posStratz}), эталон Турбо ${posTurbo ? posTurbo.matches + ' матчей' : 'нет'}` : ''}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
 }
 main().catch(e => { console.error(e && e.stack || e); process.exit(1); });

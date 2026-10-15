@@ -34,7 +34,7 @@ const rolePages = () => COURSES.filter(c => c.group === 'role').map(c => ({
   sections: ['academy'],
   styles: ['/css/theme-dark.css', '/css/academy.css'],
   bodyClass: 'd2-dark',
-  scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
+  scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy-records.js', defer: true }, { src: '/js/academy.js', defer: true }],
 }));
 const { renderLanding, renderCourse, renderIndex, renderMatchPage, renderPracticePage, validateCourses } = require('./tools/academy-render');
 
@@ -125,7 +125,7 @@ const PAGES = [
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
+    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy-records.js', defer: true }, { src: '/js/academy.js', defer: true }],
   },
   {
     key: 'academy', dir: 'academy/rank-up', academy: 'rank-up', crumb: 'Поднять рейтинг', parent: { name: 'Учебный центр', dir: 'academy' },
@@ -134,7 +134,7 @@ const PAGES = [
     sections: ['academy'],
     styles: ['/css/theme-dark.css', '/css/academy.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy.js', defer: true }],
+    scripts: [{ src: '/js/academy-store.js', defer: true }, { src: '/js/academy-records.js', defer: true }, { src: '/js/academy.js', defer: true }],
   },
   {
     key: 'meta', dir: 'meta',

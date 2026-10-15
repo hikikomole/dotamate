@@ -988,6 +988,10 @@ build-guide-pages → sync-deploy → wrangler. Сбой контрпиков в
 - Эталон разбора — `positions` в `data/stats.json` (поле `m` — средняя длительность). Меняешь формат — проверь
   `node tools/check-academy-analysis.js` и страницу разбора.
 - Сборка в облачной копии пересобирает и главную из устаревших `data/` — в коммит брать только страницы центра.
+- Turbo разбирается только против `posTurbo` (stats.json, `tools/build-stats.js`, последние 7 дней Turbo из Steam);
+  рейтинговый эталон — `posSteam`, затем Stratz `positions`. Не смешивать срезы.
+- Связь маршрутов с разбором: `MATCH_CHECKS` (academy-content.js) и `REC[*].general` (js/academy-analysis.js);
+  на прогресс маршрутов не влияет. Добавляешь этап — добавь его в `MATCH_CHECKS`, иначе сборка остановится.
 
 ## Backend и статистика — актуальная структура (аудит 09.10.2026, приоритетнее устаревших разделов выше)
 

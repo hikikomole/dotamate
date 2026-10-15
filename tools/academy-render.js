@@ -36,6 +36,9 @@ function plural(n, one, few, many) {
   return many;
 }
 
+// Расчёт «Разбора матча» (UMD): каталог рекомендаций и подписи показателей — для проверки и разметки.
+const analysis = () => require(path.join(ROOT, 'js', 'academy-analysis.js'));
+
 let guideCache = null;
 function guides() {
   if (!guideCache) {
@@ -88,6 +91,7 @@ function validateCourse(course) {
       need(Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < 3, qw, 'correctIndex должен быть 0, 1 или 2');
       need(q.checked === undefined || (text(q.checked) && guides().has(q.sourceSlug)), qw, `у патч-зависимого вопроса нет даты проверки или гайд-источник «${q.sourceSlug}» не найден`);
     }
+    need(Array.isArray(m.check) && m.check.every(k => Object.prototype.hasOwnProperty.call(analysis().METRICS, k)), w, 'check — список показателей разбора матча (gpm, xpm, lh, deaths, ka, hd); задаётся в MATCH_CHECKS academy-content.js');
     need(Array.isArray(m.scenarios) && m.scenarios.length === 2, w, 'нужно ровно 2 ситуации (scenarios)');
     m.scenarios.forEach((s, si) => {
       const sw = `${w}, ситуация «${s && s.id}»`;
@@ -234,10 +238,23 @@ function renderScenario(s, i, total) {
     `</article>`;
 }
 
+// Проверка в матче (шаг 4): какие показатели разбора подтверждают навык этапа. Итог последних разборов
+// дописывает js/academy.js из хранилища разборов; без JS и без разборов — просто пояснение и ссылка.
+function renderMatchCheck(m) {
+  const M = analysis().METRICS;
+  const what = m.check.length
+    ? `Сыграй матч и разбери его: навык этапа виден по показателям ${m.check.map(k => `«${esc(M[k][0].toLowerCase())}»`).join(' и ')} против игроков на том же герое и позиции.`
+    : 'Сыграй матч и разбери его: разбор покажет, какие этапы маршрута тебе сейчас полезнее всего.';
+  return `<div class="ac-box ac-mcheck" data-academy-mcheck="${esc(m.check.join(','))}">` +
+    `<p class="ac-h">Проверка в матче</p><p class="ac-mcheck-what">${what}</p>` +
+    `<ul class="ac-mcheck-list" data-academy-mcheck-list></ul>` +
+    `<a class="ac-cta ac-cta-sm" href="/academy/match/">Разобрать матч →</a></div>`;
+}
+
 function renderPractice(m) {
   const tasks = m.lessons.map(l =>
     `<li class="ac-task"><label><input type="checkbox" class="ac-check" data-academy-task="${esc(l.id)}"><span>${esc(l.practice)}</span></label></li>`).join('');
-  return `<div class="ac-two">` +
+  return renderMatchCheck(m) + `<div class="ac-two">` +
     `<div class="ac-box"><p class="ac-h">Задания на следующий матч</p><ul class="ac-tasks">${tasks}</ul></div>` +
     `<form class="ac-box ac-diary" data-academy-diary="${esc(m.id)}">` +
     `<label class="ac-h" for="diary-${esc(m.id)}">Дневник этапа</label>` +
@@ -267,7 +284,8 @@ function renderStage(m, i) {
     `<span class="ac-stats"><span class="ac-stat" data-academy-stat="read">Чтение 0/${m.lessons.length}</span>` +
     `<span class="ac-stat" data-academy-stat="scenario">Ситуации 0/${m.scenarios.length}</span>` +
     `<span class="ac-stat" data-academy-stat="quiz">Тест —</span>` +
-    `<span class="ac-stat" data-academy-stat="practice">Практика 0/${m.lessons.length}</span></span></span>` +
+    `<span class="ac-stat" data-academy-stat="practice">Практика 0/${m.lessons.length}</span>` +
+    `<span class="ac-stat ac-stat-match" data-academy-stat="match" hidden></span><span class="ac-stat ac-stat-rec" data-academy-stat="rec" hidden></span></span></span>` +
     `<span class="ac-stage-badge" data-academy-stage-badge></span><span class="ac-chev" aria-hidden="true">⌄</span></summary>` +
     `<div class="ac-stage-body"><p class="ac-intro">${esc(m.intro)}</p>` +
     `<div class="ac-steps" role="tablist" aria-label="Шаги этапа ${i + 1}">${tabs}</div>${sections}</div>` +
@@ -297,11 +315,28 @@ function renderCourse(course, opts = {}) {
     `<button type="button" class="ac-reset" data-academy-reset>Сбросить прогресс маршрута</button>` +
     `<p class="ac-note" data-academy-storage role="status" hidden></p>` +
     `</div></section>` +
+    `<section class="ac-mx" data-academy-mx aria-labelledby="ac-mx-h-${esc(course.id)}"><h2 class="ac-h" id="ac-mx-h-${esc(course.id)}">Маршрут и твои матчи</h2>` +
+    `<div data-academy-mx-body><p>Разбери свой матч — сравним его с игроками на том же герое и позиции и подскажем, какой этап этого маршрута сейчас полезнее всего. Разборы хранятся только в этом браузере.</p>` +
+    `<a class="ac-cta ac-cta-sm" href="/academy/match/">Разобрать матч →</a></div></section>` +
     nav.chips +
     `<div class="ac-grid">${nav.side}<div class="ac-stages">${course.modules.map((m, i) => renderStage(m, i)).join('')}` +
-    `<aside class="ac-cross"><b>Проверь себя на практике</b><span><a href="/academy/match/">Разбери свой матч</a> — увидишь, что из этого маршрута уже получается, а что нет. Вопросы и ситуации всех этапов можно повторять в <a href="/academy/practice/?mode=topic&amp;route=${encodeURIComponent(course.id)}">тренировке</a>, а весь маршрут проверить на <a href="/academy/practice/?mode=exam&amp;route=${encodeURIComponent(course.id)}">экзамене</a>.</span></aside>` +
+    `<aside class="ac-cross"><b>Проверь себя на практике</b><span><a href="/academy/match/">Разбери свой матч</a> — увидишь, что из этого маршрута уже получается, а что нет. <span class="ac-cross-drill" data-academy-drill hidden></span> Вопросы и ситуации всех этапов можно повторять в <a href="/academy/practice/?mode=topic&amp;route=${encodeURIComponent(course.id)}">тренировке</a>, а весь маршрут проверить на <a href="/academy/practice/?mode=exam&amp;route=${encodeURIComponent(course.id)}">экзамене</a>.</span></aside>` +
     `<p class="ac-src ac-foot">Уроки ведут на гайды DOTAMATE; ситуации и тесты составлены по ним. Числа, которые меняются с патчами, помечены датой проверки.${patch}</p>` +
-    `</div></div></div>`;
+    `</div></div>` + courseMatchData(course) + `</div>`;
+}
+
+// Данные для блока «Маршрут и твои матчи»: какой этап этого маршрута лечит каждую зону роста разбора
+// (REC.general — для общих маршрутов, REC.stage[роль] — для маршрута этой роли), проверки этапов и подписи.
+function courseMatchData(course) {
+  const A = analysis(), areas = {};
+  for (const [area, r] of Object.entries(A.REC)) {
+    const mod = course.group === 'role' ? (r.stage[course.id] && r.stage[course.id][0] === course.id ? r.stage[course.id][1] : null) : (r.general || {})[course.id];
+    const i = mod ? course.modules.findIndex(m => m.id === mod) : -1;
+    if (i >= 0) areas[area] = { module: mod, n: i + 1, stage: course.modules[i].title, title: r.title };
+  }
+  const data = { course: course.id, role: course.group === 'role' ? course.id : null, areas,
+    checks: Object.fromEntries(course.modules.map(m => [m.id, m.check])), metrics: A.METRICS };
+  return `<script type="application/json" id="academyCourseMatch">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
 }
 
 function renderLanding(courses) {
@@ -343,6 +378,7 @@ function renderLanding(courses) {
     `<a class="ac-tool ac-tool-drill" href="/academy/practice/"><span class="ac-tool-ico" aria-hidden="true">🎯</span><b>Тренировка</b>` +
     `<span>${total}&nbsp;${plural(total, 'вопрос и ситуация', 'вопроса и ситуации', 'вопросов и ситуаций')} из всех маршрутов: случайный набор, работа над ошибками и экзамен по маршруту.</span>` +
     `<small data-academy-tool="drill">Начать тренировку →</small></a></div>` +
+    `<p class="ac-suggest" data-academy-suggest hidden></p>` +
     `<section class="ac-goals" data-academy-goals hidden aria-labelledby="ac-goals-h"><h2 class="ac-h" id="ac-goals-h">Мои цели на следующие матчи</h2><ul class="ac-goal-list" data-academy-goal-list></ul>` +
     `<p class="ac-goals-foot"><a href="/academy/match/#history">Все разборы и цели →</a></p></section>` +
     `<ol class="ac-how">` +
@@ -383,7 +419,7 @@ function matchRefs(courses) {
   const ref = { guides: {}, stages: {} };
   for (const area of Object.keys(A.REC)) {
     for (const g of A.REC[area].guides) ref.guides[g] = guides().get(g).title;
-    for (const st of Object.values(A.REC[area].stage)) {
+    for (const st of Object.values(A.REC[area].stage).concat(Object.entries(A.REC[area].general || {}))) {
       const k = st.join('/'), x = mods.get(k);
       const idx = x.c.modules.indexOf(x.m);
       ref.stages[k] = { title: x.m.title, course: x.c.title, n: idx + 1, href: `${courseHref(x.c)}#module-${x.m.id}` };
@@ -427,6 +463,7 @@ function renderMatchPage(courses) {
     `<label class="ac-f ac-f-wide" for="mt-hero"><span>Герой *</span><select id="mt-hero" name="hero" required><option value="">Загружаем героев…</option></select></label>` +
     `<label class="ac-f" for="mt-pos"><span>Позиция *</span><select id="mt-pos" name="pos" required>${posOpts}</select></label>` +
     `<fieldset class="ac-f ac-f-radio"><legend>Результат *</legend><label><input type="radio" name="win" value="1"> Победа</label><label><input type="radio" name="win" value="0"> Поражение</label></fieldset>` +
+    `<fieldset class="ac-f ac-f-radio"><legend>Режим</legend><label><input type="radio" name="mode" value="normal" checked> All Pick / рейтинг</label><label><input type="radio" name="mode" value="turbo"> Turbo</label></fieldset>` +
     field('min', 'Длительность, мин *', 'min="10" max="150" step="1" required') +
     field('k', 'Убийства *', 'min="0" max="99" required') + field('d', 'Смерти *', 'min="0" max="99" required') + field('a', 'Помощь *', 'min="0" max="99" required') +
     field('lh', 'Добивания *', 'min="0" max="2500" required') + field('dn', 'Денаи', 'min="0" max="500"') +
@@ -438,9 +475,10 @@ function renderMatchPage(courses) {
     `<div data-mt-history><p class="ac-hint">Здесь появятся сохранённые разборы, цели на следующие матчи и то, что повторяется из матча в матч. Всё хранится только в этом браузере.</p></div></section>` +
     `<section class="ac-card ac-method" id="method" aria-labelledby="mt-method-h"><h2 class="ac-card-h" id="mt-method-h">Как считается разбор</h2>` +
     `<ul class="ac-method-list">` +
-    `<li><b>Эталон</b> — средний игрок на этом же герое и этой же позиции по базе рейтинговых матчей сайта (страница <a href="/stats/">«Статистика»</a>): золото и опыт в минуту, убийства, смерти, помощь, урон по героям и добивания. Если героя на этой позиции в базе мало, сравнение идёт со средним по позиции — только по золоту и опыту.</li>` +
+    `<li><b>Эталон</b> — средний игрок на этом же герое и этой же позиции по базе рейтинговых матчей сайта (страница <a href="/stats/">«Статистика»</a>): золото и опыт в минуту, убийства, смерти, помощь, урон по героям и добивания. Сначала берутся рейтинговые матчи Steam всех рангов, где позиции размечены той же моделью, что и твой матч; если там героя нет — детальные матчи Stratz. Если героя на этой позиции в базе мало, сравнение идёт со средним по позиции — только по золоту и опыту.</li>` +
     `<li><b>Всё «в минуту».</b> Добивания, смерти, участие в убийствах и урон делятся на длительность матча, у эталона — на среднюю длительность его матчей. Иначе длинный матч всегда выглядел бы лучше короткого.</li>` +
-    `<li><b>Пороги.</b> «Заметно выше» — от +${p(A.HI)}&nbsp;% к эталону, «заметно ниже» — от −${-p(A.LO)}&nbsp;%; для смертей — ±${p(A.D_HI)}&nbsp;%. Всё между ними — «около среднего». Матчи короче ${A.MIN_DURATION / 60}&nbsp;минут и Turbo не разбираются: у Turbo другая экономика.</li>` +
+    `<li><b>Пороги.</b> «Заметно выше» — от +${p(A.HI)}&nbsp;% к эталону, «заметно ниже» — от −${-p(A.LO)}&nbsp;%; для смертей — ±${p(A.D_HI)}&nbsp;%. Всё между ними — «около среднего». Матчи короче ${A.MIN_DURATION / 60}&nbsp;минут не разбираются.</li>` +
+    `<li><b>Turbo</b> сравнивается только с Turbo: золото и опыт там начисляются иначе. Эталон — матчи Turbo из Steam за последние дни, позиции в них оценивает та же модель, что и в рейтинге (для Turbo она менее надёжна).</li>` +
     `<li><b>Контекст команды</b> (только матч по Steam ID): участие в убийствах, доля золота, урона и смертей команды. Позиция по Steam ID — оценка модели сайта, её можно поправить вручную.</li>` +
     `<li><b>Предметы</b> — итоговые шесть слотов против законченных предметов, которые чаще всего покупают на этом герое на этой позиции.</li>` +
     `<li><b>Ограничения.</b> Один матч — шумная выборка: в проигранном матче почти все показатели ниже среднего, в лёгкой победе — выше. Смотри на самые большие отличия и на то, что повторяется в нескольких разборах. Разбор не видит реплей: где ты стоял и почему умер, цифры не скажут — для этого есть <a href="/guide/replay-analysis/">гайд по разбору реплеев</a>.</li></ul>` +

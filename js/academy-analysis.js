@@ -28,72 +28,87 @@
   function roleOf(pos) { return pos === 1 ? 'carry' : pos === 2 ? 'mid' : pos === 3 ? 'offlane' : 'support'; }
   function isCore(pos) { return pos === 1 || pos === 2 || pos === 3; }
 
-  // Каталог рекомендаций. stage — этап маршрута по роли (course/module), общий — запасной.
+  // Каталог рекомендаций. stage — этап маршрута по роли (course/module), any — запасной;
+  // general — этап общих маршрутов «С нуля» и «Поднять рейтинг» по той же теме (страницы маршрутов
+  // показывают по нему «Рекомендуем по твоим разборам», разбор — вторую ссылку).
   // Каждый slug и этап проверяет сборка (tools/academy-render.js → checkCatalog).
   var REC = {
     lane: {
       title: 'Линия', guides: ['laning-stage', 'creep-aggro'],
       stage: { carry: ['carry', 'carry-lane'], mid: ['mid', 'mid-lane'], offlane: ['offlane', 'offlane-lane'], support: ['support', 'support-lane'], any: ['rank-up', 'lane-and-economy'] },
+      general: { beginner: 'win-the-lane', 'rank-up': 'lane-and-economy' },
       how: 'Первые 10 минут решают, сколько золота у тебя будет потом. Держись за своей волной, не стой под чужими крипами и добивай, а не размен ради размена.',
     },
     farm: {
       title: 'Фарм', guides: ['farming-efficiency', 'last-hitting-denying'],
       stage: { carry: ['carry', 'carry-farm'], mid: ['mid', 'mid-lane'], offlane: ['rank-up', 'lane-and-economy'], any: ['rank-up', 'lane-and-economy'] },
+      general: { beginner: 'farm-and-read-map', 'rank-up': 'lane-and-economy' },
       how: 'Не стой на месте: добил волну — иди к ближайшему лагерю, зачистил — встречай следующую волну. Время на дорогу без фарма — главная потеря золота.',
     },
     xp: {
       title: 'Опыт', guides: ['gold-and-experience', 'how-not-to-die'],
       stage: { support: ['support', 'support-lane'], any: ['rank-up', 'lane-and-economy'] },
+      general: { beginner: 'win-the-lane', 'rank-up': 'lane-and-economy' },
       how: 'Опыт дают крипы и герои рядом с тобой, а смерть отнимает время, в которое ты его не получаешь. Будь рядом с волнами и дракой, а не на фонтане.',
     },
     deaths: {
       title: 'Смерти', guides: ['how-not-to-die', 'minimap-awareness'],
       stage: { carry: ['carry', 'carry-late'], mid: ['mid', 'mid-fights'], offlane: ['offlane', 'offlane-lane'], support: ['support', 'support-vision'], any: ['beginner', 'farm-and-read-map'] },
+      general: { beginner: 'fight-and-improve', 'rank-up': 'read-map-and-tempo' },
       how: 'Перед тем как идти вперёд, посмотри на миникарту: сколько врагов не видно. Если трёх-четырёх нет — не фарми там, где нет обзора и пути отхода.',
     },
     fights: {
       title: 'Участие в драках', guides: ['ganking-rotations', 'tp-scroll-usage'],
       stage: { carry: ['carry', 'carry-late'], mid: ['mid', 'mid-tempo'], offlane: ['offlane', 'offlane-space'], support: ['support', 'support-save'], any: ['rank-up', 'read-map-and-tempo'] },
+      general: { beginner: 'fight-and-improve', 'rank-up': 'read-map-and-tempo' },
       how: 'Всегда носи свиток телепортации и смотри на миникарту: если союзники собираются на драку или объект — приходи, пока она не закончилась.',
     },
     damage: {
       title: 'Урон в драках', guides: ['teamfight-positioning', 'itemization-basics'],
       stage: { carry: ['carry', 'carry-late'], mid: ['mid', 'mid-fights'], offlane: ['offlane', 'offlane-space'], support: ['support', 'support-save'], any: ['rank-up', 'teamfight-decisions'] },
+      general: { beginner: 'fight-and-improve', 'rank-up': 'teamfight-decisions' },
       how: 'Урон наносит тот, кто жив и стоит на своей дистанции. Входи в драку, когда враги потратили контроль, и бей того, до кого дотягиваешься, а не самого желанного.',
     },
     objectives: {
       title: 'Строения и объекты', guides: ['map-objectives-741', 'high-ground-siege'],
       stage: { carry: ['carry', 'carry-late'], mid: ['mid', 'mid-fights'], offlane: ['offlane', 'offlane-team'], any: ['rank-up', 'read-map-and-tempo'] },
+      general: { beginner: 'fight-and-improve', 'rank-up': 'read-map-and-tempo' },
       how: 'Выигранная драка без снесённой башни — упущенное преимущество. После победы в драке сразу переводи её в строение, Рошана или вражеский лес.',
     },
     items: {
       title: 'Предметы', guides: ['itemization-basics'],
       stage: { carry: ['carry', 'carry-farm'], any: ['rank-up', 'teamfight-decisions'] },
+      general: { beginner: 'farm-and-read-map', 'rank-up': 'teamfight-decisions' },
       how: 'Сборка — ответ на матч, а не список. Посмотри, что обычно собирают на твоём герое на этой позиции, и чем это отличается от твоих предметов.',
     },
     vision: {
       title: 'Обзор и миникарта', guides: ['minimap-awareness', 'vision-fog-of-war'],
       stage: { support: ['support', 'support-vision'], any: ['rank-up', 'read-map-and-tempo'] },
+      general: { beginner: 'farm-and-read-map', 'rank-up': 'read-map-and-tempo' },
       how: 'Смотри на миникарту каждые несколько секунд и считай пропавших врагов. Без обзора у тебя есть только догадки — купи вард или фарми ближе к своей стороне.',
     },
     positioning: {
       title: 'Позиция в драке', guides: ['teamfight-positioning', 'how-not-to-die'],
       stage: { carry: ['carry', 'carry-late'], mid: ['mid', 'mid-fights'], offlane: ['offlane', 'offlane-space'], support: ['support', 'support-save'], any: ['rank-up', 'teamfight-decisions'] },
+      general: { beginner: 'fight-and-improve', 'rank-up': 'teamfight-decisions' },
       how: 'Не стой первым, если ты не инициатор. Держись так, чтобы до тебя не дотянулись все пятеро сразу, и входи после того, как враги потратят контроль.',
     },
     macro: {
       title: 'Понимание карты', guides: ['match-timings', 'map-objectives-741'],
       stage: { mid: ['mid', 'mid-tempo'], any: ['rank-up', 'read-map-and-tempo'] },
+      general: { beginner: 'farm-and-read-map', 'rank-up': 'read-map-and-tempo' },
       how: 'В каждой фазе у матча свои цели: руны, лотосы, Рошан, башни. Если не знаешь, куда идти, — иди к ближайшей цели, которая сейчас важна для команды.',
     },
     draft: {
       title: 'Пик и контрпики', guides: ['counter-picks', 'draft-fundamentals'],
       stage: { any: ['rank-up', 'pick-role-and-pool'] },
+      general: { beginner: 'choose-role-and-hero', 'rank-up': 'pick-role-and-pool' },
       how: 'Перед пиком посмотри, кто уже выбран у соперника и чего не хватает твоей команде. Против неудобного героя часто помогает предмет, а не другой герой.',
     },
     tilt: {
       title: 'Эмоции и общение', guides: ['tilt-control', 'team-communication'],
       stage: { any: ['rank-up', 'teamfight-decisions'] },
+      general: { 'rank-up': 'teamfight-decisions' },
       how: 'После двух поражений подряд сделай перерыв. Заглуши голос и текст того, кто мешает, но оставь пинги — в них полезная информация.',
     },
   };
@@ -114,34 +129,69 @@
     return n ? t / n : null;
   }
 
-  // Эталон героя на позиции. pos: 1..5 или 'sup' (4 и 5 вместе, среднее по числу матчей).
-  function baseline(stats, heroId, pos) {
-    var P = (stats && stats.positions) || {};
-    var keys = pos === 'sup' ? ['4', '5'] : [String(pos)];
-    var acc = { n: 0 }, fields = ['gpm', 'xpm', 'k', 'd', 'a', 'hd', 'lh', 'm'], w = {};
-    keys.forEach(function (k) {
+  // Источники эталона по порядку предпочтения (stats.json):
+  //   turbo  — posTurbo: матчи Turbo, позиции 1/2/3/sup по модели сайта;
+  //   steam  — posSteam.pos: рейтинговые Steam всех рангов, позиции 1/2/3/sup по той же модели, что и разбираемый
+  //            матч по Steam ID (поэтому предпочтительнее);
+  //   stratz — positions: детальные матчи Stratz, позиции 1–5, ранги до Властелина.
+  // Для Turbo берётся только turbo: смешивать его с рейтингом нельзя.
+  function sources(stats, turbo) {
+    var s = stats || {}, steamKeys = function (pos) { return pos === 'sup' || pos === 4 || pos === 5 ? ['sup'] : [String(pos)]; };
+    if (turbo) return [{ id: 'turbo', P: s.posTurbo && s.posTurbo.pos, keys: steamKeys }];
+    return [
+      { id: 'steam', P: s.posSteam && s.posSteam.pos, keys: steamKeys },
+      { id: 'stratz', P: s.positions, keys: function (pos) { return pos === 'sup' ? ['4', '5'] : [String(pos)]; } },
+    ];
+  }
+  var FIELDS = ['gpm', 'xpm', 'k', 'd', 'a', 'hd', 'lh', 'm'];
+  // Герой в одном источнике: среднее по ключам позиции, взвешенное по числу матчей.
+  function heroIn(src, heroId, pos) {
+    var P = src.P || {}, acc = { n: 0 }, w = {};
+    src.keys(pos).forEach(function (k) {
       var list = (P[k] && P[k].heroes) || [];
       for (var i = 0; i < list.length; i++) {
         var h = list[i];
         if (Number(h.id) !== heroId || !num(h.n)) continue;
         acc.n += h.n;
-        fields.forEach(function (f) { if (num(h[f]) != null) { acc[f] = (acc[f] || 0) + h[f] * h.n; w[f] = (w[f] || 0) + h.n; } });
+        FIELDS.forEach(function (f) { if (num(h[f]) != null) { acc[f] = (acc[f] || 0) + h[f] * h.n; w[f] = (w[f] || 0) + h.n; } });
       }
     });
-    var out;
-    if (acc.n > 0) {
-      out = { kind: 'hero', n: acc.n };
-      fields.forEach(function (f) { if (w[f]) out[f] = acc[f] / w[f]; });
-    } else {
-      var n = 0, g = 0, x = 0;
-      keys.forEach(function (k) { var q = P[k]; if (q && num(q.n) && num(q.gpm) != null && num(q.xpm) != null) { n += q.n; g += q.gpm * q.n; x += q.xpm * q.n; } });
-      if (!n) return null;
-      out = { kind: 'position', n: n, gpm: g / n, xpm: x / n };
-    }
-    out.minutes = out.m || baseMinutes(stats);
-    out.minutesFrom = out.m ? 'hero' : 'base';
+    if (!acc.n) return null;
+    var out = { kind: 'hero', n: acc.n, src: src.id };
+    FIELDS.forEach(function (f) { if (w[f]) out[f] = acc[f] / w[f]; });
     return out;
   }
+  function posIn(src, pos) {
+    var P = src.P || {}, n = 0, g = 0, x = 0, m = 0, mn = 0;
+    src.keys(pos).forEach(function (k) {
+      var q = P[k];
+      if (!q || !num(q.n) || num(q.gpm) == null || num(q.xpm) == null) return;
+      n += q.n; g += q.gpm * q.n; x += q.xpm * q.n;
+      if (num(q.m) != null) { m += q.m * q.n; mn += q.n; }
+    });
+    return n ? { kind: 'position', n: n, src: src.id, gpm: g / n, xpm: x / n, m: mn ? m / mn : undefined } : null;
+  }
+
+  // Эталон героя на позиции. pos: 1..5 или 'sup' (4 и 5 вместе). turbo — матч Turbo.
+  // Порядок: герой с K/D/A → герой только с GPM/XPM → среднее по позиции (в порядке источников).
+  function baseline(stats, heroId, pos, turbo) {
+    var list = sources(stats, turbo), out = null;
+    for (var i = 0; i < list.length && !out; i++) { var h = heroIn(list[i], heroId, pos); if (h && h.k != null) out = h; }
+    for (var j = 0; j < list.length && !out; j++) out = heroIn(list[j], heroId, pos);
+    for (var k = 0; k < list.length && !out; k++) out = posIn(list[k], pos);
+    if (!out) return null;
+    // Длительность: героя → позиции → средняя по базе (для Turbo средней по рейтинговой базе нет — она другая).
+    out.minutes = out.m || (turbo ? null : baseMinutes(stats));
+    out.minutesFrom = out.kind === 'hero' && out.m ? 'hero' : out.m ? 'position' : 'base';
+    return out;
+  }
+
+  // Показатели разбора: подпись, знаков после запятой, «меньше — лучше». Их же проверяют этапы маршрутов
+  // (check в academy-content.js) и показывают страницы маршрутов.
+  var METRICS = {
+    gpm: ['Золото в минуту (GPM)', 0], xpm: ['Опыт в минуту (XPM)', 0], lh: ['Добивания в минуту', 1],
+    deaths: ['Смерти за 10 минут', 1, true], ka: ['Убийства и помощь за 10 минут', 1], hd: ['Урон по героям в минуту', 0],
+  };
 
   function verdict(ratio, lowerBetter) {
     if (ratio == null) return 'na';
@@ -159,14 +209,14 @@
     }
     var perMin = function (v) { return v == null ? null : v / min; };
     var basePerMin = function (f) { return b && b[f] != null && bm ? b[f] / bm : null; };
-    add('gpm', 'Золото в минуту (GPM)', num(p.gpm), b ? num(b.gpm) : null, 0);
-    add('xpm', 'Опыт в минуту (XPM)', num(p.xpm), b ? num(b.xpm) : null, 0);
-    add('lh', 'Добивания в минуту', perMin(num(p.lh)), basePerMin('lh'), 1);
-    add('deaths', 'Смерти за 10 минут', num(p.d) == null ? null : p.d / min * 10, basePerMin('d') == null ? null : basePerMin('d') * 10, 1, true);
+    add('gpm', METRICS.gpm[0], num(p.gpm), b ? num(b.gpm) : null, 0);
+    add('xpm', METRICS.xpm[0], num(p.xpm), b ? num(b.xpm) : null, 0);
+    add('lh', METRICS.lh[0], perMin(num(p.lh)), basePerMin('lh'), 1);
+    add('deaths', METRICS.deaths[0], num(p.d) == null ? null : p.d / min * 10, basePerMin('d') == null ? null : basePerMin('d') * 10, 1, true);
     var ka = num(p.k) != null && num(p.a) != null ? (p.k + p.a) / min * 10 : null;
     var bka = b && b.k != null && b.a != null && bm ? (b.k + b.a) / bm * 10 : null;
-    add('ka', 'Убийства и помощь за 10 минут', ka, bka, 1);
-    add('hd', 'Урон по героям в минуту', perMin(num(p.hd)), basePerMin('hd'), 0);
+    add('ka', METRICS.ka[0], ka, bka, 1);
+    add('hd', METRICS.hd[0], perMin(num(p.hd)), basePerMin('hd'), 0);
     return out;
   }
 
@@ -247,14 +297,15 @@
     var p = input || {}, r = refs || {};
     var res = { ok: false, warnings: [], role: null, metrics: [], team: null, items: null, recs: [], strengths: [] };
     if (!(num(p.duration) >= MIN_DURATION)) { res.error = 'short'; return res; }
-    if (p.gameMode === TURBO) { res.error = 'turbo'; return res; }
+    var turbo = p.gameMode === TURBO;
+    res.turbo = turbo;
     var pos = p.pos === 'sup' ? 'sup' : Number(p.pos);
     if (pos !== 'sup' && !(pos >= 1 && pos <= 5)) { res.error = 'pos'; return res; }
     var role = pos === 'sup' ? 'support' : roleOf(pos);
     res.role = role; res.pos = pos;
-    var b = baseline(r.stats, Number(p.heroId), pos);
+    var b = baseline(r.stats, Number(p.heroId), pos, turbo);
     res.baseline = b;
-    if (!b) { res.error = 'no_base'; return res; }
+    if (!b) { res.error = turbo ? 'turbo_no_base' : 'no_base'; return res; }
     if (b.kind === 'position') res.warnings.push('position_base');
     res.metrics = metrics(p, b);
     res.team = teamContext(p, p.team);
@@ -269,7 +320,9 @@
     function add(area, why, severity) {
       if (found[area]) { found[area].why.push(why); found[area].severity = Math.max(found[area].severity, severity); return; }
       var st = stageFor(area, role);
-      found[area] = { id: area, title: REC[area].title, why: [why], how: REC[area].how, guides: REC[area].guides.slice(), stage: { course: st[0], module: st[1] }, severity: severity };
+      var gen = REC[area].general && REC[area].general['rank-up'];
+      found[area] = { id: area, title: REC[area].title, why: [why], how: REC[area].how, guides: REC[area].guides.slice(), stage: { course: st[0], module: st[1] },
+        general: gen && !(st[0] === 'rank-up' && st[1] === gen) ? { course: 'rank-up', module: gen } : null, severity: severity };
     }
     function gap(m) { return m.ratio == null ? 0 : m.lowerBetter ? m.ratio - 1 : 1 - m.ratio; }
     function line(m) {
@@ -340,6 +393,14 @@
     return T[rec.id] ? { area: rec.id, text: T[rec.id] } : null;
   }
 
+  // Краткий итог разбора для хранения в браузере: страницы маршрутов показывают его без загрузки справочников.
+  function summary(res) {
+    if (!res || !res.ok) return null;
+    var v = {};
+    res.metrics.forEach(function (m) { v[m.key] = m.verdict; });
+    return { v: v, recs: res.recs.map(function (r) { return r.id; }), role: res.role, turbo: !!res.turbo };
+  }
+
   // Проверка каталога для сборки: все гайды и этапы существуют.
   function checkCatalog(hasGuide, hasModule) {
     var errors = [];
@@ -349,6 +410,9 @@
         var s = REC[area].stage[role];
         if (!hasModule(s[0], s[1])) errors.push(area + '/' + role + ': нет этапа ' + s.join('/'));
       });
+      Object.keys(REC[area].general || {}).forEach(function (c) {
+        if (!hasModule(c, REC[area].general[c])) errors.push(area + '/general: нет этапа ' + c + '/' + REC[area].general[c]);
+      });
     });
     return errors;
   }
@@ -356,6 +420,6 @@
   return {
     analyze: analyze, baseline: baseline, baseMinutes: baseMinutes, metrics: metrics, teamContext: teamContext, itemsContext: itemsContext,
     checkCatalog: checkCatalog, roleOf: roleOf, fmt: fmt, pct: pct,
-    REC: REC, MAX_RECS: MAX_RECS, HI: HI, LO: LO, D_HI: D_HI, D_LO: D_LO, MIN_DURATION: MIN_DURATION, TURBO: TURBO,
+    REC: REC, METRICS: METRICS, summary: summary, MAX_RECS: MAX_RECS, HI: HI, LO: LO, D_HI: D_HI, D_LO: D_LO, MIN_DURATION: MIN_DURATION, TURBO: TURBO,
   };
 });

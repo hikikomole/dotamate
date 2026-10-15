@@ -144,8 +144,7 @@
     const H = data ? data.heroes : new Map();
     list.innerHTML = listRows.map(m => {
       const h = H.get(Number(m.heroId));
-      const turbo = m.gameMode === A.TURBO, short = m.duration < A.MIN_DURATION;
-      const note = turbo ? 'Turbo не разбирается' : short ? 'короче 10 минут' : '';
+      const note = m.duration < A.MIN_DURATION ? 'короче 10 минут' : '';
       return `<li><button type="button" class="ac-mt-row${m.win ? ' is-win' : ' is-loss'}" data-mt-pick="${esc(m.matchId)}"${note ? ' disabled' : ''}>` +
         `${heroImg(h, 64, 36)}<span class="ac-mt-hero"><b>${esc(h ? h.name : 'Герой #' + m.heroId)}</b><small>${esc(kindOf(m))} · ${m.start ? esc(dateOf(m.start)) : ''}</small></span>` +
         `<span class="ac-mt-res">${m.win ? 'Победа' : 'Поражение'}</span><span class="ac-mt-kda">${Number(m.k)}/${Number(m.d)}/${Number(m.a)}</span><span class="ac-mt-dur">${dur(Number(m.duration))}</span>` +
@@ -207,6 +206,8 @@
     Object.keys(need).forEach(k => { const x = v(k); const el = form.elements[k]; if (x === null || !isFinite(x) || (el && !el.checkValidity())) err.push(need[k]); });
     if (err.length) return { err: 'Проверь поля: ' + err.join(', ') + '.' };
     const input = { source: 'manual', heroId, pos, win: win.value === '1', duration: v('min') * 60, k: v('k'), d: v('d'), a: v('a'), lh: v('lh'), gpm: v('gpm'), xpm: v('xpm') };
+    const mode = form.querySelector('input[name=mode]:checked');
+    if (mode && mode.value === 'turbo') input.gameMode = A.TURBO;
     if (v('dn') !== null) input.dn = v('dn');
     if (v('hd') !== null) input.hd = v('hd');
     return { input };
@@ -322,16 +323,18 @@
         return;
       }
       if (!res.ok) {
-        const why = { short: `Матч короче ${A.MIN_DURATION / 60} минут — по нему нельзя судить об игре.`, turbo: 'Turbo не разбирается: золото и опыт там начисляются иначе, сравнивать с обычными матчами нельзя.',
+        const why = { short: `Матч короче ${A.MIN_DURATION / 60} минут — по нему нельзя судить об игре.`, turbo_no_base: 'Эталон для Turbo появится после ближайшего ночного пересчёта статистики сайта. С рейтинговыми матчами Turbo сравнивать нельзя: золото и опыт там начисляются иначе.',
           no_base: 'Для этого героя и позиции в базе сайта пока нет эталона. Попробуй выбрать другую позицию.', pos: 'Выбери позицию.' }[res.error] || 'Этот матч не удалось разобрать.';
         out.innerHTML = html + `<p class="ac-note">${why}</p>`;
         status(why);
         restore();
         return;
       }
+      if (cur.id) storageNote(R.setSummary(cur.id, A.summary(res)).ok);   // для страниц маршрутов
       const notes = [];
       if (res.baseline.kind === 'position') notes.push(`Героя на этой позиции в базе мало — сравнение идёт со средним игроком позиции и только по золоту и опыту.`);
-      if (input.source === 'steam' && input.lobbyType != null && input.lobbyType !== 7) notes.push('Это не рейтинговый матч, а эталон — по рейтинговым. Сравнение примерное.');
+      if (res.turbo) notes.push('Turbo: сравнение с игроками на том же герое и позиции в матчах Turbo. Позиции там оценивает та же модель, что и в рейтинге, — для Turbo она менее надёжна.');
+      else if (input.source === 'steam' && input.lobbyType != null && input.lobbyType !== 7) notes.push('Это не рейтинговый матч, а эталон — по рейтинговым. Сравнение примерное.');
       if (!input.win) notes.push('Матч проигран: в поражениях почти все показатели ниже среднего. Смотри на самые большие отставания.');
       const low = res.metrics.filter(m => m.verdict === 'low').length, good = res.metrics.filter(m => m.verdict === 'good').length;
       const b = res.baseline;
@@ -340,8 +343,10 @@
       html += `<p class="ac-mr-sum"><b>Итог:</b> из ${nm} ${plural(nm, 'показателя', 'показателей', 'показателей')} заметно лучше среднего — ${good}, заметно хуже — ${low}.` +
         `${res.recs.length ? ` Главное, над чем стоит поработать, — <b>${esc(res.recs[0].title.toLowerCase())}</b>.` : ' Хороший матч — закрепляй.'}</p>`;
       html += `<h3 class="ac-mr-h">Показатели против эталона</h3><div class="ac-mr-metrics">${res.metrics.map(metricRow).join('')}</div>`;
-      html += `<p class="ac-src">Эталон: ${b.kind === 'hero' ? `${esc(name)} на позиции «${esc(posLabel(input.pos))}» — ${b.n.toLocaleString('ru-RU')} ${plural(b.n, 'матч', 'матча', 'матчей')}` : `все герои на позиции «${esc(posLabel(input.pos))}»`} в базе сайта` +
-        `${data.stats.base && data.stats.base.patch ? `, патч ${esc(data.stats.base.patch)}` : ''}; средняя длительность матча эталона — ${A.fmt(b.minutes, 1)} мин${b.minutesFrom === 'hero' ? '' : ' (по всей базе)'}. <a href="#method">Как считается</a>.</p>`;
+      const SRC = { turbo: 'матчах Turbo из Steam (все ранги, последние дни)', steam: 'рейтинговых матчах Steam всех рангов', stratz: 'детальных рейтинговых матчах Stratz (ранги до Властелина)' };
+      html += `<p class="ac-src">Эталон: ${b.kind === 'hero' ? `${esc(name)} на позиции «${esc(posLabel(input.pos))}» — ${b.n.toLocaleString('ru-RU')} ${plural(b.n, 'матч', 'матча', 'матчей')}` : `все герои на позиции «${esc(posLabel(input.pos))}»`} в ${SRC[b.src] || 'базе сайта'}` +
+        `${data.stats.base && data.stats.base.patch ? `, патч ${esc(data.stats.base.patch)}` : ''}` +
+        `${b.minutes ? `; средняя длительность матча эталона — ${A.fmt(b.minutes, 1)} мин${b.minutesFrom === 'hero' ? '' : b.minutesFrom === 'position' ? ' (по позиции)' : ' (по всей базе)'}` : ''}. <a href="#method">Как считается</a>.</p>`;
 
       const T = res.team;
       if (T) {
@@ -356,7 +361,7 @@
       const I = res.items;
       if (I && data.items && I.popular.length) {
         html += `<h3 class="ac-mr-h">Предметы</h3><div class="ac-mr-items"><div><p class="ac-h">У тебя в конце матча</p><div class="ac-mr-row">${I.mine.map(id => itemIcon(data.items, id, I.have.includes(id))).join('') || '<span class="ac-hint">пусто</span>'}</div></div>` +
-          `<div><p class="ac-h">Чаще всего собирают${I.scope === 'pos' ? ' на этой позиции' : ''}</p><div class="ac-mr-row">${I.popular.map(x => itemIcon(data.items, x.id, I.have.includes(x.id))).join('')}</div></div></div>` +
+          `<div><p class="ac-h">Чаще всего собирают${I.scope === 'pos' ? ' на этой позиции' : ''}${res.turbo ? ' (в рейтинге)' : ''}</p><div class="ac-mr-row">${I.popular.map(x => itemIcon(data.items, x.id, I.have.includes(x.id))).join('')}</div></div></div>` +
           `<p class="ac-src">Совпадений: ${I.have.length} из ${I.popular.length}. Законченные предметы из покупок ${I.n.toLocaleString('ru-RU')} ${plural(I.n, 'матча', 'матчей', 'матчей')} ${esc(name)} в базе сайта.${h ? ` Сборки по патчу — в <a href="/hero/${esc(h.slug)}/guide/">гайде по герою</a>.` : ''}</p>`;
       }
 
@@ -369,7 +374,7 @@
           `<p class="ac-mr-rec-t"><span aria-hidden="true">${AREA_ICON[r.id] || '•'}</span> ${esc(r.title)}</p>` +
           `<ul class="ac-mr-why">${r.why.map(w => `<li>${esc(w)}</li>`).join('')}</ul>` +
           `<p class="ac-mr-how">${esc(r.how)}</p>` +
-          `<p class="ac-mr-links">Почитать: ${guideLinks(r.guides)}</p>${stageLink(r.stage)}</li>`).join('') + `</ol>` +
+          `<p class="ac-mr-links">Почитать: ${guideLinks(r.guides)}</p><div class="ac-mr-stages">${stageLink(r.stage)}${r.general ? stageLink(r.general) : ''}</div></li>`).join('') + `</ol>` +
           (recs.length > A.MAX_RECS ? `<button type="button" class="ac-link-btn" data-mt-more>Показать ещё ${recs.length - A.MAX_RECS}</button>` : '');
       }
       if (res.strengths.length) html += `<h3 class="ac-mr-h">Получилось</h3><ul class="ac-mr-good">${res.strengths.map(s => `<li>${esc(s.text)}</li>`).join('')}</ul>`;

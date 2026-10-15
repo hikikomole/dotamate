@@ -289,6 +289,140 @@
     if (fill) fill.style.strokeDashoffset = String(169.65 * (1 - latest.sum.percent / 100));
   }
 
+  // ---------- маршрут и разборы матчей ----------
+  // Данные — #academyCourseMatch (сборщик), разборы и тренировка — js/academy-records.js. Без них блоки остаются
+  // статическими (пояснение и ссылка на разбор). На шаги и проценты маршрута ничего здесь не влияет.
+  var VERDICT_TEXT = { good: '✓ лучше среднего', ok: '≈ около среднего', low: '▼ хуже среднего', na: 'нет данных' };
+  var ROLE_TITLE = { carry: 'керри', mid: 'мид', offlane: 'оффлейн', support: 'поддержка' };
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function whenOf(a) {
+    return new Date(a.input.start ? a.input.start * 1000 : a.saved).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  }
+  function renderCourseMatch(root) {
+    var RC = window.DMAcademyRecords, dEl = document.getElementById('academyCourseMatch');
+    if (!RC || !dEl) return;
+    var D;
+    try { D = JSON.parse(dEl.textContent); } catch (e) { return; }
+    // По дате матча (у ручного ввода — дата разбора), новые первыми.
+    var at = function (a) { return a.input.start ? a.input.start * 1000 : a.saved; };
+    var all = RC.matches.load().state.analyses, done = all.filter(function (a) { return a.sum; }).sort(function (a, b) { return at(b) - at(a); });
+    var last = done.slice(0, 10), count = {}, roles = {};
+    last.forEach(function (a) {
+      a.sum.recs.forEach(function (r) { count[r] = (count[r] || 0) + 1; });
+      if (a.sum.role) roles[a.sum.role] = (roles[a.sum.role] || 0) + 1;
+    });
+    // Этапы, которые лечат повторяющиеся зоны роста (при 1–2 разборах достаточно одного раза).
+    var need = last.length >= 3 ? 2 : 1, recMods = {}, rows = [];
+    Object.keys(count).forEach(function (area) {
+      var x = D.areas[area];
+      if (!x || count[area] < need) return;
+      (recMods[x.module] = recMods[x.module] || []).push(area);
+      rows.push({ area: area, x: x, n: count[area] });
+    });
+    rows.sort(function (a, b) { return b.n - a.n || a.x.n - b.x.n; });
+    rows = rows.slice(0, 5);
+
+    var body = $(root, '[data-academy-mx-body]');
+    if (body && (all.length || done.length)) {
+      body.textContent = '';
+      if (!done.length) {
+        body.appendChild(el('p', null, 'Разборы есть, но ещё не пересчитаны для маршрутов. Открой любой из них на странице разбора — и здесь появятся рекомендации.'));
+      } else {
+        body.appendChild(el('p', null, 'По ' + (last.length === 1 ? 'последнему разбору' : 'последним ' + last.length + ' ' + plural(last.length, 'разбору', 'разборам', 'разборам')) + ':'));
+        if (rows.length) {
+          var ul = el('ul', 'ac-mx-list');
+          rows.forEach(function (r) {
+            var li = el('li');
+            li.appendChild(el('b', null, r.x.title));
+            li.appendChild(document.createTextNode(' — ' + (last.length > 1 ? 'в ' + r.n + ' из ' + last.length + ' ' + plural(last.length, 'разбора', 'разборов', 'разборов') : 'зона роста') + '. '));
+            var a = el('a', null, 'Этап ' + r.x.n + ': ' + r.x.stage + ' →');
+            a.href = '#module-' + r.x.module;
+            a.setAttribute('data-academy-nav', r.x.module);
+            li.appendChild(a);
+            ul.appendChild(li);
+          });
+          body.appendChild(ul);
+        } else {
+          body.appendChild(el('p', 'ac-mx-ok', 'Повторяющихся зон роста, которые разбирает этот маршрут, в разборах нет. Проходи этапы по порядку и проверяй каждый в матче.'));
+        }
+        // Чаще всего играемая роль — подсказка про маршрут этой роли.
+        var top = Object.keys(roles).sort(function (a, b) { return roles[b] - roles[a]; })[0];
+        if (top && top !== D.role && INDEX.courses[top] && roles[top] >= Math.max(2, Math.ceil(last.length / 2))) {
+          var p = el('p', 'ac-mx-role', 'Чаще всего ты играешь роль «' + ROLE_TITLE[top] + '» (' + roles[top] + ' из ' + last.length + '). Для неё есть отдельный маршрут: ');
+          var ra = el('a', null, '«' + INDEX.courses[top].title + '» →');
+          ra.href = INDEX.courses[top].href;
+          p.appendChild(ra);
+          body.appendChild(p);
+        }
+      }
+      var go = el('a', 'ac-cta ac-cta-sm', done.length ? 'Разобрать ещё матч →' : 'Разобрать матч →');
+      go.href = '/academy/match/';
+      body.appendChild(go);
+    }
+
+    var latest = done[0] || null;
+    Object.keys(D.checks).forEach(function (mid) {
+      var stage = document.getElementById('module-' + mid);
+      if (!stage) return;
+      var metrics = D.checks[mid];
+      // Отметка этапа: последний разбор по показателям этапа.
+      var chip = $(stage, '[data-academy-stat="match"]');
+      if (chip) {
+        var vs = latest && metrics.length ? metrics.map(function (k) { return latest.sum.v[k]; }).filter(function (v) { return v && v !== 'na'; }) : [];
+        chip.hidden = !vs.length;
+        if (vs.length) {
+          var bad = vs.indexOf('low') !== -1;
+          chip.textContent = bad ? 'Матч: подтянуть' : 'Матч ✓';
+          chip.classList.toggle('ok', !bad);
+          chip.classList.toggle('bad', bad);
+          chip.title = 'По последнему разбору (' + whenOf(latest) + ')';
+        }
+      }
+      var rec = $(stage, '[data-academy-stat="rec"]');
+      if (rec) {
+        rec.hidden = !recMods[mid];
+        rec.textContent = recMods[mid] ? 'Рекомендуем: ' + recMods[mid].map(function (a) { return D.areas[a].title.toLowerCase(); }).join(', ') : '';
+      }
+      each($$(stage, '[data-academy-mcheck-list]'), function (list) {
+        list.textContent = '';
+        if (!metrics.length) {
+          if (done.length) list.appendChild(el('li', null, 'Разборов сохранено: ' + all.length + '. Повторяющиеся зоны роста — в блоке «Маршрут и твои матчи» вверху страницы.'));
+          return;
+        }
+        done.slice(0, 3).forEach(function (a) {
+          var li = el('li');
+          li.appendChild(el('span', 'ac-mcheck-when', whenOf(a) + (a.input.win ? ' · победа' : ' · поражение') + (a.sum.turbo ? ' · Turbo' : '')));
+          metrics.forEach(function (k) {
+            var v = a.sum.v[k] || 'na';
+            li.appendChild(el('span', 'ac-mcheck-v is-' + v, D.metrics[k][0] + ': ' + VERDICT_TEXT[v]));
+          });
+          list.appendChild(li);
+        });
+      });
+    });
+
+    // Тренировка: экзамен маршрута и ошибки к повторению в его заданиях.
+    var dr = $(root, '[data-academy-drill]');
+    if (dr) {
+      var st = RC.drill.load().state, ex = st.exams[D.course];
+      var mods = Object.keys(D.checks), mistakes = 0;
+      Object.keys(st.items).forEach(function (id) {
+        var v = st.items[id];
+        if (v.w > 0 && (!v.lastOk || v.box < 2) && mods.some(function (m) { return id.indexOf(m + '-') === 0; })) mistakes++;
+      });
+      var parts = [];
+      if (ex) parts.push('экзамен маршрута: лучший ' + ex.best + '%' + (ex.best >= 80 ? ' ✓' : ''));
+      if (mistakes) parts.push('ошибок к повторению: ' + mistakes);
+      dr.hidden = !parts.length;
+      dr.textContent = parts.length ? 'Твоя тренировка — ' + parts.join(', ') + '.' : '';
+    }
+  }
+
   // Главная: цели из разборов матчей, экзамены и счётчики (js/academy-records.js; без него блоки скрыты).
   function renderRecords(root) {
     var RC = window.DMAcademyRecords;
@@ -310,6 +444,23 @@
         list.appendChild(li);
       });
     }
+    // Подсказка маршрута по роли: чаще всего встречающаяся роль в последних разборах.
+    var sg = $(root, '[data-academy-suggest]');
+    if (sg) {
+      var roles = {}, n = 0;
+      m.analyses.slice(0, 10).forEach(function (a) { if (a.sum && a.sum.role) { roles[a.sum.role] = (roles[a.sum.role] || 0) + 1; n++; } });
+      var top = Object.keys(roles).sort(function (a, b) { return roles[b] - roles[a]; })[0];
+      var ok = top && INDEX.courses[top] && roles[top] >= 2 && roles[top] >= n / 2;
+      sg.hidden = !ok;
+      sg.textContent = '';
+      if (ok) {
+        sg.appendChild(document.createTextNode('По твоим разборам ты чаще всего играешь роль «' + ROLE_TITLE[top] + '» (' + roles[top] + ' из ' + n + '). Для неё есть маршрут '));
+        var a = document.createElement('a');
+        a.href = INDEX.courses[top].href;
+        a.textContent = '«' + INDEX.courses[top].title + '» →';
+        sg.appendChild(a);
+      }
+    }
     var tm = $(root, '[data-academy-tool="match"]');
     if (tm && m.analyses.length) tm.textContent = 'Разборов: ' + m.analyses.length + ' · целей: ' + m.goals.filter(function (g) { return !g.done; }).length + ' →';
     var seen = Object.keys(d.items).length;
@@ -324,7 +475,7 @@
 
   function renderAll() {
     var st = state();
-    each($$(document, '.ac-course[data-academy-course]'), function (r) { renderCoursePage(r, st); });
+    each($$(document, '.ac-course[data-academy-course]'), function (r) { renderCoursePage(r, st); renderCourseMatch(r); });
     each($$(document, '.ac-landing'), function (r) { renderLandingPage(r, st); renderRecords(r); });
   }
 

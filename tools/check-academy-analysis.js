@@ -80,7 +80,21 @@ ok(tm.recs.find(r => r.id === 'fights').why.some(w => /меньше всех в 
 
 // Отказы.
 ok(A.analyze(Object.assign({}, same, { duration: 500 }), { stats }).error === 'short', 'матч короче 10 минут не разбирается');
-ok(A.analyze(Object.assign({}, same, { gameMode: 23 }), { stats }).error === 'turbo', 'Turbo не разбирается');
+ok(A.analyze(Object.assign({}, same, { gameMode: 23 }), { stats }).error === 'turbo_no_base', 'Turbo без эталона Turbo — понятная ошибка, рейтинговый эталон не подставляется');
+
+// Источники эталона: Turbo — только posTurbo; рейтинг — posSteam с K/D/A важнее Stratz, без K/D/A — Stratz.
+const st2 = Object.assign({}, stats, {
+  posTurbo: { pos: { 1: { n: 100, gpm: 900, xpm: 1200, m: 25, heroes: [hero(1, 80, { gpm: 900, xpm: 1200, k: 9, d: 5, a: 10, hd: 25000, lh: 250, m: 25 })] } } },
+  posSteam: { pos: { 1: { n: 500, gpm: 610, xpm: 790, m: 40, heroes: [hero(1, 400, { gpm: 610, xpm: 790, k: 7, d: 4, a: 8, hd: 21000, lh: 310, m: 40 })] },
+    sup: { n: 500, gpm: 290, xpm: 470, m: 40, heroes: [hero(5, 200, { gpm: 290, xpm: 470 })] } } },
+});
+const bt = A.baseline(st2, 1, 1, true);
+ok(bt.src === 'turbo' && bt.gpm === 900 && bt.minutes === 25, 'Turbo-матч сравнивается с эталоном Turbo и его длительностью');
+const tr = A.analyze(Object.assign({}, same, { gameMode: 23, duration: 1500, gpm: 900, xpm: 1200, k: 9, d: 5, a: 10, lh: 250, hd: 25000 }), { stats: st2 });
+ok(tr.ok && tr.turbo && tr.metrics.every(m => m.verdict === 'ok'), 'Turbo-матч на уровне эталона Turbo — «около среднего»');
+ok(A.baseline(st2, 1, 1).src === 'steam', 'рейтинг: Steam-эталон с K/D/A важнее Stratz');
+ok(A.baseline(st2, 5, 5).src === 'stratz' && A.baseline(st2, 5, 5).k != null, 'Steam-эталон без K/D/A уступает Stratz с K/D/A');
+ok(A.baseline(st2, 5, 4).src === 'stratz', 'позиция 4 ищется в Steam как «поддержка», в Stratz — как 4');
 ok(A.analyze(Object.assign({}, same, { pos: 7 }), { stats }).error === 'pos', 'неверная позиция — ошибка, не падение');
 
 console.log(fails ? `\nОшибок: ${fails}` : '\nВсе проверки пройдены.');

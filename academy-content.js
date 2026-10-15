@@ -577,4 +577,17 @@ for (const c of COURSES) for (const m of c.modules) m.scenarios = SCENARIOS[m.id
 // Маршруты по ролям — отдельным файлом; ситуации у них внутри этапов.
 COURSES.push(...require('./academy-roles-content.js').ROLE_COURSES);
 
+// Проверка в матче: какие показатели «Разбора матча» (/academy/match/, js/academy-analysis.js → METRICS)
+// подтверждают навык этапа. Пустой список — этап проверяется самим фактом разбора (не цифрами).
+// Страница маршрута показывает по ним итог последних разборов; на шаги и прогресс маршрута это не влияет.
+const MATCH_CHECKS = {
+  'getting-started': [], 'choose-role-and-hero': [], 'win-the-lane': ['lh', 'xpm'], 'farm-and-read-map': ['gpm', 'lh'], 'fight-and-improve': ['deaths', 'ka'],
+  'build-improvement-loop': [], 'pick-role-and-pool': [], 'lane-and-economy': ['lh', 'gpm', 'xpm'], 'read-map-and-tempo': ['ka', 'deaths'], 'teamfight-decisions': ['deaths', 'hd'],
+  'carry-lane': ['lh', 'xpm'], 'carry-farm': ['gpm', 'lh'], 'carry-late': ['deaths', 'hd'],
+  'mid-lane': ['lh', 'xpm'], 'mid-tempo': ['ka', 'xpm'], 'mid-fights': ['hd', 'deaths'],
+  'offlane-lane': ['deaths', 'xpm'], 'offlane-space': ['ka', 'hd'], 'offlane-team': ['ka', 'deaths'],
+  'support-lane': ['deaths', 'xpm'], 'support-vision': ['deaths', 'ka'], 'support-save': ['ka', 'deaths'],
+};
+for (const c of COURSES) for (const m of c.modules) m.check = MATCH_CHECKS[m.id];
+
 module.exports = { COURSES };
