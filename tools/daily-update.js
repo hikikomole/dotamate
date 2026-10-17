@@ -337,6 +337,7 @@ async function main() {
     if (countersOk) {
       if (!await node('Страницы героев', 'build-hero-pages.js', [], { timeout: 0.5 * HOUR })) problems.push('страницы героев');
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');
+      if (!await node('Внутриигровые гайды', 'tools/build-ingame-guides.js', ['--publish'])) problems.push('внутриигровые гайды');
       if (!await node('Статьи', 'build-guide-pages.js')) problems.push('статьи');
     } else problems.push('контрпики');
     // Sitemap после всех сборщиков страниц: lastmod — дата реального изменения страницы (build-sitemap.js).

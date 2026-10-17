@@ -34,7 +34,7 @@ function copyDir(src, dst){
   let n = 0;
   for(const e of fs.readdirSync(src, {withFileTypes:true})){
     const s = path.join(src, e.name), d = path.join(dst, e.name);
-    if(e.isDirectory()){ if(SKIP_DIRS.has(e.name)) continue; n += copyDir(s, d); }
+    if(e.isDirectory()){ if(SKIP_DIRS.has(e.name) || e.name === 'ingame-guides' || /^ingame-guides\.(tmp-.*|old)$/.test(e.name)) continue; n += copyDir(s, d); } // недособранная публикация внутриигровых гайдов
     else if (!e.name.endsWith('.tmp')) { copyIfChanged(s, d); n++; } // .tmp — недописанный файл writeJsonAtomic
   }
   return n;
@@ -60,4 +60,26 @@ const DEPLOY_ONLY = new Set(['abilities.json', 'hero_abilities.json']);
 if (fs.existsSync(dd)) for (const e of fs.readdirSync(dd, { withFileTypes: true })) {
   if (e.isFile() && e.name.endsWith('.json') && !DEPLOY_ONLY.has(e.name) && !fs.existsSync(path.join(ROOT, 'data', e.name))) { fs.unlinkSync(path.join(dd, e.name)); removed++; console.log('убран из deploy/data: ' + e.name); }
 }
+// Внутриигровые гайды (tools/build-ingame-guides.js --publish): набор файлов меняется (герой ушёл ниже порога — гайда нет),
+// поэтому deploy/data/ingame-guides повторяет data/ingame-guides точно — лишние .build и manifest не остаются.
+const ig = path.join(dd, 'ingame-guides'), igSrc = path.join(ROOT, 'data', 'ingame-guides');
+let igCopied = 0, igRemoved = 0;
+try {
+  if (fs.existsSync(igSrc)) {
+    let dst; try { dst = fs.lstatSync(ig); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+    if (dst?.isSymbolicLink()) throw new Error('deploy/data/ingame-guides — симлинк, пропущен');
+    fs.mkdirSync(ig, {recursive:true});
+    const entries = fs.readdirSync(igSrc, {withFileTypes:true}), names = new Set(entries.map(e => e.name));
+    for (const n of [...entries.filter(e => e.isFile() && e.name.endsWith('.build')).map(e => e.name), 'manifest.json']) {
+      const d = path.join(ig, n);
+      let st; try { st = fs.lstatSync(d); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+      if (st && !st.isFile()) throw new Error('не обычный файл: ' + d);
+      const before = same; copyIfChanged(path.join(igSrc, n), d); total++; if (same === before) igCopied++;
+    }
+    for (const e of fs.readdirSync(ig, {withFileTypes:true})) {
+      if (e.isFile() && !names.has(e.name)) { fs.unlinkSync(path.join(ig, e.name)); igRemoved++; removed++; }
+    }
+  }
+} catch (e) { console.warn('внутриигровые гайды не обновлены: ' + e.message); }
+console.log(`Внутриигровые гайды: скопировано ${igCopied}, удалено ${igRemoved}`);
 console.log(`Итого скопировано: ${total} (без изменений, не перезаписаны: ${same})${removed ? ', убрано устаревших: ' + removed : ''}`);

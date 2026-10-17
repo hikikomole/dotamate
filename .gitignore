@@ -66,3 +66,7 @@ telegram.txt
 
 # Временные файлы файловой системы
 .fuse_hidden*
+
+# Публикуемые внутриигровые гайды и временные папки сборки
+data/ingame-guides/
+data/ingame-guides.*

@@ -63,7 +63,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 9. `build-hero-counters.js` → `hero-counters.json`.
 10. `collect-steam-matches.js --fill-ranks --days 3`, затем **`build-stats.js --source steam` → `stats.json`,
     `hero-main-roles.json`, снимок `stats-history-steam/ДЕНЬ.json`**.
-11. Если контрпики ок: страницы героев, гайды героев, статьи (`deploy/hero/`, `deploy/guide/`).
+11. Если контрпики ок: страницы героев, гайды героев, внутриигровые гайды (`tools/build-ingame-guides.js --publish`, сбой = пропуск), статьи (`deploy/hero/`, `deploy/guide/`).
 12. Проверка отпечатка кода (`code-fingerprint.js`) → `sync-deploy.js` → `deploy-hostiman.js`.
 
 Сбои сборщиков (шаги 1–6) не останавливают выкладку: остаются вчерашние файлы. В журналах 05–09.10 каждый день:
@@ -114,6 +114,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 | Средние героя по минутам | /live карточки игроков | средние на отметках 5…60 мин, n ≥ 30 | архив эфира | `live-hero-avg.json` | daily (сервер) | — |
 | Свои позиции 1–5 (не на сайте до ready) | — | линия по координатам 1:00–8:00 + добивания к 10:00; 5 — поддержка на лёгкой линии | архив реплеев эфира → tools/archive-positions.js; сверка — попутная, с уже собранными матчами Stratz (новых запросов нет) | data/archive-positions.json, кеш archive/positions-cache.json | daily (сервер), 240 с | ready: точность 4/5 ≥ 85 % на ≥ 200 командах эталона; на 09.10 эталон 3 матча |
 | Прокачка/таланты | /hero/, карточка героя | поуровневый срез частот | Steam (+ Stratz предметы) | `data/builds/<id>.json`, `/api/dota/hero/<id>/build` | daily | — |
+| Внутриигровые гайды | приложение DotaMate, `/data/ingame-guides/manifest.json` | KeyValues; pos=0 — все позиции | `hero-items.json` + `skill-chains.json` + `builds/` → `tools/build-ingame-guides.js --publish` | `data/ingame-guides/*.build` + `manifest.json` | daily после гайдов героев | проверка `--check`, ≥100 файлов и ≥120 героев; временная папка → rename с резервом `.old`; сбой сохраняет прежний результат |
 | META «необычные сборки» | /meta/ | Σ −ln(p) leave-one-out | Steam (инвентарь) | `meta-escape.json`, `meta-match/` | daily | у Steam нет позиций |
 | Личная статистика /me | /me/ | Уилсон, z-тест двух долей, оценка позиции (порт модели в PHP) | Steam API по запросу посетителя (бюджет 60 000/сут) | `/api/dota/player/*` | по запросу, кеш 1 ч | сравнение со stats.json `wr` |
 | Про-матчи | /pro/ | без расчётов статистики | OpenDota | `~/dotamate-data/pro` → pro.php | 30 мин | пометка при данных старше 90 мин |
