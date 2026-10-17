@@ -13,7 +13,7 @@ function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;",
 const actionLabels={heroes:"Герои",items:"Предметы",stats:"Статистика",guides:"Гайды"};
 const actionHref=a=>({heroes:"/heroes/",items:"/items/",stats:"/stats/",guides:"/guides/"}[a]||"/guides/");
 
-const analyticsSnippet=`<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->\n<!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->`;
+const analyticsSnippet=`\n<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->\n<!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->`;
 
 // Таблицы, которые считаются из data/ при каждой сборке, чтобы статья
 // не устаревала вместе с цифрами. Ключ — значение поля dataTable в разделе гайда.
@@ -33,6 +33,57 @@ const dataTables={
     return {head:['Герой','Контрпик 1','Контрпик 2','Контрпик 3'],rows,
       note:`${C.slice}, ${Number(C.matchesUsed).toLocaleString('ru-RU')} матчей, база обновлена ${String(C.dataAt).slice(0,10)}. В скобках — на сколько процентных пунктов герой выигрывает реже, чем ожидалось бы по силе обоих героев. Учитываются пары, сыгранные не меньше ${C.minGames} раз; прочерк — таких пар для героя пока нет.`};
   }
+  ,
+  // Статья «Драфт в Dota 2» (draft-fundamentals): цифры только из своих файлов — draft-calibration.json
+  // (проверка прогноза DraftMate на отложенных матчах) и stats.json (связки, контрпики, винрейт по длительности).
+  ...(()=>{
+    const rd=f=>JSON.parse(fs.readFileSync(path.join(__dirname,'data',f),'utf8'));
+    const {slugForHero:slug}=require('./tools/hero-common.js');
+    const heroes=()=>new Map(rd('heroes.json').heroes.map(h=>[Number(h.id),h]));
+    const cell=(byId,id)=>{const o=byId.get(Number(id));return o?{t:o.localized_name,href:`/hero/${slug(o)}/`,hero:Number(o.id)}:'—';};
+    const f1=x=>Number(x).toFixed(1).replace('.',',');
+    const sg=x=>(x>0?'+':x<0?'−':'')+f1(Math.abs(x));
+    const n=x=>Number(x).toLocaleString('ru-RU');
+    const day=s=>String(s||'').slice(0,10).split('-').reverse().join('.');
+    const S=()=>rd('stats.json');
+    const period=st=>`${st.base.src==='steam'?'рейтинговые матчи Steam':'рейтинговые матчи из нашей базы'} (${st.base.patch?'патч '+st.base.patch+', ':''}${day(st.base.from)}–${day(st.base.to)}, ${n(st.base.matches)} матчей)`;
+    return {
+      draftWeight(){
+        const c=rd('draft-calibration.json');
+        const P=x=>Math.round(100/(1+Math.exp(-c.alpha*x))*10)/10;
+        return {head:['Показатель','Значение'],rows:[
+          ['Матчей в проверке (не участвовали в расчёте)',n(c.matchesTest)],
+          ['Как часто прогноз по драфту угадывает победителя',f1(c.testAccuracy)+'% (подбрасывание монетки — 50%)'],
+          ['Шанс фаворита при типичном перевесе в драфте (медиана)',f1(P(c.absScoreP50))+'%'],
+          ['Шанс фаворита в 5% матчей с самым неравным драфтом',`от ${f1(P(c.absScoreP95))}%`],
+          ['Ошибка прогноза, log-loss (меньше — лучше)',`${String(c.testLogLoss).replace('.',',')} против ${String(c.baselineLogLoss).replace('.',',')} у прогноза «50 на 50»`]],
+          note:`Источник: ${c.source}, всего ${n(c.matchesTotal)} матчей, проверка обновлена ${day(c.builtAt)}. Прогноз — сумма отклонений всех пар героев (союзники и соперники) от ожидаемого, переведённая в вероятность логистической калибровкой; линии и ранги игроков не учитываются.`};
+      },
+      synergyTop(){
+        const st=S(),byId=heroes();
+        const rows=(st.synergy||[]).slice(0,8).map(x=>[cell(byId,x.a),cell(byId,x.b),n(x.g),f1(x.w)+'%',f1(x.e)+'%',sg(x.d)]);
+        return {head:['Герой','Союзник','Матчей вместе','Побед','Ожидалось','Разница, п. п.'],rows,
+          note:`Источник: ${period(st)}; пары, сыгранные вместе меньше ${(st.method||{}).minPair||300} раз, не учитываются. «Ожидалось» — доля побед по общим винрейтам обоих героев; разница показывает, насколько связка лучше простой суммы героев.`};
+      },
+      countersTop(){
+        const st=S(),byId=heroes();
+        const rows=(st.counters||[]).slice(0,8).map(x=>[cell(byId,x.hero),cell(byId,x.by),n(x.g),f1(x.w)+'%',f1(x.e)+'%',sg(x.d)]);
+        return {head:['Герой','Против него','Матчей','Побед у героя','Ожидалось','Разница, п. п.'],rows,
+          note:`Источник: ${period(st)}; пары меньше ${(st.method||{}).minPair||300} матчей не учитываются. Ожидаемая доля побед — по формуле log5 из общих винрейтов обоих героев.`};
+      },
+      timeCurve(){
+        const st=S(),byId=heroes(),min=(st.method||{}).minDur||300;
+        const dur=(st.base||{}).duration||[],tot=dur.reduce((t,x)=>t+x[1],0);
+        const short=tot?f1(dur.filter(x=>x[0]<25).reduce((t,x)=>t+x[1],0)/tot*100):'—';
+        const list=(st.heroes||[]).map(h=>({id:h.id,m:(h.dur||{})['25_35'],l:(h.dur||{}).gt45})).filter(x=>x.m&&x.l&&x.m[0]>=min&&x.l[0]>=min).map(x=>({...x,d:x.l[1]-x.m[1]}));
+        const top=k=>list.slice().sort((a,b)=>k*(b.d-a.d)).slice(0,5);
+        const row=(x,tag)=>[cell(byId,x.id),tag,f1(x.m[1])+'%',f1(x.l[1])+'%',sg(x.d)];
+        return {head:['Герой','Чем силён','Винрейт в матчах 25–35 мин','Винрейт в матчах 45+ мин','Разница, п. п.'],
+          rows:[...top(1).map(x=>row(x,'поздней игрой')),...top(-1).map(x=>row(x,'серединой игры'))],
+          note:`Источник: ${period(st)}; у героя должно быть не меньше ${min} матчей в каждой корзине. Матчи короче 25 минут не берём: это ${short}% базы, и в этой корзине есть аномальные значения, которые мы ещё проверяем.`};
+      }
+    };
+  })()
 };
 
 // Окно карточки героя и тот же набор скриптов, что на страницах разделов
@@ -101,7 +152,7 @@ async function main(){
     // карточку героя, а Ctrl/колесо и роботы идут по href на страницу героя.
     const renderCell=c=>c&&typeof c==='object'?`<a href="${escapeHtml(c.href)}"${c.hero?` data-hero-open="${Number(c.hero)}"`:''}>${escapeHtml(c.t)}</a>${c.hero?`<span class="hr-badges" data-hero-badges="${Number(c.hero)}"></span>`:''}`:escapeHtml(c);
     // Карточке героя нужны окно и скрипты разделов — только статьям с такой таблицей.
-    const heroCard=g.sections.some(sec=>sec.dataTable==='counters');
+    const heroCard=g.sections.some(sec=>['counters','synergyTop','countersTop','timeCurve'].includes(sec.dataTable));
     const renderTable=t=>`<div style="overflow-x:auto;margin:16px 0;"><table><thead><tr>${t.head.map(h=>`<th>${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map((c,ci)=>`<td>${ci===0?`<b style="color:#e8ecf3;">${renderCell(c)}</b>`:renderCell(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>${t.note?`<p style="font-size:13px;color:#8b919c;margin:6px 0 0;">${escapeHtml(t.note)}</p>`:''}</div>`;
     const bodyHtml=g.sections.map(sec=>{
       const parts=[];

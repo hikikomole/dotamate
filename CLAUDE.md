@@ -1014,7 +1014,18 @@ build-guide-pages → sync-deploy → wrangler. Сбой контрпиков в
 - **Фронтенд** — `js/*.js` читает `/data/*.json` и `/api/*`; статические страницы генерируются `build-*.js`.
 - **Удалены 09.10.2026** (решение владельца): `server.js` (трансляции/донаты), Cloudflare Worker (`deploy/worker.js`,
   `wrangler.jsonc`, `tools/update-site.js`, `tools/publish-meta.js`), Docker/Caddy/MediaMTX, `db/schema.sql`, Netlify.
-  Упоминания их в старых разделах этого файла — история. Остались: `preview-server.js` (локальное превью),
+  Упоминания их в старых разделах этого файла — история.
+  **17.10.2026** удалены: Cloudflare Web Analytics (сниппет в `page-shell.html` и сборщиках, домены в CSP — данные не отправлялись, CORS),
+  `_headers`, `js/home-bg.js`, `Включить автообновление.cmd` + `tools/install-daily-task.js` (обновление идёт на сервере), мусор `.fuse_hidden*`.
+  В CSP `deploy/.htaccess` добавлен `https://yandex.ru` в `connect-src`/`frame-src` — без него блокировался запрос рекламы РСЯ.
+  Там же: своя страница 404 (`build-pages.js`, ключ `notfound`, секция `notFound` в `page-sections.html`, `ErrorDocument 404 /404/index.html`),
+  `noindex` у `/meta/match/`. Политика конфиденциальности (`build-privacy-page.js`) переписана под Hostiman: Cloudflare и Google Fonts убраны.
+  Гайды героев (`build-hero-guides.js`): общие вводные на 127 страницах заменены фразами из данных героя (крупный предмет ≥2000 золота из
+  `hero-items.json`, лучший/худший матчап по отклонению от ожидаемого из `hero-counters.json`, место по скорости среди героев) —
+  дословные повторы упали с ~50% до ~24% предложений (подсчёт по абзацам, без таблиц). Новые общие абзацы в шаблон не добавлять.
+  `guide-content.js`, match-timings: исправлен вывод про рост брони Рошана.
+  `draft-fundamentals` переписана: таблицы из данных (`dataTable`: `draftWeight`, `synergyTop`, `countersTop`, `timeCurve` в `build-guide-pages.js`);
+  числа в тексте статьи не хардкодить — только в этих таблицах. Аномалии `antiSynergy`/`lt25` — см. конец `docs/architecture/statistics.md`. Остались: `preview-server.js` (локальное превью),
   `js/v43-features.js` (поиск Ctrl+K, в проде). Новую логику в `preview-server.js` не добавлять.
 - Запись итоговых `data/*.json` — только `writeJsonAtomic` из `tools/match-source.js`; перед раскладкой
   `daily-update.js` проверяет, что все `data/*.json` читаются (`checkDataJson`).

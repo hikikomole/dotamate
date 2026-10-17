@@ -18,7 +18,7 @@ const { escapeHtml, slugForHero, imageUrl, roleText, attrInfo, officialHeroUrl, 
 const ORIGIN = 'https://dotamate.ru';
 const DATA = path.join(__dirname, 'seo', 'hero-guide-data.json');
 
-const analytics = `<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+const analytics = `
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->`;
 
 // Покупки — data/hero-items.json (tools/build-hero-items.js), тот же расчёт,
@@ -109,6 +109,17 @@ async function main() {
     return key => have.has(String(key));
   })();
 
+  // Ранги героев по скорости и дальности атаки — для фраз «быстрее X% героев» (те же данные Valve, что в плитках).
+  const vsAll = heroes.map(o => ({ o, v: valveStats[o.id] })).filter(x => x.v);
+  const shareBelow = (val, list) => list.length ? Math.round(list.filter(x => x < val).length / list.length * 100) : null;
+  const msList = vsAll.map(x => Number(x.v.ms)).filter(Number.isFinite);
+  const rangedList = vsAll.filter(x => x.o.attack_type !== 'Melee').map(x => Number(x.v.range)).filter(Number.isFinite);
+  const pp = d => Math.abs(d).toFixed(1).replace('.', ',');
+  const mt = n => matches(n).replace(/^\d+/, num(n)); // «9 584 матча»
+  // Цена предмета — из своего каталога (data/items-ru.json): во вводной называем только крупный предмет, не расходник.
+  const costById = new Map(Object.values(JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'items-ru.json'), 'utf8')).items).map(v => [Number(v.id), Number(v.cost) || 0]));
+  const wr = w => Number(w).toFixed(1).replace('.', ',') + '%';
+
   const pagesRoot = path.join(__dirname, 'deploy', 'hero');
   const urls = [];
   let made = 0, thin = 0;
@@ -152,7 +163,9 @@ async function main() {
         const img = `/assets/items/${s}.png`;
         return `<a href="/item/${s}/"><img loading="lazy" src="${img}" alt=""><b>${name}</b><small>${n ? Math.round(r.count / n * 100) + '% · ' + num(r.count) + ' из ' + num(n) : num(r.count) + ' покупок'}</small></a>`;
       }).join('');
-      return `<div class="hg-phase"><h3>${label}</h3><p class="hg-hint">${hint}</p><div class="hg-items">${li}</div></div>`;
+      const top = rows[0];
+      const topHint = n ? `${hint}; чаще всего — ${escapeHtml(itemName(top.id, itemsById))} (${Math.round(top.count / n * 100)}%)` : hint;
+      return `<div class="hg-phase"><h3>${label}</h3><p class="hg-hint">${topHint}</p><div class="hg-items">${li}</div></div>`;
     }).filter(Boolean).join('');
 
     const hc = (heroCounters.heroes || {})[String(h.id)] || {};
@@ -182,7 +195,27 @@ async function main() {
       `<a href="/#draft=${h.id}----_----_"><img loading="lazy" src="${imageUrl(h)}" alt="">Собрать драфт с ${escapeHtml(h.localized_name)} в DraftMate<span>→</span></a>` +
       `<a href="/guide/counter-picks/">Как работают контрпики<span>→</span></a>`;
 
-    const lead = `${h.localized_name} — герой ${atk} с основным атрибутом «${a[1].toLowerCase()}». Роли по классификации Valve: ${roles.toLowerCase()}. Ниже — то, что видно из открытой статистики: реальные покупки по стадиям игры и результаты против конкретных героев.`;
+    // Вводная — только из цифр этого героя (покупки и матчапы своей базы), чтобы 127 гайдов не начинались одинаково.
+    const recH = (heroItems.heroes || {})[String(h.id)] || {};
+    const nH = Number(recH.n) || 0;
+    const coreItem = (() => {
+      for (const [ph, when] of [['late', 'к 25–40 минуте'], ['mid', 'к 10–25 минуте'], ['vlate', 'после 40 минуты']]) {
+        const r = (recH[ph] || []).map(x => ({ id: variantById[Number(x.i)] ?? Number(x.i), g: Number(x.g) || 0 })).find(x => itemName(x.id, itemsById) && (costById.get(x.id) || 0) >= 2000);
+        if (r && nH) return { name: itemName(r.id, itemsById), p: Math.round(r.g / nH * 100), when };
+      }
+      return null;
+    })();
+    const best = (hc.good || []).map(m => ({ m, o: byId.get(Number(m.id)) })).find(x => x.o);
+    const worst = (hc.against || []).map(m => ({ m, o: byId.get(Number(m.id)) })).find(x => x.o);
+    const leadParts = [`${h.localized_name} — герой ${atk}, основной атрибут — «${a[1].toLowerCase()}».`];
+    if (coreItem) leadParts.push(`Главная крупная покупка ${coreItem.when} — ${coreItem.name}: её берут в ${coreItem.p}% матчей героя (выборка — ${mt(nH)}).`);
+    if (best && worst) leadParts.push(`По матчапам лучше ожидаемого выходит против ${best.o.localized_name} (+${pp(best.m.d)} п. п.), хуже всего — против ${worst.o.localized_name} (−${pp(worst.m.d)} п. п.).`);
+    else if (!coreItem) leadParts.push('Ниже — его способности, реальные покупки по стадиям игры и результаты против конкретных героев.');
+    const lead = leadParts.join(' ');
+    const msBelow = vs ? shareBelow(Number(vs.ms), msList) : null;
+    const msAbove = vs && msList.length ? Math.round(msList.filter(x => x > Number(vs.ms)).length / msList.length * 100) : null;
+    const msPhrase = msBelow == null ? '' : msBelow >= 50 ? `: это больше, чем у ${msBelow}% героев` : msAbove >= 50 ? `: это меньше, чем у ${msAbove}% героев` : ': это средняя скорость среди героев';
+    const rangeShare = vs && h.attack_type !== 'Melee' ? shareBelow(Number(vs.range), rangedList) : null;
 
     const ldjson = JSON.stringify({
       "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
@@ -250,9 +283,8 @@ ${analytics}
   <section id="kak-igrat">
     <h2>Как играть</h2>
     <p>${escapeHtml(h.localized_name)} — ${atk === 'ближнего боя' ? 'герой ближнего боя' : 'герой дальнего боя'}, основной атрибут — ${escapeHtml(a[1].toLowerCase())}. Valve относит его к ролям: ${escapeHtml(roles.toLowerCase())}. Роль задаёт, чего от героя ждёт команда: ${escapeHtml(rolePlain(h))}</p>
-    ${vs ? `<p>Скорость передвижения — ${escapeHtml(String(vs.ms))}, урон атаки на первом уровне — ${escapeHtml(`${vs.dmin}–${vs.dmax}`)}, дальность атаки — ${escapeHtml(String(vs.range))}. Это те цифры, от которых зависит, как герой стоит на линии: на них опирайтесь, а не на общие советы.</p>` : ''}
+    ${vs ? `<p>Скорость передвижения ${escapeHtml(h.localized_name)} — ${escapeHtml(String(vs.ms))}${msPhrase}. Урон атаки на первом уровне — ${escapeHtml(`${vs.dmin}–${vs.dmax}`)}, дальность атаки — ${escapeHtml(String(vs.range))}${rangeShare != null ? ` (дальше, чем у ${rangeShare}% героев дальнего боя)` : ''}.</p>` : ''}
     ${statsHtml ? `<div class="hg-stats">${statsHtml}</div>` : ''}
-    <p class="hg-note">Дальше по разделам: способности с официальным русским текстом Valve, реальные покупки по стадиям игры и две таблицы матчапов.</p>
   </section>
 
   <section id="osobennosti">
@@ -262,26 +294,26 @@ ${analytics}
 
   <section id="zakupy">
     <h2>Варианты закупов</h2>
-    <p>Это не «правильная сборка», а то, что игроки действительно покупают за этого героя: своя база рейтинговых матчей текущего патча (${num(heroItems.matchesUsed)} матчей, обновлено ${String(heroItems.builtAt).slice(0, 10).split('-').reverse().join('.')}), покупки разложены по времени. Процент — в какой доле матчей героя предмет купили в этой фазе.</p>
+    <p>${nH ? `Выборка — ${mt(nH)} с ${escapeHtml(h.localized_name)} из нашей базы рейтинговых матчей текущего патча` : 'Покупки посчитаны по нашей базе рейтинговых матчей текущего патча'} (вся база — ${mt(Number(heroItems.matchesUsed) || 0)}, обновлено ${String(heroItems.builtAt).slice(0, 10).split('-').reverse().join('.')}). Процент у предмета — доля матчей ${escapeHtml(h.localized_name)}, в которых его купили в этой фазе.</p>
     ${phaseHtml ? `<div class="hg-phases">${phaseHtml}</div>` : '<p class="hg-nodata">Данных о покупках для этого героя в открытой статистике сейчас нет.</p>'}
   </section>
 
   <section id="kogo-kontrit">
     <h2>Кого контрит ${escapeHtml(h.localized_name)}</h2>
-    <p>Соперники, против которых герой выигрывает заметно чаще, чем ожидалось бы по общей силе обоих героев. Выборка — рейтинговые матчи, где герои играли друг против друга; пары, сыгранные меньше ${heroCounters.minGames || 300} раз, отброшены.</p>
+    <p>${best ? `Лучший результат у ${escapeHtml(h.localized_name)} — против ${escapeHtml(best.o.localized_name)}: ${wr(best.m.w)} побед в ${mt(best.m.g)}, на ${pp(best.m.d)} п. п. выше, чем ожидалось бы по общей силе обоих героев.` : `Соперники, против которых ${escapeHtml(h.localized_name)} выигрывает заметно чаще ожидаемого.`}</p>
     ${strongRows ? `<div style="overflow-x:auto;"><table class="hg-table">${tableHead}<tbody>${strongRows}</tbody></table></div>` : noData}
   </section>
 
   <section id="kto-kontrit">
     <h2>Кто контрит ${escapeHtml(h.localized_name)}</h2>
-    <p>Обратная сторона той же выборки — против кого статистика у героя хуже всего.</p>
+    <p>${worst ? `Самый неудобный соперник — ${escapeHtml(worst.o.localized_name)}: против него ${escapeHtml(h.localized_name)} выигрывает ${wr(worst.m.w)} из ${num(worst.m.g)} матчей, на ${pp(worst.m.d)} п. п. меньше, чем ожидалось бы по общей силе героев.` : `Соперники, против которых у ${escapeHtml(h.localized_name)} статистика хуже всего.`}</p>
     ${weakRows ? `<div style="overflow-x:auto;"><table class="hg-table">${tableHead}<tbody>${weakRows}</tbody></table></div>` : noData}
-    <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (${escapeHtml(String(heroCounters.slice || ''))}, ${escapeHtml(num(heroCounters.matchesUsed || 0))} матчей), обновлена ${escapeHtml(String(heroCounters.dataAt || '').slice(0, 10))}. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
+    <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (${escapeHtml(String(heroCounters.slice || ''))}, ${escapeHtml(num(heroCounters.matchesUsed || 0))} матчей), обновлена ${escapeHtml(String(heroCounters.dataAt || '').slice(0, 10))}; пары, сыгранные меньше ${heroCounters.minGames || 300} раз, отброшены. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
   </section>
 
   <section id="dalshe">
     <h2>Что дальше</h2>
-    <p>Гайды по героям, которые контрят ${escapeHtml(h.localized_name)} и которых он обыгрывает (по таблицам выше), герои с похожими ролями по классификации Valve и драфт с этим героем.</p>
+    <p>${worst ? `Разберите, как играет ${escapeHtml(worst.o.localized_name)} — самый неудобный для ${escapeHtml(h.localized_name)} соперник, — а также` : 'Ниже —'} гайды по героям из таблиц выше, герои с похожими ролями и драфт с ${escapeHtml(h.localized_name)} в DraftMate.</p>
     <div class="linked-list">${nextHtml}</div>
   </section>
 </main>

@@ -6,9 +6,12 @@ DirectoryIndex index.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "geolocation=(), camera=(), microphone=()"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.webvisor.org https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://*.yandex.ru https://*.yandex.net https://*.yandex.com https://yastatic.net https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://yastatic.net; font-src 'self' https://yastatic.net; img-src 'self' data: https:; media-src 'self' https://cdn.steamstatic.com https://cdn.akamai.steamstatic.com https://cdn.cloudflare.steamstatic.com; connect-src 'self' https://mc.yandex.ru https://mc.yandex.com https://mc.webvisor.org https://*.yandex.ru https://*.yandex.net https://*.yandex.com https://cloudflareinsights.com https://static.cloudflareinsights.com wss://mc.yandex.ru wss://mc.yandex.com wss://*.yandex.ru wss://*.yandex.net wss://*.yandex.com; frame-src https://*.yandex.ru https://*.yandex.net https://*.yandex.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.webvisor.org https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://*.yandex.ru https://*.yandex.net https://*.yandex.com https://yastatic.net; style-src 'self' 'unsafe-inline' https://yastatic.net; font-src 'self' https://yastatic.net; img-src 'self' data: https:; media-src 'self' https://cdn.steamstatic.com https://cdn.akamai.steamstatic.com https://cdn.cloudflare.steamstatic.com; connect-src 'self' https://yandex.ru https://mc.yandex.ru https://mc.yandex.com https://mc.webvisor.org https://*.yandex.ru https://*.yandex.net https://*.yandex.com wss://mc.yandex.ru wss://mc.yandex.com wss://*.yandex.ru wss://*.yandex.net wss://*.yandex.com; frame-src https://yandex.ru https://*.yandex.ru https://*.yandex.net https://*.yandex.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
 </IfModule>
 AddType font/woff2 .woff2
+# Своя страница ошибки вместо заглушки хостинга (собирает build-pages.js, ключ notfound).
+ErrorDocument 404 /404/index.html
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/png "access plus 30 days"

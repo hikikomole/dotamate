@@ -90,7 +90,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 | Пикрейт | /stats/ | n/total (сумма по героям = 1000 %) | Steam | `heroes[].pr` | daily | при фильтре ранга показывается общий pr (см. п. С2) |
 | Тир S–D | /stats/, паспорт героя | квинтили `lo` среди героев с n ≥ 1000 | Steam | `heroes[].tier` | daily | относительный, не абсолютный |
 | Винрейт по рангу | /stats/ «По рангам», фильтр ранга; плитки героя | w/n в группе, n ≥ 300 | Steam + ранг OpenDota | `heroes[].rank[g]` | daily | группа 1: только 44 героя ≥ 300 → вкладка «копится» |
-| Винрейт по длительности | /stats/ «Матчи», плитки героя | w/n в корзинах <25/25–35/35–45/45+, n ≥ 300 | Steam | `heroes[].dur`, `durSwing` | daily | — |
+| Винрейт по длительности | /stats/ «Матчи», плитки героя, /guide/draft-fundamentals/ (25–35 против 45+, без <25) | w/n в корзинах <25/25–35/35–45/45+, n ≥ 300 | Steam | `heroes[].dur`, `durSwing` | daily | — |
 | Гистограмма длительности | /stats/ «Матчи» | матчей по 5 мин | Steam | `base.duration` | daily | сумма = matches (проверено) |
 | GPM/XPM героя | /stats/ (posSteam) | среднее за матч | Steam | `heroes[].gpm/xpm` | daily | — |
 | Позиции 1/2/3/«4–5» | /stats/ «Позиции» | модель `position-model.json` (тест acc 79,5 %), ровно 3 кор + 2 саппорта в команде | Steam + `match-positions.js` | `posSteam` | daily | оценка, не данные Valve |
@@ -98,8 +98,8 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 | Эталон «Разбора матча» (Turbo) | /academy/match/ для game_mode 23 | `posTurbo`: последние 7 дневных файлов `data/steam-matches-turbo`, те же поля; модель позиций обучена на рейтинговых — в Turbo её точность не измерялась; сбой → прошлый `posTurbo` | Steam турбо + `match-positions.js` | `posTurbo` | daily | срез Turbo, с рейтингом не смешивать |
 | Позиции 1–5 (Stratz) | плитка «против других» на /hero/ (`hero-stat-tiles.js`); эталон «Разбора матча» /academy/match/ (`js/academy-analysis.js`: GPM, XPM, K/D/A, урон, добивания; `m` — средняя длительность, мин, для показателей «в минуту», с 15.10.2026) | среднее по позиции; n ≥ 30 | Stratz детали, текущий патч, ранги ≤ 65 | `positions` | daily (если Stratz жив) | другой срез, чем тир-лист |
 | Роли героя (значки, «роль на ранге», фильтр позиции) | /stats/, сайт целиком (`hero-roles.js`) | доля позиции ≥ 10 %, сортировка по винрейту | Stratz heroStats по парам рангов | `heroes[].ro/rt`, `hero-main-roles.json`, `roles.fetchedAt` | daily, **фактически снимок 25.09** | Stratz падает ежедневно |
-| Связки союзников | /stats/ «Связки» | d = w − σ(logit pA + logit pB); пары ≥ 300 | Steam: our-matrix.json (pairs.with) + винрейты stats | `synergy`, `antiSynergy` | daily | пересчёт e/d: 0 расхождений |
-| Контрпики | /stats/, /hero/, гайды, /guide/counter-picks/, быстрая подготовка | log5: d = w − e; пары ≥ 300 | Steam: our-matrix (vs) + our-meta → build-hero-counters | `hero-counters.json`, `counters` | daily | зеркальных дублей в топ-40 нет (проверено) |
+| Связки союзников | /stats/ «Связки», /guide/draft-fundamentals/ (`synergy`, топ-8) | d = w − σ(logit pA + logit pB); пары ≥ 300 | Steam: our-matrix.json (pairs.with) + винрейты stats | `synergy`, `antiSynergy` | daily | пересчёт e/d: 0 расхождений |
+| Контрпики | /stats/, /hero/, гайды, /guide/counter-picks/, /guide/draft-fundamentals/ (`stats.counters`, топ-8), быстрая подготовка | log5: d = w − e; пары ≥ 300 | Steam: our-matrix (vs) + our-meta → build-hero-counters | `hero-counters.json`, `counters` | daily | зеркальных дублей в топ-40 нет (проверено) |
 | Покупки предметов (доля, медиана 1-й покупки) | /stats/ «Предметы» | игроков с покупкой / игроков с покупками | Stratz детали, текущий патч | `items` | daily | ранги ≤ 65, ≈17 тыс. матчей |
 | Исход линии | /stats/ «Линии», плитки героя | win/draw/loss по оценке Stratz, n ≥ 30 | Stratz | `lanes` | daily | ранги ≤ 65 |
 | Динамика | /stats/ «Динамика» | разница wr первого и последнего снимка | снимки build-stats | `history` (до 60 дн.) | daily | сейчас 1 снимок; каждый снимок — окно всей базы, а не день |
@@ -109,7 +109,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 | Реальные покупки по фазам | карточка героя, быстрая подготовка, DraftMate | доля в фазе, порог по доле | Stratz | `hero-items.json` | daily | — |
 | Статистика страниц предметов | /item/<key>/ | n, share, квартили времени, позиции, герои | Stratz | `item-stats.json` → build-item-pages.js | daily | — |
 | Связь покупки предмета с победой (вариант Б; наблюдение, не причинный эффект) | DraftMate, главная | относит. эффект: (купил − не купил) − медиана героя | Stratz | `item-impact.json` | daily | наблюдение, не причинность (подписано в коде) |
-| Прогноз драфта | DraftMate, /live, META | сумма парных отклонений → Platt (a), 70/15/15 | Steam all / OpenDota top | `our-matrix*.json`, `draft-calibration*.json` | daily | проверка на архиве эфира — `draft-archive-check.json` |
+| Прогноз драфта | DraftMate, /live, META, /guide/draft-fundamentals/ (точность и шанс фаворита из `draft-calibration.json`) | сумма парных отклонений → Platt (a), 70/15/15 | Steam all / OpenDota top | `our-matrix*.json`, `draft-calibration*.json` | daily | проверка на архиве эфира — `draft-archive-check.json` |
 | Шанс победы по ходу игры | /live, итоги матча | логистическая регрессия, пишется только если лучше 50 % | архив эфира | `live-winprob.json` | daily (сервер) | — |
 | Средние героя по минутам | /live карточки игроков | средние на отметках 5…60 мин, n ≥ 30 | архив эфира | `live-hero-avg.json` | daily (сервер) | — |
 | Свои позиции 1–5 (не на сайте до ready) | — | линия по координатам 1:00–8:00 + добивания к 10:00; 5 — поддержка на лёгкой линии | архив реплеев эфира → tools/archive-positions.js; сверка — попутная, с уже собранными матчами Stratz (новых запросов нет) | data/archive-positions.json, кеш archive/positions-cache.json | daily (сервер), 240 с | ready: точность 4/5 ≥ 85 % на ≥ 200 командах эталона; на 09.10 эталон 3 матча |
@@ -287,3 +287,8 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
   полном инструменте — `ResizeObserver` возвращает `#draftTool` на прежнее место экрана. Стенд: 1440/768/390 — поле поиска
   после 5 пиков на том же месте (было: уезжало на 80–250 px). v91 вернул «Stratz» на главную: push-server перезаписал
   сгенерированные страницы deploy/ локальными копиями без пересборки — при ручной выкладке пересобирать все страницы.
+
+
+## Замечание 17.10.2026: аномалии в связках и коротких матчах
+
+В `stats.json` (Steam, все ранги) встречаются экстремальные значения: `antiSynergy` Enchantress + Shadow Demon — 14% побед в 1 498 матчах вместе, `durSwing` Shadow Demon — 16,5% в матчах до 25 минут. Причина не выяснена (гипотезы: «руинерские» связки, боты, ошибка разбора). До проверки статьи не используют `antiSynergy` и корзину `lt25`; /guide/draft-fundamentals/ сравнивает 25–35 и 45+ мин.

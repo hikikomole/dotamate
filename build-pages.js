@@ -167,7 +167,7 @@ const PAGES = [
   {
     // Оболочка страницы матча: содержимое рисует js/meta.js по ?id=.
     // В sitemap не идёт — без номера матча страница пустая.
-    key: 'meta', dir: 'meta/match', crumb: 'Матч', noSitemap: true,
+    key: 'meta', dir: 'meta/match', crumb: 'Матч', noSitemap: true, noindex: true,
     title: 'Матч — META | Dota Mate',
     desc: 'Разбор матча из раздела META: состав команд, предметы, капитал, прогноз драфта, линии и график преимущества по минутам.',
     sections: ['metaMatch'],
@@ -232,6 +232,15 @@ const PAGES = [
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
     scripts: [{ src: '/js/me.js', defer: true }],
+  },
+  {
+    // Страница ошибки 404: её отдаёт сервер на любой несуществующий адрес (ErrorDocument в deploy/.htaccess).
+    key: 'notfound', dir: '404', noSitemap: true, noindex: true, noCrumbs: true,
+    title: 'Страница не найдена | Dota Mate',
+    desc: 'Такой страницы на Dota Mate нет. Перейдите в раздел героев, предметов, статистики или гайдов.',
+    sections: ['notFound'],
+    styles: ['/css/theme-dark.css'],
+    bodyClass: 'd2-dark',
   },
 ];
 // Маршруты по ролям — сразу после «Поднять рейтинг» (порядок влияет только на page-urls.json).
@@ -372,7 +381,7 @@ function readSections() {
 
 
 function breadcrumbs(page) {
-  if (page.key === 'home') return '';
+  if (page.key === 'home' || page.noCrumbs) return '';
   const nav = NAV.find(n => n.key === page.key);
   const label = page.crumb || (nav ? nav.label : ('Патч ' + (patchData() || {}).version));
   const url = `${ORIGIN}/${page.dir}/`;

@@ -63,3 +63,6 @@ data-steam/
 
 # Токен Telegram-бота — секрет (09.10.2026)
 telegram.txt
+
+# Временные файлы файловой системы
+.fuse_hidden*
