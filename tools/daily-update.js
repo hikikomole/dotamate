@@ -277,6 +277,7 @@ async function main() {
     // Реальные покупки предметов в карточке героя. Сбой не останавливает
     // выкладку: на сайте остаётся прошлый data/hero-items.json.
     if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');
+    if (!await node('Сборки для оверлея (Stratz)', 'tools/build-overlay-builds.js')) problems.push('сборки для оверлея');
     if (!await node('Предметы и победа (вариант Б драфта)', 'tools/build-item-impact.js')) problems.push('предметы и победа');
     // Исходы линий DraftMate — свой расчёт по тем же деталям Stratz (вместо снимка heroStats.laneOutcome, 11.10.2026).
     if (!await node('Исходы линий (DraftMate)', 'tools/build-lane-matrix.js')) problems.push('исходы линий');
