@@ -33,6 +33,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const DIR = path.join(ROOT, 'data', 'meta-matches');
 const OUT = path.join(ROOT, 'data', 'hero-items.json');
+const RANKED_OUT = path.join(ROOT, 'data', 'hero-items-ranked.json');
 const TOP = 6;
 const MIN_SHARE = 0.02;
 const MIN_ABS = 2;
@@ -42,6 +43,10 @@ const SKIP = new Set(['tpscroll']);
 // покупок, когда у героя на ней набралось MIN_ROLE матчей — тот же порог,
 // что выбран для героя в целом. Порог показа предмета — та же доля.
 const MIN_ROLE = 80;
+const rankGroups = [
+  { id: 1, key: 'low', ranks: [10, 49], label: 'Рекрут–Архонт' },
+  { id: 2, key: 'high', ranks: [50, 89], label: 'Легенда и выше' }
+];
 
 const read = f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
 const catalog = read('items-ru.json').items;
@@ -56,7 +61,9 @@ const heroIds = read('heroes.json').heroes.map(h => Number(h.id));
 
 const phaseOf = t => PHASES.find(([, a, b]) => t >= a && t < b)[0];
 const newAcc = () => ({ n: 0, c: Object.fromEntries(PHASES.map(([k]) => [k, new Map()])) });
-const acc = new Map(heroIds.map(id => [id, Object.assign(newAcc(), { pos: {} })]));
+const newHeroAcc = () => new Map(heroIds.map(id => [id, Object.assign(newAcc(), { pos: {} })]));
+const acc = newHeroAcc();
+const rankedAcc = Object.fromEntries(rankGroups.map(group => [group.key, newHeroAcc()]));
 let matches = 0;
 // Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
 for (const m of require('./match-source.js').metaMatches()) {
@@ -67,8 +74,14 @@ for (const m of require('./match-source.js').metaMatches()) {
       const h = acc.get(p.h);
       if (!h || !Array.isArray(p.b) || !p.b.length) continue;
       used = true;
+      const group = rankGroups.find(({ ranks }) => Number.isInteger(m.rank) && m.rank >= ranks[0] && m.rank <= ranks[1]);
+      const rankedHero = group && rankedAcc[group.key].get(p.h);
       const targets = [h];
-      if (p.pos >= 1 && p.pos <= 5) targets.push(h.pos[p.pos] || (h.pos[p.pos] = newAcc()));
+      if (rankedHero) targets.push(rankedHero);
+      if (p.pos >= 1 && p.pos <= 5) {
+        targets.push(h.pos[p.pos] || (h.pos[p.pos] = newAcc()));
+        if (rankedHero) targets.push(rankedHero.pos[p.pos] || (rankedHero.pos[p.pos] = newAcc()));
+      }
       for (const a of targets) a.n++;
       const seen = new Set();
       for (const [t, id] of p.b) {
@@ -93,21 +106,25 @@ function phases(a) {
   }
   return rec;
 }
-const heroes = {};
-let roleBlocks = 0;
-for (const [id, h] of acc) {
-  if (!h.n) continue;
-  const rec = phases(h);
-  // posN — матчей героя на каждой роли (для подсказки «мало матчей»),
-  // pos — покупки по ролям, где матчей ≥ MIN_ROLE.
-  rec.posN = {};
-  rec.pos = {};
-  for (const [k, a] of Object.entries(h.pos)) {
-    rec.posN[k] = a.n;
-    if (a.n >= MIN_ROLE) { rec.pos[k] = phases(a); roleBlocks++; }
+function serializeHeroes(source) {
+  const heroes = {};
+  let roleBlocks = 0;
+  for (const [id, h] of source) {
+    if (!h.n) continue;
+    const rec = phases(h);
+    rec.posN = {};
+    rec.pos = {};
+    for (const [k, a] of Object.entries(h.pos)) {
+      rec.posN[k] = a.n;
+      if (a.n >= MIN_ROLE) { rec.pos[k] = phases(a); roleBlocks++; }
+    }
+    heroes[id] = rec;
   }
-  heroes[id] = rec;
+  return { heroes, roleBlocks };
 }
+const { heroes, roleBlocks } = serializeHeroes(acc);
+const ranked = Object.fromEntries(rankGroups.map(group =>
+  [group.key, { heroes: serializeHeroes(rankedAcc[group.key]).heroes }]));
 
 const missing = heroIds.filter(id => !heroes[id]);
 const out = {
@@ -116,7 +133,8 @@ const out = {
   minRole: MIN_ROLE,
   since, matchesUsed: matches, builtAt: new Date().toISOString(), heroes
 };
-fs.writeFileSync(OUT, JSON.stringify(out));
+require('./match-source.js').writeJsonAtomic(OUT, out);
+require('./match-source.js').writeJsonAtomic(RANKED_OUT, { rankGroups, ranked });
 const ns = Object.values(heroes).map(h => h.n).sort((a, b) => a - b);
 console.log(`hero-items.json: ролей с покупками ${roleBlocks}, ${Object.keys(heroes).length} героев из ${heroIds.length}, матчей ${matches}, выборка на героя min ${ns[0]} / медиана ${ns[ns.length >> 1]} / max ${ns[ns.length - 1]}`);
 

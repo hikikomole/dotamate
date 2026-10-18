@@ -113,7 +113,7 @@ function writeAtomic(file, content) {
   }
 }
 
-function makeGuide(hero, pos, purchases, build, context, general = false) {
+function makeGuide(hero, pos, purchases, build, context, general = false, group = null) {
   const { itemsById, consumables, variants, abilities, skillChains, missing, patch, updated, creator, now } = context;
   const internal = hero.name.replace(/^npc_dota_hero_/, '');
   const position = general ? 'все позиции' : `${RU_POSITIONS[`POSITION_${pos}`]}, поз. ${pos}`;
@@ -207,14 +207,15 @@ function makeGuide(hero, pos, purchases, build, context, general = false) {
     }
   }
 
-  const overview = `Покупки — ${matches(purchases.n)} ${hero.localized_name || internal} ${general ? 'на всех позициях' : 'на этой позиции'} из базы рейтинговых матчей DotaMate, патч ${patch}, обновлено ${updated}. ` +
+  const overview = (group ? `Предметы: выборка ${purchases.n} матчей, ранги ${group.ranks[0]}–${group.ranks[1]} (Stratz). Прокачка и таланты: все ранги (Steam). ` : '') +
+    `Покупки — ${matches(purchases.n)} ${hero.localized_name || internal} ${general ? 'на всех позициях' : 'на этой позиции'} из базы рейтинговых матчей DotaMate, патч ${patch}, обновлено ${updated}. ` +
     (purchases.n < 300 ? 'Выборка небольшая — проценты ориентировочные. ' : '') +
     'Процент у предмета — доля матчей, где его купили в этой стадии. ' +
     `Подробнее: dotamate.ru/hero/${slugForHero(hero)}/` +
     (popular ? `\nПрокачка — Steam, ${matches(chain.sampleMatches ?? popular.matches)} ${hero.localized_name || internal} на позиции ${pos}. Только факты базы, не «правильная сборка».` : '');
   return keyValues([['guidedata', [
     ['Hero', internal],
-    ['Title', Array.from(`DotaMate · ${hero.localized_name || internal} · ${position}`).slice(0, 60).join('')],
+    ['Title', Array.from(`DotaMate · ${group ? `${group.key === 'low' ? '10–49' : '50+'} · ` : ''}${hero.localized_name || internal} · ${position}`).slice(0, 60).join('')],
     ['Role', pos <= 3 ? '#DOTA_HeroGuide_Role_Core' : '#DOTA_HeroGuide_Role_Support'],
     ['GameplayVersion', patch], ['Overview', overview], ['GuideRevision', '1'],
     ['AssociatedWorkshopItemID', hex(0)], ['OriginalCreatorID', hex(creator)],
@@ -469,6 +470,9 @@ function buildGuides(options) {
     : 'skill-chains.json не найден; прокачка из builds/<id>.json.');
   const purchases = readJson(options.data, 'hero-items.json');
   const heroItems = requireObject(purchases.heroes, 'hero-items.json heroes');
+  const rankedPurchases = readJson(options.data, 'hero-items-ranked.json', true);
+  const rankGroups = rankedPurchases?.rankGroups || [];
+  const ranked = rankedPurchases?.ranked || {};
   const heroes = readJson(options.data, 'heroes.json').heroes;
   if (!Array.isArray(heroes)) throw new Error('Некорректные данные: heroes.json heroes должен быть массивом');
   const catalog = requireObject(readJson(options.data, 'items-ru.json').items, 'items-ru.json items');
@@ -497,6 +501,8 @@ function buildGuides(options) {
   let noData = 0;
   let generalCount = 0;
   const covered = new Set();
+  const guideIds = new Set();
+  const counts = { all: 0, low: 0, high: 0 };
   const reasons = { 'нет pos в hero-items': 0, 'нет builds': 0, 'нет skill-chains': 0, 'нет покупок': 0, 'нет героя': 0 };
   const absent = { builds: 0, skillChains: 0 };
   const mainRoles = readJson(path.resolve(__dirname, '../data'), 'hero-main-roles.json', true)?.heroes || {};
@@ -534,18 +540,41 @@ function buildGuides(options) {
         continue;
       }
       const content = makeGuide(hero, pos, rec, positionBuild, context, general);
+      if (!Number.isInteger(Number(id)) || Number(id) >= 100000) throw new Error(`Некорректный ID героя: ${id}`);
       const number = 1900000000 + Number(id) * 10 + slot;
       if (!Number.isSafeInteger(number) || String(number).length !== 10) throw new Error(`Некорректный ID героя: ${id}`);
+      if (guideIds.has(number)) throw new Error(`Повтор ID гайда: ${number}`);
+      guideIds.add(number);
       fs.mkdirSync(options.out, { recursive: true });
       const internal = hero.name.replace(/^npc_dota_hero_/, '');
       const file = `${internal}_${number}.build`;
       writeAtomic(path.join(options.out, file), content);
-      files.push({ file, heroId: Number(id), hero: internal, pos: slot,
+      files.push({ file, heroId: Number(id), hero: internal, pos: slot, rankGroup: 'all', sampleN: rec.n,
         title: parseKeyValues(content)[0][1].find(([key]) => key === 'Title')[1],
         bytes: Buffer.byteLength(content, 'utf8'), sha256: createHash('sha256').update(content, 'utf8').digest('hex') });
       written++;
+      counts.all++;
       if (general) generalCount++;
       covered.add(id);
+      if (general) continue;
+      for (const group of rankGroups) {
+        const rankedRec = ranked[group.key]?.heroes?.[id]?.pos?.[pos];
+        if (!rankedRec || rankedRec.n < MIN || !PHASES.some(([phase]) => rankedRec[phase]?.length)) continue;
+        const heroId = Number(id);
+        if (!Number.isInteger(heroId) || heroId >= 100000) throw new Error(`Некорректный ID героя: ${id}`);
+        const variantId = 1900000000 + group.id * 1000000 + heroId * 10 + pos;
+        if (!Number.isSafeInteger(variantId) || String(variantId).length !== 10) throw new Error(`Некорректный ID варианта гайда: ${variantId}`);
+        if (guideIds.has(variantId)) throw new Error(`Повтор ID гайда: ${variantId}`);
+        guideIds.add(variantId);
+        const variantContent = makeGuide(hero, pos, rankedRec, positionBuild, context, false, group);
+        const variantFile = `${internal}_${variantId}.build`;
+        writeAtomic(path.join(options.out, variantFile), variantContent);
+        files.push({ file: variantFile, heroId, hero: internal, pos, rankGroup: group.key, sampleN: rankedRec.n,
+          title: parseKeyValues(variantContent)[0][1].find(([key]) => key === 'Title')[1],
+          bytes: Buffer.byteLength(variantContent, 'utf8'), sha256: createHash('sha256').update(variantContent, 'utf8').digest('hex') });
+        written++;
+        counts[group.key]++;
+      }
     }
   }
   const sources = new Map();
@@ -559,7 +588,8 @@ function buildGuides(options) {
   console.log(`Причины пропусков: ${JSON.stringify(reasons)}. Отсутствующие источники прокачки у кандидатов: ${JSON.stringify(absent)}.`);
   if (covered.size !== ids.length) console.warn(`Без гайда: ${ids.filter(id => !covered.has(id)).map(id => `${heroesById.get(id)?.localized_name} (${id})`).join(', ')}`);
   console.log(`Не сопоставлено: ${missing.size ? [...missing].sort().join(', ') : 'нет'}.`);
-  return { format: 1, patch, builtAt, itemsBuiltAt: purchases.builtAt,
+  console.log(`По рангам: ${JSON.stringify(counts)}`);
+  return { format: 1, patch, builtAt, itemsBuiltAt: purchases.builtAt, rankGroups,
     creatorNote: 'OriginalCreatorID = 0; приложение DotaMate подставляет аккаунт пользователя при установке.',
     count: written, heroes: covered.size, files };
 }

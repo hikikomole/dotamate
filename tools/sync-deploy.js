@@ -28,6 +28,7 @@ const SKIP_DIRS = new Set(['public-matches', 'public-matches-top', 'meta-matches
 let same = 0;
 function copyIfChanged(s, d){ try { const a = fs.statSync(d); if (a.size === fs.statSync(s).size && fs.readFileSync(d).equals(fs.readFileSync(s))) { same++; return; } } catch { /* нет файла — копируем */ } fs.copyFileSync(s, d); }
 
+const SKIP_FILES = new Set(['hero-items-ranked.json']); // только для сборки гайдов на сервере
 function copyDir(src, dst){
   if(!fs.existsSync(src)) return 0;
   fs.mkdirSync(dst, {recursive:true});
@@ -35,7 +36,7 @@ function copyDir(src, dst){
   for(const e of fs.readdirSync(src, {withFileTypes:true})){
     const s = path.join(src, e.name), d = path.join(dst, e.name);
     if(e.isDirectory()){ if(SKIP_DIRS.has(e.name) || e.name === 'ingame-guides' || /^ingame-guides\.(tmp-.*|old)$/.test(e.name)) continue; n += copyDir(s, d); } // недособранная публикация внутриигровых гайдов
-    else if (!e.name.endsWith('.tmp')) { copyIfChanged(s, d); n++; } // .tmp — недописанный файл writeJsonAtomic
+    else if (!e.name.endsWith('.tmp') && !(path.basename(src) === 'data' && SKIP_FILES.has(e.name))) { copyIfChanged(s, d); n++; } // .tmp — недописанный файл writeJsonAtomic
   }
   return n;
 }
@@ -58,7 +59,7 @@ const dd = path.join(OUT, 'data');
 // /api/dota/hero/<имя>/abilities, когда OpenDota недоступна) — их не трогаем (v90 их убрал по ошибке, v91 вернул).
 const DEPLOY_ONLY = new Set(['abilities.json', 'hero_abilities.json']);
 if (fs.existsSync(dd)) for (const e of fs.readdirSync(dd, { withFileTypes: true })) {
-  if (e.isFile() && e.name.endsWith('.json') && !DEPLOY_ONLY.has(e.name) && !fs.existsSync(path.join(ROOT, 'data', e.name))) { fs.unlinkSync(path.join(dd, e.name)); removed++; console.log('убран из deploy/data: ' + e.name); }
+  if (e.isFile() && e.name.endsWith('.json') && (e.name === 'hero-items-ranked.json' || (!DEPLOY_ONLY.has(e.name) && !fs.existsSync(path.join(ROOT, 'data', e.name))))) { fs.unlinkSync(path.join(dd, e.name)); removed++; console.log('убран из deploy/data: ' + e.name); }
 }
 // Внутриигровые гайды (tools/build-ingame-guides.js --publish): набор файлов меняется (герой ушёл ниже порога — гайда нет),
 // поэтому deploy/data/ingame-guides повторяет data/ingame-guides точно — лишние .build и manifest не остаются.
