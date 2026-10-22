@@ -1,0 +1,120 @@
+"guidedata"
+{
+	"Hero"		"death_prophet"
+	"Title"		"DotaMate · Death Prophet · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 39 матчей Death Prophet на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/death_prophet/\nПрокачка — Steam, 3 036 матчей Death Prophet на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_circlet"
+				"item"		"item_mantle"
+				"item"		"item_faerie_fire"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_null_talisman"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_phase_boots"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_cyclone"
+				"item"		"item_kaya"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_sange"
+				"item"		"item_kaya_and_sange"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_soul_booster"
+				"item"		"item_shivas_guard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_buckler"
+				"item"		"item_assault"
+				"item"		"item_wind_waker"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 62% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 38% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 38% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 31% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 69% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 51% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 26% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 26% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_cyclone"		"Берут в 59% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya_and_sange"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_soul_booster"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 10% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_buckler"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_assault"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_wind_waker"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_famango"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"death_prophet_carrion_swarm"
+			"2"		"death_prophet_spirit_siphon"
+			"3"		"death_prophet_carrion_swarm"
+			"4"		"death_prophet_spirit_siphon"
+			"5"		"death_prophet_carrion_swarm"
+			"6"		"death_prophet_exorcism"
+			"7"		"death_prophet_carrion_swarm"
+			"8"		"death_prophet_spirit_siphon"
+			"9"		"death_prophet_spirit_siphon"
+			"10"		"death_prophet_silence"
+			"15"		"special_bonus_unique_death_prophet_2"
+			"20"		"special_bonus_unique_death_prophet"
+			"25"		"special_bonus_unique_death_prophet_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_hp_200"		"Берут в 91,4% матчей, винрейт 50,4% · выборка 2 830 матчей"
+			"special_bonus_unique_death_prophet_silence_aoe"		"Берут в 8,6% матчей, винрейт 42,6% · выборка 265 матчей"
+			"special_bonus_unique_death_prophet_2"		"Берут в 77,5% матчей, винрейт 50,9% · выборка 2 275 матчей"
+			"special_bonus_attack_speed_50"		"Берут в 22,5% матчей, винрейт 50,4% · выборка 661 матч"
+			"special_bonus_unique_death_prophet_3"		"Берут в 14,3% матчей, винрейт 52,8% · выборка 326 матчей"
+			"special_bonus_unique_death_prophet"		"Берут в 85,7% матчей, винрейт 53,7% · выборка 1 948 матчей"
+			"special_bonus_unique_death_prophet_5"		"Берут в 100% матчей, винрейт 56,1% · выборка 269 матчей"
+			"death_prophet_carrion_swarm"		"Самая частая прокачка первых 10 уровней: 678 матчей, винрейт 52,1%"
+		}
+	}
+}

@@ -1,0 +1,123 @@
+"guidedata"
+{
+	"Hero"		"doom_bringer"
+	"Title"		"DotaMate · Doom · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 77 матчей Doom на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/doom_bringer/\nПрокачка — Steam, 5 188 матчей Doom на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_gauntlets"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_bracer"
+				"item"		"item_phase_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_headdress"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_radiance"
+				"item"		"item_ancient_janggo"
+				"item"		"item_hand_of_midas"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_shivas_guard"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_octarine_core"
+				"item"		"item_heart"
+				"item"		"item_overwhelming_blink"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 90% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 88% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 82% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 47% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_bracer"		"Берут в 82% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 78% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 64% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_headdress"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 78% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_radiance"		"Берут в 35% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ancient_janggo"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_hand_of_midas"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 18% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_shivas_guard"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_octarine_core"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_heart"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_overwhelming_blink"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_smoke_of_deceit"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_dust"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"doom_bringer_scorched_earth"
+			"2"		"doom_bringer_devour"
+			"3"		"doom_bringer_scorched_earth"
+			"4"		"doom_bringer_infernal_blade"
+			"5"		"doom_bringer_scorched_earth"
+			"6"		"doom_bringer_doom"
+			"7"		"doom_bringer_scorched_earth"
+			"8"		"doom_bringer_devour"
+			"9"		"doom_bringer_devour"
+			"10"		"doom_bringer_devour"
+			"15"		"special_bonus_unique_doom_1"
+			"20"		"special_bonus_attack_damage_66"
+			"25"		"special_bonus_unique_doom_10"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_doom_4"		"Берут в 35% матчей, винрейт 50,6% · выборка 4 368 матчей"
+			"special_bonus_magic_resistance_10"		"Берут в 65% матчей, винрейт 49,3% · выборка 8 121 матч"
+			"special_bonus_unique_doom_1"		"Берут в 74,9% матчей, винрейт 54,2% · выборка 8 453 матча"
+			"special_bonus_unique_doom_6"		"Берут в 25,1% матчей, винрейт 51,9% · выборка 2 840 матчей"
+			"special_bonus_attack_damage_66"		"Берут в 58,1% матчей, винрейт 61,7% · выборка 4 973 матча"
+			"special_bonus_unique_doom_9"		"Берут в 41,9% матчей, винрейт 59,1% · выборка 3 593 матча"
+			"special_bonus_unique_doom_11"		"Берут в 12% матчей, винрейт 72,9% · выборка 468 матчей"
+			"special_bonus_unique_doom_10"		"Берут в 88% матчей, винрейт 65,5% · выборка 3 445 матчей"
+			"doom_bringer_scorched_earth"		"Самая частая прокачка первых 10 уровней: 1 096 матчей, винрейт 51,6%"
+		}
+	}
+}

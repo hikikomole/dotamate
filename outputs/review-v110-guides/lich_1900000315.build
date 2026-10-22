@@ -1,0 +1,118 @@
+"guidedata"
+{
+	"Hero"		"lich"
+	"Title"		"DotaMate · Lich · Полная поддержка, поз. 5"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 153 матча Lich на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/lich/\nПрокачка — Steam, 4 480 матчей Lich на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_branches"
+				"item"		"item_enchanted_mango"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_smoke_of_deceit"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_blink"
+				"item"		"item_aghanims_shard"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_force_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+				"item"		"item_headdress"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_glimmer_cape"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 95% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 77% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 73% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 67% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 53% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 25% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 73% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 55% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 24% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_smoke_of_deceit"		"Берут в 21% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_glimmer_cape"		"Берут в 58% матчей на позиции 5 · стадия «Середина (10–25 мин)»\nПротив магии: Glimmer: временный барьер от магического урона. Покупают не менее 57,5% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_blink"		"Берут в 35% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_aghanims_shard"		"Берут в 10% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 25% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 15% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 5% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_headdress"		"Берут в 4% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 24% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 24,1% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"lich_frost_nova"
+			"2"		"lich_frost_shield"
+			"3"		"lich_frost_nova"
+			"4"		"lich_sinister_gaze"
+			"5"		"lich_frost_nova"
+			"6"		"lich_chain_frost"
+			"7"		"lich_frost_nova"
+			"8"		"lich_frost_shield"
+			"9"		"lich_frost_shield"
+			"10"		"lich_frost_shield"
+			"15"		"special_bonus_unique_lich_2"
+			"20"		"special_bonus_unique_lich_7"
+			"25"		"special_bonus_unique_lich_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_lich_6"		"Берут в 53,2% матчей, винрейт 55,6% · выборка 8 198 матчей"
+			"special_bonus_unique_lich_8"		"Берут в 46,8% матчей, винрейт 51,4% · выборка 7 201 матч"
+			"special_bonus_unique_lich_3"		"Берут в 27,6% матчей, винрейт 59,9% · выборка 3 481 матч"
+			"special_bonus_unique_lich_2"		"Берут в 72,4% матчей, винрейт 60,7% · выборка 9 138 матчей"
+			"special_bonus_unique_lich_7"		"Берут в 84,5% матчей, винрейт 66,1% · выборка 6 563 матча"
+			"special_bonus_unique_lich_4"		"Берут в 15,5% матчей, винрейт 65% · выборка 1 204 матча"
+			"special_bonus_unique_lich_5"		"Берут в 80,9% матчей, винрейт 67,5% · выборка 1 811 матчей"
+			"special_bonus_unique_lich_1"		"Берут в 19,1% матчей, винрейт 60,3% · выборка 428 матчей"
+			"lich_frost_nova"		"Самая частая прокачка первых 10 уровней: 889 матчей, винрейт 48,5%"
+		}
+	}
+}

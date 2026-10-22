@@ -1,0 +1,113 @@
+"guidedata"
+{
+	"Hero"		"queenofpain"
+	"Title"		"DotaMate · Queen of Pain · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 122 матча Queen of Pain на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/queenofpain/\nПрокачка — Steam, 8 870 матчей Queen of Pain на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+				"item"		"item_mantle"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_null_talisman"
+				"item"		"item_clarity"
+				"item"		"item_boots"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_kaya"
+				"item"		"item_sange"
+				"item"		"item_kaya_and_sange"
+				"item"		"item_ultimate_scepter"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_soul_booster"
+				"item"		"item_black_king_bar"
+				"item"		"item_cyclone"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_shivas_guard"
+				"item"		"item_octarine_core"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 97% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 63% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 22% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 20% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 13% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 60% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 54% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 45% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 12% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_kaya"		"Берут в 70% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 47% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya_and_sange"		"Берут в 46% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_soul_booster"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_cyclone"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_shivas_guard"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_octarine_core"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"queenofpain_scream_of_pain"
+			"2"		"queenofpain_blink"
+			"3"		"queenofpain_scream_of_pain"
+			"4"		"queenofpain_blink"
+			"5"		"queenofpain_scream_of_pain"
+			"6"		"queenofpain_sonic_wave"
+			"7"		"queenofpain_scream_of_pain"
+			"8"		"queenofpain_blink"
+			"9"		"queenofpain_blink"
+			"10"		"special_bonus_strength_7"
+			"15"		"special_bonus_unique_queen_of_pain_4"
+			"20"		"special_bonus_unique_queen_of_pain_2"
+			"25"		"special_bonus_unique_queen_of_pain_7"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_strength_7"		"Берут в 87,1% матчей, винрейт 48,6% · выборка 11 207 матчей"
+			"special_bonus_unique_queen_of_pain_1"		"Берут в 12,9% матчей, винрейт 47,4% · выборка 1 653 матча"
+			"special_bonus_attack_damage_30"		"Берут в 14,9% матчей, винрейт 48,6% · выборка 1 829 матчей"
+			"special_bonus_unique_queen_of_pain_4"		"Берут в 85,1% матчей, винрейт 50,5% · выборка 10 442 матча"
+			"special_bonus_unique_queen_of_pain_3"		"Берут в 45,8% матчей, винрейт 53,6% · выборка 4 653 матча"
+			"special_bonus_unique_queen_of_pain_2"		"Берут в 54,2% матчей, винрейт 56,7% · выборка 5 514 матчей"
+			"special_bonus_unique_queen_of_pain_7"		"Берут в 59,4% матчей, винрейт 60,4% · выборка 3 421 матч"
+			"special_bonus_unique_queen_of_pain_6"		"Берут в 40,6% матчей, винрейт 63,2% · выборка 2 341 матч"
+			"queenofpain_scream_of_pain"		"Самая частая прокачка первых 10 уровней: 1 622 матча, винрейт 48,8%"
+		}
+	}
+}

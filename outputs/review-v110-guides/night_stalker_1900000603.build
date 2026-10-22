@@ -1,0 +1,134 @@
+"guidedata"
+{
+	"Hero"		"night_stalker"
+	"Title"		"DotaMate · Night Stalker · Оффлейн, поз. 3"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 164 матча Night Stalker на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/night_stalker/\nПрокачка — Steam, 3 169 матчей Night Stalker на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_gauntlets"
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_phase_boots"
+				"item"		"item_bracer"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_soul_ring"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_echo_sabre"
+				"item"		"item_black_king_bar"
+				"item"		"item_hand_of_midas"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_basher"
+				"item"		"item_nullifier"
+				"item"		"item_buckler"
+				"item"		"item_sange"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_assault"
+				"item"		"item_abyssal_blade"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_clarity"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_assault"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_gauntlets"		"Берут в 90% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 87% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 76% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 71% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 57% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 30% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_phase_boots"		"Берут в 90% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 77% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 62% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 17% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 15% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 80% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_echo_sabre"		"Берут в 65% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 24% матчей на позиции 3 · стадия «Середина (10–25 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 53% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 53% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_hand_of_midas"		"Берут в 15% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_basher"		"Берут в 21% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_nullifier"		"Берут в 20% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_buckler"		"Берут в 13% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_sange"		"Берут в 12% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 8% матчей на позиции 3 · стадия «Затяжная (40+ мин)»\nПротив физического урона: Броня уменьшает физический урон. Покупают не менее 7,9% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_abyssal_blade"		"Берут в 6% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 13% матчей на позиции 3 · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 13,4% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_clarity"		"Берут в 9% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"night_stalker_void"
+			"2"		"night_stalker_hunter_in_the_night"
+			"3"		"night_stalker_void"
+			"4"		"night_stalker_hunter_in_the_night"
+			"5"		"night_stalker_void"
+			"6"		"night_stalker_darkness"
+			"7"		"night_stalker_void"
+			"8"		"night_stalker_crippling_fear"
+			"9"		"night_stalker_hunter_in_the_night"
+			"10"		"special_bonus_unique_night_stalker_7"
+			"15"		"special_bonus_unique_night_stalker_hunter_status_resist"
+			"20"		"special_bonus_strength_15"
+			"25"		"special_bonus_unique_night_stalker"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_night_stalker_crippling_fear_damage"		"Берут в 39,8% матчей, винрейт 55% · выборка 7 821 матч"
+			"special_bonus_unique_night_stalker_4"		"Берут в 60,2% матчей, винрейт 54% · выборка 11 830 матчей"
+			"special_bonus_unique_night_stalker_hunter_status_resist"		"Берут в 65,7% матчей, винрейт 57,1% · выборка 11 803 матча"
+			"special_bonus_unique_night_stalker_3"		"Берут в 34,3% матчей, винрейт 58,6% · выборка 6 166 матчей"
+			"special_bonus_strength_15"		"Берут в 100% матчей, винрейт 62,5% · выборка 10 474 матча"
+			"special_bonus_unique_night_stalker"		"Берут в 92,5% матчей, винрейт 65,8% · выборка 5 608 матчей"
+			"special_bonus_unique_night_stalker_2"		"Берут в 7,5% матчей, винрейт 69,3% · выборка 453 матча"
+			"night_stalker_void"		"Самая частая прокачка первых 10 уровней: 636 матчей, винрейт 49,7%"
+		}
+	}
+}

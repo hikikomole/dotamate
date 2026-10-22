@@ -1,0 +1,128 @@
+"guidedata"
+{
+	"Hero"		"nevermore"
+	"Title"		"DotaMate · Shadow Fiend · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 269 матчей Shadow Fiend на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/nevermore/\nПрокачка — Steam, 6 572 матча Shadow Fiend на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_enchanted_mango"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_falcon_blade"
+				"item"		"item_tango"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_blink"
+				"item"		"item_yasha_and_kaya"
+				"item"		"item_dragon_lance"
+				"item"		"item_kaya"
+				"item"		"item_mask_of_madness"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+				"item"		"item_hurricane_pike"
+				"item"		"item_force_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_satanic"
+				"item"		"item_refresher"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_sange"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 50% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 46% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 13% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 22% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 14% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 53% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 43% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha_and_kaya"		"Берут в 39% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 39% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 37% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mask_of_madness"		"Берут в 35% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 42% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hurricane_pike"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_refresher"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sange"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"nevermore_shadowraze1"
+			"2"		"nevermore_dark_lord"
+			"3"		"nevermore_shadowraze1"
+			"4"		"nevermore_dark_lord"
+			"5"		"nevermore_shadowraze1"
+			"6"		"nevermore_requiem"
+			"7"		"nevermore_shadowraze1"
+			"8"		"nevermore_dark_lord"
+			"9"		"nevermore_dark_lord"
+			"10"		"special_bonus_unique_nevermore_7"
+			"15"		"special_bonus_unique_nevermore_3"
+			"20"		"special_bonus_unique_nevermore_1"
+			"25"		"special_bonus_unique_nevermore_frenzy_castspeed"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_nevermore_4"		"Берут в 21,8% матчей, винрейт 41,2% · выборка 2 199 матчей"
+			"special_bonus_unique_nevermore_7"		"Берут в 78,2% матчей, винрейт 41,1% · выборка 7 870 матчей"
+			"special_bonus_unique_nevermore_3"		"Берут в 100% матчей, винрейт 42,7% · выборка 5 586 матчей"
+			"special_bonus_unique_nevermore_6"		"Берут в 44,3% матчей, винрейт 49,4% · выборка 2 942 матча"
+			"special_bonus_unique_nevermore_1"		"Берут в 55,7% матчей, винрейт 47,7% · выборка 3 700 матчей"
+			"special_bonus_unique_nevermore_raze_procsattacks"		"Берут в 49,2% матчей, винрейт 57% · выборка 1 799 матчей"
+			"special_bonus_unique_nevermore_frenzy_castspeed"		"Берут в 50,8% матчей, винрейт 57,1% · выборка 1 861 матч"
+			"nevermore_shadowraze1"		"Самая частая прокачка первых 10 уровней: 1 402 матча, винрейт 51,1%"
+		}
+	}
+}

@@ -1,0 +1,112 @@
+"guidedata"
+{
+	"Hero"		"lion"
+	"Title"		"DotaMate · Lion · Полная поддержка, поз. 5"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 246 матчей Lion на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/lion/\nПрокачка — Steam, 1 484 матча Lion на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_wind_lace"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_glimmer_cape"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_aether_lens"
+				"item"		"item_force_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_aeon_disk"
+				"item"		"item_cyclone"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 78% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 67% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 51% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 46% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_wind_lace"		"Берут в 43% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 89% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 48% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 21% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 15% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 87% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_glimmer_cape"		"Берут в 24% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 21% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_aether_lens"		"Берут в 19% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 12% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_aeon_disk"		"Берут в 3% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_cyclone"		"Берут в 2% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 52% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 24% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"lion_impale"
+			"2"		"lion_mana_drain"
+			"3"		"lion_mana_drain"
+			"4"		"lion_voodoo"
+			"5"		"lion_mana_drain"
+			"6"		"lion_finger_of_death"
+			"7"		"lion_mana_drain"
+			"8"		"lion_impale"
+			"9"		"lion_impale"
+			"10"		"lion_impale"
+			"15"		"special_bonus_unique_lion_5"
+			"20"		"special_bonus_unique_lion_10"
+			"25"		"special_bonus_unique_lion_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_movement_speed_20"		"Берут в 73,7% матчей, винрейт 50,5% · выборка 13 405 матчей"
+			"special_bonus_unique_lion_6"		"Берут в 26,3% матчей, винрейт 50,1% · выборка 4 776 матчей"
+			"special_bonus_unique_lion_11"		"Берут в 24,6% матчей, винрейт 57,2% · выборка 3 520 матчей"
+			"special_bonus_unique_lion_5"		"Берут в 75,4% матчей, винрейт 58,2% · выборка 10 773 матча"
+			"special_bonus_unique_lion_10"		"Берут в 69,8% матчей, винрейт 63,1% · выборка 5 803 матча"
+			"special_bonus_unique_lion_8"		"Берут в 30,2% матчей, винрейт 65,6% · выборка 2 512 матчей"
+			"special_bonus_unique_lion_2"		"Берут в 56,1% матчей, винрейт 65,8% · выборка 1 369 матчей"
+			"special_bonus_unique_lion_4"		"Берут в 43,9% матчей, винрейт 62,8% · выборка 1 073 матча"
+			"lion_impale"		"Самая частая прокачка первых 10 уровней: 331 матч, винрейт 49,5%"
+		}
+	}
+}

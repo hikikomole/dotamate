@@ -1,0 +1,121 @@
+"guidedata"
+{
+	"Hero"		"gyrocopter"
+	"Title"		"DotaMate · Gyrocopter · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 35 матчей Gyrocopter на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/gyrocopter/\nПрокачка — Steam, 1 085 матчей Gyrocopter на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_falcon_blade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_lesser_crit"
+				"item"		"item_ultimate_scepter"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_greater_crit"
+				"item"		"item_yasha"
+				"item"		"item_black_king_bar"
+				"item"		"item_pers"
+				"item"		"item_cyclone"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_satanic"
+				"item"		"item_silver_edge"
+				"item"		"item_ultimate_scepter_2"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 71% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 49% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 40% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 14% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 51% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 34% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 31% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 26% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_crit"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_cyclone"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_silver_edge"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"gyrocopter_homing_missile"
+			"2"		"gyrocopter_rocket_barrage"
+			"3"		"gyrocopter_rocket_barrage"
+			"4"		"gyrocopter_homing_missile"
+			"5"		"gyrocopter_rocket_barrage"
+			"6"		"gyrocopter_call_down"
+			"7"		"gyrocopter_rocket_barrage"
+			"8"		"gyrocopter_homing_missile"
+			"9"		"gyrocopter_homing_missile"
+			"10"		"special_bonus_hp_200"
+			"15"		"special_bonus_unique_gyrocopter_6"
+			"20"		"special_bonus_unique_gyrocopter_3"
+			"25"		"special_bonus_unique_gyrocopter_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_hp_150"		"Берут в 10,7% матчей, винрейт 45,9% · выборка 172 матча"
+			"special_bonus_unique_gyrocopter_homing_missile_damage"		"Берут в 89,3% матчей, винрейт 49,7% · выборка 1 430 матчей"
+			"special_bonus_unique_gyrocopter_flak_cannon_bonus_damage"		"Берут в 11,6% матчей, винрейт 51% · выборка 149 матчей"
+			"special_bonus_unique_gyrocopter_6"		"Берут в 88,4% матчей, винрейт 55,5% · выборка 1 136 матчей"
+			"special_bonus_unique_gyrocopter_3"		"Берут в 95,7% матчей, винрейт 59,1% · выборка 487 матчей"
+			"special_bonus_unique_gyrocopter_2"		"Берут в 4,3% матчей, винрейт 50% · выборка 22 матча"
+			"special_bonus_unique_gyrocopter_5"		"Берут в 92,5% матчей, винрейт 61,9% · выборка 147 матчей"
+			"special_bonus_unique_gyrocopter_1"		"Берут в 7,5% матчей, винрейт 50% · выборка 12 матчей"
+			"gyrocopter_homing_missile"		"Самая частая прокачка первых 10 уровней: 197 матчей, винрейт 52,8%"
+		}
+	}
+}

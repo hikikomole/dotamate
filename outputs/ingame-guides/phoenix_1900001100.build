@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"phoenix"
+	"Title"		"DotaMate · Phoenix · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 110 матчей Phoenix на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/phoenix/\nПрокачка — Steam, 3 131 матч Phoenix на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_urn_of_shadows"
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_spirit_vessel"
+				"item"		"item_shivas_guard"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_cyclone"
+				"item"		"item_pers"
+				"item"		"item_lotus_orb"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 81% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 58% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 54% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 47% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_urn_of_shadows"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_tranquil_boots"		"Берут в 67% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_spirit_vessel"		"Берут в 70% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_shivas_guard"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_cyclone"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lotus_orb"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_famango"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"phoenix_fire_spirits"
+			"2"		"phoenix_icarus_dive"
+			"3"		"phoenix_fire_spirits"
+			"4"		"phoenix_sun_ray"
+			"5"		"phoenix_fire_spirits"
+			"6"		"phoenix_supernova"
+			"7"		"phoenix_fire_spirits"
+			"8"		"phoenix_sun_ray"
+			"9"		"phoenix_sun_ray"
+			"10"		"phoenix_sun_ray"
+			"15"		"special_bonus_unique_phoenix_3"
+			"20"		"special_bonus_unique_phoenix_5"
+			"25"		"special_bonus_unique_phoenix_1"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_phoenix_dying_light_damage"		"Берут в 27,1% матчей, винрейт 51,7% · выборка 1 048 матчей"
+			"special_bonus_unique_phoenix_6"		"Берут в 72,9% матчей, винрейт 51,4% · выборка 2 821 матч"
+			"special_bonus_hp_regen_25"		"Берут в 12,6% матчей, винрейт 56,6% · выборка 422 матча"
+			"special_bonus_unique_phoenix_3"		"Берут в 87,4% матчей, винрейт 56,7% · выборка 2 924 матча"
+			"special_bonus_unique_phoenix_2"		"Берут в 7,9% матчей, винрейт 53% · выборка 166 матчей"
+			"special_bonus_unique_phoenix_5"		"Берут в 92,1% матчей, винрейт 62,3% · выборка 1 934 матча"
+			"special_bonus_unique_phoenix_4"		"Берут в 24,9% матчей, винрейт 60% · выборка 175 матчей"
+			"special_bonus_unique_phoenix_1"		"Берут в 75,1% матчей, винрейт 61,2% · выборка 529 матчей"
+			"phoenix_fire_spirits"		"Самая частая прокачка первых 10 уровней: 1 015 матчей, винрейт 50,2%"
+		}
+	}
+}

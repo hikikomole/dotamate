@@ -47,7 +47,8 @@ if (r.status !== 0) { console.error('tar завершился с ошибкой'
 console.log('Размер: ' + (fs.statSync(tarFile).size / 1048576).toFixed(1) + ' МБ');
 
 const remote = 'set -e; mkdir -p ~/dotamate-src ~/dotamate-src/logs && tar -xf - -C ~/dotamate-src'
-  + ' && chmod 600 ~/dotamate-src/stratz.capi.txt 2>/dev/null; echo "files: $(find ~/dotamate-src -type f | wc -l)"';
+  + ' && if test -f ~/dotamate-src/stratz.capi.txt; then chmod 600 ~/dotamate-src/stratz.capi.txt; fi'
+  + ' && echo "files: $(find ~/dotamate-src -type f | wc -l)"';
 for (let attempt = 1; attempt <= 6; attempt++) {
   r = spawnSync('ssh', ['-i', key, '-p', port, '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=20',
     '-o', 'StrictHostKeyChecking=accept-new', user + '@' + host, remote],

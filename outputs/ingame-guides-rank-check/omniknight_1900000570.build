@@ -1,0 +1,122 @@
+"guidedata"
+{
+	"Hero"		"omniknight"
+	"Title"		"DotaMate · Omniknight · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 51 матч Omniknight на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/omniknight/\nПрокачка — Steam, 503 матча Omniknight на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_gauntlets"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_phase_boots"
+				"item"		"item_bracer"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_echo_sabre"
+				"item"		"item_headdress"
+				"item"		"item_mekansm"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_pers"
+				"item"		"item_holy_locket"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_heart"
+				"item"		"item_shivas_guard"
+				"item"		"item_overwhelming_blink"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 82% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 65% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 59% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 43% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 31% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 47% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 37% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 35% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 18% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_echo_sabre"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_headdress"		"Берут в 31% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mekansm"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_holy_locket"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_heart"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_shivas_guard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_overwhelming_blink"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_smoke_of_deceit"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"omniknight_purification"
+			"2"		"omniknight_degen_aura"
+			"3"		"omniknight_purification"
+			"4"		"omniknight_degen_aura"
+			"5"		"omniknight_purification"
+			"6"		"omniknight_repel"
+			"7"		"omniknight_purification"
+			"8"		"omniknight_guardian_angel"
+			"9"		"omniknight_repel"
+			"10"		"special_bonus_gold_income_90"
+			"15"		"special_bonus_unique_omniknight_3"
+			"20"		"special_bonus_unique_omniknight_6"
+			"25"		"special_bonus_unique_omniknight_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_attack_base_damage_30"		"Берут в 96,2% матчей, винрейт 53,5% · выборка 1 377 матчей"
+			"special_bonus_unique_omniknight_2"		"Берут в 3,8% матчей, винрейт 38,2% · выборка 55 матчей"
+			"special_bonus_unique_omniknight_7"		"Берут в 18,5% матчей, винрейт 51,1% · выборка 237 матчей"
+			"special_bonus_unique_omniknight_3"		"Берут в 81,5% матчей, винрейт 57,3% · выборка 1 045 матчей"
+			"special_bonus_unique_omniknight_6"		"Берут в 100% матчей, винрейт 58,4% · выборка 603 матча"
+			"special_bonus_unique_omniknight_4"		"Берут в 80,9% матчей, винрейт 61,3% · выборка 284 матча"
+			"special_bonus_unique_omniknight_1"		"Берут в 19,1% матчей, винрейт 64,2% · выборка 67 матчей"
+			"omniknight_purification"		"Самая частая прокачка первых 10 уровней: 80 матчей, винрейт 55%"
+		}
+	}
+}

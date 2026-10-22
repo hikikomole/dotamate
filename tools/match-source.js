@@ -166,6 +166,40 @@ function metaMatches() {
   return [...byId.values()];
 }
 
+// JSONL readers for the overlay; existing array APIs remain unchanged.
+async function* jsonLines(file) {
+  const input = fs.createReadStream(file, { encoding: 'utf8' });
+  const lines = readline.createInterface({ input, crlfDelay: Infinity });
+  try {
+    for await (const line of lines) {
+      if (!line) continue;
+      let row; try { row = JSON.parse(line); } catch { continue; }
+      yield row;
+    }
+  } finally { lines.close(); input.destroy(); }
+}
+
+// Last occurrence wins, as in metaMatches; retain only ID/occurrence pairs.
+async function* metaStream({ dir = path.join(DATA, 'meta-matches') } = {}) {
+  if (!fs.existsSync(dir)) return;
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.jsonl')).sort();
+  const last = new Map();
+  let n = 0;
+  for (const file of files) for await (const m of jsonLines(path.join(dir, file))) last.set(m.id, n++);
+  n = 0;
+  for (const file of files) for await (const m of jsonLines(path.join(dir, file))) {
+    if (last.get(m.id) === n++) { last.delete(m.id); yield m; }
+  }
+}
+
+async function* publicFeedStream({ tier = 'base',
+  dir = path.join(DATA, tier === 'top' ? 'public-matches-top' : 'public-matches') } = {}) {
+  if (!fs.existsSync(dir)) return;
+  for (const file of fs.readdirSync(dir).filter(f => f.endsWith('.jsonl')).sort()) {
+    for await (const r of jsonLines(path.join(dir, file))) if (inPatch(r[1])) yield r;
+  }
+}
+
 /**
  * Каталог вывода сборщиков: `--out-dir D` (или OUT_DIR), относительный — от корня проекта.
  * По умолчанию data/ — поведение без флага не меняется. Параллельный расчёт на Steam
@@ -198,4 +232,24 @@ function sourceLabel(src = source()) {
   return src === 'steam' ? 'Своя база рейтинговых матчей (Steam Web API)' : 'Своя база публичных матчей (OpenDota /publicMatches)';
 }
 
-module.exports = { patchSince, writeJsonAtomic, publicStream, DATA, outDir, steamFiles, steamRows, source, publicRows, steamMatches, steamStream, steamToPublic, STEAM_TIER, sourceLabel, readGz, steamToMeta, metaMatches };
+// Explicit metadata wins; legacy rows need local proof of both fields.
+async function* rankedMetaStream(options = {}) {
+  const rows = () => options.stratz || metaStream();
+  const legacy = new Set();
+  for await (const m of rows()) {
+    if ((m.lobby_type ?? m.lobby) == null || (m.mode ?? m.gameMode) == null) legacy.add(String(m.id));
+  }
+  const proof = new Map();
+  if (legacy.size) for (const tier of ['base', 'top']) {
+    for await (const r of options.publicRows || publicFeedStream({ tier })) {
+      if (legacy.has(String(r[0]))) proof.set(String(r[0]), { lobby: r[4], mode: r[5] });
+    }
+  }
+  for await (const m of rows()) {
+    const known = proof.get(String(m.id));
+    if ((m.lobby_type ?? m.lobby ?? known?.lobby) === 7 &&
+        (m.mode ?? m.gameMode ?? known?.mode) === 22) yield m;
+  }
+}
+
+module.exports = { rankedMetaStream, metaStream, publicFeedStream, patchSince, writeJsonAtomic, publicStream, DATA, outDir, steamFiles, steamRows, source, publicRows, steamMatches, steamStream, steamToPublic, STEAM_TIER, sourceLabel, readGz, steamToMeta, metaMatches };

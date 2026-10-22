@@ -1,0 +1,118 @@
+"guidedata"
+{
+	"Hero"		"sniper"
+	"Title"		"DotaMate · Sniper · Мид, поз. 2"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 191 матч Sniper на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/sniper/\nПрокачка — Steam, 2 293 матча Sniper на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_slippers"
+				"item"		"item_circlet"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_wraith_band"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_magic_wand"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_dragon_lance"
+				"item"		"item_maelstrom"
+				"item"		"item_mask_of_madness"
+				"item"		"item_mjollnir"
+				"item"		"item_force_staff"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_lesser_crit"
+				"item"		"item_hurricane_pike"
+				"item"		"item_invis_sword"
+				"item"		"item_monkey_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_greater_crit"
+				"item"		"item_satanic"
+				"item"		"item_hydras_breath"
+				"item"		"item_specialists_array"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_slippers"		"Берут в 87% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 84% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 79% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 52% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 52% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 8% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 86% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 82% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 34% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 21% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 18% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_dragon_lance"		"Берут в 73% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_maelstrom"		"Берут в 65% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_mask_of_madness"		"Берут в 29% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_mjollnir"		"Берут в 21% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_force_staff"		"Берут в 20% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 25% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_hurricane_pike"		"Берут в 25% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_invis_sword"		"Берут в 20% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 16% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 9% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_satanic"		"Берут в 6% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_hydras_breath"		"Берут в 6% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_specialists_array"		"Берут в 6% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"sniper_shrapnel"
+			"2"		"sniper_headshot"
+			"3"		"sniper_shrapnel"
+			"4"		"sniper_headshot"
+			"5"		"sniper_shrapnel"
+			"6"		"sniper_assassinate"
+			"7"		"sniper_shrapnel"
+			"8"		"sniper_headshot"
+			"9"		"sniper_headshot"
+			"10"		"special_bonus_unique_sniper_headshot_damage"
+			"15"		"special_bonus_unique_sniper_6"
+			"20"		"special_bonus_unique_sniper_4"
+			"25"		"special_bonus_unique_sniper_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_sniper_headshot_damage"		"Берут в 82% матчей, винрейт 49,6% · выборка 10 380 матчей"
+			"special_bonus_unique_sniper_5"		"Берут в 18% матчей, винрейт 47,7% · выборка 2 273 матча"
+			"special_bonus_unique_sniper_1"		"Берут в 25,6% матчей, винрейт 51,6% · выборка 3 073 матча"
+			"special_bonus_unique_sniper_6"		"Берут в 74,4% матчей, винрейт 50,9% · выборка 8 948 матчей"
+			"special_bonus_unique_sniper_shrapnel_damage"		"Берут в 25% матчей, винрейт 52,6% · выборка 2 324 матча"
+			"special_bonus_unique_sniper_4"		"Берут в 75% матчей, винрейт 55,4% · выборка 6 975 матчей"
+			"special_bonus_unique_sniper_3"		"Берут в 60,6% матчей, винрейт 59,4% · выборка 2 689 матчей"
+			"special_bonus_unique_sniper_2"		"Берут в 39,4% матчей, винрейт 58,7% · выборка 1 745 матчей"
+			"sniper_shrapnel"		"Самая частая прокачка первых 10 уровней: 586 матчей, винрейт 51,2%"
+		}
+	}
+}

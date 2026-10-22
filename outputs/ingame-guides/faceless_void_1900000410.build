@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"faceless_void"
+	"Title"		"DotaMate · Faceless Void · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 134 матча Faceless Void на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/faceless_void/\nПрокачка — Steam, 4 850 матчей Faceless Void на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+				"item"		"item_slippers"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_wraith_band"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_pers"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_bfury"
+				"item"		"item_maelstrom"
+				"item"		"item_mask_of_madness"
+				"item"		"item_manta"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_monkey_king_bar"
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_butterfly"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_quelling_blade"		"Берут в 92% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 54% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 51% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 50% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 92% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 60% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 54% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 11% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 9% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 53% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_bfury"		"Берут в 50% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_maelstrom"		"Берут в 43% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mask_of_madness"		"Берут в 37% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 37% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 9% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_butterfly"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"faceless_void_time_walk"
+			"2"		"faceless_void_time_dilation"
+			"3"		"faceless_void_time_lock"
+			"4"		"faceless_void_time_walk"
+			"5"		"faceless_void_time_walk"
+			"6"		"faceless_void_chronosphere"
+			"7"		"faceless_void_time_walk"
+			"8"		"faceless_void_time_lock"
+			"9"		"faceless_void_time_lock"
+			"10"		"faceless_void_time_lock"
+			"15"		"special_bonus_unique_faceless_void_8"
+			"20"		"special_bonus_unique_faceless_void"
+			"25"		"special_bonus_unique_faceless_void_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_faceless_void_7"		"Берут в 81,6% матчей, винрейт 50,4% · выборка 9 027 матчей"
+			"special_bonus_unique_faceless_void_6"		"Берут в 18,4% матчей, винрейт 51% · выборка 2 037 матчей"
+			"special_bonus_unique_faceless_void_8"		"Берут в 62,1% матчей, винрейт 55,3% · выборка 6 472 матча"
+			"special_bonus_unique_faceless_void_3"		"Берут в 37,9% матчей, винрейт 49,9% · выборка 3 946 матчей"
+			"special_bonus_unique_faceless_void_5"		"Берут в 43,1% матчей, винрейт 62,2% · выборка 3 258 матчей"
+			"special_bonus_unique_faceless_void"		"Берут в 56,9% матчей, винрейт 57% · выборка 4 297 матчей"
+			"special_bonus_unique_faceless_void_2"		"Берут в 28,4% матчей, винрейт 64,7% · выборка 1 308 матчей"
+			"special_bonus_unique_faceless_void_4"		"Берут в 71,6% матчей, винрейт 70,3% · выборка 3 305 матчей"
+			"faceless_void_time_walk"		"Самая частая прокачка первых 10 уровней: 1 001 матч, винрейт 53%"
+		}
+	}
+}

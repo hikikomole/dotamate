@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"bounty_hunter"
+	"Title"		"DotaMate · Bounty Hunter · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 165 матчей Bounty Hunter на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/bounty_hunter/\nПрокачка — Steam, 965 матчей Bounty Hunter на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_boots"
+				"item"		"item_wind_lace"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_urn_of_shadows"
+				"item"		"item_tango"
+				"item"		"item_wind_lace"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ancient_janggo"
+				"item"		"item_headdress"
+				"item"		"item_spirit_vessel"
+				"item"		"item_cyclone"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_boots_of_bearing"
+				"item"		"item_pers"
+				"item"		"item_oblivion_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_lotus_orb"
+				"item"		"item_aghanims_shard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 72% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 71% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 53% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_boots"		"Берут в 37% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_wind_lace"		"Берут в 31% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 24% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 41% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_urn_of_shadows"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ancient_janggo"		"Берут в 37% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_headdress"		"Берут в 35% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_spirit_vessel"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_cyclone"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_boots_of_bearing"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_oblivion_staff"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_lotus_orb"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"bounty_hunter_wind_walk"
+			"2"		"bounty_hunter_jinada"
+			"3"		"bounty_hunter_shuriken_toss"
+			"4"		"bounty_hunter_shuriken_toss"
+			"5"		"bounty_hunter_shuriken_toss"
+			"6"		"bounty_hunter_track"
+			"7"		"bounty_hunter_shuriken_toss"
+			"8"		"bounty_hunter_wind_walk"
+			"9"		"bounty_hunter_wind_walk"
+			"10"		"bounty_hunter_wind_walk"
+			"15"		"special_bonus_unique_bounty_hunter_9"
+			"20"		"special_bonus_unique_bounty_hunter_2"
+			"25"		"special_bonus_unique_bounty_hunter_8"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_attack_damage_30"		"Берут в 22,6% матчей, винрейт 57,4% · выборка 3 659 матчей"
+			"special_bonus_unique_bounty_hunter_5"		"Берут в 77,4% матчей, винрейт 57,9% · выборка 12 496 матчей"
+			"special_bonus_unique_bounty_hunter_3"		"Берут в 18,8% матчей, винрейт 63,8% · выборка 2 321 матч"
+			"special_bonus_unique_bounty_hunter_9"		"Берут в 81,2% матчей, винрейт 64,7% · выборка 10 052 матча"
+			"special_bonus_unique_bounty_hunter"		"Берут в 13,5% матчей, винрейт 67,7% · выборка 904 матча"
+			"special_bonus_unique_bounty_hunter_2"		"Берут в 86,5% матчей, винрейт 67,5% · выборка 5 775 матчей"
+			"special_bonus_unique_bounty_hunter_jinada_no_cooldown"		"Берут в 14,9% матчей, винрейт 63,5% · выборка 271 матч"
+			"special_bonus_unique_bounty_hunter_8"		"Берут в 85,1% матчей, винрейт 64,8% · выборка 1 545 матчей"
+			"bounty_hunter_wind_walk"		"Самая частая прокачка первых 10 уровней: 182 матча, винрейт 57,1%"
+		}
+	}
+}

@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"abaddon"
+	"Title"		"DotaMate · Abaddon · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 68 матчей Abaddon на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/abaddon/\nПрокачка — Steam, 1 879 матчей Abaddon на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_circlet"
+				"item"		"item_quelling_blade"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_phase_boots"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_holy_locket"
+				"item"		"item_radiance"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_mekansm"
+				"item"		"item_guardian_greaves"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_buckler"
+				"item"		"item_aether_lens"
+				"item"		"item_aghanims_shard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_great_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 97% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 69% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 65% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 37% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 28% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 19% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 66% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 37% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 26% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 44% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_holy_locket"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_radiance"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 29% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_mekansm"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_guardian_greaves"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_buckler"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aether_lens"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_smoke_of_deceit"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_great_famango"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"abaddon_aphotic_shield"
+			"2"		"abaddon_frostmourne"
+			"3"		"abaddon_aphotic_shield"
+			"4"		"abaddon_death_coil"
+			"5"		"abaddon_aphotic_shield"
+			"6"		"abaddon_borrowed_time"
+			"7"		"abaddon_aphotic_shield"
+			"8"		"abaddon_death_coil"
+			"9"		"abaddon_death_coil"
+			"10"		"abaddon_death_coil"
+			"15"		"special_bonus_unique_abaddon_2"
+			"20"		"special_bonus_unique_abaddon"
+			"25"		"special_bonus_unique_abaddon_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_abaddon_7"		"Берут в 94% матчей, винрейт 53,8% · выборка 2 245 матчей"
+			"special_bonus_unique_abaddon_5"		"Берут в 6% матчей, винрейт 53,5% · выборка 144 матча"
+			"special_bonus_unique_abaddon_2"		"Берут в 100% матчей, винрейт 61% · выборка 1 488 матчей"
+			"special_bonus_unique_abaddon_immolation"		"Берут в 17,9% матчей, винрейт 59,2% · выборка 147 матчей"
+			"special_bonus_unique_abaddon"		"Берут в 82,1% матчей, винрейт 64,9% · выборка 672 матча"
+			"special_bonus_unique_abaddon_4"		"Берут в 96,5% матчей, винрейт 62,7% · выборка 166 матчей"
+			"special_bonus_unique_abaddon_3"		"Берут в 3,5% матчей, винрейт 33,3% · выборка 6 матчей"
+			"abaddon_aphotic_shield"		"Самая частая прокачка первых 10 уровней: 415 матчей, винрейт 52,3%"
+		}
+	}
+}

@@ -1,0 +1,112 @@
+"guidedata"
+{
+	"Hero"		"tusk"
+	"Title"		"DotaMate · Tusk · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 115 матчей Tusk на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/tusk/\nПрокачка — Steam, 2 828 матчей Tusk на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_clarity"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+				"item"		"item_tranquil_boots"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_clarity"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_arcane_boots"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_cyclone"
+				"item"		"item_force_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_headdress"
+				"item"		"item_greater_crit"
+				"item"		"item_boots_of_bearing"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 96% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 83% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 78% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 72% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_clarity"		"Берут в 18% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 59% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_tranquil_boots"		"Берут в 34% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 81% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_arcane_boots"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 27% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_cyclone"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_headdress"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_crit"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_boots_of_bearing"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 49% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 27% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"tusk_tag_team"
+			"2"		"tusk_ice_shards"
+			"3"		"tusk_snowball"
+			"4"		"tusk_tag_team"
+			"5"		"tusk_tag_team"
+			"6"		"tusk_walrus_punch"
+			"7"		"tusk_tag_team"
+			"8"		"tusk_snowball"
+			"9"		"tusk_snowball"
+			"10"		"tusk_snowball"
+			"15"		"special_bonus_unique_tusk_2"
+			"20"		"special_bonus_unique_tusk_6"
+			"25"		"special_bonus_unique_tusk_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_tusk_7"		"Берут в 91,5% матчей, винрейт 51,7% · выборка 7 411 матчей"
+			"special_bonus_unique_tusk_3"		"Берут в 8,5% матчей, винрейт 45,4% · выборка 692 матча"
+			"special_bonus_unique_tusk_2"		"Берут в 56,7% матчей, винрейт 58% · выборка 3 581 матч"
+			"special_bonus_hp_325"		"Берут в 43,3% матчей, винрейт 57,8% · выборка 2 739 матчей"
+			"special_bonus_unique_tusk"		"Берут в 7,7% матчей, винрейт 62% · выборка 279 матчей"
+			"special_bonus_unique_tusk_6"		"Берут в 92,3% матчей, винрейт 61,9% · выборка 3 349 матчей"
+			"special_bonus_unique_tusk_4"		"Берут в 100% матчей, винрейт 63,3% · выборка 286 матчей"
+			"tusk_tag_team"		"Самая частая прокачка первых 10 уровней: 469 матчей, винрейт 51,6%"
+		}
+	}
+}

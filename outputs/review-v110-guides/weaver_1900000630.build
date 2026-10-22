@@ -1,0 +1,118 @@
+"guidedata"
+{
+	"Hero"		"weaver"
+	"Title"		"DotaMate · Weaver · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 77 матчей Weaver на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/weaver/\nПрокачка — Steam, 5 376 матчей Weaver на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_falcon_blade"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_power_treads"
+				"item"		"item_urn_of_shadows"
+				"item"		"item_wraith_band"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_desolator"
+				"item"		"item_dragon_lance"
+				"item"		"item_spirit_vessel"
+				"item"		"item_maelstrom"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+				"item"		"item_black_king_bar"
+				"item"		"item_sphere"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_satanic"
+				"item"		"item_pers"
+				"item"		"item_monkey_king_bar"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 75% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 71% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 49% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 49% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 30% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 27% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_falcon_blade"		"Берут в 43% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 39% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 32% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_urn_of_shadows"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 27% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_desolator"		"Берут в 43% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_spirit_vessel"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_maelstrom"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sphere"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_pers"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 17% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"weaver_shukuchi"
+			"2"		"weaver_geminate_attack"
+			"3"		"weaver_the_swarm"
+			"4"		"weaver_shukuchi"
+			"5"		"weaver_shukuchi"
+			"6"		"weaver_time_lapse"
+			"7"		"weaver_shukuchi"
+			"8"		"weaver_geminate_attack"
+			"9"		"weaver_geminate_attack"
+			"10"		"weaver_geminate_attack"
+			"15"		"special_bonus_unique_weaver_4"
+			"20"		"special_bonus_unique_weaver_2"
+			"25"		"special_bonus_unique_weaver_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_strength_7"		"Берут в 100% матчей, винрейт 47,1% · выборка 1 579 матчей"
+			"special_bonus_unique_weaver_4"		"Берут в 74,1% матчей, винрейт 47,2% · выборка 1 778 матчей"
+			"special_bonus_unique_weaver_1"		"Берут в 25,9% матчей, винрейт 53,2% · выборка 620 матчей"
+			"special_bonus_unique_weaver_3"		"Берут в 5% матчей, винрейт 50% · выборка 102 матча"
+			"special_bonus_unique_weaver_2"		"Берут в 95% матчей, винрейт 52% · выборка 1 926 матчей"
+			"special_bonus_unique_weaver_5"		"Берут в 62,9% матчей, винрейт 58,7% · выборка 773 матча"
+			"special_bonus_unique_weaver_6"		"Берут в 37,1% матчей, винрейт 58,5% · выборка 455 матчей"
+			"weaver_shukuchi"		"Самая частая прокачка первых 10 уровней: 1 733 матча, винрейт 52,5%"
+		}
+	}
+}

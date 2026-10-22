@@ -169,4 +169,5 @@ function main() {
     `линия ${check.lane ?? '—'} % (${laneN}); ready=${out.ready}`);
 }
 
-main();
+if (require.main === module) main();
+module.exports = { label };

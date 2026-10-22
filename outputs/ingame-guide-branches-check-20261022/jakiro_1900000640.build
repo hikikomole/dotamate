@@ -1,0 +1,126 @@
+"guidedata"
+{
+	"Hero"		"jakiro"
+	"Title"		"DotaMate · Jakiro · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 155 матчей Jakiro на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/jakiro/\nПрокачка — Steam, 3 896 матчей Jakiro на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_enchanted_mango"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_blood_grenade"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_cyclone"
+				"item"		"item_glimmer_cape"
+				"item"		"item_wind_lace"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_force_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_aghanims_shard"
+				"item"		"item_mekansm"
+				"item"		"item_guardian_greaves"
+				"item"		"item_headdress"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_glimmer_cape"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 96% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 70% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 66% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 62% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 24% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 71% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 40% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 61% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_cyclone"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_glimmer_cape"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив магии: Glimmer: временный барьер от магического урона. Покупают не менее 21,9% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_wind_lace"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_aghanims_shard"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_mekansm"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_guardian_greaves"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_headdress"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 38% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 18% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 18% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"jakiro_dual_breath"
+			"2"		"jakiro_liquid_fire"
+			"3"		"jakiro_dual_breath"
+			"4"		"jakiro_ice_path"
+			"5"		"jakiro_dual_breath"
+			"6"		"jakiro_macropyre"
+			"7"		"jakiro_dual_breath"
+			"8"		"jakiro_ice_path"
+			"9"		"jakiro_ice_path"
+			"10"		"jakiro_ice_path"
+			"15"		"special_bonus_attack_range_175"
+			"20"		"special_bonus_unique_jakiro_7"
+			"25"		"special_bonus_unique_jakiro_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_jakiro_6"		"Берут в 30,2% матчей, винрейт 47,7% · выборка 1 861 матч"
+			"special_bonus_unique_jakiro_4"		"Берут в 69,8% матчей, винрейт 49,6% · выборка 4 303 матча"
+			"special_bonus_unique_jakiro_dualbreath_cooldown"		"Берут в 38,1% матчей, винрейт 52,7% · выборка 1 816 матчей"
+			"special_bonus_attack_range_175"		"Берут в 61,9% матчей, винрейт 58% · выборка 2 949 матчей"
+			"special_bonus_unique_jakiro_7"		"Берут в 65,7% матчей, винрейт 60,8% · выборка 1 768 матчей"
+			"special_bonus_unique_jakiro"		"Берут в 34,3% матчей, винрейт 63,6% · выборка 922 матча"
+			"special_bonus_unique_jakiro_3"		"Берут в 32,5% матчей, винрейт 67,7% · выборка 248 матчей"
+			"special_bonus_unique_jakiro_2"		"Берут в 67,5% матчей, винрейт 64,1% · выборка 516 матчей"
+			"jakiro_dual_breath"		"Самая частая прокачка первых 10 уровней: 1 118 матчей, винрейт 48,1%"
+		}
+	}
+}

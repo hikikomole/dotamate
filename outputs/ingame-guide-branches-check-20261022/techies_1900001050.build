@@ -1,0 +1,119 @@
+"guidedata"
+{
+	"Hero"		"techies"
+	"Title"		"DotaMate · Techies · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 281 матч Techies на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/techies/\nПрокачка — Steam, 2 644 матча Techies на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_clarity"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_aether_lens"
+				"item"		"item_kaya"
+				"item"		"item_arcane_boots"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_yasha_and_kaya"
+				"item"		"item_sheepstick"
+				"item"		"item_soul_booster"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_octarine_core"
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 83% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 64% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 40% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 26% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 58% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 37% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 28% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 27% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_aether_lens"		"Берут в 60% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 35% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_arcane_boots"		"Берут в 18% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha_and_kaya"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_soul_booster"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_octarine_core"		"Берут в 9% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 49% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 17% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 17% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"techies_sticky_bomb"
+			"2"		"techies_suicide"
+			"3"		"techies_sticky_bomb"
+			"4"		"techies_reactive_tazer"
+			"5"		"techies_sticky_bomb"
+			"6"		"techies_land_mines"
+			"7"		"techies_sticky_bomb"
+			"8"		"techies_suicide"
+			"9"		"techies_suicide"
+			"10"		"techies_suicide"
+			"15"		"special_bonus_unique_techies"
+			"20"		"special_bonus_unique_techies_5"
+			"25"		"special_bonus_unique_techies_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_techies_3"		"Берут в 92,6% матчей, винрейт 51,9% · выборка 10 847 матчей"
+			"special_bonus_magic_resistance_15"		"Берут в 7,4% матчей, винрейт 54,2% · выборка 862 матча"
+			"special_bonus_unique_techies"		"Берут в 100% матчей, винрейт 56,9% · выборка 7 910 матчей"
+			"special_bonus_unique_techies_5"		"Берут в 77,3% матчей, винрейт 60,2% · выборка 4 961 матч"
+			"special_bonus_unique_techies_2"		"Берут в 22,7% матчей, винрейт 58,6% · выборка 1 457 матчей"
+			"special_bonus_unique_techies_4"		"Берут в 96% матчей, винрейт 61,6% · выборка 2 098 матчей"
+			"special_bonus_attack_damage_253"		"Берут в 4% матчей, винрейт 57,5% · выборка 87 матчей"
+			"techies_sticky_bomb"		"Самая частая прокачка первых 10 уровней: 479 матчей, винрейт 50,5%"
+		}
+	}
+}

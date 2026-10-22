@@ -1,0 +1,120 @@
+"guidedata"
+{
+	"Hero"		"terrorblade"
+	"Title"		"DotaMate · Terrorblade · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 101 матч Terrorblade на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/terrorblade/\nПрокачка — Steam, 3 897 матчей Terrorblade на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_falcon_blade"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_wraith_band"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_manta"
+				"item"		"item_dragon_lance"
+				"item"		"item_force_staff"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_skadi"
+				"item"		"item_hurricane_pike"
+				"item"		"item_black_king_bar"
+				"item"		"item_butterfly"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_greater_crit"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_lesser_crit"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 93% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 66% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 40% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 93% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 62% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 54% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 13% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 13% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 96% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 93% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 52% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_force_staff"		"Берут в 9% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_skadi"		"Берут в 53% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hurricane_pike"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_butterfly"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_crit"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_lesser_crit"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"terrorblade_reflection"
+			"2"		"terrorblade_metamorphosis"
+			"3"		"terrorblade_conjure_image"
+			"4"		"terrorblade_conjure_image"
+			"5"		"terrorblade_conjure_image"
+			"6"		"terrorblade_sunder"
+			"7"		"terrorblade_conjure_image"
+			"8"		"terrorblade_metamorphosis"
+			"9"		"terrorblade_metamorphosis"
+			"10"		"special_bonus_unique_terrorblade_4"
+			"15"		"special_bonus_unique_terrorblade_metamorphosis_cooldown"
+			"20"		"special_bonus_unique_terrorblade_5"
+			"25"		"special_bonus_unique_terrorblade"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_terrorblade_4"		"Берут в 96,9% матчей, винрейт 50,1% · выборка 12 178 матчей"
+			"special_bonus_unique_terrorblade_2"		"Берут в 3,1% матчей, винрейт 50,9% · выборка 389 матчей"
+			"special_bonus_unique_terrorblade_metamorphosis_cooldown"		"Берут в 100% матчей, винрейт 51,5% · выборка 9 162 матча"
+			"special_bonus_unique_terrorblade_5"		"Берут в 66,6% матчей, винрейт 54,5% · выборка 3 256 матчей"
+			"special_bonus_all_stats_10"		"Берут в 33,4% матчей, винрейт 54,6% · выборка 1 634 матча"
+			"special_bonus_unique_terrorblade_3"		"Берут в 41,9% матчей, винрейт 61,1% · выборка 979 матчей"
+			"special_bonus_unique_terrorblade"		"Берут в 58,1% матчей, винрейт 59,6% · выборка 1 357 матчей"
+			"terrorblade_reflection"		"Самая частая прокачка первых 10 уровней: 912 матчей, винрейт 47,1%"
+		}
+	}
+}

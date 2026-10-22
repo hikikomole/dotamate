@@ -1,0 +1,123 @@
+"guidedata"
+{
+	"Hero"		"leshrac"
+	"Title"		"DotaMate · Leshrac · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 28 матчей Leshrac на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/leshrac/\nПрокачка — Steam, 4 139 матчей Leshrac на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+				"item"		"item_mantle"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_arcane_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_null_talisman"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_kaya"
+				"item"		"item_blink"
+				"item"		"item_veil_of_discord"
+				"item"		"item_sange"
+				"item"		"item_kaya_and_sange"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_bloodstone"
+				"item"		"item_soul_booster"
+				"item"		"item_shivas_guard"
+				"item"		"item_black_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_boots"
+				"item"		"item_travel_boots"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 82% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 14% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 7% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 93% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 79% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_kaya"		"Берут в 75% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 61% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_veil_of_discord"		"Берут в 43% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya_and_sange"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_bloodstone"		"Берут в 46% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_soul_booster"		"Берут в 46% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 18% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 14% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_boots"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_travel_boots"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_famango"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"leshrac_split_earth"
+			"2"		"leshrac_lightning_storm"
+			"3"		"leshrac_lightning_storm"
+			"4"		"leshrac_split_earth"
+			"5"		"leshrac_lightning_storm"
+			"6"		"leshrac_pulse_nova"
+			"7"		"leshrac_diabolic_edict"
+			"8"		"leshrac_diabolic_edict"
+			"9"		"leshrac_diabolic_edict"
+			"10"		"leshrac_diabolic_edict"
+			"15"		"special_bonus_unique_leshrac_4"
+			"20"		"special_bonus_unique_leshrac_7"
+			"25"		"special_bonus_unique_leshrac_1"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_armor_4"		"Берут в 19,7% матчей, винрейт 53% · выборка 666 матчей"
+			"special_bonus_mp_regen_150"		"Берут в 80,3% матчей, винрейт 54,1% · выборка 2 717 матчей"
+			"special_bonus_unique_leshrac_4"		"Берут в 75,8% матчей, винрейт 55,3% · выборка 2 445 матчей"
+			"special_bonus_unique_leshrac_6"		"Берут в 24,2% матчей, винрейт 57,4% · выборка 782 матча"
+			"special_bonus_unique_leshrac_3"		"Берут в 28,3% матчей, винрейт 59,4% · выборка 747 матчей"
+			"special_bonus_unique_leshrac_7"		"Берут в 71,7% матчей, винрейт 63% · выборка 1 891 матч"
+			"special_bonus_unique_leshrac_pulse_nova_lightning"		"Берут в 18% матчей, винрейт 71,6% · выборка 257 матчей"
+			"special_bonus_unique_leshrac_1"		"Берут в 82% матчей, винрейт 70,5% · выборка 1 171 матч"
+			"leshrac_split_earth"		"Самая частая прокачка первых 10 уровней: 457 матчей, винрейт 51,6%"
+		}
+	}
+}

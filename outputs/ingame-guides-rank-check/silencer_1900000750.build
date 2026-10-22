@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"silencer"
+	"Title"		"DotaMate · Silencer · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 165 матчей Silencer на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/silencer/\nПрокачка — Steam, 1 324 матча Silencer на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_mantle"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_null_talisman"
+				"item"		"item_tango"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_force_staff"
+				"item"		"item_arcane_boots"
+				"item"		"item_power_treads"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_dragon_lance"
+				"item"		"item_hurricane_pike"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+				"item"		"item_sheepstick"
+				"item"		"item_devastator"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 53% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 50% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 38% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 34% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 49% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 43% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 41% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_force_staff"		"Берут в 41% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_arcane_boots"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_power_treads"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_dragon_lance"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hurricane_pike"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sheepstick"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_devastator"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"silencer_curse_of_the_silent"
+			"2"		"silencer_last_word"
+			"3"		"silencer_curse_of_the_silent"
+			"4"		"silencer_last_word"
+			"5"		"silencer_curse_of_the_silent"
+			"6"		"silencer_global_silence"
+			"7"		"silencer_curse_of_the_silent"
+			"8"		"silencer_last_word"
+			"9"		"silencer_last_word"
+			"10"		"special_bonus_unique_silencer"
+			"15"		"special_bonus_unique_silencer_7"
+			"20"		"special_bonus_unique_silencer_4"
+			"25"		"special_bonus_unique_silencer_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_attack_speed_25"		"Берут в 100% матчей, винрейт 50,5% · выборка 1 339 матчей"
+			"special_bonus_unique_silencer_arcane_curse_duration"		"Берут в 19,3% матчей, винрейт 60,4% · выборка 616 матчей"
+			"special_bonus_unique_silencer_7"		"Берут в 80,7% матчей, винрейт 58,4% · выборка 2 577 матчей"
+			"special_bonus_unique_silencer_4"		"Берут в 78,1% матчей, винрейт 63,4% · выборка 1 291 матч"
+			"special_bonus_unique_silencer_5"		"Берут в 21,9% матчей, винрейт 63,2% · выборка 361 матч"
+			"special_bonus_unique_silencer_3"		"Берут в 100% матчей, винрейт 57,5% · выборка 120 матчей"
+			"silencer_curse_of_the_silent"		"Самая частая прокачка первых 10 уровней: 352 матча, винрейт 51,4%"
+		}
+	}
+}

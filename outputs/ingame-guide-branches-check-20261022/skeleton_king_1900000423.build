@@ -1,0 +1,134 @@
+"guidedata"
+{
+	"Hero"		"skeleton_king"
+	"Title"		"DotaMate · Wraith King · Оффлейн, поз. 3"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 152 матча Wraith King на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/skeleton_king/\nПрокачка — Steam, 706 матчей Wraith King на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_gauntlets"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_phase_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_tango"
+				"item"		"item_boots"
+				"item"		"item_branches"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_radiance"
+				"item"		"item_blink"
+				"item"		"item_armlet"
+				"item"		"item_desolator"
+				"item"		"item_oblivion_staff"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_assault"
+				"item"		"item_buckler"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_monkey_king_bar"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_assault"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_quelling_blade"		"Берут в 92% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 91% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 83% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 60% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 55% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 51% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_phase_boots"		"Берут в 83% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 74% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 65% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 12% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_radiance"		"Берут в 65% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 60% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_armlet"		"Берут в 23% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_desolator"		"Берут в 11% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 11% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 26% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 26,3% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 26,3% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_assault"		"Берут в 25% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»\nПротив физического урона: Броня уменьшает физический урон. Покупают не менее 25% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_buckler"		"Берут в 24% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 20% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 8% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 3% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 9% матчей на позиции 3 · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 9,2% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"skeleton_king_hellfire_blast"
+			"2"		"skeleton_king_bone_guard"
+			"3"		"skeleton_king_bone_guard"
+			"4"		"skeleton_king_mortal_strike"
+			"5"		"skeleton_king_bone_guard"
+			"6"		"skeleton_king_reincarnation"
+			"7"		"skeleton_king_bone_guard"
+			"8"		"skeleton_king_mortal_strike"
+			"9"		"skeleton_king_mortal_strike"
+			"10"		"skeleton_king_mortal_strike"
+			"15"		"special_bonus_hp_300"
+			"20"		"special_bonus_attack_speed_50"
+			"25"		"special_bonus_unique_wraith_king_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_wraith_king_facet_1"		"Берут в 61,7% матчей, винрейт 55,4% · выборка 5 223 матча"
+			"special_bonus_unique_wraith_king_2"		"Берут в 38,3% матчей, винрейт 53,7% · выборка 3 244 матча"
+			"special_bonus_hp_300"		"Берут в 56,6% матчей, винрейт 56,9% · выборка 4 427 матчей"
+			"special_bonus_unique_wraith_king_11"		"Берут в 43,4% матчей, винрейт 59,5% · выборка 3 389 матчей"
+			"special_bonus_unique_wraith_king_facet_3"		"Берут в 19,8% матчей, винрейт 65,9% · выборка 1 220 матчей"
+			"special_bonus_attack_speed_50"		"Берут в 80,2% матчей, винрейт 62,3% · выборка 4 946 матчей"
+			"special_bonus_unique_wraith_king_4"		"Берут в 52,1% матчей, винрейт 65,2% · выборка 1 562 матча"
+			"special_bonus_unique_wraith_king_10"		"Берут в 47,9% матчей, винрейт 68,1% · выборка 1 435 матчей"
+			"skeleton_king_hellfire_blast"		"Самая частая прокачка первых 10 уровней: 232 матча, винрейт 55,2%"
+		}
+	}
+}

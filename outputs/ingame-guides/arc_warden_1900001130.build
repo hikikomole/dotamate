@@ -1,0 +1,125 @@
+"guidedata"
+{
+	"Hero"		"arc_warden"
+	"Title"		"DotaMate · Arc Warden · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 149 матчей Arc Warden на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/arc_warden/\nПрокачка — Steam, 522 матча Arc Warden на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_slippers"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_hand_of_midas"
+				"item"		"item_clarity"
+				"item"		"item_boots"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_magic_wand"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_maelstrom"
+				"item"		"item_mjollnir"
+				"item"		"item_travel_boots"
+				"item"		"item_oblivion_staff"
+				"item"		"item_orchid"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_bloodthorn"
+				"item"		"item_manta"
+				"item"		"item_dragon_lance"
+				"item"		"item_yasha"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_travel_boots_2"
+				"item"		"item_skadi"
+				"item"		"item_lesser_crit"
+				"item"		"item_sheepstick"
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_moon_shard"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 75% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 17% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 2% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_hand_of_midas"		"Берут в 77% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 14% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_maelstrom"		"Берут в 92% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mjollnir"		"Берут в 70% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_travel_boots"		"Берут в 61% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_orchid"		"Берут в 30% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_bloodthorn"		"Берут в 35% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_manta"		"Берут в 27% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_dragon_lance"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_travel_boots_2"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_skadi"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_lesser_crit"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sheepstick"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_moon_shard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"arc_warden_spark_wraith"
+			"2"		"arc_warden_flux"
+			"3"		"arc_warden_spark_wraith"
+			"4"		"arc_warden_flux"
+			"5"		"arc_warden_spark_wraith"
+			"6"		"arc_warden_tempest_double"
+			"7"		"arc_warden_spark_wraith"
+			"8"		"arc_warden_flux"
+			"9"		"arc_warden_flux"
+			"10"		"special_bonus_unique_arc_warden_5"
+			"15"		"special_bonus_unique_arc_warden_3"
+			"20"		"special_bonus_unique_arc_warden_9"
+			"25"		"special_bonus_unique_arc_warden_8"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_hp_200"		"Берут в 62,1% матчей, винрейт 55,8% · выборка 4 655 матчей"
+			"special_bonus_unique_arc_warden_5"		"Берут в 37,9% матчей, винрейт 57,5% · выборка 2 835 матчей"
+			"special_bonus_unique_arc_warden_3"		"Берут в 72,6% матчей, винрейт 58,8% · выборка 5 095 матчей"
+			"special_bonus_unique_arc_warden_4"		"Берут в 27,4% матчей, винрейт 60,3% · выборка 1 919 матчей"
+			"special_bonus_unique_arc_warden_9"		"Берут в 96,7% матчей, винрейт 65,8% · выборка 5 492 матча"
+			"special_bonus_unique_arc_warden_7"		"Берут в 3,3% матчей, винрейт 60,8% · выборка 189 матчей"
+			"special_bonus_unique_arc_warden"		"Берут в 12,8% матчей, винрейт 60,8% · выборка 385 матчей"
+			"special_bonus_unique_arc_warden_8"		"Берут в 87,2% матчей, винрейт 74,2% · выборка 2 633 матча"
+			"arc_warden_spark_wraith"		"Самая частая прокачка первых 10 уровней: 130 матчей, винрейт 43,8%"
+		}
+	}
+}

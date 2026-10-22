@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"treant"
+	"Title"		"DotaMate · Treant Protector · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 53 матча Treant Protector на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/treant/\nПрокачка — Steam, 3 162 матча Treant Protector на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_boots"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_arcane_boots"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_branches"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_kaya"
+				"item"		"item_meteor_hammer"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_headdress"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_guardian_greaves"
+				"item"		"item_pers"
+				"item"		"item_mekansm"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 77% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 66% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 47% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 43% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_boots"		"Берут в 28% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 23% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 60% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 36% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 32% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 45% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_meteor_hammer"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_headdress"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_guardian_greaves"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_pers"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_mekansm"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"treant_leech_seed"
+			"2"		"treant_natures_grasp"
+			"3"		"treant_leech_seed"
+			"4"		"treant_natures_grasp"
+			"5"		"treant_leech_seed"
+			"6"		"treant_overgrowth"
+			"7"		"treant_leech_seed"
+			"8"		"treant_natures_grasp"
+			"9"		"treant_natures_grasp"
+			"10"		"special_bonus_unique_treant_12"
+			"15"		"special_bonus_unique_treant_9"
+			"20"		"special_bonus_unique_treant_13"
+			"25"		"special_bonus_unique_treant_7"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_attack_base_damage_50"		"Берут в 10,1% матчей, винрейт 46,6% · выборка 371 матч"
+			"special_bonus_unique_treant_8"		"Берут в 89,9% матчей, винрейт 46,2% · выборка 3 317 матчей"
+			"special_bonus_unique_treant_9"		"Берут в 82% матчей, винрейт 53% · выборка 2 228 матчей"
+			"special_bonus_unique_treant_3"		"Берут в 18% матчей, винрейт 55,6% · выборка 489 матчей"
+			"special_bonus_unique_treant_2"		"Берут в 5,7% матчей, винрейт 57,7% · выборка 78 матчей"
+			"special_bonus_unique_treant_13"		"Берут в 94,3% матчей, винрейт 56,1% · выборка 1 302 матча"
+			"special_bonus_unique_treant_7"		"Берут в 93,6% матчей, винрейт 61,2% · выборка 335 матчей"
+			"special_bonus_unique_treant_14"		"Берут в 6,4% матчей, винрейт 39,1% · выборка 23 матча"
+			"treant_leech_seed"		"Самая частая прокачка первых 10 уровней: 503 матча, винрейт 57,1%"
+		}
+	}
+}

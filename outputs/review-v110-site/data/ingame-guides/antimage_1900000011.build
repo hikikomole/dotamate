@@ -1,0 +1,122 @@
+"guidedata"
+{
+	"Hero"		"antimage"
+	"Title"		"DotaMate · Anti-Mage · Керри, поз. 1"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 258 матчей Anti-Mage на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/antimage/\nПрокачка — Steam, 1 823 матча Anti-Mage на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_wraith_band"
+				"item"		"item_pers"
+				"item"		"item_tango"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_bfury"
+				"item"		"item_yasha"
+				"item"		"item_manta"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_basher"
+				"item"		"item_butterfly"
+				"item"		"item_sange"
+				"item"		"item_skadi"
+				"item"		"item_abyssal_blade"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_monkey_king_bar"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_butterfly"
+			}
+			"Против контроля"
+			{
+				"item"		"item_manta"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_quelling_blade"		"Берут в 98% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 96% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 95% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 84% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 47% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 37% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 87% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 66% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 31% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 29% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 17% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_bfury"		"Берут в 98% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 92% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 74% матчей на позиции 1 · стадия «Середина (10–25 мин)»\nПротив контроля: Mirror Image: нормальное развеивание; не снимает любой контроль и требует возможности применить предмет. Покупают не менее 74,4% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_basher"		"Берут в 52% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_butterfly"		"Берут в 49% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»\nПротив физического урона: Уклонение от атак; не защищает от всех источников физического урона. Покупают не менее 48,8% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_sange"		"Берут в 31% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_skadi"		"Берут в 29% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_abyssal_blade"		"Берут в 25% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 9% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 7% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 5% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"antimage_mana_break"
+			"2"		"antimage_blink"
+			"3"		"antimage_mana_break"
+			"4"		"antimage_counterspell"
+			"5"		"antimage_mana_break"
+			"6"		"antimage_mana_void"
+			"7"		"antimage_mana_break"
+			"8"		"antimage_blink"
+			"9"		"antimage_blink"
+			"10"		"antimage_blink"
+			"15"		"special_bonus_unique_antimage_6"
+			"20"		"special_bonus_unique_antimage_3"
+			"25"		"special_bonus_unique_antimage_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_antimage_manavoid_aoe"		"Берут в 74,5% матчей, винрейт 51,4% · выборка 12 175 матчей"
+			"special_bonus_hp_regen_3"		"Берут в 25,5% матчей, винрейт 49,7% · выборка 4 176 матчей"
+			"special_bonus_unique_antimage_6"		"Берут в 77,4% матчей, винрейт 52,4% · выборка 12 228 матчей"
+			"special_bonus_unique_antimage_5"		"Берут в 22,6% матчей, винрейт 51,9% · выборка 3 579 матчей"
+			"special_bonus_unique_antimage_8"		"Берут в 33,8% матчей, винрейт 54,5% · выборка 4 554 матча"
+			"special_bonus_unique_antimage_3"		"Берут в 66,2% матчей, винрейт 56,6% · выборка 8 901 матч"
+			"special_bonus_unique_antimage_2"		"Берут в 84,3% матчей, винрейт 61,3% · выборка 7 461 матч"
+			"special_bonus_unique_antimage"		"Берут в 15,7% матчей, винрейт 63% · выборка 1 385 матчей"
+			"antimage_mana_break"		"Самая частая прокачка первых 10 уровней: 244 матча, винрейт 54,5%"
+		}
+	}
+}

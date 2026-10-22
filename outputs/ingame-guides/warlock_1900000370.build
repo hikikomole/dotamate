@@ -1,0 +1,111 @@
+"guidedata"
+{
+	"Hero"		"warlock"
+	"Title"		"DotaMate · Warlock · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 93 матча Warlock на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/warlock/\nПрокачка — Steam, 3 594 матча Warlock на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_branches"
+				"item"		"item_clarity"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_clarity"
+				"item"		"item_magic_wand"
+				"item"		"item_arcane_boots"
+				"item"		"item_blood_grenade"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_aghanims_shard"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_aether_lens"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+				"item"		"item_ogre_axe"
+				"item"		"item_staff_of_wizardry"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 77% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 59% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 53% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_clarity"		"Берут в 29% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 29% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 82% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 49% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 47% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 18% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_glimmer_cape"		"Берут в 51% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_aghanims_shard"		"Берут в 14% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 35% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_aether_lens"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ogre_axe"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_staff_of_wizardry"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 41% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"warlock_fatal_bonds"
+			"2"		"warlock_shadow_word"
+			"3"		"warlock_shadow_word"
+			"4"		"warlock_fatal_bonds"
+			"5"		"warlock_shadow_word"
+			"6"		"warlock_rain_of_chaos"
+			"7"		"warlock_shadow_word"
+			"8"		"warlock_fatal_bonds"
+			"9"		"warlock_fatal_bonds"
+			"10"		"special_bonus_unique_warlock_5"
+			"15"		"special_bonus_unique_warlock_10"
+			"20"		"special_bonus_unique_warlock_1"
+			"25"		"special_bonus_unique_warlock_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_warlock_upheaval_aoe"		"Берут в 24,8% матчей, винрейт 48,8% · выборка 1 362 матча"
+			"special_bonus_unique_warlock_5"		"Берут в 75,2% матчей, винрейт 49% · выборка 4 124 матча"
+			"special_bonus_unique_warlock_7"		"Берут в 12,3% матчей, винрейт 55% · выборка 491 матч"
+			"special_bonus_unique_warlock_10"		"Берут в 87,7% матчей, винрейт 55,5% · выборка 3 496 матчей"
+			"special_bonus_unique_warlock_3"		"Берут в 35,8% матчей, винрейт 59% · выборка 709 матчей"
+			"special_bonus_unique_warlock_1"		"Берут в 64,2% матчей, винрейт 60,1% · выборка 1 274 матча"
+			"special_bonus_unique_warlock_4"		"Берут в 100% матчей, винрейт 64,2% · выборка 332 матча"
+			"warlock_fatal_bonds"		"Самая частая прокачка первых 10 уровней: 1 092 матча, винрейт 49%"
+		}
+	}
+}

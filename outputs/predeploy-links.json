@@ -1,0 +1,752 @@
+[
+  {
+    "url": "/assets/favicon-32.png",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/icon-192.png",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/apple-touch-icon.png",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/search.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/phantom_lancer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/sniper.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/antimage.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/life_stealer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/slark.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/axe.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/spectre.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/arc_warden.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/nevermore.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/juggernaut.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/obsidian_destroyer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/faceless_void.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/pudge.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/undying.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/invoker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/templar_assassin.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/windrunner.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/night_stalker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/tidehunter.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/sven.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/rubick.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/spirit_breaker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/terrorblade.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/dark_seer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/venomancer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/skeleton_king.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/ember_spirit.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/dawnbreaker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/necrolyte.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/phoenix.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/legion_commander.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/lina.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/abyssal_underlord.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/medusa.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/techies.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/broodmother.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/marci.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/chaos_knight.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/storm_spirit.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/shredder.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/earthshaker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/phantom_assassin.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/razor.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/luna.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/ursa.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/drow_ranger.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/bristleback.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/bounty_hunter.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/viper.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/muerta.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/furion.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/tinker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/centaur.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/kez.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/clinkz.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/doom_bringer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/riki.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/zuus.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/vengeful_spirit.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/ancient_apparition.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/shadow_shaman.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/huskar.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/hoodwink.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/keeper_of_the_light.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/wisp.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/void_spirit.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/lion.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/oracle.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/puck.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/queenofpain.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/abaddon.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/dragon_knight.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/magnataur.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/earth_spirit.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/grimstroke.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/pangolier.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/sand_king.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/meepo.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/bane.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/slardar.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/warlock.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/bloodseeker.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/tusk.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/dazzle.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/morphling.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/primal_beast.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/crystal_maiden.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/monkey_king.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/death_prophet.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/mars.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/nyx_assassin.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/ringmaster.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/naga_siren.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/snapfire.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/witch_doctor.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/enchantress.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/largo.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/visage.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/pugna.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/treant.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/leshrac.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/skywrath_mage.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/ogre_magi.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/alchemist.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/silencer.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/omniknight.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/rattletrap.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/lone_druid.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/mirana.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/tiny.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/troll_warlord.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/winter_wyvern.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/css/academy.css",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/academy-records.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/jakiro.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/brewmaster.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/lich.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/weaver.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/kunkka.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/dark_willow.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/enigma.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/disruptor.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/gyrocopter.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/shadow_demon.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/academy-store.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/academy.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/lycan.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/fonts/inter-cyrillic.woff2",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/css/fonts.css",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/beastmaster.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/elder_titan.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/batrider.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/draft-items.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/live-winprob.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/academy-analysis.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/academy-match.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/academy-practice.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/css/guides.css",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/guides.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/assets/heroes/chen.webp",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/my-heroes.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/home-daily.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/live-match.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/live-words.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/js/me.js",
+    "root": true,
+    "deploy": false
+  },
+  {
+    "url": "/css/pro.css",
+    "root": true,
+    "deploy": false
+  }
+]

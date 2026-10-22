@@ -1,0 +1,121 @@
+"guidedata"
+{
+	"Hero"		"puck"
+	"Title"		"DotaMate · Puck · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 44 матча Puck на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/puck/\nПрокачка — Steam, 18 205 матчей Puck на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+				"item"		"item_mantle"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_power_treads"
+				"item"		"item_clarity"
+				"item"		"item_null_talisman"
+				"item"		"item_oblivion_staff"
+				"item"		"item_magic_stick"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_witch_blade"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_devastator"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_cyclone"
+				"item"		"item_sphere"
+				"item"		"item_soul_booster"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_mjollnir"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_travel_boots"
+				"item"		"item_pers"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 98% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 14% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 9% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 7% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 34% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_oblivion_staff"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_witch_blade"		"Берут в 89% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 82% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_devastator"		"Берут в 32% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_cyclone"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sphere"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_soul_booster"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_mjollnir"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_travel_boots"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_pers"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_famango"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"puck_illusory_orb"
+			"2"		"puck_phase_shift"
+			"3"		"puck_illusory_orb"
+			"4"		"puck_waning_rift"
+			"5"		"puck_illusory_orb"
+			"6"		"puck_dream_coil"
+			"7"		"puck_illusory_orb"
+			"8"		"puck_waning_rift"
+			"9"		"puck_waning_rift"
+			"10"		"puck_waning_rift"
+			"15"		"special_bonus_unique_puck_6"
+			"20"		"special_bonus_unique_puck_2"
+			"25"		"special_bonus_unique_puck_rift_radius"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_puck_7"		"Берут в 17,6% матчей, винрейт 46% · выборка 1 395 матчей"
+			"special_bonus_unique_puck_orb_damage"		"Берут в 82,4% матчей, винрейт 49,8% · выборка 6 511 матчей"
+			"special_bonus_unique_puck_6"		"Берут в 98,8% матчей, винрейт 51,5% · выборка 7 364 матча"
+			"special_bonus_unique_puck_5"		"Берут в 1,2% матчей, винрейт 42,2% · выборка 90 матчей"
+			"special_bonus_unique_puck_coil_damage"		"Берут в 17,4% матчей, винрейт 53% · выборка 1 074 матча"
+			"special_bonus_unique_puck_2"		"Берут в 82,6% матчей, винрейт 57,5% · выборка 5 094 матча"
+			"special_bonus_unique_puck_rift_radius"		"Берут в 58,3% матчей, винрейт 67,7% · выборка 1 958 матчей"
+			"special_bonus_unique_puck"		"Берут в 41,7% матчей, винрейт 58% · выборка 1 402 матча"
+			"puck_illusory_orb"		"Самая частая прокачка первых 10 уровней: 9 840 матчей, винрейт 51,2%"
+		}
+	}
+}

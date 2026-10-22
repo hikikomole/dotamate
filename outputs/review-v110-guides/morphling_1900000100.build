@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"morphling"
+	"Title"		"DotaMate · Morphling · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 97 матчей Morphling на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/morphling/\nПрокачка — Steam, 3 240 матчей Morphling на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_circlet"
+				"item"		"item_slippers"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_buckler"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_vladmir"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_manta"
+				"item"		"item_specialists_array"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_butterfly"
+				"item"		"item_lesser_crit"
+				"item"		"item_hydras_breath"
+				"item"		"item_black_king_bar"
+				"item"		"item_dragon_lance"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_satanic"
+				"item"		"item_monkey_king_bar"
+				"item"		"item_blink"
+				"item"		"item_skadi"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 98% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 45% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 31% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 15% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 97% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 41% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_buckler"		"Берут в 39% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_vladmir"		"Берут в 9% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 92% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 76% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_specialists_array"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_butterfly"		"Берут в 41% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hydras_breath"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_dragon_lance"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 2% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_skadi"		"Берут в 2% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"morphling_morph_agi"
+			"2"		"morphling_waveform"
+			"3"		"morphling_morph_agi"
+			"4"		"morphling_waveform"
+			"5"		"morphling_morph_agi"
+			"6"		"morphling_waveform"
+			"7"		"morphling_morph_agi"
+			"8"		"morphling_waveform"
+			"9"		"morphling_replicate"
+			"10"		"special_bonus_unique_morphling_1"
+			"15"		"special_bonus_unique_morphling_1"
+			"20"		"special_bonus_agility_15"
+			"25"		"special_bonus_unique_morphling_waveform_cooldown"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_morphling_8"		"Берут в 33,1% матчей, винрейт 50,7% · выборка 3 146 матчей"
+			"special_bonus_magic_resistance_15"		"Берут в 66,9% матчей, винрейт 51,4% · выборка 6 366 матчей"
+			"special_bonus_attack_range_75"		"Берут в 16,4% матчей, винрейт 55,2% · выборка 1 467 матчей"
+			"special_bonus_unique_morphling_1"		"Берут в 83,6% матчей, винрейт 53,1% · выборка 7 477 матчей"
+			"special_bonus_agility_15"		"Берут в 94,8% матчей, винрейт 58,7% · выборка 3 650 матчей"
+			"special_bonus_unique_morphling_7"		"Берут в 5,2% матчей, винрейт 48,7% · выборка 199 матчей"
+			"special_bonus_strength_35"		"Берут в 24,8% матчей, винрейт 68,7% · выборка 505 матчей"
+			"special_bonus_unique_morphling_waveform_cooldown"		"Берут в 75,2% матчей, винрейт 64,4% · выборка 1 530 матчей"
+			"morphling_morph_agi"		"Самая частая прокачка первых 10 уровней: 568 матчей, винрейт 46,1%"
+		}
+	}
+}

@@ -7,6 +7,7 @@ const { randomBytes, createHash } = require('crypto');
 const { writeJsonAtomic } = require('./match-source');
 const { slugForHero, RU_POSITIONS } = require('./hero-common');
 const { buildVariantMaps } = require('../js/item-variants');
+const { responseSections } = require('./ingame-guide-responses');
 
 const MIN = 150;
 const MIN_FILES = 100, MIN_HEROES = 120;
@@ -159,6 +160,16 @@ function makeGuide(hero, pos, purchases, build, context, general = false, group 
       return ['item', name];
     });
   if (consumableRows.length) categories.push(['Расходники по ходу игры', consumableRows]);
+
+  // Заголовок категории — ключ блока Items, не вложенный Title.
+  // Порядок пар KeyValues сохраняет основную сборку перед развилками.
+  for (const section of responseSections(purchases, context)) {
+    categories.push([section.title, section.items.map(({ name }) => ['item', name])]);
+    for (const { name, share, mechanic } of section.items) {
+      const note = `${section.title}: ${mechanic} Покупают не менее ${numberRu(Math.floor(share * 1000) / 10)}% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.`;
+      tooltips.set(name, [tooltips.get(name), note].filter(Boolean).join('\n'));
+    }
+  }
 
   const abilityName = id => {
     if (id == null) return null;
@@ -490,7 +501,7 @@ function buildGuides(options) {
   }
   const missing = new Set();
   const context = {
-    itemsById, consumables, variants: buildVariantMaps(catalog).byId, abilities, skillChains, missing, patch, usedAbilities: new Set(),
+    catalog, itemsById, consumables, variants: buildVariantMaps(catalog).byId, abilities, skillChains, missing, patch, usedAbilities: new Set(),
     updated: dateRu(purchases.builtAt), creator: options.creator, now: Math.floor(Date.parse(builtAt) / 1000)
   };
   const heroesById = new Map(heroes.map(hero => [String(hero.id), hero]));
@@ -593,6 +604,8 @@ function buildGuides(options) {
     creatorNote: 'OriginalCreatorID = 0; приложение DotaMate подставляет аккаунт пользователя при установке.',
     count: written, heroes: covered.size, files };
 }
+
+module.exports = { makeGuide, parseKeyValues };
 
 if (require.main === module) {
   try { main(process.argv.slice(2)); }

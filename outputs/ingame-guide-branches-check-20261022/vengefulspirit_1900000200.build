@@ -1,0 +1,123 @@
+"guidedata"
+{
+	"Hero"		"vengefulspirit"
+	"Title"		"DotaMate · Vengeful Spirit · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 194 матча Vengeful Spirit на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/vengeful_spirit/\nПрокачка — Steam, 3 515 матчей Vengeful Spirit на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_circlet"
+				"item"		"item_slippers"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_power_treads"
+				"item"		"item_wraith_band"
+				"item"		"item_clarity"
+				"item"		"item_tranquil_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_specialists_array"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_yasha"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_dragon_lance"
+				"item"		"item_hydras_breath"
+				"item"		"item_manta"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_blink"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против контроля"
+			{
+				"item"		"item_manta"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 78% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 65% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 54% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 34% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 26% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 31% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 28% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_tranquil_boots"		"Берут в 27% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_specialists_array"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hydras_breath"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_manta"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»\nПротив контроля: Mirror Image: нормальное развеивание; не снимает любой контроль и требует возможности применить предмет. Покупают не менее 11,8% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_ultimate_scepter_2"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 19% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"vengefulspirit_wave_of_terror"
+			"2"		"vengefulspirit_magic_missile"
+			"3"		"vengefulspirit_magic_missile"
+			"4"		"vengefulspirit_wave_of_terror"
+			"5"		"vengefulspirit_magic_missile"
+			"6"		"vengefulspirit_nether_swap"
+			"7"		"vengefulspirit_magic_missile"
+			"8"		"vengefulspirit_wave_of_terror"
+			"9"		"vengefulspirit_wave_of_terror"
+			"10"		"special_bonus_unique_vengeful_spirit_missile_castrange"
+			"15"		"special_bonus_unique_vengeful_spirit_4"
+			"20"		"special_bonus_unique_vengeful_spirit_5"
+			"25"		"special_bonus_unique_vengeful_spirit_9"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_vengeful_spirit_missile_castrange"		"Берут в 41,8% матчей, винрейт 52,4% · выборка 1 641 матч"
+			"special_bonus_unique_vengeful_spirit_swap_damage"		"Берут в 58,2% матчей, винрейт 54% · выборка 2 289 матчей"
+			"special_bonus_unique_vengeful_spirit_1"		"Берут в 38,8% матчей, винрейт 60,7% · выборка 1 190 матчей"
+			"special_bonus_unique_vengeful_spirit_4"		"Берут в 61,2% матчей, винрейт 60,8% · выборка 1 877 матчей"
+			"special_bonus_unique_vengeful_spirit_5"		"Берут в 63,7% матчей, винрейт 65,7% · выборка 1 068 матчей"
+			"special_bonus_unique_vengeful_spirit_wave_of_terror_steal"		"Берут в 36,3% матчей, винрейт 60,5% · выборка 608 матчей"
+			"special_bonus_unique_vengeful_spirit_9"		"Берут в 77,9% матчей, винрейт 65,3% · выборка 357 матчей"
+			"special_bonus_unique_vengeful_spirit_2"		"Берут в 22,1% матчей, винрейт 59,4% · выборка 101 матч"
+			"vengefulspirit_wave_of_terror"		"Самая частая прокачка первых 10 уровней: 611 матчей, винрейт 52%"
+		}
+	}
+}

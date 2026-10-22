@@ -1,0 +1,118 @@
+"guidedata"
+{
+	"Hero"		"crystal_maiden"
+	"Title"		"DotaMate · Crystal Maiden · Полная поддержка, поз. 5"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 162 матча Crystal Maiden на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/crystal_maiden/\nПрокачка — Steam, 4 915 матчей Crystal Maiden на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_branches"
+				"item"		"item_enchanted_mango"
+				"item"		"item_clarity"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_enchanted_mango"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_black_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_headdress"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_black_king_bar"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 66% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 64% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 59% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 50% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_clarity"		"Берут в 27% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 75% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 55% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_glimmer_cape"		"Берут в 44% матчей на позиции 5 · стадия «Середина (10–25 мин)»\nПротив магии: Glimmer: временный барьер от магического урона. Покупают не менее 44,4% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_blink"		"Берут в 44% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 22% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 22% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 21,6% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 21,6% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_headdress"		"Берут в 3% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 43% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 18% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 17,9% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"crystal_maiden_crystal_nova"
+			"2"		"crystal_maiden_frostbite"
+			"3"		"crystal_maiden_brilliance_aura"
+			"4"		"crystal_maiden_frostbite"
+			"5"		"crystal_maiden_frostbite"
+			"6"		"crystal_maiden_freezing_field"
+			"7"		"crystal_maiden_frostbite"
+			"8"		"crystal_maiden_crystal_nova"
+			"9"		"crystal_maiden_crystal_nova"
+			"10"		"special_bonus_hp_250"
+			"15"		"special_bonus_unique_crystal_maiden_frostbite_castrange"
+			"20"		"special_bonus_unique_crystal_maiden_3"
+			"25"		"special_bonus_unique_crystal_maiden_1"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_intelligence_12"		"Берут в 21,7% матчей, винрейт 51,9% · выборка 2 841 матч"
+			"special_bonus_hp_200"		"Берут в 78,3% матчей, винрейт 50,6% · выборка 10 241 матч"
+			"special_bonus_unique_crystal_maiden_5"		"Берут в 30,6% матчей, винрейт 57,5% · выборка 3 218 матчей"
+			"special_bonus_unique_crystal_maiden_frostbite_castrange"		"Берут в 69,4% матчей, винрейт 57,2% · выборка 7 282 матча"
+			"special_bonus_unique_crystal_maiden_3"		"Берут в 100% матчей, винрейт 63,2% · выборка 5 505 матчей"
+			"special_bonus_unique_crystal_maiden_2"		"Берут в 34,3% матчей, винрейт 64% · выборка 678 матчей"
+			"special_bonus_unique_crystal_maiden_1"		"Берут в 65,7% матчей, винрейт 66,2% · выборка 1 299 матчей"
+			"crystal_maiden_crystal_nova"		"Самая частая прокачка первых 10 уровней: 1 046 матчей, винрейт 51,1%"
+		}
+	}
+}

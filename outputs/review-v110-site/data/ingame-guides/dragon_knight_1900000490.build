@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"dragon_knight"
+	"Title"		"DotaMate · Dragon Knight · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 136 матчей Dragon Knight на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/dragon_knight/\nПрокачка — Steam, 1 520 матчей Dragon Knight на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_gauntlets"
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_bracer"
+				"item"		"item_soul_ring"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_black_king_bar"
+				"item"		"item_oblivion_staff"
+				"item"		"item_orchid"
+				"item"		"item_maelstrom"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_octarine_core"
+				"item"		"item_soul_booster"
+				"item"		"item_assault"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_shivas_guard"
+				"item"		"item_satanic"
+				"item"		"item_buckler"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_gauntlets"		"Берут в 93% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 75% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 72% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 64% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 45% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 32% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 86% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 76% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 17% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_orchid"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_maelstrom"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_octarine_core"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_soul_booster"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 9% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_shivas_guard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_satanic"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_buckler"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"dragon_knight_dragon_tail"
+			"2"		"dragon_knight_dragon_blood"
+			"3"		"dragon_knight_dragon_blood"
+			"4"		"dragon_knight_breathe_fire"
+			"5"		"dragon_knight_breathe_fire"
+			"6"		"dragon_knight_elder_dragon_form"
+			"7"		"dragon_knight_breathe_fire"
+			"8"		"dragon_knight_breathe_fire"
+			"9"		"dragon_knight_dragon_tail"
+			"10"		"dragon_knight_dragon_tail"
+			"15"		"special_bonus_hp_300"
+			"20"		"special_bonus_unique_dragon_knight_9"
+			"25"		"special_bonus_unique_dragon_knight"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_dragon_knight_3"		"Берут в 58,6% матчей, винрейт 53,5% · выборка 5 127 матчей"
+			"special_bonus_attack_damage_15"		"Берут в 41,4% матчей, винрейт 53,3% · выборка 3 618 матчей"
+			"special_bonus_hp_300"		"Берут в 63,2% матчей, винрейт 55,9% · выборка 5 119 матчей"
+			"special_bonus_unique_dragon_knight_2"		"Берут в 36,8% матчей, винрейт 56,5% · выборка 2 977 матчей"
+			"special_bonus_unique_dragon_knight_9"		"Берут в 65,2% матчей, винрейт 62,1% · выборка 4 050 матчей"
+			"special_bonus_unique_dragon_knight_7"		"Берут в 34,8% матчей, винрейт 59,7% · выборка 2 159 матчей"
+			"special_bonus_unique_dragon_knight"		"Берут в 100% матчей, винрейт 67,7% · выборка 897 матчей"
+			"dragon_knight_dragon_tail"		"Самая частая прокачка первых 10 уровней: 298 матчей, винрейт 55,4%"
+		}
+	}
+}

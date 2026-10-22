@@ -1,0 +1,105 @@
+"guidedata"
+{
+	"Hero"		"largo"
+	"Title"		"DotaMate · Largo · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 33 матча Largo на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/largo/\nПрокачка — Steam, 434 матча Largo на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_gauntlets"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_soul_ring"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_holy_locket"
+				"item"		"item_kaya"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_pers"
+				"item"		"item_headdress"
+				"item"		"item_mekansm"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_lotus_orb"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 52% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 36% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 27% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 64% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 39% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 24% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 55% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_holy_locket"		"Берут в 39% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_pers"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_headdress"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_mekansm"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_lotus_orb"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_famango"		"Берут в 9% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"largo_catchy_lick"
+			"2"		"largo_frogstomp"
+			"3"		"largo_catchy_lick"
+			"4"		"largo_frogstomp"
+			"5"		"largo_frogstomp"
+			"6"		"largo_amphibian_rhapsody"
+			"7"		"largo_frogstomp"
+			"8"		"largo_croak_of_genius"
+			"9"		"largo_croak_of_genius"
+			"10"		"largo_croak_of_genius"
+		}
+		"AbilityTooltips"
+		{
+			"largo_catchy_lick"		"Самая частая прокачка первых 10 уровней: 123 матча, винрейт 59,3%"
+		}
+	}
+}

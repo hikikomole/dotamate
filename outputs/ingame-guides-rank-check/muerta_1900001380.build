@@ -1,0 +1,111 @@
+"guidedata"
+{
+	"Hero"		"muerta"
+	"Title"		"DotaMate · Muerta · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 35 матчей Muerta на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/muerta/\nПрокачка — Steam, 1 855 матчей Muerta на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_wand"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_falcon_blade"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_null_talisman"
+				"item"		"item_clarity"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_maelstrom"
+				"item"		"item_mjollnir"
+				"item"		"item_dragon_lance"
+				"item"		"item_force_staff"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_lesser_crit"
+				"item"		"item_hurricane_pike"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_greater_crit"
+				"item"		"item_monkey_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 57% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 40% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 23% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 77% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 51% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 14% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_maelstrom"		"Берут в 91% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mjollnir"		"Берут в 46% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 43% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_force_staff"		"Берут в 17% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 11% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 43% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hurricane_pike"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 14% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"muerta_dead_shot"
+			"2"		"muerta_the_calling"
+			"3"		"muerta_dead_shot"
+			"4"		"muerta_gunslinger"
+			"5"		"muerta_dead_shot"
+			"6"		"muerta_pierce_the_veil"
+			"7"		"muerta_dead_shot"
+			"8"		"muerta_gunslinger"
+			"9"		"muerta_gunslinger"
+			"10"		"muerta_gunslinger"
+			"15"		"special_bonus_intelligence_15"
+			"20"		"special_bonus_unique_muerta_pierce_the_veil_duration"
+			"25"		"special_bonus_unique_muerta_gunslinger_double_shot_chance"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_attack_speed_20"		"Берут в 89,8% матчей, винрейт 49,2% · выборка 3 465 матчей"
+			"special_bonus_unique_muerta_dead_shot_range"		"Берут в 10,2% матчей, винрейт 49% · выборка 392 матча"
+			"special_bonus_intelligence_15"		"Берут в 85,5% матчей, винрейт 51,5% · выборка 3 124 матча"
+			"special_bonus_unique_muerta_calling_hp_regen"		"Берут в 14,5% матчей, винрейт 49,4% · выборка 530 матчей"
+			"special_bonus_unique_muerta_the_calling_num_revenants"		"Берут в 2,1% матчей, винрейт 60,5% · выборка 43 матча"
+			"special_bonus_unique_muerta_pierce_the_veil_duration"		"Берут в 97,9% матчей, винрейт 54% · выборка 2 047 матчей"
+			"special_bonus_unique_muerta_dead_shot_charges"		"Берут в 5,5% матчей, винрейт 60,3% · выборка 68 матчей"
+			"special_bonus_unique_muerta_gunslinger_double_shot_chance"		"Берут в 94,5% матчей, винрейт 60,7% · выборка 1 163 матча"
+			"muerta_dead_shot"		"Самая частая прокачка первых 10 уровней: 576 матчей, винрейт 49%"
+		}
+	}
+}

@@ -1,0 +1,107 @@
+"guidedata"
+{
+	"Hero"		"visage"
+	"Title"		"DotaMate · Visage · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 46 матчей Visage на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/visage/\nПрокачка — Steam, 204 матча Visage на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_tango"
+				"item"		"item_enchanted_mango"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_null_talisman"
+				"item"		"item_magic_wand"
+				"item"		"item_tranquil_boots"
+				"item"		"item_headdress"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_buckler"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ancient_janggo"
+				"item"		"item_vladmir"
+				"item"		"item_oblivion_staff"
+				"item"		"item_boots_of_bearing"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_assault"
+				"item"		"item_bloodthorn"
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 87% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 39% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 24% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 24% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_null_talisman"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 54% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_tranquil_boots"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_headdress"		"Берут в 41% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 37% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_buckler"		"Берут в 26% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ancient_janggo"		"Берут в 59% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_vladmir"		"Берут в 50% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_boots_of_bearing"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_assault"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_bloodthorn"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_dust"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"visage_grave_chill"
+			"2"		"visage_gravekeepers_cloak"
+			"3"		"visage_grave_chill"
+			"4"		"visage_soul_assumption"
+			"5"		"visage_grave_chill"
+			"6"		"visage_summon_familiars"
+			"7"		"visage_grave_chill"
+			"8"		"visage_gravekeepers_cloak"
+			"9"		"visage_gravekeepers_cloak"
+			"10"		"special_bonus_attack_damage_30"
+			"15"		"special_bonus_unique_visage_3"
+			"20"		"special_bonus_unique_visage_1"
+			"25"		"special_bonus_unique_visage_6"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_visage_7"		"Берут в 100% матчей, винрейт 61% · выборка 983 матча"
+			"special_bonus_unique_visage_3"		"Берут в 69,9% матчей, винрейт 59,5% · выборка 785 матчей"
+			"special_bonus_unique_visage_grave_chill_duration"		"Берут в 30,1% матчей, винрейт 64,2% · выборка 338 матчей"
+			"special_bonus_unique_visage_1"		"Берут в 76,9% матчей, винрейт 67,4% · выборка 619 матчей"
+			"special_bonus_unique_visage_4"		"Берут в 23,1% матчей, винрейт 59,1% · выборка 186 матчей"
+			"special_bonus_unique_visage_6"		"Берут в 100% матчей, винрейт 65,2% · выборка 310 матчей"
+			"visage_grave_chill"		"Самая частая прокачка первых 10 уровней: 36 матчей, винрейт 58,3%"
+		}
+	}
+}

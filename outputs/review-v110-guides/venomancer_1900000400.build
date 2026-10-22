@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"venomancer"
+	"Title"		"DotaMate · Venomancer · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 92 матча Venomancer на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/venomancer/\nПрокачка — Steam, 157 матчей Venomancer на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_urn_of_shadows"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_spirit_vessel"
+				"item"		"item_headdress"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_guardian_greaves"
+				"item"		"item_mekansm"
+				"item"		"item_glimmer_cape"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_force_staff"
+				"item"		"item_pers"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_greater_famango"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 97% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 82% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 46% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 22% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 54% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_urn_of_shadows"		"Берут в 51% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 49% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 62% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_spirit_vessel"		"Берут в 55% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_headdress"		"Берут в 27% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_guardian_greaves"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_mekansm"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_glimmer_cape"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_pers"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_famango"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"venomancer_venomous_gale"
+			"2"		"venomancer_poison_sting"
+			"3"		"venomancer_poison_sting"
+			"4"		"venomancer_plague_ward"
+			"5"		"venomancer_poison_sting"
+			"6"		"venomancer_noxious_plague"
+			"7"		"venomancer_poison_sting"
+			"8"		"venomancer_plague_ward"
+			"9"		"venomancer_plague_ward"
+			"10"		"venomancer_plague_ward"
+			"15"		"special_bonus_unique_venomancer_2"
+			"20"		"special_bonus_unique_venomancer_8"
+			"25"		"special_bonus_unique_venomancer"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_venomancer_poisonsting_regen_reduction"		"Берут в 62,2% матчей, винрейт 47,9% · выборка 1 757 матчей"
+			"special_bonus_unique_venomancer_3"		"Берут в 37,8% матчей, винрейт 46,4% · выборка 1 070 матчей"
+			"special_bonus_unique_venomancer_2"		"Берут в 100% матчей, винрейт 53,7% · выборка 874 матча"
+			"special_bonus_unique_venomancer_8"		"Берут в 63,8% матчей, винрейт 58,3% · выборка 793 матча"
+			"special_bonus_unique_venomancer_4"		"Берут в 36,2% матчей, винрейт 53,8% · выборка 450 матчей"
+			"special_bonus_unique_venomancer"		"Берут в 70,4% матчей, винрейт 56% · выборка 243 матча"
+			"special_bonus_unique_venomancer_5"		"Берут в 29,6% матчей, винрейт 55,9% · выборка 102 матча"
+			"venomancer_venomous_gale"		"Самая частая прокачка первых 10 уровней: 43 матча, винрейт 58,1%"
+		}
+	}
+}

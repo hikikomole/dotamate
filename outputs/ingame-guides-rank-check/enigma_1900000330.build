@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"enigma"
+	"Title"		"DotaMate · Enigma · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 79 матчей Enigma на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/enigma/\nПрокачка — Steam, 215 матчей Enigma на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_blood_grenade"
+				"item"		"item_ring_of_regen"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_headdress"
+				"item"		"item_ancient_janggo"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_black_king_bar"
+				"item"		"item_boots_of_bearing"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_octarine_core"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+				"item"		"item_travel_boots"
+				"item"		"item_shivas_guard"
+				"item"		"item_soul_booster"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 87% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 73% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 53% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 39% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_regen"		"Берут в 30% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 53% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 46% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_headdress"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ancient_janggo"		"Берут в 33% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 22% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 90% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_boots_of_bearing"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_octarine_core"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_travel_boots"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_shivas_guard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_soul_booster"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"enigma_demonic_conversion"
+			"2"		"enigma_malefice"
+			"3"		"enigma_demonic_conversion"
+			"4"		"enigma_malefice"
+			"5"		"enigma_demonic_conversion"
+			"6"		"enigma_black_hole"
+			"7"		"enigma_demonic_conversion"
+			"8"		"enigma_malefice"
+			"9"		"enigma_malefice"
+			"10"		"enigma_midnight_pulse"
+			"15"		"special_bonus_hp_250"
+			"20"		"special_bonus_unique_enigma_3"
+			"25"		"special_bonus_unique_enigma"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_enigma_6"		"Берут в 67,5% матчей, винрейт 49% · выборка 622 матча"
+			"special_bonus_unique_enigma_4"		"Берут в 32,5% матчей, винрейт 56,2% · выборка 299 матчей"
+			"special_bonus_unique_enigma_5"		"Берут в 25,4% матчей, винрейт 60,1% · выборка 193 матча"
+			"special_bonus_hp_250"		"Берут в 74,6% матчей, винрейт 57% · выборка 567 матчей"
+			"special_bonus_unique_enigma_3"		"Берут в 56,4% матчей, винрейт 62,9% · выборка 256 матчей"
+			"special_bonus_unique_enigma_9"		"Берут в 43,6% матчей, винрейт 60,1% · выборка 198 матчей"
+			"special_bonus_unique_enigma"		"Берут в 63,8% матчей, винрейт 60,2% · выборка 88 матчей"
+			"special_bonus_unique_enigma_2"		"Берут в 36,2% матчей, винрейт 70% · выборка 50 матчей"
+			"enigma_demonic_conversion"		"Самая частая прокачка первых 10 уровней: 39 матчей, винрейт 56,4%"
+		}
+	}
+}

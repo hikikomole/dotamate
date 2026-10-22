@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"huskar"
+	"Title"		"DotaMate · Huskar · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 59 матчей Huskar на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/huskar/\nПрокачка — Steam, 673 матча Huskar на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_gauntlets"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_armlet"
+				"item"		"item_bracer"
+				"item"		"item_blood_grenade"
+				"item"		"item_boots"
+				"item"		"item_circlet"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_sange"
+				"item"		"item_power_treads"
+				"item"		"item_black_king_bar"
+				"item"		"item_yasha"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_satanic"
+				"item"		"item_sange_and_yasha"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_buckler"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_gauntlets"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 73% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 42% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 15% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 10% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_armlet"		"Берут в 51% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 27% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blood_grenade"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 56% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 31% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_power_treads"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange_and_yasha"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_buckler"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_smoke_of_deceit"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"huskar_burning_spear"
+			"2"		"huskar_berserkers_blood"
+			"3"		"huskar_berserkers_blood"
+			"4"		"huskar_burning_spear"
+			"5"		"huskar_berserkers_blood"
+			"6"		"huskar_life_break"
+			"7"		"huskar_berserkers_blood"
+			"8"		"huskar_inner_fire"
+			"9"		"huskar_burning_spear"
+			"10"		"huskar_burning_spear"
+			"15"		"special_bonus_lifesteal_12"
+			"20"		"special_bonus_unique_huskar_6"
+			"25"		"special_bonus_unique_huskar"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_huskar_4"		"Берут в 13,8% матчей, винрейт 45% · выборка 540 матчей"
+			"special_bonus_unique_huskar_3"		"Берут в 86,2% матчей, винрейт 49,8% · выборка 3 360 матчей"
+			"special_bonus_lifesteal_12"		"Берут в 66% матчей, винрейт 51,6% · выборка 2 406 матчей"
+			"special_bonus_unique_huskar_2"		"Берут в 34% матчей, винрейт 51,4% · выборка 1 238 матчей"
+			"special_bonus_unique_huskar_7"		"Берут в 30,5% матчей, винрейт 55,3% · выборка 848 матчей"
+			"special_bonus_unique_huskar_6"		"Берут в 69,5% матчей, винрейт 57,7% · выборка 1 936 матчей"
+			"special_bonus_unique_huskar"		"Берут в 62,9% матчей, винрейт 60,8% · выборка 697 матчей"
+			"special_bonus_unique_huskar_5"		"Берут в 37,1% матчей, винрейт 59,9% · выборка 411 матчей"
+			"huskar_burning_spear"		"Самая частая прокачка первых 10 уровней: 113 матчей, винрейт 62,8%"
+		}
+	}
+}

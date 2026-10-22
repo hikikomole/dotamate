@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"spirit_breaker"
+	"Title"		"DotaMate · Spirit Breaker · Поддержка, поз. 4"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 178 матчей Spirit Breaker на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/spirit_breaker/\nПрокачка — Steam, 1 749 матчей Spirit Breaker на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_boots"
+				"item"		"item_wind_lace"
+				"item"		"item_gauntlets"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_phase_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+				"item"		"item_bracer"
+				"item"		"item_magic_stick"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_invis_sword"
+				"item"		"item_ancient_janggo"
+				"item"		"item_headdress"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_kaya"
+				"item"		"item_yasha_and_kaya"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_cyclone"
+				"item"		"item_silver_edge"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 72% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 65% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 44% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_boots"		"Берут в 38% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_wind_lace"		"Берут в 34% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 22% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_phase_boots"		"Берут в 46% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 42% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 19% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_magic_stick"		"Берут в 15% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_invis_sword"		"Берут в 43% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_ancient_janggo"		"Берут в 25% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_headdress"		"Берут в 20% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 27% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_kaya"		"Берут в 26% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_yasha_and_kaya"		"Берут в 24% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 17% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_cyclone"		"Берут в 7% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+			"item_silver_edge"		"Берут в 6% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 33% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_smoke_of_deceit"		"Берут в 26% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"spirit_breaker_greater_bash"
+			"2"		"spirit_breaker_charge_of_darkness"
+			"3"		"spirit_breaker_greater_bash"
+			"4"		"spirit_breaker_bulldoze"
+			"5"		"spirit_breaker_greater_bash"
+			"6"		"spirit_breaker_nether_strike"
+			"7"		"spirit_breaker_greater_bash"
+			"8"		"spirit_breaker_charge_of_darkness"
+			"9"		"spirit_breaker_charge_of_darkness"
+			"10"		"spirit_breaker_charge_of_darkness"
+			"15"		"special_bonus_unique_spirit_breaker_2"
+			"20"		"special_bonus_unique_spirit_breaker_shield"
+			"25"		"special_bonus_unique_spirit_breaker_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_armor_4"		"Берут в 38,8% матчей, винрейт 53,3% · выборка 7 042 матча"
+			"special_bonus_night_vision_500"		"Берут в 61,2% матчей, винрейт 54,9% · выборка 11 088 матчей"
+			"special_bonus_unique_spirit_breaker_2"		"Берут в 100% матчей, винрейт 59,3% · выборка 3 396 матчей"
+			"special_bonus_unique_spirit_breaker_shield"		"Берут в 100% матчей, винрейт 64,6% · выборка 5 109 матчей"
+			"special_bonus_unique_spirit_breaker_4"		"Берут в 62,6% матчей, винрейт 64,5% · выборка 2 138 матчей"
+			"special_bonus_unique_spirit_breaker_3"		"Берут в 37,4% матчей, винрейт 64,8% · выборка 1 277 матчей"
+			"spirit_breaker_greater_bash"		"Самая частая прокачка первых 10 уровней: 703 матча, винрейт 50,6%"
+		}
+	}
+}

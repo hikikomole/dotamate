@@ -1,0 +1,110 @@
+"guidedata"
+{
+	"Hero"		"witch_doctor"
+	"Title"		"DotaMate · Witch Doctor · Полная поддержка, поз. 5"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 198 матчей Witch Doctor на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/witch_doctor/\nПрокачка — Steam, 2 097 матчей Witch Doctor на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_enchanted_mango"
+				"item"		"item_clarity"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_arcane_boots"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_aghanims_shard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_aeon_disk"
+				"item"		"item_black_king_bar"
+				"item"		"item_headdress"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 72% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 58% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 58% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 28% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_clarity"		"Берут в 22% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 80% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 46% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 38% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_glimmer_cape"		"Берут в 49% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 19% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 32% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_aghanims_shard"		"Берут в 12% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_aeon_disk"		"Берут в 7% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_black_king_bar"		"Берут в 4% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_headdress"		"Берут в 3% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 49% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 21% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"witch_doctor_paralyzing_cask"
+			"2"		"witch_doctor_maledict"
+			"3"		"witch_doctor_maledict"
+			"4"		"witch_doctor_paralyzing_cask"
+			"5"		"witch_doctor_maledict"
+			"6"		"witch_doctor_death_ward"
+			"7"		"witch_doctor_maledict"
+			"8"		"witch_doctor_paralyzing_cask"
+			"9"		"witch_doctor_paralyzing_cask"
+			"10"		"special_bonus_unique_witch_doctor_6"
+			"15"		"special_bonus_unique_witch_doctor_7"
+			"20"		"special_bonus_unique_witch_doctor_2"
+			"25"		"special_bonus_unique_witch_doctor_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_hp_200"		"Берут в 68,1% матчей, винрейт 51,5% · выборка 7 831 матч"
+			"special_bonus_unique_witch_doctor_4"		"Берут в 31,9% матчей, винрейт 54,3% · выборка 3 668 матчей"
+			"special_bonus_unique_witch_doctor_7"		"Берут в 86,4% матчей, винрейт 59,7% · выборка 7 572 матча"
+			"special_bonus_unique_witch_doctor_6"		"Берут в 13,6% матчей, винрейт 59% · выборка 1 189 матчей"
+			"special_bonus_unique_witch_doctor_2"		"Берут в 100% матчей, винрейт 70,2% · выборка 893 матча"
+			"special_bonus_unique_witch_doctor_5"		"Берут в 62,1% матчей, винрейт 63,2% · выборка 796 матчей"
+			"special_bonus_unique_witch_doctor_3"		"Берут в 37,9% матчей, винрейт 62,6% · выборка 486 матчей"
+			"witch_doctor_paralyzing_cask"		"Самая частая прокачка первых 10 уровней: 385 матчей, винрейт 47,3%"
+		}
+	}
+}

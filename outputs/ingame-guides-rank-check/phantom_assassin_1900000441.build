@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"phantom_assassin"
+	"Title"		"DotaMate · Phantom Assassin · Керри, поз. 1"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 211 матчей Phantom Assassin на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/phantom_assassin/\nПрокачка — Steam, 7 151 матч Phantom Assassin на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_pers"
+				"item"		"item_tango"
+				"item"		"item_wraith_band"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_bfury"
+				"item"		"item_desolator"
+				"item"		"item_black_king_bar"
+				"item"		"item_blight_stone"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_basher"
+				"item"		"item_satanic"
+				"item"		"item_sange"
+				"item"		"item_abyssal_blade"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_aghanims_shard"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_quelling_blade"		"Берут в 97% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 95% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 88% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 80% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 60% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 26% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 76% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 66% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 37% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 15% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 9% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_bfury"		"Берут в 95% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_desolator"		"Берут в 64% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 36% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_blight_stone"		"Берут в 10% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_basher"		"Берут в 50% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 32% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_sange"		"Берут в 27% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_abyssal_blade"		"Берут в 23% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 5% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 5% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 4% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"phantom_assassin_stifling_dagger"
+			"2"		"phantom_assassin_phantom_strike"
+			"3"		"phantom_assassin_stifling_dagger"
+			"4"		"phantom_assassin_blur"
+			"5"		"phantom_assassin_stifling_dagger"
+			"6"		"phantom_assassin_coup_de_grace"
+			"7"		"phantom_assassin_phantom_strike"
+			"8"		"phantom_assassin_phantom_strike"
+			"9"		"phantom_assassin_phantom_strike"
+			"10"		"special_bonus_unique_phantom_assassin_4"
+			"15"		"special_bonus_unique_phantom_assassin_3"
+			"20"		"special_bonus_unique_phantom_assassin_strike_aspd"
+			"25"		"special_bonus_unique_phantom_assassin"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_phantom_assassin_7"		"Берут в 27,9% матчей, винрейт 53,4% · выборка 3 413 матчей"
+			"special_bonus_unique_phantom_assassin_4"		"Берут в 72,1% матчей, винрейт 51,5% · выборка 8 806 матчей"
+			"special_bonus_unique_phantom_assassin_5"		"Берут в 38,2% матчей, винрейт 53,4% · выборка 4 455 матчей"
+			"special_bonus_unique_phantom_assassin_3"		"Берут в 61,8% матчей, винрейт 54,8% · выборка 7 200 матчей"
+			"special_bonus_unique_phantom_assassin_strike_aspd"		"Берут в 58,5% матчей, винрейт 59,7% · выборка 5 593 матча"
+			"special_bonus_unique_phantom_assassin_6"		"Берут в 41,5% матчей, винрейт 61,1% · выборка 3 967 матчей"
+			"special_bonus_unique_phantom_assassin"		"Берут в 72,3% матчей, винрейт 67% · выборка 4 327 матчей"
+			"special_bonus_unique_phantom_assassin_2"		"Берут в 27,7% матчей, винрейт 69% · выборка 1 654 матча"
+			"phantom_assassin_stifling_dagger"		"Самая частая прокачка первых 10 уровней: 1 798 матчей, винрейт 46,5%"
+		}
+	}
+}

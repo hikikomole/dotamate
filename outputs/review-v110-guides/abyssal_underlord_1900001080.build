@@ -1,0 +1,121 @@
+"guidedata"
+{
+	"Hero"		"abyssal_underlord"
+	"Title"		"DotaMate · Underlord · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 80 матчей Underlord на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/abyssal_underlord/\nПрокачка — Steam, 1 695 матчей Underlord на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_gauntlets"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_soul_ring"
+				"item"		"item_arcane_boots"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_rod_of_atos"
+				"item"		"item_mekansm"
+				"item"		"item_headdress"
+				"item"		"item_guardian_greaves"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_shivas_guard"
+				"item"		"item_pipe"
+				"item"		"item_gungir"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_vanguard"
+				"item"		"item_crimson_guard"
+				"item"		"item_broadsword"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 75% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 43% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 39% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 53% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 53% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ultimate_scepter"		"Берут в 53% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_rod_of_atos"		"Берут в 46% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mekansm"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_headdress"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_guardian_greaves"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_shivas_guard"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pipe"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_gungir"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_vanguard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_crimson_guard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_broadsword"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"abyssal_underlord_firestorm"
+			"2"		"abyssal_underlord_atrophy_aura"
+			"3"		"abyssal_underlord_firestorm"
+			"4"		"abyssal_underlord_pit_of_malice"
+			"5"		"abyssal_underlord_firestorm"
+			"6"		"abyssal_underlord_dark_portal"
+			"7"		"abyssal_underlord_firestorm"
+			"8"		"abyssal_underlord_pit_of_malice"
+			"9"		"abyssal_underlord_pit_of_malice"
+			"10"		"abyssal_underlord_pit_of_malice"
+			"15"		"special_bonus_unique_underlord_5"
+			"20"		"special_bonus_unique_underlord_4"
+			"25"		"special_bonus_unique_underlord"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_underlord_8"		"Берут в 44% матчей, винрейт 46,3% · выборка 6 206 матчей"
+			"special_bonus_unique_underlord_7"		"Берут в 56% матчей, винрейт 45,7% · выборка 7 889 матчей"
+			"special_bonus_unique_underlord_5"		"Берут в 72% матчей, винрейт 48,6% · выборка 9 294 матча"
+			"special_bonus_unique_underlord_6"		"Берут в 28% матчей, винрейт 49,7% · выборка 3 617 матчей"
+			"special_bonus_unique_underlord_3"		"Берут в 8,2% матчей, винрейт 56,1% · выборка 776 матчей"
+			"special_bonus_unique_underlord_4"		"Берут в 91,8% матчей, винрейт 55,6% · выборка 8 745 матчей"
+			"special_bonus_unique_underlord_9"		"Берут в 18,4% матчей, винрейт 62,6% · выборка 741 матч"
+			"special_bonus_unique_underlord"		"Берут в 81,6% матчей, винрейт 61,9% · выборка 3 285 матчей"
+			"abyssal_underlord_firestorm"		"Самая частая прокачка первых 10 уровней: 485 матчей, винрейт 43,7%"
+		}
+	}
+}

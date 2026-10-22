@@ -85,6 +85,8 @@ function run(title, cmd, args, opts = {}) {
       shell: !!opts.shell,
       windowsHide: true
     });
+    let oom = false;
+    child.stderr.on('data', d => { if (/heap out of memory|allocation failed|out of memory/i.test(d.toString())) oom = true; });
     const pipe = (src, dst) => src.on('data', d => { const s = scrub(d.toString()); dst.write(s); logFile.write(s); });
     pipe(child.stdout, process.stdout);
     pipe(child.stderr, process.stderr);
@@ -93,8 +95,9 @@ function run(title, cmd, args, opts = {}) {
       child.kill();
     }, opts.timeout || HOUR);
     child.on('error', e => log(`Не удалось запустить: ${e.message}`));
-    child.on('close', code => {
+    child.on('close', (code, signal) => {
       clearTimeout(timer);
+      if (code !== 0 && opts.onFailure) opts.onFailure(oom ? 'OOM' : signal ? `signal ${signal}` : `exit code ${code}`);
       log(`«${title}»: ${code === 0 ? 'ок' : 'код ' + code}, ${Math.round((Date.now() - t0) / 60000)} мин.`);
       resolve(code === 0);
     });
@@ -239,6 +242,8 @@ async function main() {
   }
   if (!acquireLock()) { log('Обновление уже идёт в другом окне — пропускаю.'); return 0; }
   const problems = [];
+  const skippedAlerts = [];
+  const watched = (name, opts = {}) => ({ ...opts, onFailure: reason => skippedAlerts.push(`${name}: ${reason}`) });
   try {
     log(`Начало ежедневного обновления (${ARGS.has('--auto') ? 'по расписанию' : 'вручную'}).`);
     let codeBlock = ON_SERVER ? codeChanged() : null;
@@ -277,8 +282,10 @@ async function main() {
     // Реальные покупки предметов в карточке героя. Сбой не останавливает
     // выкладку: на сайте остаётся прошлый data/hero-items.json.
     if (!await node('Покупки предметов по своей базе', 'tools/build-hero-items.js')) problems.push('покупки предметов');
-    if (!await node('Сборки для оверлея (Stratz)', 'tools/build-overlay-builds.js')) problems.push('сборки для оверлея');
-    if (!await node('Предметы и победа (вариант Б драфта)', 'tools/build-item-impact.js')) problems.push('предметы и победа');
+      if (!await node('Русские названия для оверлея (Valve)', 'tools/fetch-names-ru.js', [], watched('fetch-names-ru'))) problems.push('русские названия для оверлея');
+      if (!await node('Сборки для оверлея (Stratz)', 'tools/build-overlay-builds.js', [], watched('build-overlay-builds', { heap: 900 }))) problems.push('сборки для оверлея');
+      if (!await node('Сборки Турбо для оверлея (Steam)', 'tools/build-overlay-builds-turbo.js', [], watched('build-overlay-builds-turbo', { heap: 900 }))) problems.push('сборки Турбо для оверлея');
+      if (!await node('Предметы и победа (вариант Б драфта)', 'tools/build-item-impact.js')) problems.push('предметы и победа');
     // Исходы линий DraftMate — свой расчёт по тем же деталям Stratz (вместо снимка heroStats.laneOutcome, 11.10.2026).
     if (!await node('Исходы линий (DraftMate)', 'tools/build-lane-matrix.js')) problems.push('исходы линий');
     // DraftMate: предметы против состава. Сбой (в т.ч. описание предмета у Valve
@@ -338,9 +345,9 @@ async function main() {
     if (countersOk) {
       if (!await node('Страницы героев', 'build-hero-pages.js', [], { timeout: 0.5 * HOUR })) problems.push('страницы героев');
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');
-      if (!await node('Внутриигровые гайды', 'tools/build-ingame-guides.js', ['--publish'])) problems.push('внутриигровые гайды');
+      if (!await node('Внутриигровые гайды', 'tools/build-ingame-guides.js', ['--publish'], watched('build-ingame-guides'))) problems.push('внутриигровые гайды');
       if (!await node('Статьи', 'build-guide-pages.js')) problems.push('статьи');
-    } else problems.push('контрпики');
+    } else { problems.push('контрпики'); skippedAlerts.push('build-ingame-guides: skipped (контрпики не собраны)'); }
     // Sitemap после всех сборщиков страниц: lastmod — дата реального изменения страницы (build-sitemap.js).
     // Сбой не останавливает выкладку — остаётся прежний sitemap.
     if (!await node('Карта сайта (sitemap)', 'build-sitemap.js')) problems.push('sitemap');
@@ -387,6 +394,14 @@ async function main() {
     await alertOwner('ежедневное обновление остановлено: ' + e.message + ' Сайт остался в прежнем виде.');
     return 1;
   } finally {
+    if (skippedAlerts.length) {
+      let age = '';
+      try {
+        const builtAt = Date.parse(JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'overlay-builds.json'), 'utf8')).meta?.builtAt);
+        if (Number.isFinite(builtAt) && Date.now() - builtAt > 48 * HOUR) age = '\ndata/overlay-builds.json: builtAt старше 48 ч';
+      } catch { /* возраст неизвестен */ }
+      await alertOwner('пропущены шаги daily:\n' + skippedAlerts.join('\n') + age);
+    }
     try { fs.unlinkSync(LOCK); } catch { /* уже нет */ }
   }
 }

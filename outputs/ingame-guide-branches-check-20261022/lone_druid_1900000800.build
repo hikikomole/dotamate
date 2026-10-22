@@ -1,0 +1,119 @@
+"guidedata"
+{
+	"Hero"		"lone_druid"
+	"Title"		"DotaMate · Lone Druid · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 56 матчей Lone Druid на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/lone_druid/\nПрокачка — Steam, 649 матчей Lone Druid на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_orb_of_frost"
+				"item"		"item_blight_stone"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_phase_boots"
+				"item"		"item_tango"
+				"item"		"item_gloves"
+				"item"		"item_boots"
+				"item"		"item_magic_wand"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_maelstrom"
+				"item"		"item_mjollnir"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_diffusal_blade"
+				"item"		"item_mithril_hammer"
+				"item"		"item_ogre_axe"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_invis_sword"
+				"item"		"item_silver_edge"
+				"item"		"item_black_king_bar"
+				"item"		"item_monkey_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_butterfly"
+				"item"		"item_blink"
+				"item"		"item_greater_crit"
+				"item"		"item_abyssal_blade"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 100% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 43% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 25% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_orb_of_frost"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blight_stone"		"Берут в 18% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 71% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 27% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_gloves"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 13% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 11% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_maelstrom"		"Берут в 91% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mjollnir"		"Берут в 75% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 55% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_diffusal_blade"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mithril_hammer"		"Берут в 5% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ogre_axe"		"Берут в 5% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_invis_sword"		"Берут в 50% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_silver_edge"		"Берут в 45% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 13% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_butterfly"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_crit"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_abyssal_blade"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"lone_druid_spirit_bear"
+			"2"		"lone_druid_rabid"
+			"3"		"lone_druid_spirit_bear"
+			"4"		"lone_druid_savage_roar"
+			"5"		"lone_druid_spirit_bear"
+			"6"		"lone_druid_true_form"
+			"7"		"lone_druid_spirit_bear"
+			"8"		"lone_druid_rabid"
+			"9"		"lone_druid_rabid"
+			"10"		"lone_druid_rabid"
+			"15"		"special_bonus_unique_lone_druid_4"
+			"20"		"special_bonus_unique_lone_druid_savage_roar_aoe"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_lone_druid_1"		"Берут в 80,6% матчей, винрейт 50% · выборка 4 309 матчей"
+			"special_bonus_unique_lone_druid_2"		"Берут в 19,4% матчей, винрейт 49% · выборка 1 034 матча"
+			"special_bonus_agility_12"		"Берут в 15,5% матчей, винрейт 53,6% · выборка 696 матчей"
+			"special_bonus_unique_lone_druid_4"		"Берут в 84,5% матчей, винрейт 55,7% · выборка 3 799 матчей"
+			"special_bonus_attack_speed_55"		"Берут в 20% матчей, винрейт 50% · выборка 2 матча"
+			"special_bonus_unique_lone_druid_savage_roar_aoe"		"Берут в 80% матчей, винрейт 12,5% · выборка 8 матчей"
+			"lone_druid_spirit_bear"		"Самая частая прокачка первых 10 уровней: 106 матчей, винрейт 61,3%"
+		}
+	}
+}

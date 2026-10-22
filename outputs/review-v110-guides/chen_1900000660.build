@@ -1,0 +1,112 @@
+"guidedata"
+{
+	"Hero"		"chen"
+	"Title"		"DotaMate · Chen · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 10 матчей Chen на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/chen/\nПрокачка — Steam, 1 817 матчей Chen на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_headdress"
+				"item"		"item_sobi_mask"
+				"item"		"item_arcane_boots"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_mekansm"
+				"item"		"item_guardian_greaves"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_aghanims_shard"
+				"item"		"item_vladmir"
+				"item"		"item_blades_of_attack"
+				"item"		"item_lifesteal"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_pipe"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 90% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 70% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 50% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 30% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 30% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 90% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 40% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_headdress"		"Берут в 40% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_sobi_mask"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 20% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_mekansm"		"Берут в 70% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_guardian_greaves"		"Берут в 60% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_aghanims_shard"		"Берут в 40% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_vladmir"		"Берут в 30% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_blades_of_attack"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lifesteal"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pipe"		"Берут в 20% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 30% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_dust"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"chen_penitence"
+			"2"		"chen_holy_persuasion"
+			"3"		"chen_holy_persuasion"
+			"4"		"chen_divine_favor"
+			"5"		"chen_holy_persuasion"
+			"6"		"chen_hand_of_god"
+			"7"		"chen_holy_persuasion"
+			"8"		"chen_divine_favor"
+			"9"		"chen_divine_favor"
+			"10"		"chen_divine_favor"
+			"15"		"special_bonus_unique_chen_8"
+			"20"		"special_bonus_unique_chen_4"
+			"25"		"special_bonus_unique_chen_12"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_chen_11"		"Берут в 100% матчей, винрейт 54,1% · выборка 460 матчей"
+			"special_bonus_unique_chen_8"		"Берут в 58,6% матчей, винрейт 63,6% · выборка 291 матч"
+			"special_bonus_unique_chen_5"		"Берут в 41,4% матчей, винрейт 65% · выборка 206 матчей"
+			"special_bonus_unique_chen_4"		"Берут в 100% матчей, винрейт 68,9% · выборка 132 матча"
+			"special_bonus_unique_chen_2"		"Берут в 4,4% матчей, винрейт 0% · выборка 2 матча"
+			"special_bonus_unique_chen_12"		"Берут в 95,6% матчей, винрейт 69,8% · выборка 43 матча"
+			"chen_penitence"		"Самая частая прокачка первых 10 уровней: 316 матчей, винрейт 61,4%"
+		}
+	}
+}

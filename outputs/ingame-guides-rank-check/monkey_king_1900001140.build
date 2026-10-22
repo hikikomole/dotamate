@@ -1,0 +1,121 @@
+"guidedata"
+{
+	"Hero"		"monkey_king"
+	"Title"		"DotaMate · Monkey King · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 80 матчей Monkey King на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/monkey_king/\nПрокачка — Steam, 1 128 матчей Monkey King на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+				"item"		"item_slippers"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_wraith_band"
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_phase_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_echo_sabre"
+				"item"		"item_desolator"
+				"item"		"item_diffusal_blade"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_skadi"
+				"item"		"item_yasha"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_monkey_king_bar"
+				"item"		"item_greater_crit"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_butterfly"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_clarity"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 88% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 63% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 57% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 44% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 40% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 63% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 55% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blood_grenade"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 13% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_echo_sabre"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_desolator"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_diffusal_blade"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_skadi"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_crit"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_butterfly"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_clarity"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"monkey_king_boundless_strike"
+			"2"		"monkey_king_jingu_mastery"
+			"3"		"monkey_king_jingu_mastery"
+			"4"		"monkey_king_tree_dance"
+			"5"		"monkey_king_jingu_mastery"
+			"6"		"monkey_king_tree_dance"
+			"7"		"monkey_king_tree_dance"
+			"8"		"monkey_king_tree_dance"
+			"9"		"monkey_king_wukongs_command"
+			"10"		"monkey_king_boundless_strike"
+			"15"		"special_bonus_unique_monkey_king_2"
+			"20"		"special_bonus_unique_monkey_king_10"
+			"25"		"special_bonus_unique_monkey_king_6"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_monkey_king_9"		"Берут в 21,3% матчей, винрейт 48,5% · выборка 895 матчей"
+			"special_bonus_unique_monkey_king_7"		"Берут в 78,7% матчей, винрейт 46,8% · выборка 3 300 матчей"
+			"special_bonus_unique_monkey_king_2"		"Берут в 93,3% матчей, винрейт 49,9% · выборка 3 673 матча"
+			"special_bonus_unique_monkey_king_8"		"Берут в 6,7% матчей, винрейт 45,1% · выборка 264 матча"
+			"special_bonus_unique_monkey_king_10"		"Берут в 92,2% матчей, винрейт 56,1% · выборка 2 968 матчей"
+			"special_bonus_unique_monkey_king_3"		"Берут в 7,8% матчей, винрейт 46,2% · выборка 251 матч"
+			"special_bonus_unique_monkey_king_6"		"Берут в 95,9% матчей, винрейт 64,6% · выборка 1 741 матч"
+			"special_bonus_unique_monkey_king_11"		"Берут в 4,1% матчей, винрейт 54,1% · выборка 74 матча"
+			"monkey_king_boundless_strike"		"Самая частая прокачка первых 10 уровней: 203 матча, винрейт 50,2%"
+		}
+	}
+}

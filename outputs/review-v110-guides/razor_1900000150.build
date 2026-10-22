@@ -1,0 +1,119 @@
+"guidedata"
+{
+	"Hero"		"razor"
+	"Title"		"DotaMate · Razor · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 85 матчей Razor на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/razor/\nПрокачка — Steam, 1 061 матч Razor на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_slippers"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_power_treads"
+				"item"		"item_wraith_band"
+				"item"		"item_falcon_blade"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_manta"
+				"item"		"item_sange"
+				"item"		"item_black_king_bar"
+				"item"		"item_sange_and_yasha"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_satanic"
+				"item"		"item_pers"
+				"item"		"item_butterfly"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_aghanims_shard"
+				"item"		"item_blink"
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 87% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 87% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 58% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 52% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 41% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 74% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 72% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 58% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 34% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 66% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange_and_yasha"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_satanic"		"Берут в 27% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_butterfly"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_aghanims_shard"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"razor_static_link"
+			"2"		"razor_plasma_field"
+			"3"		"razor_static_link"
+			"4"		"razor_plasma_field"
+			"5"		"razor_plasma_field"
+			"6"		"razor_eye_of_the_storm"
+			"7"		"razor_plasma_field"
+			"8"		"razor_unstable_current"
+			"9"		"razor_static_link"
+			"10"		"special_bonus_unique_razor_4"
+			"15"		"special_bonus_strength_12"
+			"20"		"special_bonus_unique_razor_2"
+			"25"		"special_bonus_unique_razor_static_link_aspd"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_armor_4"		"Берут в 69% матчей, винрейт 50,4% · выборка 3 813 матчей"
+			"special_bonus_unique_razor_4"		"Берут в 31% матчей, винрейт 53,2% · выборка 1 712 матчей"
+			"special_bonus_strength_12"		"Берут в 73,2% матчей, винрейт 53,1% · выборка 3 764 матча"
+			"special_bonus_unique_razor"		"Берут в 26,8% матчей, винрейт 54,5% · выборка 1 377 матчей"
+			"special_bonus_unique_razor_2"		"Берут в 79,2% матчей, винрейт 58,4% · выборка 3 123 матча"
+			"special_bonus_unique_razor_storm_surge_damage_and_slow"		"Берут в 20,8% матчей, винрейт 57,7% · выборка 821 матч"
+			"special_bonus_unique_razor_static_link_aspd"		"Берут в 81,7% матчей, винрейт 61,8% · выборка 1 432 матча"
+			"special_bonus_unique_razor_plasmafield_second_ring"		"Берут в 18,3% матчей, винрейт 65% · выборка 320 матчей"
+			"razor_static_link"		"Самая частая прокачка первых 10 уровней: 140 матчей, винрейт 55%"
+		}
+	}
+}

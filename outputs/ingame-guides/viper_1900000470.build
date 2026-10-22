@@ -1,0 +1,123 @@
+"guidedata"
+{
+	"Hero"		"viper"
+	"Title"		"DotaMate · Viper · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 99 матчей Viper на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/viper/\nПрокачка — Steam, 1 032 матча Viper на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_circlet"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_slippers"
+				"item"		"item_faerie_fire"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_wraith_band"
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_dragon_lance"
+				"item"		"item_force_staff"
+				"item"		"item_yasha"
+				"item"		"item_hurricane_pike"
+				"item"		"item_mage_slayer"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_aghanims_shard"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_oblivion_staff"
+				"item"		"item_heart"
+				"item"		"item_skadi"
+				"item"		"item_pipe"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_circlet"		"Берут в 90% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 88% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 54% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 51% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 15% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_wraith_band"		"Берут в 52% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 51% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 45% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 33% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_dragon_lance"		"Берут в 60% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_force_staff"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_hurricane_pike"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mage_slayer"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_aghanims_shard"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_oblivion_staff"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_heart"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_skadi"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_pipe"		"Берут в 2% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_famango"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"viper_poison_attack"
+			"2"		"viper_corrosive_skin"
+			"3"		"viper_poison_attack"
+			"4"		"viper_corrosive_skin"
+			"5"		"viper_poison_attack"
+			"6"		"viper_viper_strike"
+			"7"		"viper_poison_attack"
+			"8"		"viper_nethertoxin"
+			"9"		"viper_corrosive_skin"
+			"10"		"viper_corrosive_skin"
+			"15"		"special_bonus_unique_viper_7"
+			"20"		"special_bonus_unique_viper_2"
+			"25"		"special_bonus_unique_viper_8"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_viper_1"		"Берут в 30,8% матчей, винрейт 48,8% · выборка 1 169 матчей"
+			"special_bonus_unique_viper_4"		"Берут в 69,2% матчей, винрейт 51,2% · выборка 2 632 матча"
+			"special_bonus_unique_viper_7"		"Берут в 59,1% матчей, винрейт 52,5% · выборка 2 121 матч"
+			"special_bonus_unique_viper_3"		"Берут в 40,9% матчей, винрейт 51,8% · выборка 1 470 матчей"
+			"special_bonus_unique_viper_predator_damage"		"Берут в 31,6% матчей, винрейт 57% · выборка 884 матча"
+			"special_bonus_unique_viper_2"		"Берут в 68,4% матчей, винрейт 55,7% · выборка 1 913 матчей"
+			"special_bonus_unique_viper_8"		"Берут в 66,1% матчей, винрейт 62,3% · выборка 820 матчей"
+			"special_bonus_unique_viper_nethertoxin_radius"		"Берут в 33,9% матчей, винрейт 66% · выборка 421 матч"
+			"viper_poison_attack"		"Самая частая прокачка первых 10 уровней: 120 матчей, винрейт 52,5%"
+		}
+	}
+}

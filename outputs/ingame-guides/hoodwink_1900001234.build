@@ -1,0 +1,112 @@
+"guidedata"
+{
+	"Hero"		"hoodwink"
+	"Title"		"DotaMate · Hoodwink · Поддержка, поз. 4"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 159 матчей Hoodwink на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/hoodwink/\nПрокачка — Steam, 5 971 матч Hoodwink на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_blight_stone"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_blood_grenade"
+				"item"		"item_arcane_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_rod_of_atos"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_gungir"
+				"item"		"item_aether_lens"
+				"item"		"item_glimmer_cape"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_cyclone"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 96% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 82% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 81% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 46% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 36% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_blight_stone"		"Берут в 28% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 62% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 54% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 41% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 22% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_rod_of_atos"		"Берут в 30% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_gungir"		"Берут в 23% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_aether_lens"		"Берут в 13% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_glimmer_cape"		"Берут в 11% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 8% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+			"item_cyclone"		"Берут в 3% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 42% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 29% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_greater_famango"		"Берут в 5% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"hoodwink_bushwhack"
+			"2"		"hoodwink_acorn_shot"
+			"3"		"hoodwink_bushwhack"
+			"4"		"hoodwink_scurry"
+			"5"		"hoodwink_bushwhack"
+			"6"		"hoodwink_sharpshooter"
+			"7"		"hoodwink_bushwhack"
+			"8"		"hoodwink_acorn_shot"
+			"9"		"hoodwink_acorn_shot"
+			"10"		"special_bonus_unique_hoodwink_bushwhack_cooldown"
+			"15"		"special_bonus_unique_hoodwink_scurry_charges"
+			"20"		"special_bonus_unique_hoodwink_sharpshooter_vision"
+			"25"		"special_bonus_unique_hoodwink_sharpshooter_damage"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_hp_175"		"Берут в 39,2% матчей, винрейт 47,6% · выборка 5 659 матчей"
+			"special_bonus_unique_hoodwink_bushwhack_damage"		"Берут в 60,8% матчей, винрейт 47,6% · выборка 8 761 матч"
+			"special_bonus_agility_10"		"Берут в 12,1% матчей, винрейт 53,4% · выборка 1 409 матчей"
+			"special_bonus_unique_hoodwink_scurry_charges"		"Берут в 87,9% матчей, винрейт 53,2% · выборка 10 254 матча"
+			"special_bonus_unique_hoodwink_acorn_shot_bounces"		"Берут в 38,4% матчей, винрейт 56,1% · выборка 2 735 матчей"
+			"special_bonus_unique_hoodwink_sharpshooter_vision"		"Берут в 61,6% матчей, винрейт 57,8% · выборка 4 393 матча"
+			"special_bonus_unique_hoodwink_acorn_shot_charges"		"Берут в 20,8% матчей, винрейт 55% · выборка 458 матчей"
+			"special_bonus_unique_hoodwink_sharpshooter_damage"		"Берут в 79,2% матчей, винрейт 60,1% · выборка 1 749 матчей"
+			"hoodwink_bushwhack"		"Самая частая прокачка первых 10 уровней: 1 109 матчей, винрейт 50,3%"
+		}
+	}
+}

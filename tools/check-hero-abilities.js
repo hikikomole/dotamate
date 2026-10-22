@@ -39,6 +39,8 @@ if (thin.length) fail(`у героев ${thin.slice(0, 5).join(', ')} меньш
 if (noDesc > MAX_MISSING_DESC) fail(`без русского описания ${noDesc} способностей, порог ${MAX_MISSING_DESC}`);
 
 const age = (Date.now() - new Date(snap.fetchedAt).getTime()) / 3600000;
-if (!(age >= 0) || age > 24) fail(`снимок не свежий: ${Math.round(age)} ч. от роду`);
+// fetch-hero-abilities.js обновляет снимок раз в 90 дней.
+// Срок фиксирован здесь: повреждённые метаданные не могут продлить его.
+if (!(age >= 0) || age > 90 * 24) fail(`снимок не свежий: ${Math.round(age)} ч. от роду`);
 
 console.log(`Проверка пройдена: героев ${ids.length}, способностей ${abilities}, без описания ${noDesc}.`);

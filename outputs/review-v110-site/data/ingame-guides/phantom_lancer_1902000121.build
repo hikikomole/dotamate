@@ -1,0 +1,125 @@
+"guidedata"
+{
+	"Hero"		"phantom_lancer"
+	"Title"		"DotaMate · 50+ · Phantom Lancer · Керри, поз. 1"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Предметы: выборка 176 матчей, ранги 50–89 (Stratz). Прокачка и таланты: все ранги (Steam). Покупки — 176 матчей Phantom Lancer на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/phantom_lancer/\nПрокачка — Steam, 3 209 матчей Phantom Lancer на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_wraith_band"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_yasha"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_manta"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_oblivion_staff"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_skadi"
+				"item"		"item_orchid"
+				"item"		"item_bloodthorn"
+				"item"		"item_heart"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_butterfly"
+				"item"		"item_basher"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_great_famango"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_butterfly"
+			}
+			"Против контроля"
+			{
+				"item"		"item_manta"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 98% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 92% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 72% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 68% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 57% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 35% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 95% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 53% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 32% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 13% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 13% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_manta"		"Берут в 88% матчей на позиции 1 · стадия «Середина (10–25 мин)»\nПротив контроля: Mirror Image: нормальное развеивание; не снимает любой контроль и требует возможности применить предмет. Покупают не менее 87,5% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_ultimate_scepter"		"Берут в 79% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 15% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_skadi"		"Берут в 55% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_orchid"		"Берут в 53% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_bloodthorn"		"Берут в 43% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_heart"		"Берут в 18% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 13% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_butterfly"		"Берут в 8% матчей на позиции 1 · стадия «Затяжная (40+ мин)»\nПротив физического урона: Уклонение от атак; не защищает от всех источников физического урона. Покупают не менее 7,9% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_basher"		"Берут в 6% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 15% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 15,3% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_great_famango"		"Берут в 11% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"phantom_lancer_spirit_lance"
+			"2"		"phantom_lancer_phantom_edge"
+			"3"		"phantom_lancer_doppelwalk"
+			"4"		"phantom_lancer_phantom_edge"
+			"5"		"phantom_lancer_phantom_edge"
+			"6"		"phantom_lancer_juxtapose"
+			"7"		"phantom_lancer_phantom_edge"
+			"8"		"phantom_lancer_doppelwalk"
+			"9"		"phantom_lancer_doppelwalk"
+			"10"		"phantom_lancer_doppelwalk"
+			"20"		"special_bonus_unique_phantom_lancer_lance_damage"
+			"25"		"special_bonus_unique_phantom_lancer_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_phantom_lancer_lance_slow_duration"		"Берут в 100% матчей, винрейт 52% · выборка 1 364 матча"
+			"special_bonus_unique_phantom_lancer_lance_damage"		"Берут в 100% матчей, винрейт 65,2% · выборка 9 513 матчей"
+			"special_bonus_unique_phantom_lancer_4"		"Берут в 100% матчей, винрейт 71,7% · выборка 11 719 матчей"
+			"phantom_lancer_spirit_lance"		"Самая частая прокачка первых 10 уровней: 525 матчей, винрейт 47,2%"
+		}
+	}
+}

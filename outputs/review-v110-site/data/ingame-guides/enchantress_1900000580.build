@@ -1,0 +1,112 @@
+"guidedata"
+{
+	"Hero"		"enchantress"
+	"Title"		"DotaMate · Enchantress · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 56 матчей Enchantress на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/enchantress/\nПрокачка — Steam, 424 матча Enchantress на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_headdress"
+				"item"		"item_blood_grenade"
+				"item"		"item_power_treads"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_force_staff"
+				"item"		"item_dragon_lance"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_ancient_janggo"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_hurricane_pike"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_oblivion_staff"
+				"item"		"item_sheepstick"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 82% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 59% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 54% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 36% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 29% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 52% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 20% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_headdress"		"Берут в 18% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_force_staff"		"Берут в 30% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 30% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ancient_janggo"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_hurricane_pike"		"Берут в 36% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_oblivion_staff"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sheepstick"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"enchantress_natures_attendants"
+			"2"		"enchantress_enchant"
+			"3"		"enchantress_enchant"
+			"4"		"enchantress_impetus"
+			"5"		"enchantress_enchant"
+			"6"		"enchantress_untouchable"
+			"7"		"enchantress_impetus"
+			"8"		"enchantress_impetus"
+			"9"		"enchantress_impetus"
+			"10"		"enchantress_natures_attendants"
+			"15"		"special_bonus_unique_enchantress_enchant_attackspeed"
+			"20"		"special_bonus_unique_enchantress_enchant_health_damage"
+			"25"		"special_bonus_unique_enchantress_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_enchantress_6"		"Берут в 25,3% матчей, винрейт 48,3% · выборка 317 матчей"
+			"special_bonus_unique_enchantress_enchant_armor"		"Берут в 74,7% матчей, винрейт 51,1% · выборка 934 матча"
+			"special_bonus_unique_enchantress_5"		"Берут в 25% матчей, винрейт 59,4% · выборка 251 матч"
+			"special_bonus_unique_enchantress_enchant_attackspeed"		"Берут в 75% матчей, винрейт 56% · выборка 753 матча"
+			"special_bonus_unique_enchantress_enchant_health_damage"		"Берут в 54% матчей, винрейт 55,5% · выборка 337 матчей"
+			"special_bonus_unique_enchantress_2"		"Берут в 46% матчей, винрейт 65,5% · выборка 287 матчей"
+			"special_bonus_unique_enchantress_3"		"Берут в 11,6% матчей, винрейт 65,2% · выборка 23 матча"
+			"special_bonus_unique_enchantress_4"		"Берут в 88,4% матчей, винрейт 59,4% · выборка 175 матчей"
+			"enchantress_natures_attendants"		"Самая частая прокачка первых 10 уровней: 76 матчей, винрейт 53,9%"
+		}
+	}
+}

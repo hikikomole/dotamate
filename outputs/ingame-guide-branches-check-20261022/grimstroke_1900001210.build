@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"grimstroke"
+	"Title"		"DotaMate · Grimstroke · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 163 матча Grimstroke на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/grimstroke/\nПрокачка — Steam, 3 139 матчей Grimstroke на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_branches"
+				"item"		"item_clarity"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_arcane_boots"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_glimmer_cape"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_aether_lens"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_pers"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_glimmer_cape"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 98% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 81% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 75% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 73% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_clarity"		"Берут в 31% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 26% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 80% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 60% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 33% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 44% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_glimmer_cape"		"Берут в 31% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив магии: Glimmer: временный барьер от магического урона. Покупают не менее 31,2% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_aether_lens"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_pers"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 49% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 31% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 30,6% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"grimstroke_dark_artistry"
+			"2"		"grimstroke_spirit_walk"
+			"3"		"grimstroke_spirit_walk"
+			"4"		"grimstroke_ink_creature"
+			"5"		"grimstroke_spirit_walk"
+			"6"		"grimstroke_soul_chain"
+			"7"		"grimstroke_spirit_walk"
+			"8"		"grimstroke_ink_creature"
+			"9"		"grimstroke_ink_creature"
+			"10"		"special_bonus_unique_grimstroke_7"
+			"15"		"special_bonus_unique_grimstroke_soul_chain_reflect_damage"
+			"20"		"special_bonus_unique_grimstroke_4"
+			"25"		"special_bonus_unique_grimstroke_1"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_grimstroke_7"		"Берут в 41,1% матчей, винрейт 51,6% · выборка 3 080 матчей"
+			"special_bonus_unique_grimstroke_8"		"Берут в 58,9% матчей, винрейт 55,6% · выборка 4 406 матчей"
+			"special_bonus_unique_grimstroke_6"		"Берут в 17,8% матчей, винрейт 59,2% · выборка 1 078 матчей"
+			"special_bonus_unique_grimstroke_soul_chain_reflect_damage"		"Берут в 82,2% матчей, винрейт 61,1% · выборка 4 974 матча"
+			"special_bonus_unique_grimstroke_4"		"Берут в 51,5% матчей, винрейт 66,7% · выборка 1 848 матчей"
+			"special_bonus_unique_grimstroke_2"		"Берут в 48,5% матчей, винрейт 64,4% · выборка 1 741 матч"
+			"special_bonus_unique_grimstroke_3"		"Берут в 48,9% матчей, винрейт 64,2% · выборка 534 матча"
+			"special_bonus_unique_grimstroke_1"		"Берут в 51,1% матчей, винрейт 71,3% · выборка 558 матчей"
+			"grimstroke_dark_artistry"		"Самая частая прокачка первых 10 уровней: 1 420 матчей, винрейт 51,1%"
+		}
+	}
+}

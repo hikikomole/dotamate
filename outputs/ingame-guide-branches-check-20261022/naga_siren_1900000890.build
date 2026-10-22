@@ -1,0 +1,121 @@
+"guidedata"
+{
+	"Hero"		"naga_siren"
+	"Title"		"DotaMate · Naga Siren · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 31 матч Naga Siren на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/naga_siren/\nПрокачка — Steam, 2 967 матчей Naga Siren на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_slippers"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_wraith_band"
+				"item"		"item_tango"
+				"item"		"item_magic_wand"
+				"item"		"item_flask"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_manta"
+				"item"		"item_yasha"
+				"item"		"item_oblivion_staff"
+				"item"		"item_orchid"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_heart"
+				"item"		"item_bloodthorn"
+				"item"		"item_butterfly"
+				"item"		"item_skadi"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_swift_blink"
+				"item"		"item_blink"
+				"item"		"item_travel_boots"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 97% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 94% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 84% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 84% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 84% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 19% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 84% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 84% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 10% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_manta"		"Берут в 84% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 84% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 61% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_orchid"		"Берут в 55% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_heart"		"Берут в 45% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_bloodthorn"		"Берут в 39% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_butterfly"		"Берут в 35% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_skadi"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 13% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_swift_blink"		"Берут в 13% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 10% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_travel_boots"		"Берут в 10% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"naga_siren_mirror_image"
+			"2"		"naga_siren_rip_tide"
+			"3"		"naga_siren_ensnare"
+			"4"		"naga_siren_mirror_image"
+			"5"		"naga_siren_mirror_image"
+			"6"		"naga_siren_rip_tide"
+			"7"		"naga_siren_mirror_image"
+			"8"		"naga_siren_rip_tide"
+			"9"		"naga_siren_rip_tide"
+			"10"		"special_bonus_unique_naga_siren_2"
+			"15"		"special_bonus_unique_naga_siren_4"
+			"20"		"special_bonus_unique_naga_siren"
+			"25"		"special_bonus_unique_naga_siren_6"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_naga_siren_2"		"Берут в 99,6% матчей, винрейт 52,2% · выборка 1 544 матча"
+			"special_bonus_unique_naga_siren_reel_in_speed"		"Берут в 0,4% матчей, винрейт 66,7% · выборка 6 матчей"
+			"special_bonus_unique_naga_siren_3"		"Берут в 44,2% матчей, винрейт 52,1% · выборка 635 матчей"
+			"special_bonus_unique_naga_siren_4"		"Берут в 55,8% матчей, винрейт 57,2% · выборка 801 матч"
+			"special_bonus_unique_naga_siren"		"Берут в 99% матчей, винрейт 60% · выборка 1 026 матчей"
+			"special_bonus_unique_naga_siren_5"		"Берут в 1% матчей, винрейт 30% · выборка 10 матчей"
+			"special_bonus_agility_25"		"Берут в 14,8% матчей, винрейт 68,4% · выборка 76 матчей"
+			"special_bonus_unique_naga_siren_6"		"Берут в 85,2% матчей, винрейт 62,1% · выборка 438 матчей"
+			"naga_siren_mirror_image"		"Самая частая прокачка первых 10 уровней: 651 матч, винрейт 55,9%"
+		}
+	}
+}

@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"centaur"
+	"Title"		"DotaMate · Centaur Warrunner · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 107 матчей Centaur Warrunner на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/centaur/\nПрокачка — Steam, 4 956 матчей Centaur Warrunner на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_gauntlets"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_ring_of_protection"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_bracer"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_vanguard"
+				"item"		"item_circlet"
+				"item"		"item_helm_of_the_dominator"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_heart"
+				"item"		"item_blade_mail"
+				"item"		"item_pipe"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_shivas_guard"
+				"item"		"item_crimson_guard"
+				"item"		"item_black_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_overwhelming_blink"
+				"item"		"item_sange"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_gauntlets"		"Берут в 82% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 63% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_protection"		"Берут в 56% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 30% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 22% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_bracer"		"Берут в 65% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 39% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_vanguard"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_helm_of_the_dominator"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 79% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_heart"		"Берут в 40% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blade_mail"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_pipe"		"Берут в 7% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_shivas_guard"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_crimson_guard"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_overwhelming_blink"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sange"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 7% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"centaur_hoof_stomp"
+			"2"		"centaur_double_edge"
+			"3"		"centaur_return"
+			"4"		"centaur_return"
+			"5"		"centaur_return"
+			"6"		"centaur_stampede"
+			"7"		"centaur_return"
+			"8"		"centaur_hoof_stomp"
+			"9"		"centaur_hoof_stomp"
+			"10"		"centaur_hoof_stomp"
+			"15"		"special_bonus_strength_10"
+			"20"		"special_bonus_unique_centaur_5"
+			"25"		"special_bonus_unique_centaur_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_movement_speed_15"		"Берут в 68,7% матчей, винрейт 48,3% · выборка 7 304 матча"
+			"special_bonus_hp_regen_4"		"Берут в 31,3% матчей, винрейт 49,4% · выборка 3 331 матч"
+			"special_bonus_unique_centaur_4"		"Берут в 43,7% матчей, винрейт 53,9% · выборка 4 190 матчей"
+			"special_bonus_strength_10"		"Берут в 56,3% матчей, винрейт 51,9% · выборка 5 397 матчей"
+			"special_bonus_unique_centaur_5"		"Берут в 62,3% матчей, винрейт 59,3% · выборка 4 465 матчей"
+			"special_bonus_unique_centaur_3"		"Берут в 37,7% матчей, винрейт 60,3% · выборка 2 704 матча"
+			"special_bonus_unique_centaur_2"		"Берут в 50% матчей, винрейт 66,2% · выборка 1 613 матчей"
+			"special_bonus_unique_centaur_1"		"Берут в 50% матчей, винрейт 67,6% · выборка 1 612 матчей"
+			"centaur_hoof_stomp"		"Самая частая прокачка первых 10 уровней: 1 499 матчей, винрейт 52,3%"
+		}
+	}
+}

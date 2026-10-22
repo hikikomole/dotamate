@@ -1,0 +1,122 @@
+"guidedata"
+{
+	"Hero"		"shadow_shaman"
+	"Title"		"DotaMate · Shadow Shaman · Полная поддержка, поз. 5"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 204 матча Shadow Shaman на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/shadow_shaman/\nПрокачка — Steam, 1 207 матчей Shadow Shaman на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_arcane_boots"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_aether_lens"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_aghanims_shard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_aeon_disk"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_refresher"
+				"item"		"item_black_king_bar"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_glimmer_cape"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 93% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 69% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 67% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 65% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 40% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 35% матчей на позиции 5 · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 79% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 54% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 35% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 26% матчей на позиции 5 · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 75% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_aether_lens"		"Берут в 17% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_glimmer_cape"		"Берут в 25% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»\nПротив магии: Glimmer: временный барьер от магического урона. Покупают не менее 25% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_aghanims_shard"		"Берут в 13% матчей на позиции 5 · стадия «Поздняя (25–40 мин)»"
+			"item_aeon_disk"		"Берут в 4% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 4% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_refresher"		"Берут в 4% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_black_king_bar"		"Берут в 3% матчей на позиции 5 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 43% матчей на позиции 5 · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 24% матчей на позиции 5 · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 24% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"shadow_shaman_ether_shock"
+			"2"		"shadow_shaman_shackles"
+			"3"		"shadow_shaman_shackles"
+			"4"		"shadow_shaman_voodoo"
+			"5"		"shadow_shaman_shackles"
+			"6"		"shadow_shaman_mass_serpent_ward"
+			"7"		"shadow_shaman_shackles"
+			"8"		"shadow_shaman_voodoo"
+			"9"		"shadow_shaman_voodoo"
+			"10"		"shadow_shaman_voodoo"
+			"15"		"special_bonus_unique_shadow_shaman_7"
+			"20"		"special_bonus_unique_shadow_shaman_2"
+			"25"		"special_bonus_unique_shadow_shaman_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_mp_regen_175"		"Берут в 20,5% матчей, винрейт 53,5% · выборка 2 319 матчей"
+			"special_bonus_unique_shadow_shaman_6"		"Берут в 79,5% матчей, винрейт 52,9% · выборка 9 018 матчей"
+			"special_bonus_unique_shadow_shaman_7"		"Берут в 74,6% матчей, винрейт 59,2% · выборка 6 543 матча"
+			"special_bonus_unique_shadow_shaman_8"		"Берут в 25,4% матчей, винрейт 62,5% · выборка 2 229 матчей"
+			"special_bonus_unique_shadow_shaman_1"		"Берут в 24,1% матчей, винрейт 66,9% · выборка 1 154 матча"
+			"special_bonus_unique_shadow_shaman_2"		"Берут в 75,9% матчей, винрейт 62,5% · выборка 3 638 матчей"
+			"special_bonus_unique_shadow_shaman_4"		"Берут в 67,5% матчей, винрейт 68% · выборка 799 матчей"
+			"special_bonus_unique_shadow_shaman_3"		"Берут в 32,5% матчей, винрейт 62,3% · выборка 385 матчей"
+			"shadow_shaman_ether_shock"		"Самая частая прокачка первых 10 уровней: 310 матчей, винрейт 55,5%"
+		}
+	}
+}

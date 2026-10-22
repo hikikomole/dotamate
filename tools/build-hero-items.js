@@ -62,13 +62,14 @@ const heroIds = read('heroes.json').heroes.map(h => Number(h.id));
 const phaseOf = t => PHASES.find(([, a, b]) => t >= a && t < b)[0];
 const newAcc = () => ({ n: 0, c: Object.fromEntries(PHASES.map(([k]) => [k, new Map()])) });
 const newHeroAcc = () => new Map(heroIds.map(id => [id, Object.assign(newAcc(), { pos: {} })]));
+async function main() {
 const acc = newHeroAcc();
 const rankedAcc = Object.fromEntries(rankGroups.map(group => [group.key, newHeroAcc()]));
 let matches = 0;
 // Повтор id после оборванного сбора отсеивается, битая строка пропускается — tools/match-source.js metaMatches()
-for (const m of require('./match-source.js').metaMatches()) {
+for await (const m of require('./match-source.js').rankedMetaStream()) {
   {
-    if (m.t < since) continue;
+    if (!Number.isFinite(m.t) || m.t < since || !Array.isArray(m.p)) continue;
     let used = false;
     for (const p of m.p) {
       const h = acc.get(p.h);
@@ -85,7 +86,7 @@ for (const m of require('./match-source.js').metaMatches()) {
       for (const a of targets) a.n++;
       const seen = new Set();
       for (const [t, id] of p.b) {
-        if (!known.has(id)) continue;
+        if (!known.has(id) || !Number.isFinite(t)) continue;
         const ph = phaseOf(t);
         const k = ph + ':' + id;
         if (seen.has(k)) continue;
@@ -127,6 +128,7 @@ const ranked = Object.fromEntries(rankGroups.map(group =>
   [group.key, { heroes: serializeHeroes(rankedAcc[group.key]).heroes }]));
 
 const missing = heroIds.filter(id => !heroes[id]);
+if (missing.length) throw new Error('Нет рейтинговых покупок у героев: ' + missing.join(', ') + '; прежние файлы сохранены');
 const out = {
   source: 'Своя база матчей (Stratz, покупки по времени), патч ' + (patch.version || '?'),
   method: `фазы 0/10/25/40 мин; предмет показан, если куплен в ≥ max(${MIN_ABS}, ${MIN_SHARE * 100}% матчей героя); до ${TOP} на фазу; по роли — от ${MIN_ROLE} матчей`,
@@ -166,4 +168,6 @@ console.log(`hero-items.json: ролей с покупками ${roleBlocks}, ${
   else console.warn('item-heroes.json не обновлён: предметов мало (' + Object.keys(items).length + ')');
   console.log('item-heroes.json: предметов ' + Object.keys(items).length);
 }
-if (missing.length) { console.error('Нет покупок у героев:', missing.join(', ')); process.exit(1); }
+
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });

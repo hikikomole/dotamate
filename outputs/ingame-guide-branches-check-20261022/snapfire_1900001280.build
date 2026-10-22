@@ -1,0 +1,127 @@
+"guidedata"
+{
+	"Hero"		"snapfire"
+	"Title"		"DotaMate · Snapfire · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 205 матчей Snapfire на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/snapfire/\nПрокачка — Steam, 4 443 матча Snapfire на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+				"item"		"item_faerie_fire"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_arcane_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_kaya"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_yasha_and_kaya"
+				"item"		"item_yasha"
+				"item"		"item_black_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_shivas_guard"
+				"item"		"item_refresher"
+				"item"		"item_greater_crit"
+				"item"		"item_lesser_crit"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 96% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 52% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 51% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 43% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 18% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 65% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 48% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 44% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 31% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha_and_kaya"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 10,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 10,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_shivas_guard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_refresher"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_crit"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_lesser_crit"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 18% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 17,5% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"snapfire_scatterblast"
+			"2"		"snapfire_firesnap_cookie"
+			"3"		"snapfire_scatterblast"
+			"4"		"snapfire_firesnap_cookie"
+			"5"		"snapfire_scatterblast"
+			"6"		"snapfire_mortimer_kisses"
+			"7"		"snapfire_scatterblast"
+			"8"		"snapfire_firesnap_cookie"
+			"9"		"snapfire_firesnap_cookie"
+			"10"		"special_bonus_unique_snapfire_7"
+			"15"		"special_bonus_cast_range_125"
+			"20"		"special_bonus_unique_snapfire_8"
+			"25"		"special_bonus_unique_snapfire_1"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_snapfire_5"		"Берут в 76,9% матчей, винрейт 48,3% · выборка 6 322 матча"
+			"special_bonus_unique_snapfire_7"		"Берут в 23,1% матчей, винрейт 49,6% · выборка 1 896 матчей"
+			"special_bonus_cast_range_125"		"Берут в 83% матчей, винрейт 54,9% · выборка 5 594 матча"
+			"special_bonus_unique_snapfire_2"		"Берут в 17% матчей, винрейт 54,6% · выборка 1 142 матча"
+			"special_bonus_unique_snapfire_8"		"Берут в 100% матчей, винрейт 56,4% · выборка 172 матча"
+			"special_bonus_unique_snapfire_1"		"Берут в 91,9% матчей, винрейт 66,8% · выборка 1 300 матчей"
+			"special_bonus_unique_snapfire_6"		"Берут в 8,1% матчей, винрейт 63,5% · выборка 115 матчей"
+			"snapfire_scatterblast"		"Самая частая прокачка первых 10 уровней: 1 119 матчей, винрейт 48,8%"
+		}
+	}
+}

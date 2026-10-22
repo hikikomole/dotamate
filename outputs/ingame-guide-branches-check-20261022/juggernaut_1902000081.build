@@ -1,0 +1,126 @@
+"guidedata"
+{
+	"Hero"		"juggernaut"
+	"Title"		"DotaMate · 50+ · Juggernaut · Керри, поз. 1"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Предметы: выборка 172 матчей, ранги 50–89 (Stratz). Прокачка и таланты: все ранги (Steam). Покупки — 172 матча Juggernaut на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/juggernaut/\nПрокачка — Steam, 6 589 матчей Juggernaut на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_pers"
+				"item"		"item_tango"
+				"item"		"item_phase_boots"
+				"item"		"item_wraith_band"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_bfury"
+				"item"		"item_manta"
+				"item"		"item_maelstrom"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_butterfly"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_blink"
+				"item"		"item_monkey_king_bar"
+				"item"		"item_ultimate_scepter_2"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_swift_blink"
+				"item"		"item_nullifier"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_butterfly"
+			}
+			"Против контроля"
+			{
+				"item"		"item_manta"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 95% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 94% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 92% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 86% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 69% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 20% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 80% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 67% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 40% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 17% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 16% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 92% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_bfury"		"Берут в 81% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 68% матчей на позиции 1 · стадия «Середина (10–25 мин)»\nПротив контроля: Mirror Image: нормальное развеивание; не снимает любой контроль и требует возможности применить предмет. Покупают не менее 68% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_maelstrom"		"Берут в 16% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_butterfly"		"Берут в 45% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»\nПротив физического урона: Уклонение от атак; не защищает от всех источников физического урона. Покупают не менее 44,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_ultimate_scepter"		"Берут в 44% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_blink"		"Берут в 42% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 16% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 9% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_swift_blink"		"Берут в 8% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_nullifier"		"Берут в 3% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 15% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"juggernaut_blade_fury"
+			"2"		"juggernaut_blade_dance"
+			"3"		"juggernaut_blade_fury"
+			"4"		"juggernaut_healing_ward"
+			"5"		"juggernaut_blade_fury"
+			"6"		"juggernaut_omni_slash"
+			"7"		"juggernaut_blade_fury"
+			"8"		"juggernaut_healing_ward"
+			"9"		"juggernaut_healing_ward"
+			"10"		"special_bonus_all_stats_5"
+			"15"		"special_bonus_unique_juggernaut_blade_fury_movespeed"
+			"20"		"special_bonus_unique_juggernaut_4"
+			"25"		"special_bonus_unique_juggernaut_blade_dance_lifesteal"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_juggernaut_3"		"Берут в 86,9% матчей, винрейт 54,7% · выборка 26 519 матчей"
+			"special_bonus_unique_juggernaut_5"		"Берут в 13,1% матчей, винрейт 52,7% · выборка 3 981 матч"
+			"special_bonus_unique_juggernaut_blade_fury_movespeed"		"Берут в 100% матчей, винрейт 57% · выборка 8 127 матчей"
+			"special_bonus_unique_juggernaut"		"Берут в 10,5% матчей, винрейт 58,2% · выборка 2 098 матчей"
+			"special_bonus_unique_juggernaut_4"		"Берут в 89,5% матчей, винрейт 59,3% · выборка 17 929 матчей"
+			"special_bonus_unique_juggernaut_blade_dance_lifesteal"		"Берут в 71,3% матчей, винрейт 65,2% · выборка 8 389 матчей"
+			"special_bonus_unique_juggernaut_omnislash_duration"		"Берут в 28,7% матчей, винрейт 62,2% · выборка 3 384 матча"
+			"juggernaut_blade_fury"		"Самая частая прокачка первых 10 уровней: 1 424 матча, винрейт 48,7%"
+		}
+	}
+}

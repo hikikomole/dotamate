@@ -1,0 +1,123 @@
+"guidedata"
+{
+	"Hero"		"chaos_knight"
+	"Title"		"DotaMate · Chaos Knight · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 79 матчей Chaos Knight на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/chaos_knight/\nПрокачка — Steam, 1 790 матчей Chaos Knight на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_branches"
+				"item"		"item_gauntlets"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_bracer"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_boots"
+				"item"		"item_enchanted_mango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_armlet"
+				"item"		"item_echo_sabre"
+				"item"		"item_oblivion_staff"
+				"item"		"item_blink"
+				"item"		"item_yasha"
+				"item"		"item_orchid"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_manta"
+				"item"		"item_buckler"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_heart"
+				"item"		"item_bloodthorn"
+				"item"		"item_assault"
+				"item"		"item_skadi"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 77% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 67% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 59% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 56% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 94% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 81% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 67% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_enchanted_mango"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_armlet"		"Берут в 71% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_echo_sabre"		"Берут в 46% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_orchid"		"Берут в 20% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_manta"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_buckler"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_heart"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_bloodthorn"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_assault"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_skadi"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"chaos_knight_chaos_bolt"
+			"2"		"chaos_knight_reality_rift"
+			"3"		"chaos_knight_chaos_strike"
+			"4"		"chaos_knight_chaos_strike"
+			"5"		"chaos_knight_chaos_strike"
+			"6"		"chaos_knight_phantasm"
+			"7"		"chaos_knight_chaos_strike"
+			"8"		"chaos_knight_reality_rift"
+			"9"		"chaos_knight_reality_rift"
+			"10"		"chaos_knight_reality_rift"
+			"15"		"special_bonus_strength_10"
+			"20"		"special_bonus_unique_chaos_knight"
+			"25"		"special_bonus_unique_chaos_knight_7"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_chaos_knight_2"		"Берут в 41,3% матчей, винрейт 50,9% · выборка 1 115 матчей"
+			"special_bonus_unique_chaos_knight_6"		"Берут в 58,7% матчей, винрейт 54,5% · выборка 1 584 матча"
+			"special_bonus_strength_10"		"Берут в 72% матчей, винрейт 56,7% · выборка 1 777 матчей"
+			"special_bonus_unique_chaos_knight_8"		"Берут в 28% матчей, винрейт 55,1% · выборка 690 матчей"
+			"special_bonus_unique_chaos_knight"		"Берут в 60,9% матчей, винрейт 58,8% · выборка 1 127 матчей"
+			"special_bonus_unique_chaos_knight_3"		"Берут в 39,1% матчей, винрейт 63% · выборка 724 матча"
+			"special_bonus_unique_chaos_knight_7"		"Берут в 58% матчей, винрейт 66,7% · выборка 477 матчей"
+			"special_bonus_unique_chaos_knight_5"		"Берут в 42% матчей, винрейт 66,7% · выборка 345 матчей"
+			"chaos_knight_chaos_bolt"		"Самая частая прокачка первых 10 уровней: 644 матча, винрейт 46,7%"
+		}
+	}
+}

@@ -1,0 +1,124 @@
+"guidedata"
+{
+	"Hero"		"legion_commander"
+	"Title"		"DotaMate · Legion Commander · Оффлейн, поз. 3"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 271 матч Legion Commander на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/legion_commander/\nПрокачка — Steam, 5 541 матч Legion Commander на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_branches"
+				"item"		"item_gauntlets"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_phase_boots"
+				"item"		"item_bracer"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blade_mail"
+				"item"		"item_blink"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_buckler"
+				"item"		"item_assault"
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_clarity"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_assault"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 91% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 89% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 84% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 81% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 68% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 29% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_phase_boots"		"Берут в 79% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 79% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 65% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 19% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 19% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_blade_mail"		"Берут в 93% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 87% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 16% матчей на позиции 3 · стадия «Середина (10–25 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 48,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 48,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_buckler"		"Берут в 28% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 22% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»\nПротив физического урона: Броня уменьшает физический урон. Покупают не менее 21,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_lesser_crit"		"Берут в 16% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 15% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 5% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 29% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_clarity"		"Берут в 23% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"legion_commander_overwhelming_odds"
+			"2"		"legion_commander_moment_of_courage"
+			"3"		"legion_commander_overwhelming_odds"
+			"4"		"legion_commander_press_the_attack"
+			"5"		"legion_commander_overwhelming_odds"
+			"6"		"legion_commander_duel"
+			"7"		"legion_commander_overwhelming_odds"
+			"8"		"legion_commander_moment_of_courage"
+			"9"		"legion_commander_moment_of_courage"
+			"10"		"legion_commander_moment_of_courage"
+			"15"		"special_bonus_unique_legion_commander_4"
+			"20"		"special_bonus_unique_legion_commander_3"
+			"25"		"special_bonus_unique_legion_commander_7"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_legion_commander_9"		"Берут в 100% матчей, винрейт 54,3% · выборка 13 466 матчей"
+			"special_bonus_unique_legion_commander_4"		"Берут в 69,9% матчей, винрейт 56,4% · выборка 11 183 матча"
+			"special_bonus_unique_legion_commander_6"		"Берут в 30,1% матчей, винрейт 61,4% · выборка 4 819 матчей"
+			"special_bonus_unique_legion_commander_3"		"Берут в 100% матчей, винрейт 61,6% · выборка 2 666 матчей"
+			"special_bonus_unique_legion_commander_7"		"Берут в 100% матчей, винрейт 61,2% · выборка 654 матча"
+			"legion_commander_overwhelming_odds"		"Самая частая прокачка первых 10 уровней: 1 595 матчей, винрейт 51,5%"
+		}
+	}
+}

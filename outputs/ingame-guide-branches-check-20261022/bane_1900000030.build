@@ -1,0 +1,110 @@
+"guidedata"
+{
+	"Hero"		"bane"
+	"Title"		"DotaMate · Bane · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 80 матчей Bane на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/bane/\nПрокачка — Steam, 3 794 матча Bane на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_enchanted_mango"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_arcane_boots"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_aether_lens"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_glimmer_cape"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_aghanims_shard"
+				"item"		"item_staff_of_wizardry"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 71% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 54% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 39% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 29% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 83% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 33% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_aether_lens"		"Берут в 43% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_glimmer_cape"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_aghanims_shard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_staff_of_wizardry"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 45% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 28% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"bane_brain_sap"
+			"2"		"bane_nightmare"
+			"3"		"bane_brain_sap"
+			"4"		"bane_nightmare"
+			"5"		"bane_nightmare"
+			"6"		"bane_fiends_grip"
+			"7"		"bane_nightmare"
+			"8"		"bane_enfeeble"
+			"9"		"bane_enfeeble"
+			"10"		"bane_enfeeble"
+			"15"		"special_bonus_unique_bane_9"
+			"20"		"special_bonus_unique_bane_5"
+			"25"		"special_bonus_unique_bane_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_bane_11"		"Берут в 74,1% матчей, винрейт 52,3% · выборка 4 273 матча"
+			"special_bonus_unique_bane_8"		"Берут в 25,9% матчей, винрейт 53,8% · выборка 1 493 матча"
+			"special_bonus_unique_bane_9"		"Берут в 74,4% матчей, винрейт 61,2% · выборка 3 136 матчей"
+			"special_bonus_unique_bane_10"		"Берут в 25,6% матчей, винрейт 62% · выборка 1 078 матчей"
+			"special_bonus_movement_speed_30"		"Берут в 32,7% матчей, винрейт 65% · выборка 732 матча"
+			"special_bonus_unique_bane_5"		"Берут в 67,3% матчей, винрейт 64,9% · выборка 1 504 матча"
+			"special_bonus_unique_bane_3"		"Берут в 86,8% матчей, винрейт 65,6% · выборка 479 матчей"
+			"special_bonus_unique_bane_2"		"Берут в 13,2% матчей, винрейт 52,1% · выборка 73 матча"
+			"bane_brain_sap"		"Самая частая прокачка первых 10 уровней: 865 матчей, винрейт 57,1%"
+		}
+	}
+}

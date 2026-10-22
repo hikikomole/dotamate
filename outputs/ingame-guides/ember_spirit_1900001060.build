@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"ember_spirit"
+	"Title"		"DotaMate · Ember Spirit · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 150 матчей Ember Spirit на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/ember_spirit/\nПрокачка — Steam, 9 769 матчей Ember Spirit на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_urn_of_shadows"
+				"item"		"item_magic_wand"
+				"item"		"item_phase_boots"
+				"item"		"item_clarity"
+				"item"		"item_boots"
+				"item"		"item_magic_stick"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_spirit_vessel"
+				"item"		"item_kaya"
+				"item"		"item_pers"
+				"item"		"item_mage_slayer"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_black_king_bar"
+				"item"		"item_sange"
+				"item"		"item_kaya_and_sange"
+				"item"		"item_shivas_guard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_soul_booster"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 99% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 97% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 84% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 41% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 8% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 7% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_urn_of_shadows"		"Берут в 77% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 57% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 13% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_spirit_vessel"		"Берут в 75% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_kaya"		"Берут в 72% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_pers"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mage_slayer"		"Берут в 27% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 44% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 41% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange"		"Берут в 31% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_kaya_and_sange"		"Берут в 30% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_soul_booster"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"ember_spirit_sleight_of_fist"
+			"2"		"ember_spirit_searing_chains"
+			"3"		"ember_spirit_sleight_of_fist"
+			"4"		"ember_spirit_searing_chains"
+			"5"		"ember_spirit_sleight_of_fist"
+			"6"		"ember_spirit_fire_remnant"
+			"7"		"ember_spirit_sleight_of_fist"
+			"8"		"ember_spirit_searing_chains"
+			"9"		"ember_spirit_searing_chains"
+			"10"		"ember_spirit_flame_guard"
+			"15"		"special_bonus_unique_ember_spirit_3"
+			"20"		"special_bonus_unique_ember_spirit_6"
+			"25"		"special_bonus_unique_ember_spirit_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_ember_spirit_1"		"Берут в 92,2% матчей, винрейт 51,3% · выборка 19 847 матчей"
+			"special_bonus_attack_damage_12"		"Берут в 7,8% матчей, винрейт 49% · выборка 1 672 матча"
+			"special_bonus_unique_ember_spirit_2"		"Берут в 9,4% матчей, винрейт 50,7% · выборка 1 900 матчей"
+			"special_bonus_unique_ember_spirit_3"		"Берут в 90,6% матчей, винрейт 53,7% · выборка 18 317 матчей"
+			"special_bonus_unique_ember_spirit_chains_dps"		"Берут в 23% матчей, винрейт 56,9% · выборка 3 814 матчей"
+			"special_bonus_unique_ember_spirit_6"		"Берут в 77% матчей, винрейт 57,9% · выборка 12 759 матчей"
+			"special_bonus_unique_ember_spirit_5"		"Берут в 27,8% матчей, винрейт 60,2% · выборка 2 347 матчей"
+			"special_bonus_unique_ember_spirit_4"		"Берут в 72,2% матчей, винрейт 62,2% · выборка 6 085 матчей"
+			"ember_spirit_sleight_of_fist"		"Самая частая прокачка первых 10 уровней: 2 065 матчей, винрейт 50,5%"
+		}
+	}
+}

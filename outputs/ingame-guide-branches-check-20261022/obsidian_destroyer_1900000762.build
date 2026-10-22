@@ -1,0 +1,120 @@
+"guidedata"
+{
+	"Hero"		"obsidian_destroyer"
+	"Title"		"DotaMate · Outworld Devourer · Мид, поз. 2"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 186 матчей Outworld Devourer на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/obsidian_destroyer/\nПрокачка — Steam, 3 621 матч Outworld Devourer на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_mantle"
+				"item"		"item_faerie_fire"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_null_talisman"
+				"item"		"item_magic_wand"
+				"item"		"item_flask"
+				"item"		"item_tango"
+				"item"		"item_oblivion_staff"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_witch_blade"
+				"item"		"item_blink"
+				"item"		"item_force_staff"
+				"item"		"item_dragon_lance"
+				"item"		"item_hurricane_pike"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_black_king_bar"
+				"item"		"item_devastator"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_aghanims_shard"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 91% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 85% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 81% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 69% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 33% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 8% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 79% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 73% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 32% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 23% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_oblivion_staff"		"Берут в 18% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_witch_blade"		"Берут в 83% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 73% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_force_staff"		"Берут в 40% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 38% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_hurricane_pike"		"Берут в 24% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 31% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 30% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 30,1% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 30,1% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_devastator"		"Берут в 21% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 8% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 5% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 3% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"obsidian_destroyer_astral_imprisonment"
+			"2"		"obsidian_destroyer_arcane_orb"
+			"3"		"obsidian_destroyer_equilibrium"
+			"4"		"obsidian_destroyer_astral_imprisonment"
+			"5"		"obsidian_destroyer_astral_imprisonment"
+			"6"		"obsidian_destroyer_sanity_eclipse"
+			"7"		"obsidian_destroyer_astral_imprisonment"
+			"8"		"obsidian_destroyer_arcane_orb"
+			"9"		"obsidian_destroyer_arcane_orb"
+			"10"		"obsidian_destroyer_arcane_orb"
+			"15"		"special_bonus_unique_outworld_devourer_3"
+			"20"		"special_bonus_unique_outworld_devourer_4"
+			"25"		"special_bonus_unique_outworld_devourer_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_mp_200"		"Берут в 68% матчей, винрейт 55,6% · выборка 15 796 матчей"
+			"special_bonus_unique_outworld_devourer_astral_castrange"		"Берут в 32% матчей, винрейт 54,7% · выборка 7 423 матча"
+			"special_bonus_unique_outworld_devourer_3"		"Берут в 100% матчей, винрейт 57,9% · выборка 18 850 матчей"
+			"special_bonus_unique_outworld_devourer_4"		"Берут в 100% матчей, винрейт 59,9% · выборка 4 588 матчей"
+			"special_bonus_unique_outworld_devourer_5"		"Берут в 57,5% матчей, винрейт 66,5% · выборка 5 056 матчей"
+			"special_bonus_unique_outworld_devourer"		"Берут в 42,5% матчей, винрейт 69,1% · выборка 3 742 матча"
+			"obsidian_destroyer_astral_imprisonment"		"Самая частая прокачка первых 10 уровней: 1 128 матчей, винрейт 47,2%"
+		}
+	}
+}

@@ -1,0 +1,113 @@
+"guidedata"
+{
+	"Hero"		"medusa"
+	"Title"		"DotaMate · Medusa · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 56 матчей Medusa на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/medusa/\nПрокачка — Steam, 4 403 матча Medusa на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_enchanted_mango"
+				"item"		"item_mantle"
+				"item"		"item_quelling_blade"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_null_talisman"
+				"item"		"item_magic_wand"
+				"item"		"item_enchanted_mango"
+				"item"		"item_clarity"
+				"item"		"item_falcon_blade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_manta"
+				"item"		"item_yasha"
+				"item"		"item_butterfly"
+				"item"		"item_maelstrom"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_skadi"
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_monkey_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_rapier"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 88% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 77% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 34% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 25% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 16% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 95% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 46% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 20% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_manta"		"Берут в 93% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 91% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_butterfly"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_maelstrom"		"Берут в 11% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_skadi"		"Берут в 52% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_rapier"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"medusa_mystic_snake"
+			"2"		"medusa_mana_shield"
+			"3"		"medusa_mystic_snake"
+			"4"		"medusa_split_shot"
+			"5"		"medusa_mystic_snake"
+			"6"		"medusa_split_shot"
+			"7"		"medusa_mystic_snake"
+			"8"		"medusa_split_shot"
+			"9"		"medusa_split_shot"
+			"10"		"medusa_stone_gaze"
+			"15"		"special_bonus_unique_medusa_5"
+			"20"		"special_bonus_unique_medusa_2"
+			"25"		"special_bonus_intelligence_40"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_medusa_8"		"Берут в 87,1% матчей, винрейт 49,8% · выборка 2 961 матч"
+			"special_bonus_unique_medusa_gorgons_grasp_radius"		"Берут в 12,9% матчей, винрейт 50,3% · выборка 439 матчей"
+			"special_bonus_unique_medusa_5"		"Берут в 100% матчей, винрейт 51,5% · выборка 2 838 матчей"
+			"special_bonus_unique_medusa_2"		"Берут в 91,9% матчей, винрейт 56,9% · выборка 1 367 матчей"
+			"special_bonus_unique_medusa_snake_damage"		"Берут в 8,1% матчей, винрейт 51,2% · выборка 121 матч"
+			"special_bonus_intelligence_40"		"Берут в 84,4% матчей, винрейт 68,5% · выборка 787 матчей"
+			"special_bonus_unique_medusa"		"Берут в 15,6% матчей, винрейт 61,4% · выборка 145 матчей"
+			"medusa_mystic_snake"		"Самая частая прокачка первых 10 уровней: 1 102 матча, винрейт 56,7%"
+		}
+	}
+}

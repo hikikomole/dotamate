@@ -1,0 +1,113 @@
+"guidedata"
+{
+	"Hero"		"clinkz"
+	"Title"		"DotaMate · Clinkz · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 78 матчей Clinkz на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/clinkz/\nПрокачка — Steam, 1 340 матчей Clinkz на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_blades_of_attack"
+				"item"		"item_magic_wand"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_falcon_blade"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_soul_ring"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_desolator"
+				"item"		"item_oblivion_staff"
+				"item"		"item_orchid"
+				"item"		"item_dragon_lance"
+				"item"		"item_lesser_crit"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_greater_crit"
+				"item"		"item_black_king_bar"
+				"item"		"item_bloodthorn"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_monkey_king_bar"
+				"item"		"item_ultimate_scepter"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 73% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 56% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 45% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blades_of_attack"		"Берут в 18% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 15% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 74% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_falcon_blade"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 13% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_desolator"		"Берут в 82% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 41% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_orchid"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_crit"		"Берут в 37% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_bloodthorn"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"clinkz_searing_arrows"
+			"2"		"clinkz_death_pact"
+			"3"		"clinkz_searing_arrows"
+			"4"		"clinkz_death_pact"
+			"5"		"clinkz_death_pact"
+			"6"		"clinkz_wind_walk"
+			"7"		"clinkz_searing_arrows"
+			"8"		"clinkz_searing_arrows"
+			"9"		"clinkz_strafe"
+			"10"		"clinkz_strafe"
+			"15"		"special_bonus_attack_range_50"
+			"20"		"special_bonus_unique_clinkz_7"
+			"25"		"special_bonus_unique_clinkz_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_clinkz_10"		"Берут в 69,9% матчей, винрейт 54,7% · выборка 3 324 матча"
+			"special_bonus_unique_clinkz_1"		"Берут в 30,1% матчей, винрейт 54,8% · выборка 1 434 матча"
+			"special_bonus_unique_clinkz_9"		"Берут в 4,6% матчей, винрейт 58,2% · выборка 208 матчей"
+			"special_bonus_attack_range_50"		"Берут в 95,4% матчей, винрейт 55,2% · выборка 4 336 матчей"
+			"special_bonus_unique_clinkz_8"		"Берут в 25,6% матчей, винрейт 59,5% · выборка 968 матчей"
+			"special_bonus_unique_clinkz_7"		"Берут в 74,4% матчей, винрейт 55,6% · выборка 2 811 матчей"
+			"special_bonus_unique_clinkz_3"		"Берут в 75,6% матчей, винрейт 62% · выборка 1 580 матчей"
+			"special_bonus_unique_clinkz_4"		"Берут в 24,4% матчей, винрейт 60,6% · выборка 510 матчей"
+			"clinkz_searing_arrows"		"Самая частая прокачка первых 10 уровней: 248 матчей, винрейт 58,9%"
+		}
+	}
+}

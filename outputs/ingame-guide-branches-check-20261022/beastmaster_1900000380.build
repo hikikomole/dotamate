@@ -1,0 +1,110 @@
+"guidedata"
+{
+	"Hero"		"beastmaster"
+	"Title"		"DotaMate · Beastmaster · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 43 матча Beastmaster на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/beastmaster/\nПрокачка — Steam, 7 971 матч Beastmaster на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_tango"
+				"item"		"item_faerie_fire"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_arcane_boots"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_blink"
+				"item"		"item_helm_of_the_overlord"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_buckler"
+				"item"		"item_assault"
+				"item"		"item_yasha"
+				"item"		"item_oblivion_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 93% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 65% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 56% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 33% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 23% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 40% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 40% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 37% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 33% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 30% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ultimate_scepter"		"Берут в 74% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 65% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_helm_of_the_overlord"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 14% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_buckler"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_oblivion_staff"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"beastmaster_summon_razorback"
+			"2"		"beastmaster_inner_beast"
+			"3"		"beastmaster_summon_razorback"
+			"4"		"beastmaster_inner_beast"
+			"5"		"beastmaster_summon_razorback"
+			"6"		"beastmaster_primal_roar"
+			"7"		"beastmaster_summon_razorback"
+			"8"		"beastmaster_inner_beast"
+			"9"		"beastmaster_inner_beast"
+			"10"		"beastmaster_wild_axes"
+			"15"		"special_bonus_unique_beastmaster_4"
+			"20"		"special_bonus_unique_beastmaster_6"
+			"25"		"special_bonus_unique_beastmaster_7"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_beastmaster_9"		"Берут в 85,1% матчей, винрейт 48,7% · выборка 2 726 матчей"
+			"special_bonus_armor_4"		"Берут в 14,9% матчей, винрейт 52,1% · выборка 476 матчей"
+			"special_bonus_unique_beastmaster_4"		"Берут в 68,9% матчей, винрейт 49% · выборка 2 071 матч"
+			"special_bonus_unique_beastmaster_5"		"Берут в 31,1% матчей, винрейт 54,5% · выборка 936 матчей"
+			"special_bonus_unique_beastmaster_6"		"Берут в 50,1% матчей, винрейт 54% · выборка 1 133 матча"
+			"special_bonus_unique_beastmaster_2"		"Берут в 49,9% матчей, винрейт 54,7% · выборка 1 127 матчей"
+			"special_bonus_unique_beastmaster_7"		"Берут в 62,5% матчей, винрейт 60,2% · выборка 641 матч"
+			"special_bonus_unique_beastmaster_wild_axe_cooldown"		"Берут в 37,5% матчей, винрейт 53,2% · выборка 385 матчей"
+			"beastmaster_summon_razorback"		"Самая частая прокачка первых 10 уровней: 1 579 матчей, винрейт 59,2%"
+		}
+	}
+}

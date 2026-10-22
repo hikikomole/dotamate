@@ -1,0 +1,111 @@
+"guidedata"
+{
+	"Hero"		"lycan"
+	"Title"		"DotaMate · Lycan · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 25 матчей Lycan на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/lycan/\nПрокачка — Steam, 3 348 матчей Lycan на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_sobi_mask"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_helm_of_the_dominator"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_power_treads"
+				"item"		"item_bracer"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_helm_of_the_overlord"
+				"item"		"item_buckler"
+				"item"		"item_assault"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_nullifier"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_oblivion_staff"
+				"item"		"item_orchid"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 52% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_sobi_mask"		"Берут в 32% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 16% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_helm_of_the_dominator"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 48% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 20% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 8% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 8% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_helm_of_the_overlord"		"Берут в 92% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_buckler"		"Берут в 52% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_assault"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 48% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_nullifier"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_oblivion_staff"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_orchid"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 12% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"lycan_summon_wolves"
+			"2"		"lycan_feral_impulse"
+			"3"		"lycan_summon_wolves"
+			"4"		"lycan_feral_impulse"
+			"5"		"lycan_summon_wolves"
+			"6"		"lycan_shapeshift"
+			"7"		"lycan_summon_wolves"
+			"8"		"lycan_feral_impulse"
+			"9"		"lycan_feral_impulse"
+			"10"		"lycan_howl"
+			"15"		"special_bonus_unique_lycan_8"
+			"20"		"special_bonus_unique_lycan_4"
+			"25"		"special_bonus_unique_lycan_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_lycan_3"		"Берут в 74,7% матчей, винрейт 54,1% · выборка 1 912 матчей"
+			"special_bonus_unique_lycan_howl_armor"		"Берут в 25,3% матчей, винрейт 50,7% · выборка 647 матчей"
+			"special_bonus_unique_lycan_8"		"Берут в 59% матчей, винрейт 52,6% · выборка 1 366 матчей"
+			"special_bonus_unique_lycan_7"		"Берут в 41% матчей, винрейт 57,4% · выборка 951 матч"
+			"special_bonus_unique_lycan_4"		"Берут в 63,2% матчей, винрейт 56,7% · выборка 987 матчей"
+			"special_bonus_unique_lycan_1"		"Берут в 36,8% матчей, винрейт 55,5% · выборка 575 матчей"
+			"special_bonus_unique_lycan_5"		"Берут в 65% матчей, винрейт 54,8% · выборка 332 матча"
+			"special_bonus_unique_lycan_2"		"Берут в 35% матчей, винрейт 66,5% · выборка 179 матчей"
+			"lycan_summon_wolves"		"Самая частая прокачка первых 10 уровней: 834 матча, винрейт 55,6%"
+		}
+	}
+}

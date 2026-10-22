@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"ursa"
+	"Title"		"DotaMate · Ursa · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 129 матчей Ursa на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/ursa/\nПрокачка — Steam, 10 560 матчей Ursa на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_phase_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_pers"
+				"item"		"item_tango"
+				"item"		"item_power_treads"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_bfury"
+				"item"		"item_basher"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_sange"
+				"item"		"item_abyssal_blade"
+				"item"		"item_monkey_king_bar"
+				"item"		"item_ultimate_scepter"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_swift_blink"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 96% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 94% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 93% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 81% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 40% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 33% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_phase_boots"		"Берут в 70% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 64% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 35% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 91% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_bfury"		"Берут в 86% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_basher"		"Берут в 55% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 10% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 29% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_abyssal_blade"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_swift_blink"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"ursa_fury_swipes"
+			"2"		"ursa_earthshock"
+			"3"		"ursa_fury_swipes"
+			"4"		"ursa_overpower"
+			"5"		"ursa_fury_swipes"
+			"6"		"ursa_enrage"
+			"7"		"ursa_fury_swipes"
+			"8"		"ursa_overpower"
+			"9"		"ursa_overpower"
+			"10"		"ursa_overpower"
+			"15"		"special_bonus_unique_ursa_8"
+			"20"		"special_bonus_unique_ursa"
+			"25"		"special_bonus_unique_ursa_7"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_mp_regen_175"		"Берут в 22,2% матчей, винрейт 51,6% · выборка 2 418 матчей"
+			"special_bonus_unique_ursa_4"		"Берут в 77,8% матчей, винрейт 50,6% · выборка 8 464 матча"
+			"special_bonus_unique_ursa_8"		"Берут в 100% матчей, винрейт 51,6% · выборка 7 678 матчей"
+			"special_bonus_unique_ursa"		"Берут в 90,1% матчей, винрейт 55,1% · выборка 8 361 матч"
+			"special_bonus_unique_ursa_2"		"Берут в 9,9% матчей, винрейт 53,1% · выборка 914 матчей"
+			"special_bonus_unique_ursa_7"		"Берут в 86,4% матчей, винрейт 61,3% · выборка 4 959 матчей"
+			"special_bonus_unique_ursa_3"		"Берут в 13,6% матчей, винрейт 58,2% · выборка 783 матча"
+			"ursa_fury_swipes"		"Самая частая прокачка первых 10 уровней: 4 769 матчей, винрейт 49,7%"
+		}
+	}
+}

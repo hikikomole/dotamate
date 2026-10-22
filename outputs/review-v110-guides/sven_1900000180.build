@@ -1,0 +1,118 @@
+"guidedata"
+{
+	"Hero"		"sven"
+	"Title"		"DotaMate · Sven · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 148 матчей Sven на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/sven/\nПрокачка — Steam, 5 455 матчей Sven на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_gauntlets"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_bracer"
+				"item"		"item_mask_of_madness"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_echo_sabre"
+				"item"		"item_blink"
+				"item"		"item_lesser_crit"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_greater_crit"
+				"item"		"item_satanic"
+				"item"		"item_monkey_king_bar"
+				"item"		"item_swift_blink"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_aghanims_shard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_quelling_blade"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 87% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 67% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 49% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 44% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 92% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 58% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 32% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_mask_of_madness"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 20% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_echo_sabre"		"Берут в 97% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 86% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 45% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_crit"		"Берут в 56% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_monkey_king_bar"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_swift_blink"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"sven_storm_bolt"
+			"2"		"sven_warcry"
+			"3"		"sven_great_cleave"
+			"4"		"sven_great_cleave"
+			"5"		"sven_great_cleave"
+			"6"		"sven_gods_strength"
+			"7"		"sven_great_cleave"
+			"8"		"sven_warcry"
+			"9"		"sven_warcry"
+			"10"		"sven_warcry"
+			"15"		"special_bonus_unique_sven_3"
+			"20"		"special_bonus_unique_sven_7"
+			"25"		"special_bonus_unique_sven_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_sven_gods_strength_slow_resist"		"Берут в 37,1% матчей, винрейт 49,6% · выборка 6 984 матча"
+			"special_bonus_unique_sven_5"		"Берут в 62,9% матчей, винрейт 53,8% · выборка 11 829 матчей"
+			"special_bonus_unique_sven_8"		"Берут в 27,4% матчей, винрейт 52% · выборка 5 041 матч"
+			"special_bonus_unique_sven_3"		"Берут в 72,6% матчей, винрейт 53,6% · выборка 13 378 матчей"
+			"special_bonus_unique_sven_7"		"Берут в 100% матчей, винрейт 55,7% · выборка 13 338 матчей"
+			"special_bonus_unique_sven_4"		"Берут в 12,6% матчей, винрейт 62,4% · выборка 1 360 матчей"
+			"special_bonus_unique_sven_2"		"Берут в 87,4% матчей, винрейт 59,1% · выборка 9 457 матчей"
+			"sven_storm_bolt"		"Самая частая прокачка первых 10 уровней: 1 252 матча, винрейт 48,5%"
+		}
+	}
+}

@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"slardar"
+	"Title"		"DotaMate · Slardar · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 126 матчей Slardar на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/slardar/\nПрокачка — Steam, 5 494 матча Slardar на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_branches"
+				"item"		"item_gauntlets"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_bracer"
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_echo_sabre"
+				"item"		"item_black_king_bar"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_buckler"
+				"item"		"item_assault"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_ogre_axe"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_great_famango"
+				"item"		"item_greater_famango"
+				"item"		"item_moon_shard"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 97% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 84% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 37% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_bracer"		"Берут в 85% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 74% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 14% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 93% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_echo_sabre"		"Берут в 47% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_buckler"		"Берут в 29% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ogre_axe"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_clarity"		"Берут в 16% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_smoke_of_deceit"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_great_famango"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_famango"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_moon_shard"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"slardar_slithereen_crush"
+			"2"		"slardar_bash"
+			"3"		"slardar_bash"
+			"4"		"slardar_sprint"
+			"5"		"slardar_bash"
+			"6"		"slardar_amplify_damage"
+			"7"		"slardar_bash"
+			"8"		"slardar_sprint"
+			"9"		"slardar_sprint"
+			"10"		"slardar_sprint"
+			"15"		"special_bonus_unique_slardar_5"
+			"20"		"special_bonus_unique_slardar"
+			"25"		"special_bonus_unique_slardar_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_slardar_2"		"Берут в 44,8% матчей, винрейт 49,4% · выборка 4 505 матчей"
+			"special_bonus_unique_slardar_7"		"Берут в 55,2% матчей, винрейт 47,8% · выборка 5 557 матчей"
+			"special_bonus_unique_slardar_5"		"Берут в 70,6% матчей, винрейт 54% · выборка 6 279 матчей"
+			"special_bonus_hp_250"		"Берут в 29,4% матчей, винрейт 51,4% · выборка 2 619 матчей"
+			"special_bonus_unique_slardar_6"		"Берут в 4,4% матчей, винрейт 62,4% · выборка 287 матчей"
+			"special_bonus_unique_slardar"		"Берут в 95,6% матчей, винрейт 60,7% · выборка 6 271 матч"
+			"special_bonus_unique_slardar_3"		"Берут в 82,7% матчей, винрейт 67,1% · выборка 2 417 матчей"
+			"special_bonus_unique_slardar_4"		"Берут в 17,3% матчей, винрейт 65,5% · выборка 504 матча"
+			"slardar_slithereen_crush"		"Самая частая прокачка первых 10 уровней: 1 177 матчей, винрейт 50,7%"
+		}
+	}
+}

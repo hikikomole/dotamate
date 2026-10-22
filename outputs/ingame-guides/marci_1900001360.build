@@ -1,0 +1,115 @@
+"guidedata"
+{
+	"Hero"		"marci"
+	"Title"		"DotaMate · Marci · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 81 матч Marci на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/marci/\nПрокачка — Steam, 338 матчей Marci на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+				"item"		"item_blood_grenade"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_phase_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_lesser_crit"
+				"item"		"item_ultimate_scepter"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_basher"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_belt_of_strength"
+				"item"		"item_sange"
+				"item"		"item_blink"
+				"item"		"item_ogre_axe"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_clarity"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 42% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 42% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 38% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_phase_boots"		"Берут в 63% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 49% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 46% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_black_king_bar"		"Берут в 38% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 32% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_basher"		"Берут в 23% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_belt_of_strength"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sange"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ogre_axe"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_clarity"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"marci_companion_run"
+			"2"		"marci_grapple"
+			"3"		"marci_companion_run"
+			"4"		"marci_guardian"
+			"5"		"marci_companion_run"
+			"6"		"marci_unleash"
+			"7"		"marci_companion_run"
+			"8"		"marci_guardian"
+			"9"		"marci_guardian"
+			"10"		"marci_guardian"
+			"15"		"special_bonus_unique_marci_guardian_damage"
+			"20"		"special_bonus_unique_marci_grapple_stun_duration"
+			"25"		"special_bonus_unique_marci_unleash_extend_duration"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_marci_rebound_radius"		"Берут в 89,2% матчей, винрейт 55,8% · выборка 2 714 матчей"
+			"special_bonus_unique_marci_dispose_slow"		"Берут в 10,8% матчей, винрейт 58,1% · выборка 329 матчей"
+			"special_bonus_unique_marci_guardian_damage"		"Берут в 56,2% матчей, винрейт 56,6% · выборка 1 600 матчей"
+			"special_bonus_unique_marci_grapple_damage"		"Берут в 43,8% матчей, винрейт 60,2% · выборка 1 248 матчей"
+			"special_bonus_unique_marci_unleash_speed"		"Берут в 22,2% матчей, винрейт 58,8% · выборка 478 матчей"
+			"special_bonus_unique_marci_grapple_stun_duration"		"Берут в 77,8% матчей, винрейт 61,6% · выборка 1 680 матчей"
+			"special_bonus_unique_marci_unleash_extend_duration"		"Берут в 100% матчей, винрейт 63,1% · выборка 851 матч"
+			"marci_companion_run"		"Самая частая прокачка первых 10 уровней: 45 матчей, винрейт 57,8%"
+		}
+	}
+}

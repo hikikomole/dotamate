@@ -1,0 +1,119 @@
+"guidedata"
+{
+	"Hero"		"lina"
+	"Title"		"DotaMate · Lina · Мид, поз. 2"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 272 матча Lina на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/lina/\nПрокачка — Steam, 7 570 матчей Lina на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+				"item"		"item_mantle"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_null_talisman"
+				"item"		"item_clarity"
+				"item"		"item_travel_boots"
+				"item"		"item_boots"
+				"item"		"item_magic_stick"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_kaya"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_yasha"
+				"item"		"item_yasha_and_kaya"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_blink"
+				"item"		"item_ethereal_blade"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_sheepstick"
+				"item"		"item_lesser_crit"
+				"item"		"item_aghanims_shard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 90% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 83% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 12% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 9% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 9% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 55% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_null_talisman"		"Берут в 53% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 31% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_travel_boots"		"Берут в 29% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 21% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_kaya"		"Берут в 69% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 48% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 37% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_yasha_and_kaya"		"Берут в 37% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 30% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_blink"		"Берут в 21% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_ethereal_blade"		"Берут в 15% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 8% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_sheepstick"		"Берут в 7% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_lesser_crit"		"Берут в 4% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 4% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 4% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"lina_dragon_slave"
+			"2"		"lina_fiery_soul"
+			"3"		"lina_dragon_slave"
+			"4"		"lina_light_strike_array"
+			"5"		"lina_dragon_slave"
+			"6"		"lina_laguna_blade"
+			"7"		"lina_dragon_slave"
+			"8"		"lina_fiery_soul"
+			"9"		"lina_fiery_soul"
+			"10"		"special_bonus_attack_damage_25"
+			"15"		"special_bonus_unique_lina_3"
+			"20"		"special_bonus_unique_lina_6"
+			"25"		"special_bonus_unique_lina_crit_debuff"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_lina_1"		"Берут в 67% матчей, винрейт 49,1% · выборка 18 826 матчей"
+			"special_bonus_attack_damage_25"		"Берут в 33% матчей, винрейт 48,6% · выборка 9 292 матча"
+			"special_bonus_unique_lina_3"		"Берут в 54,7% матчей, винрейт 50,3% · выборка 14 874 матча"
+			"special_bonus_unique_lina_4"		"Берут в 45,3% матчей, винрейт 50,2% · выборка 12 327 матчей"
+			"special_bonus_unique_lina_2"		"Берут в 38,1% матчей, винрейт 55,1% · выборка 8 997 матчей"
+			"special_bonus_unique_lina_6"		"Берут в 61,9% матчей, винрейт 54,4% · выборка 14 601 матч"
+			"special_bonus_unique_lina_crit_debuff"		"Берут в 60,6% матчей, винрейт 60,4% · выборка 8 648 матчей"
+			"special_bonus_unique_lina_7"		"Берут в 39,4% матчей, винрейт 62,2% · выборка 5 631 матч"
+			"lina_dragon_slave"		"Самая частая прокачка первых 10 уровней: 1 503 матча, винрейт 51,6%"
+		}
+	}
+}

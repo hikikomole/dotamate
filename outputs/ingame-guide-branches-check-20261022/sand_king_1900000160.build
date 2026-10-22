@@ -1,0 +1,123 @@
+"guidedata"
+{
+	"Hero"		"sand_king"
+	"Title"		"DotaMate · Sand King · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 69 матчей Sand King на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/sand_king/\nПрокачка — Steam, 2 781 матч Sand King на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+				"item"		"item_gauntlets"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_tango"
+				"item"		"item_phase_boots"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_arcane_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_ultimate_scepter"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_shivas_guard"
+				"item"		"item_lesser_crit"
+				"item"		"item_cyclone"
+				"item"		"item_veil_of_discord"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_soul_booster"
+				"item"		"item_bloodstone"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_wind_waker"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_dust"
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 86% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 51% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 51% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 41% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 32% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 28% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 84% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 55% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_cyclone"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_veil_of_discord"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_soul_booster"		"Берут в 16% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_bloodstone"		"Берут в 13% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 10% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_wind_waker"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 10% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_smoke_of_deceit"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"sandking_burrowstrike"
+			"2"		"sandking_caustic_finale"
+			"3"		"sandking_sand_storm"
+			"4"		"sandking_sand_storm"
+			"5"		"sandking_sand_storm"
+			"6"		"sandking_epicenter"
+			"7"		"sandking_sand_storm"
+			"8"		"sandking_burrowstrike"
+			"9"		"sandking_burrowstrike"
+			"10"		"sandking_burrowstrike"
+			"15"		"special_bonus_unique_sand_king_2"
+			"20"		"special_bonus_unique_sand_king"
+			"25"		"special_bonus_unique_sand_king_scorpion_strike_damage"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_sand_king_caustic_finale_radius"		"Берут в 36,7% матчей, винрейт 47,2% · выборка 1 127 матчей"
+			"special_bonus_unique_sand_king_3"		"Берут в 63,3% матчей, винрейт 46,5% · выборка 1 944 матча"
+			"special_bonus_unique_sand_king_8"		"Берут в 41,7% матчей, винрейт 47,7% · выборка 1 186 матчей"
+			"special_bonus_unique_sand_king_2"		"Берут в 58,3% матчей, винрейт 50,7% · выборка 1 661 матч"
+			"special_bonus_unique_sand_king"		"Берут в 95,7% матчей, винрейт 55,5% · выборка 2 151 матч"
+			"special_bonus_unique_sand_king_7"		"Берут в 4,3% матчей, винрейт 44,8% · выборка 96 матчей"
+			"special_bonus_unique_sand_king_4"		"Берут в 42,4% матчей, винрейт 58,4% · выборка 485 матчей"
+			"special_bonus_unique_sand_king_scorpion_strike_damage"		"Берут в 57,6% матчей, винрейт 62,9% · выборка 660 матчей"
+			"sandking_burrowstrike"		"Самая частая прокачка первых 10 уровней: 429 матчей, винрейт 49,7%"
+		}
+	}
+}

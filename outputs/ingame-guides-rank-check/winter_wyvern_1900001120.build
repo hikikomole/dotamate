@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"winter_wyvern"
+	"Title"		"DotaMate · Winter Wyvern · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 131 матч Winter Wyvern на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/winter_wyvern/\nПрокачка — Steam, 2 399 матчей Winter Wyvern на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+				"item"		"item_arcane_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_glimmer_cape"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_force_staff"
+				"item"		"item_pers"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_mekansm"
+				"item"		"item_headdress"
+				"item"		"item_guardian_greaves"
+				"item"		"item_chainmail"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 62% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 53% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 31% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 53% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_glimmer_cape"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_force_staff"		"Берут в 24% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_mekansm"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_headdress"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_guardian_greaves"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_chainmail"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 47% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"winter_wyvern_arctic_burn"
+			"2"		"winter_wyvern_splinter_blast"
+			"3"		"winter_wyvern_splinter_blast"
+			"4"		"winter_wyvern_cold_embrace"
+			"5"		"winter_wyvern_splinter_blast"
+			"6"		"winter_wyvern_winters_curse"
+			"7"		"winter_wyvern_splinter_blast"
+			"8"		"winter_wyvern_cold_embrace"
+			"9"		"winter_wyvern_cold_embrace"
+			"10"		"winter_wyvern_cold_embrace"
+			"15"		"special_bonus_unique_winter_wyvern_2"
+			"20"		"special_bonus_unique_winter_wyvern_7"
+			"25"		"special_bonus_unique_winter_wyvern_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_attack_damage_30"		"Берут в 27,2% матчей, винрейт 56,2% · выборка 3 431 матч"
+			"special_bonus_unique_winter_wyvern_5"		"Берут в 72,8% матчей, винрейт 53,1% · выборка 9 192 матча"
+			"special_bonus_unique_winter_wyvern_2"		"Берут в 65,7% матчей, винрейт 58,6% · выборка 5 336 матчей"
+			"special_bonus_unique_winter_wyvern_6"		"Берут в 34,3% матчей, винрейт 62,1% · выборка 2 781 матч"
+			"special_bonus_unique_winter_wyvern_7"		"Берут в 76,7% матчей, винрейт 62,2% · выборка 1 160 матчей"
+			"special_bonus_unique_winter_wyvern_1"		"Берут в 23,3% матчей, винрейт 62% · выборка 353 матча"
+			"special_bonus_unique_winter_wyvern_4"		"Берут в 84,6% матчей, винрейт 45,5% · выборка 11 матчей"
+			"special_bonus_unique_winter_wyvern_3"		"Берут в 15,4% матчей, винрейт 100% · выборка 2 матча"
+			"winter_wyvern_arctic_burn"		"Самая частая прокачка первых 10 уровней: 504 матча, винрейт 50,4%"
+		}
+	}
+}

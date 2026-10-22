@@ -1,0 +1,106 @@
+"guidedata"
+{
+	"Hero"		"kez"
+	"Title"		"DotaMate · Kez · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 99 матчей Kez на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/kez/\nПрокачка — Steam, 194 матча Kez на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_quelling_blade"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_flask"
+				"item"		"item_tango"
+				"item"		"item_wraith_band"
+				"item"		"item_pers"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_desolator"
+				"item"		"item_mage_slayer"
+				"item"		"item_ultimate_scepter"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+				"item"		"item_blink"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_satanic"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 96% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 75% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 63% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 33% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 70% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 60% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 25% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_desolator"		"Берут в 81% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mage_slayer"		"Берут в 60% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 47% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_blink"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter_2"		"Берут в 11% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_satanic"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 32% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"kez_echo_slash"
+			"2"		"kez_kazurai_katana"
+			"3"		"kez_grappling_claw"
+			"4"		"kez_kazurai_katana"
+			"5"		"kez_kazurai_katana"
+			"6"		"kez_raptor_dance"
+			"7"		"kez_kazurai_katana"
+			"8"		"kez_echo_slash"
+			"9"		"kez_echo_slash"
+			"10"		"kez_echo_slash"
+		}
+		"AbilityTooltips"
+		{
+			"kez_echo_slash"		"Самая частая прокачка первых 10 уровней: 53 матча, винрейт 45,3%"
+		}
+	}
+}

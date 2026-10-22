@@ -1,0 +1,127 @@
+"guidedata"
+{
+	"Hero"		"troll_warlord"
+	"Title"		"DotaMate · Troll Warlord · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 34 матча Troll Warlord на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/troll_warlord/\nПрокачка — Steam, 1 247 матчей Troll Warlord на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_quelling_blade"
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_slippers"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_phase_boots"
+				"item"		"item_power_treads"
+				"item"		"item_wraith_band"
+				"item"		"item_pers"
+				"item"		"item_tango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_bfury"
+				"item"		"item_yasha"
+				"item"		"item_diffusal_blade"
+				"item"		"item_maelstrom"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_sange"
+				"item"		"item_basher"
+				"item"		"item_invis_sword"
+				"item"		"item_sange_and_yasha"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_satanic"
+				"item"		"item_aghanims_shard"
+				"item"		"item_blink"
+				"item"		"item_silver_edge"
+				"item"		"item_ogre_axe"
+				"item"		"item_monkey_king_bar"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_flask"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_quelling_blade"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 62% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 50% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 41% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 41% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_pers"		"Берут в 32% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bfury"		"Берут в 74% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 44% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_diffusal_blade"		"Берут в 18% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_maelstrom"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 53% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_basher"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_invis_sword"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange_and_yasha"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 18% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 12% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_blink"		"Берут в 9% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_silver_edge"		"Берут в 9% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ogre_axe"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_monkey_king_bar"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_flask"		"Берут в 12% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"troll_warlord_whirling_axes_ranged"
+			"2"		"troll_warlord_berserkers_rage"
+			"3"		"troll_warlord_whirling_axes_ranged"
+			"4"		"troll_warlord_fervor"
+			"5"		"troll_warlord_whirling_axes_ranged"
+			"6"		"troll_warlord_battle_trance"
+			"7"		"troll_warlord_whirling_axes_ranged"
+			"8"		"troll_warlord_fervor"
+			"9"		"troll_warlord_fervor"
+			"10"		"troll_warlord_fervor"
+			"15"		"special_bonus_unique_troll_warlord_5"
+			"20"		"special_bonus_unique_troll_warlord_3"
+			"25"		"special_bonus_unique_troll_warlord_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_troll_warlord_2"		"Берут в 82,1% матчей, винрейт 52,8% · выборка 2 501 матч"
+			"special_bonus_unique_troll_warlord_whirling_axes_debuff_duration"		"Берут в 17,9% матчей, винрейт 50,5% · выборка 545 матчей"
+			"special_bonus_unique_troll_warlord"		"Берут в 42,7% матчей, винрейт 52,8% · выборка 1 245 матчей"
+			"special_bonus_unique_troll_warlord_5"		"Берут в 57,3% матчей, винрейт 55% · выборка 1 672 матча"
+			"special_bonus_unique_troll_warlord_3"		"Берут в 74,4% матчей, винрейт 57,7% · выборка 1 801 матч"
+			"special_bonus_unique_troll_warlord_battle_trance_movespeed"		"Берут в 25,6% матчей, винрейт 61,4% · выборка 621 матч"
+			"special_bonus_unique_troll_warlord_4"		"Берут в 88,3% матчей, винрейт 62,8% · выборка 1 247 матчей"
+			"special_bonus_unique_troll_warlord_6"		"Берут в 11,7% матчей, винрейт 63,9% · выборка 166 матчей"
+			"troll_warlord_whirling_axes_ranged"		"Самая частая прокачка первых 10 уровней: 167 матчей, винрейт 53,9%"
+		}
+	}
+}

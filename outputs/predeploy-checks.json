@@ -1,0 +1,107 @@
+[
+  {
+    "name": "tools/check-academy-analysis.js",
+    "status": 0,
+    "stdout": "✓ каталог рекомендаций: гайды и этапы на месте\n✓ средняя длительность базы по корзинам: 37,5 мин\n✓ поддержка: позиции 4 и 5 сливаются по числу матчей\n✓ нет героя на позиции → среднее по позиции, только GPM/XPM, длительность базы\n✓ нет позиции в базе → эталона нет\n✓ игрок ровно на эталоне → все показатели «около среднего»\n✓ на эталоне нет ни рекомендаций, ни сильных сторон, ни задания\n✓ вдвое короче матч и вдвое меньше добиваний/смертей → тот же темп в минуту\n✓ пороги: −16 % — «ниже», −14 % — «около», смерти +25 % — «больше»\n✓ рекомендации отсортированы по силе отставания\n✓ позиция 1 → этапы маршрута «Керри»\n✓ задание на матч — измеримая цель на уровне эталона\n✓ рекомендация из ответа при показателе выше эталона → задание без числовой цели\n✓ поддержка: низкий GPM сам по себе не даёт рекомендацию «Фарм»\n✓ ответы на вопросы добавляют рекомендации\n✓ команда: участие 25 %, 5-е место; ценность 3-я; смертей больше всех\n✓ низкое участие в убийствах попадает в причины\n✓ матч короче 10 минут не разбирается\n✓ Turbo без эталона Turbo — понятная ошибка, рейтинговый эталон не подставляется\n✓ Turbo-матч сравнивается с эталоном Turbo и его длительностью\n✓ Turbo-матч на уровне эталона Turbo — «около среднего»\n✓ рейтинг: Steam-эталон с K/D/A важнее Stratz\n✓ Steam-эталон без K/D/A уступает Stratz с K/D/A\n✓ позиция 4 ищется в Steam как «поддержка», в Stratz — как 4\n✓ неверная позиция — ошибка, не падение\n\nВсе проверки пройдены.\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-draft-archive.js",
+    "status": 0,
+    "stdout": "Архива эфира нет — проверку пропускаю.\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-draft-math.js",
+    "status": 0,
+    "stdout": "Свет : Lina 2, Earthshaker 4, Tidehunter 3, Pudge 5, Luna 1\nТьма : Windranger 4, Lifestealer 3, Lion 5, Phantom Lancer 1, Invoker 2\nНижняя: -4.0 п.п.\nЦентр: 9.9 п.п.\nВерхняя: -5.8 п.п.\n\nсинергия Свет: 4.8 | синергия Тьма: 7.4 | контрпик Свет: -3.9\nлинии всего: 0.2\nПЕРЕВЕС ДРАФТА: -6.2 п.п.\nпроверка направления контрпика (должно быть зеркально): -3.9 против 3.9\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-draft-matrix.js",
+    "status": 1,
+    "stdout": "Файл: draft-matrix.json\nПар: 8001 | пустых with: 1 | пустых vs: 0\nСовокупный винрейт по vs: 49.779% (ожидается ~50%)\n",
+    "stderr": "[eval]:1\r\nglobal.fetch = async () => { throw new Error('OFFLINE: network disabled for predeploy checks'); }; process.argv = [process.execPath, process.argv[1], ...process.argv.slice(2)]; require(require('path').resolve(process.argv[1]));\r\n                                   ^\r\n\r\nError: OFFLINE: network disabled for predeploy checks\r\n    at global.fetch ([eval]:1:36)\r\n    at C:\\Users\\vsegd\\Documents\\DOTAMATE\\tools\\check-draft-matrix.js:44:17\r\n    at Object.<anonymous> (C:\\Users\\vsegd\\Documents\\DOTAMATE\\tools\\check-draft-matrix.js:71:3)\r\n    at Module._compile (node:internal/modules/cjs/loader:1929:14)\r\n    at Object..js (node:internal/modules/cjs/loader:2060:10)\r\n    at Module.load (node:internal/modules/cjs/loader:1651:32)\r\n    at Module._load (node:internal/modules/cjs/loader:1443:12)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\r\n    at Module.require (node:internal/modules/cjs/loader:1674:12)\r\n    at require (node:internal/modules/helpers:157:16)\r\n\r\nNode.js v24.21.0\r\n"
+  },
+  {
+    "name": "tools/check-hero-abilities.js",
+    "status": 0,
+    "stdout": "Проверка пройдена: героев 127, способностей 719, без описания 7.\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-lane-matrix.js",
+    "status": 1,
+    "stdout": "Строк: 24033 | комбинаций герой+позиция: 365 | минимальная выборка пары: 5\nПРОВАЛ: не собрано комбинаций: 9\nНезакрытых комбинаций: 9\nВстречных пар (выборка >= 50): 5754 | среднее расхождение: 3.54 п.п. | худшее: 29.1 п.п.\nДоля выигранных линий по всему снимку: 50.75% (ожидается ~50%)\nИТОГ: провалов 1\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-links.js",
+    "status": 0,
+    "stdout": "Страниц проверено: 765, внутренних ссылок: 62274.\nБитых внутренних ссылок нет.\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-reference-data.js",
+    "status": 0,
+    "stdout": "Список патчей Valve недоступен: OFFLINE: network disabled for predeploy checks — версию не сверил.\nПатч: 7.41f\nГерои: неизвестных нет (нет файлов Steam, 0 строк)\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/test-fetch-names-ru.js",
+    "status": 0,
+    "stdout": "fetch-names-ru: OK\n",
+    "stderr": "WARN Valve returned non-Russian hero names; previous file kept (120 heroes); missing Valve heroes: none\n"
+  },
+  {
+    "name": "tools/test-ingame-guides.js",
+    "status": 0,
+    "stdout": "ingame guide fixtures: PASS\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/test-overlay-memory.js",
+    "status": 0,
+    "stdout": "overlay-builds.json: 301 матчей, 1 героев, 0 врагов\noverlay streaming and exact timing: PASS\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/test-overlay-ranked.js",
+    "status": 0,
+    "stdout": "overlay-builds.json: 0 матчей, 0 героев, 0 врагов\noverlay-builds.json: 3 матчей, 0 героев, 0 врагов\noverlay ranked fixtures: PASS\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/test-overlay-replays.js",
+    "status": 0,
+    "stdout": "Replay source skipped: missing/invalid itemIds map; Stratz-only build.\nReplay source skipped: optional input unavailable/invalid (invalid replay index/schedule/rankedIds: C:\\Users\\vsegd\\AppData\\Local\\Temp\\overlay-replays-kAwnFf); Stratz-only build.\nReplay source skipped: optional input unavailable/invalid (invalid replay index/schedule/rankedIds: C:\\Users\\vsegd\\AppData\\Local\\Temp\\overlay-replays-kAwnFf); Stratz-only build.\nРеплеи недоступны (ENOENT); сборка только Stratz.\noverlay-builds.json: 700 матчей, 1 героев, 0 врагов\nРеплеи недоступны (ENOENT); сборка только Stratz.\noverlay-builds.json: 100 матчей, 1 героев, 0 врагов\noverlay-builds.json: 100 матчей, 1 героев, 0 врагов\nReplay source skipped: optional input unavailable/invalid (ENOENT: C:\\Users\\vsegd\\AppData\\Local\\Temp\\overlay-replays-kAwnFf\\index.json); Stratz-only build.\noverlay-builds.json: 100 матчей, 1 героев, 0 врагов\nReplay source skipped: optional input unavailable/invalid (EISDIR: C:\\Users\\vsegd\\AppData\\Local\\Temp\\overlay-replays-kAwnFf); Stratz-only build.\noverlay-builds.json: 100 матчей, 1 героев, 0 врагов\nОшибка чтения реплеев (EISDIR); пересборка только Stratz.\noverlay-builds.json: 100 матчей, 1 героев, 0 врагов\noverlay replay fixtures: PASS (dedupe, pro/league/schedule, patch, position, item keys, missing file)\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/test-overlay-turbo.js",
+    "status": 0,
+    "stdout": "overlay-builds-turbo.json: 100 matches, 1 heroes\noverlay-builds-turbo.json: 29 matches, 0 heroes\noverlay-builds-turbo.json: 299 matches, 2 heroes\noverlay-builds-turbo.json: 300 matches, 2 heroes\noverlay turbo fixtures: PASS\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-draft-matrix.js data/our-matrix.json",
+    "status": 0,
+    "stdout": "Файл: our-matrix.json\nПар: 8001 | пустых with: 0 | пустых vs: 0\nСовокупный винрейт по vs: 50.231% (ожидается ~50%)\nИТОГ: все проверки пройдены (без сверки со Stratz)\n",
+    "stderr": ""
+  },
+  {
+    "name": "tools/check-meta.py seo/hero-descriptions.json",
+    "status": null,
+    "error": "spawnSync python EPERM"
+  },
+  {
+    "name": "tools/check-meta.py seo/item-descriptions.json",
+    "status": null,
+    "error": "spawnSync python EPERM"
+  },
+  {
+    "name": "tools/check-map.py js/app.js docs/app-js-map.md",
+    "status": null,
+    "error": "spawnSync python EPERM"
+  }
+]

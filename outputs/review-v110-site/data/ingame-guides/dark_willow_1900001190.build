@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"dark_willow"
+	"Title"		"DotaMate · Dark Willow · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 102 матча Dark Willow на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/dark_willow/\nПрокачка — Steam, 699 матчей Dark Willow на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_ring_of_basilius"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_tranquil_boots"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_cyclone"
+				"item"		"item_arcane_boots"
+				"item"		"item_urn_of_shadows"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_force_staff"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_hyperstone"
+				"item"		"item_wind_waker"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+				"item"		"item_moon_shard"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 95% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 78% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 73% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 63% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 50% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 27% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 60% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ring_of_basilius"		"Берут в 38% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 37% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_tranquil_boots"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_cyclone"		"Берут в 32% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_arcane_boots"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_urn_of_shadows"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_hyperstone"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_wind_waker"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 40% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_moon_shard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"dark_willow_bramble_maze"
+			"2"		"dark_willow_shadow_realm"
+			"3"		"dark_willow_bramble_maze"
+			"4"		"dark_willow_cursed_crown"
+			"5"		"dark_willow_bramble_maze"
+			"6"		"dark_willow_terrorize"
+			"7"		"dark_willow_bramble_maze"
+			"8"		"dark_willow_shadow_realm"
+			"9"		"dark_willow_shadow_realm"
+			"10"		"dark_willow_shadow_realm"
+			"15"		"special_bonus_unique_dark_willow_4"
+			"20"		"special_bonus_unique_dark_willow_3"
+			"25"		"special_bonus_unique_dark_willow_bedlam_targets"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_intelligence_12"		"Берут в 14,6% матчей, винрейт 47,1% · выборка 892 матча"
+			"special_bonus_unique_dark_willow_6"		"Берут в 85,4% матчей, винрейт 51,4% · выборка 5 215 матчей"
+			"special_bonus_unique_dark_willow_7"		"Берут в 37,5% матчей, винрейт 55,4% · выборка 1 815 матчей"
+			"special_bonus_unique_dark_willow_4"		"Берут в 62,5% матчей, винрейт 58,1% · выборка 3 019 матчей"
+			"special_bonus_unique_dark_willow_3"		"Берут в 59,6% матчей, винрейт 63,8% · выборка 1 668 матчей"
+			"special_bonus_unique_dark_willow_1"		"Берут в 40,4% матчей, винрейт 62,8% · выборка 1 129 матчей"
+			"special_bonus_unique_dark_willow_2"		"Берут в 39,1% матчей, винрейт 64,4% · выборка 317 матчей"
+			"special_bonus_unique_dark_willow_bedlam_targets"		"Берут в 60,9% матчей, винрейт 63,2% · выборка 494 матча"
+			"dark_willow_bramble_maze"		"Самая частая прокачка первых 10 уровней: 133 матча, винрейт 48,9%"
+		}
+	}
+}

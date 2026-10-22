@@ -1,0 +1,117 @@
+"guidedata"
+{
+	"Hero"		"magnataur"
+	"Title"		"DotaMate · Magnus · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 235 матчей Magnus на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/magnataur/\nПрокачка — Steam, 2 926 матчей Magnus на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_blood_grenade"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_bracer"
+				"item"		"item_power_treads"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_echo_sabre"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_force_staff"
+				"item"		"item_aether_lens"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_refresher"
+				"item"		"item_aghanims_shard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 87% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 80% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 63% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 34% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 34% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 19% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 54% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 90% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_echo_sabre"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 34% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_force_staff"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_aether_lens"		"Берут в 7% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_refresher"		"Берут в 10% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_greater_famango"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"magnataur_shockwave"
+			"2"		"magnataur_skewer"
+			"3"		"magnataur_empower"
+			"4"		"magnataur_empower"
+			"5"		"magnataur_empower"
+			"6"		"magnataur_reverse_polarity"
+			"7"		"magnataur_empower"
+			"8"		"magnataur_skewer"
+			"9"		"magnataur_skewer"
+			"10"		"magnataur_skewer"
+			"15"		"special_bonus_unique_magnus_7"
+			"20"		"special_bonus_unique_magnus"
+			"25"		"special_bonus_unique_magnus_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_magnus_6"		"Берут в 70% матчей, винрейт 49,8% · выборка 9 156 матчей"
+			"special_bonus_mp_regen_150"		"Берут в 30% матчей, винрейт 52,1% · выборка 3 920 матчей"
+			"special_bonus_unique_magnus_7"		"Берут в 62,1% матчей, винрейт 52% · выборка 7 473 матча"
+			"special_bonus_unique_magnus_reverse_polarity_stats"		"Берут в 37,9% матчей, винрейт 54,5% · выборка 4 552 матча"
+			"special_bonus_unique_magnus_skewer_damage_distance"		"Берут в 36,5% матчей, винрейт 59,2% · выборка 3 193 матча"
+			"special_bonus_unique_magnus"		"Берут в 63,5% матчей, винрейт 56,1% · выборка 5 544 матча"
+			"special_bonus_unique_magnus_5"		"Берут в 60,2% матчей, винрейт 61,7% · выборка 2 162 матча"
+			"special_bonus_unique_magnus_2"		"Берут в 39,8% матчей, винрейт 63,3% · выборка 1 430 матчей"
+			"magnataur_shockwave"		"Самая частая прокачка первых 10 уровней: 552 матча, винрейт 46,7%"
+		}
+	}
+}

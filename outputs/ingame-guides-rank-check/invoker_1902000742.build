@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"invoker"
+	"Title"		"DotaMate · 50+ · Invoker · Мид, поз. 2"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Предметы: выборка 176 матчей, ранги 50–89 (Stratz). Прокачка и таланты: все ранги (Steam). Покупки — 176 матчей Invoker на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/invoker/\nПрокачка — Steam, 9 388 матчей Invoker на позиции 2. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_circlet"
+				"item"		"item_branches"
+				"item"		"item_faerie_fire"
+				"item"		"item_mantle"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_null_talisman"
+				"item"		"item_magic_wand"
+				"item"		"item_kaya"
+				"item"		"item_clarity"
+				"item"		"item_boots"
+				"item"		"item_meteor_hammer"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_travel_boots"
+				"item"		"item_soul_booster"
+				"item"		"item_octarine_core"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_black_king_bar"
+				"item"		"item_blink"
+				"item"		"item_shivas_guard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_refresher"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_sphere"
+				"item"		"item_gungir"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_circlet"		"Берут в 95% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 90% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 82% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_mantle"		"Берут в 78% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 66% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 13% матчей на позиции 2 · стадия «Старт (до 0:00)»"
+			"item_null_talisman"		"Берут в 93% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 62% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_kaya"		"Берут в 39% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 37% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 24% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_meteor_hammer"		"Берут в 18% матчей на позиции 2 · стадия «Линия (0–10 мин)»"
+			"item_travel_boots"		"Берут в 82% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_soul_booster"		"Берут в 30% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_octarine_core"		"Берут в 20% матчей на позиции 2 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 32% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 27% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_blink"		"Берут в 10% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 10% матчей на позиции 2 · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 6% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_refresher"		"Берут в 5% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 4% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_sphere"		"Берут в 3% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+			"item_gungir"		"Берут в 3% матчей на позиции 2 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"invoker_exort"
+			"2"		"invoker_quas"
+			"3"		"invoker_exort"
+			"4"		"invoker_quas"
+			"5"		"invoker_exort"
+			"6"		"invoker_quas"
+			"7"		"invoker_exort"
+			"8"		"invoker_quas"
+			"9"		"invoker_exort"
+			"10"		"invoker_wex"
+			"15"		"special_bonus_unique_invoker_9"
+			"20"		"special_bonus_unique_invoker_additional_chaos_meteors"
+			"25"		"special_bonus_unique_invoker_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_invoker_3"		"Берут в 12% матчей, винрейт 50,4% · выборка 3 850 матчей"
+			"special_bonus_unique_invoker_ice_wall_dps"		"Берут в 88% матчей, винрейт 54,5% · выборка 28 233 матча"
+			"special_bonus_unique_invoker_9"		"Берут в 79,5% матчей, винрейт 61,4% · выборка 20 755 матчей"
+			"special_bonus_unique_invoker_5"		"Берут в 20,5% матчей, винрейт 62,1% · выборка 5 353 матча"
+			"special_bonus_unique_invoker_additional_chaos_meteors"		"Берут в 100% матчей, винрейт 67,2% · выборка 3 728 матчей"
+			"special_bonus_unique_invoker_13"		"Берут в 20% матчей, винрейт 0% · выборка 1 матч"
+			"special_bonus_unique_invoker_2"		"Берут в 80% матчей, винрейт 75% · выборка 4 матча"
+			"invoker_exort"		"Самая частая прокачка первых 10 уровней: 1 644 матча, винрейт 53,9%"
+		}
+	}
+}

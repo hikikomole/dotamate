@@ -77,9 +77,10 @@ function buys(p) {
 }
 
 // Компактная строка: только то, что читает tools/build-meta.js.
-function pack(m) {
+function pack(m, publicRow) {
   return {
     id: m.id, rw: m.didRadiantWin ? 1 : 0, dur: m.durationSeconds, t: m.startDateTime, rank: m.rank,
+    lobby_type: m.lobby_type ?? m.lobbyType ?? publicRow?.[4] ?? null, mode: m.gameMode ?? publicRow?.[5] ?? null,
     wr: m.winRates || null, nw: m.radiantNetworthLeads || null,
     lanes: [m.topLaneOutcome, m.midLaneOutcome, m.bottomLaneOutcome],
     bans: (m.pickBans || []).filter(b => !b.isPick && b.bannedHeroId).map(b => b.bannedHeroId),
@@ -124,7 +125,7 @@ function candidates(tried) {
       if (!line) continue;
       const m = JSON.parse(line);
       // [id, start, duration, avg_rank, lobby, game_mode, radiant_win, ...heroes]
-      if (m[5] === 22 && m[2] >= MIN_DURATION && !tried.has(m[0])) rows.push(m);
+        if (m[4] === 7 && m[5] === 22 && m[2] >= MIN_DURATION && !tried.has(m[0])) rows.push(m);
     }
   }
   if (!rows.length) return [];
@@ -212,7 +213,7 @@ async function main() {
       tried.add(m[0]);
       if (got && got.players && got.players.length === 10) {
         const day = new Date(got.startDateTime * 1000).toISOString().slice(0, 10);
-        fs.appendFileSync(path.join(DIR, day + '.jsonl'), JSON.stringify(pack(got)) + '\n');
+        fs.appendFileSync(path.join(DIR, day + '.jsonl'), JSON.stringify(pack(got, m)) + '\n');
         found++;
       }
       if (asked % 50 === 0) { saveTried(); console.log(`спрошено ${asked}, найдено ${found}`); }
@@ -225,4 +226,5 @@ async function main() {
   console.log(`Готово: спрошено ${asked}, найдено ${found}.`);
 }
 
-main().catch(e => { console.error(e.message); process.exit(1); });
+if (require.main === module) main().catch(e => { console.error(e.message); process.exit(1); });
+module.exports = { pack };

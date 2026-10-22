@@ -1,0 +1,132 @@
+"guidedata"
+{
+	"Hero"		"dawnbreaker"
+	"Title"		"DotaMate · Dawnbreaker · Оффлейн, поз. 3"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 199 матчей Dawnbreaker на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/dawnbreaker/\nПрокачка — Steam, 7 041 матч Dawnbreaker на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_gauntlets"
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_soul_ring"
+				"item"		"item_magic_wand"
+				"item"		"item_phase_boots"
+				"item"		"item_bracer"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_echo_sabre"
+				"item"		"item_desolator"
+				"item"		"item_blade_mail"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_buckler"
+				"item"		"item_assault"
+				"item"		"item_sange"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_shivas_guard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против физического урона"
+			{
+				"item"		"item_assault"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_gauntlets"		"Берут в 97% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 89% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 69% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 61% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 40% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 18% матчей на позиции 3 · стадия «Старт (до 0:00)»"
+			"item_soul_ring"		"Берут в 86% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 75% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 74% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_bracer"		"Берут в 71% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 14% матчей на позиции 3 · стадия «Линия (0–10 мин)»"
+			"item_echo_sabre"		"Берут в 81% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_desolator"		"Берут в 30% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_blade_mail"		"Берут в 8% матчей на позиции 3 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 54% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 53,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 53,7% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_buckler"		"Берут в 26% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 16% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»\nПротив физического урона: Броня уменьшает физический урон. Покупают не менее 16% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_sange"		"Берут в 10% матчей на позиции 3 · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 4% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+			"item_shivas_guard"		"Берут в 4% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 9% матчей на позиции 3 · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 8,5% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_greater_famango"		"Берут в 3% матчей на позиции 3 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"dawnbreaker_celestial_hammer"
+			"2"		"dawnbreaker_fire_wreath"
+			"3"		"dawnbreaker_celestial_hammer"
+			"4"		"dawnbreaker_luminosity"
+			"5"		"dawnbreaker_celestial_hammer"
+			"6"		"dawnbreaker_solar_guardian"
+			"7"		"dawnbreaker_celestial_hammer"
+			"8"		"dawnbreaker_fire_wreath"
+			"9"		"dawnbreaker_fire_wreath"
+			"10"		"dawnbreaker_fire_wreath"
+			"15"		"special_bonus_unique_dawnbreaker_solar_guardian_cooldown"
+			"20"		"special_bonus_unique_dawnbreaker_luminosity_attack_count"
+			"25"		"special_bonus_unique_dawnbreaker_fire_wreath_cooldown"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_dawnbreaker_luminosity_crit"		"Берут в 100% матчей, винрейт 52,9% · выборка 16 941 матч"
+			"special_bonus_unique_dawnbreaker_solar_guardian_cooldown"		"Берут в 72,4% матчей, винрейт 55,5% · выборка 14 721 матч"
+			"special_bonus_unique_dawnbreaker_celestial_hammer_damage"		"Берут в 27,6% матчей, винрейт 56,1% · выборка 5 625 матчей"
+			"special_bonus_unique_dawnbreaker_luminosity_attack_count"		"Берут в 66,9% матчей, винрейт 61,5% · выборка 10 767 матчей"
+			"special_bonus_unique_dawnbreaker_solar_guardian_radius"		"Берут в 33,1% матчей, винрейт 59,8% · выборка 5 335 матчей"
+			"special_bonus_unique_dawnbreaker_celestial_hammer_cast_range"		"Берут в 42% матчей, винрейт 67,2% · выборка 3 086 матчей"
+			"special_bonus_unique_dawnbreaker_fire_wreath_cooldown"		"Берут в 58% матчей, винрейт 64,9% · выборка 4 269 матчей"
+			"dawnbreaker_celestial_hammer"		"Самая частая прокачка первых 10 уровней: 3 247 матчей, винрейт 48,5%"
+		}
+	}
+}

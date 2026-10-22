@@ -1,0 +1,133 @@
+"guidedata"
+{
+	"Hero"		"slark"
+	"Title"		"DotaMate · Slark · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 161 матч Slark на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/slark/\nПрокачка — Steam, 6 890 матчей Slark на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_flask"
+				"item"		"item_wraith_band"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_diffusal_blade"
+				"item"		"item_invis_sword"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_pers"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_skadi"
+				"item"		"item_basher"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sange"
+				"item"		"item_disperser"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_dust"
+				"item"		"item_great_famango"
+				"item"		"item_greater_famango"
+			}
+			"Против магии"
+			{
+				"item"		"item_black_king_bar"
+			}
+			"Против невидимости"
+			{
+				"item"		"item_dust"
+			}
+			"Против контроля"
+			{
+				"item"		"item_black_king_bar"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 93% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 91% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 81% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 56% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 37% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 85% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 70% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 14% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_diffusal_blade"		"Берут в 68% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_invis_sword"		"Берут в 30% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 28% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_pers"		"Берут в 15% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 24% матчей на всех позициях · стадия «Поздняя (25–40 мин)»\nПротив магии: Avatar: сопротивление магии на время действия. Покупают не менее 23,6% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности.\nПротив контроля: Avatar: защита от отрицательных эффектов и нормальное развеивание; не от любого контроля. Покупают не менее 23,6% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_skadi"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_basher"		"Берут в 11% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_disperser"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 33% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Середина (10–25 мин)»\nПротив невидимости: Reveal: раскрытие невидимости в области. Покупают не менее 14,2% матчей в этом срезе (максимум по стадиям). Это механический вариант, не доказательство эффективности."
+			"item_great_famango"		"Берут в 12% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_famango"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"slark_essence_shift"
+			"2"		"slark_pounce"
+			"3"		"slark_dark_pact"
+			"4"		"slark_dark_pact"
+			"5"		"slark_dark_pact"
+			"6"		"slark_shadow_dance"
+			"7"		"slark_dark_pact"
+			"8"		"slark_pounce"
+			"9"		"slark_pounce"
+			"10"		"slark_pounce"
+			"15"		"special_bonus_unique_slark_2"
+			"20"		"special_bonus_unique_slark_7"
+			"25"		"special_bonus_unique_slark_5"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_slark"		"Берут в 61,8% матчей, винрейт 51,7% · выборка 9 345 матчей"
+			"special_bonus_unique_slark_6"		"Берут в 38,2% матчей, винрейт 49,3% · выборка 5 776 матчей"
+			"special_bonus_unique_slark_8"		"Берут в 24,3% матчей, винрейт 53,6% · выборка 3 450 матчей"
+			"special_bonus_unique_slark_2"		"Берут в 75,7% матчей, винрейт 52,6% · выборка 10 746 матчей"
+			"special_bonus_unique_slark_7"		"Берут в 75,1% матчей, винрейт 56,7% · выборка 8 127 матчей"
+			"special_bonus_unique_slark_4"		"Берут в 24,9% матчей, винрейт 60,7% · выборка 2 700 матчей"
+			"special_bonus_unique_slark_5"		"Берут в 57,8% матчей, винрейт 63,9% · выборка 3 292 матча"
+			"special_bonus_unique_slark_3"		"Берут в 42,2% матчей, винрейт 64,2% · выборка 2 403 матча"
+			"slark_essence_shift"		"Самая частая прокачка первых 10 уровней: 2 743 матча, винрейт 51,2%"
+		}
+	}
+}

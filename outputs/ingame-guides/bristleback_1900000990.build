@@ -1,0 +1,119 @@
+"guidedata"
+{
+	"Hero"		"bristleback"
+	"Title"		"DotaMate · Bristleback · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 87 матчей Bristleback на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/bristleback/\nПрокачка — Steam, 3 360 матчей Bristleback на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_gauntlets"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_quelling_blade"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_bracer"
+				"item"		"item_magic_wand"
+				"item"		"item_power_treads"
+				"item"		"item_tango"
+				"item"		"item_soul_ring"
+				"item"		"item_boots"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_consecrated_wraps"
+				"item"		"item_vanguard"
+				"item"		"item_pers"
+				"item"		"item_sange"
+				"item"		"item_blade_mail"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_heart"
+				"item"		"item_sange_and_yasha"
+				"item"		"item_yasha"
+				"item"		"item_black_king_bar"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_crimson_guard"
+				"item"		"item_ultimate_scepter"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 78% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 77% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 64% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 46% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 45% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 28% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_bracer"		"Берут в 61% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 55% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 36% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 28% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_consecrated_wraps"		"Берут в 40% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_vanguard"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_pers"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_sange"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blade_mail"		"Берут в 22% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_heart"		"Берут в 25% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange_and_yasha"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_yasha"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_crimson_guard"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"bristleback_quill_spray"
+			"2"		"bristleback_bristleback"
+			"3"		"bristleback_quill_spray"
+			"4"		"bristleback_viscous_nasal_goo"
+			"5"		"bristleback_quill_spray"
+			"6"		"bristleback_warpath"
+			"7"		"bristleback_quill_spray"
+			"8"		"bristleback_bristleback"
+			"9"		"bristleback_bristleback"
+			"10"		"bristleback_bristleback"
+			"15"		"special_bonus_unique_bristleback_6"
+			"20"		"special_bonus_unique_bristleback_2"
+			"25"		"special_bonus_unique_bristleback_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_mp_regen_150"		"Берут в 36,1% матчей, винрейт 45,7% · выборка 1 609 матчей"
+			"special_bonus_attack_speed_25"		"Берут в 63,9% матчей, винрейт 47% · выборка 2 842 матча"
+			"special_bonus_unique_bristleback_6"		"Берут в 84% матчей, винрейт 49% · выборка 3 446 матчей"
+			"special_bonus_unique_bristleback_5"		"Берут в 16% матчей, винрейт 50,8% · выборка 657 матчей"
+			"special_bonus_unique_bristleback_2"		"Берут в 63% матчей, винрейт 54,2% · выборка 2 042 матча"
+			"special_bonus_hp_regen_25"		"Берут в 37% матчей, винрейт 58% · выборка 1 201 матч"
+			"special_bonus_unique_bristleback_3"		"Берут в 63,2% матчей, винрейт 63,9% · выборка 990 матчей"
+			"special_bonus_unique_bristleback"		"Берут в 36,8% матчей, винрейт 59,7% · выборка 576 матчей"
+			"bristleback_quill_spray"		"Самая частая прокачка первых 10 уровней: 957 матчей, винрейт 46,8%"
+		}
+	}
+}

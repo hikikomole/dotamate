@@ -1,0 +1,120 @@
+"guidedata"
+{
+	"Hero"		"furion"
+	"Title"		"DotaMate · Nature's Prophet · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 149 матчей Nature's Prophet на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/furion/\nПрокачка — Steam, 930 матчей Nature's Prophet на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_tango"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+				"item"		"item_blood_grenade"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_urn_of_shadows"
+				"item"		"item_blood_grenade"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_maelstrom"
+				"item"		"item_oblivion_staff"
+				"item"		"item_mjollnir"
+				"item"		"item_orchid"
+				"item"		"item_dragon_lance"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_invis_sword"
+				"item"		"item_black_king_bar"
+				"item"		"item_bloodthorn"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_butterfly"
+				"item"		"item_greater_crit"
+				"item"		"item_satanic"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 47% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 46% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 43% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 34% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 55% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 40% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_urn_of_shadows"		"Берут в 26% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 11% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_maelstrom"		"Берут в 50% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_oblivion_staff"		"Берут в 44% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_mjollnir"		"Берут в 39% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_orchid"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dragon_lance"		"Берут в 36% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_invis_sword"		"Берут в 21% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 20% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_bloodthorn"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_ultimate_scepter"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_butterfly"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_crit"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_satanic"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 17% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"furion_sprout"
+			"2"		"furion_teleportation"
+			"3"		"furion_sprout"
+			"4"		"furion_teleportation"
+			"5"		"furion_sprout"
+			"6"		"furion_wrath_of_nature"
+			"7"		"furion_sprout"
+			"8"		"furion_teleportation"
+			"9"		"furion_teleportation"
+			"10"		"special_bonus_unique_furion_5"
+			"15"		"special_bonus_unique_furion_teleportation_barrier"
+			"20"		"special_bonus_unique_furion_7"
+			"25"		"special_bonus_unique_furion_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_furion_5"		"Берут в 67,3% матчей, винрейт 42,6% · выборка 1 738 матчей"
+			"special_bonus_unique_furion_6"		"Берут в 32,7% матчей, винрейт 44,3% · выборка 846 матчей"
+			"special_bonus_unique_furion_teleportation_barrier"		"Берут в 50,4% матчей, винрейт 48,4% · выборка 1 073 матча"
+			"special_bonus_unique_furion_2"		"Берут в 49,6% матчей, винрейт 48% · выборка 1 056 матчей"
+			"special_bonus_unique_furion_4"		"Берут в 16,4% матчей, винрейт 51,4% · выборка 208 матчей"
+			"special_bonus_unique_furion_7"		"Берут в 83,6% матчей, винрейт 53,8% · выборка 1 060 матчей"
+			"special_bonus_unique_furion"		"Берут в 40,1% матчей, винрейт 65% · выборка 177 матчей"
+			"special_bonus_unique_furion_3"		"Берут в 59,9% матчей, винрейт 56,4% · выборка 264 матча"
+			"furion_sprout"		"Самая частая прокачка первых 10 уровней: 539 матчей, винрейт 55,1%"
+		}
+	}
+}

@@ -1,0 +1,119 @@
+"guidedata"
+{
+	"Hero"		"wisp"
+	"Title"		"DotaMate · Io · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 115 матчей Io на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/wisp/\nПрокачка — Steam, 1 777 матчей Io на позиции 5. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_blood_grenade"
+				"item"		"item_magic_stick"
+				"item"		"item_ring_of_regen"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_headdress"
+				"item"		"item_blood_grenade"
+				"item"		"item_clarity"
+				"item"		"item_soul_ring"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_mekansm"
+				"item"		"item_ultimate_scepter"
+				"item"		"item_holy_locket"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_glimmer_cape"
+				"item"		"item_shivas_guard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_heart"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_soul_booster"
+				"item"		"item_desolator"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 88% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 77% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 51% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 46% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_regen"		"Берут в 36% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 35% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_wand"		"Берут в 64% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_headdress"		"Берут в 35% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 17% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_soul_ring"		"Берут в 15% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_mekansm"		"Берут в 46% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 35% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_holy_locket"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_glimmer_cape"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 8% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_heart"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_soul_booster"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_desolator"		"Берут в 3% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"wisp_tether"
+			"2"		"wisp_overcharge"
+			"3"		"wisp_overcharge"
+			"4"		"wisp_tether_break"
+			"5"		"wisp_overcharge"
+			"6"		"wisp_relocate"
+			"7"		"wisp_overcharge"
+			"8"		"wisp_tether_break"
+			"9"		"wisp_tether_break"
+			"10"		"special_bonus_unique_wisp_8"
+			"15"		"special_bonus_unique_wisp_3"
+			"20"		"special_bonus_unique_wisp_6"
+			"25"		"special_bonus_unique_wisp_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_strength_8"		"Берут в 14,3% матчей, винрейт 48,1% · выборка 553 матча"
+			"special_bonus_unique_wisp_overcharge_duration"		"Берут в 85,7% матчей, винрейт 55,3% · выборка 3 322 матча"
+			"special_bonus_unique_wisp"		"Берут в 41,3% матчей, винрейт 58% · выборка 1 225 матчей"
+			"special_bonus_unique_wisp_3"		"Берут в 58,7% матчей, винрейт 63,7% · выборка 1 740 матчей"
+			"special_bonus_unique_wisp_6"		"Берут в 82,6% матчей, винрейт 62,8% · выборка 1 147 матчей"
+			"special_bonus_unique_wisp_10"		"Берут в 17,4% матчей, винрейт 60,7% · выборка 242 матча"
+			"special_bonus_unique_wisp_4"		"Берут в 100% матчей, винрейт 65,2% · выборка 161 матч"
+			"wisp_tether"		"Самая частая прокачка первых 10 уровней: 415 матчей, винрейт 57,3%"
+		}
+	}
+}

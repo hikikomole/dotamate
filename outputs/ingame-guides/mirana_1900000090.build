@@ -1,0 +1,113 @@
+"guidedata"
+{
+	"Hero"		"mirana"
+	"Title"		"DotaMate · Mirana · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 181 матч Mirana на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/mirana/\nПрокачка — Steam, 3 750 матчей Mirana на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_circlet"
+				"item"		"item_faerie_fire"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_ring_of_basilius"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_clarity"
+				"item"		"item_urn_of_shadows"
+				"item"		"item_blood_grenade"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_arcane_boots"
+				"item"		"item_cyclone"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_mekansm"
+				"item"		"item_headdress"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_sheepstick"
+				"item"		"item_yasha"
+				"item"		"item_aghanims_shard"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 94% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 66% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 64% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 53% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 48% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 38% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_basilius"		"Берут в 50% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 49% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 33% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_urn_of_shadows"		"Берут в 29% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_arcane_boots"		"Берут в 39% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_cyclone"		"Берут в 25% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 28% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_mekansm"		"Берут в 10% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_headdress"		"Берут в 9% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sheepstick"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_yasha"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_aghanims_shard"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_smoke_of_deceit"		"Берут в 35% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_dust"		"Берут в 23% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"mirana_arrow"
+			"2"		"mirana_leap"
+			"3"		"mirana_starfall"
+			"4"		"mirana_starfall"
+			"5"		"mirana_starfall"
+			"6"		"mirana_invis"
+			"7"		"mirana_starfall"
+			"8"		"mirana_arrow"
+			"9"		"mirana_arrow"
+			"10"		"mirana_arrow"
+			"15"		"special_bonus_unique_mirana_5"
+			"20"		"special_bonus_unique_mirana_7"
+			"25"		"special_bonus_unique_mirana_2"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_mirana_6"		"Берут в 36,4% матчей, винрейт 51,5% · выборка 5 976 матчей"
+			"special_bonus_unique_mirana_3"		"Берут в 63,6% матчей, винрейт 51,2% · выборка 10 443 матча"
+			"special_bonus_unique_mirana_1"		"Берут в 13,7% матчей, винрейт 58,8% · выборка 1 808 матчей"
+			"special_bonus_unique_mirana_5"		"Берут в 86,3% матчей, винрейт 58,7% · выборка 11 356 матчей"
+			"special_bonus_unique_mirana_7"		"Берут в 100% матчей, винрейт 65,8% · выборка 8 096 матчей"
+			"special_bonus_unique_mirana_4"		"Берут в 3% матчей, винрейт 52,9% · выборка 85 матчей"
+			"special_bonus_unique_mirana_2"		"Берут в 97% матчей, винрейт 69,4% · выборка 2 789 матчей"
+			"mirana_arrow"		"Самая частая прокачка первых 10 уровней: 1 460 матчей, винрейт 53,4%"
+		}
+	}
+}

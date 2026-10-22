@@ -1,0 +1,118 @@
+"guidedata"
+{
+	"Hero"		"riki"
+	"Title"		"DotaMate · Riki · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 78 матчей Riki на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/riki/\nПрокачка — Steam, 2 191 матч Riki на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_quelling_blade"
+				"item"		"item_slippers"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_wraith_band"
+				"item"		"item_power_treads"
+				"item"		"item_magic_wand"
+				"item"		"item_clarity"
+				"item"		"item_tango"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_diffusal_blade"
+				"item"		"item_yasha"
+				"item"		"item_manta"
+				"item"		"item_pers"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_disperser"
+				"item"		"item_basher"
+				"item"		"item_lesser_crit"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_greater_crit"
+				"item"		"item_butterfly"
+				"item"		"item_sange"
+				"item"		"item_nullifier"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 90% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 85% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 74% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_slippers"		"Берут в 68% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 65% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 22% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_wraith_band"		"Берут в 69% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_power_treads"		"Берут в 67% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 62% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 23% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 19% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_diffusal_blade"		"Берут в 95% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 51% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 26% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_pers"		"Берут в 19% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_disperser"		"Берут в 24% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_basher"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_butterfly"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_sange"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_nullifier"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 14% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"riki_blink_strike"
+			"2"		"riki_tricks_of_the_trade"
+			"3"		"riki_blink_strike"
+			"4"		"riki_smoke_screen"
+			"5"		"riki_blink_strike"
+			"6"		"riki_backstab"
+			"7"		"riki_blink_strike"
+			"8"		"riki_tricks_of_the_trade"
+			"9"		"riki_tricks_of_the_trade"
+			"10"		"riki_tricks_of_the_trade"
+			"15"		"special_bonus_unique_riki_3"
+			"20"		"special_bonus_unique_riki_1"
+			"25"		"special_bonus_unique_riki_9"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_riki_8"		"Берут в 59% матчей, винрейт 52,4% · выборка 1 071 матч"
+			"special_bonus_unique_riki_7"		"Берут в 41% матчей, винрейт 50,8% · выборка 744 матча"
+			"special_bonus_unique_riki_3"		"Берут в 100% матчей, винрейт 48,2% · выборка 359 матчей"
+			"special_bonus_unique_riki_5"		"Берут в 21,1% матчей, винрейт 53,1% · выборка 303 матча"
+			"special_bonus_unique_riki_1"		"Берут в 78,9% матчей, винрейт 57,9% · выборка 1 133 матча"
+			"special_bonus_unique_riki_9"		"Берут в 68,6% матчей, винрейт 65,8% · выборка 640 матчей"
+			"special_bonus_unique_riki_6"		"Берут в 31,4% матчей, винрейт 61,4% · выборка 293 матча"
+			"riki_blink_strike"		"Самая частая прокачка первых 10 уровней: 335 матчей, винрейт 47,2%"
+		}
+	}
+}

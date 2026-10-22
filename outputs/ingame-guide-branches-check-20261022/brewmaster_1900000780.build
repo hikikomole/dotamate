@@ -1,0 +1,116 @@
+"guidedata"
+{
+	"Hero"		"brewmaster"
+	"Title"		"DotaMate · Brewmaster · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 38 матчей Brewmaster на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/brewmaster/\nПрокачка — Steam, 1 715 матчей Brewmaster на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4018"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_quelling_blade"
+				"item"		"item_magic_stick"
+				"item"		"item_gauntlets"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_bracer"
+				"item"		"item_urn_of_shadows"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_boots"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_blink"
+				"item"		"item_radiance"
+				"item"		"item_spirit_vessel"
+				"item"		"item_hand_of_midas"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_buckler"
+				"item"		"item_assault"
+				"item"		"item_pers"
+				"item"		"item_lotus_orb"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_travel_boots"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 92% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 89% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 47% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 42% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 21% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_bracer"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_urn_of_shadows"		"Берут в 55% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 53% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 24% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ultimate_scepter"		"Берут в 58% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 47% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_radiance"		"Берут в 34% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_spirit_vessel"		"Берут в 29% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_hand_of_midas"		"Берут в 24% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_buckler"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_assault"		"Берут в 24% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_pers"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_lotus_orb"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_travel_boots"		"Берут в 8% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_smoke_of_deceit"		"Берут в 5% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"brewmaster_cinder_brew"
+			"2"		"brewmaster_thunder_clap"
+			"3"		"brewmaster_cinder_brew"
+			"4"		"brewmaster_drunken_brawler"
+			"5"		"brewmaster_cinder_brew"
+			"6"		"brewmaster_primal_split"
+			"7"		"brewmaster_cinder_brew"
+			"8"		"brewmaster_drunken_brawler"
+			"9"		"brewmaster_drunken_brawler"
+			"10"		"brewmaster_drunken_brawler"
+			"15"		"special_bonus_unique_brewmaster"
+			"20"		"special_bonus_attack_speed_110"
+			"25"		"special_bonus_unique_brewmaster_4"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_brewmaster_2"		"Берут в 100% матчей, винрейт 53,9% · выборка 3 600 матчей"
+			"special_bonus_unique_brewmaster"		"Берут в 90,8% матчей, винрейт 57,5% · выборка 4 011 матчей"
+			"special_bonus_unique_brewmaster_5"		"Берут в 9,2% матчей, винрейт 51,4% · выборка 405 матчей"
+			"special_bonus_attack_speed_110"		"Берут в 100% матчей, винрейт 62,4% · выборка 920 матчей"
+			"special_bonus_unique_brewmaster_4"		"Берут в 100% матчей, винрейт 63,2% · выборка 653 матча"
+			"brewmaster_cinder_brew"		"Самая частая прокачка первых 10 уровней: 322 матча, винрейт 53,1%"
+		}
+	}
+}

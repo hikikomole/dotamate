@@ -1,0 +1,121 @@
+"guidedata"
+{
+	"Hero"		"kunkka"
+	"Title"		"DotaMate · Kunkka · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 72 матча Kunkka на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/kunkka/\nПрокачка — Steam, 3 041 матч Kunkka на позиции 3. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_gauntlets"
+				"item"		"item_quelling_blade"
+				"item"		"item_branches"
+				"item"		"item_circlet"
+				"item"		"item_magic_stick"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_bracer"
+				"item"		"item_phase_boots"
+				"item"		"item_magic_wand"
+				"item"		"item_tango"
+				"item"		"item_boots"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_blade_mail"
+				"item"		"item_radiance"
+				"item"		"item_lesser_crit"
+				"item"		"item_invis_sword"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_greater_crit"
+				"item"		"item_silver_edge"
+				"item"		"item_shivas_guard"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_octarine_core"
+				"item"		"item_ultimate_scepter_2"
+				"item"		"item_soul_booster"
+				"item"		"item_buckler"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 88% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 72% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 46% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 24% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_bracer"		"Берут в 83% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 68% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 56% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 21% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ultimate_scepter"		"Берут в 38% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blade_mail"		"Берут в 32% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_radiance"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_lesser_crit"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_invis_sword"		"Берут в 21% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 22% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 19% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_silver_edge"		"Берут в 15% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_shivas_guard"		"Берут в 13% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_octarine_core"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_ultimate_scepter_2"		"Берут в 7% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_soul_booster"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_buckler"		"Берут в 4% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+			"item_greater_famango"		"Берут в 6% матчей на всех позициях · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"kunkka_tidebringer"
+			"2"		"kunkka_torrent"
+			"3"		"kunkka_tidebringer"
+			"4"		"kunkka_x_marks_the_spot"
+			"5"		"kunkka_tidebringer"
+			"6"		"kunkka_ghostship"
+			"7"		"kunkka_tidebringer"
+			"8"		"kunkka_x_marks_the_spot"
+			"9"		"kunkka_x_marks_the_spot"
+			"10"		"kunkka_x_marks_the_spot"
+			"15"		"special_bonus_unique_kunkka_7"
+			"20"		"special_bonus_unique_kunkka_torrent_cooldown"
+			"25"		"special_bonus_spell_aoe_100"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_kunkka_tidebringer_slow"		"Берут в 100% матчей, винрейт 51,2% · выборка 3 616 матчей"
+			"special_bonus_unique_kunkka_2"		"Берут в 48,4% матчей, винрейт 53,8% · выборка 2 090 матчей"
+			"special_bonus_unique_kunkka_7"		"Берут в 51,6% матчей, винрейт 52,7% · выборка 2 224 матча"
+			"special_bonus_unique_kunkka_4"		"Берут в 37,4% матчей, винрейт 56,2% · выборка 1 276 матчей"
+			"special_bonus_unique_kunkka_torrent_cooldown"		"Берут в 62,6% матчей, винрейт 58,4% · выборка 2 138 матчей"
+			"special_bonus_spell_aoe_100"		"Берут в 100% матчей, винрейт 63,3% · выборка 1 284 матча"
+			"kunkka_tidebringer"		"Самая частая прокачка первых 10 уровней: 1 284 матча, винрейт 51,7%"
+		}
+	}
+}

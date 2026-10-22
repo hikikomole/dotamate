@@ -1,0 +1,114 @@
+"guidedata"
+{
+	"Hero"		"luna"
+	"Title"		"DotaMate · Luna · Керри, поз. 1"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 178 матчей Luna на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/luna/\nПрокачка — Steam, 6 359 матчей Luna на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD4349D"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_faerie_fire"
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_circlet"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_power_treads"
+				"item"		"item_tango"
+				"item"		"item_magic_wand"
+				"item"		"item_mask_of_madness"
+				"item"		"item_wraith_band"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_yasha"
+				"item"		"item_manta"
+				"item"		"item_butterfly"
+				"item"		"item_blink"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_lesser_crit"
+				"item"		"item_greater_crit"
+				"item"		"item_satanic"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_swift_blink"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_clarity"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_branches"		"Берут в 96% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 81% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_faerie_fire"		"Берут в 62% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_tango"		"Берут в 45% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 29% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_circlet"		"Берут в 25% матчей на позиции 1 · стадия «Старт (до 0:00)»"
+			"item_power_treads"		"Берут в 93% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 33% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_mask_of_madness"		"Берут в 24% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_wraith_band"		"Берут в 21% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 15% матчей на позиции 1 · стадия «Линия (0–10 мин)»"
+			"item_yasha"		"Берут в 99% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_manta"		"Берут в 93% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_butterfly"		"Берут в 22% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 19% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 52% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_lesser_crit"		"Берут в 29% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_greater_crit"		"Берут в 19% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_satanic"		"Берут в 17% матчей на позиции 1 · стадия «Поздняя (25–40 мин)»"
+			"item_swift_blink"		"Берут в 7% матчей на позиции 1 · стадия «Затяжная (40+ мин)»"
+			"item_clarity"		"Берут в 15% матчей на позиции 1 · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"luna_lucent_beam"
+			"2"		"luna_lunar_blessing"
+			"3"		"luna_lunar_blessing"
+			"4"		"luna_moon_glaive"
+			"5"		"luna_lunar_blessing"
+			"6"		"luna_moon_glaive"
+			"7"		"luna_lunar_blessing"
+			"8"		"luna_moon_glaive"
+			"9"		"luna_moon_glaive"
+			"10"		"special_bonus_unique_luna_7"
+			"15"		"special_bonus_unique_luna_lunar_orbit_glaive_count"
+			"20"		"special_bonus_unique_luna_6"
+			"25"		"special_bonus_unique_luna_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_luna_4"		"Берут в 8,3% матчей, винрейт 51,9% · выборка 2 162 матча"
+			"special_bonus_unique_luna_7"		"Берут в 91,7% матчей, винрейт 52,1% · выборка 24 017 матчей"
+			"special_bonus_unique_luna_1"		"Берут в 13,6% матчей, винрейт 50,4% · выборка 3 470 матчей"
+			"special_bonus_unique_luna_lunar_orbit_glaive_count"		"Берут в 86,4% матчей, винрейт 53,5% · выборка 22 002 матча"
+			"special_bonus_unique_luna_6"		"Берут в 100% матчей, винрейт 51,2% · выборка 2 530 матчей"
+			"special_bonus_unique_luna_5"		"Берут в 5% матчей, винрейт 56,2% · выборка 607 матчей"
+			"special_bonus_unique_luna_3"		"Берут в 95% матчей, винрейт 63,4% · выборка 11 553 матча"
+			"luna_lucent_beam"		"Самая частая прокачка первых 10 уровней: 1 255 матчей, винрейт 48,3%"
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+  "rows": [
+    {"id":"duplicate","end":3000,"dur":1000,"mode":22,"pro":0,"rank":30},
+    {"id":"pro","end":3000,"dur":1000,"mode":22,"pro":1},
+    {"id":"league","end":3000,"dur":1000,"mode":22,"leagueid":123},
+    {"id":"scheduled","end":3000,"dur":1000,"mode":22,"pro":0},
+    {"id":"old","end":1500,"dur":1000,"mode":22,"pro":0},
+    {"id":"unranked","end":3000,"dur":1000,"mode":22,"lobby":0},
+    {"id":"null-rank","end":3000,"dur":1000,"mode":22,"pro":0,"rank":null},
+    {"id":"low","end":3000,"dur":1000,"mode":22,"pro":0,"rank":30},
+    {"id":"high","end":3000,"dur":1000,"mode":22,"pro":0,"rank":80},
+    {"id":"unknown","end":3000,"dur":1000,"mode":22,"pro":0},
+    {"id":"low-confidence","end":3000,"dur":1000,"mode":22,"pro":0}
+  ],
+  "player": [1,0,0,0,0,50,10000,20,0,0,[[600,"item_black_king_bar"],[700,"ultimate_scepter_2"],[800,"aghanims_shard"]]]
+}

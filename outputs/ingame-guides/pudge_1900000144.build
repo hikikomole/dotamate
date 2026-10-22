@@ -1,0 +1,110 @@
+"guidedata"
+{
+	"Hero"		"pudge"
+	"Title"		"DotaMate · Pudge · Поддержка, поз. 4"
+	"Role"		"#DOTA_HeroGuide_Role_Support"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 192 матча Pudge на этой позиции из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 18.10.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/pudge/\nПрокачка — Steam, 1 911 матчей Pudge на позиции 4. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006AD434FB"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_blood_grenade"
+				"item"		"item_branches"
+				"item"		"item_enchanted_mango"
+				"item"		"item_magic_stick"
+				"item"		"item_wind_lace"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_tranquil_boots"
+				"item"		"item_clarity"
+				"item"		"item_magic_wand"
+				"item"		"item_blood_grenade"
+				"item"		"item_smoke_of_deceit"
+				"item"		"item_enchanted_mango"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_blink"
+				"item"		"item_aether_lens"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_blade_mail"
+			}
+			"Затяжная (40+ мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_pers"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_dust"
+				"item"		"item_greater_famango"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 79% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_blood_grenade"		"Берут в 65% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 47% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_enchanted_mango"		"Берут в 32% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 31% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_wind_lace"		"Берут в 27% матчей на позиции 4 · стадия «Старт (до 0:00)»"
+			"item_tranquil_boots"		"Берут в 64% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_clarity"		"Берут в 58% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 43% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_smoke_of_deceit"		"Берут в 32% матчей на позиции 4 · стадия «Линия (0–10 мин)»"
+			"item_blink"		"Берут в 69% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_aether_lens"		"Берут в 16% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_ultimate_scepter"		"Берут в 11% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_blade_mail"		"Берут в 9% матчей на позиции 4 · стадия «Поздняя (25–40 мин)»"
+			"item_black_king_bar"		"Берут в 4% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+			"item_pers"		"Берут в 3% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+			"item_dust"		"Берут в 25% матчей на позиции 4 · стадия «Середина (10–25 мин)»"
+			"item_greater_famango"		"Берут в 4% матчей на позиции 4 · стадия «Затяжная (40+ мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"pudge_meat_hook"
+			"2"		"pudge_rot"
+			"3"		"pudge_rot"
+			"4"		"pudge_flesh_heap"
+			"5"		"pudge_rot"
+			"6"		"pudge_dismember"
+			"7"		"pudge_rot"
+			"8"		"pudge_flesh_heap"
+			"9"		"pudge_flesh_heap"
+			"10"		"pudge_flesh_heap"
+			"15"		"special_bonus_unique_pudge_7"
+			"20"		"special_bonus_unique_pudge_6"
+			"25"		"special_bonus_unique_pudge_3"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_pudge_4"		"Берут в 33,3% матчей, винрейт 52,6% · выборка 5 709 матчей"
+			"special_bonus_armor_5"		"Берут в 66,7% матчей, винрейт 50,2% · выборка 11 414 матчей"
+			"special_bonus_unique_pudge_7"		"Берут в 79,9% матчей, винрейт 57,2% · выборка 10 784 матча"
+			"special_bonus_spell_lifesteal_8"		"Берут в 20,1% матчей, винрейт 57,2% · выборка 2 719 матчей"
+			"special_bonus_unique_pudge_5"		"Берут в 48,2% матчей, винрейт 60,9% · выборка 3 856 матчей"
+			"special_bonus_unique_pudge_6"		"Берут в 51,8% матчей, винрейт 62,4% · выборка 4 137 матчей"
+			"special_bonus_unique_pudge_1"		"Берут в 47% матчей, винрейт 62,7% · выборка 1 088 матчей"
+			"special_bonus_unique_pudge_3"		"Берут в 53% матчей, винрейт 64,6% · выборка 1 226 матчей"
+			"pudge_meat_hook"		"Самая частая прокачка первых 10 уровней: 338 матчей, винрейт 51,2%"
+		}
+	}
+}

@@ -1,0 +1,111 @@
+"guidedata"
+{
+	"Hero"		"alchemist"
+	"Title"		"DotaMate · Alchemist · все позиции"
+	"Role"		"#DOTA_HeroGuide_Role_Core"
+	"GameplayVersion"		"7.41f"
+	"Overview"		"Покупки — 38 матчей Alchemist на всех позициях из базы рейтинговых матчей DotaMate, патч 7.41f, обновлено 25.09.2026. Выборка небольшая — проценты ориентировочные. Процент у предмета — доля матчей, где его купили в этой стадии. Подробнее: dotamate.ru/hero/alchemist/\nПрокачка — Steam, 3 144 матча Alchemist на позиции 1. Только факты базы, не «правильная сборка»."
+	"GuideRevision"		"1"
+	"AssociatedWorkshopItemID"		"0x0000000000000000"
+	"OriginalCreatorID"		"0x0000000000000000"
+	"GuideFormatVersion"		"2"
+	"TimeUpdated"		"0x000000006ADA4966"
+	"TimePublished"		"0x0000000000000000"
+	"ItemBuild"
+	{
+		"Items"
+		{
+			"Старт (до 0:00)"
+			{
+				"item"		"item_tango"
+				"item"		"item_quelling_blade"
+				"item"		"item_gauntlets"
+				"item"		"item_branches"
+				"item"		"item_magic_stick"
+				"item"		"item_ring_of_protection"
+			}
+			"Линия (0–10 мин)"
+			{
+				"item"		"item_soul_ring"
+				"item"		"item_magic_wand"
+				"item"		"item_phase_boots"
+				"item"		"item_tango"
+				"item"		"item_boots"
+				"item"		"item_flask"
+			}
+			"Середина (10–25 мин)"
+			{
+				"item"		"item_ultimate_scepter"
+				"item"		"item_radiance"
+				"item"		"item_blink"
+				"item"		"item_yasha"
+				"item"		"item_ogre_axe"
+			}
+			"Поздняя (25–40 мин)"
+			{
+				"item"		"item_black_king_bar"
+				"item"		"item_basher"
+				"item"		"item_sange"
+				"item"		"item_buckler"
+			}
+			"Расходники по ходу игры"
+			{
+				"item"		"item_smoke_of_deceit"
+			}
+		}
+		"ItemTooltips"
+		{
+			"item_tango"		"Берут в 79% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_quelling_blade"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_gauntlets"		"Берут в 76% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_branches"		"Берут в 61% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_magic_stick"		"Берут в 18% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_ring_of_protection"		"Берут в 13% матчей на всех позициях · стадия «Старт (до 0:00)»"
+			"item_soul_ring"		"Берут в 76% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_magic_wand"		"Берут в 32% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_phase_boots"		"Берут в 24% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_boots"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_flask"		"Берут в 16% матчей на всех позициях · стадия «Линия (0–10 мин)»"
+			"item_ultimate_scepter"		"Берут в 58% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_radiance"		"Берут в 53% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_blink"		"Берут в 32% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_yasha"		"Берут в 13% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_ogre_axe"		"Берут в 11% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+			"item_black_king_bar"		"Берут в 26% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_basher"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_sange"		"Берут в 18% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_buckler"		"Берут в 16% матчей на всех позициях · стадия «Поздняя (25–40 мин)»"
+			"item_smoke_of_deceit"		"Берут в 11% матчей на всех позициях · стадия «Середина (10–25 мин)»"
+		}
+	}
+	"AbilityBuild"
+	{
+		"AbilityOrder"
+		{
+			"1"		"alchemist_unstable_concoction"
+			"2"		"alchemist_acid_spray"
+			"3"		"alchemist_acid_spray"
+			"4"		"alchemist_unstable_concoction"
+			"5"		"alchemist_acid_spray"
+			"6"		"alchemist_chemical_rage"
+			"7"		"alchemist_acid_spray"
+			"8"		"alchemist_unstable_concoction"
+			"9"		"alchemist_unstable_concoction"
+			"10"		"special_bonus_unique_alchemist"
+			"15"		"special_bonus_unique_alchemist_7"
+			"20"		"special_bonus_unique_alchemist_8"
+			"25"		"special_bonus_unique_alchemist_6"
+		}
+		"AbilityTooltips"
+		{
+			"special_bonus_unique_alchemist"		"Берут в 100% матчей, винрейт 50% · выборка 898 матчей"
+			"special_bonus_unique_alchemist_7"		"Берут в 87,4% матчей, винрейт 52,3% · выборка 1 205 матчей"
+			"special_bonus_unique_alchemist_5"		"Берут в 12,6% матчей, винрейт 43,7% · выборка 174 матча"
+			"special_bonus_unique_alchemist_2"		"Берут в 14,4% матчей, винрейт 56,4% · выборка 165 матчей"
+			"special_bonus_unique_alchemist_8"		"Берут в 85,6% матчей, винрейт 54,8% · выборка 980 матчей"
+			"special_bonus_unique_alchemist_4"		"Берут в 36,2% матчей, винрейт 56,9% · выборка 239 матчей"
+			"special_bonus_unique_alchemist_6"		"Берут в 63,8% матчей, винрейт 61,8% · выборка 422 матча"
+			"alchemist_unstable_concoction"		"Самая частая прокачка первых 10 уровней: 1 073 матча, винрейт 52,5%"
+		}
+	}
+}
