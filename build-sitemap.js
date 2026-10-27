@@ -39,6 +39,7 @@ const itemUrls = readUrls('item-urls.json');         // 400 items
 const heroGuideUrls = readUrls('hero-guide-urls.json'); // 127 гайдов по героям
 const privacyUrls = readUrls('privacy-urls.json');   // privacy policy
 const glossaryUrls = readUrls('glossary-urls.json'); // terms glossary
+const tierUrls = readUrls('tier-urls.json');
 const pageUrls = readUrls('page-urls.json');         // разделы сайта: главная, герои, предметы…
 
 const entries = [];
@@ -49,7 +50,7 @@ for (const p of pageUrls) {
 }
 if (!pageUrls.length) entries.push({ loc: 'https://dotamate.ru/', changefreq: 'daily', priority: '1.0' });
 
-for (const g of [...guideUrls, ...roleGuideUrls, ...privacyUrls, ...glossaryUrls]) {
+for (const g of [...guideUrls, ...roleGuideUrls, ...privacyUrls, ...glossaryUrls, ...tierUrls]) {
   entries.push({ loc: g.loc, lastmod: lastmodOf(g.loc), changefreq: 'monthly', priority: '0.8' });
 }
 for (const h of heroUrls) {

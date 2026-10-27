@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tusk — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Tusk - простой инициатор и дизейблер ближнего боя. Создавайте Ice Shards и катитесь в Snowball. Изучите его характеристики, лучшие билды и контрпики.">
+<meta name="description" content="Билд на Tusk и контрпики. Tusk - простой инициатор и дизейблер ближнего боя. Создавайте Ice Shards и катитесь в Snowball.">
 <link rel="canonical" href="https://dotamate.ru/hero/tusk/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tusk — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Tusk - простой инициатор и дизейблер ближнего боя. Создавайте Ice Shards и катитесь в Snowball. Изучите его характеристики, лучшие билды и контрпики.">
+<meta property="og:description" content="Билд на Tusk и контрпики. Tusk - простой инициатор и дизейблер ближнего боя. Создавайте Ice Shards и катитесь в Snowball.">
 <meta property="og:image" content="/assets/heroes/tusk.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/tusk/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tusk — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Tusk - простой инициатор и дизейблер ближнего боя. Создавайте Ice Shards и катитесь в Snowball. Изучите его характеристики, лучшие билды и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Tusk и контрпики. Tusk - простой инициатор и дизейблер ближнего боя. Создавайте Ice Shards и катитесь в Snowball.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Tusk","item":"https://dotamate.ru/hero/tusk/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,28 +46,30 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Tusk</span></nav>
     <h1>Tusk <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr str"></i>Сила · Ближний бой · Полная поддержка в 42,0 % игр</p>
+    <p class="hx-sub"><i class="hx-attr str"></i><span>Сила · Ближний бой · Полная поддержка в 42,0 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="100" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier c">C</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>47,6 %</b><em>место 96 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>47,6 %</b><em>место 96 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>5,0 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>17 031</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>12 из 37</b><em>Полная поддержка</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>15 из 37</b><em>Полная поддержка</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 1 из 3">●<span class="hx-mut">●●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на высоких рангах: 48,4 % у Легенды–Властелина против 46,2 % у Рекрута–Стража</li><li>Фармит медленнее своей роли: 323 золота/мин при среднем 348</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 5</span><b>51%</b><span class="hq-track" aria-hidden="true"><i style="width:51%"></i></span></li><li><span>Позиция 4</span><b>37.5%</b><span class="hq-track" aria-hidden="true"><i style="width:37.5%"></i></span></li><li><span>Позиция 3</span><b>6.3%</b><span class="hq-track" aria-hidden="true"><i style="width:6.3%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/wind_lace/"><img src="/assets/items/wind_lace.png" alt="" width="64" height="48" loading="lazy"><span>Wind Lace</span></a></li><li><a href="/item/blink/"><img src="/assets/items/blink.png" alt="" width="64" height="48" loading="lazy"><span>Blink Dagger</span></a></li><li><a href="/item/cyclone/"><img src="/assets/items/cyclone.png" alt="" width="64" height="48" loading="lazy"><span>Eul&#39;s Scepter of Divinity</span></a></li><li><a href="/item/ultimate_scepter/"><img src="/assets/items/ultimate_scepter.png" alt="" width="64" height="48" loading="lazy"><span>Aghanim&#39;s Scepter</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/doom_bringer/"><img src="/assets/heroes/doom_bringer.webp" alt="" width="48" height="27" loading="lazy"><span>Doom</span><b class="hq-positive">+5.3 п.п.</b></a></li><li><a href="/hero/ancient_apparition/"><img src="/assets/heroes/ancient_apparition.webp" alt="" width="48" height="27" loading="lazy"><span>Ancient Apparition</span><b class="hq-positive">+5.2 п.п.</b></a></li><li><a href="/hero/razor/"><img src="/assets/heroes/razor.webp" alt="" width="48" height="27" loading="lazy"><span>Razor</span><b class="hq-positive">+4.4 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" width="48" height="27" loading="lazy"><span>Terrorblade</span><b class="hq-negative">-7.1 п.п.</b></a></li><li><a href="/hero/dark_seer/"><img src="/assets/heroes/dark_seer.webp" alt="" width="48" height="27" loading="lazy"><span>Dark Seer</span><b class="hq-negative">-7 п.п.</b></a></li><li><a href="/hero/shredder/"><img src="/assets/heroes/shredder.webp" alt="" width="48" height="27" loading="lazy"><span>Timbersaw</span><b class="hq-negative">-5.9 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:36.271Z, 5232 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Tusk против других: Полная поддержка</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>12 из 37</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>15 из 37</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>55,2 %</td><td class="hx-mut">50,7 %</td><td><span class="hx-dev"><i class="up" style="left:50%;width:36.7%"></i></span><b class="up">+4,5 пп</b></td></tr><tr><th>Золото в минуту</th><td>323</td><td class="hx-mut">348</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:29.9%"></i></span><b class="dn">−25</b></td></tr><tr><th>Опыт в минуту</th><td>545</td><td class="hx-mut">542</td><td><span class="hx-dev"><i class="up" style="left:50%;width:2.3%"></i></span><b class="up">+3</b></td></tr></tbody></table>
-<p class="hx-note">58 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="319 игр"><b>44,8</b><span style="height:24.0%"></span><small>Рекрут</small></div><div title="1 128 игр"><b>46,6</b><span style="height:33.0%"></span><small>Страж</small></div><div title="2 339 игр"><b>44,7</b><span style="height:23.5%"></span><small>Рыцарь</small></div><div title="3 934 игр"><b>48,0</b><span style="height:40.0%"></span><small>Герой</small></div><div title="5 226 игр"><b>48,8</b><span style="height:44.0%"></span><small>Легенда</small></div><div title="4 085 игр"><b>48,0</b><span style="height:40.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="401 игр"><b>47,9</b><span style="height:39.5%"></span><small>до 25 мин</small></div><div title="4 655 игр"><b>47,0</b><span style="height:35.0%"></span><small>25–35 мин</small></div><div title="6 923 игр"><b>47,8</b><span style="height:39.0%"></span><small>35–45 мин</small></div><div title="5 052 игр"><b>48,1</b><span style="height:40.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:41.7%">41,7</i><i class="d" style="width:20%">20,0</i><i class="l" style="width:38.3%">38,3</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">115 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" loading="lazy" width="44" height="25"><span>Terrorblade</span></a><b class="up">+5,8 пп</b></li></ul><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/earth_spirit/"><img src="/assets/heroes/earth_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Earth Spirit</span></a><b class="dn">−8,3 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">58 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="319 игр"><b>44,8</b><span style="height:24.0%"></span><small>Рекрут</small></div><div title="1 128 игр"><b>46,6</b><span style="height:33.0%"></span><small>Страж</small></div><div title="2 339 игр"><b>44,7</b><span style="height:23.5%"></span><small>Рыцарь</small></div><div title="3 934 игр"><b>48,0</b><span style="height:40.0%"></span><small>Герой</small></div><div title="5 226 игр"><b>48,8</b><span style="height:44.0%"></span><small>Легенда</small></div><div title="4 085 игр"><b>48,0</b><span style="height:40.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="401 игр"><b>47,9</b><span style="height:39.5%"></span><small>до 25 мин</small></div><div title="4 655 игр"><b>47,0</b><span style="height:35.0%"></span><small>25–35 мин</small></div><div title="6 923 игр"><b>47,8</b><span style="height:39.0%"></span><small>35–45 мин</small></div><div title="5 052 игр"><b>48,1</b><span style="height:40.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:41.7%">41,7</i><i class="d" style="width:20%">20,0</i><i class="l" style="width:38.3%">38,3</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">115 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" loading="lazy" width="44" height="25"><span>Terrorblade</span></a><b class="up">+5,8 пп</b></li></ul><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/earth_spirit/"><img src="/assets/heroes/earth_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Earth Spirit</span></a><b class="dn">−8,3 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Tusk</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" loading="lazy" width="44" height="25"><span>Terrorblade</span></a><b class="dn">−7,1 пп</b></li><li><a class="hx-hico" href="/hero/dark_seer/"><img src="/assets/heroes/dark_seer.webp" alt="" loading="lazy" width="44" height="25"><span>Dark Seer</span></a><b class="dn">−7,0 пп</b></li><li><a class="hx-hico" href="/hero/shredder/"><img src="/assets/heroes/shredder.webp" alt="" loading="lazy" width="44" height="25"><span>Timbersaw</span></a><b class="dn">−5,9 пп</b></li><li><a class="hx-hico" href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Ember Spirit</span></a><b class="dn">−4,0 пп</b></li><li><a class="hx-hico" href="/hero/dawnbreaker/"><img src="/assets/heroes/dawnbreaker.webp" alt="" loading="lazy" width="44" height="25"><span>Dawnbreaker</span></a><b class="dn">−3,9 пп</b></li></ul></div>
 <div><h3>Кого контрит Tusk</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/doom_bringer/"><img src="/assets/heroes/doom_bringer.webp" alt="" loading="lazy" width="44" height="25"><span>Doom</span></a><b class="up">+5,3 пп</b></li><li><a class="hx-hico" href="/hero/ancient_apparition/"><img src="/assets/heroes/ancient_apparition.webp" alt="" loading="lazy" width="44" height="25"><span>Ancient Apparition</span></a><b class="up">+5,2 пп</b></li><li><a class="hx-hico" href="/hero/razor/"><img src="/assets/heroes/razor.webp" alt="" loading="lazy" width="44" height="25"><span>Razor</span></a><b class="up">+4,4 пп</b></li><li><a class="hx-hico" href="/hero/slark/"><img src="/assets/heroes/slark.webp" alt="" loading="lazy" width="44" height="25"><span>Slark</span></a><b class="up">+4,0 пп</b></li><li><a class="hx-hico" href="/hero/drow_ranger/"><img src="/assets/heroes/drow_ranger.webp" alt="" loading="lazy" width="44" height="25"><span>Drow Ranger</span></a><b class="up">+3,6 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article><article class="hx-tile" id="heroBuys" data-roles='{"POSITION_1":0,"POSITION_2":2,"POSITION_3":14,"POSITION_4":41,"POSITION_5":58}' data-min-role="80"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база рейтинговых матчей до 4500 MMR (1 803 матчей текущего патча). % — доля матчей героя, где предмет купили в этой фазе (всего 115).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (1 803 матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего 115).</p>
 <div class="hp-buys-pane on" data-pos="all"><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/tango/" title="Tango — 95% матчей (109 из 115)"><i style="width:95%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>95%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 83% матчей (95 из 115)"><i style="width:83%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>83%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 77% матчей (89 из 115)"><i style="width:77%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>77%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 71% матчей (82 из 115)"><i style="width:71%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>71%</b></a></li><li><a href="/item/faerie_fire/" title="Faerie Fire — 20% матчей (23 из 115)"><i style="width:20%"></i><img src="/assets/items/faerie_fire.png" alt="" loading="lazy" width="36" height="26"><span>Faerie Fire</span><b>20%</b></a></li><li><a href="/item/clarity/" title="Clarity — 18% матчей (21 из 115)"><i style="width:18%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>18%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/magic_wand/" title="Magic Wand — 60% матчей (69 из 115)"><i style="width:60%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>60%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 38% матчей (44 из 115)"><i style="width:38%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>38%</b></a></li><li><a href="/item/tango/" title="Tango — 34% матчей (39 из 115)"><i style="width:34%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>34%</b></a></li><li><a href="/item/tranquil_boots/" title="Tranquil Boots — 33% матчей (38 из 115)"><i style="width:33%"></i><img src="/assets/items/tranquil_boots.png" alt="" loading="lazy" width="36" height="26"><span>Tranquil Boots</span><b>33%</b></a></li><li><a href="/item/ring_of_basilius/" title="Ring of Basilius — 31% матчей (36 из 115)"><i style="width:31%"></i><img src="/assets/items/ring_of_basilius.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Basilius</span><b>31%</b></a></li><li><a href="/item/clarity/" title="Clarity — 23% матчей (26 из 115)"><i style="width:23%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>23%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/blink/" title="Blink Dagger — 81% матчей (93 из 115)"><i style="width:81%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>81%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 48% матчей (55 из 115)"><i style="width:48%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>48%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 27% матчей (31 из 115)"><i style="width:27%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>27%</b></a></li><li><a href="/item/arcane_boots/" title="Arcane Boots — 26% матчей (30 из 115)"><i style="width:26%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>26%</b></a></li><li><a href="/item/clarity/" title="Clarity — 23% матчей (26 из 115)"><i style="width:23%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>23%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 11% матчей (13 из 115)"><i style="width:11%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>11%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 27% матчей (31 из 115)"><i style="width:27%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>27%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 26% матчей (30 из 115)"><i style="width:26%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>26%</b></a></li><li><a href="/item/cyclone/" title="Eul&#39;s Scepter of Divinity — 25% матчей (29 из 115)"><i style="width:25%"></i><img src="/assets/items/cyclone.png" alt="" loading="lazy" width="36" height="26"><span>Eul&#39;s Scepter of Divinity</span><b>25%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 24% матчей (28 из 115)"><i style="width:24%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>24%</b></a></li><li><a href="/item/blink/" title="Blink Dagger — 10% матчей (11 из 115)"><i style="width:10%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>10%</b></a></li><li><a href="/item/clarity/" title="Clarity — 7% матчей (8 из 115)"><i style="width:7%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>7%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 8% матчей (9 из 115)"><i style="width:8%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>8%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 7% матчей (8 из 115)"><i style="width:7%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>7%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 5% матчей (6 из 115)"><i style="width:5%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>5%</b></a></li><li><a href="/item/headdress/" title="Headdress — 3% матчей (3 из 115)"><i style="width:3%"></i><img src="/assets/items/headdress.png" alt="" loading="lazy" width="36" height="26"><span>Headdress</span><b>3%</b></a></li><li><a href="/item/greater_crit/" title="Daedalus — 3% матчей (3 из 115)"><i style="width:3%"></i><img src="/assets/items/greater_crit.png" alt="" loading="lazy" width="36" height="26"><span>Daedalus</span><b>3%</b></a></li></ul></div></div></div></article></section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>
@@ -92,7 +96,7 @@
       </button></div>
   <div class="hb-panes hb-panes-skills"><div class="hb-pane on" data-pos="POSITION_5">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt=""><span>Tag Team</span></li><li><img loading="lazy" src="/assets/abilities/tusk_ice_shards.png" alt=""><span>Ice Shards</span></li><li><img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt=""><span>Snowball</span></li><li><img loading="lazy" src="/assets/abilities/tusk_walrus_punch.png" alt=""><span>Walrus PUNCH!</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +0.75s Walrus Punch Stun Duration</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt=""><span>Tag Team</span></li><li><img loading="lazy" src="/assets/abilities/tusk_ice_shards.png" alt=""><span>Ice Shards</span></li><li><img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt=""><span>Snowball</span></li><li><img loading="lazy" src="/assets/abilities/tusk_walrus_punch.png" alt=""><span>Walrus PUNCH!</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +0,75 сек. оглушения от Walrus Punch</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -163,14 +167,14 @@
       </div><div class="hb-step" title="Snowball · 60,0% побед, 270 матчей">
         <img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt="Snowball" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+0.75s Walrus Punch Stun Duration · 60,0% побед, 270 матчей">
-          <em>Талант</em><u>+0.75s</u><span>10</span>
+      </div><div class="hb-step hb-step-talent" title="+0,75 сек. оглушения от Walrus Punch · 60,0% побед, 270 матчей">
+          <em>Талант</em><u>+0,75</u><span>10</span>
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 2 828 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 2 828 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>12% Chance Walrus Punch</b>
+          <b>Walrus Punch сработает при атаке с шансом в 12%</b>
           <span>Берут 100,0% · Побед 63,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-unused">
@@ -178,33 +182,33 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+75% Walrus Punch Crit</b>
+          <b>+75% к критическому урону от Walrus Punch</b>
           <span>Берут 7,7% · Побед 62,0%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>-6s Snowball Cooldown</b>
+          <b>−-6 сек. перезарядки Snowball</b>
           <span>Берут 92,3% · Побед 61,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+120 Snowball Damage</b>
+          <b>+120 к урону от Snowball</b>
           <span>Берут 56,7% · Побед 58,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+325 Health</b>
+          <b>+325 к здоровью</b>
           <span>Берут 43,3% · Побед 57,8%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+0.75s Walrus Punch Stun Duration</b>
+          <b>+0,75 сек. оглушения от Walrus Punch</b>
           <span>Берут 91,5% · Побед 51,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+2s Tag Team Duration</b>
+          <b>+2 сек. замедления от Tag Team</b>
           <span>Берут 8,5% · Побед 45,4%</span>
           
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_4">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt=""><span>Tag Team</span></li><li><img loading="lazy" src="/assets/abilities/tusk_ice_shards.png" alt=""><span>Ice Shards</span></li><li><img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt=""><span>Snowball</span></li><li><img loading="lazy" src="/assets/abilities/tusk_walrus_punch.png" alt=""><span>Walrus PUNCH!</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +0.75s Walrus Punch Stun Duration</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt=""><span>Tag Team</span></li><li><img loading="lazy" src="/assets/abilities/tusk_ice_shards.png" alt=""><span>Ice Shards</span></li><li><img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt=""><span>Snowball</span></li><li><img loading="lazy" src="/assets/abilities/tusk_walrus_punch.png" alt=""><span>Walrus PUNCH!</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +0,75 сек. оглушения от Walrus Punch</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -238,8 +242,8 @@
       </div><div class="hb-step" title="Snowball · 52,8% побед, 468 матчей">
         <img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt="Snowball" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+0.75s Walrus Punch Stun Duration · 52,8% побед, 468 матчей">
-          <em>Талант</em><u>+0.75s</u><span>10</span>
+      </div><div class="hb-step hb-step-talent" title="+0,75 сек. оглушения от Walrus Punch · 52,8% побед, 468 матчей">
+          <em>Талант</em><u>+0,75</u><span>10</span>
         </div></div>
     </div>
             <div class="hb-branch">
@@ -274,14 +278,14 @@
       </div><div class="hb-step" title="Snowball · 57,1% побед, 261 матчей">
         <img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt="Snowball" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+0.75s Walrus Punch Stun Duration · 57,1% побед, 261 матч">
-          <em>Талант</em><u>+0.75s</u><span>10</span>
+      </div><div class="hb-step hb-step-talent" title="+0,75 сек. оглушения от Walrus Punch · 57,1% побед, 261 матч">
+          <em>Талант</em><u>+0,75</u><span>10</span>
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 3 104 матча. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 3 104 матча. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>12% Chance Walrus Punch</b>
+          <b>Walrus Punch сработает при атаке с шансом в 12%</b>
           <span>Берут 100,0% · Побед 64,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-unused">
@@ -289,32 +293,32 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+75% Walrus Punch Crit</b>
+          <b>+75% к критическому урону от Walrus Punch</b>
           <span>Берут 10,7% · Побед 61,6%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>-6s Snowball Cooldown</b>
+          <b>−-6 сек. перезарядки Snowball</b>
           <span>Берут 89,3% · Побед 62,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+120 Snowball Damage</b>
+          <b>+120 к урону от Snowball</b>
           <span>Берут 61,6% · Побед 58,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+325 Health</b>
+          <b>+325 к здоровью</b>
           <span>Берут 38,4% · Побед 56,7%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+0.75s Walrus Punch Stun Duration</b>
+          <b>+0,75 сек. оглушения от Walrus Punch</b>
           <span>Берут 89,7% · Побед 51,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-win">
-          <b>+2s Tag Team Duration</b>
+          <b>+2 сек. замедления от Tag Team</b>
           <span>Берут 10,3% · Побед 52,1%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_3">
-        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/tusk_ice_shards.png" alt=""><span>Ice Shards</span></li><li><img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt=""><span>Tag Team</span></li><li><img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt=""><span>Snowball</span></li><li><img loading="lazy" src="/assets/abilities/tusk_walrus_punch.png" alt=""><span>Walrus PUNCH!</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +0.75s Walrus Punch Stun Duration</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Бонус ко всем атрибутам</span></li></ul><div class="hb-progressions">
+        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/tusk_ice_shards.png" alt=""><span>Ice Shards</span></li><li><img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt=""><span>Tag Team</span></li><li><img loading="lazy" src="/assets/abilities/tusk_snowball.png" alt=""><span>Snowball</span></li><li><img loading="lazy" src="/assets/abilities/tusk_walrus_punch.png" alt=""><span>Walrus PUNCH!</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +0,75 сек. оглушения от Walrus Punch</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Бонус ко всем атрибутам</span></li></ul><div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
         <h3>Частый выбор</h3><em>самая популярная способность на каждом уровне</em>
@@ -347,8 +351,8 @@
       </div><div class="hb-step" title="Tag Team · 33,3% побед, 9 матчей">
         <img loading="lazy" src="/assets/abilities/tusk_tag_team.png" alt="Tag Team" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+0.75s Walrus Punch Stun Duration · 47,0% побед, 115 матчей">
-          <em>Талант</em><u>+0.75s</u><span>10</span>
+      </div><div class="hb-step hb-step-talent" title="+0,75 сек. оглушения от Walrus Punch · 47,0% побед, 115 матчей">
+          <em>Талант</em><u>+0,75</u><span>10</span>
         </div></div>
     </div>
             <div class="hb-branch">
@@ -382,13 +386,13 @@
         <span>8</span>
       </div><div class="hb-step hb-step-talent" title="Бонус ко всем атрибутам · 100,0% побед, 2 матча">
           <em>Талант</em><u>Бонус ко…</u><span>9</span>
-        </div><div class="hb-step hb-step-talent" title="+0.75s Walrus Punch Stun Duration · 47,0% побед, 115 матчей">
-          <em>Талант</em><u>+0.75s</u><span>10</span>
+        </div><div class="hb-step hb-step-talent" title="+0,75 сек. оглушения от Walrus Punch · 47,0% побед, 115 матчей">
+          <em>Талант</em><u>+0,75</u><span>10</span>
         </div></div>
     </div>
           </div>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>12% Chance Walrus Punch</b>
+          <b>Walrus Punch сработает при атаке с шансом в 12%</b>
           <span>Берут 100,0% · Побед 57,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-unused">
@@ -396,27 +400,27 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+75% Walrus Punch Crit</b>
+          <b>+75% к критическому урону от Walrus Punch</b>
           <span>Берут 59,1% · Побед 55,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell">
-          <b>-6s Snowball Cooldown</b>
+          <b>−-6 сек. перезарядки Snowball</b>
           <span>Берут 40,9% · Побед 54,7%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+120 Snowball Damage</b>
+          <b>+120 к урону от Snowball</b>
           <span>Берут 75,2% · Побед 51,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-win">
-          <b>+325 Health</b>
+          <b>+325 к здоровью</b>
           <span>Берут 24,8% · Побед 56,3%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+0.75s Walrus Punch Stun Duration</b>
+          <b>+0,75 сек. оглушения от Walrus Punch</b>
           <span>Берут 84,7% · Побед 50,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+2s Tag Team Duration</b>
+          <b>+2 сек. замедления от Tag Team</b>
           <span>Берут 15,3% · Побед 41,8%</span>
           
         </div></div></div>
@@ -511,15 +515,15 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Ice Shards</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span></div>
           <p class="hp-ab-desc">Герой сжимает осколки льда в шар холодной энергии, который наносит урон всем задетым врагам. Когда шар достигнет точки назначения, осколки высвободятся, создавая барьер на 4/5/6/7 сек.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Snowball</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Герой заворачивается в снежный ком. Союзников в радиусе 325 также можно поместить в ком, нажав на них правой кнопкой мыши, даже если ком уже движется. После запуска все враги на пути кома будут оглушены и получат урон. Чем больше в коме…</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Tag Team</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Временно даёт герою ауру, в которой атаки замедляют передвижение врагов и наносят им дополнительный физический урон. Действует 6 секунд.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Drinking Buddies</h3>
@@ -527,7 +531,7 @@
           <p class="hp-ab-desc">Герой и выбранный союзник притягиваются друг к другу, после чего получают бонус к скорости передвижения и броне.</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Walrus Kick</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span>Скрытая</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span><span>Скрытая</span></div>
           <p class="hp-ab-desc">Герой пинает ближайшего врага в указанном направлении, нанося ему урон, оглушая и замедляя его. Также урон получают все герои в радиусе 250 вокруг точки приземления. Перезарядка меньше на 50%, если пнуть крипа.</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Walrus PUNCH!</h3>
@@ -547,7 +551,16 @@
     </div>
     <a class="btn red" href="/hero/tusk/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Tusk">
+    <a class="hp-tool" href="/draft/#draft=100__" data-goal="hero_to_draft"><b>Драфт с Tusk</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -580,6 +593,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

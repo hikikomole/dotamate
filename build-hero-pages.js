@@ -99,6 +99,26 @@ const positionSnapshot = (() => {
   catch { return { heroes: {} }; }
 })();
 
+function quickFacts(h, rolesEntry, buildData, byId, itemById) {
+  const rows=[];
+  const positions=Object.entries(rolesEntry?.positions||{}).filter(([,v])=>Number.isFinite(v.share)&&v.share>0).sort((a,b)=>b[1].share-a[1].share).slice(0,3);
+  if(positions.length) rows.push(`<div><dt>Позиции</dt><dd><ul class="hq-positions">${positions.map(([k,v])=>`<li><span>Позиция ${escapeHtml(k.replace('POSITION_',''))}</span><b>${escapeHtml(String(v.share))}%</b><span class="hq-track" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,v.share))}%"></i></span></li>`).join('')}</ul></dd></div>`);
+  const primary=buildData?.positions?.[buildData.positionOrder?.[0]];
+  const items=(primary?.items?.core||[]).map(v=>itemById.get(Number(v.itemId))).filter(Boolean).slice(0,5);
+  if(items.length>=3) rows.push(`<div><dt>Ключевые предметы</dt><dd><ul class="hq-items">${items.map(v=>`<li><a href="/item/${escapeHtml(v.slug)}/"><img src="${escapeHtml(v.img)}" alt="" width="64" height="48" loading="lazy"><span>${escapeHtml(v.dname)}</span></a></li>`).join('')}</ul></dd></div>`);
+  const counters=heroCounters.heroes?.[String(h.id)];
+  for(const [key,label] of [['good','Контрит'],['against','Контрится']]) {
+    const list=(counters?.[key]||[]).slice(0,3).filter(v=>byId.has(Number(v.id))&&Number.isFinite(v.d));
+    if(list.length) rows.push(`<div><dt>${label}</dt><dd><ul class="hq-heroes">${list.map(v=>{const other=byId.get(Number(v.id));return `<li><a href="/hero/${escapeHtml(slugForHero(other))}/"><img src="${escapeHtml(imageUrl(other))}" alt="" width="48" height="27" loading="lazy"><span>${escapeHtml(other.localized_name)}</span><b class="${v.d>=0?'hq-positive':'hq-negative'}">${v.d>0?'+':''}${escapeHtml(String(v.d))} п.п.</b></a></li>`;}).join('')}</ul></dd></div>`);
+  }
+  if(!rows.length)return '';
+  const sources=[];
+  if(positions.length)sources.push(`${positionSnapshot.source}, ${positionSnapshot.bracket}, ${positionSnapshot.fetchedAt}`);
+  if(items.length>=3)sources.push(`билды: ${buildData.bracket}, ${buildData.fetchedAt}, ${primary.matches} матчей`);
+  if(counters?.good?.length||counters?.against?.length)sources.push(`${heroCounters.source}, ${heroCounters.slice}, ${heroCounters.matchesUsed} матчей, ${heroCounters.builtAt}; ${heroCounters.method}`);
+  return `<section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl>${rows.join('')}</dl><p class="hr-note">${escapeHtml(sources.join(' · '))}</p></section>`;
+}
+
 const seoDesc = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'seo', 'hero-descriptions.json'), 'utf8')); }
   catch { return {}; }
@@ -118,6 +138,7 @@ async function main(){
   // (те же поля, tools/build-heroes-snapshot.py), иначе 127 страниц героев не собрались бы вовсе.
   let heroes;
   try{
+    if(process.argv.includes('--offline')) throw new Error('offline');
     const res=await fetch('https://api.opendota.com/api/heroStats',{signal:AbortSignal.timeout(20000)});
     if(!res.ok) throw new Error('HTTP '+res.status);
     heroes=await res.json();
@@ -142,7 +163,7 @@ async function main(){
 
   // Способности: ключи по героям и их названия. Иконки и ролики лежат на том
   // же Steam CDN, откуда сайт уже берёт портреты, и собираются по ключу.
-  async function grab(url){const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
+  async function grab(url){if(process.argv.includes('--offline')) throw new Error('offline');const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
   let heroAbilities,abilityMeta;
   try{
     heroAbilities=await grab('https://api.opendota.com/api/constants/hero_abilities');
@@ -190,7 +211,8 @@ async function main(){
   })();
   const itemById=new Map();
   try{
-    const itemsRaw=await grab('https://api.opendota.com/api/constants/items');
+    // Use the same local dictionary as build-item-pages: offline builds must retain purchases.
+    const itemsRaw=JSON.parse(fs.readFileSync(path.join(__dirname,'data','items-ru.json'),'utf8')).items;
     // Ссылаемся только на предметы, у которых РЕАЛЬНО есть наша страница:
     // у OpenDota справочник шире нашего каталога, и страницы героев вели на
     // несуществующие /item/harpoon/ и /item/shadow_amulet/ — 17 ссылок в 404.
@@ -203,7 +225,7 @@ async function main(){
       if(!v||!v.id||!v.dname)continue;
       const slug=String(key).replace(/^item_/,'').toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
       if(havePage.size&&!havePage.has(slug))continue;
-      itemById.set(Number(v.id),{slug,dname:v.dname});
+      itemById.set(Number(v.id),{slug,dname:v.dname,img:v.img||`/assets/items/${slug}.png`});
     }
   }catch{}
 
@@ -217,7 +239,9 @@ async function main(){
   })();
 
   // Характеристики 1-го уровня — официальный datafeed Valve (tools/valve-hero-stats.js).
-  const valveStats=await valveHero.load(heroes.map(x=>x.id));
+  const valveStats=process.argv.includes('--offline')
+    ? JSON.parse(fs.readFileSync(valveHero.CACHE,'utf8')).heroes
+    : await valveHero.load(heroes.map(x=>x.id));
   const outRoot=path.join(__dirname,'deploy','hero');
   fs.mkdirSync(outRoot,{recursive:true});
   const urls=[];
@@ -258,6 +282,7 @@ async function main(){
     for(const ab of (gd?.abilities||[])){const t=cleanAbilityText(ab.desc);if(t)abilityText[ab.key]=t.length>240?t.slice(0,240).replace(/\s+\S*$/,'')+'…':t;}
     // Паспорт, плитки статистики, матчапы и покупки — tools/hero-stat-tiles.js
     const hx=heroStatTiles.render(h,{S:heroStatsAll,counters:heroCounters,heroItems,byId,itemById,itemVariants,escapeHtml,slugForHero,imageUrl,minRole:heroItems.minRole||80});
+    const quickHtml=quickFacts(h,rolesEntry,buildData,byId,itemById);
     const title=`${h.localized_name} — билд, гайд и контрпики | Dota Mate`;
     const fallbackDesc=`${h.localized_name}: базовые характеристики, роли (${roleText(h)}), рекомендуемый билд и контрпики. Актуальные данные Dota 2.`;
     const storedDesc=seoDesc[slug];
@@ -269,6 +294,7 @@ async function main(){
     const html=`<!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
@@ -292,6 +318,8 @@ async function main(){
 <script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">${ldjson}</script>
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
@@ -301,12 +329,13 @@ async function main(){
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
     ${siteNav.navHtml('heroes')}
-    <div class="nav-spacer"></div>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
 <main>
   ${hx.passport}
+  ${quickHtml}
   <section class="container hx-rows">${hx.rows}</section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>

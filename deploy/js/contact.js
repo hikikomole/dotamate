@@ -1,4 +1,4 @@
-// Форма обратной связи (/contact/) → POST /api/feedback (deploy/worker.js, handleFeedback).
+// Форма обратной связи (/contact/) → POST /api/feedback (deploy/api/index.php, handleFeedback).
 (function () {
   'use strict';
   var form = document.getElementById('fbForm');

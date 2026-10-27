@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brewmaster — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Brewmaster - сложный универсал ближнего боя, сильный танк и инициатор. Применяйте Cinder Brew. На странице есть разбор характеристик, билды и контрпики.">
+<meta name="description" content="Билд на Brewmaster и контрпики. Brewmaster - сложный универсал ближнего боя, сильный танк и инициатор. Применяйте Cinder Brew.">
 <link rel="canonical" href="https://dotamate.ru/hero/brewmaster/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Brewmaster — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Brewmaster - сложный универсал ближнего боя, сильный танк и инициатор. Применяйте Cinder Brew. На странице есть разбор характеристик, билды и контрпики.">
+<meta property="og:description" content="Билд на Brewmaster и контрпики. Brewmaster - сложный универсал ближнего боя, сильный танк и инициатор. Применяйте Cinder Brew.">
 <meta property="og:image" content="/assets/heroes/brewmaster.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/brewmaster/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Brewmaster — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Brewmaster - сложный универсал ближнего боя, сильный танк и инициатор. Применяйте Cinder Brew. На странице есть разбор характеристик, билды и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Brewmaster и контрпики. Brewmaster - сложный универсал ближнего боя, сильный танк и инициатор. Применяйте Cinder Brew.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Brewmaster","item":"https://dotamate.ru/hero/brewmaster/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Brewmaster</span></nav>
     <h1>Brewmaster <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr uni"></i>Универсальный · Ближний бой · Оффлейн в 86,5 % игр</p>
+    <p class="hx-sub"><i class="hx-attr uni"></i><span>Универсальный · Ближний бой · Оффлейн в 86,5 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="78" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier a">A</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>51,2 %</b><em>место 32 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>51,2 %</b><em>место 43 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>1,7 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>5 920</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>19 из 31</b><em>Оффлейн</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>27 из 31</b><em>Оффлейн</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 3 из 3">●●●<span class="hx-mut"></span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Часто проигрывает линию: 44,7 % поражений против 18,4 % побед</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 3</span><b>90.5%</b><span class="hq-track" aria-hidden="true"><i style="width:90.5%"></i></span></li><li><span>Позиция 2</span><b>4.4%</b><span class="hq-track" aria-hidden="true"><i style="width:4.4%"></i></span></li><li><span>Позиция 4</span><b>3.3%</b><span class="hq-track" aria-hidden="true"><i style="width:3.3%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/bracer/"><img src="/assets/items/bracer.png" alt="" width="64" height="48" loading="lazy"><span>Bracer</span></a></li><li><a href="/item/urn_of_shadows/"><img src="/assets/items/urn_of_shadows.png" alt="" width="64" height="48" loading="lazy"><span>Urn of Shadows</span></a></li><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/spirit_vessel/"><img src="/assets/items/spirit_vessel.png" alt="" width="64" height="48" loading="lazy"><span>Spirit Vessel</span></a></li><li><a href="/item/radiance/"><img src="/assets/items/radiance.png" alt="" width="64" height="48" loading="lazy"><span>Radiance</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/undying/"><img src="/assets/heroes/undying.webp" alt="" width="48" height="27" loading="lazy"><span>Undying</span><b class="hq-positive">+4.6 п.п.</b></a></li><li><a href="/hero/zuus/"><img src="/assets/heroes/zuus.webp" alt="" width="48" height="27" loading="lazy"><span>Zeus</span><b class="hq-positive">+4.5 п.п.</b></a></li><li><a href="/hero/luna/"><img src="/assets/heroes/luna.webp" alt="" width="48" height="27" loading="lazy"><span>Luna</span><b class="hq-positive">+3.9 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/mirana/"><img src="/assets/heroes/mirana.webp" alt="" width="48" height="27" loading="lazy"><span>Mirana</span><b class="hq-negative">-7.5 п.п.</b></a></li><li><a href="/hero/slark/"><img src="/assets/heroes/slark.webp" alt="" width="48" height="27" loading="lazy"><span>Slark</span><b class="hq-negative">-3.9 п.п.</b></a></li><li><a href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" width="48" height="27" loading="lazy"><span>Phantom Lancer</span><b class="hq-negative">-3.2 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:18.152Z, 3224 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Brewmaster против других: Оффлейн</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>19 из 31</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>27 из 31</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>47,1 %</td><td class="hx-mut">51,0 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:32.1%"></i></span><b class="dn">−3,9 пп</b></td></tr><tr><th>Золото в минуту</th><td>500</td><td class="hx-mut">499</td><td><span class="hx-dev"><i class="up" style="left:50%;width:0.8%"></i></span><b class="up">+1</b></td></tr><tr><th>Опыт в минуту</th><td>729</td><td class="hx-mut">689</td><td><span class="hx-dev"><i class="up" style="left:50%;width:24.2%"></i></span><b class="up">+40</b></td></tr></tbody></table>
-<p class="hx-note">34 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="455 игр"><b>53,4</b><span style="height:67.0%"></span><small>Страж</small></div><div title="908 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="1 354 игр"><b>47,8</b><span style="height:39.0%"></span><small>Герой</small></div><div title="1 676 игр"><b>52,3</b><span style="height:61.5%"></span><small>Легенда</small></div><div title="1 401 игр"><b>53,2</b><span style="height:66.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="1 462 игр"><b>55,4</b><span style="height:77.0%"></span><small>25–35 мин</small></div><div title="2 414 игр"><b>51,1</b><span style="height:55.5%"></span><small>35–45 мин</small></div><div title="1 898 игр"><b>48,5</b><span style="height:42.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:18.4%">18,4</i><i class="d" style="width:36.8%">36,8</i><i class="l" style="width:44.7%">44,7</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">38 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/spirit_breaker/"><img src="/assets/heroes/spirit_breaker.webp" alt="" loading="lazy" width="44" height="25"><span>Spirit Breaker</span></a><b class="up">+5,9 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">34 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="455 игр"><b>53,4</b><span style="height:67.0%"></span><small>Страж</small></div><div title="908 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="1 354 игр"><b>47,8</b><span style="height:39.0%"></span><small>Герой</small></div><div title="1 676 игр"><b>52,3</b><span style="height:61.5%"></span><small>Легенда</small></div><div title="1 401 игр"><b>53,2</b><span style="height:66.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="1 462 игр"><b>55,4</b><span style="height:77.0%"></span><small>25–35 мин</small></div><div title="2 414 игр"><b>51,1</b><span style="height:55.5%"></span><small>35–45 мин</small></div><div title="1 898 игр"><b>48,5</b><span style="height:42.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:18.4%">18,4</i><i class="d" style="width:36.8%">36,8</i><i class="l" style="width:44.7%">44,7</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">38 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/spirit_breaker/"><img src="/assets/heroes/spirit_breaker.webp" alt="" loading="lazy" width="44" height="25"><span>Spirit Breaker</span></a><b class="up">+5,9 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Brewmaster</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/mirana/"><img src="/assets/heroes/mirana.webp" alt="" loading="lazy" width="44" height="25"><span>Mirana</span></a><b class="dn">−7,5 пп</b></li><li><a class="hx-hico" href="/hero/slark/"><img src="/assets/heroes/slark.webp" alt="" loading="lazy" width="44" height="25"><span>Slark</span></a><b class="dn">−3,9 пп</b></li><li><a class="hx-hico" href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Lancer</span></a><b class="dn">−3,2 пп</b></li><li><a class="hx-hico" href="/hero/snapfire/"><img src="/assets/heroes/snapfire.webp" alt="" loading="lazy" width="44" height="25"><span>Snapfire</span></a><b class="dn">−3,0 пп</b></li><li><a class="hx-hico" href="/hero/pudge/"><img src="/assets/heroes/pudge.webp" alt="" loading="lazy" width="44" height="25"><span>Pudge</span></a><b class="dn">−2,8 пп</b></li></ul></div>
 <div><h3>Кого контрит Brewmaster</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/undying/"><img src="/assets/heroes/undying.webp" alt="" loading="lazy" width="44" height="25"><span>Undying</span></a><b class="up">+4,6 пп</b></li><li><a class="hx-hico" href="/hero/zuus/"><img src="/assets/heroes/zuus.webp" alt="" loading="lazy" width="44" height="25"><span>Zeus</span></a><b class="up">+4,5 пп</b></li><li><a class="hx-hico" href="/hero/luna/"><img src="/assets/heroes/luna.webp" alt="" loading="lazy" width="44" height="25"><span>Luna</span></a><b class="up">+3,9 пп</b></li><li><a class="hx-hico" href="/hero/witch_doctor/"><img src="/assets/heroes/witch_doctor.webp" alt="" loading="lazy" width="44" height="25"><span>Witch Doctor</span></a><b class="up">+3,1 пп</b></li><li><a class="hx-hico" href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" loading="lazy" width="44" height="25"><span>Crystal Maiden</span></a><b class="up">+2,9 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -84,7 +88,7 @@
   
   <div class="hb-panes hb-panes-skills"><div class="hb-pane on" data-pos="POSITION_3">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/brewmaster_cinder_brew.png" alt=""><span>Cinder Brew</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_thunder_clap.png" alt=""><span>Thunder Clap</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_drunken_brawler.png" alt=""><span>Drunken Brawler</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_primal_split.png" alt=""><span>Primal Split</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_drunken_haze.png" alt=""><span>brewmaster_drunken_haze</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +30 Damage</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/brewmaster_cinder_brew.png" alt=""><span>Cinder Brew</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_thunder_clap.png" alt=""><span>Thunder Clap</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_drunken_brawler.png" alt=""><span>Drunken Brawler</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_primal_split.png" alt=""><span>Primal Split</span></li><li><img loading="lazy" src="/assets/abilities/brewmaster_drunken_haze.png" alt=""><span>brewmaster_drunken_haze</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +30 к урону</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -155,14 +159,14 @@
       </div><div class="hb-step" title="brewmaster_drunken_haze · 68,3% побед, 82 матчей">
         <img loading="lazy" src="/assets/abilities/brewmaster_drunken_haze.png" alt="brewmaster_drunken_haze" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+30 Damage · 68,3% побед, 82 матча">
+      </div><div class="hb-step hb-step-talent" title="+30 к урону · 68,3% побед, 82 матча">
           <em>Талант</em><u>+30</u><span>10</span>
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 1 715 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 1 715 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>Cinder Brew applies Fear when ignited</b>
+          <b>Горение от Cinder Brew накладывает страх</b>
           <span>Берут 100,0% · Побед 63,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-unused">
@@ -170,7 +174,7 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+110 Attack Speed</b>
+          <b>+110 к скорости атаки</b>
           <span>Берут 100,0% · Побед 62,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-unused">
@@ -178,11 +182,11 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+600 Brewlings Health</b>
+          <b>+600 к здоровью воинов от Primal Split</b>
           <span>Берут 90,8% · Побед 57,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+40%% Cinder Brew Damage/Duration</b>
+          <b>+40% к длительности и урону от Cinder Brew</b>
           <span>Берут 9,2% · Побед 51,4%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
@@ -190,7 +194,7 @@
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+13 Brewlings Base Damage</b>
+          <b>+13 к базовому урону воинов от Primal Split</b>
           <span>Берут 100,0% · Побед 53,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -247,11 +251,11 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Thunder Clap</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Сотрясает землю, нанося урон всем врагам в области действия, а также замедляя их атаки и передвижение.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Cinder Brew</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span></div>
           <p class="hp-ab-desc">Герой катит на неприятелей бочку, которая наносит урон задетым врагам и забрызгивает их пламенным варевом, а в конечной точке разливается. Облитые враги передвигаются медленнее. Получив магический или чистый урон, они загорятся и начнут…</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Drunken Brawler</h3>
@@ -279,7 +283,16 @@
     </div>
     <a class="btn red" href="/hero/brewmaster/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Brewmaster">
+    <a class="hp-tool" href="/draft/#draft=78__" data-goal="hero_to_draft"><b>Драфт с Brewmaster</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -312,6 +325,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

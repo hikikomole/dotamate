@@ -1,5 +1,18 @@
 # Собственная статистика и зависимость от внешних источников
 
+## Новые срезы позиций и главной (26.10.2026)
+
+`stats.json.rankedSummary` и `home-meta.json.summary` вычисляются только из записей Steam Ranked All Pick текущего патча с явно проверенными lobby=7, mode=22, исходом и десятью разными героями. Бан считается известным только при наличии поля банов в каждом принятом матче; отсутствие поля не равно нулю. Старые локально вычисленные измерения Stratz остаются внешними измерениями и не могут заполнять эти поля. Контракт `home-meta.json` сохраняет `carry/picked/banned`; при неверном происхождении сводка скрывается.
+
+`role-meta.json` использует только реплеи Valve и независимый ручной аудит разметки 1–5; обнаружение кандидатов для реплеев может зависеть от OpenDota, но статистика OpenDota/Stratz в новый рейтинг не входит. Без прохождения аудита и покрытия >=90% публикуется только `insufficient`. Источник помечен как выборка ранговых реплеев, а не все матчи Steam. Клиент `js/stats.js` читает этот файл отдельно, не подменяя его старыми `positions`, `ro/rt` или объединённым Steam-бакетом поддержки. Дата устаревания определяется временем исходных матчей, порог 36 часов.
+
+## Стримы Twitch (26.10.2026)
+
+Без учётных данных Helix `/api/streams` использует подборку `data/streamers-ru.json`, копируемую в `deploy/data/`. Чтобы добавить канал, внесите объект `{"login":"имя_канала","name":"Отображаемое имя","lang":"ru"}`. Логин: латинские буквы, цифры, подчёркивание, до 25 символов. PHP проверяет превью Twitch CDN без ключа и кеширует результат 180 секунд. Поведение CDN не документировано: при его изменении статус может стать неизвестным, но список останется видимым. При наличии учётных данных действует Helix.
+
+
+`/live/streams/` получает список через `/api/streams` из официального Twitch Helix API (Dota 2, game_id 29595). Это внешний каталог прямых эфиров, не источник игровой статистики. PHP хранит учётные данные в `~/dotamate-data/secrets/twitch.json`, токен и ответ — в закрытом файловом кеше; результат обновляется примерно раз в 120 секунд. При недоступности Twitch выводится устаревший кеш, если он есть. Без учётных данных показывается подборка каналов с проверкой статуса через Twitch CDN.
+
 Дополнение 22.10.2026 (локально): оверлей Турбо строится отдельным процессом
 `tools/build-overlay-builds-turbo.js` только по сохранённым Steam mode=23:
 итоговый инвентарь и ability_upgrades, только pos=0, без времени покупок (timings=false).
@@ -190,3 +203,68 @@
 - **v73 (01:57 МСК):** `collect.js` запрашивает salt частями по 5; crontab `--limit 6`. Первый запуск 02:06 — 6/6 за ~3,5 мин. Предел: 11 аккаунтов × 90 запросов salt = 990 в сутки; 144 запуска × 6 = 864.
 - **Хостинг с 10.10.2026 — тариф RuBig:** 115 процессов, 3 072 МБ памяти, 50 000 МБ диска (было 45 / 1 536 / 30 000). Ограничения crontab (`heavy.lock`, урезанные потоки Node) пока оставлены. Подробно — `claude/limit-processov-hostinga.md` в проекте.
 - Не проверено: прирост архива за полные сутки после v73 (сверить по `archive/index.json`).
+
+## Краткая сводка на странице героя (26.10.2026)
+
+`build-hero-pages.js --offline` читает локальные `data/hero-positions.json` (доли позиций, снимок Stratz), `data/builds/<id>.json` (основные предметы первой позиции билда), `data/items-ru.json` (названия) и `data/hero-counters.json` (пары из своей базы публичных матчей, метрика log5: разница фактической и ожидаемой доли побед в процентных пунктах). Блок «Коротко» в статических `deploy/hero/<slug>/index.html` показывает только строки с данными и подпись источника, периода и выборки из файлов. Сборка с `--offline` не обращается к сети.
+
+### Проверка регрессии Alchemist 26.10 (только локально)
+
+- И HEAD, и рабочий `deploy/hero/alchemist/index.html` не содержат «Место в роли» и таблицу «против других». `tools/hero-stat-tiles.js` совпадает с HEAD: оба элемента требуют записи героя в `stats.json.positions[mainPos].heroes` с `n >= method.minPos` (30). У Alchemist основная позиция — 1, а записи 73 в этом срезе нет. Условие не менялось; данные не подменялись.
+- Локальный `data/stats.json`: `builtAt=2026-09-25T16:22:50.020Z`, 342 826 матчей OpenDota/publicMatches 0–4500 MMR за 23.09; `base.src` отсутствует. Поэтому подпись — «Своя база», а не Steam. Это не fallback сетевого запроса сборщика. Сообщённые владельцем production-цифры — 4 778 713 Steam-матчей 02–26.10; сервер и сайт в этой задаче не запрашивались.
+- По внутренним меткам, а не времени копирования: `hero-positions.json` — 25.09 14:00Z; `builds/73.json` — 25.09 13:05Z; `hero-counters.json` — 25.09 16:22Z; `hero-items.json` — 25.09 16:21Z. Снимки разных выборок нельзя объединять под одной подписью. Справочники: `heroes.json`, `items-ru.json`, `hero-abilities.json`, `hero-base-stats.json`, `ability-index.json`, `talent-tree.json`, `talents-ru.json`, `skill-chains.json`; тексты — `seo/hero-guide-data.json`, `seo/hero-descriptions.json`. Их свежесть не подтверждает свежесть статистики.
+- Геройский «Коротко» появился в незакоммиченных правках сборщика; в истории `git log --all -S 'Коротко' -- build-hero-pages.js` коммита нет. Датированное описание — этот документ, 26.10. Точное время незакоммиченной правки git не хранит. Краткие ответы статей введены коммитом `77af6eed`, 25.09.2026 10:14Z.
+- Общая карточка `css/hero-quick.css`: 127 страниц `/hero/`, 161 краткий ответ `/guide/` и разделы «Коротко» в `patch-741a`, `patch-741b`, `patch-741c`, `patch-741d`, `patch-741e`, `patch-740`, `patch-739`, `patch-738`, `patch-737`. В сборщике `/item/` такого блока нет. Карточка героя расположена после паспорта с insight strip и перед таблицами; старый renderer сохранён.
+- **Локальные HTML героев выкладывать небезопасно:** они перезапишут актуальную статистику устаревшими снимками. Передавать только согласованные изменения сборщиков/CSS; на сервере пересобрать страницы с его актуальными файлами, проверить наличие таблицы и карточки у Alchemist, после этого публиковать. Не запускать локальную синхронизацию `data/` поверх серверных данных.
+- Точные шаги `tools/daily-update.js`: `node tools/build-hero-counters.js` → `node tools/collect-steam-matches.js --fill-ranks --days 3` → `node tools/build-stats.js --source steam` → после успешных контрпиков `node build-hero-pages.js` → `node build-hero-guides.js` → `node tools/build-ingame-guides.js --publish` → `node build-guide-pages.js`; sitemap идёт после сборщиков. Это описание существующего production pipeline, не команда на его запуск в этой задаче. При уже свежих серверных данных ключевой шаг пересборки HTML — `cd ~/dotamate-src && node build-hero-pages.js`.
+- `build-hero-guides.js --offline` теперь также читает кеш Valve напрямую. В первом локальном прогоне обнаружены неуспешные попытки обновления Valve через прежний путь; после исправления повторные сборки выполнены с блокировкой `fetch`.
+# Стримы Kick и Twitch
+
+`/api/streams` получает Kick через официальный Public API (`category_id=14`): общий список и отдельный список `language=ru` объединяются по `broadcaster_user_id`. Учётные данные Kick хранятся только на сервере в `dataDir()/secrets/kick.json` (`client_id`, `client_secret`); OAuth-токен сохраняется атомарно с правами 0600 в `dataDir()/cache`.
+
+Kick и Twitch кэшируются независимо (120 с для Kick и Twitch Helix, 180 с для Twitch curated). При сбое одного провайдера доступные или устаревшие данные другого продолжают отображаться; поле `providers` сообщает состояние каждого. Без учётных данных Kick пропускается, Twitch продолжает работать через Helix или существующий curated-режим. Контент для локального стенда: `tools/fixtures/streams-combined-sample.json` через `DOTAMATE_STREAMS_FIXTURE`.
+# Private patch snapshots (D2PT stage C)
+
+Patch boundaries come from Valve patch notes and are retained in
+`data/patch-catalog.json`. Private `patch-stats/<version>.json` snapshots use
+only eligible Steam match records, partitioned by match start time. They contain
+raw per-day hero appearances/wins and Radiant wins, with excluded row counts.
+They are not public output, do not use the rolling `stats-history` series or
+OpenDota/Stratz measurements, and do not imply that previous-patch coverage is
+complete. Publication of comparisons requires separately checked aligned windows.
+# Ranked pair search (D2PT stage D)
+
+`tools/build-matchup-search.js` reads raw Steam records, accepts only lobby 7,
+mode 22, duration at least 900 seconds, valid result and ten distinct known
+heroes within the current Valve patch boundary. It writes a separate
+`matchup-search.json`; it does not derive values from or replace
+`our-matrix.json`/`our-meta.json`. The latter may still contain the historical
+OpenDota sample and remain in use by existing pages. Each pair is stored with
+ascending hero IDs. For `vs`, wins belong to the lower ID hero; for `with`,
+wins belong to their team. Observed, log5 expected and percentage point delta
+are hidden below 300 joint matches. The build date does not describe source
+freshness; `meta.from`/`meta.to` do. The stats pair selector requests this file
+lazily; existing pair tables still use the older stats contract. No deployment
+or publication is performed by this stage.
+
+`tools/build-side-stats.js` independently aggregates the same strict ranked
+Steam cohort into `side-stats.json`. It counts each match once in exactly one
+duration bucket and keeps separate hero appearances/wins by side. Duration
+winrate requires 300 matches; a hero side difference requires 100 appearances
+on each side. Replay lane outcomes remain unavailable.
+The stats matches view requests this file lazily and labels its cohort and
+observed date; its pre-existing duration content keeps its previous contract.
+
+## D2PT replay role policy (stages H–K)
+
+The new role path uses Valve replay coordinates and last hits, with no Stratz lookup in the public builder. The historical `archive-positions.js` Stratz comparison is separate and cannot satisfy the manual audit gate. Ambiguous or incomplete replay evidence is excluded. `role-meta.json` reports an insufficient state until independent per-role audit and labeling coverage pass. Tier pages reuse that JSON without another ranking calculation, and their sitemap manifest omits positions without eligible rows. Real replay audit and server coverage are still unverified; fixture results make no publication claim.
+
+Hero Grid export uses the independently gated Valve replay `role-meta.json`; it does not use Stratz position estimates or OpenDota statistics. The game JSON carries no source metadata, so the tier hub supplies provenance and installation context. Structural fixture checks do not establish current-client compatibility; download remains disabled until the client check passes.
+
+## Replay purchase evidence
+
+New normalized replays and compact purchase rows carry an additive per-player `purchaseLogComplete` flag. It is true only after an epilogue, ten player interval streams, assignable purchase owners and valid mapped item events. Older archive rows lack the flag and remain unverified. `tools/build-item-timings.js` and `tools/build-item-followups.js` use only true flags from ranked Valve replays; neither changes `item-stats.json` or its existing consumers. The separate timing output requires 30 verified buyers and 30 verified matches for the item page. Below that, pages show the verified match count. Follow-up output excludes recipes, consumables, same-time ties and players without a later distinct completed item. A replay parser's event coverage still needs independent audit before publication; the flag certifies local parse completeness, not upstream event exhaustiveness.
+
+## Live viewer source boundary
+
+The online list and match views use the existing Steam live endpoints. Archive playback remains a separate replay mode. The viewer no longer requests the historical `our-matrix-top.json` draft model or `item-impact.json` for live overlays because their provenance does not meet the new independent source policy. This does not establish current Steam availability or a complete tournament calendar.

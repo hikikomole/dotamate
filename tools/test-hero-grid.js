@@ -1,0 +1,33 @@
+'use strict';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('fs');
+const path = require('path');
+const { spawnSync } = require('child_process');
+const { buildGrid } = require('./build-hero-grid');
+test('grid exports five ordered non-overlapping categories', () => {
+  const positions = Object.fromEntries([1, 2, 3, 4, 5].map(p => [p, { heroes: [{ id: 2, n: 110, rating: 50 }, { id: 1, n: 100, rating: 40 }, { id: 3, n: 30, rating: null }] }]));
+  const grid = buildGrid({ schemaVersion: 1, status: 'ok', meta: { coverage: { gatePassed: true } }, positions }, new Set([1, 2, 3]));
+  assert.equal(grid.version, 3);
+  assert.equal(grid.configs[0].categories.length, 5);
+  for (const c of grid.configs[0].categories) assert.deepEqual(c.hero_ids, [2, 1]);
+  assert.ok(grid.configs[0].categories.every((c, i, a) => !i || c.y_position >= a[i - 1].y_position + a[i - 1].height));
+  assert.throws(() => buildGrid({ schemaVersion: 1, status: 'insufficient', meta: { coverage: { gatePassed: false } }, positions }, new Set([1, 2, 3])));
+});
+test('grid fixture builder writes valid JSON and keeps it after invalid input', () => {
+  const base = path.join(__dirname, '..', 'outputs', 'd2pt-check', 'L');
+  const input = path.join(base, 'input'), output = path.join(base, 'output');
+  fs.mkdirSync(input, { recursive: true });
+  const positions = Object.fromEntries([1, 2, 3, 4, 5].map(p => [p, { heroes: [{ id: 1, n: 100, rating: 40, tier: null }] }]));
+  const valid = { schemaVersion: 1, status: 'ok', meta: { coverage: { gatePassed: true } }, positions };
+  fs.writeFileSync(path.join(input, 'role-meta.json'), JSON.stringify(valid));
+  fs.writeFileSync(path.join(input, 'heroes.json'), JSON.stringify({ heroes: [{ id: 1 }] }));
+  const run = () => spawnSync(process.execPath, [path.join(__dirname, 'build-hero-grid.js'), '--fixture', '--input-dir', input, '--out-dir', output], { encoding: 'utf8' });
+  assert.equal(run().status, 0);
+  const file = path.join(output, 'hero_grid_config.json');
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).configs[0].categories.length, 5);
+  fs.writeFileSync(path.join(input, 'role-meta.json'), JSON.stringify({ ...valid, status: 'insufficient' }));
+  assert.notEqual(run().status, 0);
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).configs[0].categories.length, 5);
+  fs.writeFileSync(path.join(input, 'role-meta.json'), JSON.stringify(valid));
+});

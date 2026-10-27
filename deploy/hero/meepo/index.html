@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meepo — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Meepo - сложный керри ближнего боя, способный на побег и пуш. Используйте Poof и Dig. На странице представлены характеристики, билды и сильные контрпики.">
+<meta name="description" content="Билд на Meepo и контрпики. Meepo - сложный керри ближнего боя, способный на побег и пуш. Используйте Poof и Dig.">
 <link rel="canonical" href="https://dotamate.ru/hero/meepo/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Meepo — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Meepo - сложный керри ближнего боя, способный на побег и пуш. Используйте Poof и Dig. На странице представлены характеристики, билды и сильные контрпики.">
+<meta property="og:description" content="Билд на Meepo и контрпики. Meepo - сложный керри ближнего боя, способный на побег и пуш. Используйте Poof и Dig.">
 <meta property="og:image" content="/assets/heroes/meepo.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/meepo/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Meepo — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Meepo - сложный керри ближнего боя, способный на побег и пуш. Используйте Poof и Dig. На странице представлены характеристики, билды и сильные контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Meepo и контрпики. Meepo - сложный керри ближнего боя, способный на побег и пуш. Используйте Poof и Dig.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Meepo","item":"https://dotamate.ru/hero/meepo/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Meepo</span></nav>
     <h1>Meepo <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr agi"></i>Ловкость · Ближний бой · Мид в 80,7 % игр</p>
+    <p class="hx-sub"><i class="hx-attr agi"></i><span>Ловкость · Ближний бой · Мид в 80,7 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="82" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier s">S</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>53,4 %</b><em>место 5 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>53,4 %</b><em>место 11 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>1,9 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>6 363</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>6 из 33</b><em>Мид</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>15 из 33</b><em>Мид</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 3 из 3">●●●<span class="hx-mut"></span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Фармит быстрее своей роли: 656 золота/мин при среднем 563</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 2</span><b>76.9%</b><span class="hq-track" aria-hidden="true"><i style="width:76.9%"></i></span></li><li><span>Позиция 1</span><b>18.8%</b><span class="hq-track" aria-hidden="true"><i style="width:18.8%"></i></span></li><li><span>Позиция 3</span><b>3.3%</b><span class="hq-track" aria-hidden="true"><i style="width:3.3%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/wraith_band/"><img src="/assets/items/wraith_band.png" alt="" width="64" height="48" loading="lazy"><span>Wraith Band</span></a></li><li><a href="/item/yasha/"><img src="/assets/items/yasha.png" alt="" width="64" height="48" loading="lazy"><span>Yasha</span></a></li><li><a href="/item/sange_and_yasha/"><img src="/assets/items/sange_and_yasha.png" alt="" width="64" height="48" loading="lazy"><span>Sange and Yasha</span></a></li><li><a href="/item/sange/"><img src="/assets/items/sange.png" alt="" width="64" height="48" loading="lazy"><span>Sange</span></a></li><li><a href="/item/diffusal_blade/"><img src="/assets/items/diffusal_blade.png" alt="" width="64" height="48" loading="lazy"><span>Diffusal Blade</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/antimage/"><img src="/assets/heroes/antimage.webp" alt="" width="48" height="27" loading="lazy"><span>Anti-Mage</span><b class="hq-positive">+7.8 п.п.</b></a></li><li><a href="/hero/juggernaut/"><img src="/assets/heroes/juggernaut.webp" alt="" width="48" height="27" loading="lazy"><span>Juggernaut</span><b class="hq-positive">+5.5 п.п.</b></a></li><li><a href="/hero/zuus/"><img src="/assets/heroes/zuus.webp" alt="" width="48" height="27" loading="lazy"><span>Zeus</span><b class="hq-positive">+5 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" width="48" height="27" loading="lazy"><span>Sven</span><b class="hq-negative">-9.6 п.п.</b></a></li><li><a href="/hero/techies/"><img src="/assets/heroes/techies.webp" alt="" width="48" height="27" loading="lazy"><span>Techies</span><b class="hq-negative">-7.5 п.п.</b></a></li><li><a href="/hero/earthshaker/"><img src="/assets/heroes/earthshaker.webp" alt="" width="48" height="27" loading="lazy"><span>Earthshaker</span><b class="hq-negative">-7 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:21.546Z, 1149 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Meepo против других: Мид</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>6 из 33</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>15 из 33</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>55,9 %</td><td class="hx-mut">49,9 %</td><td><span class="hx-dev"><i class="up" style="left:50%;width:50.0%"></i></span><b class="up">+6,0 пп</b></td></tr><tr><th>Золото в минуту</th><td>656</td><td class="hx-mut">563</td><td><span class="hx-dev"><i class="up" style="left:50%;width:50.0%"></i></span><b class="up">+93</b></td></tr><tr><th>Опыт в минуту</th><td>860</td><td class="hx-mut">783</td><td><span class="hx-dev"><i class="up" style="left:50%;width:41.0%"></i></span><b class="up">+77</b></td></tr></tbody></table>
-<p class="hx-note">34 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="853 игр"><b>53,5</b><span style="height:67.5%"></span><small>Страж</small></div><div title="1 251 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="1 618 игр"><b>56,3</b><span style="height:81.5%"></span><small>Герой</small></div><div title="1 460 игр"><b>54,1</b><span style="height:70.5%"></span><small>Легенда</small></div><div title="882 игр"><b>50,3</b><span style="height:51.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 205 игр"><b>54,7</b><span style="height:73.5%"></span><small>25–35 мин</small></div><div title="2 566 игр"><b>53,9</b><span style="height:69.5%"></span><small>35–45 мин</small></div><div title="1 355 игр"><b>50,6</b><span style="height:53.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:34.9%">34,9</i><i class="d" style="width:30.2%">30,2</i><i class="l" style="width:34.9%">34,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">43 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/skywrath_mage/"><img src="/assets/heroes/skywrath_mage.webp" alt="" loading="lazy" width="44" height="25"><span>Skywrath Mage</span></a><b class="up">+5,9 пп</b></li></ul><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/invoker/"><img src="/assets/heroes/invoker.webp" alt="" loading="lazy" width="44" height="25"><span>Invoker</span></a><b class="dn">−6,9 пп</b></li><li><a class="hx-hico" href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Lancer</span></a><b class="dn">−6,5 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">34 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="853 игр"><b>53,5</b><span style="height:67.5%"></span><small>Страж</small></div><div title="1 251 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="1 618 игр"><b>56,3</b><span style="height:81.5%"></span><small>Герой</small></div><div title="1 460 игр"><b>54,1</b><span style="height:70.5%"></span><small>Легенда</small></div><div title="882 игр"><b>50,3</b><span style="height:51.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 205 игр"><b>54,7</b><span style="height:73.5%"></span><small>25–35 мин</small></div><div title="2 566 игр"><b>53,9</b><span style="height:69.5%"></span><small>35–45 мин</small></div><div title="1 355 игр"><b>50,6</b><span style="height:53.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:34.9%">34,9</i><i class="d" style="width:30.2%">30,2</i><i class="l" style="width:34.9%">34,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">43 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/skywrath_mage/"><img src="/assets/heroes/skywrath_mage.webp" alt="" loading="lazy" width="44" height="25"><span>Skywrath Mage</span></a><b class="up">+5,9 пп</b></li></ul><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/invoker/"><img src="/assets/heroes/invoker.webp" alt="" loading="lazy" width="44" height="25"><span>Invoker</span></a><b class="dn">−6,9 пп</b></li><li><a class="hx-hico" href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Lancer</span></a><b class="dn">−6,5 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Meepo</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" loading="lazy" width="44" height="25"><span>Sven</span></a><b class="dn">−9,6 пп</b></li><li><a class="hx-hico" href="/hero/techies/"><img src="/assets/heroes/techies.webp" alt="" loading="lazy" width="44" height="25"><span>Techies</span></a><b class="dn">−7,5 пп</b></li><li><a class="hx-hico" href="/hero/earthshaker/"><img src="/assets/heroes/earthshaker.webp" alt="" loading="lazy" width="44" height="25"><span>Earthshaker</span></a><b class="dn">−7,0 пп</b></li><li><a class="hx-hico" href="/hero/magnataur/"><img src="/assets/heroes/magnataur.webp" alt="" loading="lazy" width="44" height="25"><span>Magnus</span></a><b class="dn">−4,7 пп</b></li><li><a class="hx-hico" href="/hero/lina/"><img src="/assets/heroes/lina.webp" alt="" loading="lazy" width="44" height="25"><span>Lina</span></a><b class="dn">−4,6 пп</b></li></ul></div>
 <div><h3>Кого контрит Meepo</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/antimage/"><img src="/assets/heroes/antimage.webp" alt="" loading="lazy" width="44" height="25"><span>Anti-Mage</span></a><b class="up">+7,8 пп</b></li><li><a class="hx-hico" href="/hero/juggernaut/"><img src="/assets/heroes/juggernaut.webp" alt="" loading="lazy" width="44" height="25"><span>Juggernaut</span></a><b class="up">+5,5 пп</b></li><li><a class="hx-hico" href="/hero/zuus/"><img src="/assets/heroes/zuus.webp" alt="" loading="lazy" width="44" height="25"><span>Zeus</span></a><b class="up">+5,0 пп</b></li><li><a class="hx-hico" href="/hero/shadow_shaman/"><img src="/assets/heroes/shadow_shaman.webp" alt="" loading="lazy" width="44" height="25"><span>Shadow Shaman</span></a><b class="up">+4,0 пп</b></li><li><a class="hx-hico" href="/hero/vengeful_spirit/"><img src="/assets/heroes/vengeful_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Vengeful Spirit</span></a><b class="up">+3,6 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -161,37 +165,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 405 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 405 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
-          <b>-.75s Poof Cast Duration</b>
+          <b>–75 сек. применения Poof</b>
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-unused">
-          <b>+400 Health</b>
+          <b>+400 к здоровью</b>
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+6 Ransack Health Steal</b>
+          <b>+6 к краже здоровья от Ransack</b>
           <span>Берут 35,7% · Побед 71,7%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>Earthbind grants True Strike on Targets</b>
+          <b>Атаки без промахов по жертвам Earthbind</b>
           <span>Берут 64,3% · Побед 64,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+40 Poof Damage</b>
+          <b>+40 к урону от Poof</b>
           <span>Берут 45,4% · Побед 60,1%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+15% Evasion</b>
+          <b>+15% к уклонению</b>
           <span>Берут 54,6% · Побед 59,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>-1.5s Earthbind Cooldown</b>
+          <b>–1,5 сек. перезарядки Earthbind</b>
           <span>Берут 5,6% · Побед 64,0%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+7 Strength</b>
+          <b>+7 к силе</b>
           <span>Берут 94,4% · Побед 56,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -252,11 +256,11 @@
           <p class="hp-ab-desc">Бросает в указанную область сеть, которая накладывает оцепенение на врагов.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Poof</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span></div>
           <p class="hp-ab-desc">Используя таинственную энергию земли, герой телепортируется к своем клону после 1.5 сек. произнесения заклинания, при этом нанося урон как в исходной, так и в конечной точке. Если включено альтернативное применение, к цели телепортируются…</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Ransack</h3>
-          <div class="hp-ab-tags"><span>Пассивная</span><span class="dmg">чистый урон</span></div>
+          <div class="hp-ab-tags"><span>Пассивная</span></div>
           <p class="hp-ab-desc">Каждая атака крадёт здоровье у противника и излечивает остальные копии героя. Кража здоровья у крипов меньше на 40%.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Dig</h3>
@@ -284,7 +288,16 @@
     </div>
     <a class="btn red" href="/hero/meepo/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Meepo">
+    <a class="hp-tool" href="/draft/#draft=82__" data-goal="hero_to_draft"><b>Драфт с Meepo</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -317,6 +330,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

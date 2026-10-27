@@ -1,0 +1,2 @@
+2026-10-26T05:22:38.757Z | item pages, build-item-pages, sticky footer, theme-dark.css, tokens.css | Goal: item pages look finished/readable; footer stays at viewport bottom on short pages. Intent: polish production site | 2026-10-26/handoff-2026-10-26T05-22-38-757Z.md
+2026-10-26T22:28:02.949Z | dotamate, d2pt features, replay helper pc, import-remote, daily-update, home page, steam accounts, deploy | Goal: add D2PT-style analytics to DotaMate (meta by role, home summary, patch shifts, Radiant/Dire, item timings, matchu | 2026-10-26/handoff-2026-10-26T22-28-02-949Z.md

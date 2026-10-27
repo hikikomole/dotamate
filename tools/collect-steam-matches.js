@@ -18,7 +18,7 @@
  *
  * Формат строки (JSON-массив):
  *   [match_id, match_seq_num, start_time, duration, rank, radiant_win(0/1),
- *    game_mode, lobby_type, bans[hero_id...], p0, ..., p9]
+ *    game_mode, lobby_type, bans[hero_id...], p0, ..., p9, banFieldPresent]
  *   rank — avg_rank_tier OpenDota (11..85) или null.
  *   p (по возрастанию player_slot; 0–4 Свет, 128–132 Тьма):
  *   [hero_id, player_slot, kills, deaths, assists, last_hits, denies, gpm, xpm, level,
@@ -180,7 +180,7 @@ function row(m) {
   const ps = m.players.slice().sort((a, b) => a.player_slot - b.player_slot).map(player);
   const bans = (m.picks_bans || []).filter(x => !x.is_pick).map(x => x.hero_id);
   return [m.match_id, m.match_seq_num, m.start_time, m.duration, rankOf(m.match_id, m.start_time),
-    m.radiant_win ? 1 : 0, m.game_mode, m.lobby_type, bans, ...ps];
+    m.radiant_win ? 1 : 0, m.game_mode, m.lobby_type, bans, ...ps, Array.isArray(m.picks_bans)];
 }
 // куда класть матч: 'ranked' | 'turbo' | причина отсева
 function classify(m) {

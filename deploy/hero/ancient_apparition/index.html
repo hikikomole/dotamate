@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ancient Apparition — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Ancient Apparition - саппорт интеллекта. Замедляйте врагов с Ice Vortex и морозьте с Cold Feet. Вся информация: характеристики, сборки и контрпики.">
+<meta name="description" content="Билд на Ancient Apparition и контрпики. Ancient Apparition - саппорт интеллекта. Замедляйте врагов с Ice Vortex и морозьте с Cold Feet.">
 <link rel="canonical" href="https://dotamate.ru/hero/ancient_apparition/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ancient Apparition — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Ancient Apparition - саппорт интеллекта. Замедляйте врагов с Ice Vortex и морозьте с Cold Feet. Вся информация: характеристики, сборки и контрпики.">
+<meta property="og:description" content="Билд на Ancient Apparition и контрпики. Ancient Apparition - саппорт интеллекта. Замедляйте врагов с Ice Vortex и морозьте с Cold Feet.">
 <meta property="og:image" content="/assets/heroes/ancient_apparition.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/ancient_apparition/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ancient Apparition — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Ancient Apparition - саппорт интеллекта. Замедляйте врагов с Ice Vortex и морозьте с Cold Feet. Вся информация: характеристики, сборки и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Ancient Apparition и контрпики. Ancient Apparition - саппорт интеллекта. Замедляйте врагов с Ice Vortex и морозьте с Cold Feet.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Ancient Apparition","item":"https://dotamate.ru/hero/ancient_apparition/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,28 +46,30 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Ancient Apparition</span></nav>
     <h1>Ancient Apparition <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr int"></i>Интеллект · Дальний бой · Полная поддержка в 55,9 % игр</p>
+    <p class="hx-sub"><i class="hx-attr int"></i><span>Интеллект · Дальний бой · Полная поддержка в 55,9 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="68" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier a">A</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>51,1 %</b><em>место 37 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>51,1 %</b><em>место 35 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>6,8 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>23 447</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>30 из 37</b><em>Полная поддержка</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>32 из 37</b><em>Полная поддержка</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Лучше в долгих играх: 51,8 % после 45 мин против 43,8 % до 25 мин</li><li>Часто проигрывает линию: 50,0 % поражений против 30,2 % побед</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 5</span><b>69.2%</b><span class="hq-track" aria-hidden="true"><i style="width:69.2%"></i></span></li><li><span>Позиция 4</span><b>27.6%</b><span class="hq-track" aria-hidden="true"><i style="width:27.6%"></i></span></li><li><span>Позиция 2</span><b>2.6%</b><span class="hq-track" aria-hidden="true"><i style="width:2.6%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/ring_of_basilius/"><img src="/assets/items/ring_of_basilius.png" alt="" width="64" height="48" loading="lazy"><span>Ring of Basilius</span></a></li><li><a href="/item/rod_of_atos/"><img src="/assets/items/rod_of_atos.png" alt="" width="64" height="48" loading="lazy"><span>Rod of Atos</span></a></li><li><a href="/item/glimmer_cape/"><img src="/assets/items/glimmer_cape.png" alt="" width="64" height="48" loading="lazy"><span>Glimmer Cape</span></a></li><li><a href="/item/force_staff/"><img src="/assets/items/force_staff.png" alt="" width="64" height="48" loading="lazy"><span>Force Staff</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/sand_king/"><img src="/assets/heroes/sand_king.webp" alt="" width="48" height="27" loading="lazy"><span>Sand King</span><b class="hq-positive">+6 п.п.</b></a></li><li><a href="/hero/necrolyte/"><img src="/assets/heroes/necrolyte.webp" alt="" width="48" height="27" loading="lazy"><span>Necrophos</span><b class="hq-positive">+5.4 п.п.</b></a></li><li><a href="/hero/troll_warlord/"><img src="/assets/heroes/troll_warlord.webp" alt="" width="48" height="27" loading="lazy"><span>Troll Warlord</span><b class="hq-positive">+5.1 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/void_spirit/"><img src="/assets/heroes/void_spirit.webp" alt="" width="48" height="27" loading="lazy"><span>Void Spirit</span><b class="hq-negative">-5.7 п.п.</b></a></li><li><a href="/hero/medusa/"><img src="/assets/heroes/medusa.webp" alt="" width="48" height="27" loading="lazy"><span>Medusa</span><b class="hq-negative">-5.5 п.п.</b></a></li><li><a href="/hero/tusk/"><img src="/assets/heroes/tusk.webp" alt="" width="48" height="27" loading="lazy"><span>Tusk</span><b class="hq-negative">-5.2 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:10.088Z, 4010 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Ancient Apparition против других: Полная поддержка</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>30 из 37</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>32 из 37</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>44,2 %</td><td class="hx-mut">50,7 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:50.0%"></i></span><b class="dn">−6,5 пп</b></td></tr><tr><th>Золото в минуту</th><td>333</td><td class="hx-mut">348</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:18.0%"></i></span><b class="dn">−15</b></td></tr><tr><th>Опыт в минуту</th><td>531</td><td class="hx-mut">542</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:8.5%"></i></span><b class="dn">−11</b></td></tr></tbody></table>
-<p class="hx-note">43 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="610 игр"><b>48,0</b><span style="height:40.0%"></span><small>Рекрут</small></div><div title="2 322 игр"><b>51,9</b><span style="height:59.5%"></span><small>Страж</small></div><div title="4 219 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="5 913 игр"><b>52,1</b><span style="height:60.5%"></span><small>Герой</small></div><div title="6 584 игр"><b>50,9</b><span style="height:54.5%"></span><small>Легенда</small></div><div title="3 799 игр"><b>49,8</b><span style="height:49.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="340 игр"><b>43,8</b><span style="height:19.0%"></span><small>до 25 мин</small></div><div title="4 693 игр"><b>49,0</b><span style="height:45.0%"></span><small>25–35 мин</small></div><div title="9 543 игр"><b>51,6</b><span style="height:58.0%"></span><small>35–45 мин</small></div><div title="8 871 игр"><b>51,8</b><span style="height:59.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:30.2%">30,2</i><i class="d" style="width:19.8%">19,8</i><i class="l" style="width:50%">50,0</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">96 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tiny/"><img src="/assets/heroes/tiny.webp" alt="" loading="lazy" width="44" height="25"><span>Tiny</span></a><b class="up">+5,7 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">43 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="610 игр"><b>48,0</b><span style="height:40.0%"></span><small>Рекрут</small></div><div title="2 322 игр"><b>51,9</b><span style="height:59.5%"></span><small>Страж</small></div><div title="4 219 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="5 913 игр"><b>52,1</b><span style="height:60.5%"></span><small>Герой</small></div><div title="6 584 игр"><b>50,9</b><span style="height:54.5%"></span><small>Легенда</small></div><div title="3 799 игр"><b>49,8</b><span style="height:49.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="340 игр"><b>43,8</b><span style="height:19.0%"></span><small>до 25 мин</small></div><div title="4 693 игр"><b>49,0</b><span style="height:45.0%"></span><small>25–35 мин</small></div><div title="9 543 игр"><b>51,6</b><span style="height:58.0%"></span><small>35–45 мин</small></div><div title="8 871 игр"><b>51,8</b><span style="height:59.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:30.2%">30,2</i><i class="d" style="width:19.8%">19,8</i><i class="l" style="width:50%">50,0</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">96 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tiny/"><img src="/assets/heroes/tiny.webp" alt="" loading="lazy" width="44" height="25"><span>Tiny</span></a><b class="up">+5,7 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Ancient Apparition</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/void_spirit/"><img src="/assets/heroes/void_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Void Spirit</span></a><b class="dn">−5,7 пп</b></li><li><a class="hx-hico" href="/hero/medusa/"><img src="/assets/heroes/medusa.webp" alt="" loading="lazy" width="44" height="25"><span>Medusa</span></a><b class="dn">−5,5 пп</b></li><li><a class="hx-hico" href="/hero/tusk/"><img src="/assets/heroes/tusk.webp" alt="" loading="lazy" width="44" height="25"><span>Tusk</span></a><b class="dn">−5,2 пп</b></li><li><a class="hx-hico" href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Ember Spirit</span></a><b class="dn">−4,3 пп</b></li><li><a class="hx-hico" href="/hero/pangolier/"><img src="/assets/heroes/pangolier.webp" alt="" loading="lazy" width="44" height="25"><span>Pangolier</span></a><b class="dn">−3,8 пп</b></li></ul></div>
 <div><h3>Кого контрит Ancient Apparition</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/sand_king/"><img src="/assets/heroes/sand_king.webp" alt="" loading="lazy" width="44" height="25"><span>Sand King</span></a><b class="up">+6,0 пп</b></li><li><a class="hx-hico" href="/hero/necrolyte/"><img src="/assets/heroes/necrolyte.webp" alt="" loading="lazy" width="44" height="25"><span>Necrophos</span></a><b class="up">+5,4 пп</b></li><li><a class="hx-hico" href="/hero/troll_warlord/"><img src="/assets/heroes/troll_warlord.webp" alt="" loading="lazy" width="44" height="25"><span>Troll Warlord</span></a><b class="up">+5,1 пп</b></li><li><a class="hx-hico" href="/hero/dazzle/"><img src="/assets/heroes/dazzle.webp" alt="" loading="lazy" width="44" height="25"><span>Dazzle</span></a><b class="up">+4,4 пп</b></li><li><a class="hx-hico" href="/hero/wisp/"><img src="/assets/heroes/wisp.webp" alt="" loading="lazy" width="44" height="25"><span>Io</span></a><b class="up">+4,2 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article><article class="hx-tile" id="heroBuys" data-roles='{"POSITION_1":0,"POSITION_2":6,"POSITION_3":1,"POSITION_4":46,"POSITION_5":43}' data-min-role="80"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база рейтинговых матчей до 4500 MMR (1 803 матчей текущего патча). % — доля матчей героя, где предмет купили в этой фазе (всего 96).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (1 803 матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего 96).</p>
 <div class="hp-buys-pane on" data-pos="all"><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/tango/" title="Tango — 97% матчей (93 из 96)"><i style="width:97%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>97%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 51% матчей (49 из 96)"><i style="width:51%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>51%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 49% матчей (47 из 96)"><i style="width:49%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>49%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 48% матчей (46 из 96)"><i style="width:48%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>48%</b></a></li><li><a href="/item/clarity/" title="Clarity — 31% матчей (30 из 96)"><i style="width:31%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>31%</b></a></li><li><a href="/item/enchanted_mango/" title="Enchanted Mango — 26% матчей (25 из 96)"><i style="width:26%"></i><img src="/assets/items/enchanted_mango.png" alt="" loading="lazy" width="36" height="26"><span>Enchanted Mango</span><b>26%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/ring_of_basilius/" title="Ring of Basilius — 54% матчей (52 из 96)"><i style="width:54%"></i><img src="/assets/items/ring_of_basilius.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Basilius</span><b>54%</b></a></li><li><a href="/item/magic_wand/" title="Magic Wand — 49% матчей (47 из 96)"><i style="width:49%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>49%</b></a></li><li><a href="/item/tango/" title="Tango — 31% матчей (30 из 96)"><i style="width:31%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>31%</b></a></li><li><a href="/item/clarity/" title="Clarity — 27% матчей (26 из 96)"><i style="width:27%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>27%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 20% матчей (19 из 96)"><i style="width:20%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>20%</b></a></li><li><a href="/item/arcane_boots/" title="Arcane Boots — 19% матчей (18 из 96)"><i style="width:19%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>19%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/arcane_boots/" title="Arcane Boots — 49% матчей (47 из 96)"><i style="width:49%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>49%</b></a></li><li><a href="/item/glimmer_cape/" title="Glimmer Cape — 28% матчей (27 из 96)"><i style="width:28%"></i><img src="/assets/items/glimmer_cape.png" alt="" loading="lazy" width="36" height="26"><span>Glimmer Cape</span><b>28%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 27% матчей (26 из 96)"><i style="width:27%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>27%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 15% матчей (14 из 96)"><i style="width:15%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>15%</b></a></li><li><a href="/item/clarity/" title="Clarity — 14% матчей (13 из 96)"><i style="width:14%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>14%</b></a></li><li><a href="/item/ring_of_basilius/" title="Ring of Basilius — 13% матчей (12 из 96)"><i style="width:13%"></i><img src="/assets/items/ring_of_basilius.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Basilius</span><b>13%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/force_staff/" title="Force Staff — 22% матчей (21 из 96)"><i style="width:22%"></i><img src="/assets/items/force_staff.png" alt="" loading="lazy" width="36" height="26"><span>Force Staff</span><b>22%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 20% матчей (19 из 96)"><i style="width:20%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>20%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 19% матчей (18 из 96)"><i style="width:19%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>19%</b></a></li><li><a href="/item/glimmer_cape/" title="Glimmer Cape — 15% матчей (14 из 96)"><i style="width:15%"></i><img src="/assets/items/glimmer_cape.png" alt="" loading="lazy" width="36" height="26"><span>Glimmer Cape</span><b>15%</b></a></li><li><a href="/item/cyclone/" title="Eul&#39;s Scepter of Divinity — 13% матчей (12 из 96)"><i style="width:13%"></i><img src="/assets/items/cyclone.png" alt="" loading="lazy" width="36" height="26"><span>Eul&#39;s Scepter of Divinity</span><b>13%</b></a></li><li><a href="/item/staff_of_wizardry/" title="Staff of Wizardry — 10% матчей (10 из 96)"><i style="width:10%"></i><img src="/assets/items/staff_of_wizardry.png" alt="" loading="lazy" width="36" height="26"><span>Staff of Wizardry</span><b>10%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 6% матчей (6 из 96)"><i style="width:6%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>6%</b></a></li><li><a href="/item/force_staff/" title="Force Staff — 5% матчей (5 из 96)"><i style="width:5%"></i><img src="/assets/items/force_staff.png" alt="" loading="lazy" width="36" height="26"><span>Force Staff</span><b>5%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 5% матчей (5 из 96)"><i style="width:5%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>5%</b></a></li><li><a href="/item/kaya/" title="Kaya — 4% матчей (4 из 96)"><i style="width:4%"></i><img src="/assets/items/kaya.png" alt="" loading="lazy" width="36" height="26"><span>Kaya</span><b>4%</b></a></li><li><a href="/item/staff_of_wizardry/" title="Staff of Wizardry — 3% матчей (3 из 96)"><i style="width:3%"></i><img src="/assets/items/staff_of_wizardry.png" alt="" loading="lazy" width="36" height="26"><span>Staff of Wizardry</span><b>3%</b></a></li><li><a href="/item/ghost/" title="Ghost Scepter — 3% матчей (3 из 96)"><i style="width:3%"></i><img src="/assets/items/ghost.png" alt="" loading="lazy" width="36" height="26"><span>Ghost Scepter</span><b>3%</b></a></li></ul></div></div></div></article></section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>
@@ -166,21 +170,21 @@
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 2 840 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 2 840 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+4% Ice Blast Kill Threshold</b>
+          <b>+4% к здоровью для убийства у Ice Blast</b>
           <span>Берут 43,5% · Побед 65,1%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>450 AoE Cold Feet</b>
+          <b>Cold Feet применяется по области радиусом 450</b>
           <span>Берут 56,5% · Побед 63,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+100 Chilling Touch Damage</b>
+          <b>+100 к урону от Chilling Touch</b>
           <span>Берут 8,9% · Побед 51,6%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+4s Ice Blast Frostbitten Duration</b>
+          <b>+4 сек. обморожения от Ice Blast</b>
           <span>Берут 91,1% · Побед 62,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
@@ -188,7 +192,7 @@
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>-2s Ice Vortex Cooldown</b>
+          <b>–2 сек. перезарядки Ice Vortex</b>
           <span>Берут 100,0% · Побед 57,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
@@ -196,7 +200,7 @@
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+300 Chilling Touch Attack Range</b>
+          <b>+300 к дальности атаки от Chilling Touch</b>
           <span>Берут 100,0% · Побед 48,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -278,21 +282,21 @@
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 404 матча. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 404 матча. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+4% Ice Blast Kill Threshold</b>
+          <b>+4% к здоровью для убийства у Ice Blast</b>
           <span>Берут 45,0% · Побед 60,1%</span>
           
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>450 AoE Cold Feet</b>
+          <b>Cold Feet применяется по области радиусом 450</b>
           <span>Берут 55,0% · Побед 64,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+100 Chilling Touch Damage</b>
+          <b>+100 к урону от Chilling Touch</b>
           <span>Берут 13,6% · Побед 54,6%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+4s Ice Blast Frostbitten Duration</b>
+          <b>+4 сек. обморожения от Ice Blast</b>
           <span>Берут 86,4% · Побед 61,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
@@ -300,7 +304,7 @@
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>-2s Ice Vortex Cooldown</b>
+          <b>–2 сек. перезарядки Ice Vortex</b>
           <span>Берут 100,0% · Побед 58,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
@@ -308,7 +312,7 @@
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+300 Chilling Touch Attack Range</b>
+          <b>+300 к дальности атаки от Chilling Touch</b>
           <span>Берут 100,0% · Побед 49,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -370,23 +374,23 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Cold Feet</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Накладывает на врага сглаз, наносящий периодический урон. Если жертва не отойдёт достаточно далеко от точки применения способности, то через 4 сек. будет приморожена к месту и оглушена.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Ice Vortex</h3>
-          <div class="hp-ab-tags"><span>По площади</span><span>В точку</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По площади</span><span>В точку</span></div>
           <p class="hp-ab-desc">Создаёт вихрь ледяной энергии, который наносит урон врагам в области действия, замедляет их и увеличивает получаемый ими магический урон.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Chilling Touch</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span></div>
           <p class="hp-ab-desc">Увеличивает дальность следующей атаки. Она наносит дополнительный магический урон и замедляет жертву.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Bone Chill</h3>
-          <div class="hp-ab-tags"><span>Пассивная</span><span>Скрытая</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Пассивная</span><span>Скрытая</span></div>
           <p class="hp-ab-desc">Урон от способностей этого героя ненадолго замедляет противников. Если жертвой был вражеский герой, также снижается его сила. Эффекты от нескольких срабатываний складываются и имеют отдельную друг от друга длительность.</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Ice Blast</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span></div>
           <p class="hp-ab-desc">Отправляет снаряд в направлении выбранной точки на карте. Повторное применение запускает ледяной шар, который взорвётся там, где находился снаряд на момент активации. Чем дальше он пролетит, тем больше будет радиус взрыва. У врагов,…</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Release</h3>
@@ -406,7 +410,16 @@
     </div>
     <a class="btn red" href="/hero/ancient_apparition/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Ancient Apparition">
+    <a class="hp-tool" href="/draft/#draft=68__" data-goal="hero_to_draft"><b>Драфт с Ancient Apparition</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -439,6 +452,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

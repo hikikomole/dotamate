@@ -1,27 +1,28 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Гайд по Chen в Dota 2: как играть, закупы и контрпики | Dota Mate</title>
-<meta name="description" content="Гайд по Chen: роли (Поддержка / Пушер), способности с официальными русскими описаниями, реальные закупы по стадиям игры и таблицы «кого контрит» и «кто контрит» по данным OpenDota.">
+<meta name="description" content="Гайд по Chen: роли (Поддержка / Пушер), способности, закупы по стадиям игры, кого контрит и кто контрит — по своей базе матчей.">
 <link rel="canonical" href="https://dotamate.ru/hero/chen/guide/">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Гайд по Chen в Dota 2: как играть, закупы и контрпики | Dota Mate">
-<meta property="og:description" content="Гайд по Chen: роли (Поддержка / Пушер), способности с официальными русскими описаниями, реальные закупы по стадиям игры и таблицы «кого контрит» и «кто контрит» по данным OpenDota.">
-<meta property="og:image" content="/assets/heroes/chen.png">
+<meta property="og:description" content="Гайд по Chen: роли (Поддержка / Пушер), способности, закупы по стадиям игры, кого контрит и кто контрит — по своей базе матчей.">
+<meta property="og:image" content="/assets/heroes/chen.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/chen/guide/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/heroes/"},{"@type":"ListItem","position":3,"name":"Chen","item":"https://dotamate.ru/hero/chen/"},{"@type":"ListItem","position":4,"name":"Гайд","item":"https://dotamate.ru/hero/chen/guide/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -29,18 +30,18 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a class="nav-tg" href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram ↗</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+    <div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="???????? ??????? ????" aria-pressed="false">?</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
 <main class="container article-main hg-main" style="padding-top:26px;padding-bottom:60px;max-width:960px;">
   <nav aria-label="breadcrumb"> / <a href="/heroes/">Герои</a> / <a href="/hero/chen/">Chen</a> / Гайд</nav>
   <div class="hg-head">
-    <img class="hg-portrait" src="/assets/heroes/chen.png" alt="Chen">
+    <img class="hg-portrait" src="/assets/heroes/chen.webp" alt="Chen">
     <div>
       <h1>Chen</h1>
-      <p class="hg-lead">Chen — герой дальнего боя с основным атрибутом «интеллект». Роли по классификации Valve: поддержка / пушер. Ниже — то, что видно из открытой статистики: реальные покупки по стадиям игры и результаты против конкретных героев.</p>
+      <p class="hg-lead">Chen — герой дальнего боя, основной атрибут — «интеллект». Главная крупная покупка к 25–40 минуте — Vladmir&#39;s Offering: её берут в 30% матчей героя (выборка — 10 матчей).</p>
       <div class="hero-detail-actions">
         <a class="btn red" href="/hero/chen/">Страница героя →</a>
       </div>
@@ -54,9 +55,8 @@
   <section id="kak-igrat">
     <h2>Как играть</h2>
     <p>Chen — герой дальнего боя, основной атрибут — интеллект. Valve относит его к ролям: поддержка / пушер. Роль задаёт, чего от героя ждёт команда: поддержка тратит золото на команду — варды, расходники, спасающие предметы; пушер давит линии и берёт строения быстрее прочих.</p>
-    <p>Скорость передвижения — 305, урон атаки на первом уровне — 48–58, дальность атаки — 650. Это те цифры, от которых зависит, как герой стоит на линии: на них опирайтесь, а не на общие советы.</p>
+    <p>Скорость передвижения Chen — 305: это больше, чем у 58% героев. Урон атаки на первом уровне — 48–58, дальность атаки — 650 (дальше, чем у 95% героев дальнего боя).</p>
     <div class="hg-stats"><div><small>Здоровье</small><strong>626</strong></div><div><small>Мана</small><strong>303</strong></div><div><small>Броня</small><strong>1,5</strong></div><div><small>Урон</small><strong>48–58</strong></div><div><small>Скорость</small><strong>305</strong></div></div>
-    <p class="hg-note">Дальше по разделам: способности с официальным русским текстом Valve, реальные покупки по стадиям игры и две таблицы матчапов.</p>
   </section>
 
   <section id="osobennosti">
@@ -66,30 +66,30 @@
 
   <section id="zakupy">
     <h2>Варианты закупов</h2>
-    <p>Это не «правильная сборка», а то, что игроки действительно покупают за этого героя: своя база рейтинговых матчей текущего патча (1 803 матчей, обновлено 25.09.2026), покупки разложены по времени. Процент — в какой доле матчей героя предмет купили в этой фазе.</p>
-    <div class="hg-phases"><div class="hg-phase"><h3>Старт · до 0:00</h3><p class="hg-hint">что покупают до выхода на линию</p><div class="hg-items"><a href="/item/tango/"><img loading="lazy" src="/assets/items/tango.png" alt=""><b>Tango</b><small>90% · 9 из 10</small></a><a href="/item/branches/"><img loading="lazy" src="/assets/items/branches.png" alt=""><b>Iron Branch</b><small>80% · 8 из 10</small></a><a href="/item/blood_grenade/"><img loading="lazy" src="/assets/items/blood_grenade.png" alt=""><b>Blood Grenade</b><small>70% · 7 из 10</small></a><a href="/item/magic_stick/"><img loading="lazy" src="/assets/items/magic_stick.png" alt=""><b>Magic Stick</b><small>50% · 5 из 10</small></a><a href="/item/circlet/"><img loading="lazy" src="/assets/items/circlet.png" alt=""><b>Circlet</b><small>30% · 3 из 10</small></a><a href="/item/faerie_fire/"><img loading="lazy" src="/assets/items/faerie_fire.png" alt=""><b>Faerie Fire</b><small>30% · 3 из 10</small></a></div></div><div class="hg-phase"><h3>Ранняя · 0–10</h3><p class="hg-hint">первые покупки на линии</p><div class="hg-items"><a href="/item/ring_of_basilius/"><img loading="lazy" src="/assets/items/ring_of_basilius.png" alt=""><b>Ring of Basilius</b><small>90% · 9 из 10</small></a><a href="/item/magic_wand/"><img loading="lazy" src="/assets/items/magic_wand.png" alt=""><b>Magic Wand</b><small>40% · 4 из 10</small></a><a href="/item/headdress/"><img loading="lazy" src="/assets/items/headdress.png" alt=""><b>Headdress</b><small>40% · 4 из 10</small></a><a href="/item/sobi_mask/"><img loading="lazy" src="/assets/items/sobi_mask.png" alt=""><b>Sage&#39;s Mask</b><small>30% · 3 из 10</small></a><a href="/item/arcane_boots/"><img loading="lazy" src="/assets/items/arcane_boots.png" alt=""><b>Arcane Boots</b><small>30% · 3 из 10</small></a><a href="/item/boots/"><img loading="lazy" src="/assets/items/boots.png" alt=""><b>Boots of Speed</b><small>20% · 2 из 10</small></a></div></div><div class="hg-phase"><h3>Середина · 10–25</h3><p class="hg-hint">ключевые предметы средней стадии</p><div class="hg-items"><a href="/item/mekansm/"><img loading="lazy" src="/assets/items/mekansm.png" alt=""><b>Mekansm</b><small>70% · 7 из 10</small></a><a href="/item/guardian_greaves/"><img loading="lazy" src="/assets/items/guardian_greaves.png" alt=""><b>Guardian Greaves</b><small>60% · 6 из 10</small></a><a href="/item/arcane_boots/"><img loading="lazy" src="/assets/items/arcane_boots.png" alt=""><b>Arcane Boots</b><small>50% · 5 из 10</small></a><a href="/item/headdress/"><img loading="lazy" src="/assets/items/headdress.png" alt=""><b>Headdress</b><small>40% · 4 из 10</small></a><a href="/item/boots/"><img loading="lazy" src="/assets/items/boots.png" alt=""><b>Boots of Speed</b><small>20% · 2 из 10</small></a><a href="/item/dust/"><img loading="lazy" src="/assets/items/dust.png" alt=""><b>Dust of Appearance</b><small>20% · 2 из 10</small></a></div></div><div class="hg-phase"><h3>Поздняя · 25–40</h3><p class="hg-hint">во что герой собирается к концу</p><div class="hg-items"><a href="/item/aghanims_shard/"><img loading="lazy" src="/assets/items/aghanims_shard.png" alt=""><b>Aghanim&#39;s Shard</b><small>40% · 4 из 10</small></a><a href="/item/vladmir/"><img loading="lazy" src="/assets/items/vladmir.png" alt=""><b>Vladmir&#39;s Offering</b><small>30% · 3 из 10</small></a><a href="/item/headdress/"><img loading="lazy" src="/assets/items/headdress.png" alt=""><b>Headdress</b><small>30% · 3 из 10</small></a><a href="/item/smoke_of_deceit/"><img loading="lazy" src="/assets/items/smoke_of_deceit.png" alt=""><b>Smoke of Deceit</b><small>30% · 3 из 10</small></a><a href="/item/blades_of_attack/"><img loading="lazy" src="/assets/items/blades_of_attack.png" alt=""><b>Blades of Attack</b><small>20% · 2 из 10</small></a><a href="/item/lifesteal/"><img loading="lazy" src="/assets/items/lifesteal.png" alt=""><b>Morbid Mask</b><small>20% · 2 из 10</small></a></div></div><div class="hg-phase"><h3>Финал · 40+</h3><p class="hg-hint">что докупают в затяжной игре</p><div class="hg-items"><a href="/item/pipe/"><img loading="lazy" src="/assets/items/pipe.png" alt=""><b>Pipe of Insight</b><small>20% · 2 из 10</small></a></div></div></div>
+    <p>Выборка — 10 матчей с Chen из нашей базы рейтинговых матчей текущего патча (вся база — 1 803 матча, обновлено 25.09.2026). Процент у предмета — доля матчей Chen, в которых его купили в этой фазе.</p>
+    <div class="hg-phases"><div class="hg-phase"><h3>Старт · до 0:00</h3><p class="hg-hint">что покупают до выхода на линию; чаще всего — Tango (90%)</p><div class="hg-items"><a href="/item/tango/"><img loading="lazy" src="/assets/items/tango.png" alt=""><b>Tango</b><small>90% · 9 из 10</small></a><a href="/item/branches/"><img loading="lazy" src="/assets/items/branches.png" alt=""><b>Iron Branch</b><small>80% · 8 из 10</small></a><a href="/item/blood_grenade/"><img loading="lazy" src="/assets/items/blood_grenade.png" alt=""><b>Blood Grenade</b><small>70% · 7 из 10</small></a><a href="/item/magic_stick/"><img loading="lazy" src="/assets/items/magic_stick.png" alt=""><b>Magic Stick</b><small>50% · 5 из 10</small></a><a href="/item/circlet/"><img loading="lazy" src="/assets/items/circlet.png" alt=""><b>Circlet</b><small>30% · 3 из 10</small></a><a href="/item/faerie_fire/"><img loading="lazy" src="/assets/items/faerie_fire.png" alt=""><b>Faerie Fire</b><small>30% · 3 из 10</small></a></div></div><div class="hg-phase"><h3>Ранняя · 0–10</h3><p class="hg-hint">первые покупки на линии; чаще всего — Ring of Basilius (90%)</p><div class="hg-items"><a href="/item/ring_of_basilius/"><img loading="lazy" src="/assets/items/ring_of_basilius.png" alt=""><b>Ring of Basilius</b><small>90% · 9 из 10</small></a><a href="/item/magic_wand/"><img loading="lazy" src="/assets/items/magic_wand.png" alt=""><b>Magic Wand</b><small>40% · 4 из 10</small></a><a href="/item/headdress/"><img loading="lazy" src="/assets/items/headdress.png" alt=""><b>Headdress</b><small>40% · 4 из 10</small></a><a href="/item/sobi_mask/"><img loading="lazy" src="/assets/items/sobi_mask.png" alt=""><b>Sage&#39;s Mask</b><small>30% · 3 из 10</small></a><a href="/item/arcane_boots/"><img loading="lazy" src="/assets/items/arcane_boots.png" alt=""><b>Arcane Boots</b><small>30% · 3 из 10</small></a><a href="/item/boots/"><img loading="lazy" src="/assets/items/boots.png" alt=""><b>Boots of Speed</b><small>20% · 2 из 10</small></a></div></div><div class="hg-phase"><h3>Середина · 10–25</h3><p class="hg-hint">ключевые предметы средней стадии; чаще всего — Mekansm (70%)</p><div class="hg-items"><a href="/item/mekansm/"><img loading="lazy" src="/assets/items/mekansm.png" alt=""><b>Mekansm</b><small>70% · 7 из 10</small></a><a href="/item/guardian_greaves/"><img loading="lazy" src="/assets/items/guardian_greaves.png" alt=""><b>Guardian Greaves</b><small>60% · 6 из 10</small></a><a href="/item/arcane_boots/"><img loading="lazy" src="/assets/items/arcane_boots.png" alt=""><b>Arcane Boots</b><small>50% · 5 из 10</small></a><a href="/item/headdress/"><img loading="lazy" src="/assets/items/headdress.png" alt=""><b>Headdress</b><small>40% · 4 из 10</small></a><a href="/item/boots/"><img loading="lazy" src="/assets/items/boots.png" alt=""><b>Boots of Speed</b><small>20% · 2 из 10</small></a><a href="/item/dust/"><img loading="lazy" src="/assets/items/dust.png" alt=""><b>Dust of Appearance</b><small>20% · 2 из 10</small></a></div></div><div class="hg-phase"><h3>Поздняя · 25–40</h3><p class="hg-hint">во что герой собирается к концу; чаще всего — Aghanim&#39;s Shard (40%)</p><div class="hg-items"><a href="/item/aghanims_shard/"><img loading="lazy" src="/assets/items/aghanims_shard.png" alt=""><b>Aghanim&#39;s Shard</b><small>40% · 4 из 10</small></a><a href="/item/vladmir/"><img loading="lazy" src="/assets/items/vladmir.png" alt=""><b>Vladmir&#39;s Offering</b><small>30% · 3 из 10</small></a><a href="/item/headdress/"><img loading="lazy" src="/assets/items/headdress.png" alt=""><b>Headdress</b><small>30% · 3 из 10</small></a><a href="/item/smoke_of_deceit/"><img loading="lazy" src="/assets/items/smoke_of_deceit.png" alt=""><b>Smoke of Deceit</b><small>30% · 3 из 10</small></a><a href="/item/blades_of_attack/"><img loading="lazy" src="/assets/items/blades_of_attack.png" alt=""><b>Blades of Attack</b><small>20% · 2 из 10</small></a><a href="/item/lifesteal/"><img loading="lazy" src="/assets/items/lifesteal.png" alt=""><b>Morbid Mask</b><small>20% · 2 из 10</small></a></div></div><div class="hg-phase"><h3>Финал · 40+</h3><p class="hg-hint">что докупают в затяжной игре; чаще всего — Pipe of Insight (20%)</p><div class="hg-items"><a href="/item/pipe/"><img loading="lazy" src="/assets/items/pipe.png" alt=""><b>Pipe of Insight</b><small>20% · 2 из 10</small></a></div></div></div>
   </section>
 
   <section id="kogo-kontrit">
     <h2>Кого контрит Chen</h2>
-    <p>Соперники, против которых герой выигрывает заметно чаще, чем ожидалось бы по общей силе обоих героев. Выборка — рейтинговые матчи, где герои играли друг против друга; пары, сыгранные меньше 300 раз, отброшены.</p>
+    <p>Соперники, против которых Chen выигрывает заметно чаще ожидаемого.</p>
     <p class="hg-nodata">Пар, сыгранных хотя бы 300 раз, для этого героя в нашей базе пока не набралось — поэтому таблицу не показываем.</p>
   </section>
 
   <section id="kto-kontrit">
     <h2>Кто контрит Chen</h2>
-    <p>Обратная сторона той же выборки — против кого статистика у героя хуже всего.</p>
+    <p>Соперники, против которых у Chen статистика хуже всего.</p>
     <p class="hg-nodata">Пар, сыгранных хотя бы 300 раз, для этого героя в нашей базе пока не набралось — поэтому таблицу не показываем.</p>
-    <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (Ranked All Pick, 0-4500 MMR, 342 826 матчей), обновлена 2026-09-25. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
+    <p class="hg-source">Источник матчапов: наша база публичных рейтинговых матчей (Ranked All Pick, 0-4500 MMR, 342 826 матчей), обновлена 2026-09-25; пары, сыгранные меньше 300 раз, отброшены. «К ожидаемому» — на сколько процентных пунктов доля побед в паре выше или ниже той, что ожидалась бы по общим винрейтам обоих героев. Таблица для всех героев — в <a href="/guide/counter-picks/">статье про контрпики</a>.</p>
   </section>
 
   <section id="dalshe">
     <h2>Что дальше</h2>
-    <p>Гайды по героям, которые контрят Chen и которых он обыгрывает (по таблицам выше), герои с похожими ролями по классификации Valve и драфт с этим героем.</p>
-    <div class="linked-list"><a href="/hero/shadow_shaman/guide/"><img loading="lazy" src="/assets/heroes/shadow_shaman.png" alt="">Shadow Shaman<small style="opacity:.7;margin-left:6px;">похожие роли</small><span>→</span></a><a href="/hero/leshrac/guide/"><img loading="lazy" src="/assets/heroes/leshrac.png" alt="">Leshrac<small style="opacity:.7;margin-left:6px;">похожие роли</small><span>→</span></a><a href="/hero/enchantress/guide/"><img loading="lazy" src="/assets/heroes/enchantress.png" alt="">Enchantress<small style="opacity:.7;margin-left:6px;">похожие роли</small><span>→</span></a><a href="/#draft=66----_----_"><img loading="lazy" src="/assets/heroes/chen.png" alt="">Собрать драфт с Chen в DraftMate<span>→</span></a><a href="/guide/counter-picks/">Как работают контрпики<span>→</span></a></div>
+    <p>Ниже — гайды по героям из таблиц выше, герои с похожими ролями и драфт с Chen в DraftMate.</p>
+    <div class="linked-list"><a href="/hero/shadow_shaman/guide/"><img loading="lazy" src="/assets/heroes/shadow_shaman.webp" alt="">Shadow Shaman<small style="opacity:.7;margin-left:6px;">похожие роли</small><span>→</span></a><a href="/hero/leshrac/guide/"><img loading="lazy" src="/assets/heroes/leshrac.webp" alt="">Leshrac<small style="opacity:.7;margin-left:6px;">похожие роли</small><span>→</span></a><a href="/hero/enchantress/guide/"><img loading="lazy" src="/assets/heroes/enchantress.webp" alt="">Enchantress<small style="opacity:.7;margin-left:6px;">похожие роли</small><span>→</span></a><a href="/#draft=66----_----_"><img loading="lazy" src="/assets/heroes/chen.webp" alt="">Собрать драфт с Chen в DraftMate<span>→</span></a><a href="/guide/counter-picks/">Как работают контрпики<span>→</span></a></div>
   </section>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 <script src="/js/hero-roles.js" defer></script>
 </body>
 </html>

@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bounty Hunter — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Bounty Hunter - ловкий герой ближнего боя для побега. Используйте Jinada и Shadow Walk. На сайте доступны актуальные билды, контрпики и параметры.">
+<meta name="description" content="Билд на Bounty Hunter и контрпики. Bounty Hunter - ловкий герой ближнего боя для побега. Используйте Jinada и Shadow Walk.">
 <link rel="canonical" href="https://dotamate.ru/hero/bounty_hunter/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bounty Hunter — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Bounty Hunter - ловкий герой ближнего боя для побега. Используйте Jinada и Shadow Walk. На сайте доступны актуальные билды, контрпики и параметры.">
+<meta property="og:description" content="Билд на Bounty Hunter и контрпики. Bounty Hunter - ловкий герой ближнего боя для побега. Используйте Jinada и Shadow Walk.">
 <meta property="og:image" content="/assets/heroes/bounty_hunter.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/bounty_hunter/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bounty Hunter — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Bounty Hunter - ловкий герой ближнего боя для побега. Используйте Jinada и Shadow Walk. На сайте доступны актуальные билды, контрпики и параметры.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Bounty Hunter и контрпики. Bounty Hunter - ловкий герой ближнего боя для побега. Используйте Jinada и Shadow Walk.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Bounty Hunter","item":"https://dotamate.ru/hero/bounty_hunter/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,28 +46,30 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Bounty Hunter</span></nav>
     <h1>Bounty Hunter <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr agi"></i>Ловкость · Ближний бой · Поддержка в 73,8 % игр</p>
+    <p class="hx-sub"><i class="hx-attr agi"></i><span>Ловкость · Ближний бой · Поддержка в 73,8 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="62" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier s">S</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>52,5 %</b><em>место 13 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>52,5 %</b><em>место 13 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>8,3 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>28 491</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>11 из 38</b><em>Поддержка</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>7 из 38</b><em>Поддержка</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 1 из 3">●<span class="hx-mut">●●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на высоких рангах: 54,0 % у Легенды–Властелина против 49,4 % у Рекрута–Стража</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 4</span><b>84.6%</b><span class="hq-track" aria-hidden="true"><i style="width:84.6%"></i></span></li><li><span>Позиция 5</span><b>12.9%</b><span class="hq-track" aria-hidden="true"><i style="width:12.9%"></i></span></li><li><span>Позиция 2</span><b>1.1%</b><span class="hq-track" aria-hidden="true"><i style="width:1.1%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/wind_lace/"><img src="/assets/items/wind_lace.png" alt="" width="64" height="48" loading="lazy"><span>Wind Lace</span></a></li><li><a href="/item/urn_of_shadows/"><img src="/assets/items/urn_of_shadows.png" alt="" width="64" height="48" loading="lazy"><span>Urn of Shadows</span></a></li><li><a href="/item/infused_raindrop/"><img src="/assets/items/infused_raindrop.png" alt="" width="64" height="48" loading="lazy"><span>Infused Raindrops</span></a></li><li><a href="/item/headdress/"><img src="/assets/items/headdress.png" alt="" width="64" height="48" loading="lazy"><span>Headdress</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/clinkz/"><img src="/assets/heroes/clinkz.webp" alt="" width="48" height="27" loading="lazy"><span>Clinkz</span><b class="hq-positive">+4.9 п.п.</b></a></li><li><a href="/hero/alchemist/"><img src="/assets/heroes/alchemist.webp" alt="" width="48" height="27" loading="lazy"><span>Alchemist</span><b class="hq-positive">+4.7 п.п.</b></a></li><li><a href="/hero/warlock/"><img src="/assets/heroes/warlock.webp" alt="" width="48" height="27" loading="lazy"><span>Warlock</span><b class="hq-positive">+4.2 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/bane/"><img src="/assets/heroes/bane.webp" alt="" width="48" height="27" loading="lazy"><span>Bane</span><b class="hq-negative">-6.5 п.п.</b></a></li><li><a href="/hero/chaos_knight/"><img src="/assets/heroes/chaos_knight.webp" alt="" width="48" height="27" loading="lazy"><span>Chaos Knight</span><b class="hq-negative">-4.7 п.п.</b></a></li><li><a href="/hero/ursa/"><img src="/assets/heroes/ursa.webp" alt="" width="48" height="27" loading="lazy"><span>Ursa</span><b class="hq-negative">-4.3 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:05.635Z, 10178 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Bounty Hunter против других: Поддержка</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>11 из 38</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>7 из 38</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>54,2 %</td><td class="hx-mut">50,3 %</td><td><span class="hx-dev"><i class="up" style="left:50%;width:32.6%"></i></span><b class="up">+3,9 пп</b></td></tr><tr><th>Золото в минуту</th><td>373</td><td class="hx-mut">364</td><td><span class="hx-dev"><i class="up" style="left:50%;width:10.3%"></i></span><b class="up">+9</b></td></tr><tr><th>Опыт в минуту</th><td>544</td><td class="hx-mut">556</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:9.0%"></i></span><b class="dn">−12</b></td></tr></tbody></table>
-<p class="hx-note">118 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="933 игр"><b>48,7</b><span style="height:43.5%"></span><small>Рекрут</small></div><div title="2 930 игр"><b>49,6</b><span style="height:48.0%"></span><small>Страж</small></div><div title="5 085 игр"><b>52,8</b><span style="height:64.0%"></span><small>Рыцарь</small></div><div title="6 880 игр"><b>51,4</b><span style="height:57.0%"></span><small>Герой</small></div><div title="7 391 игр"><b>53,9</b><span style="height:69.5%"></span><small>Легенда</small></div><div title="5 272 игр"><b>54,2</b><span style="height:71.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="593 игр"><b>53,1</b><span style="height:65.5%"></span><small>до 25 мин</small></div><div title="7 441 игр"><b>52,7</b><span style="height:63.5%"></span><small>25–35 мин</small></div><div title="12 196 игр"><b>53,2</b><span style="height:66.0%"></span><small>35–45 мин</small></div><div title="8 261 игр"><b>51,3</b><span style="height:56.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:37.6%">37,6</i><i class="d" style="width:31.8%">31,8</i><i class="l" style="width:30.6%">30,6</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">157 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/primal_beast/"><img src="/assets/heroes/primal_beast.webp" alt="" loading="lazy" width="44" height="25"><span>Primal Beast</span></a><b class="up">+5,9 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">118 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="933 игр"><b>48,7</b><span style="height:43.5%"></span><small>Рекрут</small></div><div title="2 930 игр"><b>49,6</b><span style="height:48.0%"></span><small>Страж</small></div><div title="5 085 игр"><b>52,8</b><span style="height:64.0%"></span><small>Рыцарь</small></div><div title="6 880 игр"><b>51,4</b><span style="height:57.0%"></span><small>Герой</small></div><div title="7 391 игр"><b>53,9</b><span style="height:69.5%"></span><small>Легенда</small></div><div title="5 272 игр"><b>54,2</b><span style="height:71.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="593 игр"><b>53,1</b><span style="height:65.5%"></span><small>до 25 мин</small></div><div title="7 441 игр"><b>52,7</b><span style="height:63.5%"></span><small>25–35 мин</small></div><div title="12 196 игр"><b>53,2</b><span style="height:66.0%"></span><small>35–45 мин</small></div><div title="8 261 игр"><b>51,3</b><span style="height:56.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:37.6%">37,6</i><i class="d" style="width:31.8%">31,8</i><i class="l" style="width:30.6%">30,6</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">157 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/primal_beast/"><img src="/assets/heroes/primal_beast.webp" alt="" loading="lazy" width="44" height="25"><span>Primal Beast</span></a><b class="up">+5,9 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Bounty Hunter</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/bane/"><img src="/assets/heroes/bane.webp" alt="" loading="lazy" width="44" height="25"><span>Bane</span></a><b class="dn">−6,5 пп</b></li><li><a class="hx-hico" href="/hero/chaos_knight/"><img src="/assets/heroes/chaos_knight.webp" alt="" loading="lazy" width="44" height="25"><span>Chaos Knight</span></a><b class="dn">−4,7 пп</b></li><li><a class="hx-hico" href="/hero/ursa/"><img src="/assets/heroes/ursa.webp" alt="" loading="lazy" width="44" height="25"><span>Ursa</span></a><b class="dn">−4,3 пп</b></li><li><a class="hx-hico" href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" loading="lazy" width="44" height="25"><span>Venomancer</span></a><b class="dn">−3,7 пп</b></li><li><a class="hx-hico" href="/hero/phoenix/"><img src="/assets/heroes/phoenix.webp" alt="" loading="lazy" width="44" height="25"><span>Phoenix</span></a><b class="dn">−3,5 пп</b></li></ul></div>
 <div><h3>Кого контрит Bounty Hunter</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/clinkz/"><img src="/assets/heroes/clinkz.webp" alt="" loading="lazy" width="44" height="25"><span>Clinkz</span></a><b class="up">+4,9 пп</b></li><li><a class="hx-hico" href="/hero/alchemist/"><img src="/assets/heroes/alchemist.webp" alt="" loading="lazy" width="44" height="25"><span>Alchemist</span></a><b class="up">+4,7 пп</b></li><li><a class="hx-hico" href="/hero/warlock/"><img src="/assets/heroes/warlock.webp" alt="" loading="lazy" width="44" height="25"><span>Warlock</span></a><b class="up">+4,2 пп</b></li><li><a class="hx-hico" href="/hero/medusa/"><img src="/assets/heroes/medusa.webp" alt="" loading="lazy" width="44" height="25"><span>Medusa</span></a><b class="up">+4,0 пп</b></li><li><a class="hx-hico" href="/hero/oracle/"><img src="/assets/heroes/oracle.webp" alt="" loading="lazy" width="44" height="25"><span>Oracle</span></a><b class="up">+3,1 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article><article class="hx-tile" id="heroBuys" data-roles='{"POSITION_1":4,"POSITION_2":4,"POSITION_3":2,"POSITION_4":1,"POSITION_5":32}' data-min-role="80"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база рейтинговых матчей до 4500 MMR (1 803 матчей текущего патча). % — доля матчей героя, где предмет купили в этой фазе (всего 160).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (1 803 матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего 160).</p>
 <div class="hp-buys-pane on" data-pos="all"><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/tango/" title="Tango — 73% матчей (116 из 160)"><i style="width:73%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>73%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 72% матчей (115 из 160)"><i style="width:72%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>72%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 54% матчей (87 из 160)"><i style="width:54%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>54%</b></a></li><li><a href="/item/boots/" title="Boots of Speed — 36% матчей (58 из 160)"><i style="width:36%"></i><img src="/assets/items/boots.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Speed</span><b>36%</b></a></li><li><a href="/item/wind_lace/" title="Wind Lace — 32% матчей (51 из 160)"><i style="width:32%"></i><img src="/assets/items/wind_lace.png" alt="" loading="lazy" width="36" height="26"><span>Wind Lace</span><b>32%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 24% матчей (38 из 160)"><i style="width:24%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>24%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/tranquil_boots/" title="Tranquil Boots — 61% матчей (97 из 160)"><i style="width:61%"></i><img src="/assets/items/tranquil_boots.png" alt="" loading="lazy" width="36" height="26"><span>Tranquil Boots</span><b>61%</b></a></li><li><a href="/item/magic_wand/" title="Magic Wand — 40% матчей (64 из 160)"><i style="width:40%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>40%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 29% матчей (46 из 160)"><i style="width:29%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>29%</b></a></li><li><a href="/item/urn_of_shadows/" title="Urn of Shadows — 26% матчей (42 из 160)"><i style="width:26%"></i><img src="/assets/items/urn_of_shadows.png" alt="" loading="lazy" width="36" height="26"><span>Urn of Shadows</span><b>26%</b></a></li><li><a href="/item/tango/" title="Tango — 23% матчей (36 из 160)"><i style="width:23%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>23%</b></a></li><li><a href="/item/ring_of_regen/" title="Ring of Regen — 14% матчей (22 из 160)"><i style="width:14%"></i><img src="/assets/items/ring_of_regen.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Regen</span><b>14%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/ancient_janggo/" title="Drum of Endurance — 38% матчей (60 из 160)"><i style="width:38%"></i><img src="/assets/items/ancient_janggo.png" alt="" loading="lazy" width="36" height="26"><span>Drum of Endurance</span><b>38%</b></a></li><li><a href="/item/headdress/" title="Headdress — 34% матчей (55 из 160)"><i style="width:34%"></i><img src="/assets/items/headdress.png" alt="" loading="lazy" width="36" height="26"><span>Headdress</span><b>34%</b></a></li><li><a href="/item/urn_of_shadows/" title="Urn of Shadows — 27% матчей (43 из 160)"><i style="width:27%"></i><img src="/assets/items/urn_of_shadows.png" alt="" loading="lazy" width="36" height="26"><span>Urn of Shadows</span><b>27%</b></a></li><li><a href="/item/spirit_vessel/" title="Spirit Vessel — 23% матчей (37 из 160)"><i style="width:23%"></i><img src="/assets/items/spirit_vessel.png" alt="" loading="lazy" width="36" height="26"><span>Spirit Vessel</span><b>23%</b></a></li><li><a href="/item/clarity/" title="Clarity — 16% матчей (26 из 160)"><i style="width:16%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>16%</b></a></li><li><a href="/item/cyclone/" title="Eul&#39;s Scepter of Divinity — 16% матчей (25 из 160)"><i style="width:16%"></i><img src="/assets/items/cyclone.png" alt="" loading="lazy" width="36" height="26"><span>Eul&#39;s Scepter of Divinity</span><b>16%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/boots_of_bearing/" title="Boots of Bearing — 18% матчей (28 из 160)"><i style="width:18%"></i><img src="/assets/items/boots_of_bearing.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Bearing</span><b>18%</b></a></li><li><a href="/item/cyclone/" title="Eul&#39;s Scepter of Divinity — 14% матчей (23 из 160)"><i style="width:14%"></i><img src="/assets/items/cyclone.png" alt="" loading="lazy" width="36" height="26"><span>Eul&#39;s Scepter of Divinity</span><b>14%</b></a></li><li><a href="/item/pers/" title="Perseverance — 13% матчей (21 из 160)"><i style="width:13%"></i><img src="/assets/items/pers.png" alt="" loading="lazy" width="36" height="26"><span>Perseverance</span><b>13%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 13% матчей (20 из 160)"><i style="width:13%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>13%</b></a></li><li><a href="/item/oblivion_staff/" title="Oblivion Staff — 11% матчей (18 из 160)"><i style="width:11%"></i><img src="/assets/items/oblivion_staff.png" alt="" loading="lazy" width="36" height="26"><span>Oblivion Staff</span><b>11%</b></a></li><li><a href="/item/headdress/" title="Headdress — 10% матчей (16 из 160)"><i style="width:10%"></i><img src="/assets/items/headdress.png" alt="" loading="lazy" width="36" height="26"><span>Headdress</span><b>10%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/dust/" title="Dust of Appearance — 4% матчей (7 из 160)"><i style="width:4%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>4%</b></a></li><li><a href="/item/sheepstick/" title="Scythe of Vyse — 4% матчей (7 из 160)"><i style="width:4%"></i><img src="/assets/items/sheepstick.png" alt="" loading="lazy" width="36" height="26"><span>Scythe of Vyse</span><b>4%</b></a></li><li><a href="/item/pers/" title="Perseverance — 4% матчей (6 из 160)"><i style="width:4%"></i><img src="/assets/items/pers.png" alt="" loading="lazy" width="36" height="26"><span>Perseverance</span><b>4%</b></a></li><li><a href="/item/lotus_orb/" title="Lotus Orb — 4% матчей (6 из 160)"><i style="width:4%"></i><img src="/assets/items/lotus_orb.png" alt="" loading="lazy" width="36" height="26"><span>Lotus Orb</span><b>4%</b></a></li><li><a href="/item/aghanims_shard/" title="Aghanim&#39;s Shard — 4% матчей (6 из 160)"><i style="width:4%"></i><img src="/assets/items/aghanims_shard.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Shard</span><b>4%</b></a></li><li><a href="/item/boots_of_bearing/" title="Boots of Bearing — 4% матчей (6 из 160)"><i style="width:4%"></i><img src="/assets/items/boots_of_bearing.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Bearing</span><b>4%</b></a></li></ul></div></div></div><div class="hp-buys-pane" data-pos="POSITION_4" hidden><p class="hp-buys-role">Роль: Поддержка · 118 матчей героя на этой роли</p><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/blood_grenade/" title="Blood Grenade — 75% матчей (89 из 118)"><i style="width:75%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>75%</b></a></li><li><a href="/item/tango/" title="Tango — 72% матчей (85 из 118)"><i style="width:72%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>72%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 49% матчей (58 из 118)"><i style="width:49%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>49%</b></a></li><li><a href="/item/boots/" title="Boots of Speed — 40% матчей (47 из 118)"><i style="width:40%"></i><img src="/assets/items/boots.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Speed</span><b>40%</b></a></li><li><a href="/item/wind_lace/" title="Wind Lace — 33% матчей (39 из 118)"><i style="width:33%"></i><img src="/assets/items/wind_lace.png" alt="" loading="lazy" width="36" height="26"><span>Wind Lace</span><b>33%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 23% матчей (27 из 118)"><i style="width:23%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>23%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/tranquil_boots/" title="Tranquil Boots — 69% матчей (82 из 118)"><i style="width:69%"></i><img src="/assets/items/tranquil_boots.png" alt="" loading="lazy" width="36" height="26"><span>Tranquil Boots</span><b>69%</b></a></li><li><a href="/item/magic_wand/" title="Magic Wand — 42% матчей (50 из 118)"><i style="width:42%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>42%</b></a></li><li><a href="/item/urn_of_shadows/" title="Urn of Shadows — 30% матчей (35 из 118)"><i style="width:30%"></i><img src="/assets/items/urn_of_shadows.png" alt="" loading="lazy" width="36" height="26"><span>Urn of Shadows</span><b>30%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 29% матчей (34 из 118)"><i style="width:29%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>29%</b></a></li><li><a href="/item/tango/" title="Tango — 19% матчей (23 из 118)"><i style="width:19%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>19%</b></a></li><li><a href="/item/ring_of_regen/" title="Ring of Regen — 17% матчей (20 из 118)"><i style="width:17%"></i><img src="/assets/items/ring_of_regen.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Regen</span><b>17%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/ancient_janggo/" title="Drum of Endurance — 43% матчей (51 из 118)"><i style="width:43%"></i><img src="/assets/items/ancient_janggo.png" alt="" loading="lazy" width="36" height="26"><span>Drum of Endurance</span><b>43%</b></a></li><li><a href="/item/headdress/" title="Headdress — 38% матчей (45 из 118)"><i style="width:38%"></i><img src="/assets/items/headdress.png" alt="" loading="lazy" width="36" height="26"><span>Headdress</span><b>38%</b></a></li><li><a href="/item/urn_of_shadows/" title="Urn of Shadows — 27% матчей (32 из 118)"><i style="width:27%"></i><img src="/assets/items/urn_of_shadows.png" alt="" loading="lazy" width="36" height="26"><span>Urn of Shadows</span><b>27%</b></a></li><li><a href="/item/spirit_vessel/" title="Spirit Vessel — 25% матчей (30 из 118)"><i style="width:25%"></i><img src="/assets/items/spirit_vessel.png" alt="" loading="lazy" width="36" height="26"><span>Spirit Vessel</span><b>25%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 19% матчей (23 из 118)"><i style="width:19%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>19%</b></a></li><li><a href="/item/clarity/" title="Clarity — 18% матчей (21 из 118)"><i style="width:18%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>18%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/boots_of_bearing/" title="Boots of Bearing — 21% матчей (25 из 118)"><i style="width:21%"></i><img src="/assets/items/boots_of_bearing.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Bearing</span><b>21%</b></a></li><li><a href="/item/cyclone/" title="Eul&#39;s Scepter of Divinity — 16% матчей (19 из 118)"><i style="width:16%"></i><img src="/assets/items/cyclone.png" alt="" loading="lazy" width="36" height="26"><span>Eul&#39;s Scepter of Divinity</span><b>16%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 14% матчей (16 из 118)"><i style="width:14%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>14%</b></a></li><li><a href="/item/headdress/" title="Headdress — 12% матчей (14 из 118)"><i style="width:12%"></i><img src="/assets/items/headdress.png" alt="" loading="lazy" width="36" height="26"><span>Headdress</span><b>12%</b></a></li><li><a href="/item/pers/" title="Perseverance — 11% матчей (13 из 118)"><i style="width:11%"></i><img src="/assets/items/pers.png" alt="" loading="lazy" width="36" height="26"><span>Perseverance</span><b>11%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 11% матчей (13 из 118)"><i style="width:11%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>11%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/aghanims_shard/" title="Aghanim&#39;s Shard — 4% матчей (5 из 118)"><i style="width:4%"></i><img src="/assets/items/aghanims_shard.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Shard</span><b>4%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 3% матчей (4 из 118)"><i style="width:3%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>3%</b></a></li><li><a href="/item/boots_of_bearing/" title="Boots of Bearing — 3% матчей (4 из 118)"><i style="width:3%"></i><img src="/assets/items/boots_of_bearing.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Bearing</span><b>3%</b></a></li><li><a href="/item/greater_famango/" title="Greater Healing Lotus — 3% матчей (4 из 118)"><i style="width:3%"></i><img src="/assets/items/greater_famango.png" alt="" loading="lazy" width="36" height="26"><span>Greater Healing Lotus</span><b>3%</b></a></li><li><a href="/item/pers/" title="Perseverance — 3% матчей (3 из 118)"><i style="width:3%"></i><img src="/assets/items/pers.png" alt="" loading="lazy" width="36" height="26"><span>Perseverance</span><b>3%</b></a></li><li><a href="/item/pipe/" title="Pipe of Insight — 3% матчей (3 из 118)"><i style="width:3%"></i><img src="/assets/items/pipe.png" alt="" loading="lazy" width="36" height="26"><span>Pipe of Insight</span><b>3%</b></a></li></ul></div></div></div></article></section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>
@@ -167,37 +171,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 965 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 965 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>No Cooldown on Jinada</b>
+          <b>Jinada без перезарядки</b>
           <span>Берут 14,9% · Побед 63,5%</span>
           
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>Track Grants Shared Vision</b>
+          <b>Жертвы Track делятся своим обзором</b>
           <span>Берут 85,1% · Побед 64,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+50 Jinada Gold Steal</b>
+          <b>+50 к похищению золота у Jinada</b>
           <span>Берут 13,5% · Побед 67,7%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+190 Shuriken Toss Damage</b>
+          <b>+190 к урону от Shuriken Toss</b>
           <span>Берут 86,5% · Побед 67,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+50 Track Gold</b>
+          <b>+50 к золоту от Track</b>
           <span>Берут 18,8% · Побед 63,8%</span>
           
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>-30% Damage Taken in Shadow Walk</b>
+          <b>Shadow Walk снижает получаемый урон на 30%</b>
           <span>Берут 81,2% · Побед 64,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+30 Damage</b>
+          <b>+30 к урону</b>
           <span>Берут 22,6% · Побед 57,4%</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+0.35s Shuriken Toss Slow</b>
+          <b>+0,35 сек. замедления от Shuriken Toss</b>
           <span>Берут 77,4% · Побед 57,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -278,37 +282,37 @@
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 257 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 257 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>No Cooldown on Jinada</b>
+          <b>Jinada без перезарядки</b>
           <span>Берут 17,8% · Побед 80,4%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>Track Grants Shared Vision</b>
+          <b>Жертвы Track делятся своим обзором</b>
           <span>Берут 82,2% · Побед 62,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+50 Jinada Gold Steal</b>
+          <b>+50 к похищению золота у Jinada</b>
           <span>Берут 15,1% · Побед 62,3%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+190 Shuriken Toss Damage</b>
+          <b>+190 к урону от Shuriken Toss</b>
           <span>Берут 84,9% · Побед 65,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+50 Track Gold</b>
+          <b>+50 к золоту от Track</b>
           <span>Берут 21,5% · Побед 64,1%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>-30% Damage Taken in Shadow Walk</b>
+          <b>Shadow Walk снижает получаемый урон на 30%</b>
           <span>Берут 78,5% · Побед 59,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+30 Damage</b>
+          <b>+30 к урону</b>
           <span>Берут 26,0% · Побед 55,6%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+0.35s Shuriken Toss Slow</b>
+          <b>+0,35 сек. замедления от Shuriken Toss</b>
           <span>Берут 74,0% · Побед 51,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -398,11 +402,11 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Shuriken Toss</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Герой швыряет во врага смертоносный сюрикен, наносящий урон и замедляющий передвижение. Сюрикен отскакивает к помеченным способностью Track противникам в радиусе 1200.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Jinada</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span></div>
           <p class="hp-ab-desc">Герой тщательно продумывает следующую атаку, нанося дополнительный урон и воруя ненадёжное золото жертвы.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Shadow Walk</h3>
@@ -434,7 +438,16 @@
     </div>
     <a class="btn red" href="/hero/bounty_hunter/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Bounty Hunter">
+    <a class="hp-tool" href="/draft/#draft=62__" data-goal="hero_to_draft"><b>Драфт с Bounty Hunter</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -467,6 +480,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

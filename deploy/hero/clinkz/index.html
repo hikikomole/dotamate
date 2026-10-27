@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clinkz — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Clinkz является героем ловкости дальнего боя средней сложности. Этот керри и пушер использует Strafe. Смотрите его характеристики, билды и контрпики.">
+<meta name="description" content="Билд на Clinkz и контрпики. Clinkz является героем ловкости дальнего боя средней сложности. Этот керри и пушер использует Strafe.">
 <link rel="canonical" href="https://dotamate.ru/hero/clinkz/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Clinkz — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Clinkz является героем ловкости дальнего боя средней сложности. Этот керри и пушер использует Strafe. Смотрите его характеристики, билды и контрпики.">
+<meta property="og:description" content="Билд на Clinkz и контрпики. Clinkz является героем ловкости дальнего боя средней сложности. Этот керри и пушер использует Strafe.">
 <meta property="og:image" content="/assets/heroes/clinkz.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/clinkz/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Clinkz — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Clinkz является героем ловкости дальнего боя средней сложности. Этот керри и пушер использует Strafe. Смотрите его характеристики, билды и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Clinkz и контрпики. Clinkz является героем ловкости дальнего боя средней сложности. Этот керри и пушер использует Strafe.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Clinkz","item":"https://dotamate.ru/hero/clinkz/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Clinkz</span></nav>
     <h1>Clinkz <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr agi"></i>Ловкость · Дальний бой · Керри в 45,2 % игр</p>
+    <p class="hx-sub"><i class="hx-attr agi"></i><span>Ловкость · Дальний бой · Керри в 45,2 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="56" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier a">A</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>50,8 %</b><em>место 43 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>50,8 %</b><em>место 42 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>4,8 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>16 384</b></div>
     <div class="hx-kpi"><small>Место в роли</small><b>27 из 28</b><em>Керри</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Без явных перекосов: Рекрут–Страж и Легенда–Властелин различаются меньше чем на 2 пп, игры до 25 и после 45 мин — меньше чем на 3 пп</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 1</span><b>72.1%</b><span class="hq-track" aria-hidden="true"><i style="width:72.1%"></i></span></li><li><span>Позиция 2</span><b>23.8%</b><span class="hq-track" aria-hidden="true"><i style="width:23.8%"></i></span></li><li><span>Позиция 4</span><b>2.5%</b><span class="hq-track" aria-hidden="true"><i style="width:2.5%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/falcon_blade/"><img src="/assets/items/falcon_blade.png" alt="" width="64" height="48" loading="lazy"><span>Falcon Blade</span></a></li><li><a href="/item/desolator/"><img src="/assets/items/desolator.png" alt="" width="64" height="48" loading="lazy"><span>Desolator</span></a></li><li><a href="/item/dragon_lance/"><img src="/assets/items/dragon_lance.png" alt="" width="64" height="48" loading="lazy"><span>Dragon Lance</span></a></li><li><a href="/item/oblivion_staff/"><img src="/assets/items/oblivion_staff.png" alt="" width="64" height="48" loading="lazy"><span>Oblivion Staff</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.webp" alt="" width="48" height="27" loading="lazy"><span>Outworld Devourer</span><b class="hq-positive">+5.5 п.п.</b></a></li><li><a href="/hero/dark_seer/"><img src="/assets/heroes/dark_seer.webp" alt="" width="48" height="27" loading="lazy"><span>Dark Seer</span><b class="hq-positive">+5.4 п.п.</b></a></li><li><a href="/hero/shredder/"><img src="/assets/heroes/shredder.webp" alt="" width="48" height="27" loading="lazy"><span>Timbersaw</span><b class="hq-positive">+4.5 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.webp" alt="" width="48" height="27" loading="lazy"><span>Arc Warden</span><b class="hq-negative">-6.3 п.п.</b></a></li><li><a href="/hero/bounty_hunter/"><img src="/assets/heroes/bounty_hunter.webp" alt="" width="48" height="27" loading="lazy"><span>Bounty Hunter</span><b class="hq-negative">-4.9 п.п.</b></a></li><li><a href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" width="48" height="27" loading="lazy"><span>Phantom Lancer</span><b class="hq-negative">-4.2 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:00.860Z, 3223 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Clinkz против других: Керри</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>27 из 28</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>27 из 28</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>38,9 %</td><td class="hx-mut">50,4 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:50.0%"></i></span><b class="dn">−11,5 пп</b></td></tr><tr><th>Золото в минуту</th><td>594</td><td class="hx-mut">624</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:20.0%"></i></span><b class="dn">−30</b></td></tr><tr><th>Опыт в минуту</th><td>786</td><td class="hx-mut">844</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:28.6%"></i></span><b class="dn">−58</b></td></tr></tbody></table>
-<p class="hx-note">36 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="891 игр"><b>52,1</b><span style="height:60.5%"></span><small>Рекрут</small></div><div title="2 397 игр"><b>50,9</b><span style="height:54.5%"></span><small>Страж</small></div><div title="3 146 игр"><b>50,3</b><span style="height:51.5%"></span><small>Рыцарь</small></div><div title="3 896 игр"><b>49,9</b><span style="height:49.5%"></span><small>Герой</small></div><div title="3 875 игр"><b>51,8</b><span style="height:59.0%"></span><small>Легенда</small></div><div title="2 179 игр"><b>50,8</b><span style="height:54.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="324 игр"><b>51,2</b><span style="height:56.0%"></span><small>до 25 мин</small></div><div title="3 630 игр"><b>54,6</b><span style="height:73.0%"></span><small>25–35 мин</small></div><div title="6 688 игр"><b>49,4</b><span style="height:47.0%"></span><small>35–45 мин</small></div><div title="5 742 игр"><b>50,0</b><span style="height:50.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:41%">41,0</i><i class="d" style="width:20.5%">20,5</i><i class="l" style="width:38.5%">38,5</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">78 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tidehunter/"><img src="/assets/heroes/tidehunter.webp" alt="" loading="lazy" width="44" height="25"><span>Tidehunter</span></a><b class="up">+6,3 пп</b></li><li><a class="hx-hico" href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" loading="lazy" width="44" height="25"><span>Crystal Maiden</span></a><b class="up">+5,8 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">36 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="891 игр"><b>52,1</b><span style="height:60.5%"></span><small>Рекрут</small></div><div title="2 397 игр"><b>50,9</b><span style="height:54.5%"></span><small>Страж</small></div><div title="3 146 игр"><b>50,3</b><span style="height:51.5%"></span><small>Рыцарь</small></div><div title="3 896 игр"><b>49,9</b><span style="height:49.5%"></span><small>Герой</small></div><div title="3 875 игр"><b>51,8</b><span style="height:59.0%"></span><small>Легенда</small></div><div title="2 179 игр"><b>50,8</b><span style="height:54.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="324 игр"><b>51,2</b><span style="height:56.0%"></span><small>до 25 мин</small></div><div title="3 630 игр"><b>54,6</b><span style="height:73.0%"></span><small>25–35 мин</small></div><div title="6 688 игр"><b>49,4</b><span style="height:47.0%"></span><small>35–45 мин</small></div><div title="5 742 игр"><b>50,0</b><span style="height:50.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:41%">41,0</i><i class="d" style="width:20.5%">20,5</i><i class="l" style="width:38.5%">38,5</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">78 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tidehunter/"><img src="/assets/heroes/tidehunter.webp" alt="" loading="lazy" width="44" height="25"><span>Tidehunter</span></a><b class="up">+6,3 пп</b></li><li><a class="hx-hico" href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" loading="lazy" width="44" height="25"><span>Crystal Maiden</span></a><b class="up">+5,8 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Clinkz</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.webp" alt="" loading="lazy" width="44" height="25"><span>Arc Warden</span></a><b class="dn">−6,3 пп</b></li><li><a class="hx-hico" href="/hero/bounty_hunter/"><img src="/assets/heroes/bounty_hunter.webp" alt="" loading="lazy" width="44" height="25"><span>Bounty Hunter</span></a><b class="dn">−4,9 пп</b></li><li><a class="hx-hico" href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Lancer</span></a><b class="dn">−4,2 пп</b></li><li><a class="hx-hico" href="/hero/bristleback/"><img src="/assets/heroes/bristleback.webp" alt="" loading="lazy" width="44" height="25"><span>Bristleback</span></a><b class="dn">−4,2 пп</b></li><li><a class="hx-hico" href="/hero/slark/"><img src="/assets/heroes/slark.webp" alt="" loading="lazy" width="44" height="25"><span>Slark</span></a><b class="dn">−3,8 пп</b></li></ul></div>
 <div><h3>Кого контрит Clinkz</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.webp" alt="" loading="lazy" width="44" height="25"><span>Outworld Devourer</span></a><b class="up">+5,5 пп</b></li><li><a class="hx-hico" href="/hero/dark_seer/"><img src="/assets/heroes/dark_seer.webp" alt="" loading="lazy" width="44" height="25"><span>Dark Seer</span></a><b class="up">+5,4 пп</b></li><li><a class="hx-hico" href="/hero/shredder/"><img src="/assets/heroes/shredder.webp" alt="" loading="lazy" width="44" height="25"><span>Timbersaw</span></a><b class="up">+4,5 пп</b></li><li><a class="hx-hico" href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" loading="lazy" width="44" height="25"><span>Sven</span></a><b class="up">+3,8 пп</b></li><li><a class="hx-hico" href="/hero/lich/"><img src="/assets/heroes/lich.webp" alt="" loading="lazy" width="44" height="25"><span>Lich</span></a><b class="up">+3,7 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -165,37 +169,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 1 340 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 1 340 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>Searing Arrows Multishot</b>
+          <b>Две цели Searing Arrows</b>
           <span>Берут 75,6% · Побед 62,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>-9s Strafe Cooldown</b>
+          <b>–9 сек. перезарядки Strafe</b>
           <span>Берут 24,4% · Побед 60,6%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+400 Death Pact Bonus Health</b>
+          <b>+400 к доп. здоровью от Death Pact</b>
           <span>Берут 25,6% · Побед 59,5%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+40 Strafe Attack Speed</b>
+          <b>+40 к скорости атаки от Strafe</b>
           <span>Берут 74,4% · Побед 55,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>-10s Death Pact Charge Restore Time</b>
+          <b>–10 сек. восстановления заряда Death Pact</b>
           <span>Берут 4,6% · Побед 58,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+50 Attack Range</b>
+          <b>+50 к дальности атаки</b>
           <span>Берут 95,4% · Побед 55,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-4s Skeleton Walk Cooldown</b>
+          <b>–4 сек. перезарядки Skeleton Walk</b>
           <span>Берут 69,9% · Побед 54,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-win">
-          <b>+1.0s Strafe Duration</b>
+          <b>+1,0 сек. действия Strafe</b>
           <span>Берут 30,1% · Побед 54,8%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div></div>
@@ -278,37 +282,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 260 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 260 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>Searing Arrows Multishot</b>
+          <b>Две цели Searing Arrows</b>
           <span>Берут 63,2% · Побед 60,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-win">
-          <b>-9s Strafe Cooldown</b>
+          <b>–9 сек. перезарядки Strafe</b>
           <span>Берут 36,8% · Побед 61,3%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+400 Death Pact Bonus Health</b>
+          <b>+400 к доп. здоровью от Death Pact</b>
           <span>Берут 31,0% · Побед 62,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+40 Strafe Attack Speed</b>
+          <b>+40 к скорости атаки от Strafe</b>
           <span>Берут 69,0% · Побед 54,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>-10s Death Pact Charge Restore Time</b>
+          <b>–10 сек. восстановления заряда Death Pact</b>
           <span>Берут 6,2% · Побед 56,5%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+50 Attack Range</b>
+          <b>+50 к дальности атаки</b>
           <span>Берут 93,8% · Побед 53,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-4s Skeleton Walk Cooldown</b>
+          <b>–4 сек. перезарядки Skeleton Walk</b>
           <span>Берут 66,3% · Побед 51,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-win">
-          <b>+1.0s Strafe Duration</b>
+          <b>+1,0 сек. действия Strafe</b>
           <span>Берут 33,7% · Побед 55,5%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div></div>
@@ -402,7 +406,7 @@
           <p class="hp-ab-desc">Увеличивает скорость и дальность атаки владельца. Все скелеты-лучники в радиусе 1200 тоже получают дополнительную дальность атаки и 40% от дополнительной скорости атаки. Не снимает невидимость от Skeleton Walk.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Searing Arrows</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span></div>
           <p class="hp-ab-desc">Наполняет стрелы героя огнём, увеличивая их урон. Скелеты-лучники пускают такие стрелы по тем же целям, что и герой, нанося 50% от урона способности.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Death Pact</h3>
@@ -410,11 +414,11 @@
           <p class="hp-ab-desc">Герой поглощает выбранного вражеского крипа или союзного скелета-лучника, излечиваясь и получая бонус к максимальному здоровью. Не снимает невидимость от способности Skeleton Walk.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Burning Barrage</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>Прерываемая</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>Прерываемая</span></div>
           <p class="hp-ab-desc">ПРЕРЫВАЕМАЯ — герой выпускает залп стрел в выбранном направлении. Они пролетают сквозь всех врагов на пути, нанося им долю от обычного урона и накладывая эффекты атаки.</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Burning Army</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span></div>
           <p class="hp-ab-desc">Призывает в указанном месте ряд скелетов-лучников.</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Skeleton Walk</h3>
@@ -434,7 +438,16 @@
     </div>
     <a class="btn red" href="/hero/clinkz/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Clinkz">
+    <a class="hp-tool" href="/draft/#draft=56__" data-goal="hero_to_draft"><b>Драфт с Clinkz</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -467,6 +480,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

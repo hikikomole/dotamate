@@ -29,6 +29,8 @@ function trimTo(s,n){const t=String(s||'').trim();if(t.length<=n)return t;const 
 async function main(){
   const store=JSON.parse(fs.readFileSync(path.join(__dirname,'data','items-ru.json'),'utf8')).items;
   const statsAll=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-stats.json'),'utf8'));}catch{return null;}})();
+  const timingAll=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-timings.json'),'utf8'));}catch{return null;}})();
+  const followupsAll=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-followups.json'),'utf8'));}catch{return null;}})();
   const impact=(()=>{try{return JSON.parse(fs.readFileSync(path.join(__dirname,'data','item-impact.json'),'utf8'));}catch{return null;}})();
   // Статьи о предмете (/guide/) — tools/guide-items.js.
   const guideByItem=require('./tools/guide-items.js').linkGuideItems().byItem;
@@ -107,12 +109,23 @@ async function main(){
     }).join('');
     // ---- Вариант A (02.10.2026): шапка, колонка цифр справа, дерево сборки, время покупки.
     const st=statsAll&&statsAll.items[key]||null;
+    const verifiedMatches=Number(timingAll?.meta?.matches)||0;
+    const timing=timingAll?.meta?.source==='Valve replay purchase events' && verifiedMatches>=30 &&
+      timingAll.items?.[key]?.n>=30 && Array.isArray(timingAll.items[key].t) &&
+      Array.isArray(timingAll.items[key].hist) && timingAll.items[key].hist.length===11 &&
+      Array.isArray(timingAll.bins) && timingAll.bins.length===10 ? timingAll.items[key] : null;
     const nf=v=>Number(v).toLocaleString('ru-RU');
     const pct=(a,b)=>(Math.round(a/b*1000)/10).toLocaleString('ru-RU');
     const mins=s=>(Math.round(s/6)/10).toLocaleString('ru-RU');
     const kicker=[x.cat==='neutral'?`Нейтральный${x.tier?` · тир ${x.tier}`:''}`:(x.catRu||'Предмет'),x.cost?`${nf(x.cost)} золота`:''].filter(Boolean).join(' · ');
-    const chips=[...(x.attr||[]).map(t=>`<span>${escapeHtml(t)}</span>`),
-      x.cd?`<span class="it-chip-m">КД ${x.cd} сек</span>`:'',x.mc?`<span class="it-chip-m">${x.mc} маны</span>`:'',x.charges?`<span class="it-chip-m">Зарядов: ${x.charges}</span>`:''].filter(Boolean).join('');
+    // Атрибуты из datafeed двух видов: бонусы («+250 к здоровью») — чипы в
+    // шапке; подписанные значения («105 / 125 ПЕРЕЗАРЯДКА:») приходят задом
+    // наперёд и капсом — разворачиваем в строку «Перезарядка — 105 / 125».
+    const labelled=[];
+    const chips=(x.attr||[]).map(t=>{
+      const m=String(t).match(/^(.*?\d.*?)\s+([A-Za-zА-Яа-яЁё][^:]*?):\s*$/);
+      if(m){const l=m[2].toLowerCase().replace(/observer ward/g,'Observer Ward').replace(/sentry ward/g,'Sentry Ward');const lab=l.charAt(0).toUpperCase()+l.slice(1);labelled.push([lab,/^Перезарядка/.test(lab)&&!/\s(сек|мин)/.test(m[1])?m[1]+' сек':m[1]]);return '';}
+      return `<span>${escapeHtml(t)}</span>`;}).filter(Boolean).join('');
     const node=(k,me)=>{const it=store[k];if(!it)return '';const t=variantMaps.byKey[it.recipeFor||k]||it.recipeFor||k;const d=store[t];if(!d)return '';
       return me?`<span class="it-node it-me"><img src="${d.img}" alt="">${escapeHtml(d.dname)}</span>`:(t===key?'':`<a class="it-node" href="/item/${itemSlug(t)}/"><img src="${d.img}" alt="" loading="lazy">${escapeHtml(d.dname)}</a>`);};
     const uniq=a=>[...new Set(a)];
@@ -132,14 +145,15 @@ async function main(){
       const lab=v=>v<=0?'старт':mins(v)+'′';
       return `<div class="itb-time" role="img" aria-label="Обычно покупают с ${lab(s.t[0])} по ${lab(s.t[2])}, медиана ${lab(s.t[1])}"><div class="itb-track"><i style="left:${a}%;width:${Math.max(1.5,b-a)}%"></i><b style="left:${m}%"></b></div><div class="itb-scale"><span>0</span><span>10′</span><span>20′</span><span>30′</span><span>40′</span><span>50′</span></div></div>`;};
     let histHtml='',asideHtml='',summaryHtml='',compareHtml='',tierHtml='';
+    const statRows=[];
     if(st&&type==='item'){
       const posSum=st.pos.reduce((a,b)=>a+b,0)||1;
       const topPos=st.pos.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]);
       const posHtml=topPos.map(([v,i])=>`<div class="it-bar"><span>${posNames[i]}<b>${pct(v,posSum)}%</b></span><i><u style="width:${Math.round(v/topPos[0][0]*100)}%"></u></i></div>`).join('');
-      histHtml=timeBar(st)+`<p class="it-note">Половина покупок — до ${mins(st.t[1])} минуты; средние 50% — с ${st.t[0]<=0?'старта':mins(st.t[0])+' мин'} по ${mins(st.t[2])} мин. ${nf(st.n)} покупок в матчах текущего патча.</p>`;
+      histHtml=timing?timeBar(timing)+`<p class="it-note">Медиана первой покупки: ${mins(timing.t[1])} мин. ${nf(timing.n)} покупателей в ${nf(verifiedMatches)} проверенных реплеях.</p><div class="itb-cmpw"><table class="itb-cmp"><thead><tr><th>Время</th><th>Первые покупки</th></tr></thead><tbody>${timing.hist.map((n,i)=>`<tr><td>${i===0?'До игры':i===timingAll.bins.length?'45+ мин':`${(i-1)*5}–${i*5} мин`}</td><td>${nf(n)}</td></tr>`).join('')}</tbody></table></div>`:'';
       summaryHtml=`<div class="itb-kpis">
         <div><b>${playersPct(st)}%</b><span>игроков покупают</span></div>
-        <div><b>${st.t[1]<=0?'старт':mins(st.t[1])+'′'}</b><span>медиана покупки</span></div>
+        ${timing?`<div><b>${timing.t[1]<=0?'старт':mins(timing.t[1])+'′'}</b><span>медиана покупки</span></div>`:''}
         <div><b>${posNames[topPos[0][1]]}</b><span>чаще всего · ${pct(topPos[0][0],posSum)}%</span></div></div>`;
       const heroRows=st.heroes.map(([hid,n,w])=>{const h=heroById.get(Number(hid));if(!h)return '';const sl=slugForHero(h);const r=Math.round(w/n*100);
         return `<a class="it-hrow" href="/hero/${sl}/" data-hero-open="${Number(hid)}"><img loading="lazy" src="/assets/heroes/${sl}.webp" alt=""><span>${escapeHtml(h.localized_name||h.name||'')}</span><small>${n}</small><b class="${r>=55?'it-up':r<=45?'it-down':''}">${r}%</b></a>`;}).join('');
@@ -156,14 +170,40 @@ async function main(){
         .sort((a,b)=>Math.abs(a[1].cost-x.cost)-Math.abs(b[1].cost-x.cost)).slice(0,5);
       const rows=[[key,x],...near].sort((a,b)=>a[1].cost-b[1].cost).map(([k,y])=>{const s=statsAll.items[k];const me=k===key;
         const nm=`<img src="${y.img}" alt="" loading="lazy">${escapeHtml(y.dname)}`;
-        return `<tr${me?' class="itb-me"':''}><td>${me?`<span>${nm}</span>`:`<a href="/item/${itemSlug(k)}/">${nm}</a>`}</td><td>${nf(y.cost)}</td><td>${s.t[1]<=0?'старт':mins(s.t[1])+'′'}</td><td>${playersPct(s)}%</td></tr>`;}).join('');
-      compareHtml=`<div class="itb-cmpw"><table class="itb-cmp"><thead><tr><th>Предмет</th><th>Цена</th><th>Медиана</th><th>Покупают</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+        return `<tr${me?' class="itb-me"':''}><td>${me?`<span>${nm}</span>`:`<a href="/item/${itemSlug(k)}/">${nm}</a>`}</td><td>${nf(y.cost)}</td><td>${playersPct(s)}%</td></tr>`;}).join('');
+      compareHtml=`<div class="itb-cmpw"><table class="itb-cmp"><thead><tr><th>Предмет</th><th>Цена</th><th>Покупают</th></tr></thead><tbody>${rows}</tbody></table></div>`;
     } else if(st&&(type==='comp'||type==='cons')){
-      const start=Math.round(st.hist[0]/st.n*100);
-      summaryHtml=`<p class="itb-line">Покупают <b>${playersPct(st)}%</b> игроков · ${start>=50?`<b>${start}%</b> покупок — на старте`:`медиана покупки — <b>${mins(st.t[1])}′</b>`}</p>`;
+      statRows.push(['Покупают',`${playersPct(st)}% игроков`]);
+      if(timing) statRows.push(['Медиана покупки',`${mins(timing.t[1])}′`]);
     } else if(!st&&heroesHtml&&type==='item'){
       asideHtml=`<div class="it-card"><div class="it-kicker">Кто покупает чаще</div><ul class="ip-heroes it-heroes-old">${heroesHtml}</ul><p class="it-src">Данные OpenDota.</p></div>`;
     }
+    if(type!=='neutral'&&!histHtml) histHtml=timing?timeBar(timing)+`<p class="it-note">${nf(timing.n)} покупателей в ${nf(verifiedMatches)} проверенных реплеях.</p>`:'';
+    if(type==='item'&&timing){
+      const f=followupsAll?.meta?.source==='Valve replay purchase events'?followupsAll.items?.[key]:null;
+      if(f?.eligibleSequences>=100&&Array.isArray(f.next)&&f.next.length){
+        const nextRows=f.next.filter(row=>row.n>=30&&store[row.key]).map(row=>{
+          const next=store[row.key];
+          return `<li><a href="/item/${itemSlug(row.key)}/">${escapeHtml(next.dname||row.key)}</a> · ${nf(row.n)} · ${nf(row.share)}% · ${mins(row.medianDelay)} мин</li>`;
+        }).join('');
+        if(nextRows) histHtml+=`<h3>Следующая покупка</h3><ul>${nextRows}</ul><p class="it-note">Доля среди ${nf(f.eligibleSequences)} игроков с более поздней покупкой; игроки без следующего предмета не входят в знаменатель.</p>`;
+      }
+    }
+    // Паспорт предмета — есть на каждой странице, поэтому правая колонка
+    // никогда не пустует и сетка не «проваливается» у редких предметов.
+    const passRows=[
+      ['Цена',x.cost?`${nf(x.cost)} золота`:(x.cat==='neutral'?'выпадает с нейтралов':'в лавке не продаётся')],
+      ['Раздел',x.cat==='neutral'?'Нейтральный':(x.catRu||'Предмет')],
+      x.tier?['Тир',String(x.tier)]:null,
+      // Если datafeed даёт перезарядку по уровням («105 / 125 / …»), она точнее одного числа.
+      x.cd&&!labelled.some(r=>r[0]==='Перезарядка')?['Перезарядка',`${x.cd} сек`]:null,
+      x.mc?['Мана',`${x.mc}`]:null,
+      x.charges?['Зарядов',`${x.charges}`]:null,
+      ...labelled,
+      ...statRows
+    ].filter(Boolean).map(([k,v])=>`<div><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('');
+    const passportHtml=`<div class="it-card itb-pass"><div class="it-kicker">Характеристики</div><dl>${passRows}</dl>${statRows.length?`<p class="it-src">${nf(statsAll.matches)} матчей из базы Dotamate, обновлено ${new Date(statsAll.builtAt).toLocaleDateString('ru-RU')}.</p>`:''}</div>`;
+    asideHtml=passportHtml+asideHtml;
     if(type==='neutral'&&x.tier){
       tierHtml=entries.filter(([k,y])=>k!==key&&y.cat==='neutral'&&y.tier===x.tier)
         .map(([k,y])=>`<a href="/item/${itemSlug(k)}/" title="${escapeHtml(y.dname)}"><img src="${y.img}" alt="" loading="lazy"><span>${escapeHtml(y.dname)}</span></a>`).join('');
@@ -183,6 +223,7 @@ async function main(){
     const html=`<!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
@@ -203,6 +244,7 @@ async function main(){
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 <script type="application/ld+json">${ldjson}</script>
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
@@ -212,7 +254,7 @@ async function main(){
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
     ${siteNav.navHtml('items')}
-    <div class="nav-spacer"></div>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -228,7 +270,7 @@ async function main(){
     ${type==='item'?summaryHtml:''}
   </section>
   ${type!=='item'?summaryHtml:''}
-  <div class="it-grid${asideHtml?'':' itb-solo'}">
+  <div class="it-grid">
     <div class="it-mainc">
       ${type==='comp'&&treeHtml?`<section class="it-sec"><div class="ip-panel-head"><span>СБОРКА</span><h2>Во что собирается</h2></div>${treeHtml}</section>`:''}
       ${histHtml?`<section class="it-sec"><div class="ip-panel-head"><span>ВРЕМЯ</span><h2>Когда покупают</h2></div>${histHtml}</section>`:''}

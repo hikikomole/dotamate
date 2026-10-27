@@ -180,6 +180,7 @@ function main() {
     heroes: heroDict, items: itemDict, day, five, list, niche
   };
   fs.writeFileSync(OUT, JSON.stringify(out));
+  if (OUT_DIR === path.join(ROOT, 'data')) require('./prerender-meta.js');
   console.log(`Матчей за ${WINDOW_DAYS} дн.: ${matches.length}, сборок: ${builds.length}, с оценкой: ${scored.length}`);
   console.log(`meta-escape.json: ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ`);
 
@@ -310,6 +311,7 @@ async function mainSteam() {
     heroes: heroDict, items: itemDict, day, five, list, niche
   };
   fs.writeFileSync(OUT, JSON.stringify(out));
+  if (OUT_DIR === path.join(ROOT, 'data')) require('./prerender-meta.js');
   console.log(`Steam: матчей за ${WINDOW_DAYS} дн.: ${matches}, сборок: ${builds}, с оценкой: ${scoredN}`);
   console.log(`${path.relative(ROOT, OUT)}: ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ`);
   writeMatches([...full.values()].filter(m => usedMatches.has(m.id)), heroById, itemById);

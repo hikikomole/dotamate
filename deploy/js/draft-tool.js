@@ -4,10 +4,10 @@
  *   /js/draft-model.js        — формула перевеса и вероятности (общая с эфиром /live)
  *   /data/draft-calibration-top.json, draft-calibration.json — коэффициент перевода перевеса в вероятность по срезу
  *   /data/our-matrix-top.json — матрица пар по нашей базе Divine 5 и Immortal (срез по умолчанию)
- *   /data/our-matrix.json     — матрица пар по нашей базе матчей 0-4500 MMR
- *   /data/draft-matrix.json   — матрица пар (Stratz heroStats.matchUp, Divine/Immortal)
+ *   /data/our-matrix.json     — матрица пар по нашей базе Steam: все рейтинговые матчи всех рангов
+ *   /data/our-matrix-turbo.json, our-meta-turbo.json, draft-calibration-turbo.json — срез «Турбо» (своя база Steam, game_mode 23)
  *   /api/dota/hero-positions  — доли и винрейты героев по пяти позициям
- *   /data/lane-matrix.json    — исходы линий по парам (Stratz laneOutcome)
+ *   /data/lane-matrix.json    — исходы линий по парам: свой расчёт по деталям Stratz (tools/build-lane-matrix.js)
  *
  * Снимки, а не живые запросы: Stratz пускает токен не больше чем с двух
  * IP-адресов за 15 минут, а Cloudflare Worker ходит наружу с разных адресов.
@@ -43,7 +43,7 @@
   if (!root) return;
 
   var M = null, heroes = [], heroById = {}, posData = {}, mainRoles = null, matrixIdx = {}, metaThreshold = 0;
-  var matrices = {};     // 'top', 'our' и 'stratz' — срезы одной и той же структуры
+  var matrices = {};     // 'top', 'our' и 'turbo' — срезы одной и той же структуры (срез Stratz убран 11.10.2026)
   var metas = {};        // герои своих срезов (top, our): матчи, винрейт, доля пиков
   var archiveCheck = null; // проверка на матчах эфира (tools/check-draft-archive.js)
   var calibs = {};       // калибровка перевеса в вероятность победы — своя у каждого своего среза
@@ -67,7 +67,7 @@
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
   function slug(h) { return String(h && h.name || '').replace(/^npc_dota_hero_/, ''); }
-  function icon(h) { return '/assets/heroes/' + slug(h) + '.png'; }
+  function icon(h) { return '/assets/heroes/' + slug(h) + '.webp'; }
   function fmt(v) {
     if (v === null || v === undefined || !isFinite(v)) return '<span class="dt-zero">—</span>';
     var r = Math.round(v * 10) / 10;
@@ -574,19 +574,19 @@
   }
 
   // ---------- подсказки поиска ----------
+  // Поиск — js/search.js (оригинальные названия + синонимы Dota 2);
+  // при равном совпадении выше тот, у кого больше матчей.
+  function findHeroes(q) {
+    var list = heroes.filter(function (h) { return !isTaken(h.id); });
+    var byMatches = function (a, b) { return heroMatches(b.id) - heroMatches(a.id); };
+    q = String(q || '').trim();
+    if (q && window.D2HSearch) return window.D2HSearch.heroes(list, q, byMatches);
+    if (q) list = list.filter(function (h) { return h.localized_name.toLowerCase().indexOf(q.toLowerCase()) !== -1; });
+    return list.sort(byMatches);
+  }
   var sugCursor = -1;
   function suggestions(q) {
-    q = q.trim().toLowerCase();
-    var list = heroes.filter(function (h) { return !isTaken(h.id); });
-    if (q) list = list.filter(function (h) { return h.localized_name.toLowerCase().indexOf(q) !== -1; });
-    list.sort(function (a, b) {
-      if (q) {
-        var ai = a.localized_name.toLowerCase().indexOf(q), bi = b.localized_name.toLowerCase().indexOf(q);
-        if (ai !== bi) return ai - bi;
-      }
-      return heroMatches(b.id) - heroMatches(a.id);
-    });
-    return list.slice(0, 12);
+    return findHeroes(q).slice(0, 12);
   }
   function renderSuggest() {
     var box = $('dtSuggest'), q = $('dtSearch').value;
@@ -641,17 +641,7 @@
   }
 
   function pickerCandidates(q) {
-    q = String(q || '').trim().toLowerCase();
-    var list = heroes.filter(function (h) { return !isTaken(h.id); });
-    if (q) list = list.filter(function (h) { return h.localized_name.toLowerCase().indexOf(q) !== -1; });
-    list.sort(function (a, b) {
-      if (q) {
-        var ai = a.localized_name.toLowerCase().indexOf(q), bi = b.localized_name.toLowerCase().indexOf(q);
-        if (ai !== bi) return ai - bi;
-      }
-      return heroMatches(b.id) - heroMatches(a.id);
-    });
-    return list;
+    return findHeroes(q);
   }
 
   function renderPickerList(scroll) {
@@ -869,7 +859,7 @@
     put('dtCalBr', c ? ru(c.testBrier, 3) : '—');
     put('dtCalAcc', c ? ru(c.testAccuracy, 1) + '%' : '—');
     put('dtCalN', c ? c.matchesTest.toLocaleString('ru-RU') : '—');
-    put('dtCalSlice', state.slice === 'top' ? 'Divine 5 и Immortal' : state.slice === 'our' ? 'до 4500 MMR' : 'Stratz — калибровки нет');
+    put('dtCalSlice', state.slice === 'top' ? 'Divine 5 и Immortal' : state.slice === 'our' ? 'Все ранги' : state.slice === 'turbo' ? 'Турбо' : '—');
     var a = archiveCheck && archiveCheck.all;
     put('dtArchiveCheck', state.slice === 'top' && a
       ? 'Отдельная проверка на матчах эфира DotaMate, которых нет в базе: ' + a.matches.toLocaleString('ru-RU') + ' матчей' +
@@ -887,11 +877,13 @@
     if (!note || !M) return;
     var when = M.fetchedAt ? new Date(M.fetchedAt).toLocaleDateString('ru-RU') : '';
     var n = (M.matchesUsed || 0).toLocaleString('ru-RU');
-    note.textContent = state.slice === 'top'
-      ? 'Считаем по своей базе: ' + n + ' матчей Ranked All Pick со средним рангом Divine 5 и Immortal, снимок от ' + when + '. Линии — по срезу Stratz Divine/Immortal.'
-      : state.slice === 'our'
-        ? 'Считаем по своей базе: ' + n + ' матчей Ranked All Pick 0–4500 MMR, снимок от ' + when + '. Линии — по срезу Stratz Divine/Immortal.'
-        : 'Считаем по срезу Stratz: матчи ранга Divine/Immortal, снимок от ' + when + '. Вероятность не считается — калибровка есть только у своих срезов.';
+    // Свои срезы — без подписи над инструментом (решение владельца 10.10.2026): строка в шапке при переключении
+    // сдвигала весь инструмент. Пояснение к «Турбо» — подсказка кнопки и блок «Откуда числа».
+    note.hidden = true;
+    note.textContent = '';
+    var tb = sw && sw.querySelector('button[data-slice="turbo"]');
+    if (tb && matrices.turbo) tb.title = 'Своя база матчей Steam режима «Турбо»: ' + (matrices.turbo.matchesUsed || 0).toLocaleString('ru-RU') +
+      ' матчей. Темп и экономика там другие — для рейтинговых игр берите «Все ранги» или «Divine 5 и Immortal».';
   }
 
   function syncSideSwitch() {
@@ -914,14 +906,16 @@
       getJson('/data/our-matrix.json').catch(function () { return null; }),
       getJson('/api/dota/hero-positions').catch(function () { return getJson('/data/hero-positions.json'); }),
       getJson('/data/heroes.json'),
-      getJson('/data/draft-matrix.json'),
+      getJson('/data/our-matrix-turbo.json').catch(function () { return null; }),
       getJson('/data/our-meta.json').catch(function () { return null; }),
       getJson('/data/draft-calibration.json').catch(function () { return null; }),
       getJson('/data/hero-main-roles.json').catch(function () { return null; }),
       getJson('/data/our-matrix-top.json').catch(function () { return null; }),
       getJson('/data/our-meta-top.json').catch(function () { return null; }),
       getJson('/data/draft-calibration-top.json').catch(function () { return null; }),
-      getJson('/data/draft-archive-check.json').catch(function () { return null; })
+      getJson('/data/draft-archive-check.json').catch(function () { return null; }),
+      getJson('/data/our-meta-turbo.json').catch(function () { return null; }),
+      getJson('/data/draft-calibration-turbo.json').catch(function () { return null; })
     ]).then(function (res) {
       archiveCheck = res[10] && res[10].all ? res[10] : null;
       mainRoles = (res[6] && res[6].heroes) || null;
@@ -931,8 +925,11 @@
       if (res[9] && res[9].alpha) calibs.top = res[9];
       matrices.top = res[7];
       matrices.our = res[0];
-      matrices.stratz = res[3];
-      if (!matrices[state.slice]) state.slice = matrices.our ? 'our' : 'stratz';
+      matrices.turbo = res[3];
+      metas.turbo = (res[11] && res[11].heroes) || null;
+      if (res[12] && res[12].alpha) calibs.turbo = res[12];
+      if (!matrices[state.slice]) state.slice = matrices.our ? 'our' : 'turbo';
+      if (!matrices[state.slice]) { $('dtState').textContent = 'Данные драфта не загрузились. Обновите страницу.'; loading = false; return; }
       M = matrices[state.slice];
       posData = (res[1] && res[1].heroes) || {};
       var raw = (res[2] && res[2].heroes) || [];
@@ -1009,7 +1006,8 @@
           return { id: r.hero.id, name: r.hero.localized_name, icon: icon(r.hero), all: r.all, side: side };
         });
       }
-      return { any: true, advantage: S, recs: recs, side: side };
+      // prob — шанс победы «Мы» в % той же калибровкой, что в самом инструменте; null, если у среза её нет (Stratz).
+      return { any: true, advantage: S, prob: calibs[state.slice] ? winProbability(S) : null, recs: recs, side: side };
     },
     // Полоса на первом экране выбирает героя своим списком, поэтому ей нужны
     // кандидаты и сама постановка героя в слот. Расчёты, история и проверка
@@ -1040,6 +1038,8 @@
       render();
       return true;
     },
+    // Позиции, как их расставил инструмент (с ручными поправками) — для предметов против состава (js/draft-items.js).
+    positions: function () { return loaded ? { radiant: assignPositions('radiant'), dire: assignPositions('dire') } : null; },
     onChange: function (fn) { mirrors.push(fn); if (loaded) fn(); }
   };
 

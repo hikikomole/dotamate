@@ -86,6 +86,8 @@
         '<a class="mx-link" href="/meta/match/?id=' + b.match + '">Матч →</a>' +
       '</div></article>';
   }
+  // Reused by the local build to render the first cards with identical escaping.
+  if (typeof module !== 'undefined' && module.exports) module.exports.card = card;
   function table(d, rows) {
     return '<div class="table-wrap"><table class="mx-table"><thead><tr><th>Герой</th><th>Роль</th><th>Итог</th><th>Необычность</th><th>Предметы</th><th>K / D / A</th><th>Ранг</th><th></th></tr></thead><tbody>' +
       rows.map(function (b) {
@@ -364,6 +366,7 @@
     });
   }
 
+  if (typeof document === 'undefined') return;
   var meta = document.getElementById('meta'), match = document.getElementById('metaMatch');
   if (meta) initMeta(meta);
   if (match) initMatch(document.getElementById('mmRoot'));

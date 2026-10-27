@@ -8,11 +8,13 @@ const NAV = [
   { key: 'stats',  href: '/stats/',  label: 'Статистика' },
   { key: 'guides', href: '/guides/', label: 'Гайды' },
   { key: 'academy', href: '/academy/', label: 'Учебный центр' },
+  { key: 'games', href: '/games/', label: 'Игры' },
   { key: 'meta',   href: '/meta/',   label: 'META' },
   // «Эфир» — выпадающее меню (09.10.2026): трансляция, про-матчи, частые слова. keys — какие страницы подсвечивают пункт.
-  { key: 'live',   href: '/live/',   label: 'Эфир', keys: ['live', 'pro', 'words'], sub: [
+  { key: 'live',   href: '/live/',   label: 'Эфир', keys: ['live', 'pro', 'words', 'streams'], sub: [
     { key: 'live',  href: '/live/',       label: 'Трансляция' },
     { key: 'pro',   href: '/pro/',        label: 'Про-матчи' },
+    { key: 'streams', href: '/live/streams/', label: 'Стримы' },
     { key: 'words', href: '/live/words/', label: 'Частые слова' },
   ] },
   { key: 'me',     href: '/me/',     label: 'Мой профиль' },

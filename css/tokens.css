@@ -1,0 +1,91 @@
+:root[data-theme=dark]{
+  --palette-mint:#72edac;--palette-cyan:#5aa9e6;--palette-teal:#4fc1b0;--palette-red:#ff797c;
+  color-scheme:dark;--hud-bg:#080e17;--hud-panel:#111e2b;--hud-panel-2:#172838;--hud-text:#f1f8fb;--hud-muted:#b5cbd3;--hud-line:#365262;--hud-accent:#72edac;--hud-accent-strong:#72edac;--hud-soft:#173a34;--hud-button-text:#082016;--hud-danger:#ff797c;--hud-shadow:0 18px 48px #0008;--grid:#20374630;--c-purple-soft:rgb(114 237 172 / .14);--c-green:var(--hud-accent);--c-red:var(--hud-danger);--success:var(--hud-accent);--danger:var(--hud-danger);--comp-text-2:var(--hud-muted);--up:var(--hud-accent);--dn:var(--hud-danger);
+}
+:root[data-theme=light]{
+  --palette-mint:#246b36;--palette-cyan:#236497;--palette-teal:#17665a;--palette-red:#98212a;
+  color-scheme:light;--hud-bg:#dfe5e1;--hud-panel:#cfd8d2;--hud-panel-2:#c4cfc8;--hud-text:#1b2620;--hud-muted:#46554c;--hud-line:#7d9087;--hud-accent:#1d6a45;--hud-accent-strong:#185a3a;--hud-soft:#b5c8ba;--hud-button-text:#ffffff;--hud-shadow:0 12px 32px #243e302b;--grid:rgba(30,80,60,.10);
+}
+:root{--bg:var(--hud-bg);--panel:var(--hud-panel);--panel2:var(--hud-panel-2);--line:var(--hud-line);--text:var(--hud-text);--muted:var(--hud-muted);--accent:var(--hud-accent);--accent2:var(--hud-accent-strong);--accent-soft:var(--hud-soft);--c-bg:var(--hud-bg);--c-surface:var(--hud-panel);--c-surface-2:var(--hud-panel-2);--c-line:var(--hud-line);--c-text:var(--hud-text);--c-muted:var(--hud-muted);--c-purple:var(--hud-accent);--c-purple-2:var(--hud-accent-strong);--comp-bg:var(--hud-bg);--comp-surface:var(--hud-panel);--comp-surface-2:var(--hud-panel-2);--comp-border:var(--hud-line);--comp-text:var(--hud-text);--comp-muted:var(--hud-muted);--comp-accent:var(--hud-accent);--d2-bg:var(--hud-bg);--d2-panel:var(--hud-panel);--d2-panel-2:var(--hud-panel-2);--d2-line:var(--hud-line);--d2-text:var(--hud-text);--d2-muted:var(--hud-muted)}
+body.d2-dark{--d2-bg:var(--hud-bg);--d2-panel:var(--hud-panel);--d2-panel-2:var(--hud-panel-2);--d2-line:var(--hud-line);--d2-line-soft:var(--hud-line);--d2-text:var(--hud-text);--d2-muted:var(--hud-muted);--d2-muted-2:var(--hud-muted);--d2-gold:var(--hud-accent);--d2-gold-dim:var(--hud-line);--d2-str:var(--hud-danger);--d2-agi:var(--hud-accent);--d2-int:#5aa9e6;--d2-uni:#ad9bd3}
+html:has(body.d2-dark),html body.d2-dark,html body{color:var(--hud-text)!important}
+html{background:var(--hud-bg)}
+html body,html body.d2-dark{background:transparent!important}
+html body .bg,html body.d2-dark .bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background-color:var(--hud-bg)!important;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px)!important;background-size:32px 32px!important}
+html:not(:has(body .bg)){background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px)!important;background-size:32px 32px!important;background-attachment:fixed!important}
+html body :is(.featured,.tool,.about-box,.studio-card,.hero-card,.modal-card,.panel,.card,.search,.chip,.guide-card,.item-card,.stat-card){background:var(--hud-panel)!important;border:1px solid var(--hud-line)!important;border-radius:2px!important;box-shadow:inset 0 0 0 4px var(--hud-panel),inset 0 0 0 5px var(--hud-line),var(--hud-shadow)!important;color:var(--hud-text)}
+html body :is(input,select,textarea){background:var(--hud-panel)!important;color:var(--hud-text)!important;border:1px solid var(--hud-line)!important;border-radius:2px!important;box-shadow:inset 0 0 0 3px var(--hud-panel),inset 0 0 0 4px var(--hud-line)}
+html body :is(.btn,.chip,button:not(.menu):not(.theme-toggle)){border-radius:2px!important}
+html body :is(.btn.red,.chip.active){background:var(--hud-accent)!important;border-color:var(--hud-accent)!important;color:var(--hud-button-text)!important;box-shadow:none!important}
+html body :is(.btn.ghost,.chip:not(.active)){background:var(--hud-panel-2)!important;color:var(--hud-text)!important;border:1px solid var(--hud-line)!important}
+html body :is(.tag,.tags span,.pill,.eyebrow){color:var(--hud-accent-strong)!important;border-color:var(--hud-line)!important}
+html body :is(.section h2,.section-head h2,.hero h1,.tool h3){color:var(--hud-text)!important;font-family:Inter,Arial,sans-serif;letter-spacing:-.035em}
+html body :is(.section p,.hint,.tool p,.hero p){color:var(--hud-muted)!important}
+html body :is(table th,table td){border-bottom:1px solid var(--hud-line)}
+html body :is(table th){color:var(--hud-accent-strong)}
+html body :is(a:not(.brand):not(.dm-patch)){text-underline-offset:3px}
+html body :is(a,button,input,select,textarea):focus-visible{outline:3px solid var(--hud-accent)!important;outline-offset:3px!important}
+/* Search inputs share the panel's focus indicator instead of drawing an inner box. */
+html body :is(.search,.hm-find-box,.v43-search-shell,.mx-search):focus-within{border-color:var(--hud-accent)!important;border-radius:var(--rad-md)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--hud-accent) 20%,transparent)!important}
+html body footer{background:var(--hud-panel)!important;border-top:1px solid var(--hud-line)!important;color:var(--hud-muted)!important}
+.theme-toggle{flex:none;width:32px;height:32px;display:grid;place-items:center;background:transparent;color:#eef1f5;border:1px solid #434a50;border-radius:2px;cursor:pointer;font-size:18px;line-height:1}
+.topbar{--d2-bg:var(--hud-bg);--d2-panel:var(--hud-panel);--d2-muted:var(--hud-muted);--d2-text:var(--hud-text);--d2-line:var(--hud-line)}
+/* Keep the existing header order; the spacer absorbs spare width. */
+body.d2-dark .topbar .theme-toggle{order:3!important;margin-left:0}
+:root[data-theme=light]{--theme-heading:var(--hud-text);--theme-surface:var(--hud-panel)}
+html[data-theme=light] body.d2-dark{--d2-line-soft:#aebfb4;--d2-muted-2:#46554c;--d2-gold:#185a3a;--d2-gold-dim:#465e50;--d2-str:#98212a;--d2-agi:#1d5b2c;--d2-int:#236497;--d2-uni:#754398}
+html[data-theme=light] body.d2-dark .topbar{--d2-panel:var(--hud-panel);--d2-text:var(--hud-text);--d2-muted:var(--hud-muted);--d2-line:var(--hud-line);--d2-gold:var(--hud-accent-strong);--d2-gold-dim:var(--hud-line)}
+html[data-theme=light] body.d2-dark :is(.hm-draft,.guide-art){background:var(--hud-panel)!important;border-color:var(--hud-line)!important}
+html[data-theme=light] body.d2-dark :is(.hp-btn:not(.ghost),.dt-launch){color:var(--hud-button-text)!important}
+
+.theme-toggle:hover{background:#202a31}
+.topbar .theme-toggle:focus-visible{outline:3px solid #72edac!important;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){html body :is(.btn,.chip,.hero-card,.tool){transition:none!important;animation:none!important}}
+
+html[data-theme=light] body.d2-dark .article-main :is(h1,h2,h3,td:first-child,b){color:var(--hud-text)!important}
+html[data-theme=light] body.d2-dark .article-main :is(p,ul,li){color:var(--hud-muted)!important}
+
+html[data-theme=light] body.d2-dark{--comp-text-2:var(--hud-muted);--up:#1d5b2c;--dn:#98212a}
+html[data-theme=light] body.d2-dark :is(.it-up,.hb-tag-win){color:#1d5b2c!important}
+html[data-theme=light] body.d2-dark .it-down{color:#98212a!important}
+html[data-theme=light] body.d2-dark .hb-tal-cell.is-unused b{color:var(--hud-muted)!important}
+
+html[data-theme=light] body.d2-dark :is(.hx-pass,.hx-rows){--up:#1d5b2c;--dn:#98212a}
+
+html[data-theme=light] body.d2-dark .hx-lane :is(.w,.l){color:var(--hud-button-text)!important}
+
+html[data-theme=dark] body.d2-dark .topbar{background:#0b1522ed!important}
+html[data-theme=light] body.d2-dark .topbar{background:#c9d3cc!important;border-bottom-color:var(--hud-line)!important}
+html[data-theme=light] body.d2-dark .topbar :is(.dm-word,.brand,.brand b,.menu,.theme-toggle,.notify-bell){color:var(--hud-text)!important}
+html[data-theme=light] body.d2-dark .topbar .nav nav a{color:var(--hud-muted)!important}
+html[data-theme=light] body.d2-dark .topbar .nav nav a:is(:hover,.active){color:var(--hud-accent-strong)!important}
+html[data-theme=light] body.d2-dark .topbar :is(.dm-patch,.dm-dot){color:var(--hud-accent-strong)!important}
+html[data-theme=light] body.d2-dark .topbar :is(.theme-toggle,.notify-bell,.menu,.nav nav.open,.notify-panel){background:var(--hud-panel)!important;border-color:var(--hud-line)!important}
+html[data-theme=light] body.d2-dark .topbar .theme-toggle:hover{background:var(--hud-panel-2)!important}
+html[data-theme=light] body.d2-dark :is(.games-about a,.trainer #trainer-feedback[data-kind=good],.st-tabs button.on){color:var(--hud-accent-strong)!important}
+/* Page chrome for /game/ and /me/. The canvas and game overlay keep their own palette. */
+html[data-theme=light] body.d2-dark :is(.dg-section,.me-form,.me-summary,.me-table-wrap,.me-empty,.me-error,.me-advice,.me-share,.me-seg){color:var(--hud-text);border-color:var(--hud-line);background:var(--hud-panel)}
+html[data-theme=light] body.d2-dark :is(.dg-section .page-title,.me-h2,.me-summary b){color:var(--hud-text)!important}
+html[data-theme=light] body.d2-dark :is(.dg-note,.me-hint,.me-note,.me-sub,.me-label){color:var(--hud-muted)!important}
+html[data-theme=light] body.d2-dark :is(.me-btn--go,.me-seg-b.is-on){background:var(--hud-accent);border-color:var(--hud-accent);color:var(--hud-button-text)!important}
+html[data-theme=light] body.d2-dark .me-seg-b.is-on .me-seg-n{color:var(--hud-button-text)}
+html[data-theme=light] body.d2-dark :is(.me-win,.me-up){color:#1d5b2c}
+html[data-theme=light] body.d2-dark :is(.me-loss,.me-down,.me-msg--err,.me-error strong){color:#98212a}
+
+/* Recessed light surfaces throughout the page chrome. */
+html[data-theme=light] body.d2-dark :is(.chip:not(.active),.btn.ghost,table,table th,table td,tr:nth-child(even),.dropdown,.dropdown-menu,.cookie-banner,.cookie-consent,.cookie-modal){background:var(--hud-panel-2)!important;color:var(--hud-text)!important;border-color:var(--hud-line)!important}
+html[data-theme=light] body.d2-dark :is(input:not(:is(.search,.hm-find-box,.v43-search-shell,.mx-search) input),select,textarea,.hm-row,.dt-picker-list button,.me-table-wrap tr:nth-child(even)){background:var(--hud-panel-2)!important;color:var(--hud-text)!important}
+html[data-theme=light] body.d2-dark :is(.chip,.btn.ghost,.hm-row,.dt-picker-list button,table tr):hover{background:var(--hud-soft)!important;color:var(--hud-text)!important}
+html[data-theme=light] body.d2-dark :is(.btn.red,.chip.active,.me-btn--go,.me-seg-b.is-on):hover{background:var(--hud-accent-strong)!important;color:var(--hud-button-text)!important}
+
+/* The search panel owns its background and focus ring in both themes. */
+html[data-theme] body :is(.search,.hm-find-box,.v43-search-shell,.mx-search) input,html[data-theme] body.d2-dark :is(.search,.hm-find-box,.v43-search-shell,.mx-search) input{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;outline:none!important}
+html body :is(#dtSearch,#search,#itemSearch,#statsSearch):not(:is(.search,.hm-find-box,.v43-search-shell,.mx-search) input):focus-visible{border-color:var(--hud-accent)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--hud-accent) 20%,transparent)!important;outline:none!important}
+
+html{background:var(--hud-bg)}
+html body,html body.d2-dark{background:transparent!important}
+
+/* Подвал всегда внизу окна, даже на короткой странице: footer липнет к низу
+   body высотой не меньше экрана. Если контента больше экрана, ничего не меняется. */
+html body{min-height:100vh;min-height:100dvh}
+html body>footer{position:sticky;top:100vh}

@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abaddon — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Abaddon - простой универсальный саппорт и керри. Спасайте союзников с Aphotic Shield и Mist Coil. Доступны характеристики, сборки и контрпики персонажа.">
+<meta name="description" content="Билд на Abaddon и контрпики. Abaddon - простой универсальный саппорт и керри. Спасайте союзников с Aphotic Shield и Mist Coil.">
 <link rel="canonical" href="https://dotamate.ru/hero/abaddon/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Abaddon — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Abaddon - простой универсальный саппорт и керри. Спасайте союзников с Aphotic Shield и Mist Coil. Доступны характеристики, сборки и контрпики персонажа.">
+<meta property="og:description" content="Билд на Abaddon и контрпики. Abaddon - простой универсальный саппорт и керри. Спасайте союзников с Aphotic Shield и Mist Coil.">
 <meta property="og:image" content="/assets/heroes/abaddon.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/abaddon/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Abaddon — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Abaddon - простой универсальный саппорт и керри. Спасайте союзников с Aphotic Shield и Mist Coil. Доступны характеристики, сборки и контрпики персонажа.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Abaddon и контрпики. Abaddon - простой универсальный саппорт и керри. Спасайте союзников с Aphotic Shield и Mist Coil.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Abaddon","item":"https://dotamate.ru/hero/abaddon/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Abaddon</span></nav>
     <h1>Abaddon <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr uni"></i>Универсальный · Ближний бой · Полная поддержка в 37,1 % игр</p>
+    <p class="hx-sub"><i class="hx-attr uni"></i><span>Универсальный · Ближний бой · Полная поддержка в 37,1 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="102" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier a">A</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>51,2 %</b><em>место 33 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>51,2 %</b><em>место 38 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>3,1 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>10 462</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>36 из 37</b><em>Полная поддержка</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>37 из 37</b><em>Полная поддержка</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 1 из 3">●<span class="hx-mut">●●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Часто проигрывает линию: 47,8 % поражений против 30,4 % побед</li><li>Фармит медленнее своей роли: 294 золота/мин при среднем 348</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 5</span><b>56.4%</b><span class="hq-track" aria-hidden="true"><i style="width:56.4%"></i></span></li><li><span>Позиция 3</span><b>19.8%</b><span class="hq-track" aria-hidden="true"><i style="width:19.8%"></i></span></li><li><span>Позиция 4</span><b>15.6%</b><span class="hq-track" aria-hidden="true"><i style="width:15.6%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/ring_of_basilius/"><img src="/assets/items/ring_of_basilius.png" alt="" width="64" height="48" loading="lazy"><span>Ring of Basilius</span></a></li><li><a href="/item/headdress/"><img src="/assets/items/headdress.png" alt="" width="64" height="48" loading="lazy"><span>Headdress</span></a></li><li><a href="/item/pavise/"><img src="/assets/items/pavise.png" alt="" width="64" height="48" loading="lazy"><span>Pavise</span></a></li><li><a href="/item/holy_locket/"><img src="/assets/items/holy_locket.png" alt="" width="64" height="48" loading="lazy"><span>Holy Locket</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" width="48" height="27" loading="lazy"><span>Venomancer</span><b class="hq-positive">+7.3 п.п.</b></a></li><li><a href="/hero/bristleback/"><img src="/assets/heroes/bristleback.webp" alt="" width="48" height="27" loading="lazy"><span>Bristleback</span><b class="hq-positive">+5.5 п.п.</b></a></li><li><a href="/hero/spectre/"><img src="/assets/heroes/spectre.webp" alt="" width="48" height="27" loading="lazy"><span>Spectre</span><b class="hq-positive">+4.9 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/centaur/"><img src="/assets/heroes/centaur.webp" alt="" width="48" height="27" loading="lazy"><span>Centaur Warrunner</span><b class="hq-negative">-6 п.п.</b></a></li><li><a href="/hero/dragon_knight/"><img src="/assets/heroes/dragon_knight.webp" alt="" width="48" height="27" loading="lazy"><span>Dragon Knight</span><b class="hq-negative">-4.8 п.п.</b></a></li><li><a href="/hero/ancient_apparition/"><img src="/assets/heroes/ancient_apparition.webp" alt="" width="48" height="27" loading="lazy"><span>Ancient Apparition</span><b class="hq-negative">-3.8 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:38.012Z, 1548 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Abaddon против других: Полная поддержка</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>36 из 37</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>37 из 37</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>33,3 %</td><td class="hx-mut">50,7 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:50.0%"></i></span><b class="dn">−17,4 пп</b></td></tr><tr><th>Золото в минуту</th><td>294</td><td class="hx-mut">348</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:50.0%"></i></span><b class="dn">−54</b></td></tr><tr><th>Опыт в минуту</th><td>469</td><td class="hx-mut">542</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:50.0%"></i></span><b class="dn">−73</b></td></tr></tbody></table>
-<p class="hx-note">30 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="376 игр"><b>49,7</b><span style="height:48.5%"></span><small>Рекрут</small></div><div title="1 134 игр"><b>49,5</b><span style="height:47.5%"></span><small>Страж</small></div><div title="1 818 игр"><b>51,9</b><span style="height:59.5%"></span><small>Рыцарь</small></div><div title="2 665 игр"><b>52,0</b><span style="height:60.0%"></span><small>Герой</small></div><div title="2 819 игр"><b>51,5</b><span style="height:57.5%"></span><small>Легенда</small></div><div title="1 650 игр"><b>49,8</b><span style="height:49.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 729 игр"><b>52,4</b><span style="height:62.0%"></span><small>25–35 мин</small></div><div title="4 334 игр"><b>51,8</b><span style="height:59.0%"></span><small>35–45 мин</small></div><div title="3 119 игр"><b>49,5</b><span style="height:47.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:30.4%">30,4</i><i class="d" style="width:21.7%">21,7</i><i class="l" style="width:47.8%">47,8</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">69 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/undying/"><img src="/assets/heroes/undying.webp" alt="" loading="lazy" width="44" height="25"><span>Undying</span></a><b class="dn">−7,6 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">30 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="376 игр"><b>49,7</b><span style="height:48.5%"></span><small>Рекрут</small></div><div title="1 134 игр"><b>49,5</b><span style="height:47.5%"></span><small>Страж</small></div><div title="1 818 игр"><b>51,9</b><span style="height:59.5%"></span><small>Рыцарь</small></div><div title="2 665 игр"><b>52,0</b><span style="height:60.0%"></span><small>Герой</small></div><div title="2 819 игр"><b>51,5</b><span style="height:57.5%"></span><small>Легенда</small></div><div title="1 650 игр"><b>49,8</b><span style="height:49.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 729 игр"><b>52,4</b><span style="height:62.0%"></span><small>25–35 мин</small></div><div title="4 334 игр"><b>51,8</b><span style="height:59.0%"></span><small>35–45 мин</small></div><div title="3 119 игр"><b>49,5</b><span style="height:47.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:30.4%">30,4</i><i class="d" style="width:21.7%">21,7</i><i class="l" style="width:47.8%">47,8</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">69 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/undying/"><img src="/assets/heroes/undying.webp" alt="" loading="lazy" width="44" height="25"><span>Undying</span></a><b class="dn">−7,6 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Abaddon</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/centaur/"><img src="/assets/heroes/centaur.webp" alt="" loading="lazy" width="44" height="25"><span>Centaur Warrunner</span></a><b class="dn">−6,0 пп</b></li><li><a class="hx-hico" href="/hero/dragon_knight/"><img src="/assets/heroes/dragon_knight.webp" alt="" loading="lazy" width="44" height="25"><span>Dragon Knight</span></a><b class="dn">−4,8 пп</b></li><li><a class="hx-hico" href="/hero/ancient_apparition/"><img src="/assets/heroes/ancient_apparition.webp" alt="" loading="lazy" width="44" height="25"><span>Ancient Apparition</span></a><b class="dn">−3,8 пп</b></li><li><a class="hx-hico" href="/hero/slark/"><img src="/assets/heroes/slark.webp" alt="" loading="lazy" width="44" height="25"><span>Slark</span></a><b class="dn">−3,5 пп</b></li><li><a class="hx-hico" href="/hero/magnataur/"><img src="/assets/heroes/magnataur.webp" alt="" loading="lazy" width="44" height="25"><span>Magnus</span></a><b class="dn">−3,0 пп</b></li></ul></div>
 <div><h3>Кого контрит Abaddon</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" loading="lazy" width="44" height="25"><span>Venomancer</span></a><b class="up">+7,3 пп</b></li><li><a class="hx-hico" href="/hero/bristleback/"><img src="/assets/heroes/bristleback.webp" alt="" loading="lazy" width="44" height="25"><span>Bristleback</span></a><b class="up">+5,5 пп</b></li><li><a class="hx-hico" href="/hero/spectre/"><img src="/assets/heroes/spectre.webp" alt="" loading="lazy" width="44" height="25"><span>Spectre</span></a><b class="up">+4,9 пп</b></li><li><a class="hx-hico" href="/hero/skeleton_king/"><img src="/assets/heroes/skeleton_king.webp" alt="" loading="lazy" width="44" height="25"><span>Wraith King</span></a><b class="up">+4,6 пп</b></li><li><a class="hx-hico" href="/hero/juggernaut/"><img src="/assets/heroes/juggernaut.webp" alt="" loading="lazy" width="44" height="25"><span>Juggernaut</span></a><b class="up">+3,3 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -166,25 +170,25 @@
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 1 879 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 1 879 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>350 AoE Mist Coil</b>
+          <b>Mist Coil применяется по области радиусом 350</b>
           <span>Берут 96,5% · Побед 62,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>+65 Curse of Avernus Attack Speed Bonus</b>
+          <b>+65 к скорости атаки от Curse of Avernus</b>
           <span>Берут 3,5% · Побед 33,3%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>100 Borrowed Time Immolation DPS</b>
+          <b>Borrowed Time сжигает 100 здоровья в секунду</b>
           <span>Берут 17,9% · Побед 59,2%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+80 Aphotic Shield Barrier Amount</b>
+          <b>+80 к здоровью барьера от Aphotic Shield</b>
           <span>Берут 82,1% · Побед 64,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+35 Mist Coil Damage / Heal</b>
+          <b>+35 к урону/лечению от Mist Coil</b>
           <span>Берут 100,0% · Побед 61,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-unused">
@@ -192,16 +196,16 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>Aphotic Shield provides +8 HP Regen</b>
+          <b>Aphotic Shield даёт +8 здоровья в секунду</b>
           <span>Берут 94,0% · Побед 53,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+30 Curse of Avernus DPS</b>
+          <b>+30 к урону в секунду от Curse of Avernus</b>
           <span>Берут 6,0% · Побед 53,5%</span>
           
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_3">
-        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/abaddon_aphotic_shield.png" alt=""><span>Aphotic Shield</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt=""><span>Curse of Avernus</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_death_coil.png" alt=""><span>Mist Coil</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_borrowed_time.png" alt=""><span>Borrowed Time</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +30 Curse of Avernus DPS</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Aphotic Shield provides +8 HP Regen</span></li></ul><div class="hb-progressions">
+        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/abaddon_aphotic_shield.png" alt=""><span>Aphotic Shield</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt=""><span>Curse of Avernus</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_death_coil.png" alt=""><span>Mist Coil</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_borrowed_time.png" alt=""><span>Borrowed Time</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +30 к урону в секунду от Curse of Avernus</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Aphotic Shield даёт +8 здоровья в секунду</span></li></ul><div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
         <h3>Частый выбор</h3><em>самая популярная способность на каждом уровне</em>
@@ -234,7 +238,7 @@
       </div><div class="hb-step" title="Borrowed Time · 52,4% побед, 21 матчей">
         <img loading="lazy" src="/assets/abilities/abaddon_borrowed_time.png" alt="Borrowed Time" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+30 Curse of Avernus DPS · 51,0% побед, 382 матча">
+      </div><div class="hb-step hb-step-talent" title="+30 к урону в секунду от Curse of Avernus · 51,0% побед, 382 матча">
           <em>Талант</em><u>+30</u><span>10</span>
         </div></div>
     </div>
@@ -267,31 +271,31 @@
       </div><div class="hb-step" title="Borrowed Time · 61,8% побед, 34 матчей">
         <img loading="lazy" src="/assets/abilities/abaddon_borrowed_time.png" alt="Borrowed Time" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>8</span>
-      </div><div class="hb-step hb-step-talent" title="Aphotic Shield provides +8 HP Regen · 100,0% побед, 2 матча">
+      </div><div class="hb-step hb-step-talent" title="Aphotic Shield даёт +8 здоровья в секунду · 100,0% побед, 2 матча">
           <em>Талант</em><u>Aphotic…</u><span>9</span>
-        </div><div class="hb-step hb-step-talent" title="+30 Curse of Avernus DPS · 51,0% побед, 382 матча">
+        </div><div class="hb-step hb-step-talent" title="+30 к урону в секунду от Curse of Avernus · 51,0% побед, 382 матча">
           <em>Талант</em><u>+30</u><span>10</span>
         </div></div>
     </div>
           </div>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>350 AoE Mist Coil</b>
+          <b>Mist Coil применяется по области радиусом 350</b>
           <span>Берут 20,9% · Побед 57,1%</span>
           
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>+65 Curse of Avernus Attack Speed Bonus</b>
+          <b>+65 к скорости атаки от Curse of Avernus</b>
           <span>Берут 79,1% · Побед 54,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>100 Borrowed Time Immolation DPS</b>
+          <b>Borrowed Time сжигает 100 здоровья в секунду</b>
           <span>Берут 63,1% · Побед 53,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell">
-          <b>+80 Aphotic Shield Barrier Amount</b>
+          <b>+80 к здоровью барьера от Aphotic Shield</b>
           <span>Берут 36,9% · Побед 51,9%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+35 Mist Coil Damage / Heal</b>
+          <b>+35 к урону/лечению от Mist Coil</b>
           <span>Берут 100,0% · Побед 50,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-unused">
@@ -299,16 +303,16 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>Aphotic Shield provides +8 HP Regen</b>
+          <b>Aphotic Shield даёт +8 здоровья в секунду</b>
           <span>Берут 15,4% · Побед 42,3%</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+30 Curse of Avernus DPS</b>
+          <b>+30 к урону в секунду от Curse of Avernus</b>
           <span>Берут 84,6% · Побед 49,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_4">
-        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/abaddon_aphotic_shield.png" alt=""><span>Aphotic Shield</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_death_coil.png" alt=""><span>Mist Coil</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_borrowed_time.png" alt=""><span>Borrowed Time</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt=""><span>Curse of Avernus</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Aphotic Shield provides +8 HP Regen</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +30 Curse of Avernus DPS</span></li></ul><div class="hb-progressions">
+        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/abaddon_aphotic_shield.png" alt=""><span>Aphotic Shield</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_death_coil.png" alt=""><span>Mist Coil</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_borrowed_time.png" alt=""><span>Borrowed Time</span></li><li><img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt=""><span>Curse of Avernus</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Aphotic Shield даёт +8 здоровья в секунду</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +30 к урону в секунду от Curse of Avernus</span></li></ul><div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
         <h3>Частый выбор</h3><em>самая популярная способность на каждом уровне</em>
@@ -341,7 +345,7 @@
       </div><div class="hb-step" title="Curse of Avernus · 46,7% побед, 15 матчей">
         <img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt="Curse of Avernus" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="Aphotic Shield provides +8 HP Regen · 52,0% побед, 223 матча">
+      </div><div class="hb-step hb-step-talent" title="Aphotic Shield даёт +8 здоровья в секунду · 52,0% побед, 223 матча">
           <em>Талант</em><u>Aphotic…</u><span>10</span>
         </div></div>
     </div>
@@ -374,7 +378,7 @@
       </div><div class="hb-step" title="Curse of Avernus · 46,7% побед, 15 матчей">
         <img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt="Curse of Avernus" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>8</span>
-      </div><div class="hb-step hb-step-talent" title="+30 Curse of Avernus DPS · 100,0% побед, 1 матч">
+      </div><div class="hb-step hb-step-talent" title="+30 к урону в секунду от Curse of Avernus · 100,0% побед, 1 матч">
           <em>Талант</em><u>+30</u><span>9</span>
         </div><div class="hb-step" title="Curse of Avernus · 53,9% побед, 191 матчей">
         <img loading="lazy" src="/assets/abilities/abaddon_frostmourne.png" alt="Curse of Avernus" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
@@ -383,23 +387,23 @@
     </div>
           </div>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>350 AoE Mist Coil</b>
+          <b>Mist Coil применяется по области радиусом 350</b>
           <span>Берут 87,2% · Побед 58,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>+65 Curse of Avernus Attack Speed Bonus</b>
+          <b>+65 к скорости атаки от Curse of Avernus</b>
           <span>Берут 12,8% · Побед 83,3%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>100 Borrowed Time Immolation DPS</b>
+          <b>Borrowed Time сжигает 100 здоровья в секунду</b>
           <span>Берут 18,7% · Побед 58,1%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+80 Aphotic Shield Barrier Amount</b>
+          <b>+80 к здоровью барьера от Aphotic Shield</b>
           <span>Берут 81,3% · Побед 64,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+35 Mist Coil Damage / Heal</b>
+          <b>+35 к урону/лечению от Mist Coil</b>
           <span>Берут 100,0% · Побед 63,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-unused">
@@ -407,11 +411,11 @@
           <span>Решает игрок</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>Aphotic Shield provides +8 HP Regen</b>
+          <b>Aphotic Shield даёт +8 здоровья в секунду</b>
           <span>Берут 88,7% · Побед 53,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+30 Curse of Avernus DPS</b>
+          <b>+30 к урону в секунду от Curse of Avernus</b>
           <span>Берут 11,3% · Побед 52,6%</span>
           
         </div></div></div>
@@ -518,15 +522,15 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Mist Coil</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Ценой собственного здоровья герой выпускает смертельный туман, который наносит урон врагу или лечит союзника.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Aphotic Shield</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Окружает союзника барьером из тёмной энергии, который поглощает урон всех типов, а в момент создания применяет на цель развеивание. Если барьер пропадёт или его уничтожат, он взорвётся и нанесёт врагам вокруг урон, равный своему здоровью.…</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Curse of Avernus</h3>
-          <div class="hp-ab-tags"><span>Пассивная</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Пассивная</span></div>
           <p class="hp-ab-desc">Атаки героя окутывают жертву ледяными чарами, которые замедляют её, наносят ей периодический урон и увеличивают скорость всех атак по ней. Наносит постройкам на 100% меньше периодического урона.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Withering Mist</h3>
@@ -550,7 +554,16 @@
     </div>
     <a class="btn red" href="/hero/abaddon/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Abaddon">
+    <a class="hp-tool" href="/draft/#draft=102__" data-goal="hero_to_draft"><b>Драфт с Abaddon</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -583,6 +596,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

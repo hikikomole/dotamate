@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "builtAt": "2026-10-26T19:05:45.139Z",
+  "status": "insufficient",
+  "meta": {
+    "source": "valve-replay",
+    "cohort": "ranked-replay-sample",
+    "patch": "7.41f",
+    "patchFrom": 900,
+    "from": "1970-01-01T00:16:40.000Z",
+    "to": "1970-01-01T00:16:40.000Z",
+    "matches": 1,
+    "players": 10,
+    "methodVersion": 1,
+    "exclusions": {},
+    "coverage": {
+      "labeledSlots": 10,
+      "possibleSlots": 10,
+      "share": 100,
+      "gatePassed": true,
+      "audit": {
+        "teams": 100,
+        "days": 2,
+        "lineups": 2,
+        "roles": {
+          "1": {
+            "total": 50,
+            "correct": 43,
+            "confusion": {
+              "1": 43,
+              "ambiguous": 7
+            }
+          },
+          "2": {
+            "total": 50,
+            "correct": 43,
+            "confusion": {
+              "2": 43,
+              "ambiguous": 7
+            }
+          },
+          "3": {
+            "total": 50,
+            "correct": 43,
+            "confusion": {
+              "3": 43,
+              "ambiguous": 7
+            }
+          },
+          "4": {
+            "total": 50,
+            "correct": 43,
+            "confusion": {
+              "4": 43,
+              "ambiguous": 7
+            }
+          },
+          "5": {
+            "total": 50,
+            "correct": 43,
+            "confusion": {
+              "5": 43,
+              "ambiguous": 7
+            }
+          }
+        },
+        "ambiguous": 35
+      }
+    }
+  },
+  "positions": {
+    "1": {
+      "matches": 1,
+      "labeledSlots": 2,
+      "eligibleHeroes": 0,
+      "lowSampleHeroes": 0,
+      "hiddenHeroes": 2,
+      "hiddenAppearances": 2,
+      "heroes": []
+    },
+    "2": {
+      "matches": 1,
+      "labeledSlots": 2,
+      "eligibleHeroes": 0,
+      "lowSampleHeroes": 0,
+      "hiddenHeroes": 2,
+      "hiddenAppearances": 2,
+      "heroes": []
+    },
+    "3": {
+      "matches": 1,
+      "labeledSlots": 2,
+      "eligibleHeroes": 0,
+      "lowSampleHeroes": 0,
+      "hiddenHeroes": 2,
+      "hiddenAppearances": 2,
+      "heroes": []
+    },
+    "4": {
+      "matches": 1,
+      "labeledSlots": 2,
+      "eligibleHeroes": 0,
+      "lowSampleHeroes": 0,
+      "hiddenHeroes": 2,
+      "hiddenAppearances": 2,
+      "heroes": []
+    },
+    "5": {
+      "matches": 1,
+      "labeledSlots": 2,
+      "eligibleHeroes": 0,
+      "lowSampleHeroes": 0,
+      "hiddenHeroes": 2,
+      "hiddenAppearances": 2,
+      "heroes": []
+    }
+  }
+}

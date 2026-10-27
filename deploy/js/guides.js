@@ -135,7 +135,7 @@
   });
   input.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && input.value) { e.preventDefault(); input.value = ''; state.q = ''; apply(false); }
-    if (e.key === 'Enter') { var first = grid.querySelector('.gd-card:not([hidden])') || heroList.querySelector('a'); if (first && state.q) first.click(); }
+    if (e.key === 'Enter') { var first = grid.querySelector('.gd-card:not([hidden])') || heroList.querySelector('a'); if (first && state.q) { window.D2HGoal?.('site_search'); first.click(); } }
   });
   chips.forEach(function (b) {
     b.addEventListener('click', function () { state.grp = b.dataset.grp; state.sub = 'all'; apply(true); });

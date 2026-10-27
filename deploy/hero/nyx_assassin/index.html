@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nyx Assassin — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Nyx Assassin - универсальный дизейблер и нюкер средней сложности. Сбивайте с толку врагов с Spiked Carapace. Наш гайд: статы, сборка и контрпики.">
+<meta name="description" content="Билд на Nyx Assassin и контрпики. Nyx Assassin - универсальный дизейблер и нюкер средней сложности. Сбивайте с толку врагов с Spiked Carapace.">
 <link rel="canonical" href="https://dotamate.ru/hero/nyx_assassin/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nyx Assassin — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Nyx Assassin - универсальный дизейблер и нюкер средней сложности. Сбивайте с толку врагов с Spiked Carapace. Наш гайд: статы, сборка и контрпики.">
+<meta property="og:description" content="Билд на Nyx Assassin и контрпики. Nyx Assassin - универсальный дизейблер и нюкер средней сложности. Сбивайте с толку врагов с Spiked Carapace.">
 <meta property="og:image" content="/assets/heroes/nyx_assassin.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/nyx_assassin/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nyx Assassin — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Nyx Assassin - универсальный дизейблер и нюкер средней сложности. Сбивайте с толку врагов с Spiked Carapace. Наш гайд: статы, сборка и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Nyx Assassin и контрпики. Nyx Assassin - универсальный дизейблер и нюкер средней сложности. Сбивайте с толку врагов с Spiked Carapace.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Nyx Assassin","item":"https://dotamate.ru/hero/nyx_assassin/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,28 +46,30 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Nyx Assassin</span></nav>
     <h1>Nyx Assassin <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr uni"></i>Универсальный · Ближний бой · Поддержка в 50,6 % игр</p>
+    <p class="hx-sub"><i class="hx-attr uni"></i><span>Универсальный · Ближний бой · Поддержка в 50,6 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="88" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier s">S</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>53,0 %</b><em>место 9 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>53,0 %</b><em>место 9 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>6,2 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>21 401</b></div>
     <div class="hx-kpi"><small>Место в роли</small><b>1 из 38</b><em>Поддержка</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на высоких рангах: 53,7 % у Легенды–Властелина против 51,6 % у Рекрута–Стража</li><li>Лучше в долгих играх: 52,5 % после 45 мин против 46,0 % до 25 мин</li><li>Часто проигрывает линию: 45,4 % поражений против 26,8 % побед</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 4</span><b>61.1%</b><span class="hq-track" aria-hidden="true"><i style="width:61.1%"></i></span></li><li><span>Позиция 2</span><b>18%</b><span class="hq-track" aria-hidden="true"><i style="width:18%"></i></span></li><li><span>Позиция 5</span><b>12.8%</b><span class="hq-track" aria-hidden="true"><i style="width:12.8%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/ring_of_basilius/"><img src="/assets/items/ring_of_basilius.png" alt="" width="64" height="48" loading="lazy"><span>Ring of Basilius</span></a></li><li><a href="/item/dagon/"><img src="/assets/items/dagon.png" alt="" width="64" height="48" loading="lazy"><span>Dagon</span></a></li><li><a href="/item/cyclone/"><img src="/assets/items/cyclone.png" alt="" width="64" height="48" loading="lazy"><span>Eul&#39;s Scepter of Divinity</span></a></li><li><a href="/item/ultimate_scepter/"><img src="/assets/items/ultimate_scepter.png" alt="" width="64" height="48" loading="lazy"><span>Aghanim&#39;s Scepter</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/medusa/"><img src="/assets/heroes/medusa.webp" alt="" width="48" height="27" loading="lazy"><span>Medusa</span><b class="hq-positive">+7.3 п.п.</b></a></li><li><a href="/hero/primal_beast/"><img src="/assets/heroes/primal_beast.webp" alt="" width="48" height="27" loading="lazy"><span>Primal Beast</span><b class="hq-positive">+6 п.п.</b></a></li><li><a href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.webp" alt="" width="48" height="27" loading="lazy"><span>Outworld Devourer</span><b class="hq-positive">+4.7 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/templar_assassin/"><img src="/assets/heroes/templar_assassin.webp" alt="" width="48" height="27" loading="lazy"><span>Templar Assassin</span><b class="hq-negative">-5.9 п.п.</b></a></li><li><a href="/hero/furion/"><img src="/assets/heroes/furion.webp" alt="" width="48" height="27" loading="lazy"><span>Nature&#39;s Prophet</span><b class="hq-negative">-5.2 п.п.</b></a></li><li><a href="/hero/marci/"><img src="/assets/heroes/marci.webp" alt="" width="48" height="27" loading="lazy"><span>Marci</span><b class="hq-negative">-4.8 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:27.053Z, 4803 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Nyx Assassin против других: Поддержка</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>1 из 38</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>1 из 38</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>66,7 %</td><td class="hx-mut">50,3 %</td><td><span class="hx-dev"><i class="up" style="left:50%;width:50.0%"></i></span><b class="up">+16,4 пп</b></td></tr><tr><th>Золото в минуту</th><td>356</td><td class="hx-mut">364</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:9.2%"></i></span><b class="dn">−8</b></td></tr><tr><th>Опыт в минуту</th><td>636</td><td class="hx-mut">556</td><td><span class="hx-dev"><i class="up" style="left:50%;width:50.0%"></i></span><b class="up">+80</b></td></tr></tbody></table>
-<p class="hx-note">54 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="447 игр"><b>53,7</b><span style="height:68.5%"></span><small>Рекрут</small></div><div title="1 564 игр"><b>51,0</b><span style="height:55.0%"></span><small>Страж</small></div><div title="3 204 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="5 272 игр"><b>53,1</b><span style="height:65.5%"></span><small>Герой</small></div><div title="6 498 игр"><b>53,5</b><span style="height:67.5%"></span><small>Легенда</small></div><div title="4 416 игр"><b>54,1</b><span style="height:70.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="346 игр"><b>46,0</b><span style="height:30.0%"></span><small>до 25 мин</small></div><div title="4 709 игр"><b>53,1</b><span style="height:65.5%"></span><small>25–35 мин</small></div><div title="9 098 игр"><b>53,6</b><span style="height:68.0%"></span><small>35–45 мин</small></div><div title="7 248 игр"><b>52,5</b><span style="height:62.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:26.8%">26,8</i><i class="d" style="width:27.8%">27,8</i><i class="l" style="width:45.4%">45,4</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">97 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tiny/"><img src="/assets/heroes/tiny.webp" alt="" loading="lazy" width="44" height="25"><span>Tiny</span></a><b class="up">+6,1 пп</b></li><li><a class="hx-hico" href="/hero/dazzle/"><img src="/assets/heroes/dazzle.webp" alt="" loading="lazy" width="44" height="25"><span>Dazzle</span></a><b class="up">+5,5 пп</b></li><li><a class="hx-hico" href="/hero/grimstroke/"><img src="/assets/heroes/grimstroke.webp" alt="" loading="lazy" width="44" height="25"><span>Grimstroke</span></a><b class="up">+5,4 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">54 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="447 игр"><b>53,7</b><span style="height:68.5%"></span><small>Рекрут</small></div><div title="1 564 игр"><b>51,0</b><span style="height:55.0%"></span><small>Страж</small></div><div title="3 204 игр"><b>51,0</b><span style="height:55.0%"></span><small>Рыцарь</small></div><div title="5 272 игр"><b>53,1</b><span style="height:65.5%"></span><small>Герой</small></div><div title="6 498 игр"><b>53,5</b><span style="height:67.5%"></span><small>Легенда</small></div><div title="4 416 игр"><b>54,1</b><span style="height:70.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="346 игр"><b>46,0</b><span style="height:30.0%"></span><small>до 25 мин</small></div><div title="4 709 игр"><b>53,1</b><span style="height:65.5%"></span><small>25–35 мин</small></div><div title="9 098 игр"><b>53,6</b><span style="height:68.0%"></span><small>35–45 мин</small></div><div title="7 248 игр"><b>52,5</b><span style="height:62.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:26.8%">26,8</i><i class="d" style="width:27.8%">27,8</i><i class="l" style="width:45.4%">45,4</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">97 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tiny/"><img src="/assets/heroes/tiny.webp" alt="" loading="lazy" width="44" height="25"><span>Tiny</span></a><b class="up">+6,1 пп</b></li><li><a class="hx-hico" href="/hero/dazzle/"><img src="/assets/heroes/dazzle.webp" alt="" loading="lazy" width="44" height="25"><span>Dazzle</span></a><b class="up">+5,5 пп</b></li><li><a class="hx-hico" href="/hero/grimstroke/"><img src="/assets/heroes/grimstroke.webp" alt="" loading="lazy" width="44" height="25"><span>Grimstroke</span></a><b class="up">+5,4 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Nyx Assassin</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/templar_assassin/"><img src="/assets/heroes/templar_assassin.webp" alt="" loading="lazy" width="44" height="25"><span>Templar Assassin</span></a><b class="dn">−5,9 пп</b></li><li><a class="hx-hico" href="/hero/furion/"><img src="/assets/heroes/furion.webp" alt="" loading="lazy" width="44" height="25"><span>Nature&#39;s Prophet</span></a><b class="dn">−5,2 пп</b></li><li><a class="hx-hico" href="/hero/marci/"><img src="/assets/heroes/marci.webp" alt="" loading="lazy" width="44" height="25"><span>Marci</span></a><b class="dn">−4,8 пп</b></li><li><a class="hx-hico" href="/hero/chaos_knight/"><img src="/assets/heroes/chaos_knight.webp" alt="" loading="lazy" width="44" height="25"><span>Chaos Knight</span></a><b class="dn">−4,4 пп</b></li><li><a class="hx-hico" href="/hero/abaddon/"><img src="/assets/heroes/abaddon.webp" alt="" loading="lazy" width="44" height="25"><span>Abaddon</span></a><b class="dn">−3,3 пп</b></li></ul></div>
 <div><h3>Кого контрит Nyx Assassin</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/medusa/"><img src="/assets/heroes/medusa.webp" alt="" loading="lazy" width="44" height="25"><span>Medusa</span></a><b class="up">+7,3 пп</b></li><li><a class="hx-hico" href="/hero/primal_beast/"><img src="/assets/heroes/primal_beast.webp" alt="" loading="lazy" width="44" height="25"><span>Primal Beast</span></a><b class="up">+6,0 пп</b></li><li><a class="hx-hico" href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.webp" alt="" loading="lazy" width="44" height="25"><span>Outworld Devourer</span></a><b class="up">+4,7 пп</b></li><li><a class="hx-hico" href="/hero/antimage/"><img src="/assets/heroes/antimage.webp" alt="" loading="lazy" width="44" height="25"><span>Anti-Mage</span></a><b class="up">+4,5 пп</b></li><li><a class="hx-hico" href="/hero/storm_spirit/"><img src="/assets/heroes/storm_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Storm Spirit</span></a><b class="up">+3,7 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article><article class="hx-tile" id="heroBuys" data-roles='{"POSITION_1":0,"POSITION_2":16,"POSITION_3":8,"POSITION_4":54,"POSITION_5":21}' data-min-role="80"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база рейтинговых матчей до 4500 MMR (1 803 матчей текущего патча). % — доля матчей героя, где предмет купили в этой фазе (всего 99).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (1 803 матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего 99).</p>
 <div class="hp-buys-pane on" data-pos="all"><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/tango/" title="Tango — 84% матчей (83 из 99)"><i style="width:84%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>84%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 68% матчей (67 из 99)"><i style="width:68%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>68%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 49% матчей (49 из 99)"><i style="width:49%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>49%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 43% матчей (43 из 99)"><i style="width:43%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>43%</b></a></li><li><a href="/item/circlet/" title="Circlet — 23% матчей (23 из 99)"><i style="width:23%"></i><img src="/assets/items/circlet.png" alt="" loading="lazy" width="36" height="26"><span>Circlet</span><b>23%</b></a></li><li><a href="/item/quelling_blade/" title="Quelling Blade — 13% матчей (13 из 99)"><i style="width:13%"></i><img src="/assets/items/quelling_blade.png" alt="" loading="lazy" width="36" height="26"><span>Quelling Blade</span><b>13%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/ring_of_basilius/" title="Ring of Basilius — 58% матчей (57 из 99)"><i style="width:58%"></i><img src="/assets/items/ring_of_basilius.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Basilius</span><b>58%</b></a></li><li><a href="/item/magic_wand/" title="Magic Wand — 38% матчей (38 из 99)"><i style="width:38%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>38%</b></a></li><li><a href="/item/arcane_boots/" title="Arcane Boots — 32% матчей (32 из 99)"><i style="width:32%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>32%</b></a></li><li><a href="/item/blood_grenade/" title="Blood Grenade — 32% матчей (32 из 99)"><i style="width:32%"></i><img src="/assets/items/blood_grenade.png" alt="" loading="lazy" width="36" height="26"><span>Blood Grenade</span><b>32%</b></a></li><li><a href="/item/tango/" title="Tango — 31% матчей (31 из 99)"><i style="width:31%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>31%</b></a></li><li><a href="/item/clarity/" title="Clarity — 28% матчей (28 из 99)"><i style="width:28%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>28%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/dagon/" title="Dagon — 65% матчей (64 из 99)"><i style="width:65%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>65%</b></a></li><li><a href="/item/arcane_boots/" title="Arcane Boots — 39% матчей (39 из 99)"><i style="width:39%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>39%</b></a></li><li><a href="/item/dagon/" title="Dagon — 38% матчей (38 из 99)"><i style="width:38%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>38%</b></a></li><li><a href="/item/dagon/" title="Dagon — 29% матчей (29 из 99)"><i style="width:29%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>29%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 24% матчей (24 из 99)"><i style="width:24%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>24%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 22% матчей (22 из 99)"><i style="width:22%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>22%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/dagon/" title="Dagon — 39% матчей (39 из 99)"><i style="width:39%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>39%</b></a></li><li><a href="/item/dagon/" title="Dagon — 39% матчей (39 из 99)"><i style="width:39%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>39%</b></a></li><li><a href="/item/dagon/" title="Dagon — 33% матчей (33 из 99)"><i style="width:33%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>33%</b></a></li><li><a href="/item/dagon/" title="Dagon — 29% матчей (29 из 99)"><i style="width:29%"></i><img src="/assets/items/dagon.png" alt="" loading="lazy" width="36" height="26"><span>Dagon</span><b>29%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 19% матчей (19 из 99)"><i style="width:19%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>19%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 17% матчей (17 из 99)"><i style="width:17%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>17%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/greater_famango/" title="Greater Healing Lotus — 6% матчей (6 из 99)"><i style="width:6%"></i><img src="/assets/items/greater_famango.png" alt="" loading="lazy" width="36" height="26"><span>Greater Healing Lotus</span><b>6%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 5% матчей (5 из 99)"><i style="width:5%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>5%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 5% матчей (5 из 99)"><i style="width:5%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>5%</b></a></li><li><a href="/item/soul_booster/" title="Soul Booster — 5% матчей (5 из 99)"><i style="width:5%"></i><img src="/assets/items/soul_booster.png" alt="" loading="lazy" width="36" height="26"><span>Soul Booster</span><b>5%</b></a></li><li><a href="/item/cyclone/" title="Eul&#39;s Scepter of Divinity — 4% матчей (4 из 99)"><i style="width:4%"></i><img src="/assets/items/cyclone.png" alt="" loading="lazy" width="36" height="26"><span>Eul&#39;s Scepter of Divinity</span><b>4%</b></a></li><li><a href="/item/smoke_of_deceit/" title="Smoke of Deceit — 4% матчей (4 из 99)"><i style="width:4%"></i><img src="/assets/items/smoke_of_deceit.png" alt="" loading="lazy" width="36" height="26"><span>Smoke of Deceit</span><b>4%</b></a></li></ul></div></div></div></article></section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>
@@ -92,7 +96,7 @@
       </button></div>
   <div class="hb-panes hb-panes-skills"><div class="hb-pane on" data-pos="POSITION_4">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/nyx_assassin_impale.png" alt=""><span>Impale</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_spiked_carapace.png" alt=""><span>Spiked Carapace</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_vendetta.png" alt=""><span>Vendetta</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +25% Spiked Carapace Damage Reflect</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_jolt.png" alt=""><span>Mind Flare</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/nyx_assassin_impale.png" alt=""><span>Impale</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_spiked_carapace.png" alt=""><span>Spiked Carapace</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_vendetta.png" alt=""><span>Vendetta</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +25% к отражаемому урону у Spiked Carapace</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_jolt.png" alt=""><span>Mind Flare</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -126,7 +130,7 @@
       </div><div class="hb-step" title="Spiked Carapace · 60,6% побед, 393 матчей">
         <img loading="lazy" src="/assets/abilities/nyx_assassin_spiked_carapace.png" alt="Spiked Carapace" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+25% Spiked Carapace Damage Reflect · 60,6% побед, 393 матча">
+      </div><div class="hb-step hb-step-talent" title="+25% к отражаемому урону у Spiked Carapace · 60,6% побед, 393 матча">
           <em>Талант</em><u>+25%</u><span>10</span>
         </div></div>
     </div>
@@ -168,37 +172,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 2 467 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 2 467 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+80 Agility</b>
+          <b>+80 к ловкости</b>
           <span>Берут 13,6% · Побед 69,4%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>600 Mind Flare Radius</b>
+          <b>Mind Flare по области радиусом 600</b>
           <span>Берут 86,4% · Побед 65,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+140 Impale Damage</b>
+          <b>+140 к урону от Impale</b>
           <span>Берут 53,8% · Побед 65,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-win">
-          <b>+0.6s Spiked Carapace Stun Duration</b>
+          <b>+0,6 сек. оглушения от Spiked Carapace</b>
           <span>Берут 46,2% · Побед 65,3%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-3s Mind Flare Cooldown</b>
+          <b>–3 сек. перезарядки Mind Flare</b>
           <span>Берут 84,0% · Побед 60,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-win">
-          <b>+50 Vendetta Damage</b>
+          <b>+50 к урону от Vendetta</b>
           <span>Берут 16,0% · Побед 65,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+0.2s Impale Stun Duration</b>
+          <b>+0,2 сек. оглушения от Impale</b>
           <span>Берут 58,4% · Побед 55,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-win">
-          <b>+25% Spiked Carapace Damage Reflect</b>
+          <b>+25% к отражаемому урону у Spiked Carapace</b>
           <span>Берут 41,6% · Побед 55,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div></div>
@@ -281,43 +285,43 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 618 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 618 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+80 Agility</b>
+          <b>+80 к ловкости</b>
           <span>Берут 18,3% · Побед 66,4%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>600 Mind Flare Radius</b>
+          <b>Mind Flare по области радиусом 600</b>
           <span>Берут 81,7% · Побед 65,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+140 Impale Damage</b>
+          <b>+140 к урону от Impale</b>
           <span>Берут 64,1% · Побед 59,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-win">
-          <b>+0.6s Spiked Carapace Stun Duration</b>
+          <b>+0,6 сек. оглушения от Spiked Carapace</b>
           <span>Берут 35,9% · Побед 63,7%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-3s Mind Flare Cooldown</b>
+          <b>–3 сек. перезарядки Mind Flare</b>
           <span>Берут 89,4% · Побед 55,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+50 Vendetta Damage</b>
+          <b>+50 к урону от Vendetta</b>
           <span>Берут 10,6% · Побед 53,8%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+0.2s Impale Stun Duration</b>
+          <b>+0,2 сек. оглушения от Impale</b>
           <span>Берут 38,3% · Побед 49,5%</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+25% Spiked Carapace Damage Reflect</b>
+          <b>+25% к отражаемому урону у Spiked Carapace</b>
           <span>Берут 61,7% · Побед 54,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_5">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/nyx_assassin_impale.png" alt=""><span>Impale</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_spiked_carapace.png" alt=""><span>Spiked Carapace</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_vendetta.png" alt=""><span>Vendetta</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +25% Spiked Carapace Damage Reflect</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/nyx_assassin_impale.png" alt=""><span>Impale</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_spiked_carapace.png" alt=""><span>Spiked Carapace</span></li><li><img loading="lazy" src="/assets/abilities/nyx_assassin_vendetta.png" alt=""><span>Vendetta</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +25% к отражаемому урону у Spiked Carapace</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -351,7 +355,7 @@
       </div><div class="hb-step" title="Spiked Carapace · 59,5% побед, 116 матчей">
         <img loading="lazy" src="/assets/abilities/nyx_assassin_spiked_carapace.png" alt="Spiked Carapace" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+25% Spiked Carapace Damage Reflect · 59,5% побед, 116 матчей">
+      </div><div class="hb-step hb-step-talent" title="+25% к отражаемому урону у Spiked Carapace · 59,5% побед, 116 матчей">
           <em>Талант</em><u>+25%</u><span>10</span>
         </div></div>
     </div>
@@ -387,42 +391,42 @@
       </div><div class="hb-step" title="Impale · 61,1% побед, 36 матчей">
         <img loading="lazy" src="/assets/abilities/nyx_assassin_impale.png" alt="Impale" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+25% Spiked Carapace Damage Reflect · 61,1% побед, 36 матчей">
+      </div><div class="hb-step hb-step-talent" title="+25% к отражаемому урону у Spiked Carapace · 61,1% побед, 36 матчей">
           <em>Талант</em><u>+25%</u><span>10</span>
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 609 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 609 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+80 Agility</b>
+          <b>+80 к ловкости</b>
           <span>Берут 14,6% · Побед 70,3%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>600 Mind Flare Radius</b>
+          <b>Mind Flare по области радиусом 600</b>
           <span>Берут 85,4% · Побед 67,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+140 Impale Damage</b>
+          <b>+140 к урону от Impale</b>
           <span>Берут 49,3% · Побед 68,6%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+0.6s Spiked Carapace Stun Duration</b>
+          <b>+0,6 сек. оглушения от Spiked Carapace</b>
           <span>Берут 50,7% · Побед 64,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-3s Mind Flare Cooldown</b>
+          <b>–3 сек. перезарядки Mind Flare</b>
           <span>Берут 84,4% · Побед 61,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+50 Vendetta Damage</b>
+          <b>+50 к урону от Vendetta</b>
           <span>Берут 15,6% · Побед 58,2%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+0.2s Impale Stun Duration</b>
+          <b>+0,2 сек. оглушения от Impale</b>
           <span>Берут 50,1% · Побед 55,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+25% Spiked Carapace Damage Reflect</b>
+          <b>+25% к отражаемому урону у Spiked Carapace</b>
           <span>Берут 49,9% · Побед 53,7%</span>
           
         </div></div></div>
@@ -529,11 +533,11 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Impale</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span></div>
           <p class="hp-ab-desc">Из земли прорывается полоса каменных шипов. Они наносят урон и подбрасывают врагов в воздух, оглушая их.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Mind Flare</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span>По площади</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span><span>По площади</span></div>
           <p class="hp-ab-desc">Наносит выбранному врагу урон, пропорциональный его максимальной мане и сжигает её часть. Также повторяет долю от урона, который владелец способности нанёс жертве за последние 15 сек. Счётчик накопленного урона сбрасывается при…</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Spiked Carapace</h3>
@@ -549,7 +553,7 @@
           <p class="hp-ab-desc">Герой сжигает ману врагов пропорционально урону, который им наносит.</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Vendetta</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">чистый урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Делает героя невидимым и увеличивает его скорость передвижения. Совершив атаку из невидимости, герой нанесёт огромный дополнительный урон и наложит на жертву истощение. Такая атака имеет увеличенную на 75 дальность и ускоренную на 70%…</p>
         </div>
       </div>
@@ -565,7 +569,16 @@
     </div>
     <a class="btn red" href="/hero/nyx_assassin/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Nyx Assassin">
+    <a class="hp-tool" href="/draft/#draft=88__" data-goal="hero_to_draft"><b>Драфт с Nyx Assassin</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -598,6 +611,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

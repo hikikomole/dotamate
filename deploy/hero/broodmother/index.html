@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Broodmother — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Broodmother - ловкий пушер средней сложности. Плетите Spin Web и активируйте Insatiable Hunger. Здесь собраны все характеристики, сборки и контрпики.">
+<meta name="description" content="Билд на Broodmother и контрпики. Broodmother - ловкий пушер средней сложности. Плетите Spin Web и активируйте Insatiable Hunger.">
 <link rel="canonical" href="https://dotamate.ru/hero/broodmother/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Broodmother — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Broodmother - ловкий пушер средней сложности. Плетите Spin Web и активируйте Insatiable Hunger. Здесь собраны все характеристики, сборки и контрпики.">
+<meta property="og:description" content="Билд на Broodmother и контрпики. Broodmother - ловкий пушер средней сложности. Плетите Spin Web и активируйте Insatiable Hunger.">
 <meta property="og:image" content="/assets/heroes/broodmother.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/broodmother/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Broodmother — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Broodmother - ловкий пушер средней сложности. Плетите Spin Web и активируйте Insatiable Hunger. Здесь собраны все характеристики, сборки и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Broodmother и контрпики. Broodmother - ловкий пушер средней сложности. Плетите Spin Web и активируйте Insatiable Hunger.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Broodmother","item":"https://dotamate.ru/hero/broodmother/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Broodmother</span></nav>
     <h1>Broodmother <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr agi"></i>Ловкость · Ближний бой · Мид в 75,5 % игр</p>
+    <p class="hx-sub"><i class="hx-attr agi"></i><span>Ловкость · Ближний бой · Мид в 75,5 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="61" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier b">B</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>50,9 %</b><em>место 42 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>50,9 %</b><em>место 53 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>2,1 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>7 323</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>5 из 33</b><em>Мид</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>12 из 33</b><em>Мид</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на низких рангах: 52,7 % у Рекрута–Стража против 50,3 % у Легенды–Властелина</li><li>Лучше в коротких играх: 79,9 % до 25 мин против 43,4 % после 45 мин</li><li>Фармит быстрее своей роли: 618 золота/мин при среднем 563</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 2</span><b>62.9%</b><span class="hq-track" aria-hidden="true"><i style="width:62.9%"></i></span></li><li><span>Позиция 3</span><b>19.6%</b><span class="hq-track" aria-hidden="true"><i style="width:19.6%"></i></span></li><li><span>Позиция 1</span><b>17.2%</b><span class="hq-track" aria-hidden="true"><i style="width:17.2%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/wraith_band/"><img src="/assets/items/wraith_band.png" alt="" width="64" height="48" loading="lazy"><span>Wraith Band</span></a></li><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/soul_ring/"><img src="/assets/items/soul_ring.png" alt="" width="64" height="48" loading="lazy"><span>Soul Ring</span></a></li><li><a href="/item/orchid/"><img src="/assets/items/orchid.png" alt="" width="64" height="48" loading="lazy"><span>Orchid Malevolence</span></a></li><li><a href="/item/oblivion_staff/"><img src="/assets/items/oblivion_staff.png" alt="" width="64" height="48" loading="lazy"><span>Oblivion Staff</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/spectre/"><img src="/assets/heroes/spectre.webp" alt="" width="48" height="27" loading="lazy"><span>Spectre</span><b class="hq-positive">+9.8 п.п.</b></a></li><li><a href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.webp" alt="" width="48" height="27" loading="lazy"><span>Arc Warden</span><b class="hq-positive">+9.3 п.п.</b></a></li><li><a href="/hero/vengeful_spirit/"><img src="/assets/heroes/vengeful_spirit.webp" alt="" width="48" height="27" loading="lazy"><span>Vengeful Spirit</span><b class="hq-positive">+6 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/earthshaker/"><img src="/assets/heroes/earthshaker.webp" alt="" width="48" height="27" loading="lazy"><span>Earthshaker</span><b class="hq-negative">-10.3 п.п.</b></a></li><li><a href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" width="48" height="27" loading="lazy"><span>Crystal Maiden</span><b class="hq-negative">-6 п.п.</b></a></li><li><a href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" width="48" height="27" loading="lazy"><span>Sven</span><b class="hq-negative">-5 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:04.829Z, 911 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Broodmother против других: Мид</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>5 из 33</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>12 из 33</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>57,1 %</td><td class="hx-mut">49,9 %</td><td><span class="hx-dev"><i class="up" style="left:50%;width:50.0%"></i></span><b class="up">+7,2 пп</b></td></tr><tr><th>Золото в минуту</th><td>618</td><td class="hx-mut">563</td><td><span class="hx-dev"><i class="up" style="left:50%;width:40.7%"></i></span><b class="up">+55</b></td></tr><tr><th>Опыт в минуту</th><td>814</td><td class="hx-mut">783</td><td><span class="hx-dev"><i class="up" style="left:50%;width:16.5%"></i></span><b class="up">+31</b></td></tr></tbody></table>
-<p class="hx-note">42 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="379 игр"><b>52,5</b><span style="height:62.5%"></span><small>Рекрут</small></div><div title="1 076 игр"><b>52,8</b><span style="height:64.0%"></span><small>Страж</small></div><div title="1 611 игр"><b>49,2</b><span style="height:46.0%"></span><small>Рыцарь</small></div><div title="1 812 игр"><b>51,7</b><span style="height:58.5%"></span><small>Герой</small></div><div title="1 601 игр"><b>49,6</b><span style="height:48.0%"></span><small>Легенда</small></div><div title="844 игр"><b>51,7</b><span style="height:58.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="596 игр"><b>79,9</b><span style="height:100.0%"></span><small>до 25 мин</small></div><div title="2 353 игр"><b>57,0</b><span style="height:85.0%"></span><small>25–35 мин</small></div><div title="2 762 игр"><b>43,8</b><span style="height:19.0%"></span><small>35–45 мин</small></div><div title="1 612 игр"><b>43,4</b><span style="height:17.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:36.4%">36,4</i><i class="d" style="width:23.6%">23,6</i><i class="l" style="width:40%">40,0</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">55 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/lich/"><img src="/assets/heroes/lich.webp" alt="" loading="lazy" width="44" height="25"><span>Lich</span></a><b class="up">+5,8 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">42 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="379 игр"><b>52,5</b><span style="height:62.5%"></span><small>Рекрут</small></div><div title="1 076 игр"><b>52,8</b><span style="height:64.0%"></span><small>Страж</small></div><div title="1 611 игр"><b>49,2</b><span style="height:46.0%"></span><small>Рыцарь</small></div><div title="1 812 игр"><b>51,7</b><span style="height:58.5%"></span><small>Герой</small></div><div title="1 601 игр"><b>49,6</b><span style="height:48.0%"></span><small>Легенда</small></div><div title="844 игр"><b>51,7</b><span style="height:58.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="596 игр"><b>79,9</b><span style="height:100.0%"></span><small>до 25 мин</small></div><div title="2 353 игр"><b>57,0</b><span style="height:85.0%"></span><small>25–35 мин</small></div><div title="2 762 игр"><b>43,8</b><span style="height:19.0%"></span><small>35–45 мин</small></div><div title="1 612 игр"><b>43,4</b><span style="height:17.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:36.4%">36,4</i><i class="d" style="width:23.6%">23,6</i><i class="l" style="width:40%">40,0</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">55 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/lich/"><img src="/assets/heroes/lich.webp" alt="" loading="lazy" width="44" height="25"><span>Lich</span></a><b class="up">+5,8 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Broodmother</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/earthshaker/"><img src="/assets/heroes/earthshaker.webp" alt="" loading="lazy" width="44" height="25"><span>Earthshaker</span></a><b class="dn">−10,3 пп</b></li><li><a class="hx-hico" href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" loading="lazy" width="44" height="25"><span>Crystal Maiden</span></a><b class="dn">−6,0 пп</b></li><li><a class="hx-hico" href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" loading="lazy" width="44" height="25"><span>Sven</span></a><b class="dn">−5,0 пп</b></li><li><a class="hx-hico" href="/hero/spirit_breaker/"><img src="/assets/heroes/spirit_breaker.webp" alt="" loading="lazy" width="44" height="25"><span>Spirit Breaker</span></a><b class="dn">−4,6 пп</b></li><li><a class="hx-hico" href="/hero/axe/"><img src="/assets/heroes/axe.webp" alt="" loading="lazy" width="44" height="25"><span>Axe</span></a><b class="dn">−4,0 пп</b></li></ul></div>
 <div><h3>Кого контрит Broodmother</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/spectre/"><img src="/assets/heroes/spectre.webp" alt="" loading="lazy" width="44" height="25"><span>Spectre</span></a><b class="up">+9,8 пп</b></li><li><a class="hx-hico" href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.webp" alt="" loading="lazy" width="44" height="25"><span>Arc Warden</span></a><b class="up">+9,3 пп</b></li><li><a class="hx-hico" href="/hero/vengeful_spirit/"><img src="/assets/heroes/vengeful_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Vengeful Spirit</span></a><b class="up">+6,0 пп</b></li><li><a class="hx-hico" href="/hero/faceless_void/"><img src="/assets/heroes/faceless_void.webp" alt="" loading="lazy" width="44" height="25"><span>Faceless Void</span></a><b class="up">+5,8 пп</b></li><li><a class="hx-hico" href="/hero/furion/"><img src="/assets/heroes/furion.webp" alt="" loading="lazy" width="44" height="25"><span>Nature&#39;s Prophet</span></a><b class="up">+5,2 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -84,7 +88,7 @@
   
   <div class="hb-panes hb-panes-skills"><div class="hb-pane on" data-pos="POSITION_2">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/broodmother_spin_web.png" alt=""><span>Spin Web</span></li><li><img loading="lazy" src="/assets/abilities/broodmother_spawn_spiderlings.png" alt=""><span>Spawn Spiderlings</span></li><li><img loading="lazy" src="/assets/abilities/broodmother_insatiable_hunger.png" alt=""><span>Insatiable Hunger</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +80 Spawn Spiderlings Damage</span></li><li><img loading="lazy" src="/assets/abilities/broodmother_incapacitating_bite.png" alt=""><span>Incapacitating Bite</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/broodmother_spin_web.png" alt=""><span>Spin Web</span></li><li><img loading="lazy" src="/assets/abilities/broodmother_spawn_spiderlings.png" alt=""><span>Spawn Spiderlings</span></li><li><img loading="lazy" src="/assets/abilities/broodmother_insatiable_hunger.png" alt=""><span>Insatiable Hunger</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +80 к урону от Spawn Spiderlings</span></li><li><img loading="lazy" src="/assets/abilities/broodmother_incapacitating_bite.png" alt=""><span>Incapacitating Bite</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -118,7 +122,7 @@
       </div><div class="hb-step" title="Insatiable Hunger · 59,5% побед, 210 матчей">
         <img loading="lazy" src="/assets/abilities/broodmother_insatiable_hunger.png" alt="Insatiable Hunger" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+80 Spawn Spiderlings Damage · 59,5% побед, 210 матчей">
+      </div><div class="hb-step hb-step-talent" title="+80 к урону от Spawn Spiderlings · 59,5% побед, 210 матчей">
           <em>Талант</em><u>+80</u><span>10</span>
         </div></div>
     </div>
@@ -160,37 +164,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 903 матча. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 903 матча. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
           <b>+7% Spin Web Move Speed and Ignore Speed Limit</b>
           <span>Решает игрок</span>
           
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>-0.15s BAT during Insatiable Hunger</b>
+          <b>Insatiable Hunger снижает интервал атак на 0,15 сек.</b>
           <span>Берут 100,0% · Побед 56,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+20% Incapacitating Bite Slow/Miss Chance</b>
+          <b>+20% к замедл. и промахам от Incapacitating Bite</b>
           <span>Берут 46,2% · Побед 55,0%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>-6s Spin Web Charge Restore Time</b>
+          <b>–6 сек. восстановления заряда Spin Web</b>
           <span>Берут 53,8% · Побед 55,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+175 Spiderlings Health</b>
+          <b>+175 к здоровью паучков</b>
           <span>Берут 9,1% · Побед 54,7%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+5 Incapacitating Bite Attack Bonus</b>
+          <b>+5 к доп. урону от атак у Incapacitating Bite</b>
           <span>Берут 90,9% · Побед 52,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+20% Insatiable Hunger Lifesteal</b>
+          <b>+20% к вампиризму от Insatiable Hunger</b>
           <span>Берут 68,6% · Побед 50,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-win">
-          <b>+80 Spawn Spiderlings Damage</b>
+          <b>+80 к урону от Spawn Spiderlings</b>
           <span>Берут 31,4% · Побед 54,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div></div>
@@ -247,7 +251,7 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Insatiable Hunger</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Неистовая жажда питательных соков добавляет урон и вампиризм к атакам героя и его паучков.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Spin Web</h3>
@@ -259,7 +263,7 @@
           <p class="hp-ab-desc">Яд героя ослабляет врагов, замедляя их, заставляя промахиваться при атаках и увеличивая урон, получаемый ими от атак.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Spinner&#39;s Snare</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>Скрытая</span><span>Прерываемая</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>Скрытая</span><span>Прерываемая</span></div>
           <p class="hp-ab-desc">Герой может создать до 5 невидимых линий из паутины в любом месте, где есть паутина от способности Spin Web. Если линию пересечёт вражеский герой, то на него сработает оцепенение, он начнёт получать периодический урон, а вся вражеская…</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Spider&#39;s Milk</h3>
@@ -267,7 +271,7 @@
           <p class="hp-ab-desc">Убив любое существо, герой и подконтрольные ему существа в радиусе 600 получают эффект, раз в 0.5 сек. излечивающий их на долю от здоровья жертвы. Это лечение считается вампиризмом и при срабатывании от крипов уменьшается на 40%.…</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Spawn Spiderlings</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Герой впрыскивает во врага свои яйца, наносит ему урон и замедляет его на 4 сек. Если жертва умрёт, находясь под действием этой способности, из её трупа появятся несколько паучков.</p>
         </div>
       </div>
@@ -283,7 +287,16 @@
     </div>
     <a class="btn red" href="/hero/broodmother/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Broodmother">
+    <a class="hp-tool" href="/draft/#draft=61__" data-goal="hero_to_draft"><b>Драфт с Broodmother</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -316,6 +329,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

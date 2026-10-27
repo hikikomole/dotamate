@@ -1,0 +1,60 @@
+{
+  "version": 3,
+  "configs": [
+    {
+      "config_name": "DotaMate",
+      "categories": [
+        {
+          "category_name": "Position 1",
+          "x_position": 0,
+          "y_position": 0,
+          "width": 1100,
+          "height": 160,
+          "hero_ids": [
+            1
+          ]
+        },
+        {
+          "category_name": "Position 2",
+          "x_position": 0,
+          "y_position": 176,
+          "width": 1100,
+          "height": 160,
+          "hero_ids": [
+            1
+          ]
+        },
+        {
+          "category_name": "Position 3",
+          "x_position": 0,
+          "y_position": 352,
+          "width": 1100,
+          "height": 160,
+          "hero_ids": [
+            1
+          ]
+        },
+        {
+          "category_name": "Position 4",
+          "x_position": 0,
+          "y_position": 528,
+          "width": 1100,
+          "height": 160,
+          "hero_ids": [
+            1
+          ]
+        },
+        {
+          "category_name": "Position 5",
+          "x_position": 0,
+          "y_position": 704,
+          "width": 1100,
+          "height": 160,
+          "hero_ids": [
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Puck — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Puck выступает в ролях инициатора и дизейблера. Кастуйте Illusory Orb и Phase Shift в бою. Ниже описаны характеристики героя, оптимальный билд и контрпики.">
+<meta name="description" content="Билд на Puck и контрпики. Puck выступает в ролях инициатора и дизейблера. Кастуйте Illusory Orb и Phase Shift в бою.">
 <link rel="canonical" href="https://dotamate.ru/hero/puck/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Puck — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Puck выступает в ролях инициатора и дизейблера. Кастуйте Illusory Orb и Phase Shift в бою. Ниже описаны характеристики героя, оптимальный билд и контрпики.">
+<meta property="og:description" content="Билд на Puck и контрпики. Puck выступает в ролях инициатора и дизейблера. Кастуйте Illusory Orb и Phase Shift в бою.">
 <meta property="og:image" content="/assets/heroes/puck.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/puck/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Puck — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Puck выступает в ролях инициатора и дизейблера. Кастуйте Illusory Orb и Phase Shift в бою. Ниже описаны характеристики героя, оптимальный билд и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Puck и контрпики. Puck выступает в ролях инициатора и дизейблера. Кастуйте Illusory Orb и Phase Shift в бою.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Puck","item":"https://dotamate.ru/hero/puck/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Puck</span></nav>
     <h1>Puck <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr int"></i>Интеллект · Дальний бой · Мид в 95,7 % игр</p>
+    <p class="hx-sub"><i class="hx-attr int"></i><span>Интеллект · Дальний бой · Мид в 95,7 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="13" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier d">D</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>46,7 %</b><em>место 106 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>46,7 %</b><em>место 107 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>2,8 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>9 663</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>24 из 33</b><em>Мид</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>29 из 33</b><em>Мид</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на высоких рангах: 47,8 % у Легенды–Властелина против 43,4 % у Рекрута–Стража</li><li>Фармит медленнее своей роли: 520 золота/мин при среднем 563</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 2</span><b>98.4%</b><span class="hq-track" aria-hidden="true"><i style="width:98.4%"></i></span></li><li><span>Позиция 4</span><b>0.6%</b><span class="hq-track" aria-hidden="true"><i style="width:0.6%"></i></span></li><li><span>Позиция 3</span><b>0.4%</b><span class="hq-track" aria-hidden="true"><i style="width:0.4%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/null_talisman/"><img src="/assets/items/null_talisman.png" alt="" width="64" height="48" loading="lazy"><span>Null Talisman</span></a></li><li><a href="/item/oblivion_staff/"><img src="/assets/items/oblivion_staff.png" alt="" width="64" height="48" loading="lazy"><span>Oblivion Staff</span></a></li><li><a href="/item/witch_blade/"><img src="/assets/items/witch_blade.png" alt="" width="64" height="48" loading="lazy"><span>Witch Blade</span></a></li><li><a href="/item/blink/"><img src="/assets/items/blink.png" alt="" width="64" height="48" loading="lazy"><span>Blink Dagger</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/storm_spirit/"><img src="/assets/heroes/storm_spirit.webp" alt="" width="48" height="27" loading="lazy"><span>Storm Spirit</span><b class="hq-positive">+5.4 п.п.</b></a></li><li><a href="/hero/queenofpain/"><img src="/assets/heroes/queenofpain.webp" alt="" width="48" height="27" loading="lazy"><span>Queen of Pain</span><b class="hq-positive">+4.6 п.п.</b></a></li><li><a href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.webp" alt="" width="48" height="27" loading="lazy"><span>Outworld Devourer</span><b class="hq-positive">+4.3 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/night_stalker/"><img src="/assets/heroes/night_stalker.webp" alt="" width="48" height="27" loading="lazy"><span>Night Stalker</span><b class="hq-negative">-9.4 п.п.</b></a></li><li><a href="/hero/silencer/"><img src="/assets/heroes/silencer.webp" alt="" width="48" height="27" loading="lazy"><span>Silencer</span><b class="hq-negative">-5.6 п.п.</b></a></li><li><a href="/hero/dragon_knight/"><img src="/assets/heroes/dragon_knight.webp" alt="" width="48" height="27" loading="lazy"><span>Dragon Knight</span><b class="hq-negative">-4.9 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:04:24.350Z, 5210 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Puck против других: Мид</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>24 из 33</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>29 из 33</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>46,5 %</td><td class="hx-mut">49,9 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:28.2%"></i></span><b class="dn">−3,4 пп</b></td></tr><tr><th>Золото в минуту</th><td>520</td><td class="hx-mut">563</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:31.8%"></i></span><b class="dn">−43</b></td></tr><tr><th>Опыт в минуту</th><td>731</td><td class="hx-mut">783</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:27.7%"></i></span><b class="dn">−52</b></td></tr></tbody></table>
-<p class="hx-note">43 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="813 игр"><b>43,4</b><span style="height:17.0%"></span><small>Страж</small></div><div title="1 512 игр"><b>44,4</b><span style="height:22.0%"></span><small>Рыцарь</small></div><div title="2 349 игр"><b>47,0</b><span style="height:35.0%"></span><small>Герой</small></div><div title="2 822 игр"><b>47,8</b><span style="height:39.0%"></span><small>Легенда</small></div><div title="1 934 игр"><b>47,9</b><span style="height:39.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 385 игр"><b>42,6</b><span style="height:13.0%"></span><small>25–35 мин</small></div><div title="4 017 игр"><b>46,1</b><span style="height:30.5%"></span><small>35–45 мин</small></div><div title="3 051 игр"><b>51,1</b><span style="height:55.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:36.4%">36,4</i><i class="d" style="width:22.7%">22,7</i><i class="l" style="width:40.9%">40,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">44 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">43 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="813 игр"><b>43,4</b><span style="height:17.0%"></span><small>Страж</small></div><div title="1 512 игр"><b>44,4</b><span style="height:22.0%"></span><small>Рыцарь</small></div><div title="2 349 игр"><b>47,0</b><span style="height:35.0%"></span><small>Герой</small></div><div title="2 822 игр"><b>47,8</b><span style="height:39.0%"></span><small>Легенда</small></div><div title="1 934 игр"><b>47,9</b><span style="height:39.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 385 игр"><b>42,6</b><span style="height:13.0%"></span><small>25–35 мин</small></div><div title="4 017 игр"><b>46,1</b><span style="height:30.5%"></span><small>35–45 мин</small></div><div title="3 051 игр"><b>51,1</b><span style="height:55.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:36.4%">36,4</i><i class="d" style="width:22.7%">22,7</i><i class="l" style="width:40.9%">40,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">44 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Puck</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/night_stalker/"><img src="/assets/heroes/night_stalker.webp" alt="" loading="lazy" width="44" height="25"><span>Night Stalker</span></a><b class="dn">−9,4 пп</b></li><li><a class="hx-hico" href="/hero/silencer/"><img src="/assets/heroes/silencer.webp" alt="" loading="lazy" width="44" height="25"><span>Silencer</span></a><b class="dn">−5,6 пп</b></li><li><a class="hx-hico" href="/hero/dragon_knight/"><img src="/assets/heroes/dragon_knight.webp" alt="" loading="lazy" width="44" height="25"><span>Dragon Knight</span></a><b class="dn">−4,9 пп</b></li><li><a class="hx-hico" href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" loading="lazy" width="44" height="25"><span>Venomancer</span></a><b class="dn">−4,1 пп</b></li><li><a class="hx-hico" href="/hero/sniper/"><img src="/assets/heroes/sniper.webp" alt="" loading="lazy" width="44" height="25"><span>Sniper</span></a><b class="dn">−3,9 пп</b></li></ul></div>
 <div><h3>Кого контрит Puck</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/storm_spirit/"><img src="/assets/heroes/storm_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Storm Spirit</span></a><b class="up">+5,4 пп</b></li><li><a class="hx-hico" href="/hero/queenofpain/"><img src="/assets/heroes/queenofpain.webp" alt="" loading="lazy" width="44" height="25"><span>Queen of Pain</span></a><b class="up">+4,6 пп</b></li><li><a class="hx-hico" href="/hero/obsidian_destroyer/"><img src="/assets/heroes/obsidian_destroyer.webp" alt="" loading="lazy" width="44" height="25"><span>Outworld Devourer</span></a><b class="up">+4,3 пп</b></li><li><a class="hx-hico" href="/hero/viper/"><img src="/assets/heroes/viper.webp" alt="" loading="lazy" width="44" height="25"><span>Viper</span></a><b class="up">+4,3 пп</b></li><li><a class="hx-hico" href="/hero/magnataur/"><img src="/assets/heroes/magnataur.webp" alt="" loading="lazy" width="44" height="25"><span>Magnus</span></a><b class="up">+3,8 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -84,7 +88,7 @@
   
   <div class="hb-panes hb-panes-skills"><div class="hb-pane on" data-pos="POSITION_2">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/puck_illusory_orb.png" alt=""><span>Illusory Orb</span></li><li><img loading="lazy" src="/assets/abilities/puck_phase_shift.png" alt=""><span>Phase Shift</span></li><li><img loading="lazy" src="/assets/abilities/puck_waning_rift.png" alt=""><span>Waning Rift</span></li><li><img loading="lazy" src="/assets/abilities/puck_dream_coil.png" alt=""><span>Dream Coil</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +35 Illusory Orb Damage</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/puck_illusory_orb.png" alt=""><span>Illusory Orb</span></li><li><img loading="lazy" src="/assets/abilities/puck_phase_shift.png" alt=""><span>Phase Shift</span></li><li><img loading="lazy" src="/assets/abilities/puck_waning_rift.png" alt=""><span>Waning Rift</span></li><li><img loading="lazy" src="/assets/abilities/puck_dream_coil.png" alt=""><span>Dream Coil</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +35 к урону от Illusory Orb</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -155,42 +159,42 @@
       </div><div class="hb-step" title="Waning Rift · 53,5% побед, 3 522 матчей">
         <img loading="lazy" src="/assets/abilities/puck_waning_rift.png" alt="Waning Rift" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+35 Illusory Orb Damage · 53,5% побед, 3 522 матча">
+      </div><div class="hb-step hb-step-talent" title="+35 к урону от Illusory Orb · 53,5% побед, 3 522 матча">
           <em>Талант</em><u>+35</u><span>10</span>
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 18 205 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 18 205 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+350 Waning Rift Radius/Max Distance</b>
+          <b>+350 к радиусу и макс. дальности Waning Rift</b>
           <span>Берут 58,3% · Побед 67,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>-30s Dream Coil Cooldown</b>
+          <b>–30 сек. перезарядки Dream Coil</b>
           <span>Берут 41,7% · Побед 58,0%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+200 Initial/Break Dream Coil Damage</b>
+          <b>+200 ко всему урону от Dream Coil</b>
           <span>Берут 17,4% · Побед 53,0%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>-2.5s Waning Rift Cooldown</b>
+          <b>–2,5 сек. перезарядки Waning Rift</b>
           <span>Берут 82,6% · Побед 57,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+60 Waning Rift Damage</b>
+          <b>+60 к урону от Waning Rift</b>
           <span>Берут 98,8% · Побед 51,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+2% Puckish Health and Mana Restoration</b>
+          <b>+2% к восстановлению здоровья и маны от Puckish</b>
           <span>Берут 1,2% · Побед 42,2%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+1.25s Waning Rift Silence Duration</b>
+          <b>+1,25 сек. безмолвия от Waning Rift</b>
           <span>Берут 17,6% · Побед 46,0%</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+35 Illusory Orb Damage</b>
+          <b>+35 к урону от Illusory Orb</b>
           <span>Берут 82,4% · Побед 49,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -247,11 +251,11 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Illusory Orb</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span></div>
           <p class="hp-ab-desc">Векторное применение. Герой выпускает по указанной траектории волшебный шар, наносящий урон задетым противникам. Также шар каждые 0.5 сек. наносит 3% урона от попадания врагам, с которыми соприкасается, но пропадёт, если вылетит за…</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Waning Rift</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span></div>
           <p class="hp-ab-desc">Герой перемещается в указанную точку и выпускает облако волшебной пыльцы, нанося врагам вокруг урон и запрещая им применять способности.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Phase Shift</h3>
@@ -267,7 +271,7 @@
           <p class="hp-ab-desc">Сбив с цели снаряд атаки, герой восстанавливает себе 3% от максимальных здоровья и маны. Уклонение от снаряда направленного заклинания принесёт в 3 раза больше здоровья и маны. Не срабатывает при уклонении от атак башен.</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Dream Coil</h3>
-          <div class="hp-ab-tags"><span>По площади</span><span>В точку</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По площади</span><span>В точку</span></div>
           <p class="hp-ab-desc">Цепляет вражеских героев нестабильной магической спиралью, накладывая на них эффект привязки и нанося им урон. Если враг отойдёт слишком далеко от центра спирали, то она разорвётся, оглушив его и нанеся дополнительный урон.</p>
         </div>
       </div>
@@ -283,7 +287,16 @@
     </div>
     <a class="btn red" href="/hero/puck/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Puck">
+    <a class="hp-tool" href="/draft/#draft=13__" data-goal="hero_to_draft"><b>Драфт с Puck</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -316,6 +329,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

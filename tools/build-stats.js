@@ -42,6 +42,7 @@
 const fs = require('fs');
 const path = require('path');
 const MS = require('./match-source.js');
+const { createRowFilter, newCoverage, count: countCohort } = require('./stats-cohort.js');
 const SRC = MS.source();
 
 const ROOT = path.join(__dirname, '..');
@@ -90,6 +91,11 @@ const H = new Map(heroIds.map(id => [id, { n: 0, w: 0, rk: {}, du: {}, g: 0, x: 
 const durHist = new Map();
 let total = 0, radWins = 0, minT = Infinity, maxT = 0;
 const rankHist = {};
+const patchInfo = SRC === 'steam' ? read('patch-notes.json') : null;
+if (SRC === 'steam' && (!patchInfo.version || !Number.isInteger(Number(patchInfo.timestamp)) || Number(patchInfo.timestamp) <= 0)) throw new Error('Invalid patch metadata for ranked summary');
+const rankedFilter = SRC === 'steam' ? createRowFilter({ known, patchFrom: Number(patchInfo.timestamp) }) : null;
+const rankedCoverage = newCoverage(), rankedHeroes = new Map();
+let rankedMatches = 0, rankedRadiantWins = 0, rankedFrom = Infinity, rankedTo = 0, rankedBanRecorded = 0;
 // Steam: позиции по разметке U2 (1/2/3/sup) — модель data/position-model.json, поз. 4/5 из Stratz, если матч там есть
 const PS = {};              // pos -> {n, gpm, xpm, heroes: Map}
 let PM = null, posLabeled = 0, posStratz = 0;
@@ -98,6 +104,28 @@ if (SRC === 'steam') {
   catch (e) { console.warn('Позиции Steam не размечены:', e.message); }
 }
 function addRow(r, eco, raw) {
+  if (raw && rankedFilter) {
+    const reason = rankedFilter(raw);
+    countCohort(rankedCoverage, reason);
+    if (!reason) {
+      const picks = raw.slice(9, 19).map(p => p[0]);
+      if (raw[19] === true && Array.isArray(raw[8])) {
+        rankedBanRecorded++;
+        const bans = new Set(raw[8].filter(id => known.has(id)));
+        if (picks.some(id => bans.has(id))) throw new Error('Pick/ban overlap: ' + raw[0]);
+        for (const id of bans) {
+          const h = rankedHeroes.get(id) || { id, picks: 0, wins: 0, bans: 0 };
+          h.bans++; rankedHeroes.set(id, h);
+        }
+      }
+      picks.forEach((id, i) => {
+        const h = rankedHeroes.get(id) || { id, picks: 0, wins: 0, bans: 0 };
+        h.picks++; h.wins += (i < 5) === (raw[5] === 1) ? 1 : 0; rankedHeroes.set(id, h);
+      });
+      rankedMatches++; rankedRadiantWins += raw[5];
+      rankedFrom = Math.min(rankedFrom, raw[2]); rankedTo = Math.max(rankedTo, raw[2]);
+    }
+  }
   const [, start, dur, rank, lobby, mode, rw] = r;
   if (mode !== 22 || ![0, 7].includes(lobby) || dur < MIN_DURATION) return;
   const team = r.slice(7, 17);
@@ -408,6 +436,14 @@ const out = {
 };
 if (posTurbo) out.posTurbo = posTurbo;
 if (SRC === 'steam') out.posSteam = { labeled: posLabeled, stratz: posStratz, model: PM ? { created: PM.model.meta.created || null, test: PM.model.meta.metrics && PM.model.meta.metrics.test ? { acc: PM.model.meta.metrics.test.acc, core3sup: PM.model.meta.metrics.test.core3sup } : null } : null, pos: posSteam };
+if (SRC === 'steam') out.rankedSummary = {
+  source: 'steam', cohort: 'ranked-all-ranks', patch: patchInfo.version, patchFrom: Number(patchInfo.timestamp),
+  matches: rankedMatches, radiantWins: rankedRadiantWins,
+  from: rankedMatches ? new Date(rankedFrom * 1000).toISOString() : null,
+  to: rankedMatches ? new Date(rankedTo * 1000).toISOString() : null,
+  banRecorded: rankedBanRecorded, exclusions: rankedCoverage.excluded, seen: rankedCoverage.seen,
+  heroes: [...rankedHeroes.values()].sort((a, b) => a.id - b.id)
+};
 MS.writeJsonAtomic(OUT, out);
 console.log(`stats.json: ${total} матчей, тир-лист ${ranked.length} героев, связок ${synergy.length}, позиций ${Object.keys(positions).length}, линий ${lanes.length}, предметов ${items.length}, снимков истории ${snaps.length}, срезов ${Object.keys(slices).join('+') || 'нет'}${SRC === 'steam' ? `, позиций Steam ${Object.keys(posSteam).length} (размечено матчей ${posLabeled}, из них по Stratz ${posStratz}), эталон Турбо ${posTurbo ? posTurbo.matches + ' матчей' : 'нет'}` : ''}, ${(fs.statSync(OUT).size / 1024).toFixed(0)} КБ`);
 }

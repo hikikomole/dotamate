@@ -84,6 +84,54 @@
   "name": "Мой профиль Dota 2"
  },
  {
+  "loc": "https://dotamate.ru/live/streams/",
+  "name": "Стримы Dota 2"
+ },
+ {
+  "loc": "https://dotamate.ru/games/",
+  "name": "Мини игры Дота 2 в браузере"
+ },
+ {
+  "loc": "https://dotamate.ru/games/hook-aim/",
+  "name": "Симулятор хука Дота"
+ },
+ {
+  "loc": "https://dotamate.ru/games/last-hit/",
+  "name": "Тренировка ластхита Дота 2 в браузере | Dota Mate"
+ },
+ {
+  "loc": "https://dotamate.ru/games/deny/",
+  "name": "Тренировка деная крипов Дота 2 | Dota Mate"
+ },
+ {
+  "loc": "https://dotamate.ru/games/item-recipes/",
+  "name": "Рецепты предметов Дота 2"
+ },
+ {
+  "loc": "https://dotamate.ru/games/stun-chain/",
+  "name": "Тренировка цепочки станов Дота 2 | Dota Mate"
+ },
+ {
+  "loc": "https://dotamate.ru/games/counter-pick/",
+  "name": "Контрпики Дота 2"
+ },
+ {
+  "loc": "https://dotamate.ru/games/budget-build/",
+  "name": "Тренажёр закупа предметов Дота 2 | Dota Mate"
+ },
+ {
+  "loc": "https://dotamate.ru/games/minimap-awareness/",
+  "name": "Тренировка миникарты Дота 2 | Dota Mate"
+ },
+ {
+  "loc": "https://dotamate.ru/games/rune-timing/",
+  "name": "Тайминги рун Дота 2"
+ },
+ {
+  "loc": "https://dotamate.ru/games/cooldown-tracking/",
+  "name": "Тренировка отслеживания кулдаунов Дота 2 | Dota Mate"
+ },
+ {
   "loc": "https://dotamate.ru/patch/7.41f/",
   "name": "Патч Dota 2 7.41f"
  }

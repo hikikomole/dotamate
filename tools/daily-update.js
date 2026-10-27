@@ -338,10 +338,27 @@ async function main() {
     // С U3 (04.10.2026) /stats/ считается по своей базе Steam (все рейтинговые матчи всех рангов).
     // Перед этим ранг свежих Steam-матчей дозаполняется из только что собранной ленты OpenDota.
     await node('Ранг Steam-матчей из OpenDota', 'tools/collect-steam-matches.js', ['--fill-ranks', '--days', '3'], { timeout: 0.5 * HOUR });
-    if (!await node('Статистика и аналитика', 'tools/build-stats.js', ['--source', 'steam'], { timeout: HOUR })) problems.push('статистика');
+    const statsOk = await node('Статистика и аналитика', 'tools/build-stats.js', ['--source', 'steam'], { timeout: HOUR });
+    if (!statsOk) problems.push('статистика');
     // Главная: три списка меты из того же stats.json (вместо снимка OpenDota, 11.10.2026) и пересборка страниц разделов.
     else if (!await node('Мета на главной', 'tools/build-home-meta.js')) problems.push('мета на главной');
-    else if (!await node('Страницы разделов (главная)', 'build-pages.js', [], { timeout: 0.25 * HOUR })) problems.push('страницы разделов');
+    // D2PT-разделы (26.10.2026, docs/plans/d2pt-features-plan.md): необязательные шаги — сбой оставляет прежний файл и не останавливает обновление.
+    if (statsOk) {
+      const collectorArchive = path.join(process.env.DOTAMATE_COLLECTOR || path.join(require('os').homedir(), 'dotamate-collector'), 'archive');
+      const d2pt = [
+        ['Список патчей', 'tools/fetch-patch-notes.js', []],
+        ['Снимки по патчам', 'tools/build-patch-snapshots.js', []],
+        ['Мета по ролям', 'tools/build-role-meta.js', []],
+        ['Стороны и длительность', 'tools/build-side-stats.js', []],
+        ['Поиск матчапов', 'tools/build-matchup-search.js', []],
+        ['Тайминги предметов', 'tools/build-item-timings.js', ['--archive-dir', collectorArchive, '--out-dir', 'data']],
+        ['Следующие предметы', 'tools/build-item-followups.js', ['--archive-dir', collectorArchive, '--out-dir', 'data']],
+        ['Hero Grid', 'tools/build-hero-grid.js', []],
+        ['Тир-листы', 'tools/build-tier-pages.js', []],
+      ];
+      for (const [title, script, args] of d2pt) if (!await node(title, script, args, { timeout: 0.25 * HOUR })) skippedAlerts.push(script + ': failed (optional)');
+      if (!await node('Страницы разделов (главная)', 'build-pages.js', [], { timeout: 0.25 * HOUR })) problems.push('страницы разделов');
+    }
     if (countersOk) {
       if (!await node('Страницы героев', 'build-hero-pages.js', [], { timeout: 0.5 * HOUR })) problems.push('страницы героев');
       if (!await node('Гайды героев', 'build-hero-guides.js')) problems.push('гайды героев');

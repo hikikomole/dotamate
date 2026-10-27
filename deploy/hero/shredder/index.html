@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Timbersaw — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Timbersaw - герой силы средней сложности, нюкер и танк. Используйте Timber Chain и Flamethrower. Вся информация о герое: характеристики, билды и контрпики.">
+<meta name="description" content="Билд на Timbersaw и контрпики. Timbersaw - герой силы средней сложности, нюкер и танк. Используйте Timber Chain и Flamethrower.">
 <link rel="canonical" href="https://dotamate.ru/hero/shredder/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Timbersaw — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Timbersaw - герой силы средней сложности, нюкер и танк. Используйте Timber Chain и Flamethrower. Вся информация о герое: характеристики, билды и контрпики.">
+<meta property="og:description" content="Билд на Timbersaw и контрпики. Timbersaw - герой силы средней сложности, нюкер и танк. Используйте Timber Chain и Flamethrower.">
 <meta property="og:image" content="/assets/heroes/shredder.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/shredder/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Timbersaw — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Timbersaw - герой силы средней сложности, нюкер и танк. Используйте Timber Chain и Flamethrower. Вся информация о герое: характеристики, билды и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Timbersaw и контрпики. Timbersaw - герой силы средней сложности, нюкер и танк. Используйте Timber Chain и Flamethrower.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Timbersaw","item":"https://dotamate.ru/hero/shredder/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,28 +46,30 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Timbersaw</span></nav>
     <h1>Timbersaw <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr str"></i>Сила · Ближний бой · Оффлейн в 87,9 % игр</p>
+    <p class="hx-sub"><i class="hx-attr str"></i><span>Сила · Ближний бой · Оффлейн в 87,9 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="98" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier d">D</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>45,5 %</b><em>место 117 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>45,5 %</b><em>место 116 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>4,4 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>15 120</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>29 из 31</b><em>Оффлейн</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>28 из 31</b><em>Оффлейн</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на высоких рангах: 46,0 % у Легенды–Властелина против 43,7 % у Рекрута–Стража</li><li>Лучше в долгих играх: 49,3 % после 45 мин против 23,0 % до 25 мин</li><li>Часто проигрывает линию: 46,9 % поражений против 21,0 % побед</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 3</span><b>86.8%</b><span class="hq-track" aria-hidden="true"><i style="width:86.8%"></i></span></li><li><span>Позиция 2</span><b>11.3%</b><span class="hq-track" aria-hidden="true"><i style="width:11.3%"></i></span></li><li><span>Позиция 1</span><b>1.1%</b><span class="hq-track" aria-hidden="true"><i style="width:1.1%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/bracer/"><img src="/assets/items/bracer.png" alt="" width="64" height="48" loading="lazy"><span>Bracer</span></a></li><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/soul_ring/"><img src="/assets/items/soul_ring.png" alt="" width="64" height="48" loading="lazy"><span>Soul Ring</span></a></li><li><a href="/item/ring_of_basilius/"><img src="/assets/items/ring_of_basilius.png" alt="" width="64" height="48" loading="lazy"><span>Ring of Basilius</span></a></li><li><a href="/item/kaya/"><img src="/assets/items/kaya.png" alt="" width="64" height="48" loading="lazy"><span>Kaya</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/rattletrap/"><img src="/assets/heroes/rattletrap.webp" alt="" width="48" height="27" loading="lazy"><span>Clockwerk</span><b class="hq-positive">+7.1 п.п.</b></a></li><li><a href="/hero/tusk/"><img src="/assets/heroes/tusk.webp" alt="" width="48" height="27" loading="lazy"><span>Tusk</span><b class="hq-positive">+5.9 п.п.</b></a></li><li><a href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" width="48" height="27" loading="lazy"><span>Phantom Lancer</span><b class="hq-positive">+5.6 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/tinker/"><img src="/assets/heroes/tinker.webp" alt="" width="48" height="27" loading="lazy"><span>Tinker</span><b class="hq-negative">-5.8 п.п.</b></a></li><li><a href="/hero/clinkz/"><img src="/assets/heroes/clinkz.webp" alt="" width="48" height="27" loading="lazy"><span>Clinkz</span><b class="hq-negative">-4.5 п.п.</b></a></li><li><a href="/hero/faceless_void/"><img src="/assets/heroes/faceless_void.webp" alt="" width="48" height="27" loading="lazy"><span>Faceless Void</span><b class="hq-negative">-4.3 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:34.597Z, 5954 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Timbersaw против других: Оффлейн</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>29 из 31</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>28 из 31</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>41,3 %</td><td class="hx-mut">51,0 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:50.0%"></i></span><b class="dn">−9,7 пп</b></td></tr><tr><th>Золото в минуту</th><td>533</td><td class="hx-mut">499</td><td><span class="hx-dev"><i class="up" style="left:50%;width:28.4%"></i></span><b class="up">+34</b></td></tr><tr><th>Опыт в минуту</th><td>758</td><td class="hx-mut">689</td><td><span class="hx-dev"><i class="up" style="left:50%;width:41.7%"></i></span><b class="up">+69</b></td></tr></tbody></table>
-<p class="hx-note">75 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="403 игр"><b>42,7</b><span style="height:13.5%"></span><small>Рекрут</small></div><div title="1 345 игр"><b>44,0</b><span style="height:20.0%"></span><small>Страж</small></div><div title="2 421 игр"><b>44,4</b><span style="height:22.0%"></span><small>Рыцарь</small></div><div title="3 631 игр"><b>46,0</b><span style="height:30.0%"></span><small>Герой</small></div><div title="4 274 игр"><b>46,0</b><span style="height:30.0%"></span><small>Легенда</small></div><div title="3 046 игр"><b>46,1</b><span style="height:30.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="501 игр"><b>23,0</b><span style="height:2.0%"></span><small>до 25 мин</small></div><div title="3 642 игр"><b>40,5</b><span style="height:2.5%"></span><small>25–35 мин</small></div><div title="6 115 игр"><b>47,4</b><span style="height:37.0%"></span><small>35–45 мин</small></div><div title="4 862 игр"><b>49,3</b><span style="height:46.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:21%">21,0</i><i class="d" style="width:32.1%">32,1</i><i class="l" style="width:46.9%">46,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">81 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">75 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="403 игр"><b>42,7</b><span style="height:13.5%"></span><small>Рекрут</small></div><div title="1 345 игр"><b>44,0</b><span style="height:20.0%"></span><small>Страж</small></div><div title="2 421 игр"><b>44,4</b><span style="height:22.0%"></span><small>Рыцарь</small></div><div title="3 631 игр"><b>46,0</b><span style="height:30.0%"></span><small>Герой</small></div><div title="4 274 игр"><b>46,0</b><span style="height:30.0%"></span><small>Легенда</small></div><div title="3 046 игр"><b>46,1</b><span style="height:30.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="501 игр"><b>23,0</b><span style="height:2.0%"></span><small>до 25 мин</small></div><div title="3 642 игр"><b>40,5</b><span style="height:2.5%"></span><small>25–35 мин</small></div><div title="6 115 игр"><b>47,4</b><span style="height:37.0%"></span><small>35–45 мин</small></div><div title="4 862 игр"><b>49,3</b><span style="height:46.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:21%">21,0</i><i class="d" style="width:32.1%">32,1</i><i class="l" style="width:46.9%">46,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">81 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Timbersaw</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/tinker/"><img src="/assets/heroes/tinker.webp" alt="" loading="lazy" width="44" height="25"><span>Tinker</span></a><b class="dn">−5,8 пп</b></li><li><a class="hx-hico" href="/hero/clinkz/"><img src="/assets/heroes/clinkz.webp" alt="" loading="lazy" width="44" height="25"><span>Clinkz</span></a><b class="dn">−4,5 пп</b></li><li><a class="hx-hico" href="/hero/faceless_void/"><img src="/assets/heroes/faceless_void.webp" alt="" loading="lazy" width="44" height="25"><span>Faceless Void</span></a><b class="dn">−4,3 пп</b></li><li><a class="hx-hico" href="/hero/ancient_apparition/"><img src="/assets/heroes/ancient_apparition.webp" alt="" loading="lazy" width="44" height="25"><span>Ancient Apparition</span></a><b class="dn">−3,8 пп</b></li><li><a class="hx-hico" href="/hero/furion/"><img src="/assets/heroes/furion.webp" alt="" loading="lazy" width="44" height="25"><span>Nature&#39;s Prophet</span></a><b class="dn">−3,6 пп</b></li></ul></div>
 <div><h3>Кого контрит Timbersaw</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/rattletrap/"><img src="/assets/heroes/rattletrap.webp" alt="" loading="lazy" width="44" height="25"><span>Clockwerk</span></a><b class="up">+7,1 пп</b></li><li><a class="hx-hico" href="/hero/tusk/"><img src="/assets/heroes/tusk.webp" alt="" loading="lazy" width="44" height="25"><span>Tusk</span></a><b class="up">+5,9 пп</b></li><li><a class="hx-hico" href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Lancer</span></a><b class="up">+5,6 пп</b></li><li><a class="hx-hico" href="/hero/riki/"><img src="/assets/heroes/riki.webp" alt="" loading="lazy" width="44" height="25"><span>Riki</span></a><b class="up">+5,5 пп</b></li><li><a class="hx-hico" href="/hero/ringmaster/"><img src="/assets/heroes/ringmaster.webp" alt="" loading="lazy" width="44" height="25"><span>Ring Master</span></a><b class="up">+5,3 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article><article class="hx-tile" id="heroBuys" data-roles='{"POSITION_1":1,"POSITION_2":4,"POSITION_3":75,"POSITION_4":1,"POSITION_5":0}' data-min-role="80"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база рейтинговых матчей до 4500 MMR (1 803 матчей текущего патча). % — доля матчей героя, где предмет купили в этой фазе (всего 81).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (1 803 матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего 81).</p>
 <div class="hp-buys-pane on" data-pos="all"><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/branches/" title="Iron Branch — 84% матчей (68 из 81)"><i style="width:84%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>84%</b></a></li><li><a href="/item/tango/" title="Tango — 81% матчей (66 из 81)"><i style="width:81%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>81%</b></a></li><li><a href="/item/gauntlets/" title="Gauntlets of Strength — 78% матчей (63 из 81)"><i style="width:78%"></i><img src="/assets/items/gauntlets.png" alt="" loading="lazy" width="36" height="26"><span>Gauntlets of Strength</span><b>78%</b></a></li><li><a href="/item/quelling_blade/" title="Quelling Blade — 58% матчей (47 из 81)"><i style="width:58%"></i><img src="/assets/items/quelling_blade.png" alt="" loading="lazy" width="36" height="26"><span>Quelling Blade</span><b>58%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 58% матчей (47 из 81)"><i style="width:58%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>58%</b></a></li><li><a href="/item/circlet/" title="Circlet — 36% матчей (29 из 81)"><i style="width:36%"></i><img src="/assets/items/circlet.png" alt="" loading="lazy" width="36" height="26"><span>Circlet</span><b>36%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/magic_wand/" title="Magic Wand — 72% матчей (58 из 81)"><i style="width:72%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>72%</b></a></li><li><a href="/item/bracer/" title="Bracer — 70% матчей (57 из 81)"><i style="width:70%"></i><img src="/assets/items/bracer.png" alt="" loading="lazy" width="36" height="26"><span>Bracer</span><b>70%</b></a></li><li><a href="/item/soul_ring/" title="Soul Ring — 59% матчей (48 из 81)"><i style="width:59%"></i><img src="/assets/items/soul_ring.png" alt="" loading="lazy" width="36" height="26"><span>Soul Ring</span><b>59%</b></a></li><li><a href="/item/ring_of_basilius/" title="Ring of Basilius — 47% матчей (38 из 81)"><i style="width:47%"></i><img src="/assets/items/ring_of_basilius.png" alt="" loading="lazy" width="36" height="26"><span>Ring of Basilius</span><b>47%</b></a></li><li><a href="/item/arcane_boots/" title="Arcane Boots — 38% матчей (31 из 81)"><i style="width:38%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>38%</b></a></li><li><a href="/item/tango/" title="Tango — 30% матчей (24 из 81)"><i style="width:30%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>30%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/kaya/" title="Kaya — 90% матчей (73 из 81)"><i style="width:90%"></i><img src="/assets/items/kaya.png" alt="" loading="lazy" width="36" height="26"><span>Kaya</span><b>90%</b></a></li><li><a href="/item/sange/" title="Sange — 58% матчей (47 из 81)"><i style="width:58%"></i><img src="/assets/items/sange.png" alt="" loading="lazy" width="36" height="26"><span>Sange</span><b>58%</b></a></li><li><a href="/item/blink/" title="Blink Dagger — 56% матчей (45 из 81)"><i style="width:56%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>56%</b></a></li><li><a href="/item/kaya_and_sange/" title="Kaya and Sange — 56% матчей (45 из 81)"><i style="width:56%"></i><img src="/assets/items/kaya_and_sange.png" alt="" loading="lazy" width="36" height="26"><span>Kaya and Sange</span><b>56%</b></a></li><li><a href="/item/clarity/" title="Clarity — 17% матчей (14 из 81)"><i style="width:17%"></i><img src="/assets/items/clarity.png" alt="" loading="lazy" width="36" height="26"><span>Clarity</span><b>17%</b></a></li><li><a href="/item/arcane_boots/" title="Arcane Boots — 11% матчей (9 из 81)"><i style="width:11%"></i><img src="/assets/items/arcane_boots.png" alt="" loading="lazy" width="36" height="26"><span>Arcane Boots</span><b>11%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/shivas_guard/" title="Shiva&#39;s Guard — 36% матчей (29 из 81)"><i style="width:36%"></i><img src="/assets/items/shivas_guard.png" alt="" loading="lazy" width="36" height="26"><span>Shiva&#39;s Guard</span><b>36%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 33% матчей (27 из 81)"><i style="width:33%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>33%</b></a></li><li><a href="/item/black_king_bar/" title="Black King Bar — 32% матчей (26 из 81)"><i style="width:32%"></i><img src="/assets/items/black_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Black King Bar</span><b>32%</b></a></li><li><a href="/item/sange/" title="Sange — 23% матчей (19 из 81)"><i style="width:23%"></i><img src="/assets/items/sange.png" alt="" loading="lazy" width="36" height="26"><span>Sange</span><b>23%</b></a></li><li><a href="/item/kaya_and_sange/" title="Kaya and Sange — 23% матчей (19 из 81)"><i style="width:23%"></i><img src="/assets/items/kaya_and_sange.png" alt="" loading="lazy" width="36" height="26"><span>Kaya and Sange</span><b>23%</b></a></li><li><a href="/item/lotus_orb/" title="Lotus Orb — 14% матчей (11 из 81)"><i style="width:14%"></i><img src="/assets/items/lotus_orb.png" alt="" loading="lazy" width="36" height="26"><span>Lotus Orb</span><b>14%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/ultimate_scepter_2/" title="Aghanim&#39;s Blessing — 14% матчей (11 из 81)"><i style="width:14%"></i><img src="/assets/items/ultimate_scepter_2.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Blessing</span><b>14%</b></a></li><li><a href="/item/mekansm/" title="Mekansm — 7% матчей (6 из 81)"><i style="width:7%"></i><img src="/assets/items/mekansm.png" alt="" loading="lazy" width="36" height="26"><span>Mekansm</span><b>7%</b></a></li><li><a href="/item/headdress/" title="Headdress — 7% матчей (6 из 81)"><i style="width:7%"></i><img src="/assets/items/headdress.png" alt="" loading="lazy" width="36" height="26"><span>Headdress</span><b>7%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 7% матчей (6 из 81)"><i style="width:7%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>7%</b></a></li><li><a href="/item/guardian_greaves/" title="Guardian Greaves — 7% матчей (6 из 81)"><i style="width:7%"></i><img src="/assets/items/guardian_greaves.png" alt="" loading="lazy" width="36" height="26"><span>Guardian Greaves</span><b>7%</b></a></li><li><a href="/item/black_king_bar/" title="Black King Bar — 6% матчей (5 из 81)"><i style="width:6%"></i><img src="/assets/items/black_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Black King Bar</span><b>6%</b></a></li></ul></div></div></div></article></section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>
@@ -167,21 +171,21 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 3 057 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 3 057 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+75%% Timber Chain Range/Projectile Speed</b>
+          <b>+75% к дальности и скорости у Timber Chain</b>
           <span>Берут 72,9% · Побед 65,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>+75 Whirling Death Tree Bonus Damage</b>
+          <b>+75 к доп. урону за дерево у Whirling Death</b>
           <span>Берут 27,1% · Побед 63,7%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+6% Chakram Slow</b>
+          <b>+6% к замедлению от Chakram</b>
           <span>Берут 75,4% · Побед 57,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-win">
-          <b>Exposure Therapy Heals for 12 HP Per Tree Destroyed</b>
+          <b>Exposure Therapy исцеляет на 12 здоровья за дерево</b>
           <span>Берут 24,6% · Побед 58,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
@@ -189,15 +193,15 @@
           <span>Берут 14,0% · Побед 49,9%</span>
           
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+2% Whirling Death Stat Loss</b>
+          <b>+2% к снижению атрибута от Whirling Death</b>
           <span>Берут 86,0% · Побед 50,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+1.5 Mana Regen</b>
+          <b>+1,5 маны в секунду</b>
           <span>Берут 85,6% · Побед 47,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+0.25 Reactive Armor Regeneration Per Stack</b>
+          <b>+0,25 к восст. здоровья за эффект Reactive Armor</b>
           <span>Берут 14,4% · Побед 42,6%</span>
           
         </div></div></div>
@@ -280,21 +284,21 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 2 090 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 2 090 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+75%% Timber Chain Range/Projectile Speed</b>
+          <b>+75% к дальности и скорости у Timber Chain</b>
           <span>Берут 62,2% · Побед 60,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-win">
-          <b>+75 Whirling Death Tree Bonus Damage</b>
+          <b>+75 к доп. урону за дерево у Whirling Death</b>
           <span>Берут 37,8% · Побед 67,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+6% Chakram Slow</b>
+          <b>+6% к замедлению от Chakram</b>
           <span>Берут 79,5% · Побед 56,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell">
-          <b>Exposure Therapy Heals for 12 HP Per Tree Destroyed</b>
+          <b>Exposure Therapy исцеляет на 12 здоровья за дерево</b>
           <span>Берут 20,5% · Побед 52,9%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
@@ -302,15 +306,15 @@
           <span>Берут 9,7% · Побед 55,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+2% Whirling Death Stat Loss</b>
+          <b>+2% к снижению атрибута от Whirling Death</b>
           <span>Берут 90,3% · Побед 48,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+1.5 Mana Regen</b>
+          <b>+1,5 маны в секунду</b>
           <span>Берут 85,2% · Побед 47,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+0.25 Reactive Armor Regeneration Per Stack</b>
+          <b>+0,25 к восст. здоровья за эффект Reactive Armor</b>
           <span>Берут 14,8% · Побед 45,5%</span>
           
         </div></div></div>
@@ -400,23 +404,23 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Whirling Death</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">чистый урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Герой вращает смертельно острые лезвия, нанося врагам вокруг урон, разрушая деревья и ненадолго снижая часть основного атрибута жертв. Способность наносит дополнительный урон за каждое срубаемое дерево.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Timber Chain</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span class="dmg">чистый урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span></div>
           <p class="hp-ab-desc">Герой выпускает цепь, которая притягивает его к первому дереву на своём пути. Любой враг, задетый героем, получит урон.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Reactive Armor</h3>
-          <div class="hp-ab-tags"><span>Пассивная</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Пассивная</span></div>
           <p class="hp-ab-desc">Каждый раз, когда кто-то атакует этого героя, он получает эффект, увеличивающий его броню и восстановление здоровья. Атаки героев дают по 4 эффекта.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Flamethrower</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span>Скрытая</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span><span>Скрытая</span></div>
           <p class="hp-ab-desc">Герой некоторое время выпускает перед собой пламя. Задетые враги загораются, отчего получают периодический урон и медленнее передвигаются. Наносит постройкам меньше урона.</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Chakram</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span><span class="dmg">чистый урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span></div>
           <p class="hp-ab-desc">Запускает в указанное место пилу, которая вращается, наносит урон врагам и замедляет их передвижение. Замедление усиливается за каждые 5% отсутствующего у жертвы здоровья. Пила наносит чистый урон и срезает все деревья на своём пути. Пока…</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Return Chakram</h3>
@@ -436,7 +440,16 @@
     </div>
     <a class="btn red" href="/hero/shredder/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Timbersaw">
+    <a class="hp-tool" href="/draft/#draft=98__" data-goal="hero_to_draft"><b>Драфт с Timbersaw</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -469,6 +482,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

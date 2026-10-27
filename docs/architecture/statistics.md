@@ -1,5 +1,15 @@
 # Карта статистики и потоков данных DotaMate
 
+## Позиции 1–5 и сводка главной (26.10.2026, локальная реализация)
+
+`tools/stats-cohort.js` отбирает Steam Ranked All Pick: lobby=7, mode=22, длительность от 900 секунд, десять известных разных героев, определённый исход и начало матча не раньше границы патча Valve. Повторы match ID и причины исключения учитываются отдельно. Это более узкий срез, чем существующий `stats.json.base`; его нельзя смешивать со старыми локальными OpenDota/Stratz JSON.
+
+`tools/build-stats.js --source steam` дополнительно пишет `stats.json.rankedSummary` с целыми счётчиками матчей, побед Radiant, пиков, побед героев и банов. `tools/collect-steam-matches.js` добавляет к сырой строке поле `[19]=banFieldPresent`; старые строки без него имеют неизвестное покрытие банов, даже если `[8]` содержит пустой массив. Повторы банов в матче устраняются, пересечение пика и бана отвергается. `tools/build-home-meta.js` проверяет структурное происхождение и границу патча, атомарно пишет прежние `carry/picked/banned` и новый `summary` в `data/home-meta.json`. `summary` содержит `{patch,releasedAt,asOf,patchDays,matches,from,to,radiantWins,radiantWr,banCoverage,contested}`; contested имеет `{id,picks,bans,total}` и остаётся null при неполной записи банов. Старое home-meta с неподтверждённым источником на главной не показывается. Дата свежести — `summary.to`, а не время сборки; после 36 часов показывается предупреждение. При ошибке сборки прежний JSON остаётся на месте, пустой корректный срез получает `status=insufficient`.
+
+`tools/replay-cohort.js` читает локальный архив Valve без сетевых запросов и использует чистую разметку `archive-positions.js`; про-матчи, неверный патч, неполные координаты/экономика и неранговые матчи исключаются. `tools/build-role-meta.js` атомарно пишет `data/role-meta.json` с `schemaVersion=1`, `status`, структурным `meta` и `positions[1..5]`. Ручной аудит хранится приватно в `<archive>/positions-audit.json`: от 100 команд, разные дни и составы, по 50 размеченных игроков каждой роли, матрица ошибок с точностью от 85% по каждой роли; покрытие разметкой опубликованного реплейного среза от 90%. Без этого файл содержит `status=insufficient` и не публикует рейтинговые строки. 30–99 игр показываются как малая выборка, от 100 — нижняя граница 95% интервала Уилсона ×100; S/A/B распределяются внутри позиции при пяти и более допустимых героях. Доля выбора делится на число размеченных игроков этой позиции. `js/stats.js` загружает отдельный файл по вкладке «Позиции» с состояниями загрузки/повтора/нехватки данных. Прежние `stats.posSteam`, `/me` и значки героев сохраняют старый контракт.
+
+Формат приватного аудита: `source="valve-replay"`, `methodVersion=1`, `teams`, список как минимум 50 уникальных `matchIds`, `days` (минимум два дня), `lineups` (минимум два состава), `ambiguous`, `roles[1..5]={total,correct,confusion}`. Для каждой роли сумма значений `confusion` равна `total`, а диагональная ячейка `confusion[role]` равна `correct`. Само наличие файла не подтверждает качество ручной проверки; перед публикацией нужна проверка исходных пометок.
+
 ## Развилки внутриигровых гайдов (22.10.2026, локально, без выкладки)
 
 `tools/build-ingame-guides.js` добавляет после основной сборки и расходников
@@ -178,6 +188,7 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
     `hero-main-roles.json`, снимок `stats-history-steam/ДЕНЬ.json`**.
 11. Если контрпики ок: страницы героев, гайды героев, внутриигровые гайды (`tools/build-ingame-guides.js --publish`, сбой = пропуск), статьи (`deploy/hero/`, `deploy/guide/`).
 12. Проверка отпечатка кода (`code-fingerprint.js`) → `sync-deploy.js` → `deploy-hostiman.js`.
+   Из отпечатка исключён только генерируемый ежедневной сборкой js/games/data/tactics.js; uild-pages.js и sync-deploy.js по-прежнему копируют его в deploy/ для публикации.
 
 Сбои сборщиков (шаги 1–6) не останавливают выкладку: остаются вчерашние файлы. В журналах 05–09.10 каждый день:
 «пропуски: сбор META, роли героев, роли по рангам, билды героев» (Stratz 429 / «не отвечает» /
@@ -406,3 +417,48 @@ deploy/api/index.php (/api/*, PHP), deploy/api/pro.php (/pro/)
 ## Замечание 17.10.2026: аномалии в связках и коротких матчах
 
 В `stats.json` (Steam, все ранги) встречаются экстремальные значения: `antiSynergy` Enchantress + Shadow Demon — 14% побед в 1 498 матчах вместе, `durSwing` Shadow Demon — 16,5% в матчах до 25 минут. Причина не выяснена (гипотезы: «руинерские» связки, боты, ошибка разбора). До проверки статьи не используют `antiSynergy` и корзину `lt25`; /guide/draft-fundamentals/ сравнивает 25–35 и 45+ мин.
+# Patch snapshots (D2PT stage C)
+
+`tools/fetch-patch-notes.js` retains validated Valve release timestamps in
+`data/patch-catalog.json` before replacing the current patch notes. The catalog
+is a boundary reference, not match statistics. `tools/build-patch-snapshots.js`
+reads Steam ranked records by match start time in explicit `[patchFrom, patchTo)`
+windows, with lobby 7, mode 22, duration at least 900 seconds, valid outcome and
+ten distinct known heroes. It writes integer match, side and hero win counters
+per UTC start day to `--archive-dir/patch-stats/<version>.json` (or `--out-dir`).
+This directory must remain private and must not be synchronized to public data.
+Closed snapshots are rebuilt once at rollover, then remain immutable. Open
+snapshots can be refreshed. Missing input or a changed input inventory fails
+without replacing the last valid file. The `builtAt` field describes build time;
+`meta.from` and `meta.to` describe the observed match range. No patch deltas are
+published by this stage.
+# Ranked pair search (D2PT stage D)
+
+`tools/build-matchup-search.js` streams the ranked Steam cohort into separate
+`data/matchup-search.json` with full `with` and `vs` pair arrays. The ascending
+`a,b` orientation fixes `vs.w` as wins by `a`; reverse lookup uses `n-w`.
+Counts remain raw integers and observed/expected/delta appear at 300 matches.
+Exclusions, patch boundary and actual observed dates live in `meta`. The stats
+pairs tab requests the file lazily for its new selector. Existing pair tables
+and matrix consumers are unchanged.
+
+`side-stats.json` uses ranked Steam records and the buckets [15,25), [25,35),
+[35,45), and 45+ minutes. `duration[].radiantWins` is a match count; each hero
+side has its own `n,w,wr`. `delta` is Radiant hero WR minus Dire hero WR in
+percentage points, hidden below 100 appearances on either side. This stage
+does not infer lanes from final match data.
+The stats matches tab requests it lazily. It displays counts when a winrate
+threshold is unmet and preserves the older duration section separately.
+
+## D2PT replay roles and tier pages (stages H–K)
+
+`tools/replay-cohort.js` requires complete 1:00–8:00 coordinates and 10-minute economy before using the private `archive-positions.js` label rule. `tools/build-role-meta.js` reads ranked Valve replay records and a separate private manual audit (`positions-audit.json`); its public `role-meta.json` remains `insufficient` until each role meets the audit and cohort coverage gates. `meta.to` is the observed match date, distinct from `builtAt`. The stats position view and `tools/build-tier-pages.js` consume that same aggregate. The tier builder writes a hub, five SSR routes and `tier-urls.json`; only pages with eligible rows enter that sitemap manifest. Build these routes from current server data before any publication; local fixtures are not evidence of real coverage.
+
+## Hero Grid export (D2PT stage L)
+
+`tools/build-hero-grid.js` reads only gated `role-meta.json`, selects heroes with at least 100 role appearances in existing order, and writes `hero_grid_config.json` atomically. It emits version 3 with five position categories and integer hero IDs. Invalid or insufficient input fails without replacing a previous valid file. The tier hub keeps the download control disabled until a real Dota client import/layout check is recorded; the fixture test checks structure only. Manual installation instructions on the hub include backup, closed client, config merge and Steam Cloud review. No game files are written by the builder.
+## Replay purchase timings (new, gated)
+
+`item-timings.json` is a separate Valve replay aggregate. It records first purchase per verified player and item, seconds from start, quartiles and histogram bins `[0,300,...,2700]`; negative seconds are the pregame bin. It does not replace historical `item-stats.json`. The item page renders timing only with at least 30 verified matches and 30 item buyers, otherwise shows the verified match count. `item-followups.json` records the first distinct completed item and immediately following different completed item; recipes and consumables do not qualify. A source needs 100 eligible sequences and a pair needs 30 before display. `eligibleSequences` excludes censored players with no later item and same-time ties. Outputs are fixture tested only; real replay event completeness and sample sizes are unverified.
+
+The live viewer uses the maintained PHP `/api/live/online` list (60-second cache) and `/api/live/online/<sid>` match route; `sid` is a string distinct from `matchId`. It shows provider delay and separates online games from archive replays. Empty and failed online lists are labeled separately. Historical matrix and item-impact prediction overlays are disabled pending independent replacement; no new live statistical feed is added.

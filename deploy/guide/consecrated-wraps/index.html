@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Consecrated Wraps: барьер от любого урона | Гайд Dota Mate</title>
 <meta name="description" content="Как работают заряды Consecrated Wraps, сколько поглощает барьер и кому подходит предмет.">
 <link rel="canonical" href="https://dotamate.ru/guide/consecrated-wraps/">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Consecrated Wraps: барьер от любого урона | Гайд Dota Mate">
 <meta property="og:description" content="Как работают заряды Consecrated Wraps, сколько поглощает барьер и кому подходит предмет.">
@@ -15,17 +16,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Consecrated Wraps: барьер от любого урона | Гайд Dota Mate">
 <meta name="twitter:description" content="Как работают заряды Consecrated Wraps, сколько поглощает барьер и кому подходит предмет.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Consecrated Wraps: барьер от любого урона","description":"Как работают заряды Consecrated Wraps, сколько поглощает барьер и кому подходит предмет.","mainEntityOfPage":"https://dotamate.ru/guide/consecrated-wraps/","datePublished":"2026-10-02","dateModified":"2026-10-02","author":{"@type":"Organization","name":"Dota Mate"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":"Consecrated Wraps: барьер от любого урона","item":"https://dotamate.ru/guide/consecrated-wraps/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько поглощает барьер Consecrated Wraps?","acceptedAnswer":{"@type":"Answer","text":"120 урона за каждый заряд, максимум 360, в течение 5 секунд."}},{"@type":"Question","name":"Как быстро копятся заряды?","acceptedAnswer":{"@type":"Answer","text":"Один заряд каждые 4 секунды, максимум 3."}},{"@type":"Question","name":"От какого урона защищает барьер?","acceptedAnswer":{"@type":"Answer","text":"От всех типов урона."}}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+
 <!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
@@ -34,8 +36,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a class="nav-tg" href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram ↗</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -46,17 +48,23 @@
   <div class="eyebrow">ПРЕДМЕТЫ</div>
   <h1 style="margin:6px 0 20px;">Consecrated Wraps: барьер от любого урона</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">Как работают заряды Consecrated Wraps, сколько поглощает барьер и кому подходит предмет.</p>
-  <div class="detail-section" style="border-left:3px solid #d4a64a;padding:14px 18px;margin:0 0 28px;"><div class="eyebrow" style="margin-bottom:6px;">Коротко</div><p style="line-height:1.6;color:#e8ecf3;margin:0;">Consecrated Wraps стоят 2600 золота: +12% к сопротивлению магии, +5 ко всем атрибутам и +250 к здоровью. Каждые 4 секунды предмет копит заряд (максимум 3) и ускоряет владельца на 15% на 5 секунд. При уроне от игрока или Рошана все заряды превращаются в барьер на 5 секунд — 120 за заряд, максимум 360.</p></div><section class="detail-section"><h2>Что даёт предмет</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Собираются из Vitality Booster, Shawl и Crown. Пассивная Hallowed копит заряды, пока владелец не получает урон от подконтрольных игрокам существ или Рошана. Первое же такое попадание тратит все заряды и даёт барьер от любого типа урона на 5 секунд.</p></section><section class="detail-section"><h2>Детали</h2><ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><li>Заряды перестают копиться на 4 секунды после урона от игроков или Рошана.</li><li>Урон самому себе и потеря здоровья заряды не тратят.</li><li>Ускорение 15% не складывается с другими такими же эффектами.</li></ul></section><section class="detail-section"><h2>Кому подходит</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Героям, которых противник бьёт первыми в начале драки: полный барьер в 360 гасит первую волну урона любого типа. По данным OpenDota, Consecrated Wraps чаще всего покупают Bristleback, Tidehunter, Death Prophet, Meepo, Necrophos и Primal Beast.</p></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Сколько поглощает барьер Consecrated Wraps?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">120 урона за каждый заряд, максимум 360, в течение 5 секунд.</p><h3 style="margin:18px 0 8px;">Как быстро копятся заряды?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Один заряд каждые 4 секунды, максимум 3.</p><h3 style="margin:18px 0 8px;">От какого урона защищает барьер?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">От всех типов урона.</p></section>
+  <section class="detail-section hx-quick"><h2 class="hq-title">Коротко</h2><p class="hq-answer">Consecrated Wraps стоят 2600 золота: +12% к сопротивлению магии, +5 ко всем атрибутам и +250 к здоровью. Каждые 4 секунды предмет копит заряд (максимум 3) и ускоряет владельца на 15% на 5 секунд. При уроне от игрока или Рошана все заряды превращаются в барьер на 5 секунд — 120 за заряд, максимум 360.</p></section><section class="detail-section"><h2>Что даёт предмет</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Собираются из Vitality Booster, Shawl и Crown. Пассивная Hallowed копит заряды, пока владелец не получает урон от подконтрольных игрокам существ или Рошана. Первое же такое попадание тратит все заряды и даёт барьер от любого типа урона на 5 секунд.</p></section><section class="detail-section"><h2>Детали</h2><ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><li>Заряды перестают копиться на 4 секунды после урона от игроков или Рошана.</li><li>Урон самому себе и потеря здоровья заряды не тратят.</li><li>Ускорение 15% не складывается с другими такими же эффектами.</li></ul></section><section class="detail-section"><h2>Кому подходит</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Героям, которых противник бьёт первыми в начале драки: полный барьер в 360 гасит первую волну урона любого типа. По данным OpenDota, Consecrated Wraps чаще всего покупают Bristleback, Tidehunter, Death Prophet, Meepo, Necrophos и Primal Beast.</p></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Сколько поглощает барьер Consecrated Wraps?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">120 урона за каждый заряд, максимум 360, в течение 5 секунд.</p><h3 style="margin:18px 0 8px;">Как быстро копятся заряды?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Один заряд каждые 4 секунды, максимум 3.</p><h3 style="margin:18px 0 8px;">От какого урона защищает барьер?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">От всех типов урона.</p></section>
   <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="/items/">Открыть раздел «Предметы» →</a>
   </div>
   <div class="detail-section" style="margin-top:34px;">
+    <h3>Предмет в цифрах</h3>
+    <div class="linked-list"><a href="/item/consecrated_wraps/"><img src="/assets/items/consecrated_wraps.png" alt="" loading="lazy">Consecrated Wraps<span>2 600 з.</span></a></div>
+    <p style="color:#9aa0ab;font-size:13px;margin:16px 0 8px;">Чаще всего покупают (OpenDota):</p>
+    <div class="linked-list"><a href="/hero/bristleback/"><img src="/assets/heroes/bristleback.webp" alt="" loading="lazy">Bristleback<span>→</span></a><a href="/hero/tidehunter/"><img src="/assets/heroes/tidehunter.webp" alt="" loading="lazy">Tidehunter<span>→</span></a><a href="/hero/death_prophet/"><img src="/assets/heroes/death_prophet.webp" alt="" loading="lazy">Death Prophet<span>→</span></a><a href="/hero/meepo/"><img src="/assets/heroes/meepo.webp" alt="" loading="lazy">Meepo<span>→</span></a><a href="/hero/necrolyte/"><img src="/assets/heroes/necrolyte.webp" alt="" loading="lazy">Necrophos<span>→</span></a><a href="/hero/primal_beast/"><img src="/assets/heroes/primal_beast.webp" alt="" loading="lazy">Primal Beast<span>→</span></a></div>
+  </div>
+  <div class="detail-section" style="margin-top:34px;">
     <h3>Другие гайды</h3>
     <div class="linked-list"><a href="/guide/neutral-items-madstone/"><span style="font-size:20px;">💎</span>Нейтральные предметы: мадстоун, артефакты и зачарования<span>→</span></a><a href="/guide/smoke-of-deceit/"><span style="font-size:20px;">🌫</span>Smoke of Deceit: как пользоваться смоком<span>→</span></a><a href="/guide/essence-distiller/"><span style="font-size:20px;">⚗</span>Essence Distiller: лечение союзника и ловушка с обзором<span>→</span></a><a href="/guide/blink-upgrades/"><span style="font-size:20px;">⚡</span>Arcane, Swift и Overwhelming Blink: какой даггер выбрать<span>→</span></a></div>
   </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

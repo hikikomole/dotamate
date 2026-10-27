@@ -88,6 +88,9 @@ async function normalize(input) {
   for (const p of purchases) if (p.slot == null) { const s = slotByHero.get(flat(p.hero)); p.slot = s == null ? -1 : s; }
   qaPurch = purchases.filter(p => p.slot < 0).length;
   const t1 = maxTime;
+  // Only a finished parser stream with every purchase assigned to a player can certify the log.
+  const purchaseLogComplete = qaPurch === 0 && Number.isFinite(t1) && t1 >= 900 &&
+    purchases.every(p => Number.isFinite(p.t) && p.t <= t1 && p.slot >= 0 && p.slot < 10 && ITEMS[p.item]);
   const players = [];
   for (let slot = 0; slot < 10; slot++) {
     const m = iv.get(slot);
@@ -118,6 +121,7 @@ async function normalize(input) {
       obs: last.obs_placed, sen: last.sen_placed, stacks: last.camps_stacked,
       x, y, dead, econ,
       items: purchases.filter(p => p.slot === slot).map(p => [p.t, p.item]),
+      purchaseLogComplete,
       inv: inventory(purchases.filter(p => p.slot === slot).map(p => [p.t, p.item])),
     });
   }

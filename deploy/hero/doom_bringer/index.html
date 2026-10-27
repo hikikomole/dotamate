@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doom — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Doom - сильный дизейблер ближнего боя. Используйте Devour и Scorched Earth для победы. Ознакомьтесь с его характеристиками, билдом и контрпиками.">
+<meta name="description" content="Билд на Doom и контрпики. Doom - сильный дизейблер ближнего боя. Используйте Devour и Scorched Earth для победы.">
 <link rel="canonical" href="https://dotamate.ru/hero/doom_bringer/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Doom — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Doom - сильный дизейблер ближнего боя. Используйте Devour и Scorched Earth для победы. Ознакомьтесь с его характеристиками, билдом и контрпиками.">
+<meta property="og:description" content="Билд на Doom и контрпики. Doom - сильный дизейблер ближнего боя. Используйте Devour и Scorched Earth для победы.">
 <meta property="og:image" content="/assets/heroes/doom_bringer.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/doom_bringer/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Doom — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Doom - сильный дизейблер ближнего боя. Используйте Devour и Scorched Earth для победы. Ознакомьтесь с его характеристиками, билдом и контрпиками.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Doom и контрпики. Doom - сильный дизейблер ближнего боя. Используйте Devour и Scorched Earth для победы.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Doom","item":"https://dotamate.ru/hero/doom_bringer/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,24 +46,26 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Doom</span></nav>
     <h1>Doom <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr str"></i>Сила · Ближний бой · Оффлейн в 91,5 % игр</p>
+    <p class="hx-sub"><i class="hx-attr str"></i><span>Сила · Ближний бой · Оффлейн в 91,5 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="69" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier c">C</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>47,1 %</b><em>место 102 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>47,1 %</b><em>место 102 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>4,9 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>16 837</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>14 из 31</b><em>Оффлейн</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>17 из 31</b><em>Оффлейн</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Лучше в долгих играх: 51,0 % после 45 мин против 32,0 % до 25 мин</li><li>Фармит быстрее своей роли: 532 золота/мин при среднем 499</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 3</span><b>92%</b><span class="hq-track" aria-hidden="true"><i style="width:92%"></i></span></li><li><span>Позиция 2</span><b>2.4%</b><span class="hq-track" aria-hidden="true"><i style="width:2.4%"></i></span></li><li><span>Позиция 4</span><b>2.3%</b><span class="hq-track" aria-hidden="true"><i style="width:2.3%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/bracer/"><img src="/assets/items/bracer.png" alt="" width="64" height="48" loading="lazy"><span>Bracer</span></a></li><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/wind_lace/"><img src="/assets/items/wind_lace.png" alt="" width="64" height="48" loading="lazy"><span>Wind Lace</span></a></li><li><a href="/item/headdress/"><img src="/assets/items/headdress.png" alt="" width="64" height="48" loading="lazy"><span>Headdress</span></a></li><li><a href="/item/soul_ring/"><img src="/assets/items/soul_ring.png" alt="" width="64" height="48" loading="lazy"><span>Soul Ring</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/faceless_void/"><img src="/assets/heroes/faceless_void.webp" alt="" width="48" height="27" loading="lazy"><span>Faceless Void</span><b class="hq-positive">+6.4 п.п.</b></a></li><li><a href="/hero/necrolyte/"><img src="/assets/heroes/necrolyte.webp" alt="" width="48" height="27" loading="lazy"><span>Necrophos</span><b class="hq-positive">+4.7 п.п.</b></a></li><li><a href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.webp" alt="" width="48" height="27" loading="lazy"><span>Ember Spirit</span><b class="hq-positive">+4.3 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" width="48" height="27" loading="lazy"><span>Terrorblade</span><b class="hq-negative">-8.4 п.п.</b></a></li><li><a href="/hero/furion/"><img src="/assets/heroes/furion.webp" alt="" width="48" height="27" loading="lazy"><span>Nature&#39;s Prophet</span><b class="hq-negative">-6.2 п.п.</b></a></li><li><a href="/hero/tusk/"><img src="/assets/heroes/tusk.webp" alt="" width="48" height="27" loading="lazy"><span>Tusk</span><b class="hq-negative">-5.3 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:11.172Z, 8588 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Doom против других: Оффлейн</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>14 из 31</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>17 из 31</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>49,3 %</td><td class="hx-mut">51,0 %</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:14.1%"></i></span><b class="dn">−1,7 пп</b></td></tr><tr><th>Золото в минуту</th><td>532</td><td class="hx-mut">499</td><td><span class="hx-dev"><i class="up" style="left:50%;width:27.6%"></i></span><b class="up">+33</b></td></tr><tr><th>Опыт в минуту</th><td>667</td><td class="hx-mut">689</td><td><span class="hx-dev"><i class="dn" style="right:50%;width:13.3%"></i></span><b class="dn">−22</b></td></tr></tbody></table>
-<p class="hx-note">71 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="337 игр"><b>49,6</b><span style="height:48.0%"></span><small>Рекрут</small></div><div title="1 192 игр"><b>46,2</b><span style="height:31.0%"></span><small>Страж</small></div><div title="2 356 игр"><b>44,1</b><span style="height:20.5%"></span><small>Рыцарь</small></div><div title="3 953 игр"><b>45,9</b><span style="height:29.5%"></span><small>Герой</small></div><div title="5 166 игр"><b>47,6</b><span style="height:38.0%"></span><small>Легенда</small></div><div title="3 833 игр"><b>49,4</b><span style="height:47.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="350 игр"><b>32,0</b><span style="height:2.0%"></span><small>до 25 мин</small></div><div title="3 799 игр"><b>39,4</b><span style="height:2.0%"></span><small>25–35 мин</small></div><div title="6 907 игр"><b>48,7</b><span style="height:43.5%"></span><small>35–45 мин</small></div><div title="5 781 игр"><b>51,0</b><span style="height:55.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:35.1%">35,1</i><i class="d" style="width:22.1%">22,1</i><i class="l" style="width:42.9%">42,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">77 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" loading="lazy" width="44" height="25"><span>Terrorblade</span></a><b class="up">+6,3 пп</b></li></ul><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/wisp/"><img src="/assets/heroes/wisp.webp" alt="" loading="lazy" width="44" height="25"><span>Io</span></a><b class="dn">−11,4 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">71 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="337 игр"><b>49,6</b><span style="height:48.0%"></span><small>Рекрут</small></div><div title="1 192 игр"><b>46,2</b><span style="height:31.0%"></span><small>Страж</small></div><div title="2 356 игр"><b>44,1</b><span style="height:20.5%"></span><small>Рыцарь</small></div><div title="3 953 игр"><b>45,9</b><span style="height:29.5%"></span><small>Герой</small></div><div title="5 166 игр"><b>47,6</b><span style="height:38.0%"></span><small>Легенда</small></div><div title="3 833 игр"><b>49,4</b><span style="height:47.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="350 игр"><b>32,0</b><span style="height:2.0%"></span><small>до 25 мин</small></div><div title="3 799 игр"><b>39,4</b><span style="height:2.0%"></span><small>25–35 мин</small></div><div title="6 907 игр"><b>48,7</b><span style="height:43.5%"></span><small>35–45 мин</small></div><div title="5 781 игр"><b>51,0</b><span style="height:55.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:35.1%">35,1</i><i class="d" style="width:22.1%">22,1</i><i class="l" style="width:42.9%">42,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">77 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" loading="lazy" width="44" height="25"><span>Terrorblade</span></a><b class="up">+6,3 пп</b></li></ul><h3>Плохие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/wisp/"><img src="/assets/heroes/wisp.webp" alt="" loading="lazy" width="44" height="25"><span>Io</span></a><b class="dn">−11,4 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Doom</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/terrorblade/"><img src="/assets/heroes/terrorblade.webp" alt="" loading="lazy" width="44" height="25"><span>Terrorblade</span></a><b class="dn">−8,4 пп</b></li><li><a class="hx-hico" href="/hero/furion/"><img src="/assets/heroes/furion.webp" alt="" loading="lazy" width="44" height="25"><span>Nature&#39;s Prophet</span></a><b class="dn">−6,2 пп</b></li><li><a class="hx-hico" href="/hero/tusk/"><img src="/assets/heroes/tusk.webp" alt="" loading="lazy" width="44" height="25"><span>Tusk</span></a><b class="dn">−5,3 пп</b></li><li><a class="hx-hico" href="/hero/grimstroke/"><img src="/assets/heroes/grimstroke.webp" alt="" loading="lazy" width="44" height="25"><span>Grimstroke</span></a><b class="dn">−5,2 пп</b></li><li><a class="hx-hico" href="/hero/keeper_of_the_light/"><img src="/assets/heroes/keeper_of_the_light.webp" alt="" loading="lazy" width="44" height="25"><span>Keeper of the Light</span></a><b class="dn">−4,7 пп</b></li></ul></div>
 <div><h3>Кого контрит Doom</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/faceless_void/"><img src="/assets/heroes/faceless_void.webp" alt="" loading="lazy" width="44" height="25"><span>Faceless Void</span></a><b class="up">+6,4 пп</b></li><li><a class="hx-hico" href="/hero/necrolyte/"><img src="/assets/heroes/necrolyte.webp" alt="" loading="lazy" width="44" height="25"><span>Necrophos</span></a><b class="up">+4,7 пп</b></li><li><a class="hx-hico" href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Ember Spirit</span></a><b class="up">+4,3 пп</b></li><li><a class="hx-hico" href="/hero/pugna/"><img src="/assets/heroes/pugna.webp" alt="" loading="lazy" width="44" height="25"><span>Pugna</span></a><b class="up">+3,7 пп</b></li><li><a class="hx-hico" href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" loading="lazy" width="44" height="25"><span>Sven</span></a><b class="up">+3,6 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article></section>
@@ -161,37 +165,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 5 188 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 5 188 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>Permanent Scorched Earth</b>
+          <b>Постоянное действие Scorched Earth</b>
           <span>Берут 12,0% · Побед 72,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>Doom applies Mute</b>
+          <b>Doom накладывает заглушение</b>
           <span>Берут 88,0% · Побед 65,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+66 Damage</b>
+          <b>+66 к урону</b>
           <span>Берут 58,1% · Побед 61,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell">
-          <b>-10s Doom Cooldown</b>
+          <b>–10 сек. перезарядки Doom</b>
           <span>Берут 41,9% · Побед 59,1%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+1.5% Infernal Blade Max HP As Damage</b>
+          <b>+1,5% к урону от макс. здоровья у Infernal Blade</b>
           <span>Берут 74,9% · Побед 54,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+7% Scorched Earth Movement Speed</b>
+          <b>+7% к доп. скорости от Scorched Earth</b>
           <span>Берут 25,1% · Побед 51,9%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+0.2s Infernal Blade Stun Duration</b>
+          <b>+0,2 сек. оглушения от Infernal Blade</b>
           <span>Берут 35,0% · Побед 50,6%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+10% Magic Resistance</b>
+          <b>+10% к сопротивлению магии</b>
           <span>Берут 65,0% · Побед 49,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -252,11 +256,11 @@
           <p class="hp-ab-desc">Пожирает вражеского или нейтрального крипа, перенимая его способности. Если включено альтернативное применение, способности не перенимаются. Длительность действия равна времени перезарядки способности, а по её окончании герой получит…</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Scorched Earth</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Устилает землю вокруг героя пламенем, которое увеличивает его скорость передвижения и восстановление здоровье, а также наносит урон противникам.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Infernal Blade</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span><span>Автокаст</span></div>
           <p class="hp-ab-desc">Пламенная атака поджигает жертву и оглушает её на 0.66 сек. Цель горит 4 сек. и каждую секунду получает как базовый урон, так и урон, зависящий от её максимального запаса здоровья.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Devoured Ability</h3>
@@ -268,7 +272,7 @@
           <p class="hp-ab-desc">В этой ячейке будет находиться способность, полученная с помощью Devour.</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Doom</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">чистый урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Обрушивает на врага злой рок: в момент применения он развеивает положительные эффекты, а затем некоторое время наносит периодический урон, запрещает применять способности и не позволяет как-либо восстанавливать здоровье. ТИП РАЗВЕИВАНИЯ:…</p>
         </div>
       </div>
@@ -284,7 +288,16 @@
     </div>
     <a class="btn red" href="/hero/doom_bringer/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Doom">
+    <a class="hp-tool" href="/draft/#draft=69__" data-goal="hero_to_draft"><b>Драфт с Doom</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -317,6 +330,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

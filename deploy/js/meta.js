@@ -13,8 +13,11 @@
     2: { ru: 'Мид', icon: '/assets/roles/mid.png' },
     3: { ru: 'Оффлейн', icon: '/assets/roles/offlane.png' },
     4: { ru: 'Поддержка', icon: '/assets/roles/support.png' },
-    5: { ru: 'Полная поддержка', icon: '/assets/roles/hardsupport.png' }
+    5: { ru: 'Полная поддержка', icon: '/assets/roles/hardsupport.png' },
+    // META на Steam (с U5): модель позиций различает 1/2/3 и «саппорт» (4 и 5 вместе)
+    sup: { ru: 'Поддержка 4–5', icon: '/assets/roles/support.png' }
   };
+  function posOrder(p) { return p === 'sup' ? 4 : (p || 9); }
   var PAGE = 24;
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -83,6 +86,8 @@
         '<a class="mx-link" href="/meta/match/?id=' + b.match + '">Матч →</a>' +
       '</div></article>';
   }
+  // Reused by the local build to render the first cards with identical escaping.
+  if (typeof module !== 'undefined' && module.exports) module.exports.card = card;
   function table(d, rows) {
     return '<div class="table-wrap"><table class="mx-table"><thead><tr><th>Герой</th><th>Роль</th><th>Итог</th><th>Необычность</th><th>Предметы</th><th>K / D / A</th><th>Ранг</th><th></th></tr></thead><tbody>' +
       rows.map(function (b) {
@@ -96,6 +101,7 @@
   // ---------- /meta/
   function initMeta(root) {
     var st = { pos: 0, hero: '', wins: false, view: 'cards', shown: PAGE };
+    var loadMore = null;
     var stamp = document.getElementById('mxStamp');
     getJson('/data/meta-escape.json').then(function (d) {
       var span = date(d.window.from) === date(d.window.to) ? 'матчи за ' + date(d.window.from) : 'матчи с ' + date(d.window.from) + ' по ' + date(d.window.to);
@@ -120,7 +126,7 @@
 
     function fill(id, d, rows, empty) {
       var el = document.getElementById(id);
-      el.innerHTML = rows.length ? rows.map(function (b) { return card(d, b); }).join('') : '<p class="mx-note">' + empty + '</p>';
+      el.innerHTML = rows.length ? rows.slice(0, 5).map(function (b) { return card(d, b); }).join('') : '<p class="mx-note">' + empty + '</p>';
     }
     function heroList(d) {
       var ids = {}; d.list.forEach(function (b) { ids[b.hero] = 1; });
@@ -131,20 +137,24 @@
       var more = document.getElementById('mxMore');
       document.getElementById('mxHero').addEventListener('input', function (e) { st.hero = e.target.value.trim().toLowerCase(); st.shown = PAGE; renderList(d); });
       document.getElementById('mxWins').addEventListener('change', function (e) { st.wins = e.target.checked; st.shown = PAGE; renderList(d); });
-      chips('mxRoles', 'data-pos', function (v) { st.pos = +v; });
+      // позиции Steam: «Поддержка» = 4 и 5 вместе, кнопка 5 не нужна
+      var sup = !!(d.niche && d.niche.sup);
+      if (sup) { var r4 = document.querySelector('#mxRoles [data-pos="4"]'), r5 = document.querySelector('#mxRoles [data-pos="5"]'); if (r4) r4.textContent = POS.sup.ru; if (r5) r5.hidden = true; }
+      chips('mxRoles', 'data-pos', function (v) { st.pos = sup && v === '4' ? 'sup' : +v; });
       var toTop = function () { document.getElementById('mxScroll').scrollTop = 0; };
       root.querySelector('.mx-filters').addEventListener('change', toTop);
       root.querySelector('.mx-filters').addEventListener('click', function (e) { if (e.target.closest('.chip')) toTop(); });
       chips(null, 'data-view', function (v) { st.view = v; });
-      // Подгрузка при прокрутке списка: следующая порция, когда низ контейнера виден.
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (en) {
-          if (en[0].isIntersecting && !more.hidden) { st.shown += PAGE; renderList(d); }
-        }, { root: document.getElementById('mxScroll'), rootMargin: '200px' }).observe(more);
-      } else {
-        more.textContent = 'Показать ещё'; more.classList.add('mx-more-btn');
-        more.addEventListener('click', function () { st.shown += PAGE; renderList(d); });
-      }
+      // Подгрузка при прокрутке списка: следующая порция, когда до низа контейнера
+      // меньше 300 px. Проверка по прокрутке, а не IntersectionObserver: тот срабатывает
+      // только при смене видимости, и если метка «Загружаем ещё…» оставалась видна после
+      // подгрузки (таблица), новые порции больше не приходили.
+      var box = document.getElementById('mxScroll');
+      loadMore = function () {
+        if (more.hidden || box.scrollTop + box.clientHeight < box.scrollHeight - 300) return;
+        st.shown += PAGE; renderList(d);
+      };
+      box.addEventListener('scroll', loadMore, { passive: true });
       function chips(id, attr, set) {
         var box = id ? document.getElementById(id) : root.querySelector('.mx-view');
         box.addEventListener('click', function (e) {
@@ -166,11 +176,13 @@
       el.innerHTML = !rows.length ? '<p class="mx-note">По этим фильтрам сборок нет.</p>'
         : st.view === 'table' ? table(d, part) : '<div class="mx-grid">' + part.map(function (b) { return card(d, b); }).join('') + '</div>';
       document.getElementById('mxMore').hidden = rows.length <= st.shown;
+      // порция не заполнила контейнер — сразу следующая
+      if (loadMore) setTimeout(loadMore, 0);
     }
     function niche(d) {
       document.getElementById('mxNicheNote').textContent = 'Герой считается нишевым на позиции, если там сыграно не больше ' + num(d.rules.nicheShare) +
         '% его матчей, но не меньше ' + d.rules.nicheMin + ' матчей, и он выигрывает больше половины. Порядок — по нижней границе доверительного интервала Уилсона (95%), чтобы три удачные игры не обгоняли тридцать.';
-      document.getElementById('mxNiche').innerHTML = [1, 2, 3, 4, 5].map(function (pos) {
+      document.getElementById('mxNiche').innerHTML = (d.niche.sup ? [1, 2, 3, 'sup'] : [1, 2, 3, 4, 5]).map(function (pos) {
         var rows = d.niche[pos] || [];
         return '<div class="mx-ncol"><div class="mx-ncol-head">' + roleTag(pos) + '</div>' +
           (rows.length ? rows.map(function (r) {
@@ -186,7 +198,7 @@
       document.getElementById('mxMethod').innerHTML =
         '<p>Для каждого предмета из финального инвентаря считаем долю сборок того же героя на той же позиции, где этот предмет тоже есть. Оценка — сумма <code>−ln(доля)</code> по всем предметам сборки: чем реже предмет, тем больше он добавляет. Предмет из половины сборок даёт 0,69, из одной сотой — 4,6.</p>' +
         '<p>Сама сборка из подсчёта долей исключается, расходники не учитываются, сборки меньше чем из ' + d.rules.minItems + ' предметов и матчи короче 20 минут не оцениваются. Если на позиции у героя меньше ' + d.rules.minBase + ' сборок, база берётся по всем его позициям — такая оценка помечена звёздочкой. Процент под предметом — в скольких других сборках героя он встречается.</p>' +
-        '<p>Формула своя: у Dota2ProTracker формула Off-Meta Score не опубликована, поэтому числа между сайтами не сравниваются. Источник матчей — ' + esc(d.source) + '. Позиция игрока — определение Stratz.</p>';
+        '<p>Формула своя: у Dota2ProTracker формула Off-Meta Score не опубликована, поэтому числа между сайтами не сравниваются. Источник матчей — ' + esc(d.source) + '. ' + (d.positions ? 'Позиция игрока: ' + esc(d.positions) + '.' : 'Позиция игрока — определение Stratz.') + '</p>';
     }
   }
 
@@ -237,7 +249,7 @@
   }
   function team(name, ps, m, side) {
     var won = (side === 'rad') === !!m.rw;
-    ps = ps.slice().sort(function (a, b) { return (a.pos || 9) - (b.pos || 9); });
+    ps = ps.slice().sort(function (a, b) { return posOrder(a.pos) - posOrder(b.pos); });
     return '<div class="mx-block"><div class="mx-block-head"><h2 class="' + side + '">' + name + '</h2><span>' + (won ? 'Победитель' : 'Поражение') + '</span></div>' +
       '<div class="table-wrap"><table class="mx-table mm-table"><thead><tr><th>Игрок</th><th>K / D / A</th><th>GPM</th><th>XPM</th><th>Добито</th><th>Урон</th><th>Капитал</th><th>Предметы</th></tr></thead><tbody>' +
       ps.map(function (p) {
@@ -354,6 +366,7 @@
     });
   }
 
+  if (typeof document === 'undefined') return;
   var meta = document.getElementById('meta'), match = document.getElementById('metaMatch');
   if (meta) initMeta(meta);
   if (match) initMatch(document.getElementById('mmRoot'));

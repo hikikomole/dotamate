@@ -379,7 +379,7 @@
     const dd = d => d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
     return section('Динамика', `Последние ${n} ${plural(n, 'матч', 'матча', 'матчей')}, старые слева. Линия — винрейт за последние ${ROLL} игр в каждой точке (в начале, пока игр меньше ${ROLL}, — за все сыгранные).`,
       `<div class="me-charts"><figure class="me-chart"><figcaption><span>Винрейт, скользящий за ${ROLL}</span><b>${f1(last)}&nbsp;%</b><em class="${last >= first ? 'me-up' : 'me-down'}">${last >= first ? '+' : '−'}${f1(Math.abs(last - first))} п.п. с первых ${ROLL} игр</em></figcaption>` +
-      `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="me-svg" aria-hidden="true"><defs><linearGradient id="meGw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2b660" stop-opacity=".32"/><stop offset="1" stop-color="#e2b660" stop-opacity="0"/></linearGradient></defs>` +
+      `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="me-svg" aria-hidden="true"><defs><linearGradient id="meGw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#72edac" stop-opacity=".32"/><stop offset="1" stop-color="#72edac" stop-opacity="0"/></linearGradient></defs>` +
       `<line x1="${P}" x2="${W - P}" y1="${yW(50)}" y2="${yW(50)}" class="me-svg-50"/><path d="${area(roll, yW)}" fill="url(#meGw)"/><path d="${path(roll, yW)}" class="me-svg-line"/></svg>` +
       `<div class="me-chart-ax"><span>${dd(d0)}</span><span>50&nbsp;%</span><span>${dd(d1)}</span></div></figure>` +
       `<figure class="me-chart"><figcaption><span>GPM по матчам</span><b>${nf.format(Math.round(gRoll[gRoll.length - 1][1]))}</b><em>среднее за ${ROLL} · точки: <i class="me-k-w"></i>победа <i class="me-k-l"></i>поражение</em></figcaption>` +

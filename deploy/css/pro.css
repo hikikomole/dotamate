@@ -1,5 +1,5 @@
 /* Раздел /pro/ — результаты про-матчей (страницы рисует deploy/api/pro.php). */
-.pr{--pr-line:var(--comp-border,#23272f);--pr-panel:var(--comp-surface,#101216);--pr-muted:var(--comp-muted,#98a1ae);--pr-gold:var(--d2-gold,#d9c187);--pr-rad:#7fc36b;--pr-dire:#e0705a}
+.pr{--pr-line:var(--comp-border,var(--hud-line));--pr-panel:var(--comp-surface,var(--hud-panel));--pr-muted:var(--comp-muted,var(--hud-muted));--pr-gold:var(--d2-gold,var(--hud-accent));--pr-rad:#7fc36b;--pr-dire:#e0705a}
 .pr .pr-title-sm{font-size:clamp(28px,4vw,42px)}
 .pr-lead{margin:0 0 10px;font-size:15px;line-height:1.6;color:var(--pr-muted)}
 .pr-lead a,.pr-stamp a,.pr-src a,.pr-note a{color:var(--pr-gold)}
@@ -11,7 +11,7 @@
 .pr-note{font-size:12.5px;color:var(--pr-muted);margin:8px 0 0}
 .pr-src{margin:28px 0 0;font-size:13px;color:var(--pr-muted)}
 .pr-btn{display:inline-flex;align-items:center;margin-top:12px;padding:9px 16px;border:1px solid var(--pr-gold);border-radius:10px;color:var(--pr-gold);text-decoration:none;font-weight:600;font-size:14px}
-.pr-btn:hover{background:rgba(217,193,135,.1)}
+.pr-btn:hover{background:rgb(114 237 172 / .1)}
 .pr-lgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
 .pr-lg{display:block;padding:12px 14px;border:1px solid var(--pr-line);border-radius:12px;background:var(--pr-panel);color:inherit;text-decoration:none}
 .pr-lg:hover{border-color:var(--pr-gold)}
@@ -24,18 +24,18 @@
 .pr-teams{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center}
 .pr-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--pr-muted)}
 .pr-teams .pr-t:first-child{text-align:right}
-.pr-t.win{color:var(--comp-text,#eef1f5);font-weight:700}
+.pr-t.win{color:var(--comp-text,var(--hud-text));font-weight:700}
 .pr-score{font-variant-numeric:tabular-nums;font-weight:700;color:var(--pr-gold)}
 .pr-drafts{display:flex;align-items:center;gap:6px}.pr-drafts>span{display:flex;gap:2px}.pr-drafts i{font-style:normal;font-size:11px;color:var(--pr-muted)}
 .pr-meta{font-size:12px;color:var(--pr-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
 .pr-mini img{display:block;width:32px;height:18px;border-radius:3px;object-fit:cover}
 .pr-hi img{display:block;width:64px;height:36px;border-radius:5px;object-fit:cover}
 .pr-mini.ban img{filter:grayscale(1) brightness(.7)}
-.pr-noimg{display:block;width:32px;height:18px;background:#1c2027;border-radius:3px}
+.pr-noimg{display:block;width:32px;height:18px;background:var(--hud-panel-2);border-radius:3px}
 .pr-board{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin:14px 0 6px;padding:16px;border:1px solid var(--pr-line);border-radius:14px;background:var(--pr-panel)}
 .pr-bt{display:flex;align-items:center;gap:10px;min-width:0}.pr-bt.dire{flex-direction:row-reverse;text-align:right}
 .pr-bt b{font-size:18px;overflow:hidden;text-overflow:ellipsis}.pr-bt.rad b{color:var(--pr-rad)}.pr-bt.dire b{color:var(--pr-dire)}
-.pr-bt em{font-style:normal;font-size:11.5px;font-weight:700;text-transform:uppercase;color:#14110a;background:var(--pr-gold);border-radius:6px;padding:2px 7px}
+.pr-bt em{font-style:normal;font-size:11.5px;font-weight:700;text-transform:uppercase;color:var(--hud-panel);background:var(--pr-gold);border-radius:6px;padding:2px 7px}
 .pr-logo{width:48px;height:48px;object-fit:contain;flex:none}
 .pr-bscore{font:600 32px/1 Oswald,system-ui,sans-serif;text-align:center;font-variant-numeric:tabular-nums}.pr-bscore small{display:block;margin-top:4px;font:12px system-ui,sans-serif;color:var(--pr-muted)}
 .pr-draft{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -110,7 +110,7 @@
 .pr-bar>i{display:block;height:100%;background:var(--pr-rad)}
 .pr-facts{margin:10px 0 0;font-size:12.5px;color:var(--pr-muted);text-align:center}
 .pr-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:4px}
-.pr-btn-main{background:var(--pr-gold);color:#14110a}.pr-btn-main:hover{background:#e6d2a0}
+.pr-btn-main{background:var(--pr-gold);color:var(--hud-panel)}.pr-btn-main:hover{background:#e6d2a0}
 .pr-chart svg{height:170px}
 .pr-chart polyline.xp{stroke:#6aa8e0;stroke-width:1.5;stroke-dasharray:4 3;opacity:.85}
 .pr-chart line.g{stroke:var(--pr-line);stroke-width:1;opacity:.5;vector-effect:non-scaling-stroke}
@@ -125,7 +125,7 @@
 .pr-best small{display:block;font-size:11.5px;color:var(--pr-muted)}.pr-best b{color:var(--pr-gold)}
 .pr-series li{display:flex;gap:8px;align-items:baseline}.pr-series li span{color:var(--pr-muted);font-size:12.5px;min-width:52px}
 .pr-series li[aria-current]{font-weight:600}
-.pr-win{font-style:normal;font-size:11px;font-weight:700;text-transform:uppercase;color:#14110a;background:var(--pr-gold);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.pr-win{font-style:normal;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--hud-panel);background:var(--pr-gold);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:2px}
 .pr-hcell{display:flex;align-items:center;gap:8px}.pr-hcell span{max-width:130px;overflow:hidden;text-overflow:ellipsis}
 .pr-pname{max-width:150px;overflow:hidden;text-overflow:ellipsis}
 .pr-kda{font-variant-numeric:tabular-nums;font-weight:600}

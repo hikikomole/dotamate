@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Echo Sabre — предмет Dota 2: характеристики и описание | Dota Mate</title>
@@ -15,15 +16,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Echo Sabre — предмет Dota 2: характеристики и описание | Dota Mate">
 <meta name="twitter:description" content="Echo Sabre за 2700 золота позволяет героям ближнего боя совершать двойную атаку с сильным замедлением цели. Посмотрите характеристики и рецепт из 3 частей.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Echo Sabre","item":"https://dotamate.ru/item/echo_sabre/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -31,8 +31,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -43,7 +43,7 @@
     <div class="it-head">
       <div class="it-kicker">Предмет · 2 700 золота</div>
       <h1>Echo Sabre</h1>
-      <div class="it-chips"><span>+20 к урону</span><span>+15 к силе</span><span>+1.75 к восстановлению маны</span><span class="it-chip-m">КД 5 сек</span></div>
+      <div class="it-chips"><span>+20 к урону</span><span>+15 к силе</span><span>+1.75 к восстановлению маны</span></div>
     </div>
     <div class="itb-kpis">
         <div><b>5,3%</b><span>игроков покупают</span></div>
@@ -63,7 +63,7 @@
       
       <details class="it-sec itb-more ip-lore"><summary>История предмета</summary><p>Обманчиво быстрый клинок, полный магии звука.</p></details>
     </div>
-    <aside class="it-aside"><div class="it-card"><div class="it-kicker">Позиции</div><div class="it-bar"><span>Оффлейн<b>59,9%</b></span><i><u style="width:100%"></u></i></div><div class="it-bar"><span>Керри<b>21,6%</b></span><i><u style="width:36%"></u></i></div><div class="it-bar"><span>Мид<b>10,3%</b></span><i><u style="width:17%"></u></i></div><div class="it-bar"><span>Саппорт 4<b>4,4%</b></span><i><u style="width:7%"></u></i></div><div class="it-bar"><span>Саппорт 5<b>3,8%</b></span><i><u style="width:6%"></u></i></div></div>
+    <aside class="it-aside"><div class="it-card itb-pass"><div class="it-kicker">Характеристики</div><dl><div><dt>Цена</dt><dd>2 700 золота</dd></div><div><dt>Раздел</dt><dd>Предмет</dd></div><div><dt>Перезарядка</dt><dd>5 сек</dd></div></dl></div><div class="it-card"><div class="it-kicker">Позиции</div><div class="it-bar"><span>Оффлейн<b>59,9%</b></span><i><u style="width:100%"></u></i></div><div class="it-bar"><span>Керри<b>21,6%</b></span><i><u style="width:36%"></u></i></div><div class="it-bar"><span>Мид<b>10,3%</b></span><i><u style="width:17%"></u></i></div><div class="it-bar"><span>Саппорт 4<b>4,4%</b></span><i><u style="width:7%"></u></i></div><div class="it-bar"><span>Саппорт 5<b>3,8%</b></span><i><u style="width:6%"></u></i></div></div>
         <div class="it-card"><div class="it-kicker">Кто покупает чаще</div><div class="it-hhead"><span>Герой</span><small>покупок</small><b>побед</b></div><a class="it-hrow" href="/hero/dawnbreaker/" data-hero-open="135"><img loading="lazy" src="/assets/heroes/dawnbreaker.webp" alt=""><span>Dawnbreaker</span><small>181</small><b class="it-up">59%</b></a><a class="it-hrow" href="/hero/sven/" data-hero-open="18"><img loading="lazy" src="/assets/heroes/sven.webp" alt=""><span>Sven</span><small>146</small><b class="">48%</b></a><a class="it-hrow" href="/hero/night_stalker/" data-hero-open="60"><img loading="lazy" src="/assets/heroes/night_stalker.webp" alt=""><span>Night Stalker</span><small>125</small><b class="it-down">44%</b></a><a class="it-hrow" href="/hero/magnataur/" data-hero-open="97"><img loading="lazy" src="/assets/heroes/magnataur.webp" alt=""><span>Magnus</span><small>93</small><b class="">52%</b></a><a class="it-hrow" href="/hero/slardar/" data-hero-open="28"><img loading="lazy" src="/assets/heroes/slardar.webp" alt=""><span>Slardar</span><small>72</small><b class="it-up">57%</b></a><a class="it-hrow" href="/hero/lion/" data-hero-open="26"><img loading="lazy" src="/assets/heroes/lion.webp" alt=""><span>Lion</span><small>70</small><b class="">51%</b></a><p class="it-note">Доля побед — наблюдение: поздние предметы чаще успевает купить выигрывающая сторона.</p></div>
         <div class="it-card"><div class="it-kicker">Кому даёт больше всего</div><div class="it-hhead"><span>Герой</span><small>матчей</small><b>п.п.</b></div><a class="it-hrow" href="/hero/magnataur/" data-hero-open="97"><img loading="lazy" src="/assets/heroes/magnataur.webp" alt=""><span>Magnus</span><small>194</small><b class="it-up">+2,8</b></a><a class="it-hrow" href="/hero/sven/" data-hero-open="18"><img loading="lazy" src="/assets/heroes/sven.webp" alt=""><span>Sven</span><small>291</small><b class="">+0,8</b></a><p class="it-note">Разница доли побед «купил вовремя» и «не покупал», с поправкой на силу героя и его другие предметы.</p></div>
         <p class="it-src">1 829 матчей Stratz из базы Dotamate, обновлено 02.10.2026.</p></aside>
@@ -77,6 +77,6 @@
 <script src="/js/search.js" defer></script>
 <script src="/js/app.js" defer></script>
 <script src="/js/v43-features.js" defer></script>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

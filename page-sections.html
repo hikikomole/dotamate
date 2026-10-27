@@ -20,6 +20,7 @@
     </div>
   </div>
 
+  <div class="container hm-summary">{{HOME_SUMMARY}}</div>
   <div class="container hm-board">{{HOME_META_LISTS}}</div>
 
   <div class="container">
@@ -317,7 +318,7 @@
       <div><h1 class="page-title">Hook &amp; Hit</h1><p>Уклоняйся от крюков, добивай крипов и отбивай красные хуки атакой — прямо в браузере, без установки.</p></div>
     </div>
     <div class="dg-wrap">
-      <p class="dg-note">Клик или тап по полю — движение с ускорением. Клик по крипу или красному хуку — атака.</p>
+      <p class="dg-note">Клик или тап по полю — движение с ускорением. Клик по крипу или красному хуку — атака. <a href="/games/">Все тренажёры</a></p>
       <div class="dg-container" id="dgStage">
         <div class="dg-ui-bar">
           <div class="dg-ui-group">
@@ -528,6 +529,20 @@
     <p class="me-note">Данные Steam Web API. Сайт не связан с Valve.</p>
   </div>
 </section>
+<section class="section streams" id="streams"><div class="container">
+  <h1 class="page-title">Стримы Dota 2</h1>
+  <p class="streams-lead">Прямые трансляции Dota 2</p>
+  <div class="streams-controls" role="group" aria-label="Фильтры трансляций">
+    <button type="button" class="streams-chip is-active" data-filter="all" aria-pressed="true">Все</button>
+    <button type="button" class="streams-chip" data-filter="kick" aria-pressed="false">Kick</button>
+    <button type="button" class="streams-chip" data-filter="twitch" aria-pressed="false">Twitch</button>
+    <label class="streams-language-label" for="streams-language">Язык</label>
+    <select id="streams-language" class="streams-language" aria-label="Язык"></select>
+  </div>
+  <p id="streams-status" role="status" aria-live="polite"></p>
+  <div id="streams-results" aria-live="off"></div>
+</div></section>
+
 <section class="section pr" id="pro"><div class="container"><!--PRO--><h1 class="page-title">Про-матчи Dota 2</h1><p class="pr-lead">Раздел загружается…</p><!--/PRO--></div></section>
 
 <section class="section lv lw" id="liveWords">

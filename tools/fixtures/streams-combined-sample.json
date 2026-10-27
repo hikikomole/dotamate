@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "updated_at": "2026-10-26T12:00:00Z",
+  "streams": [
+    {"platform":"kick","slug":"demo_ru","name":"Demo RU","title":"Тестовый эфир Dota 2","lang":"ru","viewers":1200,"thumb":"https://images.kick.com/sample.webp","avatar":"https://files.kick.com/sample.webp"},
+    {"platform":"kick","slug":"demo_en","name":"Demo EN","title":"Sample Dota 2","lang":"en","viewers":450,"thumb":"","avatar":""},
+    {"platform":"twitch","login":"demo_twitch","name":"Demo Twitch","title":"Dota 2 на Twitch","lang":"ru","viewers":800,"thumb":"","avatar":""}
+  ],
+  "counts": {"ru":2,"total":3,"kick":2,"twitch":1,"live":0},
+  "providers": {"kick":{"ok":true,"stale":false},"twitch":{"ok":true,"stale":false,"mode":"helix"}},
+  "mode":"helix","stale":false,"check_failed":false
+}

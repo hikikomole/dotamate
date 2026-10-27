@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gyrocopter — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Gyrocopter - простой ловкий керри. Наносите урон с Rocket Barrage и Flak Cannon. На этой странице вас ждут характеристики героя, его билды и контрпики.">
+<meta name="description" content="Билд на Gyrocopter и контрпики. Gyrocopter - простой ловкий керри. Наносите урон с Rocket Barrage и Flak Cannon.">
 <link rel="canonical" href="https://dotamate.ru/hero/gyrocopter/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gyrocopter — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Gyrocopter - простой ловкий керри. Наносите урон с Rocket Barrage и Flak Cannon. На этой странице вас ждут характеристики героя, его билды и контрпики.">
+<meta property="og:description" content="Билд на Gyrocopter и контрпики. Gyrocopter - простой ловкий керри. Наносите урон с Rocket Barrage и Flak Cannon.">
 <meta property="og:image" content="/assets/heroes/gyrocopter.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/gyrocopter/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gyrocopter — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Gyrocopter - простой ловкий керри. Наносите урон с Rocket Barrage и Flak Cannon. На этой странице вас ждут характеристики героя, его билды и контрпики.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Gyrocopter и контрпики. Gyrocopter - простой ловкий керри. Наносите урон с Rocket Barrage и Flak Cannon.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Gyrocopter","item":"https://dotamate.ru/hero/gyrocopter/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,19 +46,21 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Gyrocopter</span></nav>
     <h1>Gyrocopter <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr agi"></i>Ловкость · Дальний бой · Поддержка в 36,6 % игр</p>
+    <p class="hx-sub"><i class="hx-attr agi"></i><span>Ловкость · Дальний бой · Поддержка в 36,6 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="72" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier d">D</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>46,2 %</b><em>место 114 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>46,2 %</b><em>место 113 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>2,5 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>8 691</b></div>
     
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 1 из 3">●<span class="hx-mut">●●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Часто проигрывает линию: 42,9 % поражений против 34,3 % побед</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 1</span><b>36.8%</b><span class="hq-track" aria-hidden="true"><i style="width:36.8%"></i></span></li><li><span>Позиция 4</span><b>34.4%</b><span class="hq-track" aria-hidden="true"><i style="width:34.4%"></i></span></li><li><span>Позиция 5</span><b>20.5%</b><span class="hq-track" aria-hidden="true"><i style="width:20.5%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/falcon_blade/"><img src="/assets/items/falcon_blade.png" alt="" width="64" height="48" loading="lazy"><span>Falcon Blade</span></a></li><li><a href="/item/lesser_crit/"><img src="/assets/items/lesser_crit.png" alt="" width="64" height="48" loading="lazy"><span>Crystalys</span></a></li><li><a href="/item/yasha/"><img src="/assets/items/yasha.png" alt="" width="64" height="48" loading="lazy"><span>Yasha</span></a></li><li><a href="/item/dragon_lance/"><img src="/assets/items/dragon_lance.png" alt="" width="64" height="48" loading="lazy"><span>Dragon Lance</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/techies/"><img src="/assets/heroes/techies.webp" alt="" width="48" height="27" loading="lazy"><span>Techies</span><b class="hq-positive">+5 п.п.</b></a></li><li><a href="/hero/windrunner/"><img src="/assets/heroes/windrunner.webp" alt="" width="48" height="27" loading="lazy"><span>Windranger</span><b class="hq-positive">+3.8 п.п.</b></a></li><li><a href="/hero/drow_ranger/"><img src="/assets/heroes/drow_ranger.webp" alt="" width="48" height="27" loading="lazy"><span>Drow Ranger</span><b class="hq-positive">+3.4 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.webp" alt="" width="48" height="27" loading="lazy"><span>Ember Spirit</span><b class="hq-negative">-6.1 п.п.</b></a></li><li><a href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" width="48" height="27" loading="lazy"><span>Phantom Lancer</span><b class="hq-negative">-4.9 п.п.</b></a></li><li><a href="/hero/razor/"><img src="/assets/heroes/razor.webp" alt="" width="48" height="27" loading="lazy"><span>Razor</span><b class="hq-negative">-3.7 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:13.347Z, 1137 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row"><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="710 игр"><b>46,9</b><span style="height:34.5%"></span><small>Страж</small></div><div title="1 430 игр"><b>45,8</b><span style="height:29.0%"></span><small>Рыцарь</small></div><div title="2 188 игр"><b>46,6</b><span style="height:33.0%"></span><small>Герой</small></div><div title="2 466 игр"><b>46,4</b><span style="height:32.0%"></span><small>Легенда</small></div><div title="1 659 игр"><b>46,3</b><span style="height:31.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="2 009 игр"><b>46,5</b><span style="height:32.5%"></span><small>25–35 мин</small></div><div title="3 684 игр"><b>46,1</b><span style="height:30.5%"></span><small>35–45 мин</small></div><div title="2 805 игр"><b>46,4</b><span style="height:32.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:34.3%">34,3</i><i class="d" style="width:22.9%">22,9</i><i class="l" style="width:42.9%">42,9</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">35 игр с разбором линии.</p></article><article class="hx-tile"><h2>В одной команде</h2><h3>Хорошие связки</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/drow_ranger/"><img src="/assets/heroes/drow_ranger.webp" alt="" loading="lazy" width="44" height="25"><span>Drow Ranger</span></a><b class="up">+7,5 пп</b></li></ul><p class="hx-note">Винрейт пары против ожидаемого, от 300 игр вместе.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Gyrocopter</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/ember_spirit/"><img src="/assets/heroes/ember_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Ember Spirit</span></a><b class="dn">−6,1 пп</b></li><li><a class="hx-hico" href="/hero/phantom_lancer/"><img src="/assets/heroes/phantom_lancer.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Lancer</span></a><b class="dn">−4,9 пп</b></li><li><a class="hx-hico" href="/hero/razor/"><img src="/assets/heroes/razor.webp" alt="" loading="lazy" width="44" height="25"><span>Razor</span></a><b class="dn">−3,7 пп</b></li><li><a class="hx-hico" href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" loading="lazy" width="44" height="25"><span>Venomancer</span></a><b class="dn">−3,4 пп</b></li><li><a class="hx-hico" href="/hero/queenofpain/"><img src="/assets/heroes/queenofpain.webp" alt="" loading="lazy" width="44" height="25"><span>Queen of Pain</span></a><b class="dn">−3,3 пп</b></li></ul></div>
 <div><h3>Кого контрит Gyrocopter</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/techies/"><img src="/assets/heroes/techies.webp" alt="" loading="lazy" width="44" height="25"><span>Techies</span></a><b class="up">+5,0 пп</b></li><li><a class="hx-hico" href="/hero/windrunner/"><img src="/assets/heroes/windrunner.webp" alt="" loading="lazy" width="44" height="25"><span>Windranger</span></a><b class="up">+3,8 пп</b></li><li><a class="hx-hico" href="/hero/drow_ranger/"><img src="/assets/heroes/drow_ranger.webp" alt="" loading="lazy" width="44" height="25"><span>Drow Ranger</span></a><b class="up">+3,4 пп</b></li><li><a class="hx-hico" href="/hero/dawnbreaker/"><img src="/assets/heroes/dawnbreaker.webp" alt="" loading="lazy" width="44" height="25"><span>Dawnbreaker</span></a><b class="up">+3,4 пп</b></li><li><a class="hx-hico" href="/hero/dragon_knight/"><img src="/assets/heroes/dragon_knight.webp" alt="" loading="lazy" width="44" height="25"><span>Dragon Knight</span></a><b class="up">+3,1 пп</b></li></ul></div></div>
@@ -161,43 +165,43 @@
         </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 3 677 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 3 677 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>-40s Call Down Cooldown</b>
+          <b>–40 сек. перезарядки Call Down</b>
           <span>Берут 4,4% · Побед 58,8%</span>
           
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>-6s Flak Cannon Cooldown</b>
+          <b>–6 сек. перезарядки Flak Cannon</b>
           <span>Берут 95,6% · Побед 53,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+14 Rocket Barrage Damage</b>
+          <b>+14 к урону за ракету от Rocket Barrage</b>
           <span>Берут 3,5% · Побед 37,0%</span>
           
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+3 Flak Cannon Attacks</b>
+          <b>+3 к залпам Flak Cannon</b>
           <span>Берут 96,5% · Побед 45,0%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+25 Flak Cannon Damage</b>
+          <b>Flak Cannon даёт +25 к урону</b>
           <span>Берут 99,1% · Побед 43,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell">
-          <b>+0.3s Homing Missile Stun Duration</b>
+          <b>+0,3 сек. оглушения от Homing Missile</b>
           <span>Берут 0,9% · Побед 42,9%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+150 Health</b>
+          <b>+150 к здоровью</b>
           <span>Берут 91,5% · Побед 42,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+25%% Homing Missile Damage</b>
+          <b>+25% к урону от Homing Missile</b>
           <span>Берут 8,5% · Побед 40,0%</span>
           
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_4">
         <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
-          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/gyrocopter_homing_missile.png" alt=""><span>Homing Missile</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_rocket_barrage.png" alt=""><span>Rocket Barrage</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_call_down.png" alt=""><span>Call Down</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +200 Health</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_flak_cannon.png" alt=""><span>Flak Cannon</span></li></ul>
+          <ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/gyrocopter_homing_missile.png" alt=""><span>Homing Missile</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_rocket_barrage.png" alt=""><span>Rocket Barrage</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_call_down.png" alt=""><span>Call Down</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +200 к здоровью</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_flak_cannon.png" alt=""><span>Flak Cannon</span></li></ul>
           <div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
@@ -231,7 +235,7 @@
       </div><div class="hb-step" title="Homing Missile · 52,8% побед, 197 матчей">
         <img loading="lazy" src="/assets/abilities/gyrocopter_homing_missile.png" alt="Homing Missile" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+200 Health · 52,8% побед, 197 матчей">
+      </div><div class="hb-step hb-step-talent" title="+200 к здоровью · 52,8% побед, 197 матчей">
           <em>Талант</em><u>+200</u><span>10</span>
         </div></div>
     </div>
@@ -273,42 +277,42 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 1 085 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 1 085 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-40s Call Down Cooldown</b>
+          <b>–40 сек. перезарядки Call Down</b>
           <span>Берут 92,5% · Побед 61,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>-6s Flak Cannon Cooldown</b>
+          <b>–6 сек. перезарядки Flak Cannon</b>
           <span>Берут 7,5% · Побед 50,0%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+14 Rocket Barrage Damage</b>
+          <b>+14 к урону за ракету от Rocket Barrage</b>
           <span>Берут 95,7% · Побед 59,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell">
-          <b>+3 Flak Cannon Attacks</b>
+          <b>+3 к залпам Flak Cannon</b>
           <span>Берут 4,3% · Побед 50,0%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+25 Flak Cannon Damage</b>
+          <b>Flak Cannon даёт +25 к урону</b>
           <span>Берут 11,6% · Побед 51,0%</span>
           
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+0.3s Homing Missile Stun Duration</b>
+          <b>+0,3 сек. оглушения от Homing Missile</b>
           <span>Берут 88,4% · Побед 55,5%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+150 Health</b>
+          <b>+150 к здоровью</b>
           <span>Берут 10,7% · Побед 45,9%</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+25%% Homing Missile Damage</b>
+          <b>+25% к урону от Homing Missile</b>
           <span>Берут 89,3% · Побед 49,7%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
       </div><div class="hb-pane" data-pos="POSITION_5">
-        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/gyrocopter_rocket_barrage.png" alt=""><span>Rocket Barrage</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_homing_missile.png" alt=""><span>Homing Missile</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_flak_cannon.png" alt=""><span>Flak Cannon</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_call_down.png" alt=""><span>Call Down</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +25%% Homing Missile Damage</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Бонус ко всем атрибутам</span></li></ul><div class="hb-progressions">
+        <h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p><ul class="hb-legend" aria-label="Обозначения способностей"><li><img loading="lazy" src="/assets/abilities/gyrocopter_rocket_barrage.png" alt=""><span>Rocket Barrage</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_homing_missile.png" alt=""><span>Homing Missile</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_flak_cannon.png" alt=""><span>Flak Cannon</span></li><li><img loading="lazy" src="/assets/abilities/gyrocopter_call_down.png" alt=""><span>Call Down</span></li><li><i class="hb-legend-t">Т</i><span>Талант: +25% к урону от Homing Missile</span></li><li><i class="hb-legend-t">Т</i><span>Талант: Бонус ко всем атрибутам</span></li></ul><div class="hb-progressions">
             <div class="hb-branch">
       <div class="hb-branch-head">
         <h3>Частый выбор</h3><em>самая популярная способность на каждом уровне</em>
@@ -341,7 +345,7 @@
       </div><div class="hb-step" title="Call Down · 52,4% побед, 21 матчей">
         <img loading="lazy" src="/assets/abilities/gyrocopter_call_down.png" alt="Call Down" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+25%% Homing Missile Damage · 54,8% побед, 467 матчей">
+      </div><div class="hb-step hb-step-talent" title="+25% к урону от Homing Missile · 54,8% побед, 467 матчей">
           <em>Талант</em><u>+25%</u><span>10</span>
         </div></div>
     </div>
@@ -376,41 +380,41 @@
       </div><div class="hb-step" title="Call Down · 52,4% побед, 21 матчей">
         <img loading="lazy" src="/assets/abilities/gyrocopter_call_down.png" alt="Call Down" onerror="this.closest('.hb-step').classList.add('hb-step-empty');this.remove()">
         <span>9</span>
-      </div><div class="hb-step hb-step-talent" title="+25%% Homing Missile Damage · 54,8% побед, 467 матчей">
+      </div><div class="hb-step hb-step-talent" title="+25% к урону от Homing Missile · 54,8% побед, 467 матчей">
           <em>Талант</em><u>+25%</u><span>10</span>
         </div></div>
     </div>
           </div>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>-40s Call Down Cooldown</b>
+          <b>–40 сек. перезарядки Call Down</b>
           <span>Берут 88,4% · Побед 72,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell">
-          <b>-6s Flak Cannon Cooldown</b>
+          <b>–6 сек. перезарядки Flak Cannon</b>
           <span>Берут 11,6% · Побед 63,6%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+14 Rocket Barrage Damage</b>
+          <b>+14 к урону за ракету от Rocket Barrage</b>
           <span>Берут 94,1% · Побед 65,6%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell">
-          <b>+3 Flak Cannon Attacks</b>
+          <b>+3 к залпам Flak Cannon</b>
           <span>Берут 5,9% · Побед 55,6%</span>
           
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+25 Flak Cannon Damage</b>
+          <b>Flak Cannon даёт +25 к урону</b>
           <span>Берут 15,9% · Побед 53,3%</span>
           
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-picked">
-          <b>+0.3s Homing Missile Stun Duration</b>
+          <b>+0,3 сек. оглушения от Homing Missile</b>
           <span>Берут 84,1% · Побед 59,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell">
-          <b>+150 Health</b>
+          <b>+150 к здоровью</b>
           <span>Берут 15,4% · Побед 47,2%</span>
           
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+25%% Homing Missile Damage</b>
+          <b>+25% к урону от Homing Missile</b>
           <span>Берут 84,6% · Побед 52,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -517,15 +521,15 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Rocket Barrage</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Герой обстреливает окружающих врагов ракетами в течение 3 сек.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Homing Missile</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Запускает во врага самонаводящуюся ракету. Она постепенно набирает скорость, а при столкновении с целью оглушает её и наносит урон. Враги могут уничтожить ракету, пока она летит к цели.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Flak Cannon</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Несколько следующих атак героя сопровождаются залпами по всем врагам в области вокруг него. Эффекты атаки (например, критический урон) действуют только на основную цель. Неиспользованные залпы пропадают через 12 сек.</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Afterburner</h3>
@@ -533,11 +537,11 @@
           <p class="hp-ab-desc">Герой ненадолго увеличивает свою скорость передвижения, когда наносит врагу урон своими атаками или способностями.</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Side Gunner</h3>
-          <div class="hp-ab-tags"><span>Пассивная</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>Пассивная</span></div>
           
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Call Down</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span></div>
           <p class="hp-ab-desc">Герой вызывает 3 воздушных удара, каждый из которых наносит урон врагам в области действия и замедляет их. Каждый снаряд падает на расстоянии 500 от предыдущего.</p>
         </div>
       </div>
@@ -553,7 +557,16 @@
     </div>
     <a class="btn red" href="/hero/gyrocopter/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Gyrocopter">
+    <a class="hp-tool" href="/draft/#draft=72__" data-goal="hero_to_draft"><b>Драфт с Gyrocopter</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -586,6 +599,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

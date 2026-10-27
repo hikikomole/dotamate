@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Largo — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Largo отлично справляется с ролью танка. Используйте умения Catchy Lick и Frogstomp для контроля врагов. На странице собраны контрпики и схемы прокачки.">
+<meta name="description" content="Билд на Largo и контрпики. Largo отлично справляется с ролью танка. Используйте умения Catchy Lick и Frogstomp для контроля врагов.">
 <link rel="canonical" href="https://dotamate.ru/hero/largo/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Largo — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Largo отлично справляется с ролью танка. Используйте умения Catchy Lick и Frogstomp для контроля врагов. На странице собраны контрпики и схемы прокачки.">
+<meta property="og:description" content="Билд на Largo и контрпики. Largo отлично справляется с ролью танка. Используйте умения Catchy Lick и Frogstomp для контроля врагов.">
 <meta property="og:image" content="/assets/heroes/largo.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/largo/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Largo — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Largo отлично справляется с ролью танка. Используйте умения Catchy Lick и Frogstomp для контроля врагов. На странице собраны контрпики и схемы прокачки.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Largo и контрпики. Largo отлично справляется с ролью танка. Используйте умения Catchy Lick и Frogstomp для контроля врагов.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Largo","item":"https://dotamate.ru/hero/largo/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,19 +46,21 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Largo</span></nav>
     <h1>Largo <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr str"></i>Сила · Ближний бой · Оффлейн в 34,2 % игр</p>
+    <p class="hx-sub"><i class="hx-attr str"></i><span>Сила · Ближний бой · Оффлейн в 34,2 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="155" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier d">D</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>46,9 %</b><em>место 105 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>46,9 %</b><em>место 110 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>1,7 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>5 700</b></div>
     
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 2 из 3">●●<span class="hx-mut">●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Сильнее на низких рангах: 50,0 % у Рекрута–Стража против 47,8 % у Легенды–Властелина</li><li>Часто проигрывает линию: 45,5 % поражений против 33,3 % побед</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 3</span><b>51.5%</b><span class="hq-track" aria-hidden="true"><i style="width:51.5%"></i></span></li><li><span>Позиция 5</span><b>23.1%</b><span class="hq-track" aria-hidden="true"><i style="width:23.1%"></i></span></li><li><span>Позиция 4</span><b>18.4%</b><span class="hq-track" aria-hidden="true"><i style="width:18.4%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/bracer/"><img src="/assets/items/bracer.png" alt="" width="64" height="48" loading="lazy"><span>Bracer</span></a></li><li><a href="/item/soul_ring/"><img src="/assets/items/soul_ring.png" alt="" width="64" height="48" loading="lazy"><span>Soul Ring</span></a></li><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/kaya/"><img src="/assets/items/kaya.png" alt="" width="64" height="48" loading="lazy"><span>Kaya</span></a></li><li><a href="/item/sange/"><img src="/assets/items/sange.png" alt="" width="64" height="48" loading="lazy"><span>Sange</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" width="48" height="27" loading="lazy"><span>Crystal Maiden</span><b class="hq-positive">+7.2 п.п.</b></a></li><li><a href="/hero/vengeful_spirit/"><img src="/assets/heroes/vengeful_spirit.webp" alt="" width="48" height="27" loading="lazy"><span>Vengeful Spirit</span><b class="hq-positive">+4.6 п.п.</b></a></li><li><a href="/hero/phantom_assassin/"><img src="/assets/heroes/phantom_assassin.webp" alt="" width="48" height="27" loading="lazy"><span>Phantom Assassin</span><b class="hq-positive">+4.5 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/windrunner/"><img src="/assets/heroes/windrunner.webp" alt="" width="48" height="27" loading="lazy"><span>Windranger</span><b class="hq-negative">-6.9 п.п.</b></a></li><li><a href="/hero/magnataur/"><img src="/assets/heroes/magnataur.webp" alt="" width="48" height="27" loading="lazy"><span>Magnus</span><b class="hq-negative">-4.9 п.п.</b></a></li><li><a href="/hero/sniper/"><img src="/assets/heroes/sniper.webp" alt="" width="48" height="27" loading="lazy"><span>Sniper</span><b class="hq-negative">-3.4 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:05:59.109Z, 1605 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row"><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="476 игр"><b>50,0</b><span style="height:50.0%"></span><small>Страж</small></div><div title="823 игр"><b>47,3</b><span style="height:36.5%"></span><small>Рыцарь</small></div><div title="1 326 игр"><b>43,4</b><span style="height:17.0%"></span><small>Герой</small></div><div title="1 661 игр"><b>46,4</b><span style="height:32.0%"></span><small>Легенда</small></div><div title="1 285 игр"><b>49,6</b><span style="height:48.0%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="1 498 игр"><b>45,3</b><span style="height:26.5%"></span><small>25–35 мин</small></div><div title="2 364 игр"><b>46,9</b><span style="height:34.5%"></span><small>35–45 мин</small></div><div title="1 671 игр"><b>48,7</b><span style="height:43.5%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:33.3%">33,3</i><i class="d" style="width:21.2%">21,2</i><i class="l" style="width:45.5%">45,5</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">33 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Largo</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/windrunner/"><img src="/assets/heroes/windrunner.webp" alt="" loading="lazy" width="44" height="25"><span>Windranger</span></a><b class="dn">−6,9 пп</b></li><li><a class="hx-hico" href="/hero/magnataur/"><img src="/assets/heroes/magnataur.webp" alt="" loading="lazy" width="44" height="25"><span>Magnus</span></a><b class="dn">−4,9 пп</b></li><li><a class="hx-hico" href="/hero/sniper/"><img src="/assets/heroes/sniper.webp" alt="" loading="lazy" width="44" height="25"><span>Sniper</span></a><b class="dn">−3,4 пп</b></li><li><a class="hx-hico" href="/hero/techies/"><img src="/assets/heroes/techies.webp" alt="" loading="lazy" width="44" height="25"><span>Techies</span></a><b class="dn">−3,5 пп</b></li><li><a class="hx-hico" href="/hero/antimage/"><img src="/assets/heroes/antimage.webp" alt="" loading="lazy" width="44" height="25"><span>Anti-Mage</span></a><b class="dn">−2,8 пп</b></li></ul></div>
 <div><h3>Кого контрит Largo</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/crystal_maiden/"><img src="/assets/heroes/crystal_maiden.webp" alt="" loading="lazy" width="44" height="25"><span>Crystal Maiden</span></a><b class="up">+7,2 пп</b></li><li><a class="hx-hico" href="/hero/vengeful_spirit/"><img src="/assets/heroes/vengeful_spirit.webp" alt="" loading="lazy" width="44" height="25"><span>Vengeful Spirit</span></a><b class="up">+4,6 пп</b></li><li><a class="hx-hico" href="/hero/phantom_assassin/"><img src="/assets/heroes/phantom_assassin.webp" alt="" loading="lazy" width="44" height="25"><span>Phantom Assassin</span></a><b class="up">+4,5 пп</b></li><li><a class="hx-hico" href="/hero/spirit_breaker/"><img src="/assets/heroes/spirit_breaker.webp" alt="" loading="lazy" width="44" height="25"><span>Spirit Breaker</span></a><b class="up">+4,3 пп</b></li><li><a class="hx-hico" href="/hero/snapfire/"><img src="/assets/heroes/snapfire.webp" alt="" loading="lazy" width="44" height="25"><span>Snapfire</span></a><b class="up">+3,5 пп</b></li></ul></div></div>
@@ -163,7 +167,7 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 434 матча. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 434 матча. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
           <b>Frogstomp Stomps/Interval</b>
           <span>Решает игрок</span>
@@ -276,7 +280,7 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 122 матча. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 122 матча. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-unused">
           <b>Frogstomp Stomps/Interval</b>
           <span>Решает игрок</span>
@@ -539,15 +543,15 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Catchy Lick</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Своим цепким языком герой немного притягивает цель к себе и применяет на неё нормальное развеивание, а также наносит ей урон, если это враг. Если убить цель или развеять с неё хоть один эффект, у владельца временно увеличится…</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Frogstomp</h3>
-          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>В точку</span><span>По площади</span></div>
           <p class="hp-ab-desc">Герой бросает в выбранную область лягушат, которые замедляют передвижение врагов в ней, а раз в 1 сек. делают притоп, ненадолго оглушающий противников и наносящий им урон.</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Croak of Genius</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Герой наигрывает союзнику мелодию, отчего все предметы и способности того расходуют меньше маны, а часть урона от заклинаний отдаётся эхом в течение 5 секунд. У всех, кроме владельца способности, каждое расходование маны сокращает эффект…</p>
         </div><div class="hp-ab-text" data-ab="3">
           <h3>Encore</h3>
@@ -555,11 +559,11 @@
           <p class="hp-ab-desc">Эффекты, которые герой накладывает на себя или на союзников, действуют дольше.</p>
         </div><div class="hp-ab-text" data-ab="4">
           <h3>Amphibian Rhapsody</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Герой начинает выступление: он теряет возможность атаковать, а остальные его способности меняются на три песни, действующие только при попадании в ритм. Попадание в ритм даёт герою один складывающийся эффект грува, а промах — отнимает.…</p>
         </div><div class="hp-ab-text" data-ab="5">
           <h3>Bullbelly Blitz</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span>Скрытая</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span><span>Скрытая</span></div>
           <p class="hp-ab-desc">Герой играет песню, которая наносит 20/30/40 магического урона врагам поблизости, а также добавляет к атакам союзных героев магический урон и увеличивает урон от их заклинаний.</p>
         </div>
       </div>
@@ -575,7 +579,16 @@
     </div>
     <a class="btn red" href="/hero/largo/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Largo">
+    <a class="hp-tool" href="/draft/#draft=155__" data-goal="hero_to_draft"><b>Драфт с Largo</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -608,6 +621,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

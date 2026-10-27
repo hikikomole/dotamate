@@ -20,6 +20,25 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'data', 'patch-notes.json');
+const CATALOG = path.join(ROOT, 'data', 'patch-catalog.json');
+
+function atomicJson(file, value) {
+  const temp = file + '.' + process.pid + '.tmp';
+  try { fs.writeFileSync(temp, JSON.stringify(value, null, 2) + '\n'); fs.renameSync(temp, file); }
+  finally { if (fs.existsSync(temp)) fs.unlinkSync(temp); }
+}
+
+function retainPatch(catalog, current, next) {
+  const entries = [...(Array.isArray(catalog.patches) ? catalog.patches : []), current, next].filter(Boolean);
+  const byVersion = new Map();
+  for (const p of entries) {
+    const version = String(p.version), timestamp = Number(p.timestamp);
+    if (!/^[\w.-]+$/.test(version) || !Number.isInteger(timestamp) || timestamp <= 0) throw new Error('Invalid Valve patch boundary');
+    if (byVersion.has(version) && byVersion.get(version).timestamp !== timestamp) throw new Error('Conflicting Valve patch boundary: ' + version);
+    byVersion.set(version, { version, timestamp });
+  }
+  return { schemaVersion: 1, source: 'valve-datafeed', patches: [...byVersion.values()].sort((a, b) => a.timestamp - b.timestamp) };
+}
 
 function readJson(p, fallback) {
   try { return JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8')); } catch (e) { return fallback; }
@@ -203,10 +222,15 @@ async function main() {
       neutrals: neutrals.length, general: general.length,
     },
   };
-  fs.writeFileSync(OUT, JSON.stringify(out, null, 2) + '\n', 'utf8');
+  const current = readJson('data/patch-notes.json', null);
+  const catalog = retainPatch(readJson('data/patch-catalog.json', {}), current, out);
+  // Retain the old release boundary before replacing the current notes.
+  atomicJson(CATALOG, catalog);
+  atomicJson(OUT, out);
   console.log(`патч ${out.version}: героев ${heroes.length}, предметов ${items.length}, нейтральных ${neutrals.length}, общих заметок ${general.length}`);
   console.log('значки:', Object.entries(icons).map(([k, v]) => k + '×' + v).join(', ') || 'нет');
   if (missing.length) console.warn('НЕТ КАРТИНОК (' + missing.length + '):', [...new Set(missing)].join(', '));
 }
 
-main().catch(e => { console.error('Не собралось:', e.message); process.exit(1); });
+if (require.main === module) main().catch(e => { console.error('Не собралось:', e.message); process.exit(1); });
+module.exports = { retainPatch };

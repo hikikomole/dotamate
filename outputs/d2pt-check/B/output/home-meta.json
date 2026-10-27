@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "builtAt": "2026-10-26T19:05:44.494Z",
+  "status": "ok",
+  "meta": {
+    "source": "steam",
+    "cohort": "ranked-all-ranks",
+    "patch": "7.41f",
+    "patchFrom": 900,
+    "from": "1970-01-01T00:16:41.000Z",
+    "to": "1970-01-01T00:16:41.000Z",
+    "matches": 1,
+    "players": 10,
+    "methodVersion": 1,
+    "exclusions": {},
+    "coverage": {
+      "seen": 1,
+      "banRecorded": 0,
+      "banPresenceKnown": false
+    }
+  },
+  "summary": {
+    "patch": "7.41f",
+    "releasedAt": "1970-01-01T00:15:00.000Z",
+    "asOf": "2026-10-26T19:05:44.494Z",
+    "patchDays": 20752,
+    "matches": 1,
+    "from": "1970-01-01T00:16:41.000Z",
+    "to": "1970-01-01T00:16:41.000Z",
+    "radiantWins": 1,
+    "radiantWr": 100,
+    "banCoverage": {
+      "recorded": 0,
+      "matches": 1,
+      "known": false
+    },
+    "contested": null
+  },
+  "source": "Steam Web API, Ranked All Pick, все ранги",
+  "stampLabel": "Steam, все ранги",
+  "bracket": "ALL",
+  "fetchedAt": "1970-01-01T00:16:41.000Z",
+  "patch": "7.41f",
+  "minMatches": 2000,
+  "heroCount": 10,
+  "matchesApprox": 1,
+  "carry": [],
+  "picked": [
+    {
+      "id": 1,
+      "name": "Hero 1",
+      "slug": "test_1",
+      "img": "/assets/heroes/test_1.webp",
+      "matches": 1,
+      "wr": 100
+    },
+    {
+      "id": 2,
+      "name": "Hero 2",
+      "slug": "test_2",
+      "img": "/assets/heroes/test_2.webp",
+      "matches": 1,
+      "wr": 100
+    },
+    {
+      "id": 3,
+      "name": "Hero 3",
+      "slug": "test_3",
+      "img": "/assets/heroes/test_3.webp",
+      "matches": 1,
+      "wr": 100
+    },
+    {
+      "id": 4,
+      "name": "Hero 4",
+      "slug": "test_4",
+      "img": "/assets/heroes/test_4.webp",
+      "matches": 1,
+      "wr": 100
+    },
+    {
+      "id": 5,
+      "name": "Hero 5",
+      "slug": "test_5",
+      "img": "/assets/heroes/test_5.webp",
+      "matches": 1,
+      "wr": 100
+    },
+    {
+      "id": 6,
+      "name": "Hero 6",
+      "slug": "test_6",
+      "img": "/assets/heroes/test_6.webp",
+      "matches": 1,
+      "wr": 0
+    }
+  ],
+  "banned": []
+}

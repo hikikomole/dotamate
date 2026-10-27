@@ -20,6 +20,7 @@
   const TABS = ['tier', 'ranks', 'positions', 'pairs', 'items', 'matches', 'lanes', 'trend', 'pro'];
 
   let S = null, H = new Map(), I = new Map(), SH = new Map();
+  let roleMeta = null, roleError = null, roleLoading = false;
   // Название основного среза: Steam (с 04.10.2026) — все рейтинговые матчи; OpenDota — ранги до Властелина.
   const baseName = () => (S && S.base.src === 'steam' ? 'Все рейтинговые' : 'Рекрут–Властелин');
   const state = { tier: { q: '', rank: 'all', pos: 'all', sort: 'lo', slice: 'base' }, ranks: { sort: '6' } };
@@ -176,20 +177,21 @@
   // Steam (S.posSteam): позиции 1/2/3 и «Поддержка 4–5» по разметке матчей моделью; без него — Stratz 1–5.
   const POS_STEAM = { 1: 'Керри', 2: 'Мид', 3: 'Оффлейн', sup: 'Поддержка 4–5' };
   function positions() {
-    const ST = S.posSteam && Object.keys(S.posSteam.pos || {}).length ? S.posSteam : null;
-    const src = ST ? ST.pos : S.positions;
-    return `<div class="st-grid ${ST ? 'st-grid-4' : 'st-grid-5'}">${Object.entries(ST ? POS_STEAM : POS).map(([p, name]) => {
-      const q = src[p];
-      if (!q) return '';
-      const best = q.heroes.slice(0, 8), worst = q.heroes.slice(-5).reverse();
-      const row = h => `<li>${hero(h.id, `${pct(h.wr)} · ${num(h.n)} матчей · GPM ${h.gpm}`)}</li>`;
-      return `<article class="st-card"><h3><span class="st-pos">${p === 'sup' ? '4–5' : p}</span>${name}</h3>
-        <div class="st-kpi"><div><span>GPM</span><b>${q.gpm}</b></div><div><span>XPM</span><b>${q.xpm}</b></div><div><span>Игроков</span><b>${num(q.n)}</b></div></div>
-        <h4>Лучшие</h4><ol class="st-list">${best.map(row).join('')}</ol>
-        <h4>Худшие</h4><ol class="st-list">${worst.map(row).join('')}</ol></article>`;
-    }).join('')}</div>` + (ST
-      ? note(`Все рейтинговые матчи базы (${num(ST.labeled)} матчей): позицию каждого игрока определяет наша модель по золоту, опыту, добиванию, урону и предметам${ST.model && ST.model.test ? ` — на проверочных матчах Stratz она верно отличает керри, мида, оффлейн и поддержку в ${pct(Math.round(ST.model.test.core3sup * 10) / 10)} случаев` : ''}. Поддержку 4 и 5 по данным Steam надёжно не разделить, поэтому они вместе. GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции.`)
-      : note(`Детальные матчи Stratz текущего патча (${num(S.base.stratzMatches)} матчей). GPM и XPM — среднее за матч на позиции. Порядок — по надёжному винрейту (интервал Уилсона), герои с ${num(S.method.minPos)}+ матчами на позиции. ${stratzSrc()}.`));
+    const method = note('Выборка рейтинговых реплеев Valve. Позиции определены по координатам и добиваниям к 10:00; оценка — нижняя граница 95% интервала Уилсона, не вероятность победы. Рейтинг доступен от 100 игр героя на позиции, 30–99 — малая выборка. Доля выборов считается среди размеченных игроков данной позиции. Ручная проверка разметки обязательна.');
+    if (roleError) return method + `<div class="st-empty" role="alert">Данные позиций не загрузились. <button type="button" id="stRoleRetry">Повторить</button></div>`;
+    if (!roleMeta) return method + '<p class="st-loading" aria-live="polite">Загружаем позиции…</p>';
+    const m = roleMeta.meta || {};
+    const date = m.to ? new Date(m.to).toLocaleDateString('ru-RU') : 'неизвестна';
+    const provenance = note(`Рейтинговые реплеи, патч ${esc(m.patch || '—')}, ${num(m.matches)} матчей, данные по ${esc(date)}. Размечено ${num(m.coverage?.labeledSlots)} из ${num(m.coverage?.possibleSlots)} игроков.`);
+    if (roleMeta.status !== 'ok' || !m.coverage?.gatePassed) return method + provenance + `<div class="st-empty">${m.coverage?.gatePassed ? 'Пока нет героев с 30 играми на позиции в этой выборке.' : 'Недостаточно проверенных реплеев для рейтинга позиций 1–5.'}</div>`;
+    const blocks = Object.entries(POS).map(([p, name]) => {
+      const q = roleMeta.positions?.[p];
+      if (!q || !q.labeledSlots) return `<article class="st-card"><h3>${esc(name)}</h3><p>Нет размеченных игроков на этой позиции.</p></article>`;
+      const rows = (q.heroes || []).filter(h => h.n >= 30).map(h => `<tr><td>${hero(h.id)}</td><td>${num(h.n)}</td><td>${pct(h.wr)}</td><td>${h.rating == null ? '—' : h.rating}</td><td>${h.tier || (h.n < 100 ? 'Малая выборка' : 'Тир недоступен')}</td><td>${pct(h.pickShare)}</td></tr>`);
+      return `<article class="st-card"><h3>${roleIco(p, name)} ${esc(name)}</h3><p>${num(q.matches)} матчей, ${num(q.labeledSlots)} игроков; рейтинг у ${num(q.eligibleHeroes)} героев. Скрыто ${num(q.hiddenHeroes)} героев с менее чем 30 играми (${num(q.hiddenAppearances)} выборов).</p>${rows.length ? table(['Герой', 'Игр', 'Винрейт', 'Рейтинг', 'Тир', 'Доля выборов'], rows) : '<p>Пока нет героев с 30 играми на этой позиции.</p>'}</article>`;
+    });
+    const stale = m.to && Date.now() - new Date(m.to).getTime() > 36 * 3600e3 ? '<p class="st-stale">Данные старше 36 часов.</p>' : '';
+    return method + provenance + stale + `<div class="st-role-grid">${blocks.join('')}</div>`;
   }
 
   // ---------- связки и контрпики ----------
@@ -197,7 +199,7 @@
     const syn = p => `<tr><td>${hero(p.a)}</td><td>${roleCell(p.a, 'all')}</td><td>${hero(p.b)}</td><td>${roleCell(p.b, 'all')}</td><td><b>${pct(p.w)}</b></td><td class="st-muted">${pct(p.e)}</td><td><b class="${p.d >= 0 ? 'st-up' : 'st-down'}">${sgn(p.d)}</b></td><td class="st-muted">${num(p.g)}</td></tr>`;
     const cnt = p => `<tr><td>${hero(p.hero)}</td><td>${roleCell(p.hero, 'all')}</td><td>${hero(p.by)}</td><td>${roleCell(p.by, 'all')}</td><td><b>${pct(p.w)}</b></td><td class="st-muted">${pct(p.e)}</td><td><b class="st-down">${sgn(p.d)}</b></td><td class="st-muted">${num(p.g)}</td></tr>`;
     const head = ['Герой', 'Роль', 'С кем', 'Роль', 'Побед', 'Ожидалось', 'Разница, п.п.', 'Матчей'];
-    return `<h3 class="st-h">Лучшие связки союзников</h3>` + table(head, S.synergy.slice(0, 20).map(syn)) +
+    return `<section id="stMatchupSearch" class="st-card" aria-label="Поиск пары героев"></section><h3 class="st-h">Лучшие связки союзников</h3>` + table(head, S.synergy.slice(0, 20).map(syn)) +
       `<h3 class="st-h">Худшие связки</h3>` + table(head, S.antiSynergy.slice(0, 10).map(syn)) +
       `<h3 class="st-h">Самые жёсткие контрпики</h3>` + table(['Герой', 'Роль', 'Кто контрит', 'Роль', 'Побед героя', 'Ожидалось', 'Разница, п.п.', 'Матчей'], S.counters.slice(0, 20).map(cnt)) +
       (S.countersAt && new Date(S.builtAt) - new Date(S.countersAt) > 20 * 36e5 ? `<p class="st-stale" role="status">Контрпики — расчёт от ${new Date(S.countersAt).toLocaleDateString('ru-RU')}: сегодня они не пересчитались, связки и остальные цифры — свежие.</p>` : '') +
@@ -220,7 +222,7 @@
     const late = S.durSwing.slice(0, 10), early = S.durSwing.slice(-10).reverse();
     const row = x => `<tr><td>${hero(x.id)}</td><td>${pct(x.early)}</td><td>${pct(x.late)}</td><td><b class="${x.d >= 0 ? 'st-up' : 'st-down'}">${sgn(x.d)}</b></td></tr>`;
     const head = ['Герой', 'До 25 мин', '45+ мин', 'Разница, п.п.'];
-    return `<h3 class="st-h">Длительность матчей</h3>${hist}<p class="st-note">Число матчей по длительности, шаг 5 минут. Матчи короче 15 минут не учитываются (брошенные игры). Radiant выигрывает ${pct(S.base.radiantWr)} матчей.</p>` +
+    return `<section id="stSideStats" class="st-card" aria-label="Статистика сторон" aria-live="polite"></section><h3 class="st-h">Длительность матчей</h3>${hist}<p class="st-note">Число матчей по длительности, шаг 5 минут. Матчи короче 15 минут не учитываются (брошенные игры). Radiant выигрывает ${pct(S.base.radiantWr)} матчей.</p>` +
       `<div class="st-grid st-grid-2"><div><h3 class="st-h">Сильнее в поздней игре</h3>${table(head, late.map(row))}</div><div><h3 class="st-h">Сильнее в ранней игре</h3>${table(head, early.map(row))}</div></div>` +
       note(`Винрейт героя в матчах до 25 минут и дольше 45 минут. Учитываются корзины с ${num(S.method.minDur)}+ матчами героя.`);
   }
@@ -259,6 +261,18 @@
 
   // ---------- переключение ----------
   const R = { tier, ranks, positions, pairs, items, matches, lanes, trend };
+  function loadRoles() {
+    if (roleLoading || roleMeta || roleError) return;
+    roleLoading = true; roleError = null;
+    fetch('/data/role-meta.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(data => {
+        if (data.schemaVersion !== 1 || !['ok', 'insufficient', 'unavailable'].includes(data.status) || !data.meta || !data.positions) throw new Error('Invalid role metadata');
+        roleMeta = data;
+      }).catch(e => { roleError = e; }).finally(() => {
+        roleLoading = false;
+        if (location.hash === '#positions') show('positions');
+      });
+  }
   function show(tab) {
     if (!TABS.includes(tab)) tab = 'tier';
     tabs.querySelectorAll('button').forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
@@ -266,11 +280,15 @@
     pane.hidden = tab === 'pro';
     if (tab !== 'pro') {
       if (!S) { pane.innerHTML = '<div class="st-loading">Загружаем статистику…</div>'; return; }
+      if (tab === 'positions') loadRoles();
       pane.innerHTML = R[tab]();
       bind(tab);
     }
   }
   function bind(tab) {
+    if (tab === 'pairs' && window.D2MatchupSearch) window.D2MatchupSearch.mount($('stMatchupSearch'), H);
+    if (tab === 'matches' && window.D2SideStats) window.D2SideStats.mount($('stSideStats'), H);
+    if (tab === 'positions' && $('stRoleRetry')) $('stRoleRetry').onclick = () => { roleError = null; loadRoles(); show('positions'); };
     if (tab === 'tier') {
       const t = state.tier;
       const q = $('stQ');

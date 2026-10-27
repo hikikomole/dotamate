@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "deny-creeps",
+    "width": 1440,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-creeps",
+    "width": 390,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-towers",
+    "width": 1440,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-towers",
+    "width": 390,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "query": "денай",
+    "found": [
+      "deny-creeps",
+      "deny-towers"
+    ]
+  },
+  {
+    "query": "реагрить крипов",
+    "found": [
+      "deny-creeps",
+      "deny-towers"
+    ]
+  }
+]

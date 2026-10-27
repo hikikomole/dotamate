@@ -30,10 +30,10 @@ const key = process.env.HOSTIMAN_SSH_KEY || path.join(os.homedir(), '.ssh', 'dot
 
 // Никогда: секреты и мусор рабочей машины.
 const EXCLUDE = ['./.git', './node_modules', './Claude outputs', './.wrangler', './deploy/.wrangler', './logs',
-  './.d2h-data-cache-v43', './.env', './secrets', './github.pat.txt', './Steam.txt', './Claude-Match-Archive-Handoff', './match-archive', './tools/replay-parser/dotamate-parser.jar', './__pycache__', './netlify-site', './.netlify'];
+  './.d2h-data-cache-v43', './.env', './secrets', './github.pat.txt', './Steam.txt', './Claude-Match-Archive-Handoff', './match-archive', './tools/replay-parser/dotamate-parser.jar', './__pycache__', './netlify-site', './.netlify', './design-concepts', './outputs'];
 if (!ARGS.has('--bootstrap')) {
   EXCLUDE.push('./stratz.capi.txt', './data/public-matches', './data/meta-matches', './data/meta-match',
-    './deploy/data', './deploy/hero', './deploy/guide');
+    './deploy/data', './deploy/hero', './deploy/guide', './deploy/item', './hero', './guide', './item');
   if (!ARGS.has('--with-data')) EXCLUDE.push('./data');
 }
 

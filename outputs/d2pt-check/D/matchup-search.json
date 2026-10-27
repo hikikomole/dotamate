@@ -1,0 +1,488 @@
+{
+  "schemaVersion": 1,
+  "builtAt": "2026-10-26T18:38:21.370Z",
+  "status": "ok",
+  "meta": {
+    "source": "steam",
+    "cohort": "ranked-all-ranks",
+    "patch": "fixture-b",
+    "patchFrom": 2000,
+    "patchTo": null,
+    "from": "1970-01-01T00:33:20.000Z",
+    "to": "1970-01-01T00:33:20.000Z",
+    "matches": 1,
+    "players": 10,
+    "methodVersion": 1,
+    "exclusions": {
+      "outsidePatch": 1
+    },
+    "coverage": {
+      "seen": 2
+    },
+    "minPairMatches": 300
+  },
+  "heroIds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "orientation": "a < b; vs.w is wins by a; with.w is joint wins",
+  "heroes": {
+    "1": {
+      "n": 1,
+      "w": 0
+    },
+    "2": {
+      "n": 1,
+      "w": 0
+    },
+    "3": {
+      "n": 1,
+      "w": 0
+    },
+    "4": {
+      "n": 1,
+      "w": 0
+    },
+    "5": {
+      "n": 1,
+      "w": 0
+    },
+    "6": {
+      "n": 1,
+      "w": 1
+    },
+    "7": {
+      "n": 1,
+      "w": 1
+    },
+    "8": {
+      "n": 1,
+      "w": 1
+    },
+    "9": {
+      "n": 1,
+      "w": 1
+    },
+    "10": {
+      "n": 1,
+      "w": 1
+    }
+  },
+  "with": [
+    {
+      "a": 1,
+      "b": 2,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 5,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 5,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 4,
+      "b": 5,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 6,
+      "b": 7,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 6,
+      "b": 8,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 6,
+      "b": 9,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 6,
+      "b": 10,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 7,
+      "b": 8,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 7,
+      "b": 9,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 7,
+      "b": 10,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 8,
+      "b": 9,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 8,
+      "b": 10,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 9,
+      "b": 10,
+      "n": 1,
+      "w": 1,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    }
+  ],
+  "vs": [
+    {
+      "a": 1,
+      "b": 6,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 7,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 8,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 9,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 1,
+      "b": 10,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 6,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 7,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 8,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 9,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 2,
+      "b": 10,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 6,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 7,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 8,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 9,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 3,
+      "b": 10,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 4,
+      "b": 6,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 4,
+      "b": 7,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 4,
+      "b": 8,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 4,
+      "b": 9,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 4,
+      "b": 10,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 5,
+      "b": 6,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 5,
+      "b": 7,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 5,
+      "b": 8,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 5,
+      "b": 9,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    },
+    {
+      "a": 5,
+      "b": 10,
+      "n": 1,
+      "w": 0,
+      "observed": null,
+      "expected": null,
+      "delta": null
+    }
+  ]
+}

@@ -1789,6 +1789,7 @@ try {
     $v = json_decode((string)@file_get_contents(dataDir() . '/site-version.json'), true);
     send($v ?: ['error' => 'no_version'], $v ? 200 : 503);
   }
+  if ($path === '/api/streams') { require __DIR__ . '/streams.php'; handleStreams(); }
   if (strpos($path, '/api/live/') === 0) handleLive($path);
   if (preg_match('#^/me/card/([a-f0-9]{20})/?$#', $path, $m)) handleCardPage($m[1]);
   // Раздел /pro/ — результаты про-матчей (deploy/api/pro.php, данные tools/pro/sync.js).

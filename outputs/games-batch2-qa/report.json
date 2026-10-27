@@ -1,0 +1,245 @@
+[
+  {
+    "slug": "counter-pick",
+    "width": 1440,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125,
+      45.03125,
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "counter-pick",
+    "width": 1100,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125,
+      45.03125,
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "counter-pick",
+    "width": 360,
+    "overflow": false,
+    "ratio": 0.8,
+    "dpr": 2,
+    "buttons": [
+      51.59375,
+      51.59375,
+      51.59375
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "budget-build",
+    "width": 1440,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125,
+      45.03125,
+      45.03125,
+      64.0625,
+      64.0625,
+      64.0625,
+      64.0625,
+      64.0625
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "budget-build",
+    "width": 1100,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125,
+      45.03125,
+      45.03125,
+      64.0625,
+      64.0625,
+      64.0625,
+      64.0625,
+      64.0625
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "budget-build",
+    "width": 360,
+    "overflow": false,
+    "ratio": 0.8,
+    "dpr": 2,
+    "buttons": [
+      51.59375,
+      51.59375,
+      68.390625,
+      68.390625,
+      68.390625,
+      68.390625,
+      85.1875,
+      85.1875
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "minimap-awareness",
+    "width": 1440,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125,
+      45.03125,
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "minimap-awareness",
+    "width": 1100,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125,
+      45.03125,
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "minimap-awareness",
+    "width": 360,
+    "overflow": false,
+    "ratio": 0.8,
+    "dpr": 2,
+    "buttons": [
+      44,
+      44,
+      44
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "rune-timing",
+    "width": 1440,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "rune-timing",
+    "width": 1100,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "rune-timing",
+    "width": 360,
+    "overflow": false,
+    "ratio": 0.8,
+    "dpr": 2,
+    "buttons": [
+      44
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "cooldown-tracking",
+    "width": 1440,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "cooldown-tracking",
+    "width": 1100,
+    "overflow": false,
+    "ratio": 1.7777777777777777,
+    "dpr": 2,
+    "buttons": [
+      45.03125
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  },
+  {
+    "slug": "cooldown-tracking",
+    "width": 360,
+    "overflow": false,
+    "ratio": 0.8,
+    "dpr": 2,
+    "buttons": [
+      68.390625
+    ],
+    "pause": true,
+    "results": true,
+    "restart": true,
+    "exceptions": 0
+  }
+]

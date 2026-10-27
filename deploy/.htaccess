@@ -35,7 +35,7 @@ ErrorDocument 404 /404/index.html
   RewriteRule ^item/aghanims_shard_roshan/?$ https://dotamate.ru/item/aghanims_shard/ [R=301,L]
   RewriteRule ^item/ultimate_scepter_roshan/?$ https://dotamate.ru/item/ultimate_scepter_2/ [R=301,L]
   RewriteRule ^item/tango_single/?$ https://dotamate.ru/item/tango/ [R=301,L]
-  RewriteRule ^api/(dota/|live/|feedback$|version$) api/index.php [L]
+  RewriteRule ^api/(dota/|live/|feedback$|version$|streams$) api/index.php [L]
   # Карточка результата /me (api/index.php, handleCardPage)
   RewriteRule ^me/card/[a-f0-9]{20}/?$ api/index.php [L]
   # Раздел /pro/ — страницы рисует api/pro.php из ~/dotamate-data/pro (шаблон — pro/index.html)

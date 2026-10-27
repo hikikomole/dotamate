@@ -82,6 +82,15 @@ function stampHtml(dir) {
   return n;
 }
 const stamped = stampHtml(DEPLOY);
+// ES module dependencies do not inherit the importing script's query string.
+const gamesJs = path.join(DEPLOY, 'js', 'games');
+if (fs.existsSync(gamesJs)) for (const name of fs.readdirSync(gamesJs)) {
+  if (!name.endsWith('.js')) continue;
+  const file = path.join(gamesJs, name), js = fs.readFileSync(file, 'utf8');
+  const out = js.replace(/(\bfrom\s*['"])(\.\/[\w./-]+\.js)(?:\?v=[^'"]*)?(['"])/g,
+    (m, prefix, url, quote) => `${prefix}${url}?v=${version}${quote}`);
+  if (out !== js) fs.writeFileSync(file, out);
+}
 fs.writeFileSync(path.join(DEPLOY, 'version.json'), JSON.stringify({ version, deployedAt: new Date().toISOString() }));
 console.log(`Версия сайта: ${version} (страниц с метками: ${stamped})`);
 

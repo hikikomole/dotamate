@@ -10,8 +10,8 @@
   if (!strip) return;
 
   var SIDES = [
-    { side: 'radiant', label: 'Мы', cls: 'us' },
-    { side: 'dire', label: 'Они', cls: 'them' }
+    { side: 'radiant', label: 'Свет', cls: 'us' },
+    { side: 'dire', label: 'Тьма', cls: 'them' }
   ];
   var LIMIT = 40;
   var open = null;   // { side, slot, el }
@@ -37,6 +37,23 @@
   }
 
   function api() { return window.D2HDraft; }
+  // Пик в полном инструменте ниже по странице перерисовывает эту полосу (шанс, предметы — она растёт на сотни
+  // пикселей). Если полоса выше видимой части экрана, её рост сдвигал инструмент под курсором («страница прыгает»):
+  // компенсируем прокрутку на изменение высоты полосы (11.10.2026).
+  // Предметы и шанс дорисовываются асинхронно, поэтому следим за высотой полосы, а не за моментом перерисовки.
+  // Держим на месте сам инструмент (#draftTool): запоминаем его положение на экране при прокрутке и после
+  // каждого изменения высоты полосы возвращаем его туда же. Встроенная привязка прокрутки браузера срабатывает
+  // не всегда (на телефоне инструмент уезжал на сотни пикселей), а если сработала — разница будет нулевой.
+  var tool = document.getElementById('draftTool');
+  var toolTop = tool ? tool.getBoundingClientRect().top : 0;
+  if (tool) window.addEventListener('scroll', function () { toolTop = tool.getBoundingClientRect().top; }, { passive: true });
+  if (tool && window.ResizeObserver) new ResizeObserver(function () {
+    if (strip.getBoundingClientRect().top >= 0) { toolTop = tool.getBoundingClientRect().top; return; }  // полоса на экране — рост естественен
+    var d = tool.getBoundingClientRect().top - toolTop;
+    if (Math.abs(d) > 1) window.scrollBy(0, d);
+    toolTop = tool.getBoundingClientRect().top;
+  }).observe(strip);
+  function drawKeepingView() { draw(); }
 
   var rowsBox = strip.querySelector('.hm-draft-rows');
   var verdict = strip.querySelector('.hm-draft-verdict');
@@ -71,17 +88,20 @@
         'Посчитаем синергию, контрпики и расклад по линиям по матрице пар из матчей Divine и Immortal.</p>';
       return;
     }
-    var share = Math.max(6, Math.min(94, 50 + sum.advantage * 0.6));
     var recs = sum.recs.map(function (r) {
       return '<button type="button" class="hm-rec" data-pick="' + r.id + '" data-side="' + r.side + '">' +
         '<img src="' + r.icon + '" alt="" loading="lazy"><span><b>' + esc(r.name) +
         '</b><small>' + pp(r.all) + '</small></span></button>';
     }).join('');
-    verdict.innerHTML =
-      '<div class="hm-adv"><span class="hm-adv-label">Перевес драфта</span>' +
-      '<b class="hm-adv-num ' + (sum.advantage >= 0 ? 'hm-up' : 'hm-down') + '">' + pp(sum.advantage) + '&nbsp;пп</b>' +
-      '<span class="hm-adv-bar"><i style="width:' + share.toFixed(1) + '%"></i></span>' +
-      '<small>Сумма парных отклонений, а не вероятность победы</small></div>' +
+    // Шанс победы — как в эфире: проценты сторон и полоса. Без калибровки среза (Stratz) — перевес в п.п.
+    var pct = function (v) { return v.toFixed(1).replace('.', ',') + '%'; };
+    var win = sum.prob != null
+      ? '<div class="hm-win"><span class="hm-win-label">Шанс победы по драфту</span>' +
+        '<span class="hm-win-row"><b class="hm-win-us">' + pct(sum.prob) + '</b><span class="hm-win-bar"><i class="hm-win-us" style="width:' + sum.prob.toFixed(1) + '%"></i><i class="hm-win-them" style="width:' + (100 - sum.prob).toFixed(1) + '%"></i></span><b class="hm-win-them">' + pct(100 - sum.prob) + '</b></span>' +
+        '<small>Свет · Тьма — по синергии и контрпикам, ход матча не учитывается</small></div>'
+      : '<div class="hm-win"><span class="hm-win-label">Перевес драфта</span><b class="hm-win-num ' + (sum.advantage >= 0 ? 'hm-up' : 'hm-down') + '">' + pp(sum.advantage) + '&nbsp;п.п.</b>' +
+        '<small>Сумма парных отклонений, а не вероятность победы</small></div>';
+    verdict.innerHTML = win +
       (recs ? '<div class="hm-recs"><span class="hm-recs-label">Кого добавить</span><div class="hm-recs-row">' + recs + '</div></div>' : '') +
       '<div class="hm-builds" id="hmBuilds"></div>';
     builds(picks);
@@ -100,16 +120,19 @@
     })).then(function (r) {
       // items-ru.json: items — объект «ключ → предмет», не массив.
       var byId = {}, byKey = r[1].items || {};
-      Object.keys(byKey).forEach(function (k) { byId[byKey[k].id] = byKey[k]; });
+      Object.keys(byKey).forEach(function (k) { byId[byKey[k].id] = byKey[k]; byKey[k].key = k; });
       return (itemData = { heroes: r[0].heroes, src: r[0].source, items: byId, byKey: byKey, impact: r[2] });
     }).catch(function (e) { itemLoading = null; throw e; });
     return itemLoading;
   }
-  function slugOf(icon) { var m = /\/assets\/heroes\/([a-z0-9_]+)\.png/.exec(icon || ''); return m ? m[1] : ''; }
+  function slugOf(icon) { var m = /\/assets\/heroes\/([a-z0-9_]+)\.(?:png|webp)/.exec(icon || ''); return m ? m[1] : ''; }
   // Вариант Б: игрок отмечает предметы в сборке героя (не больше MAX_BUILD), рядом — поправка к доле побед
   // по data/item-impact.json (tools/build-item-impact.js). Это относительный эффект «этот предмет против обычной
   // сборки героя» по наблюдениям, он не откалиброван и в прогноз по драфту не входит — показывается отдельно.
   var MAX_BUILD = 6, chosen = {}; // heroId -> [item keys]
+  // Ручная замена: place[heroId][ключ выбранного] = ключ предмета обычной сборки, на чьё место он встал.
+  // armed — выбранный предмет, для которого ждём нажатия на предмет сборки (второй способ: «куда поставить»).
+  var place = {}, armed = null;
   function pp1(v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1).replace('.', ','); }
   function builds(picks) {
     var box = document.getElementById('hmBuilds');
@@ -120,14 +143,42 @@
       var row = function (id, side) {
         var h = d.heroes[id], hero = a.hero(id); if (!hero) return '';
         // «Обычно»: частые покупки середины и поздней игры без повторов, не больше 5.
-        var usual = function () {
+        // Выбранный предмет из рамки ставится в эту сборку: если он там уже есть — подсвечивается;
+        // сапоги заменяют сапоги; иначе заменяется самый редкий из ещё не заменённых предметов.
+        var usual = function (sel) {
           if (!h) return '';
-          var seen = {}, out = [];
+          var seen = {}, slots = [];
           (h.mid || []).slice(0, 3).concat((h.late || []).slice(0, 3)).forEach(function (x) {
-            var it = d.items[String(x.i)]; if (!it || seen[x.i] || out.length >= 5) return; seen[x.i] = 1;
-            out.push('<span class="hm-bi" title="' + esc(it.dname) + ' — в ' + Math.round(100 * x.g / h.n) + '% матчей героя"><img src="' + esc(it.img) + '" alt="' + esc(it.dname) + '" loading="lazy"></span>');
+            var it = d.items[String(x.i)]; if (!it || seen[x.i] || slots.length >= 5) return; seen[x.i] = 1;
+            slots.push({ it: it, pct: Math.round(100 * x.g / h.n), g: x.g, put: null });
           });
-          return out.join('');
+          var BOOTS = /boots|treads|greaves/, man = place[id] || {};
+          // Сначала ручные замены (игрок сам указал место), потом автоматические.
+          sel.forEach(function (k) {
+            var it = d.byKey[k], t = man[k] && slots.filter(function (s) { return !s.put && s.it.key === man[k]; })[0];
+            if (it && t) { if (t.it.key !== k) t.old = t.it; t.put = it; t.k = k; }
+          });
+          sel.forEach(function (k) {
+            if (slots.some(function (s) { return s.k === k; })) return;
+            var it = d.byKey[k]; if (!it) return;
+            var same = slots.filter(function (s) { return !s.put && s.it.key === k; })[0];
+            if (same) { same.put = same.it; same.k = k; return; }
+            var free = slots.filter(function (s) { return !s.put; });
+            var boots = BOOTS.test(k) ? free.filter(function (s) { return BOOTS.test(s.it.key || ''); })[0] : null;
+            var t = boots || free.sort(function (a, b) { return a.g - b.g; })[0];
+            if (t) { t.old = t.it; t.put = it; t.k = k; }
+          });
+          var arm = armed && armed.hero === id;
+          return slots.map(function (s) {
+            var key = esc(s.old ? s.old.key : s.it.key), attrs = ' data-hero="' + id + '" data-slot="' + key + '"';
+            if (!s.put) {
+              var tt = esc(s.it.dname) + ' — в ' + s.pct + '% матчей героя' + (arm ? '. Нажмите, чтобы поставить сюда выбранный предмет' : '');
+              return arm ? '<button type="button" class="hm-bi hm-bi-slot"' + attrs + ' title="' + tt + '"><img src="' + esc(s.it.img) + '" alt="' + esc(s.it.dname) + '" loading="lazy"></button>'
+                : '<span class="hm-bi" title="' + tt + '"><img src="' + esc(s.it.img) + '" alt="' + esc(s.it.dname) + '" loading="lazy"></span>';
+            }
+            var t = (s.old ? esc(s.put.dname) + ' вместо ' + esc(s.old.dname) : esc(s.put.dname) + ' — уже в обычной сборке') + '. Нажмите, чтобы выбрать другое место';
+            return '<button type="button" class="hm-bi hm-bi-put' + (arm && armed.k === s.k ? ' is-armed' : '') + '"' + attrs + ' data-item="' + esc(s.k) + '" title="' + t + '"><img src="' + esc(s.put.img) + '" alt="' + esc(s.put.dname) + '" loading="lazy"></button>';
+          }).join('');
         };
         var hi = imp[id], sel = chosen[id] || [], effect = 0;
         sel.forEach(function (k) { if (hi && hi[k]) effect += hi[k][0]; });
@@ -140,18 +191,20 @@
         var slug = slugOf(a.icon(hero));
         return '<div class="hm-build hm-build-' + side + '">' +
           (slug ? '<a href="/hero/' + esc(slug) + '/guide/" title="Гайд: ' + esc(hero.localized_name || '') + '">' : '') + '<img class="hm-build-hero" src="' + a.icon(hero) + '" alt="" loading="lazy">' + (slug ? '</a>' : '') +
-          '<span class="hm-build-usual">' + usual() + '</span>' +
-          '<span class="hm-build-pick">' + (opts || '<small class="hm-build-none" title="Ни у одного предмета героя нет 100+ матчей в обеих группах">нет данных</small>') + '</span>' +
+          '<span class="hm-build-usual">' + usual(sel) + '</span>' +
+          (opts ? '<span class="hm-build-pick">' + opts + '</span>' : '') +
           (sel.length ? '<b class="hm-build-eff ' + (effect >= 0 ? 'hm-up' : 'hm-down') + '">' + pp1(effect) + '</b>' : '') + '</div>';
       };
       var radRows = picks.radiant.filter(Boolean).map(function (id) { return row(id, 'radiant'); }).join('');
       var direRows = picks.dire.filter(Boolean).map(function (id) { return row(id, 'dire'); }).join('');
-      var head = '<div class="hm-build-head"><span></span><span>Обычно</span><span>Сборка · нажмите предмет</span></div>';
-      var rows = radRows || direRows ? '<div class="hm-build-cols">' + (radRows ? '<div>' + head + radRows + '</div>' : '') + (direRows ? '<div>' + head + direRows + '</div>' : '') + '</div>' : '';
-      var sumLine = used.radiant || used.dire
-        ? '<p class="hm-build-sum">Поправка за сборку к доле побед: Свет <b>' + pp1(total.radiant) + '</b> п.п., Тьма <b>' + pp1(total.dire) + '</b> п.п.</p>' : '';
+      var head = function (cls, t) { return '<div class="hm-build-head ' + cls + '">' + t + '</div>'; };
+      var rows = radRows || direRows ? '<div class="hm-build-cols">' + (radRows ? '<div>' + head('hm-side-us', 'Свет') + radRows + '</div>' : '') + (direRows ? '<div>' + head('hm-side-them', 'Тьма') + direRows + '</div>' : '') + '</div>' : '';
+      // Строка поправки есть всегда (место под неё зарезервировано), видна — только когда выбран предмет:
+      // иначе при нажатии на предмет весь блок прыгал вниз на высоту строки.
+      var on = used.radiant || used.dire;
+      var sumLine = '<p class="hm-build-sum' + (on ? '' : ' is-off') + '"' + (on ? '' : ' aria-hidden="true"') + '>Поправка за сборку к доле побед: Свет <b>' + pp1(total.radiant) + '</b> п.п., Тьма <b>' + pp1(total.dire) + '</b> п.п.</p>';
       var n = d.impact ? d.impact.matches.toLocaleString('ru-RU') : '0';
-      if (box.isConnected) box.innerHTML = rows ? '<span class="hm-recs-label">Предметы героев</span>' + rows + sumLine +
+      if (box.isConnected) box.innerHTML = rows ? '<div class="hm-build-legend"><span class="hm-recs-label">Предметы героев</span><span>обычно покупают</span><span class="hm-build-key">в рамке — нажмите, чтобы поставить в сборку; затем можно нажать предмет сборки, чтобы выбрать место</span></div>' + rows + sumLine +
         '<details class="hm-build-how"><summary>Как считается</summary><p>«Обычно» — частые покупки героя в середине и конце игры (' + esc(d.src) + '). «Сборка» — предметы, по которым хватает данных (≥ ' +
         (d.impact ? d.impact.minN : 100) + ' матчей в каждой группе, ' + n + ' детальных матчей Stratz, в основном ниже Divine): поправка показывает, насколько предмет, купленный вовремя, связан с победой сильнее или слабее обычной сборки этого героя. Это наблюдение, а не откалиброванный прогноз, поэтому в вероятность по драфту оно не входит.</p></details>' : '';
     }).catch(function () { if (box.isConnected) box.innerHTML = '<small class="hm-build-src">Не удалось загрузить сборки — попробуйте обновить страницу.</small>'; });
@@ -160,7 +213,23 @@
     var b = e.target.closest && e.target.closest('.hm-bi-pick'); if (!b) return;
     var id = Number(b.getAttribute('data-hero')), k = b.getAttribute('data-item'), sel = chosen[id] || (chosen[id] = []);
     var i = sel.indexOf(k);
-    if (i >= 0) sel.splice(i, 1); else if (sel.length < MAX_BUILD) sel.push(k);
+    // Способ 1: нажатие ставит предмет в сборку автоматически и «вооружает» его — следующим нажатием
+    // на предмет обычной сборки этого героя (способ 2) можно выбрать место самому.
+    if (i >= 0) { sel.splice(i, 1); if (place[id]) delete place[id][k]; if (armed && armed.hero === id && armed.k === k) armed = null; }
+    else if (sel.length < MAX_BUILD) { sel.push(k); armed = { hero: id, k: k }; }
+    var a = api(); if (a && a.ready()) builds(a.picks());
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.hm-bi-slot, .hm-bi-put'); if (!b) return;
+    var id = Number(b.getAttribute('data-hero')), slot = b.getAttribute('data-slot'), k = b.getAttribute('data-item');
+    if (b.classList.contains('hm-bi-put')) {
+      // Нажатие на уже поставленный предмет — выбрать для него другое место (или снять выбор места).
+      armed = armed && armed.hero === id && armed.k === k ? null : { hero: id, k: k };
+    } else if (armed && armed.hero === id) {
+      var m = place[id] || (place[id] = {});
+      Object.keys(m).forEach(function (x) { if (m[x] === slot) delete m[x]; }); // место занято другим выбранным — освобождаем
+      m[armed.k] = slot; armed = null;
+    } else return;
     var a = api(); if (a && a.ready()) builds(a.picks());
   });
 
@@ -212,7 +281,7 @@
     buildPicker();
     open = { side: side, slot: slot, el: el };
     picker.querySelector('.hm-picker-tag').textContent =
-      (side === 'radiant' ? 'Мы' : 'Они') + ' · слот ' + (slot + 1);
+      (side === 'radiant' ? 'Свет' : 'Тьма') + ' · слот ' + (slot + 1);
     var input = picker.querySelector('input');
     input.value = '';
     drawList('');
@@ -279,7 +348,7 @@
   window.addEventListener('resize', closePicker);
 
   function attach() {
-    if (window.D2HDraft) { window.D2HDraft.onChange(function () { closePicker(); draw(); }); draw(); return true; }
+    if (window.D2HDraft) { window.D2HDraft.onChange(function () { closePicker(); drawKeepingView(); }); draw(); return true; }
     return false;
   }
   if (!attach()) {

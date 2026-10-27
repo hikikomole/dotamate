@@ -1,7 +1,8 @@
 /**
  * Блоки «Способности и таланты» и «Что покупают на <герое>» на странице героя.
  *
- * Данные: Stratz, брекет Divine/Immortal, по каждой из популярных позиций
+ * Данные (с U5, 09.10.2026): прокачка и таланты — рейтинговые матчи всех рангов Steam по позициям
+ * модели (поддержка 4 и 5 — общий билд, supMerged), предметы — Stratz Divine/Immortal, по каждой позиции
  * героя отдельно. Источник — data/builds/<heroId>.json, в проде поверх него
  * /api/dota/hero/<id>/build с суточным кешем.
  *
@@ -51,14 +52,17 @@
   }
 
   /**
-   * Название таланта. Сейчас английское — как в исходных данных Stratz.
-   * Русские переводы уже собраны в data/talents-ru.json: чтобы включить их,
-   * достаточно передать их в ctx.talentNames из сборщика страниц.
+   * Название таланта: русское из ctx.talentNames (сборщик build-hero-pages.js, локализация Valve
+   * с числом из дерева талантов), иначе английское из дерева или Stratz.
    */
   function talentLabel(abilityId, meta, ctx) {
     const ru = ctx.talentNames && ctx.talentNames[abilityId];
     const fromTree = ctx.talentTitles && ctx.talentTitles[abilityId];
-    return cleanTalent(ru || fromTree || (meta && meta.title) || ('Talent ' + abilityId));
+    const raw = ru || fromTree || (meta && meta.title) || '';
+    // Бонус к атрибутам в данных приходит служебным именем.
+    if (/^special_bonus_attributes$/.test(raw) || (meta && meta.name === 'special_bonus_attributes')) return 'Бонус ко всем атрибутам';
+    if (/^special_bonus_/.test(raw) || !raw) return 'Талант';
+    return cleanTalent(raw);
   }
 
   /**
@@ -68,7 +72,8 @@
    * чем служебную заглушку.
    */
   function cleanTalent(text) {
-    return String(text || '').replace(/\{s:[A-Za-z0-9_]+\}/g, '').replace(/\s+/g, ' ').replace(/^[+\-−]\s/, '').trim();
+    // «-{s:value}s Bushwhack Cooldown» без числа превращался в «-s Bushwhack…»: знак и единица без значения убираем.
+    return String(text || '').replace(/\{s:[A-Za-z0-9_]+\}/g, '').replace(/\s+/g, ' ').replace(/^[+\-−]\s/, '').replace(/^[+\-−]?(?:s|%|x)(?=\s)/, '').trim();
   }
 
   /**
@@ -78,7 +83,7 @@
    */
   function shortTalent(text) {
     const t = String(text || '').trim();
-    const num = t.match(/^([+\-−]?\d+(?:[.,]\d+)?\s*%?)/);
+    const num = t.match(/^([+\-−]?\d+(?:[.,]\d+)?(?:\s*%|s\b|с\b)?)/);
     if (num) return num[1].replace(/\s+/g, '');
     return t.length > 12 ? t.slice(0, 11).replace(/\s+\S*$/, '') + '…' : t;
   }
@@ -125,10 +130,23 @@
     return `<div class="hb-branch">
       <div class="hb-branch-head">
         <h3>${esc(label)}</h3><em>${esc(hint)}</em>
-        <span class="hb-branch-nums"><b>${wr(branch.winrate)}</b>${branch.matches ? `<u>${num(branch.matches)} ${matchWord(branch.matches)}</u>` : ''}</span>
+        <span class="hb-branch-nums"><b>${wr(branch.winrate)}</b> побед${branch.matches ? `<u>${num(branch.matches)} ${matchWord(branch.matches)}</u>` : ''}</span>
       </div>
       <div class="hb-steps">${cells}</div>
     </div>`;
+  }
+
+  /** Обозначения иконок в полосах прокачки: иконка + название способности. */
+  function legendHtml(branches, ctx) {
+    const esc = ctx.escapeHtml, seen = new Set(), out = [];
+    for (const b of branches) for (const s of (b && b.steps) || []) {
+      if (!s || seen.has(s.abilityId)) continue; seen.add(s.abilityId);
+      const a = ctx.abilities[s.abilityId] || {};
+      if (a.isTalent) { out.push(`<li><i class="hb-legend-t">Т</i><span>Талант: ${esc(talentLabel(s.abilityId, a, ctx))}</span></li>`); continue; }
+      if (!a.name || (ctx.hasAbilityIcon && !ctx.hasAbilityIcon(a.name))) continue;
+      out.push(`<li><img loading="lazy" src="${esc(abilityIcon(a.name))}" alt=""><span>${esc(a.title || a.name)}</span></li>`);
+    }
+    return out.length ? `<ul class="hb-legend" aria-label="Обозначения способностей">${out.join('')}</ul>` : '';
   }
 
   /** Таланты: уровни 25→10 сверху вниз, как в игре */
@@ -157,7 +175,7 @@
           ? 'Решает игрок'
           : `Берут ${wr(o.pick)} · Побед ${wr(o.winrate)}`;
         return `<div class="hb-tal-cell${isPick ? ' is-picked' : ''}${isWin && !isPick ? ' is-win' : ''}${unused ? ' is-unused' : ''}">
-          <b>${esc(cleanTalent(o.title) || talentLabel(o.abilityId, a, ctx))}</b>
+          <b>${esc((ctx.talentNames && ctx.talentNames[o.abilityId] && cleanTalent(ctx.talentNames[o.abilityId])) || cleanTalent(o.title) || talentLabel(o.abilityId, a, ctx))}</b>
           <span>${esc(stats)}</span>
           ${unused ? '' : tag}
         </div>`;
@@ -165,7 +183,7 @@
       const opts = t.options.slice(0, 2);
       return `<div class="hb-tal-row">${side(opts[0])}<div class="hb-tal-lvl">${t.level}</div>${side(opts[1])}</div>`;
     }).join('');
-    return `<div class="hb-talents">${rows}</div>`;
+    return `<h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents">${rows}</div>`;
   }
 
   /** Полоса предметов с таймингами */
@@ -185,7 +203,7 @@
       </a>`;
     };
     const core = items.core.map(x => card(x, false)).filter(Boolean).join('');
-    const sit = items.situational.map(x => card(x, true)).filter(Boolean).join('');
+    const sit = ctx.coreOnly ? '' : items.situational.map(x => card(x, true)).filter(Boolean).join('');
     if (!core && !sit) return '';
     return `${core ? `<div class="hb-sub"><h3>Основные предметы</h3><em>Что покупают почти всегда, в порядке среднего времени покупки</em><div class="hb-items hb-items-core">${core}</div></div>` : ''}
 ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em>Частота покупки и среднее время</em><div class="hb-items">${sit}</div></div>` : ''}`;
@@ -211,16 +229,19 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
       const chain = ctx.chains && ctx.chains[p];
       // Настоящая последовательность лучше поуровневого среза: она показывает,
       // как герои качаются на самом деле, а не что чаще встречается на уровне.
+      const legend = legendHtml(chain ? [chainToBranch(chain.popular), chainToBranch(chain.highestWin)] : [v.progression.popular, v.progression.highestWin], ctx);
       const progs = chain
-        ? `<div class="hb-progressions">
+        ? `<h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя (цифра в углу) и способность, которую на нём качают. Наведите на иконку — появится название.</p>
+          ${legend}
+          <div class="hb-progressions">
             ${progressionHtml(chainToBranch(chain.popular), 'Самая популярная', 'реальная последовательность прокачки', ctx)}
             ${progressionHtml(chainToBranch(chain.highestWin), 'Лучшая по винрейту', 'наибольший процент побед', ctx)}
           </div>
-          <p class="hb-source">Последовательности — публичные матчи всех рангов (OpenDota), выборка ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Проценты ролей и таланты — матчи Divine/Immortal (Stratz). Это разные выборки игроков.</p>`
-        : `<div class="hb-progressions">
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), ${num(chain.sampleMatches)} ${matchWord(chain.sampleMatches)}. Таланты по ролям — ${v.supMerged ? 'рейтинговые матчи всех рангов (Steam), поддержка 4 и 5 — общий билд' : build.bracket === 'ALL' ? 'рейтинговые матчи всех рангов (Steam)' : 'матчи Divine/Immortal (Stratz)'}.</p>`
+        : `<h3 class="hb-sub-h">Порядок прокачки, уровни 1–10</h3><p class="hb-hint">Каждая клетка — уровень героя и способность, которую на нём качают.</p>${legend}<div class="hb-progressions">
             ${progressionHtml(v.progression.popular, 'Частый выбор', 'самая популярная способность на каждом уровне', ctx)}
             ${progressionHtml(v.progression.highestWin, 'Выбор по винрейту', 'лучший процент побед на каждом уровне', ctx)}
-          </div>`;
+          </div>${build.bracket === 'ALL' ? `<p class="hb-source">Прокачка и таланты — рейтинговые матчи всех рангов (Steam), ${num(v.matches)} ${matchWord(v.matches)}${v.supMerged ? ', поддержка 4 и 5 — общий билд' : ''}.</p>` : ''}`;
       return `<div class="hb-pane${i === 0 ? ' on' : ''}" data-pos="${p}">
         ${progs}
         ${talentsHtml(v.talents, ctx)}
@@ -232,13 +253,13 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
     ).join('');
 
     return `<section class="hp-builds container" id="heroBuilds" data-hero-id="${build.heroId}">
-  <h2>Способности и таланты</h2>
-  <p class="hb-lead">Популярные варианты развития и выбора талантов${multi ? ' для каждой роли героя' : ''}</p>
+  <h2>Прокачка и таланты</h2>
+  <p class="hb-lead">Как качают героя и какие таланты берут${multi ? ' — выберите роль:' : '.'}</p>
   ${tabs}
   <div class="hb-panes hb-panes-skills">${panes}</div>
 
-  <h2 class="hb-h2-second">Что покупают на ${esc(build.heroName)}</h2>
-  <p class="hb-lead">Stratz, матчи Divine/Immortal, по выбранной роли. Время — средняя минута покупки.</p>
+  <h2 class="hb-h2-second">${ctx.coreOnly ? 'Порядок сборки на высоком ранге' : `Что покупают на ${esc(build.heroName)}`}</h2>
+  <p class="hb-lead">${ctx.coreOnly ? 'Основные предметы в порядке средней минуты покупки. Stratz, матчи Divine/Immortal, по выбранной роли.' : 'Stratz, матчи Divine/Immortal, по выбранной роли. Время — средняя минута покупки.'}</p>
   <div class="hb-panes hb-panes-items">${itemPanes}</div>
 </section>`;
   }
@@ -268,7 +289,7 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
     let note = host.querySelector('.hb-rolenote');
     if (!note) { note = document.createElement('p'); note.className = 'hb-rolenote'; host.querySelector('.hb-lead').after(note); }
     note.hidden = has || pos === 'all';
-    if (!note.hidden) note.textContent = `Для роли «${RU[pos]}» у Stratz мало матчей Divine/Immortal — показан билд роли «${RU[target]}».`;
+    if (!note.hidden) note.textContent = `Для роли «${RU[pos]}» мало матчей — показан билд роли «${RU[target]}».`;
     return has;
   }
 
@@ -298,14 +319,19 @@ ${sit ? `<div class="hb-sub"><h3>Ситуативные предметы</h3><em
     const minRole = box ? Number(box.dataset.minRole) || 80 : 80;
     const avail = {};
     for (const pos of Object.keys(RU)) {
+      // Роль доступна, только когда для неё есть свой билд (прокачка, таланты, сборка).
+      // Иначе она неактивна и не нажимается — без подмены чужим билдом. Страницы
+      // пересобираются при каждом обновлении данных, поэтому роль включится сама,
+      // как только матчей станет достаточно.
       const b = !!(host && host.querySelector(`.hb-panes-skills .hb-pane[data-pos="${pos}"]`));
-      const i = roles[pos] === 1;
-      avail[pos] = b || i ? true : `Мало матчей для своего билда: у Stratz меньше 300 матчей Divine/Immortal, в нашей базе ${roles[pos] || 0} из ${minRole}`;
+      avail[pos] = b ? true : `Пока мало данных: на этой роли недостаточно матчей для своего билда (в нашей базе ${roles[pos] || 0} матчей героя на роли).`;
     }
-    R.bindSwitch(row, avail, pos => {
+    const select = R.bindSwitch(row, avail, pos => {
       showBuild(host, pos);
       showBuys(box, pos, roles, minRole);
     });
+    // Вкладки ролей внутри «Прокачки» и строка ролей — один переключатель.
+    if (host && select) host.querySelectorAll('.hb-tab').forEach(btn => btn.addEventListener('click', () => select(btn.dataset.pos)));
   }
   document.addEventListener('d2h:roles-row', bind);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);

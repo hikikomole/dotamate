@@ -1,0 +1,61 @@
+[
+  {
+    "file": "deploy/hero/invoker/index.html",
+    "lostClasses": [],
+    "addedClasses": [
+      "nav-dd",
+      "nav-dd-arrow",
+      "nav-dd-menu",
+      "theme-toggle",
+      "hx-fav",
+      "hp-tools",
+      "hp-tool"
+    ],
+    "hxTiles": [
+      7,
+      7
+    ],
+    "hxCharts": [
+      2,
+      2
+    ]
+  },
+  {
+    "file": "deploy/item/blink/index.html",
+    "lostClasses": [],
+    "addedClasses": [
+      "nav-dd",
+      "nav-dd-arrow",
+      "nav-dd-menu",
+      "theme-toggle"
+    ],
+    "hxTiles": [
+      0,
+      0
+    ],
+    "hxCharts": [
+      0,
+      0
+    ]
+  },
+  {
+    "file": "deploy/guide/blink-dagger/index.html",
+    "lostClasses": [
+      "nav-tg"
+    ],
+    "addedClasses": [
+      "nav-dd",
+      "nav-dd-arrow",
+      "nav-dd-menu",
+      "theme-toggle"
+    ],
+    "hxTiles": [
+      0,
+      0
+    ],
+    "hxCharts": [
+      0,
+      0
+    ]
+  }
+]

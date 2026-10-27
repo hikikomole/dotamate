@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Echo Sabre: двойной удар и замедление | Гайд Dota Mate</title>
 <meta name="description" content="Как работает двойная атака Echo Sabre, кому она нужна и почему предмет только для ближнего боя.">
 <link rel="canonical" href="https://dotamate.ru/guide/echo-sabre/">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Echo Sabre: двойной удар и замедление | Гайд Dota Mate">
 <meta property="og:description" content="Как работает двойная атака Echo Sabre, кому она нужна и почему предмет только для ближнего боя.">
@@ -15,17 +16,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Echo Sabre: двойной удар и замедление | Гайд Dota Mate">
 <meta name="twitter:description" content="Как работает двойная атака Echo Sabre, кому она нужна и почему предмет только для ближнего боя.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Echo Sabre: двойной удар и замедление","description":"Как работает двойная атака Echo Sabre, кому она нужна и почему предмет только для ближнего боя.","mainEntityOfPage":"https://dotamate.ru/guide/echo-sabre/","datePublished":"2026-10-02","dateModified":"2026-10-02","author":{"@type":"Organization","name":"Dota Mate"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":"Echo Sabre: двойной удар и замедление","item":"https://dotamate.ru/guide/echo-sabre/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Как часто срабатывает Echo Sabre?","acceptedAnswer":{"@type":"Answer","text":"Раз в 5 секунд."}},{"@type":"Question","name":"Работает ли Echo Sabre у героев дальнего боя?","acceptedAnswer":{"@type":"Answer","text":"Нет, двойная атака только в ближнем бою."}},{"@type":"Question","name":"Сколько стоит эхо сабля?","acceptedAnswer":{"@type":"Answer","text":"2700 золота."}}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+
 <!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
@@ -34,8 +36,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a class="nav-tg" href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram ↗</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -46,17 +48,23 @@
   <div class="eyebrow">ПРЕДМЕТЫ</div>
   <h1 style="margin:6px 0 20px;">Echo Sabre: двойной удар и замедление</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">Как работает двойная атака Echo Sabre, кому она нужна и почему предмет только для ближнего боя.</p>
-  <div class="detail-section" style="border-left:3px solid #d4a64a;padding:14px 18px;margin:0 0 28px;"><div class="eyebrow" style="margin-bottom:6px;">Коротко</div><p style="line-height:1.6;color:#e8ecf3;margin:0;">Echo Sabre стоит 2700 золота: +20 к урону, +15 к силе и +1.75 к восстановлению маны. Герой ближнего боя раз в 5 секунд совершает две атаки подряд, и первая на 0.8 секунды полностью останавливает цель.</p></div><section class="detail-section"><h2>Что даёт предмет</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Эхо сабля собирается из Ogre Axe, Broadsword и Void Stone. Пассивная Echo Strike позволяет владельцу ближнего боя ударить дважды подряд; первая атака на 0.8 секунды уменьшает скорость передвижения жертвы на 100%. Перезарядка 5 секунд. Двойной удар работает только у героев ближнего боя.</p></section><section class="detail-section"><h2>Почему это сильно</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Двойная атака удваивает эффекты, которые срабатывают от удара: дополнительный урон способностей, критические удары и оглушения от атак. Замедление на 0.8 секунды помогает догнать цель и не дать ей сразу уйти после первого удара.</p></section><section class="detail-section"><h2>Кому собирать</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">По данным OpenDota, Echo Sabre чаще всего покупают Sven, Dawnbreaker, Tiny, Magnus, Omniknight и Monkey King — силовые герои ближнего боя с большим уроном одной атаки.</p></section><section class="detail-section"><h2>Когда не нужна</h2><ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><li>Ты герой дальнего боя: двойной удар не работает.</li><li>Тебе нужна защита, а не урон.</li><li>У героя мало урона с руки, и двойной удар даёт немного.</li></ul></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Как часто срабатывает Echo Sabre?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Раз в 5 секунд.</p><h3 style="margin:18px 0 8px;">Работает ли Echo Sabre у героев дальнего боя?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Нет, двойная атака только в ближнем бою.</p><h3 style="margin:18px 0 8px;">Сколько стоит эхо сабля?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">2700 золота.</p></section>
+  <section class="detail-section hx-quick"><h2 class="hq-title">Коротко</h2><p class="hq-answer">Echo Sabre стоит 2700 золота: +20 к урону, +15 к силе и +1.75 к восстановлению маны. Герой ближнего боя раз в 5 секунд совершает две атаки подряд, и первая на 0.8 секунды полностью останавливает цель.</p></section><section class="detail-section"><h2>Что даёт предмет</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Эхо сабля собирается из Ogre Axe, Broadsword и Void Stone. Пассивная Echo Strike позволяет владельцу ближнего боя ударить дважды подряд; первая атака на 0.8 секунды уменьшает скорость передвижения жертвы на 100%. Перезарядка 5 секунд. Двойной удар работает только у героев ближнего боя.</p></section><section class="detail-section"><h2>Почему это сильно</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Двойная атака удваивает эффекты, которые срабатывают от удара: дополнительный урон способностей, критические удары и оглушения от атак. Замедление на 0.8 секунды помогает догнать цель и не дать ей сразу уйти после первого удара.</p></section><section class="detail-section"><h2>Кому собирать</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">По данным OpenDota, Echo Sabre чаще всего покупают Sven, Dawnbreaker, Tiny, Magnus, Omniknight и Monkey King — силовые герои ближнего боя с большим уроном одной атаки.</p></section><section class="detail-section"><h2>Когда не нужна</h2><ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><li>Ты герой дальнего боя: двойной удар не работает.</li><li>Тебе нужна защита, а не урон.</li><li>У героя мало урона с руки, и двойной удар даёт немного.</li></ul></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Как часто срабатывает Echo Sabre?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Раз в 5 секунд.</p><h3 style="margin:18px 0 8px;">Работает ли Echo Sabre у героев дальнего боя?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Нет, двойная атака только в ближнем бою.</p><h3 style="margin:18px 0 8px;">Сколько стоит эхо сабля?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">2700 золота.</p></section>
   <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="/items/">Открыть раздел «Предметы» →</a>
   </div>
   <div class="detail-section" style="margin-top:34px;">
+    <h3>Предмет в цифрах</h3>
+    <div class="linked-list"><a href="/item/echo_sabre/"><img src="/assets/items/echo_sabre.png" alt="" loading="lazy">Echo Sabre<span>2 700 з.</span></a></div>
+    <p style="color:#9aa0ab;font-size:13px;margin:16px 0 8px;">Чаще всего покупают (OpenDota):</p>
+    <div class="linked-list"><a href="/hero/sven/"><img src="/assets/heroes/sven.webp" alt="" loading="lazy">Sven<span>→</span></a><a href="/hero/dawnbreaker/"><img src="/assets/heroes/dawnbreaker.webp" alt="" loading="lazy">Dawnbreaker<span>→</span></a><a href="/hero/tiny/"><img src="/assets/heroes/tiny.webp" alt="" loading="lazy">Tiny<span>→</span></a><a href="/hero/magnataur/"><img src="/assets/heroes/magnataur.webp" alt="" loading="lazy">Magnus<span>→</span></a><a href="/hero/omniknight/"><img src="/assets/heroes/omniknight.webp" alt="" loading="lazy">Omniknight<span>→</span></a><a href="/hero/monkey_king/"><img src="/assets/heroes/monkey_king.webp" alt="" loading="lazy">Monkey King<span>→</span></a></div>
+  </div>
+  <div class="detail-section" style="margin-top:34px;">
     <h3>Другие гайды</h3>
     <div class="linked-list"><a href="/guide/neutral-items-madstone/"><span style="font-size:20px;">💎</span>Нейтральные предметы: мадстоун, артефакты и зачарования<span>→</span></a><a href="/guide/smoke-of-deceit/"><span style="font-size:20px;">🌫</span>Smoke of Deceit: как пользоваться смоком<span>→</span></a><a href="/guide/skull-basher-abyssal-blade/"><span style="font-size:20px;">🔨</span>Skull Basher и Abyssal Blade: оглушение от атак<span>→</span></a><a href="/guide/nullifier/"><span style="font-size:20px;">⛔</span>Nullifier: как снять с врага Ghost Scepter и Eul<span>→</span></a></div>
   </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

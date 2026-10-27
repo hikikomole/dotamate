@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Platemail — предмет Dota 2: характеристики и описание | Dota Mate</title>
@@ -15,15 +16,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Platemail — предмет Dota 2: характеристики и описание | Dota Mate">
 <meta name="twitter:description" content="Platemail за 1400 золота дает владельцу 10 единиц брони. Ознакомьтесь с описанием и лором этого защитного предмета в нашем подробном игровом справочнике.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Platemail","item":"https://dotamate.ru/item/platemail/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -31,8 +31,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -63,12 +63,12 @@
       
       <details class="it-sec itb-more ip-lore"><summary>История предмета</summary><p>Толстые металлические пластины, полностью защищающие торс. На ноги не ронять.</p></details>
     </div>
-    <aside class="it-aside"><div class="it-card"><div class="it-kicker">Позиции</div><div class="it-bar"><span>Оффлейн<b>61,2%</b></span><i><u style="width:100%"></u></i></div><div class="it-bar"><span>Мид<b>16,3%</b></span><i><u style="width:27%"></u></i></div><div class="it-bar"><span>Саппорт 4<b>8,2%</b></span><i><u style="width:13%"></u></i></div><div class="it-bar"><span>Саппорт 5<b>8,2%</b></span><i><u style="width:13%"></u></i></div><div class="it-bar"><span>Керри<b>6,1%</b></span><i><u style="width:10%"></u></i></div></div>
+    <aside class="it-aside"><div class="it-card itb-pass"><div class="it-kicker">Характеристики</div><dl><div><dt>Цена</dt><dd>1 400 золота</dd></div><div><dt>Раздел</dt><dd>Предмет</dd></div></dl></div><div class="it-card"><div class="it-kicker">Позиции</div><div class="it-bar"><span>Оффлейн<b>61,2%</b></span><i><u style="width:100%"></u></i></div><div class="it-bar"><span>Мид<b>16,3%</b></span><i><u style="width:27%"></u></i></div><div class="it-bar"><span>Саппорт 4<b>8,2%</b></span><i><u style="width:13%"></u></i></div><div class="it-bar"><span>Саппорт 5<b>8,2%</b></span><i><u style="width:13%"></u></i></div><div class="it-bar"><span>Керри<b>6,1%</b></span><i><u style="width:10%"></u></i></div></div>
         
         
         <p class="it-src">1 829 матчей Stratz из базы Dotamate, обновлено 02.10.2026.</p></aside>
   </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

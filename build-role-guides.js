@@ -22,6 +22,7 @@ function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
   return `<!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
@@ -42,6 +43,7 @@ function pageShell({title,desc,canonical,ldjsonList,bodyHtml}){
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 ${ldjsonList.map(j=>`<script type="application/ld+json">${j}</script>`).join('\n')}
 ${analyticsSnippet}
 </head>
@@ -51,7 +53,7 @@ ${analyticsSnippet}
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
     ${siteNav.navHtml('guides')}
-    <div class="nav-spacer"></div>
+    <div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="???????? ??????? ????" aria-pressed="false">?</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>

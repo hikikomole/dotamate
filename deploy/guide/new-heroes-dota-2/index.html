@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Новые герои Dota 2: последние добавленные | Гайд Dota Mate</title>
 <meta name="description" content="Какие герои вышли последними и когда: от Largo до Void Spirit и Snapfire.">
 <link rel="canonical" href="https://dotamate.ru/guide/new-heroes-dota-2/">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Новые герои Dota 2: последние добавленные | Гайд Dota Mate">
 <meta property="og:description" content="Какие герои вышли последними и когда: от Largo до Void Spirit и Snapfire.">
@@ -15,17 +16,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Новые герои Dota 2: последние добавленные | Гайд Dota Mate">
 <meta name="twitter:description" content="Какие герои вышли последними и когда: от Largo до Void Spirit и Snapfire.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Новые герои Dota 2: последние добавленные","description":"Какие герои вышли последними и когда: от Largo до Void Spirit и Snapfire.","mainEntityOfPage":"https://dotamate.ru/guide/new-heroes-dota-2/","datePublished":"2026-10-02","dateModified":"2026-10-02","author":{"@type":"Organization","name":"Dota Mate"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":"Новые герои Dota 2: последние добавленные","item":"https://dotamate.ru/guide/new-heroes-dota-2/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Какой последний герой в Dota 2?","acceptedAnswer":{"@type":"Answer","text":"Largo — вышел в декабре 2025 года с патчем 7.40."}},{"@type":"Question","name":"Когда вышел Kez?","acceptedAnswer":{"@type":"Answer","text":"7 ноября 2024 года."}}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+
 <!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
@@ -34,8 +36,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a class="nav-tg" href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram ↗</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -46,17 +48,18 @@
   <div class="eyebrow">ГЕРОИ</div>
   <h1 style="margin:6px 0 20px;">Новые герои Dota 2: последние добавленные</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">Какие герои вышли последними и когда: от Largo до Void Spirit и Snapfire.</p>
-  <div class="detail-section" style="border-left:3px solid #d4a64a;padding:14px 18px;margin:0 0 28px;"><div class="eyebrow" style="margin-bottom:6px;">Коротко</div><p style="line-height:1.6;color:#e8ecf3;margin:0;">Последний добавленный герой — Largo (декабрь 2025, вместе с патчем 7.40). До него вышли Kez (7 ноября 2024), Ringmaster (2024), Muerta (6 марта 2023) и Primal Beast (23 февраля 2022).</p></div><section class="detail-section"><h2>Последние герои</h2><div style="overflow-x:auto;margin:16px 0;"><table><thead><tr><th>Герой</th><th>Дата выхода</th></tr></thead><tbody><tr><td><b style="color:#e8ecf3;">Largo</b></td><td>декабрь 2025, патч 7.40</td></tr><tr><td><b style="color:#e8ecf3;">Kez</b></td><td>7 ноября 2024</td></tr><tr><td><b style="color:#e8ecf3;">Ringmaster</b></td><td>2024</td></tr><tr><td><b style="color:#e8ecf3;">Muerta</b></td><td>6 марта 2023</td></tr><tr><td><b style="color:#e8ecf3;">Primal Beast</b></td><td>23 февраля 2022</td></tr><tr><td><b style="color:#e8ecf3;">Marci</b></td><td>28 октября 2021</td></tr><tr><td><b style="color:#e8ecf3;">Dawnbreaker</b></td><td>9 апреля 2021</td></tr><tr><td><b style="color:#e8ecf3;">Hoodwink</b></td><td>17 декабря 2020</td></tr><tr><td><b style="color:#e8ecf3;">Void Spirit</b></td><td>26 ноября 2019</td></tr><tr><td><b style="color:#e8ecf3;">Snapfire</b></td><td>26 ноября 2019</td></tr></tbody></table></div><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Даты Muerta, Primal Beast, Marci, Dawnbreaker, Hoodwink, Void Spirit и Snapfire совпадают с датами патчей Valve, с которыми они вышли.</p></section><section class="detail-section"><h2>Сколько героев сейчас</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">С выходом Largo в игре стало 127 героев. Сложность новых героев по оценке Valve: Kez — 3, Largo — 2, Ringmaster — 2 (подробнее — в гайде про самых сложных героев).</p></section><section class="detail-section"><h2>Откуда данные</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Даты — по списку героев esports.net и новостям esports.gg (Kez), GosuGamers (Largo в патче 7.40), сверены с датами патчей из официального списка Valve (dota2.com/datafeed/patchnoteslist). Для Ringmaster точная дата в источниках расходится, поэтому указан только год.</p></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Какой последний герой в Dota 2?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Largo — вышел в декабре 2025 года с патчем 7.40.</p><h3 style="margin:18px 0 8px;">Когда вышел Kez?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">7 ноября 2024 года.</p></section>
+  <section class="detail-section hx-quick"><h2 class="hq-title">Коротко</h2><p class="hq-answer">Последний добавленный герой — Largo (декабрь 2025, вместе с патчем 7.40). До него вышли Kez (7 ноября 2024), Ringmaster (2024), Muerta (6 марта 2023) и Primal Beast (23 февраля 2022).</p></section><section class="detail-section"><h2>Последние герои</h2><div style="overflow-x:auto;margin:16px 0;"><table><thead><tr><th>Герой</th><th>Дата выхода</th></tr></thead><tbody><tr><td><b style="color:#e8ecf3;">Largo</b></td><td>декабрь 2025, патч 7.40</td></tr><tr><td><b style="color:#e8ecf3;">Kez</b></td><td>7 ноября 2024</td></tr><tr><td><b style="color:#e8ecf3;">Ringmaster</b></td><td>2024</td></tr><tr><td><b style="color:#e8ecf3;">Muerta</b></td><td>6 марта 2023</td></tr><tr><td><b style="color:#e8ecf3;">Primal Beast</b></td><td>23 февраля 2022</td></tr><tr><td><b style="color:#e8ecf3;">Marci</b></td><td>28 октября 2021</td></tr><tr><td><b style="color:#e8ecf3;">Dawnbreaker</b></td><td>9 апреля 2021</td></tr><tr><td><b style="color:#e8ecf3;">Hoodwink</b></td><td>17 декабря 2020</td></tr><tr><td><b style="color:#e8ecf3;">Void Spirit</b></td><td>26 ноября 2019</td></tr><tr><td><b style="color:#e8ecf3;">Snapfire</b></td><td>26 ноября 2019</td></tr></tbody></table></div><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Даты Muerta, Primal Beast, Marci, Dawnbreaker, Hoodwink, Void Spirit и Snapfire совпадают с датами патчей Valve, с которыми они вышли.</p></section><section class="detail-section"><h2>Сколько героев сейчас</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">С выходом Largo в игре стало 127 героев. Сложность новых героев по оценке Valve: Kez — 3, Largo — 2, Ringmaster — 2 (подробнее — в гайде про самых сложных героев).</p></section><section class="detail-section"><h2>Откуда данные</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Даты — по списку героев esports.net и новостям esports.gg (Kez), GosuGamers (Largo в патче 7.40), сверены с датами патчей из официального списка Valve (dota2.com/datafeed/patchnoteslist). Для Ringmaster точная дата в источниках расходится, поэтому указан только год.</p></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Какой последний герой в Dota 2?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Largo — вышел в декабре 2025 года с патчем 7.40.</p><h3 style="margin:18px 0 8px;">Когда вышел Kez?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">7 ноября 2024 года.</p></section>
   <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="/heroes/">Открыть раздел «Герои» →</a>
   </div>
+  
   <div class="detail-section" style="margin-top:34px;">
     <h3>Другие гайды</h3>
     <div class="linked-list"><a href="/guide/how-many-heroes/"><span style="font-size:20px;">🧮</span>Сколько героев в Dota 2 и как они делятся<span>→</span></a><a href="/guide/best-heroes-for-beginners/"><span style="font-size:20px;">🛡</span>Лучшие герои для новичков в Dota 2<span>→</span></a><a href="/guide/summon-heroes/"><span style="font-size:20px;">🐺</span>Герои с призывом существ в Dota 2<span>→</span></a><a href="/guide/healer-heroes/"><span style="font-size:20px;">💚</span>Герои с лечением союзников в Dota 2<span>→</span></a></div>
   </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

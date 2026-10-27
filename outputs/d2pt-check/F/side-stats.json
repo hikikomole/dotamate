@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "builtAt": "2026-10-26T18:38:21.425Z",
+  "status": "ok",
+  "meta": {
+    "source": "steam",
+    "cohort": "ranked-all-ranks",
+    "patch": "fixture-b",
+    "patchFrom": 2000,
+    "patchTo": null,
+    "from": "1970-01-01T00:33:20.000Z",
+    "to": "1970-01-01T00:33:20.000Z",
+    "matches": 1,
+    "players": 10,
+    "methodVersion": 1,
+    "exclusions": {
+      "outsidePatch": 1
+    },
+    "coverage": {
+      "seen": 2
+    }
+  },
+  "duration": [
+    {
+      "key": "15–25",
+      "n": 1,
+      "radiantWins": 0,
+      "radiantWr": null
+    },
+    {
+      "key": "25–35",
+      "n": 0,
+      "radiantWins": 0,
+      "radiantWr": null
+    },
+    {
+      "key": "35–45",
+      "n": 0,
+      "radiantWins": 0,
+      "radiantWr": null
+    },
+    {
+      "key": "45+",
+      "n": 0,
+      "radiantWins": 0,
+      "radiantWr": null
+    }
+  ],
+  "heroes": [
+    {
+      "id": 1,
+      "radiant": {
+        "n": 1,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 2,
+      "radiant": {
+        "n": 1,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 3,
+      "radiant": {
+        "n": 1,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 4,
+      "radiant": {
+        "n": 1,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 5,
+      "radiant": {
+        "n": 1,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 6,
+      "radiant": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 1,
+        "w": 1,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 7,
+      "radiant": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 1,
+        "w": 1,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 8,
+      "radiant": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 1,
+        "w": 1,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 9,
+      "radiant": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 1,
+        "w": 1,
+        "wr": null
+      },
+      "delta": null
+    },
+    {
+      "id": 10,
+      "radiant": {
+        "n": 0,
+        "w": 0,
+        "wr": null
+      },
+      "dire": {
+        "n": 1,
+        "w": 1,
+        "wr": null
+      },
+      "delta": null
+    }
+  ],
+  "lanes": {
+    "status": "unavailable",
+    "reason": "Requires independently labeled replay economy at 10 minutes"
+  }
+}

@@ -66,14 +66,16 @@ async function main() {
 
   // OpenDota с сервера сайта отвечает нестабильно: при сбое — локальные снимки (data/heroes.json, data/items-ru.json).
   const odota = async (url, fallback) => {
-    try { const r = await fetch(url, { signal: AbortSignal.timeout(20000) }); if (!r.ok) throw new Error('HTTP ' + r.status); const j = await r.json(); if (!j || typeof j !== 'object') throw new Error('пустой ответ'); return j; }
+    try { if(process.argv.includes('--offline')) throw new Error('offline'); const r = await fetch(url, { signal: AbortSignal.timeout(20000) }); if (!r.ok) throw new Error('HTTP ' + r.status); const j = await r.json(); if (!j || typeof j !== 'object') throw new Error('пустой ответ'); return j; }
     catch (e) { console.warn('OpenDota недоступна (' + url.replace(/^.*\/api\//, '') + ': ' + e.message + ') — локальный снимок'); return fallback(); }
   };
   const heroes = await odota('https://api.opendota.com/api/heroStats', () => JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'heroes.json'), 'utf8')).heroes);
   const byId = new Map(heroes.map(h => [Number(h.id), h]));
   // Характеристики 1-го уровня — официальный datafeed Valve (tools/valve-hero-stats.js).
   const valveHero = require('./tools/valve-hero-stats.js');
-  const valveStats = await valveHero.load(heroes.map(x => x.id));
+  const valveStats = process.argv.includes('--offline')
+    ? JSON.parse(fs.readFileSync(valveHero.CACHE, 'utf8')).heroes
+    : await valveHero.load(heroes.map(x => x.id));
   const itemsRaw = await odota('https://api.opendota.com/api/constants/items', () => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'items-ru.json'), 'utf8')).items).map(([k, v]) => [k, { id: v.id, dname: v.dname }])));
   // Справочник предметов OpenDota шире нашего каталога: там есть
   // ward_observer, ward_sentry, harpoon и shadow_amulet, а страниц у них нет.
@@ -232,6 +234,7 @@ async function main() {
     const html = `<!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
@@ -250,6 +253,7 @@ async function main() {
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 <script type="application/ld+json">${ldjson}</script>
 ${analytics}
 </head>
@@ -259,7 +263,7 @@ ${analytics}
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
     ${siteNav.navHtml('heroes')}
-    <div class="nav-spacer"></div>
+    <div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="???????? ??????? ????" aria-pressed="false">?</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>

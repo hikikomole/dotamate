@@ -1,31 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wraith King — билд, гайд и контрпики | Dota Mate</title>
-<meta name="description" content="Wraith King - простой герой силы ближнего боя. Он выступает как танк и инициатор со способностью Wraithfire Blast. Изучите его характеристики и билды.">
+<meta name="description" content="Билд на Wraith King и контрпики. Wraith King - простой герой силы ближнего боя. Он выступает как танк и инициатор со способностью Wraithfire Blast.">
 <link rel="canonical" href="https://dotamate.ru/hero/skeleton_king/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Wraith King — билд, гайд и контрпики | Dota Mate">
-<meta property="og:description" content="Wraith King - простой герой силы ближнего боя. Он выступает как танк и инициатор со способностью Wraithfire Blast. Изучите его характеристики и билды.">
+<meta property="og:description" content="Билд на Wraith King и контрпики. Wraith King - простой герой силы ближнего боя. Он выступает как танк и инициатор со способностью Wraithfire Blast.">
 <meta property="og:image" content="/assets/heroes/skeleton_king.webp">
 <meta property="og:url" content="https://dotamate.ru/hero/skeleton_king/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Wraith King — билд, гайд и контрпики | Dota Mate">
-<meta name="twitter:description" content="Wraith King - простой герой силы ближнего боя. Он выступает как танк и инициатор со способностью Wraithfire Blast. Изучите его характеристики и билды.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<meta name="twitter:description" content="Билд на Wraith King и контрпики. Wraith King - простой герой силы ближнего боя. Он выступает как танк и инициатор со способностью Wraithfire Blast.">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <script src="/js/hero-roles.js" defer></script>
 <script src="/js/hero-builds.js" defer></script>
+<script src="/js/my-heroes.js" defer></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Герои","item":"https://dotamate.ru/#heroes"},{"@type":"ListItem","position":3,"name":"Wraith King","item":"https://dotamate.ru/hero/skeleton_king/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -33,8 +35,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/" aria-current="page" class="active">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -44,28 +46,30 @@
   <div class="hx-id">
     <nav aria-label="breadcrumb" class="hp-crumbs"><a href="/heroes/">Герои</a> <span>›</span> <span aria-current="page">Wraith King</span></nav>
     <h1>Wraith King <span>— билд, контрпики, винрейт</span></h1>
-    <p class="hx-sub"><i class="hx-attr str"></i>Сила · Ближний бой · Оффлейн в 70,3 % игр</p>
+    <p class="hx-sub"><i class="hx-attr str"></i><span>Сила · Ближний бой · Оффлейн в 70,3 % игр</span><small class="hx-src">роли — Stratz, все ранги</small></p>
+    <button type="button" class="hx-fav" data-myhero="42" aria-pressed="false" hidden>☆ В мои герои</button>
   </div>
   <div class="hx-kpis">
     <div class="hx-kpi"><small>Тир</small><b><span class="hx-tier s">S</span></b></div>
-    <div class="hx-kpi"><small>Винрейт</small><b>55,4 %</b><em>место 1 из 127</em></div>
+    <div class="hx-kpi"><small>Винрейт</small><b>55,4 %</b><em>место 1 из 127 по надёжному винрейту</em></div>
     <div class="hx-kpi"><small>Пикрейт</small><b>13,7 %</b></div>
     <div class="hx-kpi"><small>Матчей</small><b>47 133</b></div>
-    <div class="hx-kpi"><small>Место в роли</small><b>6 из 31</b><em>Оффлейн</em></div>
+    <div class="hx-kpi"><small>Место в роли</small><b>4 из 31</b><em>Оффлейн</em></div>
     <div class="hx-kpi"><small>Сложность</small><b><span aria-label="Сложность 1 из 3">●<span class="hx-mut">●●</span></span></b></div>
   </div>
   <ul class="hx-notes"><li>Фармит быстрее своей роли: 534 золота/мин при среднем 499</li></ul>
-  <p class="hx-src">Своя база: 342 826 рейтинговых матчей, 0–4500 MMR. <a href="/stats/">Вся статистика героев</a></p>
+  <p class="hx-src">Своя база: 342 826 рейтинговых матчей. <a href="/stats/">Вся статистика героев</a></p>
 </section>
+  <section class="container hx-quick" aria-labelledby="hx-quick-title"><h2 class="hq-title" id="hx-quick-title">Коротко</h2><dl><div><dt>Позиции</dt><dd><ul class="hq-positions"><li><span>Позиция 3</span><b>60%</b><span class="hq-track" aria-hidden="true"><i style="width:60%"></i></span></li><li><span>Позиция 1</span><b>38%</b><span class="hq-track" aria-hidden="true"><i style="width:38%"></i></span></li><li><span>Позиция 2</span><b>1.1%</b><span class="hq-track" aria-hidden="true"><i style="width:1.1%"></i></span></li></ul></dd></div><div><dt>Ключевые предметы</dt><dd><ul class="hq-items"><li><a href="/item/bracer/"><img src="/assets/items/bracer.png" alt="" width="64" height="48" loading="lazy"><span>Bracer</span></a></li><li><a href="/item/magic_wand/"><img src="/assets/items/magic_wand.png" alt="" width="64" height="48" loading="lazy"><span>Magic Wand</span></a></li><li><a href="/item/radiance/"><img src="/assets/items/radiance.png" alt="" width="64" height="48" loading="lazy"><span>Radiance</span></a></li><li><a href="/item/blink/"><img src="/assets/items/blink.png" alt="" width="64" height="48" loading="lazy"><span>Blink Dagger</span></a></li><li><a href="/item/oblivion_staff/"><img src="/assets/items/oblivion_staff.png" alt="" width="64" height="48" loading="lazy"><span>Oblivion Staff</span></a></li></ul></dd></div><div><dt>Контрит</dt><dd><ul class="hq-heroes"><li><a href="/hero/templar_assassin/"><img src="/assets/heroes/templar_assassin.webp" alt="" width="48" height="27" loading="lazy"><span>Templar Assassin</span><b class="hq-positive">+4.5 п.п.</b></a></li><li><a href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.webp" alt="" width="48" height="27" loading="lazy"><span>Arc Warden</span><b class="hq-positive">+4.4 п.п.</b></a></li><li><a href="/hero/visage/"><img src="/assets/heroes/visage.webp" alt="" width="48" height="27" loading="lazy"><span>Visage</span><b class="hq-positive">+4.1 п.п.</b></a></li></ul></dd></div><div><dt>Контрится</dt><dd><ul class="hq-heroes"><li><a href="/hero/naga_siren/"><img src="/assets/heroes/naga_siren.webp" alt="" width="48" height="27" loading="lazy"><span>Naga Siren</span><b class="hq-negative">-8.3 п.п.</b></a></li><li><a href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" width="48" height="27" loading="lazy"><span>Venomancer</span><b class="hq-negative">-5.6 п.п.</b></a></li><li><a href="/hero/abaddon/"><img src="/assets/heroes/abaddon.webp" alt="" width="48" height="27" loading="lazy"><span>Abaddon</span><b class="hq-negative">-4.6 п.п.</b></a></li></ul></dd></div></dl><p class="hr-note">Stratz GraphQL API, DIVINE_IMMORTAL, 2026-09-25T14:00:39.095Z · билды: DIVINE_IMMORTAL, 2026-09-25T13:04:48.712Z, 5490 матчей · Своя база публичных матчей (OpenDota /publicMatches), Ranked All Pick, 0-4500 MMR, 342826 матчей, 2026-09-25T16:22:45.845Z; log5: d = фактическая доля побед пары − ожидаемая по общим винрейтам, п.п.</p></section>
   <section class="container hx-rows"><div class="hx-row r1"><article class="hx-tile hx-wide"><h2>Wraith King против других: Оффлейн</h2>
-<p class="hx-lead">Место по винрейту на этой позиции: <b>6 из 31</b> героев (от 30 игр на позиции).</p>
+<p class="hx-lead">Место по надёжному винрейту на этой позиции: <b>4 из 31</b> героев (от 30 игр на позиции).</p>
 <table class="hx-cmp"><thead><tr><th></th><th>Герой</th><th>Среднее</th><th>Разница</th></tr></thead><tbody>
 <tr><th>Винрейт</th><td>57,2 %</td><td class="hx-mut">51,0 %</td><td><span class="hx-dev"><i class="up" style="left:50%;width:50.0%"></i></span><b class="up">+6,2 пп</b></td></tr><tr><th>Золото в минуту</th><td>534</td><td class="hx-mut">499</td><td><span class="hx-dev"><i class="up" style="left:50%;width:29.2%"></i></span><b class="up">+35</b></td></tr><tr><th>Опыт в минуту</th><td>736</td><td class="hx-mut">689</td><td><span class="hx-dev"><i class="up" style="left:50%;width:28.4%"></i></span><b class="up">+47</b></td></tr></tbody></table>
-<p class="hx-note">152 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="1 299 игр"><b>57,2</b><span style="height:86.0%"></span><small>Рекрут</small></div><div title="4 599 игр"><b>56,7</b><span style="height:83.5%"></span><small>Страж</small></div><div title="8 485 игр"><b>55,5</b><span style="height:77.5%"></span><small>Рыцарь</small></div><div title="12 512 игр"><b>55,5</b><span style="height:77.5%"></span><small>Герой</small></div><div title="12 919 игр"><b>55,6</b><span style="height:78.0%"></span><small>Легенда</small></div><div title="7 319 игр"><b>53,7</b><span style="height:68.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="1 070 игр"><b>54,0</b><span style="height:70.0%"></span><small>до 25 мин</small></div><div title="11 911 игр"><b>58,6</b><span style="height:93.0%"></span><small>25–35 мин</small></div><div title="19 350 игр"><b>55,8</b><span style="height:79.0%"></span><small>35–45 мин</small></div><div title="14 802 игр"><b>52,4</b><span style="height:62.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:40.5%">40,5</i><i class="d" style="width:22.5%">22,5</i><i class="l" style="width:37%">37,0</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">227 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
+<p class="hx-note">152 игр героя на позиции; среднее — по 3 606 играм всех героев этой позиции. Детальные матчи Stratz текущего патча.</p></article><article class="hx-tile"><h2>Винрейт по рангам</h2><div class="hx-cols"><div title="1 299 игр"><b>57,2</b><span style="height:86.0%"></span><small>Рекрут</small></div><div title="4 599 игр"><b>56,7</b><span style="height:83.5%"></span><small>Страж</small></div><div title="8 485 игр"><b>55,5</b><span style="height:77.5%"></span><small>Рыцарь</small></div><div title="12 512 игр"><b>55,5</b><span style="height:77.5%"></span><small>Герой</small></div><div title="12 919 игр"><b>55,6</b><span style="height:78.0%"></span><small>Легенда</small></div><div title="7 319 игр"><b>53,7</b><span style="height:68.5%"></span><small>Властелин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %. От 300 игр на ранге.</p></article></div><div class="hx-row"><article class="hx-tile"><h2>Винрейт по длительности</h2><div class="hx-cols"><div title="1 070 игр"><b>54,0</b><span style="height:70.0%"></span><small>до 25 мин</small></div><div title="11 911 игр"><b>58,6</b><span style="height:93.0%"></span><small>25–35 мин</small></div><div title="19 350 игр"><b>55,8</b><span style="height:79.0%"></span><small>35–45 мин</small></div><div title="14 802 игр"><b>52,4</b><span style="height:62.0%"></span><small>45+ мин</small></div></div><p class="hx-note">Шкала 40–60 %, линия — 50 %.</p></article><article class="hx-tile"><h2>Линия к 10-й минуте</h2><div class="hx-lane"><i class="w" style="width:40.5%">40,5</i><i class="d" style="width:22.5%">22,5</i><i class="l" style="width:37%">37,0</i></div><p class="hx-legend"><span class="w">победа</span><span class="d">ничья</span><span class="l">поражение</span><span>— доля игр, %</span></p><p class="hx-note">227 игр с разбором линии.</p></article></div><article class="hx-tile" id="matchups"><h2>Матчапы</h2><div class="hx-two">
 <div><h3>Кто контрит Wraith King</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/naga_siren/"><img src="/assets/heroes/naga_siren.webp" alt="" loading="lazy" width="44" height="25"><span>Naga Siren</span></a><b class="dn">−8,3 пп</b></li><li><a class="hx-hico" href="/hero/venomancer/"><img src="/assets/heroes/venomancer.webp" alt="" loading="lazy" width="44" height="25"><span>Venomancer</span></a><b class="dn">−5,6 пп</b></li><li><a class="hx-hico" href="/hero/abaddon/"><img src="/assets/heroes/abaddon.webp" alt="" loading="lazy" width="44" height="25"><span>Abaddon</span></a><b class="dn">−4,6 пп</b></li><li><a class="hx-hico" href="/hero/broodmother/"><img src="/assets/heroes/broodmother.webp" alt="" loading="lazy" width="44" height="25"><span>Broodmother</span></a><b class="dn">−4,4 пп</b></li><li><a class="hx-hico" href="/hero/undying/"><img src="/assets/heroes/undying.webp" alt="" loading="lazy" width="44" height="25"><span>Undying</span></a><b class="dn">−4,4 пп</b></li></ul></div>
 <div><h3>Кого контрит Wraith King</h3><ul class="hx-mu"><li><a class="hx-hico" href="/hero/templar_assassin/"><img src="/assets/heroes/templar_assassin.webp" alt="" loading="lazy" width="44" height="25"><span>Templar Assassin</span></a><b class="up">+4,5 пп</b></li><li><a class="hx-hico" href="/hero/arc_warden/"><img src="/assets/heroes/arc_warden.webp" alt="" loading="lazy" width="44" height="25"><span>Arc Warden</span></a><b class="up">+4,4 пп</b></li><li><a class="hx-hico" href="/hero/visage/"><img src="/assets/heroes/visage.webp" alt="" loading="lazy" width="44" height="25"><span>Visage</span></a><b class="up">+4,1 пп</b></li><li><a class="hx-hico" href="/hero/ursa/"><img src="/assets/heroes/ursa.webp" alt="" loading="lazy" width="44" height="25"><span>Ursa</span></a><b class="up">+3,4 пп</b></li><li><a class="hx-hico" href="/hero/marci/"><img src="/assets/heroes/marci.webp" alt="" loading="lazy" width="44" height="25"><span>Marci</span></a><b class="up">+3,3 пп</b></li></ul></div></div>
 <p class="hx-note">Разница винрейта против ожидаемого по силе героев, пары от 300 игр. <a href="/guide/counter-picks/">Как работают контрпики</a></p></article><article class="hx-tile" id="heroBuys" data-roles='{"POSITION_1":63,"POSITION_2":6,"POSITION_3":1,"POSITION_4":4,"POSITION_5":2}' data-min-role="80"><h2>Что покупают по ходу игры</h2>
-<p class="hp-buys-note">Своя база рейтинговых матчей до 4500 MMR (1 803 матчей текущего патча). % — доля матчей героя, где предмет купили в этой фазе (всего 227).</p>
+<p class="hp-buys-note">Детальные матчи Stratz текущего патча (1 803 матчей с временем покупок) — не основная база Steam. % — доля матчей героя, где предмет купили в этой фазе (всего 227).</p>
 <div class="hp-buys-pane on" data-pos="all"><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/quelling_blade/" title="Quelling Blade — 93% матчей (210 из 227)"><i style="width:93%"></i><img src="/assets/items/quelling_blade.png" alt="" loading="lazy" width="36" height="26"><span>Quelling Blade</span><b>93%</b></a></li><li><a href="/item/tango/" title="Tango — 93% матчей (210 из 227)"><i style="width:93%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>93%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 85% матчей (192 из 227)"><i style="width:85%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>85%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 60% матчей (137 из 227)"><i style="width:60%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>60%</b></a></li><li><a href="/item/gauntlets/" title="Gauntlets of Strength — 53% матчей (121 из 227)"><i style="width:53%"></i><img src="/assets/items/gauntlets.png" alt="" loading="lazy" width="36" height="26"><span>Gauntlets of Strength</span><b>53%</b></a></li><li><a href="/item/circlet/" title="Circlet — 49% матчей (112 из 227)"><i style="width:49%"></i><img src="/assets/items/circlet.png" alt="" loading="lazy" width="36" height="26"><span>Circlet</span><b>49%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/phase_boots/" title="Phase Boots — 83% матчей (189 из 227)"><i style="width:83%"></i><img src="/assets/items/phase_boots.png" alt="" loading="lazy" width="36" height="26"><span>Phase Boots</span><b>83%</b></a></li><li><a href="/item/magic_wand/" title="Magic Wand — 73% матчей (165 из 227)"><i style="width:73%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>73%</b></a></li><li><a href="/item/bracer/" title="Bracer — 61% матчей (139 из 227)"><i style="width:61%"></i><img src="/assets/items/bracer.png" alt="" loading="lazy" width="36" height="26"><span>Bracer</span><b>61%</b></a></li><li><a href="/item/tango/" title="Tango — 26% матчей (60 из 227)"><i style="width:26%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>26%</b></a></li><li><a href="/item/flask/" title="Healing Salve — 11% матчей (25 из 227)"><i style="width:11%"></i><img src="/assets/items/flask.png" alt="" loading="lazy" width="36" height="26"><span>Healing Salve</span><b>11%</b></a></li><li><a href="/item/boots/" title="Boots of Speed — 11% матчей (24 из 227)"><i style="width:11%"></i><img src="/assets/items/boots.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Speed</span><b>11%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/radiance/" title="Radiance — 70% матчей (160 из 227)"><i style="width:70%"></i><img src="/assets/items/radiance.png" alt="" loading="lazy" width="36" height="26"><span>Radiance</span><b>70%</b></a></li><li><a href="/item/blink/" title="Blink Dagger — 63% матчей (142 из 227)"><i style="width:63%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>63%</b></a></li><li><a href="/item/armlet/" title="Armlet of Mordiggian — 20% матчей (46 из 227)"><i style="width:20%"></i><img src="/assets/items/armlet.png" alt="" loading="lazy" width="36" height="26"><span>Armlet of Mordiggian</span><b>20%</b></a></li><li><a href="/item/desolator/" title="Desolator — 14% матчей (31 из 227)"><i style="width:14%"></i><img src="/assets/items/desolator.png" alt="" loading="lazy" width="36" height="26"><span>Desolator</span><b>14%</b></a></li><li><a href="/item/oblivion_staff/" title="Oblivion Staff — 13% матчей (30 из 227)"><i style="width:13%"></i><img src="/assets/items/oblivion_staff.png" alt="" loading="lazy" width="36" height="26"><span>Oblivion Staff</span><b>13%</b></a></li><li><a href="/item/orchid/" title="Orchid Malevolence — 9% матчей (20 из 227)"><i style="width:9%"></i><img src="/assets/items/orchid.png" alt="" loading="lazy" width="36" height="26"><span>Orchid Malevolence</span><b>9%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/black_king_bar/" title="Black King Bar — 30% матчей (69 из 227)"><i style="width:30%"></i><img src="/assets/items/black_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Black King Bar</span><b>30%</b></a></li><li><a href="/item/buckler/" title="Buckler — 24% матчей (55 из 227)"><i style="width:24%"></i><img src="/assets/items/buckler.png" alt="" loading="lazy" width="36" height="26"><span>Buckler</span><b>24%</b></a></li><li><a href="/item/assault/" title="Assault Cuirass — 24% матчей (54 из 227)"><i style="width:24%"></i><img src="/assets/items/assault.png" alt="" loading="lazy" width="36" height="26"><span>Assault Cuirass</span><b>24%</b></a></li><li><a href="/item/blink/" title="Blink Dagger — 16% матчей (37 из 227)"><i style="width:16%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>16%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 16% матчей (37 из 227)"><i style="width:16%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>16%</b></a></li><li><a href="/item/oblivion_staff/" title="Oblivion Staff — 15% матчей (33 из 227)"><i style="width:15%"></i><img src="/assets/items/oblivion_staff.png" alt="" loading="lazy" width="36" height="26"><span>Oblivion Staff</span><b>15%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/ultimate_scepter_2/" title="Aghanim&#39;s Blessing — 8% матчей (19 из 227)"><i style="width:8%"></i><img src="/assets/items/ultimate_scepter_2.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Blessing</span><b>8%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 7% матчей (17 из 227)"><i style="width:7%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>7%</b></a></li><li><a href="/item/assault/" title="Assault Cuirass — 4% матчей (10 из 227)"><i style="width:4%"></i><img src="/assets/items/assault.png" alt="" loading="lazy" width="36" height="26"><span>Assault Cuirass</span><b>4%</b></a></li><li><a href="/item/buckler/" title="Buckler — 4% матчей (8 из 227)"><i style="width:4%"></i><img src="/assets/items/buckler.png" alt="" loading="lazy" width="36" height="26"><span>Buckler</span><b>4%</b></a></li><li><a href="/item/black_king_bar/" title="Black King Bar — 4% матчей (8 из 227)"><i style="width:4%"></i><img src="/assets/items/black_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Black King Bar</span><b>4%</b></a></li><li><a href="/item/monkey_king_bar/" title="Monkey King Bar — 4% матчей (8 из 227)"><i style="width:4%"></i><img src="/assets/items/monkey_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Monkey King Bar</span><b>4%</b></a></li></ul></div></div></div><div class="hp-buys-pane" data-pos="POSITION_3" hidden><p class="hp-buys-role">Роль: Оффлейн · 152 матчей героя на этой роли</p><div class="hx-bcols"><div class="hx-bcol"><h3>Старт<small>до 0:00</small></h3><ul><li><a href="/item/quelling_blade/" title="Quelling Blade — 92% матчей (140 из 152)"><i style="width:92%"></i><img src="/assets/items/quelling_blade.png" alt="" loading="lazy" width="36" height="26"><span>Quelling Blade</span><b>92%</b></a></li><li><a href="/item/tango/" title="Tango — 91% матчей (139 из 152)"><i style="width:91%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>91%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 83% матчей (126 из 152)"><i style="width:83%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>83%</b></a></li><li><a href="/item/magic_stick/" title="Magic Stick — 60% матчей (91 из 152)"><i style="width:60%"></i><img src="/assets/items/magic_stick.png" alt="" loading="lazy" width="36" height="26"><span>Magic Stick</span><b>60%</b></a></li><li><a href="/item/gauntlets/" title="Gauntlets of Strength — 55% матчей (84 из 152)"><i style="width:55%"></i><img src="/assets/items/gauntlets.png" alt="" loading="lazy" width="36" height="26"><span>Gauntlets of Strength</span><b>55%</b></a></li><li><a href="/item/circlet/" title="Circlet — 51% матчей (77 из 152)"><i style="width:51%"></i><img src="/assets/items/circlet.png" alt="" loading="lazy" width="36" height="26"><span>Circlet</span><b>51%</b></a></li></ul></div><div class="hx-bcol"><h3>Ранняя<small>0–10 мин</small></h3><ul><li><a href="/item/phase_boots/" title="Phase Boots — 83% матчей (126 из 152)"><i style="width:83%"></i><img src="/assets/items/phase_boots.png" alt="" loading="lazy" width="36" height="26"><span>Phase Boots</span><b>83%</b></a></li><li><a href="/item/magic_wand/" title="Magic Wand — 74% матчей (113 из 152)"><i style="width:74%"></i><img src="/assets/items/magic_wand.png" alt="" loading="lazy" width="36" height="26"><span>Magic Wand</span><b>74%</b></a></li><li><a href="/item/bracer/" title="Bracer — 65% матчей (99 из 152)"><i style="width:65%"></i><img src="/assets/items/bracer.png" alt="" loading="lazy" width="36" height="26"><span>Bracer</span><b>65%</b></a></li><li><a href="/item/tango/" title="Tango — 30% матчей (45 из 152)"><i style="width:30%"></i><img src="/assets/items/tango.png" alt="" loading="lazy" width="36" height="26"><span>Tango</span><b>30%</b></a></li><li><a href="/item/boots/" title="Boots of Speed — 12% матчей (18 из 152)"><i style="width:12%"></i><img src="/assets/items/boots.png" alt="" loading="lazy" width="36" height="26"><span>Boots of Speed</span><b>12%</b></a></li><li><a href="/item/branches/" title="Iron Branch — 11% матчей (16 из 152)"><i style="width:11%"></i><img src="/assets/items/branches.png" alt="" loading="lazy" width="36" height="26"><span>Iron Branch</span><b>11%</b></a></li></ul></div><div class="hx-bcol"><h3>Середина<small>10–25 мин</small></h3><ul><li><a href="/item/radiance/" title="Radiance — 65% матчей (99 из 152)"><i style="width:65%"></i><img src="/assets/items/radiance.png" alt="" loading="lazy" width="36" height="26"><span>Radiance</span><b>65%</b></a></li><li><a href="/item/blink/" title="Blink Dagger — 60% матчей (91 из 152)"><i style="width:60%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>60%</b></a></li><li><a href="/item/armlet/" title="Armlet of Mordiggian — 23% матчей (35 из 152)"><i style="width:23%"></i><img src="/assets/items/armlet.png" alt="" loading="lazy" width="36" height="26"><span>Armlet of Mordiggian</span><b>23%</b></a></li><li><a href="/item/desolator/" title="Desolator — 11% матчей (17 из 152)"><i style="width:11%"></i><img src="/assets/items/desolator.png" alt="" loading="lazy" width="36" height="26"><span>Desolator</span><b>11%</b></a></li><li><a href="/item/oblivion_staff/" title="Oblivion Staff — 11% матчей (16 из 152)"><i style="width:11%"></i><img src="/assets/items/oblivion_staff.png" alt="" loading="lazy" width="36" height="26"><span>Oblivion Staff</span><b>11%</b></a></li><li><a href="/item/dust/" title="Dust of Appearance — 9% матчей (14 из 152)"><i style="width:9%"></i><img src="/assets/items/dust.png" alt="" loading="lazy" width="36" height="26"><span>Dust of Appearance</span><b>9%</b></a></li></ul></div><div class="hx-bcol"><h3>Поздняя<small>25–40 мин</small></h3><ul><li><a href="/item/black_king_bar/" title="Black King Bar — 26% матчей (40 из 152)"><i style="width:26%"></i><img src="/assets/items/black_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Black King Bar</span><b>26%</b></a></li><li><a href="/item/assault/" title="Assault Cuirass — 25% матчей (38 из 152)"><i style="width:25%"></i><img src="/assets/items/assault.png" alt="" loading="lazy" width="36" height="26"><span>Assault Cuirass</span><b>25%</b></a></li><li><a href="/item/buckler/" title="Buckler — 24% матчей (37 из 152)"><i style="width:24%"></i><img src="/assets/items/buckler.png" alt="" loading="lazy" width="36" height="26"><span>Buckler</span><b>24%</b></a></li><li><a href="/item/blink/" title="Blink Dagger — 20% матчей (31 из 152)"><i style="width:20%"></i><img src="/assets/items/blink.png" alt="" loading="lazy" width="36" height="26"><span>Blink Dagger</span><b>20%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 20% матчей (30 из 152)"><i style="width:20%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>20%</b></a></li><li><a href="/item/oblivion_staff/" title="Oblivion Staff — 11% матчей (16 из 152)"><i style="width:11%"></i><img src="/assets/items/oblivion_staff.png" alt="" loading="lazy" width="36" height="26"><span>Oblivion Staff</span><b>11%</b></a></li></ul></div><div class="hx-bcol"><h3>Финал<small>40+ мин</small></h3><ul><li><a href="/item/ultimate_scepter_2/" title="Aghanim&#39;s Blessing — 8% матчей (12 из 152)"><i style="width:8%"></i><img src="/assets/items/ultimate_scepter_2.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Blessing</span><b>8%</b></a></li><li><a href="/item/ultimate_scepter/" title="Aghanim&#39;s Scepter — 7% матчей (10 из 152)"><i style="width:7%"></i><img src="/assets/items/ultimate_scepter.png" alt="" loading="lazy" width="36" height="26"><span>Aghanim&#39;s Scepter</span><b>7%</b></a></li><li><a href="/item/assault/" title="Assault Cuirass — 5% матчей (7 из 152)"><i style="width:5%"></i><img src="/assets/items/assault.png" alt="" loading="lazy" width="36" height="26"><span>Assault Cuirass</span><b>5%</b></a></li><li><a href="/item/black_king_bar/" title="Black King Bar — 5% матчей (7 из 152)"><i style="width:5%"></i><img src="/assets/items/black_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Black King Bar</span><b>5%</b></a></li><li><a href="/item/buckler/" title="Buckler — 4% матчей (6 из 152)"><i style="width:4%"></i><img src="/assets/items/buckler.png" alt="" loading="lazy" width="36" height="26"><span>Buckler</span><b>4%</b></a></li><li><a href="/item/monkey_king_bar/" title="Monkey King Bar — 3% матчей (4 из 152)"><i style="width:3%"></i><img src="/assets/items/monkey_king_bar.png" alt="" loading="lazy" width="36" height="26"><span>Monkey King Bar</span><b>3%</b></a></li></ul></div></div></div></article></section>
 
   <details class="container hx-more" open><summary><h2>Билд</h2></summary>
@@ -167,37 +171,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 706 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 706 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>Reincarnation Casts Wraithfire Blast</b>
+          <b>Применение Wraithfire Blast на жертв Reincarnation</b>
           <span>Берут 52,1% · Побед 65,2%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-win">
-          <b>-2s Mortal Strike Cooldown</b>
+          <b>–2 сек. перезарядки Mortal Strike</b>
           <span>Берут 47,9% · Побед 68,1%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+5 Bone Guard Skeletons Spawned</b>
+          <b>+5 к числу скелетов от Bone Guard</b>
           <span>Берут 19,8% · Побед 65,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+50 Attack Speed</b>
+          <b>+50 к скорости атаки</b>
           <span>Берут 80,2% · Побед 62,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+300 Health</b>
+          <b>+300 к здоровью</b>
           <span>Берут 56,6% · Побед 56,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-win">
-          <b>+0.75s Wraithfire Blast Stun Duration</b>
+          <b>+0,75 сек. оглушения от Wraithfire Blast</b>
           <span>Берут 43,4% · Побед 59,5%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+2s Wraithfire Blast Slow Duration</b>
+          <b>+2 сек. замедления от Wraithfire Blast</b>
           <span>Берут 61,7% · Побед 55,4%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell">
-          <b>+8% Vampiric Spirit Lifesteal</b>
+          <b>+8% к вампиризму от Vampiric Spirit</b>
           <span>Берут 38,3% · Побед 53,7%</span>
           
         </div></div></div>
@@ -280,37 +284,37 @@
       </div></div>
     </div>
           </div>
-          <p class="hb-source">Прокачка — публичные матчи всех рангов (OpenDota), 1 139 матчей. Таланты и роли — матчи Divine/Immortal (Stratz).</p>
+          <p class="hb-source">Прокачка — рейтинговые матчи всех рангов (Steam), 1 139 матчей. Таланты по ролям — матчи Divine/Immortal (Stratz).</p>
         <h3 class="hb-sub-h">Таланты</h3><p class="hb-hint">На 10, 15, 20 и 25 уровне выбирают один талант из двух. <b>Берут</b> — доля игроков, выбравших талант, <b>Побед</b> — винрейт с ним. Рамка «чаще берут» — выбор большинства, зелёная «выше винрейт» — вариант, который выигрывает чаще.</p><div class="hb-talents"><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>Reincarnation Casts Wraithfire Blast</b>
+          <b>Применение Wraithfire Blast на жертв Reincarnation</b>
           <span>Берут 30,6% · Побед 60,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">25</div><div class="hb-tal-cell is-picked">
-          <b>-2s Mortal Strike Cooldown</b>
+          <b>–2 сек. перезарядки Mortal Strike</b>
           <span>Берут 69,4% · Побед 59,3%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+5 Bone Guard Skeletons Spawned</b>
+          <b>+5 к числу скелетов от Bone Guard</b>
           <span>Берут 7,7% · Побед 63,2%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">20</div><div class="hb-tal-cell is-picked">
-          <b>+50 Attack Speed</b>
+          <b>+50 к скорости атаки</b>
           <span>Берут 92,3% · Побед 55,9%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-picked">
-          <b>+300 Health</b>
+          <b>+300 к здоровью</b>
           <span>Берут 60,5% · Побед 54,1%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div><div class="hb-tal-lvl">15</div><div class="hb-tal-cell is-win">
-          <b>+0.75s Wraithfire Blast Stun Duration</b>
+          <b>+0,75 сек. оглушения от Wraithfire Blast</b>
           <span>Берут 39,5% · Побед 54,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div></div><div class="hb-tal-row"><div class="hb-tal-cell is-win">
-          <b>+2s Wraithfire Blast Slow Duration</b>
+          <b>+2 сек. замедления от Wraithfire Blast</b>
           <span>Берут 45,7% · Побед 53,9%</span>
           <i class="hb-tag hb-tag-win">выше винрейт</i>
         </div><div class="hb-tal-lvl">10</div><div class="hb-tal-cell is-picked">
-          <b>+8% Vampiric Spirit Lifesteal</b>
+          <b>+8% к вампиризму от Vampiric Spirit</b>
           <span>Берут 54,3% · Побед 52,8%</span>
           <i class="hb-tag hb-tag-pick">чаще берут</i>
         </div></div></div>
@@ -400,11 +404,11 @@
         </div>
         <div class="hp-ab-text on" data-ab="0">
           <h3>Wraithfire Blast</h3>
-          <div class="hp-ab-tags"><span>По цели</span><span class="dmg">магический урон</span></div>
+          <div class="hp-ab-tags"><span>По цели</span></div>
           <p class="hp-ab-desc">Герой опаляет цель призрачным огнём, оглушая её и нанося ей урон. После оглушения цель будет получать периодический урон и замедлится.</p>
         </div><div class="hp-ab-text" data-ab="1">
           <h3>Bone Guard</h3>
-          <div class="hp-ab-tags"><span>Без цели</span><span class="dmg">физический урон</span></div>
+          <div class="hp-ab-tags"><span>Без цели</span></div>
           <p class="hp-ab-desc">Способность получает один заряд, когда её владелец убивает двух крипов, и два заряда, когда он убивает героя. Её применение расходует все заряды и призывает скелетов, которые возрождаются один раз. На скелетов действует вампиризм от…</p>
         </div><div class="hp-ab-text" data-ab="2">
           <h3>Mortal Strike</h3>
@@ -432,7 +436,16 @@
     </div>
     <a class="btn red" href="/hero/skeleton_king/guide/">Открыть гайд →</a>
   </section>
+  <section class="hp-tools container" aria-label="Инструменты для Wraith King">
+    <a class="hp-tool" href="/draft/#draft=42__" data-goal="hero_to_draft"><b>Драфт с Wraith King</b><small>DraftMate: синергия, контрпики и линии с этим героем в составе.</small></a>
+    <a class="hp-tool" href="/academy/match/" data-goal="hero_to_match"><b>Разобрать свой матч</b><small>Сравним твою игру с игроками на том же герое и позиции.</small></a>
+    <a class="hp-tool" href="/me/" data-goal="hero_to_me"><b>Мои игры на героях</b><small>Мой профиль: винрейт и тенденции по Steam ID.</small></a>
+  </section>
 <script>
+// Цели Метрики на переходах в инструменты (hero_to_draft / hero_to_match / hero_to_me): есть ли мост
+// «страница героя → инструмент» вообще (claude/issledovanie-rost-auditorii-2026-10-10.md, п. 4). Метрика —
+// только с согласия посетителя; без неё ym нет и ничего не отправляется.
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-goal]');if(a&&typeof window.ym==='function'){try{window.ym(112755250,'reachGoal',a.getAttribute('data-goal'));}catch(_){}}});
 // Переключение способностей: одна активная пара «ролик + подпись».
 // Ролики грузятся лениво, поэтому у неактивных preload="none" — иначе
 // страница тянула бы с CDN пять видео сразу.
@@ -465,6 +478,6 @@
 })();
 </script>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

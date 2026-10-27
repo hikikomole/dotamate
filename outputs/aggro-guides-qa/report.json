@@ -1,0 +1,93 @@
+[
+  {
+    "slug": "creep-aggro",
+    "width": 1440,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "creep-aggro",
+    "width": 390,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "tower-aggro",
+    "width": 1440,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "tower-aggro",
+    "width": 390,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-creeps",
+    "width": 1440,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-creeps",
+    "width": 390,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-towers",
+    "width": 1440,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "slug": "deny-towers",
+    "width": 390,
+    "render": true,
+    "links": true,
+    "sitemap": true
+  },
+  {
+    "query": "агр",
+    "found": [
+      "/guide/creep-aggro/",
+      "/guide/creep-aggro/",
+      "/guide/tower-aggro/",
+      "/guide/deny-creeps/"
+    ]
+  },
+  {
+    "query": "реагрить крипов",
+    "found": [
+      "/guide/creep-aggro/",
+      "/guide/deny-creeps/",
+      "/guide/deny-towers/"
+    ]
+  },
+  {
+    "query": "сбросить агр вышки",
+    "found": [
+      "/guide/tower-aggro/"
+    ]
+  },
+  {
+    "summaryGuides": 165,
+    "width": 1440,
+    "noEmptyBlocks": true,
+    "noHeadingDivider": true
+  },
+  {
+    "summaryGuides": 165,
+    "width": 390,
+    "noEmptyBlocks": true,
+    "noHeadingDivider": true
+  }
+]

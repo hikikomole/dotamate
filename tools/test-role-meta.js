@@ -1,0 +1,47 @@
+'use strict';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('fs');
+const path = require('path');
+const { spawnSync } = require('child_process');
+const { match } = require('./test-replay-cohort');
+const { buildRoleMeta, auditGate } = require('./build-role-meta');
+const patch = { version: '7.41f', timestamp: 900 };
+const known = new Set(Array.from({ length: 10 }, (_, i) => i + 1));
+const audit = { source: 'valve-replay', methodVersion: 1, teams: 100, matchIds: Array.from({ length: 50 }, (_, i) => i + 1), lineups: 2, days: ['2026-10-01', '2026-10-02'],
+  roles: Object.fromEntries([1, 2, 3, 4, 5].map(p => [p, { total: 50, correct: 43, confusion: { [p]: 43, ambiguous: 7 } }])), ambiguous: 35 };
+test('audit gate and role counts', () => {
+  assert.equal(auditGate(audit), true);
+  const bad = { ...audit, roles: { ...audit.roles, 5: { total: 50, correct: 42, confusion: { 5: 42, ambiguous: 8 } } } };
+  assert.equal(buildRoleMeta([match()], patch, known, bad).status, 'insufficient');
+  const out = buildRoleMeta([match()], patch, known, audit);
+  assert.equal(out.status, 'insufficient');
+  const enough = buildRoleMeta(Array.from({ length: 30 }, (_, i) => ({ ...match(), matchId: i + 1 })), patch, known, audit);
+  assert.equal(enough.status, 'ok');
+  assert.equal(enough.positions[1].heroes[0].n, 30);
+  assert.equal(out.meta.coverage.labeledSlots, 10);
+  assert.equal(Object.values(out.positions).reduce((n, p) => n + p.labeledSlots, 0), 10);
+  assert.equal(out.positions[1].heroes.length, 0);
+  assert.equal(out.positions[1].hiddenAppearances, 2);
+  const ambiguous = match(); ambiguous.players[4].x.fill(130); ambiguous.players[4].y.fill(160);
+  const fail = buildRoleMeta([ambiguous], patch, known, audit);
+  assert.equal(fail.status, 'insufficient');
+});
+test('role builder fixture is isolated and preserves the last valid JSON on failure', () => {
+  const base = path.join(__dirname, '..', 'outputs', 'd2pt-check', 'I');
+  const input = path.join(base, 'input'), archive = path.join(input, 'archive'), output = path.join(base, 'output');
+  fs.mkdirSync(path.join(archive, 'matches'), { recursive: true });
+  fs.writeFileSync(path.join(input, 'patch-notes.json'), JSON.stringify(patch));
+  fs.writeFileSync(path.join(input, 'heroes.json'), JSON.stringify({ heroes: [...known].map(id => ({ id })) }));
+  fs.writeFileSync(path.join(archive, 'index.json'), JSON.stringify({ matches: [{ matchId: 1, lobbyType: 7 }] }));
+  fs.writeFileSync(path.join(archive, 'matches', '1.json'), JSON.stringify(match()));
+  fs.writeFileSync(path.join(archive, 'positions-audit.json'), JSON.stringify(audit));
+  const run = () => spawnSync(process.execPath, [path.join(__dirname, 'build-role-meta.js'), '--fixture', '--input-dir', input, '--out-dir', output, '--archive-dir', archive], { encoding: 'utf8' });
+  assert.equal(run().status, 0);
+  const file = path.join(output, 'role-meta.json');
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).status, 'insufficient');
+  fs.writeFileSync(path.join(input, 'patch-notes.json'), '{');
+  assert.notEqual(run().status, 0);
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).status, 'insufficient');
+  fs.writeFileSync(path.join(input, 'patch-notes.json'), JSON.stringify(patch));
+});

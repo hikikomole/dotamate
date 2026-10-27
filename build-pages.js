@@ -17,6 +17,8 @@ const ORIGIN = 'https://dotamate.ru';
 const ROOT = __dirname;
 
 const { NAV, navHtml } = require('./tools/site-nav');
+const { games } = require('./games-registry');
+const { validateRegistry, renderHub, renderTrainer } = require('./tools/games-render');
 const { COURSES } = require('./academy-content');
 const acLessons = id => COURSES.find(c => c.id === id).modules.reduce((s, m) => s + m.lessons.length, 0);
 const acItems = () => COURSES.reduce((s, c) => s + c.modules.reduce((x, m) => x + m.quiz.length + m.scenarios.length, 0), 0);
@@ -86,7 +88,7 @@ const PAGES = [
     sections: ['stats'],
     styles: ['/css/theme-dark.css', '/css/stats.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/stats.js', defer: true }],
+    scripts: [{ src: '/js/matchup-search.js', defer: true }, { src: '/js/side-stats.js', defer: true }, { src: '/js/stats.js', defer: true }],
   },
   {
     key: 'guides', dir: 'guides',
@@ -244,7 +246,17 @@ const PAGES = [
   },
 ];
 // Маршруты по ролям — сразу после «Поднять рейтинг» (порядок влияет только на page-urls.json).
+PAGES.push({
+  key: 'streams', dir: 'live/streams', crumb: 'Стримы', parent: { name: 'Эфир', dir: 'live' },
+  title: 'Стримы Dota 2 — прямые трансляции Kick и Twitch | Dota Mate',
+  desc: 'Прямые трансляции Dota 2 на Kick и Twitch: русскоязычные стримы и эфиры на других языках.',
+  sections: ['streams'], styles: ['/css/theme-dark.css', '/css/streams.css'], bodyClass: 'd2-dark',
+  scripts: [{ src: '/js/streams.js', defer: true }],
+});
 PAGES.splice(PAGES.findIndex(p => p.dir === 'academy/rank-up') + 1, 0, ...rolePages());
+validateRegistry();
+PAGES.push({key:'games',dir:'games',title:'Мини игры Дота 2 в браузере — тренажёры | Dota Mate',desc:'Тренируйте ластхит, хук, драфт и тайминги за 1–3 минуты. Тренажёры и Hook & Hit, с телефона и компьютера.',crumb:'Игры',sections:['gamesHub'],styles:['/css/theme-dark.css','/css/games.css'],bodyClass:'d2-dark',scripts:[{src:'/js/games/hub.js',type:'module'}]});
+for(const g of games)PAGES.push({key:'games',dir:'games/'+g.slug,title:g.title,desc:g.description,crumb:g.name,parent:{name:'Игры',dir:'games'},sections:['gameTrainer'],game:g,styles:['/css/theme-dark.css','/css/games.css'],bodyClass:'d2-dark',scripts:[{src:'/js/games/'+g.slug+'.js',type:'module'}]});
 
 // Карточки-входы в разделы: на главной вместо самих каталогов.
 const HOME_CARDS = `<section class="section" id="home-cards">
@@ -303,22 +315,37 @@ function metaRow(h, main, sub, bad) {
 }
 function metaColumn(title, hint, rows, link, linkText) {
   return `<div class="hm-col"><div class="hm-col-head"><h2>${title}</h2><span>${hint}</span></div>` +
-    rows.join('') +
+    (rows.length ? rows.join('') : '<p class="hm-unavailable">Для списка пока недостаточно матчей текущего патча.</p>') +
     `<a class="hm-col-more" href="${link}">${linkText} →</a></div>`;
 }
 function homeMeta() {
   const m = JSON.parse(fs.readFileSync(HOME_META, 'utf8'));
+  if (m.meta?.source !== 'steam' || m.meta?.cohort !== 'ranked-all-ranks' || m.meta?.patch !== patchData()?.version || m.meta?.patchFrom !== Number(patchData()?.timestamp) || !m.summary) {
+    return { lists: '',
+      counters: '', summary: '', stamp: 'Данные недоступны',
+      matches: '—', pairs: '—', patchChip: '', heroCount: ru(countOf('hero-urls.json')) };
+  }
   const carry = m.carry.map(h => metaRow(h, pct(h.wr),
     `${ru(h.matches)} ${plural(h.matches, 'матч', 'матча', 'матчей')}`));
   const picked = m.picked.map(h => metaRow(h, ru(h.matches),
     `винрейт ${pct(h.wr)}`, h.wr < 50));
   const banned = m.banned.map(h => metaRow(h, ru(h.bans),
     `взяли ${h.picks} ${plural(h.picks, 'раз', 'раза', 'раз')}`));
+  const q = m.summary, dataDate = q.to ? new Date(q.to) : null;
+  const dateText = dataDate && !Number.isNaN(dataDate.getTime()) ? dataDate.toLocaleDateString('ru-RU', { timeZone: 'UTC' }) : 'неизвестна';
+  const stale = dataDate && Date.now() - dataDate.getTime() > 36 * 3600e3;
+  const contestHero = q.contested && JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes.find(h => Number(h.id) === q.contested.id);
+  const summary = `<h2>Патч ${esc(q.patch)} · рейтинг Steam</h2><p>Проанализировано ${ru(q.matches)} матчей, с ${q.from ? esc(new Date(q.from).toLocaleDateString('ru-RU')) : '—'} по ${esc(dateText)}. ` +
+    (q.radiantWr == null ? '' : `Radiant победили в ${pct(q.radiantWr)} матчей.`) +
+    (q.patchDays == null ? '' : ` С выхода патча на момент сборки прошло ${q.patchDays} дн.`) +
+    (q.contested ? ` Самый востребованный герой — ${esc(contestHero?.localized_name || String(q.contested.id))}: ${ru(q.contested.picks)} пиков и ${ru(q.contested.bans)} банов в этой выборке.` : '') +
+    ` Срез на ${esc(dateText)}.</p>`;
 
   const lists =
     metaColumn('Тащат', `винрейт · от ${ru(m.minMatches)} матчей`, carry, '/stats/', 'Весь список винрейта') +
     metaColumn('Берут чаще всего', 'матчей за срез', picked, '/heroes/', `Все ${countOf('hero-urls.json')} героев`) +
-    metaColumn('Банят чаще всего', 'банов · и сколько раз взяли', banned, '/stats/', 'Вся статистика');
+    (q.banCoverage?.known ? metaColumn('Банят чаще всего', 'банов · и сколько раз взяли', banned, '/stats/', 'Вся статистика') :
+      '');
 
   const articles = countOf('guide-urls.json') + countOf('role-guide-urls.json');
   const heroGuides = countOf('hero-guide-urls.json');
@@ -343,7 +370,7 @@ function homeMeta() {
     : (pn && pn.version === m.patch
         ? '<a class="dm-patch" href="/patch/' + esc(pn.version) + '/">' + chipText + '</a>'
         : '<span class="dm-patch">' + chipText + '</span>');
-  return { lists, counters, stamp, matches: ru(m.matchesApprox), pairs: ru(pairs), patchChip, heroCount: ru(countOf('hero-urls.json')) };
+  return { lists, counters, summary, stamp, matches: ru(m.matchesApprox), pairs: ru(pairs), patchChip, heroCount: ru(countOf('hero-urls.json')) };
 }
 
 
@@ -374,6 +401,8 @@ function readSections() {
     map[m[1]] = block;
   }
   map['home-cards'] = HOME_CARDS;
+  map.gamesHub = '<section id="gamesHub">{{GAMES_CONTENT}}</section>';
+  map.gameTrainer = '<section id="gameTrainer">{{GAMES_CONTENT}}</section>';
   const p = patchData();
   if (p) map['patch-notes'] = patchSection(p);
   return map;
@@ -393,7 +422,8 @@ function breadcrumbs(page) {
     itemListElement: trail.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, item: t.item })),
   };
   const mid = page.parent ? `<a href="/${page.parent.dir}/">${page.parent.name}</a> <span>›</span> ` : '';
-  return `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n` +
+  const gameLd = page.game ? `<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'VideoGame',name:page.game.name,description:page.game.description,url,genre:'Educational',inLanguage:'ru',gamePlatform:'Web Browser'})}</script>\n` : '';
+  return `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n` + gameLd +
     `<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> ${mid}<span aria-current="page">${label}</span></div>`;
 }
 
@@ -554,6 +584,7 @@ function build() {
     const canonical = page.dir ? `${ORIGIN}/${page.dir}/` : `${ORIGIN}/`;
     const meta = homeMeta();
     const content = page.sections.map(id => sections[id]).join('\n\n')
+      .replace('{{HOME_SUMMARY}}', meta.summary)
       .replace('{{HOME_META_LISTS}}', meta.lists)
       .replace('{{HOME_META_COUNTERS}}', meta.counters)
       .replace('{{META_STAMP}}', meta.stamp)
@@ -568,9 +599,10 @@ function build() {
       .replace('{{GUIDES_GRID}}', () => gc.grid)
       .replace('{{GUIDES_HEROES_JSON}}', () => gc.heroesJson)
       .replace('{{ACADEMY_CONTENT}}', () => page.academy ? academyHtml(page.academy) : '');
+    const gameContent = content.replace('{{GAMES_CONTENT}}', () => page.game ? renderTrainer(page.game) : page.key === 'games' ? renderHub() : '');
     const scripts = (page.scripts || []).map(s => {
       const { src, ...attrs } = typeof s === 'string' ? { src: s } : s;
-      const extra = Object.keys(attrs).filter(k => attrs[k]).map(k => ` ${k}`).join('');
+      const extra = Object.keys(attrs).filter(k => attrs[k]).map(k => typeof attrs[k] === 'string' ? ` ${k}="${escapeAttr(attrs[k])}"` : ` ${k}`).join('');
       return `<script src="${src}"${extra}></script>`;
     }).join('\n');
     const styles = (page.styles || []).map(s => `<link rel="stylesheet" href="${s}">`).join('\n');
@@ -582,7 +614,7 @@ function build() {
       .replace(/\{\{CANONICAL\}\}/g, canonical)
       .replace('{{NAV}}', navHtml(page.key))
       .replace('{{BREADCRUMBS}}', breadcrumbs(page))
-      .replace('{{CONTENT}}', content)
+      .replace('{{CONTENT}}', gameContent)
       .replace('{{PAGE_SCRIPTS}}', scripts)
       .replace('{{PAGE_STYLES}}', styles)
       .replace('{{BODY_CLASS}}', bodyClass)
@@ -598,7 +630,15 @@ function build() {
     console.log(`${page.dir || '/'} — ${page.sections.length} секц., ${(html.length / 1024).toFixed(1)} КБ`);
   }
 
+  console.log('Данные партии 2:', require('./tools/build-tactics-data').build());
+  // Assets used by generated pages and games must be present in the local deploy tree.
+  for (const rel of ['data/search-aliases.json', 'data/streamers-ru.json', 'js/streams.js', 'css/streams.css', ...fs.readdirSync(path.join(ROOT, 'assets/fonts')).filter(n => n.endsWith('.woff2')).map(n => 'assets/fonts/' + n), ...fs.readdirSync(path.join(ROOT, 'js/games')).filter(n => n.endsWith('.js')).map(n => 'js/games/' + n), 'js/games/data/tactics.js', 'css/games.css']) {
+    const dest = path.join(ROOT, 'deploy', rel);
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    fs.copyFileSync(path.join(ROOT, rel), dest);
+  }
   fs.writeFileSync(path.join(ROOT, 'page-urls.json'), JSON.stringify(urls, null, 1));
+  console.log('Рецепты игр:', require('./tools/build-games-data').build());
   console.log('data/live-items.json:', require('./tools/build-live-items').build(), 'предметов');
   console.log(`\nГотово: ${PAGES.length} страниц, page-urls.json обновлён.`);
 }

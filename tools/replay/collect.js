@@ -40,6 +40,12 @@ const JAVA_FLAGS = ['-Xmx1500m', '-Xlog:disable', '-Xlog:all=warning:stderr', '-
 const PROBE_CP = JAR + path.delimiter + path.join(ROOT, 'tools', 'replay-parser');
 const PROBE_FLAGS = JAVA_FLAGS.slice(0, -3).concat(['-cp', PROBE_CP, 'MapProbe']);
 
+// Домашний ПК-помощник (27.10.2026): DOTAMATE_WORKER=1 — берёт только нечётные match_id и не берёт про-матчи.
+// Сервер, пока помощник жив (свежий heartbeat в архиве, < 20 мин), берёт только чётные. Результаты помощника
+// переносит на сервер tools/replay/import-remote.js.
+const WORKER = process.env.DOTAMATE_WORKER === '1';
+const REMOTE_HB = path.join(ARCHIVE, 'remote-worker.heartbeat');
+const remoteAlive = () => { try { return Date.now() - fs.statSync(REMOTE_HB).mtimeMs < 20 * 60e3; } catch { return false; } };
 const SKIP_CLUSTERS = new Set([413, 415, 417]); // Китай: из РФ скачивание не укладывается в таймаут
 const MAX_AGE_S = 7 * 86400;
 const MIN_AGE_S = 15 * 60;   // реплей появляется у Valve не сразу после матча
@@ -57,7 +63,9 @@ const rm = f => { try { fs.unlinkSync(f); } catch {} };
 function candidates(state) {
   const now = Date.now() / 1000;
   const files = fs.readdirSync(PUBLIC).filter(f => f.endsWith('.jsonl')).sort().slice(-3);
-  const out = [];
+  const out = [], shardEven = !WORKER && remoteAlive();
+  // Помощник не берёт то, что сервер уже разобрал или отбросил (копия _state.json сервера, её скачивает run.sh).
+  const srv = WORKER ? readJson(path.join(HOME, 'server-state.json'), {}) : {};
   for (const f of files) for (const line of fs.readFileSync(path.join(PUBLIC, f), 'utf8').split('\n')) {
     if (!line) continue;
     let r; try { r = JSON.parse(line); } catch { continue; }
@@ -65,9 +73,12 @@ function candidates(state) {
     const end = start + dur;
     if (mode !== 22 || ![0, 7].includes(lobby) || dur < 900) continue;
     if (now - end > MAX_AGE_S || now - end < MIN_AGE_S) continue;
+    if (WORKER ? id % 2 === 0 : (shardEven && id % 2 === 1)) continue;
     const s = state[id];
     if (s && (s.done || s.skip || s.tries >= MAX_TRIES)) continue;
-    out.push({ id: String(id), rank, end });
+    const v = srv[id];
+    if (v && (v.done || v.skip || v.tries >= MAX_TRIES)) continue;
+    out.push({ id: String(id), rank, end, lobby });
   }
   // Свежие первыми: у них больше шансов, что реплей ещё лежит у Valve; при равенстве — ранг выше.
   return out.sort((a, b) => b.end - a.end || b.rank - a.rank).slice(0, LIMIT);
@@ -144,7 +155,7 @@ async function processMatch(id, state) {
   } else log(id, 'крипы: MapProbe exit ' + q.status + ' ' + String(q.stderr || '').trim().slice(-120));
   if (state[id].pro) match.pro = state[id].pro;
   writeJson(path.join(MATCHES, id + '.json'), match);
-  fs.appendFileSync(PURCHASES, JSON.stringify(compact(match, state[id].rank)) + '\n');
+  fs.appendFileSync(PURCHASES, JSON.stringify(compact(match, state[id].rank, state[id].lobby)) + '\n');
   const index = readJson(INDEX, { matches: [] });
   index.matches = index.matches.filter(m => m.matchId !== id);
   index.matches.push({ matchId: id, schema: match.schema, creeps: !!match.creeps, endTime: match.endTime, duration: match.duration, radiantWin: match.radiantWin,
@@ -157,9 +168,9 @@ async function processMatch(id, state) {
 }
 
 // Запись для статистики: исход, ранг, по слотам — герой, сторона, итоги и все покупки [секунда, предмет].
-function compact(m, rank) {
-  return { id: m.matchId, end: m.endTime, dur: m.duration, mode: m.gameMode, rw: m.radiantWin ? 1 : 0, rank: rank == null ? null : rank, pro: m.pro ? 1 : 0,
-    p: m.players.map(pl => [pl.heroId, pl.slot < 5 ? 0 : 1, pl.k, pl.d, pl.a, pl.lh, pl.nw, pl.lvl, pl.obs, pl.sen, pl.items]) };
+function compact(m, rank, lobby) {
+  return { id: m.matchId, end: m.endTime, dur: m.duration, mode: m.gameMode, lobby: lobby ?? null, rw: m.radiantWin ? 1 : 0, rank: rank == null ? null : rank, pro: m.pro ? 1 : 0,
+    p: m.players.map(pl => [pl.heroId, pl.slot < 5 ? 0 : 1, pl.k, pl.d, pl.a, pl.lh, pl.nw, pl.lvl, pl.obs, pl.sen, pl.items, pl.purchaseLogComplete === true]) };
 }
 function purchasesIds() {
   const ids = new Set();
@@ -244,12 +255,12 @@ async function main() {
   if (process.argv.includes('--backfill-purchases')) { try { backfillPurchases(); } finally { rm(lock); } return; }
   if (process.argv.includes('--prune-only')) { try { pruneArchive(); } finally { rm(lock); } return; }
   try {
-    const pros = await proCandidates(state);
+    const pros = WORKER ? [] : await proCandidates(state);
     const pub = candidates(state).filter(c => !pros.some(p => p.id === c.id));
     const list = pros.concat(pub).slice(0, LIMIT);
     if (!fs.existsSync(path.join(ARCHIVE, 'heat.json'))) updateHeat();
     if (!list.length) { log('кандидатов нет'); return; }
-    for (const c of list) { state[c.id] = state[c.id] || { tries: 0 }; state[c.id].rank = c.rank; if (c.pro) state[c.id].pro = c.pro; state[c.id].tries++; }
+    for (const c of list) { state[c.id] = state[c.id] || { tries: 0 }; state[c.id].rank = c.rank; state[c.id].lobby = c.lobby ?? null; if (c.pro) state[c.id].pro = c.pro; state[c.id].tries++; }
     // Аккаунты Steam — пары строк в secrets/Steam.txt. Берём наименее загруженный сегодня;
     // у Valve около 100 запросов salt на аккаунт в сутки, держим запас — не больше 90.
     const acc = pickAccount(state, list.length);

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mana Draught — предмет Dota 2: характеристики и описание | Dota Mate</title>
@@ -15,15 +16,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mana Draught — предмет Dota 2: характеристики и описание | Dota Mate">
 <meta name="twitter:description" content="Mana Draught восстанавливает 70 маны и 3% от максимума за 6 секунд. Эффект прерывается при атаке, а скорость перезарядки предмета выше при нахождении в воде.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Предметы","item":"https://dotamate.ru/items/"},{"@type":"ListItem","position":3,"name":"Mana Draught","item":"https://dotamate.ru/item/mana_draught/"}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
 <body id="top" class="d2-dark">
@@ -31,8 +31,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/" aria-current="page" class="active">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -43,12 +43,12 @@
     <div class="it-head">
       <div class="it-kicker">Нейтральный · тир 2</div>
       <h1>Mana Draught</h1>
-      <div class="it-chips"><span class="it-chip-m">КД 60 сек</span></div>
+      
     </div>
     
   </section>
   
-  <div class="it-grid itb-solo">
+  <div class="it-grid">
     <div class="it-mainc">
       
       
@@ -60,9 +60,9 @@
       <section class="it-sec"><div class="ip-panel-head"><span>ТИР 2</span><h2>Другие нейтральные предметы тира</h2></div><div class="itb-tier"><a href="/item/crippling_crossbow/" title="Crippling Crossbow"><img src="/assets/items/crippling_crossbow.png" alt="" loading="lazy"><span>Crippling Crossbow</span></a><a href="/item/defiant_shell/" title="Defiant Shell"><img src="/assets/items/defiant_shell.png" alt="" loading="lazy"><span>Defiant Shell</span></a><a href="/item/essence_ring/" title="Essence Ring"><img src="/assets/items/essence_ring.png" alt="" loading="lazy"><span>Essence Ring</span></a><a href="/item/medallion_of_courage/" title="Medallion of Courage"><img src="/assets/items/medallion_of_courage.png" alt="" loading="lazy"><span>Medallion of Courage</span></a><a href="/item/pogo_stick/" title="Tumbler&#39;s Toy"><img src="/assets/items/pogo_stick.png" alt="" loading="lazy"><span>Tumbler&#39;s Toy</span></a><a href="/item/poor_mans_shield/" title="Poor Man&#39;s Shield"><img src="/assets/items/poor_mans_shield.png" alt="" loading="lazy"><span>Poor Man&#39;s Shield</span></a><a href="/item/searing_signet/" title="Searing Signet"><img src="/assets/items/searing_signet.png" alt="" loading="lazy"><span>Searing Signet</span></a><a href="/item/seeds_of_serenity/" title="Seeds of Serenity"><img src="/assets/items/seeds_of_serenity.png" alt="" loading="lazy"><span>Seeds of Serenity</span></a></div></section>
       <details class="it-sec itb-more ip-lore"><summary>История предмета</summary><p>Прохладительный напиток, которым лучше всего наслаждаться в компании друзей.</p></details>
     </div>
-    
+    <aside class="it-aside"><div class="it-card itb-pass"><div class="it-kicker">Характеристики</div><dl><div><dt>Цена</dt><dd>выпадает с нейтралов</dd></div><div><dt>Раздел</dt><dd>Нейтральный</dd></div><div><dt>Тир</dt><dd>2</dd></div><div><dt>Перезарядка</dt><dd>60 сек</dd></div></dl></div></aside>
   </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>

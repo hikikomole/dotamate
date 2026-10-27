@@ -882,5 +882,21 @@
   {
     "loc": "https://dotamate.ru/guide/neutral-enhancements/",
     "name": "Зачарования нейтральных предметов в Dota 2: все бонусы"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/deny-creeps/",
+    "name": "Как денаить крипов в Доте 2: добивание своих крипов"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/deny-towers/",
+    "name": "Как денаить вышку в Доте 2: здоровье, золото и глиф"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/creep-aggro/",
+    "name": "Как агрить и реагрить крипов в Доте 2: управление волной"
+  },
+  {
+    "loc": "https://dotamate.ru/guide/tower-aggro/",
+    "name": "Как сагрить вышку и как сбросить агр вышки в Доте 2"
   }
 ]

@@ -26,13 +26,15 @@ const FILE = process.env.DOTAMATE_FINGERPRINT || path.join(os.homedir(), 'dotama
 const SKIP = new Set(['data', 'deploy', 'logs', 'node_modules', 'outputs', 'Claude', 'Claude outputs', 'secrets',
   'match-archive', 'netlify-site', 'db', 'docs']);
 const CODE_EXT = /\.(m?js|css)$/;
+// Ежедневная сборка пересоздаёт этот модуль из данных; его изменение не является правкой кода.
+const GENERATED_CODE = new Set(['js/games/data/tactics.js']);
 
 function walk(dir, rel, out) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     if (e.name.startsWith('.')) continue; // .git, .env, .fuse_hidden* и т.п.
     const r = rel ? rel + '/' + e.name : e.name;
     if (e.isDirectory()) { if (!(rel === '' && SKIP.has(e.name))) walk(path.join(dir, e.name), r, out); continue; }
-    if (!e.isFile()) continue;
+    if (!e.isFile() || GENERATED_CODE.has(r)) continue;
     const top = r.split('/')[0];
     if (CODE_EXT.test(e.name) || top === 'assets' || (top === 'seo' && e.name.endsWith('.json'))
       || r === 'page-shell.html' || r === 'page-sections.html') out.push(r);

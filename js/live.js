@@ -124,7 +124,7 @@
   var online = null;                         // номер идущего матча (match_id) или null
   function loadOnline() {
     getJson('/api/live/online').then(function (j) { ONLIST = { at: j.at, games: j.games || [], err: null }; renderStrip(); })
-      .catch(function (e) { if (window.console) console.warn('Идущие матчи:', e.message); if (!ONLIST) { ONLIST = { at: 0, games: [], err: e.message }; renderStrip(); } });
+      .catch(function (e) { if (window.console) console.warn('Идущие матчи:', e.message); ONLIST = { at: ONLIST ? ONLIST.at : 0, games: [], err: e.message }; renderStrip(); });
   }
   function onlineGame() {
     var g = null;
@@ -245,6 +245,8 @@
     var lc = LIST.filter(function (c) { return c.matchId === bc; })[0], bm = matches[bc];
     var bmid = !bc ? 'Пауза между матчами' : lc ? (lc.pro ? teamsOf(lc.pro) : esc(rankName(lc.rank))) : bm && bm !== 'loading' ? (bm.pro ? teamsOf(bm.pro) : 'Рейтинговый матч') : 'Матч ' + esc(bc);
     var html = cardHtml('', '<span class="lv-live" aria-hidden="true"></span>Общий эфир', bmid, '', 'повторы · все видят одну секунду', !own && !online);
+    if (ONLIST && ONLIST.err) html += '<span class="lv-strip-note">Идущие матчи недоступны: ' + esc(ONLIST.err) + '</span>';
+    else if (ONLIST && !ONLIST.games.length) html += '<span class="lv-strip-note">Сейчас нет доступных идущих матчей.</span>';
     if (ONLIST && ONLIST.games.length) {
       html += '<span class="lv-strip-sep" aria-hidden="true"></span>';
       ONLIST.games.forEach(function (g) { html += onlineCardHtml(g, g.matchId === online); });
@@ -297,7 +299,6 @@
   var HAVG = null, IMPACT = null;
   function loadCardData() {
     getJson('/data/live-hero-avg.json').then(function (j) { if (j && j.heroes && j.minN) { HAVG = j; lastSecond = null; } }).catch(function (e) { if (window.console) console.warn('live-hero-avg:', e.message); });
-    getJson('/data/item-impact.json').then(function (j) { if (j && j.heroes) { IMPACT = j; lastSecond = null; } }).catch(function (e) { if (window.console) console.warn('item-impact:', e.message); });
   }
 
   // Шанс победы по ходу игры (js/live-winprob.js, коэффициенты — tools/build-live-winprob.js). Нет файла — строки нет.
@@ -544,13 +545,7 @@
   // Только вероятность по пикам: ход матча не учитывается. Без данных модели блок не показывается.
   var DM = { M: null, idx: null, calib: null, state: 'idle' };
   function loadDraftModel() {
-    if (DM.state !== 'idle' || !window.DraftModel) return;
-    DM.state = 'loading';
-    Promise.all([getJson('/data/our-matrix-top.json'), getJson('/data/draft-calibration-top.json')]).then(function (r) {
-      if (!r[0] || !r[0].pairs || !r[1] || !r[1].alpha) throw new Error('нет данных модели');
-      DM.M = r[0]; DM.idx = window.DraftModel.index(r[0]); DM.calib = r[1]; DM.state = 'ready';
-      Object.keys(matches).forEach(function (k) { if (matches[k] && matches[k] !== 'loading') matches[k]._draftFor = null; });
-    }).catch(function (e) { DM.state = 'failed'; console.warn('Прогноз по драфту недоступен:', e.message); });
+    // Historical top matrix has no approved independent provenance for live predictions.
   }
   function draftProb(m) {
     loadDraftModel();

@@ -484,6 +484,7 @@
       e.preventDefault();
       const p = parseId($('#mt-id').value);
       if (p.err) { setMsg(p.err, 'err'); $('#mt-id').focus(); return; }
+      window.D2HGoal?.('match_analysis_submit');
       saveId(p.id);
       $('[data-mt-forget]').hidden = false;
       showList(p.id);
@@ -495,7 +496,7 @@
       const r = readManual(f);
       const err = $('[data-mt-err]');
       err.textContent = r.err || '';
-      if (r.input) open(r.input, true);
+      if (r.input) { window.D2HGoal?.('match_analysis_submit'); open(r.input, true); }
     }
   });
   window.addEventListener('storage', e => { if (e.key === R.KEY_M || e.key === null) renderHistory(); });

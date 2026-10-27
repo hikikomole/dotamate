@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Drum of Endurance: ускорение для всей команды | Гайд Dota Mate</title>
 <meta name="description" content="Что дают барабаны, как работает Endurance и почему Drum берут для ранних ганков и пуша.">
 <link rel="canonical" href="https://dotamate.ru/guide/drum-of-endurance/">
-<link rel="icon" type="image/png" href="/assets/dotamate-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Drum of Endurance: ускорение для всей команды | Гайд Dota Mate">
 <meta property="og:description" content="Что дают барабаны, как работает Endurance и почему Drum берут для ранних ганков и пуша.">
@@ -15,17 +16,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Drum of Endurance: ускорение для всей команды | Гайд Dota Mate">
 <meta name="twitter:description" content="Что дают барабаны, как работает Endurance и почему Drum берут для ранних ганков и пуша.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap">
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/security.js"></script>
 <link rel="stylesheet" href="/css/v43-platform.css">
 <link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<link rel="stylesheet" href="/css/hero-quick.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Drum of Endurance: ускорение для всей команды","description":"Что дают барабаны, как работает Endurance и почему Drum берут для ранних ганков и пуша.","mainEntityOfPage":"https://dotamate.ru/guide/drum-of-endurance/","datePublished":"2026-10-02","dateModified":"2026-10-02","author":{"@type":"Organization","name":"Dota Mate"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://dotamate.ru/guides/"},{"@type":"ListItem","position":3,"name":"Drum of Endurance: ускорение для всей команды","item":"https://dotamate.ru/guide/drum-of-endurance/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько скорости дают барабаны?","acceptedAnswer":{"@type":"Answer","text":"Аура +15 к скорости передвижения постоянно и +13% на 6 секунд после применения Endurance."}},{"@type":"Question","name":"Во что собираются барабаны?","acceptedAnswer":{"@type":"Answer","text":"В Boots of Bearing вместе с Tranquil Boots и Ring of Tarrasque."}},{"@type":"Question","name":"Сколько стоит Drum of Endurance?","acceptedAnswer":{"@type":"Answer","text":"1625 золота."}}]}</script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "379dbb7942a7403688647b232a7e84b6"}'></script><!-- End Cloudflare Web Analytics -->
+
 <!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->
 <!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
 </head>
@@ -34,8 +36,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/meta/">META</a><a href="/live/">Эфир</a><a class="nav-tg" href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram ↗</a></nav>
-    <div class="nav-spacer"></div>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/" aria-current="page" class="active">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
+<div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div>
 </header>
@@ -46,17 +48,23 @@
   <div class="eyebrow">ПРЕДМЕТЫ</div>
   <h1 style="margin:6px 0 20px;">Drum of Endurance: ускорение для всей команды</h1>
   <p style="font-size:17px;line-height:1.6;color:#e2e4e9;margin:0 0 28px;">Что дают барабаны, как работает Endurance и почему Drum берут для ранних ганков и пуша.</p>
-  <div class="detail-section" style="border-left:3px solid #d4a64a;padding:14px 18px;margin:0 0 28px;"><div class="eyebrow" style="margin-bottom:6px;">Коротко</div><p style="line-height:1.6;color:#e8ecf3;margin:0;">Drum of Endurance стоит 1625 золота: +8 к силе и аура +15 к скорости передвижения и +2.5 к восстановлению здоровья союзникам в радиусе 1200. Активная Endurance на 6 секунд даёт союзникам вокруг +35 к скорости атаки и +13% к скорости передвижения.</p></div><section class="detail-section"><h2>Что даёт предмет</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Барабаны собираются из Headdress, Belt of Strength и Wind Lace. Пассивная Swiftness Aura действует на союзников в радиусе 1200 постоянно, активная Endurance — на 6 секунд, перезарядка 45 секунд.</p></section><section class="detail-section"><h2>Когда полезны</h2><ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><li>Ганки: +13% к скорости передвижения на 6 секунд помогают команде догнать цель.</li><li>Пуш: +35 к скорости атаки для всех рядом ускоряют снос вышки.</li><li>Побег: та же скорость помогает команде отступить.</li></ul></section><section class="detail-section"><h2>Кому собирать</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">По данным OpenDota, Drum of Endurance чаще всего покупают Enigma, Visage, Batrider, Doom, Chen и Enchantress. Барабаны — продолжение для Boots of Bearing, которые усиливают тот же эффект.</p></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Сколько скорости дают барабаны?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Аура +15 к скорости передвижения постоянно и +13% на 6 секунд после применения Endurance.</p><h3 style="margin:18px 0 8px;">Во что собираются барабаны?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">В Boots of Bearing вместе с Tranquil Boots и Ring of Tarrasque.</p><h3 style="margin:18px 0 8px;">Сколько стоит Drum of Endurance?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">1625 золота.</p></section>
+  <section class="detail-section hx-quick"><h2 class="hq-title">Коротко</h2><p class="hq-answer">Drum of Endurance стоит 1625 золота: +8 к силе и аура +15 к скорости передвижения и +2.5 к восстановлению здоровья союзникам в радиусе 1200. Активная Endurance на 6 секунд даёт союзникам вокруг +35 к скорости атаки и +13% к скорости передвижения.</p></section><section class="detail-section"><h2>Что даёт предмет</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Барабаны собираются из Headdress, Belt of Strength и Wind Lace. Пассивная Swiftness Aura действует на союзников в радиусе 1200 постоянно, активная Endurance — на 6 секунд, перезарядка 45 секунд.</p></section><section class="detail-section"><h2>Когда полезны</h2><ul style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;"><li>Ганки: +13% к скорости передвижения на 6 секунд помогают команде догнать цель.</li><li>Пуш: +35 к скорости атаки для всех рядом ускоряют снос вышки.</li><li>Побег: та же скорость помогает команде отступить.</li></ul></section><section class="detail-section"><h2>Кому собирать</h2><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">По данным OpenDota, Drum of Endurance чаще всего покупают Enigma, Visage, Batrider, Doom, Chen и Enchantress. Барабаны — продолжение для Boots of Bearing, которые усиливают тот же эффект.</p></section><section class="detail-section"><h2>Частые вопросы</h2><h3 style="margin:18px 0 8px;">Сколько скорости дают барабаны?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">Аура +15 к скорости передвижения постоянно и +13% на 6 секунд после применения Endurance.</p><h3 style="margin:18px 0 8px;">Во что собираются барабаны?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">В Boots of Bearing вместе с Tranquil Boots и Ring of Tarrasque.</p><h3 style="margin:18px 0 8px;">Сколько стоит Drum of Endurance?</h3><p style="line-height:1.7;color:#c7cbd4;margin:0 0 14px;">1625 золота.</p></section>
   <div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="guide-article-mid"></div>
 <script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
   <div class="hero-detail-actions" style="margin-top:26px;">
     <a class="btn red" href="/items/">Открыть раздел «Предметы» →</a>
   </div>
   <div class="detail-section" style="margin-top:34px;">
+    <h3>Предмет в цифрах</h3>
+    <div class="linked-list"><a href="/item/ancient_janggo/"><img src="/assets/items/ancient_janggo.png" alt="" loading="lazy">Drum of Endurance<span>1 625 з.</span></a></div>
+    <p style="color:#9aa0ab;font-size:13px;margin:16px 0 8px;">Чаще всего покупают (OpenDota):</p>
+    <div class="linked-list"><a href="/hero/enigma/"><img src="/assets/heroes/enigma.webp" alt="" loading="lazy">Enigma<span>→</span></a><a href="/hero/visage/"><img src="/assets/heroes/visage.webp" alt="" loading="lazy">Visage<span>→</span></a><a href="/hero/batrider/"><img src="/assets/heroes/batrider.webp" alt="" loading="lazy">Batrider<span>→</span></a><a href="/hero/doom_bringer/"><img src="/assets/heroes/doom_bringer.webp" alt="" loading="lazy">Doom<span>→</span></a><a href="/hero/chen/"><img src="/assets/heroes/chen.webp" alt="" loading="lazy">Chen<span>→</span></a><a href="/hero/enchantress/"><img src="/assets/heroes/enchantress.webp" alt="" loading="lazy">Enchantress<span>→</span></a></div>
+  </div>
+  <div class="detail-section" style="margin-top:34px;">
     <h3>Другие гайды</h3>
     <div class="linked-list"><a href="/guide/neutral-items-madstone/"><span style="font-size:20px;">💎</span>Нейтральные предметы: мадстоун, артефакты и зачарования<span>→</span></a><a href="/guide/smoke-of-deceit/"><span style="font-size:20px;">🌫</span>Smoke of Deceit: как пользоваться смоком<span>→</span></a><a href="/guide/veil-of-discord/"><span style="font-size:20px;">🎭</span>Veil of Discord: +10% к урону заклинаний по врагам<span>→</span></a><a href="/guide/holy-locket/"><span style="font-size:20px;">✝</span>Holy Locket: лечение союзника и усиление хила<span>→</span></a></div>
   </div>
 </main>
-<footer><div class="container footer-row"><span class="footer-brand">Dotamate by Hikikomole — фан-проект о Dota 2</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
 </body>
 </html>
