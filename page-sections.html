@@ -22,6 +22,8 @@
 
   <div class="container hm-summary">{{HOME_SUMMARY}}</div>
   <div class="container hm-board">{{HOME_META_LISTS}}</div>
+  {{HOME_TRENDS}}
+  {{HOME_RECORDS}}
 
   <div class="container">
     <div class="hm-draft" id="homeDraft">
@@ -366,18 +368,29 @@
   <div class="container">
     <div class="mx-head">
       <div>
-        <h1 class="mx-title">Последние билды</h1>
+        <h1 class="mx-title">META</h1>
         <p class="mx-lead">Сборки предметов, которые редко встречаются на этом герое и позиции, и нишевые герои, которые на своих позициях выигрывают. Только наш диапазон рангов.</p>
       </div>
       <div class="mx-stamp" id="mxStamp" aria-live="polite">Загружаем данные…</div>
     </div>
 
-    <div class="mx-tabs" role="tablist">
-      <button class="mx-tab on" role="tab" aria-selected="true" data-mx-tab="builds">Сборки предметов</button>
-      <button class="mx-tab" role="tab" aria-selected="false" data-mx-tab="niche">Нишевые герои</button>
+    <section class="mx-block" id="mxPeriods" hidden aria-label="Общая статистика героев">
+      <div class="mx-block-head"><h2>Общая статистика героев</h2><span id="mxPeriodInfo" aria-live="polite"></span></div>
+      <div class="mx-chips mx-period-chips" role="group" aria-label="Период статистики">
+        <button type="button" class="chip active" data-period="7d" aria-pressed="true">7 дней</button>
+        <button type="button" class="chip" data-period="30d" aria-pressed="false">30 дней</button>
+        <button type="button" class="chip" data-period="patch" aria-pressed="false">Патч</button>
+      </div>
+      <p class="mx-note" id="mxPeriodReason" role="status"></p>
+      <div class="mx-period-table" tabindex="0" aria-label="Таблица героев, прокрутка"><table class="mx-table"><thead><tr><th class="mx-period-rank" scope="col">#</th><th scope="col" aria-sort="none"><button type="button" data-period-sort="name">Герой</button></th><th scope="col" aria-sort="none"><button type="button" data-period-sort="n">Матчи</button></th><th scope="col" aria-sort="none"><button type="button" data-period-sort="pickRate">Пикрейт</button></th><th scope="col" aria-sort="descending"><button type="button" data-period-sort="wr">Винрейт</button></th><th class="mx-period-extra" scope="col" aria-sort="none"><button type="button" data-period-sort="pickDelta">Δ пикрейт</button></th><th class="mx-period-extra" scope="col" aria-sort="none"><button type="button" data-period-sort="wrDelta">Δ винрейт</button></th><th scope="col" aria-sort="none"><button type="button" data-period-sort="confidence">±</button></th><th class="mx-period-spark" scope="col">По дням</th></tr></thead><tbody id="mxPeriodBody"></tbody></table></div>
+    </section>
+
+    <div class="mx-tabs" role="tablist" aria-label="Разделы META">
+      <button id="mxTabBuilds" class="mx-tab on" role="tab" aria-controls="mxPaneBuilds" aria-selected="true" tabindex="0" data-mx-tab="builds">Сборки предметов</button>
+      <button id="mxTabNiche" class="mx-tab" role="tab" aria-controls="mxPaneNiche" aria-selected="false" tabindex="-1" data-mx-tab="niche">Нишевые герои</button>
     </div>
 
-    <div class="mx-pane" data-mx-pane="builds">
+    <div class="mx-pane" id="mxPaneBuilds" role="tabpanel" aria-labelledby="mxTabBuilds" data-mx-pane="builds">
       <div class="mx-block">
         <div class="mx-block-head"><h2>Последние билды</h2><span id="mxCount"></span></div>
         <div class="mx-filters">
@@ -411,7 +424,7 @@
       </div>
     </div>
 
-    <div class="mx-pane" data-mx-pane="niche" hidden>
+    <div class="mx-pane" id="mxPaneNiche" role="tabpanel" aria-labelledby="mxTabNiche" data-mx-pane="niche" hidden>
       <p class="mx-note" id="mxNicheNote"></p>
       <div class="mx-niche" id="mxNiche"></div>
     </div>
@@ -425,7 +438,7 @@
 
 <section class="section mx" id="metaMatch">
   <div class="container">
-    <a class="mx-back" href="/meta/">← Последние билды</a>
+    <a class="mx-back" href="/meta/">← META</a>
     <div id="mmRoot"><p class="mx-note">Загружаем матч…</p></div>
   </div>
 </section>
@@ -529,6 +542,13 @@
     <p class="me-note">Данные Steam Web API. Сайт не связан с Valve.</p>
   </div>
 </section>
+<section class="section me match-page" id="match"><div class="container">
+  <h1 class="page-title">Подробности матча</h1>
+  <form class="me-form" id="matchForm" novalidate><label class="me-label" for="matchId">ID матча Dota 2</label>
+    <div class="me-row"><input id="matchId" name="id" inputmode="numeric" autocomplete="off" placeholder="Номер матча"><button class="me-btn me-btn--go" type="submit">Показать</button></div>
+  </form>
+  <p id="matchStatus" role="status" aria-live="polite"></p><div id="matchOut"></div>
+</div></section>
 <section class="section streams" id="streams"><div class="container">
   <h1 class="page-title">Стримы Dota 2</h1>
   <p class="streams-lead">Прямые трансляции Dota 2</p>

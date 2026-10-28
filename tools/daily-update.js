@@ -340,14 +340,16 @@ async function main() {
     await node('Ранг Steam-матчей из OpenDota', 'tools/collect-steam-matches.js', ['--fill-ranks', '--days', '3'], { timeout: 0.5 * HOUR });
     const statsOk = await node('Статистика и аналитика', 'tools/build-stats.js', ['--source', 'steam'], { timeout: HOUR });
     if (!statsOk) problems.push('статистика');
+    if (statsOk && !await node('Оценка игры: перцентили', 'tools/build-performance-percentiles.js', [], { timeout: HOUR }))
+      skippedAlerts.push('tools/build-performance-percentiles.js: failed (optional)');
     // Главная: три списка меты из того же stats.json (вместо снимка OpenDota, 11.10.2026) и пересборка страниц разделов.
-    else if (!await node('Мета на главной', 'tools/build-home-meta.js')) problems.push('мета на главной');
+    if (statsOk && !await node('Мета на главной', 'tools/build-home-meta.js')) problems.push('мета на главной');
     // D2PT-разделы (26.10.2026, docs/plans/d2pt-features-plan.md): необязательные шаги — сбой оставляет прежний файл и не останавливает обновление.
     if (statsOk) {
       const collectorArchive = path.join(process.env.DOTAMATE_COLLECTOR || path.join(require('os').homedir(), 'dotamate-collector'), 'archive');
+      if (ON_SERVER && !await node('Аудит позиций Stratz', 'tools/audit-positions-stratz.js', ['--lock-held'], { timeout: 0.25 * HOUR }))
+        skippedAlerts.push('tools/audit-positions-stratz.js: failed (optional)');
       const d2pt = [
-        ['Список патчей', 'tools/fetch-patch-notes.js', []],
-        ['Снимки по патчам', 'tools/build-patch-snapshots.js', []],
         ['Мета по ролям', 'tools/build-role-meta.js', []],
         ['Стороны и длительность', 'tools/build-side-stats.js', []],
         ['Поиск матчапов', 'tools/build-matchup-search.js', []],
@@ -356,7 +358,19 @@ async function main() {
         ['Hero Grid', 'tools/build-hero-grid.js', []],
         ['Тир-листы', 'tools/build-tier-pages.js', []],
       ];
+      if (!await node('Список патчей', 'tools/fetch-patch-notes.js', [], { timeout: 0.25 * HOUR }))
+        skippedAlerts.push('tools/fetch-patch-notes.js: failed (optional)');
+      const snapshotsOk = await node('Снимки по патчам', 'tools/build-patch-snapshots.js', [], { timeout: 0.25 * HOUR });
+      if (!snapshotsOk) skippedAlerts.push('tools/build-patch-snapshots.js: failed (optional)');
+      else {
+        if (!await node('Периоды героев', 'tools/build-hero-periods.js', [], { timeout: 0.25 * HOUR }))
+          skippedAlerts.push('tools/build-hero-periods.js: failed (optional)');
+        if (!await node('Динамика популярности героев', 'tools/build-hero-trends.js', [], { timeout: 0.25 * HOUR }))
+          skippedAlerts.push('tools/build-hero-trends.js: failed (optional)');
+      }
       for (const [title, script, args] of d2pt) if (!await node(title, script, args, { timeout: 0.25 * HOUR })) skippedAlerts.push(script + ': failed (optional)');
+      if (!await node('Рекорды матчей', 'tools/build-match-records.js', [], { timeout: 0.25 * HOUR }))
+        skippedAlerts.push('tools/build-match-records.js: failed (optional)');
       if (!await node('Страницы разделов (главная)', 'build-pages.js', [], { timeout: 0.25 * HOUR })) problems.push('страницы разделов');
     }
     if (countersOk) {

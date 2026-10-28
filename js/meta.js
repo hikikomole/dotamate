@@ -100,6 +100,7 @@
 
   // ---------- /meta/
   function initMeta(root) {
+    initHeroPeriods();
     var st = { pos: 0, hero: '', wins: false, view: 'cards', shown: PAGE };
     var loadMore = null;
     var stamp = document.getElementById('mxStamp');
@@ -117,12 +118,21 @@
       renderList(d);
     }).catch(function (e) { stamp.textContent = ''; fail(document.getElementById('mxDay'), e); });
 
-    root.querySelectorAll('.mx-tab').forEach(function (b) {
-      b.addEventListener('click', function () {
-        root.querySelectorAll('.mx-tab').forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
-        root.querySelectorAll('.mx-pane').forEach(function (p) { p.hidden = p.getAttribute('data-mx-pane') !== b.getAttribute('data-mx-tab'); });
+    var tabs = Array.from(root.querySelectorAll('.mx-tab'));
+    function selectTab(b) {
+      tabs.forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; });
+      root.querySelectorAll('.mx-pane').forEach(function (p) { p.hidden = p.getAttribute('data-mx-pane') !== b.getAttribute('data-mx-tab'); });
+      history.replaceState(null, '', '#' + b.dataset.mxTab);
+    }
+    tabs.forEach(function (b, i) {
+      b.addEventListener('click', function () { selectTab(b); });
+      b.addEventListener('keydown', function (e) {
+        var next = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i + tabs.length - 1) % tabs.length : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+        if (next < 0) return;
+        e.preventDefault(); selectTab(tabs[next]); tabs[next].focus();
       });
     });
+    if (location.hash === '#niche') selectTab(tabs[1]);
 
     function fill(id, d, rows, empty) {
       var el = document.getElementById(id);
@@ -200,6 +210,92 @@
         '<p>Сама сборка из подсчёта долей исключается, расходники не учитываются, сборки меньше чем из ' + d.rules.minItems + ' предметов и матчи короче 20 минут не оцениваются. Если на позиции у героя меньше ' + d.rules.minBase + ' сборок, база берётся по всем его позициям — такая оценка помечена звёздочкой. Процент под предметом — в скольких других сборках героя он встречается.</p>' +
         '<p>Формула своя: у Dota2ProTracker формула Off-Meta Score не опубликована, поэтому числа между сайтами не сравниваются. Источник матчей — ' + esc(d.source) + '. ' + (d.positions ? 'Позиция игрока: ' + esc(d.positions) + '.' : 'Позиция игрока — определение Stratz.') + '</p>';
     }
+  }
+
+  function initHeroPeriods() {
+    var section = document.getElementById('mxPeriods');
+    if (!section) return;
+    Promise.all([getJson('/data/hero-periods.json'), getJson('/data/heroes.json')]).then(function (files) {
+      var data = files[0], catalog = files[1];
+      if (![1, 2, 3].includes(data.schemaVersion) || data.meta?.source !== 'steam' ||
+          data.meta?.cohort !== 'ranked-all-ranks' || !data.periods ||
+          !['7d', '30d', 'patch'].every(function (key) { return data.periods[key] && Array.isArray(data.periods[key].heroes); })) return;
+      var names = new Map((catalog.heroes || catalog).map(function (h) { return [Number(h.id), h]; }));
+      var selected = '7d', sortKey = 'wr', sortDir = -1;
+      var buttons = section.querySelectorAll('[data-period]');
+      var tableScroll = section.querySelector('.mx-period-table');
+      function shortDate(value) {
+        var d = new Date(value + 'T00:00:00Z');
+        return isNaN(d.getTime()) ? '' : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', timeZone: 'UTC' }).replace(/\.$/, '');
+      }
+      function dateRange(from, to) {
+        var a = shortDate(from), b = shortDate(to);
+        return a.slice(-3) === b.slice(-3) ? a.replace(/\s+\S+$/, '') + '–' + b : a + ' – ' + b;
+      }
+      function delta(v) { return v == null ? '—' : '<span class="' + (v >= 0 ? 'mx-up' : 'mx-down') + '">' + (v >= 0 ? '▲ +' : '▼ −') + num(Math.abs(v), 1) + '</span>'; }
+      function spark(series) {
+        var values = Array.isArray(series) ? series : (series && series.n || []).map(function (n, i) { return { n: n, w: series.w[i] }; });
+        var points = values.map(function (x, i) { return x && x.n >= 30 ? { i: i, wr: 100 * x.w / x.n } : null; });
+        var valid = points.filter(Boolean);
+        if (!valid.length) return '—';
+        var lo = Math.max(0, Math.min(45, Math.min.apply(null, valid.map(function (p) { return p.wr; })) - 1));
+        var hi = Math.min(100, Math.max(55, Math.max.apply(null, valid.map(function (p) { return p.wr; })) + 1));
+        var x = function (i) { return values.length === 1 ? 40 : i * 80 / (values.length - 1); };
+        var y = function (v) { return 30 - 24 * (v - lo) / (hi - lo); };
+        var path = '', open = false;
+        points.forEach(function (p) { if (!p) { open = false; return; } path += (open ? 'L' : 'M') + x(p.i).toFixed(1) + ' ' + y(p.wr).toFixed(1); open = true; });
+        var first = valid[0], last = valid[valid.length - 1];
+        var summary = 'Винрейт по дням: от ' + num(first.wr, 1) + '% до ' + num(last.wr, 1) + '%';
+        var color = last.wr >= first.wr ? 'var(--palette-mint)' : 'var(--palette-red)';
+        return '<span title="' + esc(summary) + '"><svg viewBox="0 0 80 36" width="80" height="30" role="img" aria-label="' + esc(summary) + '"><line x1="0" x2="80" y1="' + y(50).toFixed(1) + '" y2="' + y(50).toFixed(1) + '" stroke="currentColor" stroke-dasharray="3 3" opacity=".4"/><path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2"/><circle cx="' + x(last.i).toFixed(1) + '" cy="' + y(last.wr).toFixed(1) + '" r="2.5" fill="' + color + '"/></svg></span>';
+      }
+      function render() {
+        var p = data.periods[selected];
+        buttons.forEach(function (b) {
+          var on = b.dataset.period === selected;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+          b.disabled = !data.periods[b.dataset.period].available;
+          var period = data.periods[b.dataset.period];
+          b.title = b.disabled ? 'Недостаточно данных: ' + period.observedDays + ' дней, ' + num(period.matches) + ' матчей. Нужно 70% дней и 1 000 матчей.' : '';
+        });
+        document.getElementById('mxPeriodInfo').textContent = dateRange(p.from, p.to) + ' · ' + num(p.matches / 1000000, 2) + ' млн матчей';
+        document.getElementById('mxPeriodReason').textContent = p.available ? '' :
+          'Недостаточно данных: ' + p.observedDays + ' дней из ' +
+          Math.max(0, Math.round((Date.parse(p.to) - Date.parse(p.from)) / 86400000) + 1) +
+          ', ' + num(p.matches) + ' матчей. Нужно 70% дней и 1 000 матчей.';
+        var value = function (h, key) {
+          if (key === 'name') return names.get(h.id).localized_name;
+          if (key === 'confidence') return h.low == null ? null : (h.high - h.low) / 2;
+          if (key === 'pickDelta') return h.prevMatches ? h.pickRate - 100 * h.prevN / h.prevMatches : null;
+          if (key === 'wrDelta') return h.prevN ? h.wr - 100 * h.prevW / h.prevN : null;
+          return h[key];
+        };
+        var rows = p.heroes.filter(function (h) { return names.has(h.id); }).sort(function (a, b) {
+          var av = value(a, sortKey), bv = value(b, sortKey);
+          if (av == null) return bv == null ? b.n - a.n : 1;
+          if (bv == null) return -1;
+          return (typeof av === 'string' ? av.localeCompare(bv, 'ru') : av - bv) * sortDir || b.n - a.n;
+        });
+        section.querySelectorAll('[data-period-sort]').forEach(function (b) {
+          b.parentElement.setAttribute('aria-sort', b.dataset.periodSort === sortKey ? (sortDir > 0 ? 'ascending' : 'descending') : 'none');
+        });
+        document.getElementById('mxPeriodBody').innerHTML = p.available ? rows.map(function (h, i) {
+          var info = names.get(h.id);
+          var slug = String(info.name || '').replace(/^npc_dota_hero_/, '');
+          var diff = h.wr - 50, side = diff >= 0 ? 'positive' : 'negative';
+          return '<tr><td class="mx-period-rank">' + (i + 1) + '</td><td><a class="mx-thero" href="/hero/' + esc(slug) + '/"><img loading="lazy" src="/assets/heroes/' + esc(slug) + '.webp" alt="">' + esc(info.localized_name) + '</a></td>' +
+            '<td class="mx-period-num">' + num(h.n) + '</td><td class="mx-period-num"><span>' + num(h.pickRate, 1) + '%</span><i class="mx-pick-bar" aria-hidden="true"><i style="width:' + Math.max(0, Math.min(100, h.pickRate * 2)) + '%"></i></i></td>' +
+             '<td class="mx-period-num"><span class="mx-wr ' + side + '">' + num(h.wr, 1) + '% <small>(' + (diff >= 0 ? '+' : '−') + num(Math.abs(diff), 1) + ')</small></span><i class="mx-wr-bar ' + side + '" aria-hidden="true"><i style="width:' + Math.min(50, Math.abs(diff) * 5) + '%"></i></i></td>' +
+             '<td class="mx-period-extra">' + delta(value(h, 'pickDelta')) + '</td><td class="mx-period-extra">' + delta(value(h, 'wrDelta')) + '</td>' +
+             '<td class="mx-period-confidence" title="95% интервал Уилсона: ' + (h.low == null ? 'нет данных' : num(h.low, 1) + '–' + num(h.high, 1) + '%') + '">' + (h.low == null ? '—' : '±' + num(value(h, 'confidence'), 1)) + '</td><td class="mx-period-spark">' + spark(h.series) + '</td></tr>';
+        }).join('') : '';
+      }
+      section.hidden = false;
+      buttons.forEach(function (b) { b.addEventListener('click', function () { if (b.disabled) return; selected = b.dataset.period; render(); tableScroll.scrollTop = 0; }); });
+      section.querySelectorAll('[data-period-sort]').forEach(function (b) { b.addEventListener('click', function () { var key = b.dataset.periodSort; sortDir = sortKey === key ? -sortDir : key === 'name' ? 1 : -1; sortKey = key; render(); tableScroll.scrollTop = 0; }); });
+      render();
+    }).catch(function () { /* Existing META content remains available. */ });
   }
 
   // ---------- /meta/match/?id=

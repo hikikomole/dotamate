@@ -1,0 +1,1 @@
+tools/audit-positions-stratz.js tools/collect-meta-matches.js tools/build-role-meta.js tools/daily-update.js js/stats.js docs/architecture/data-independence.md docs/architecture/statistics.md

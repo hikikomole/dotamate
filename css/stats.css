@@ -97,6 +97,7 @@
    тут не нужен, иначе шапка таблицы съезжает на первую строку и над ней пустое место. */
 @media(max-width:1279px){.st-table th{top:0}}
 @media(min-width:1280px){.st-table-wrap{overflow:visible}.st-grid .st-table-wrap{overflow-x:auto}.st-grid .st-table th{top:0}.st-table thead th:first-child{border-top-left-radius:12px}.st-table thead th:last-child{border-top-right-radius:12px}}
+.st-role-grid .st-table th{top:0}
 /* Подсветка шапки: золотистый оттенок и линия снизу, чтобы при прокрутке
    она не сливалась со строками таблицы. */
 .st-table th{background:linear-gradient(0deg,rgb(114 237 172 / .07),rgb(114 237 172 / .07)),var(--d2-panel-2);color:var(--d2-gold);box-shadow:inset 0 -1px 0 var(--d2-gold-dim),0 6px 12px -8px rgba(0,0,0,.8)}

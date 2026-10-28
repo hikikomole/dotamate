@@ -3,6 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const MS = require('./match-source');
+const { rankedReplayIds } = require('./replay-lobby');
 const { rankRole } = require('./stats-rating');
 const { archiveMatches, labelReplay, startTime } = require('./replay-cohort');
 
@@ -11,6 +12,11 @@ function auditGate(audit) {
       !Array.isArray(audit.matchIds) || new Set(audit.matchIds.map(String)).size < 50 ||
       !Array.isArray(audit.days) || audit.days.length < 2 ||
       !Number.isInteger(audit.lineups) || audit.lineups < 2 || !Number.isInteger(audit.ambiguous) || audit.ambiguous < 0) return false;
+  if (audit.method != null && !['manual', 'auto-crosscheck'].includes(audit.method)) return false;
+  if (audit.method === 'auto-crosscheck') {
+    const compared = Object.values(audit.roles || {}).reduce((n, r) => n + (Number.isInteger(r.total) ? r.total : 0), 0);
+    if (audit.reference !== 'stratz' || compared / (compared + audit.ambiguous) < .9) return false;
+  }
   return [1, 2, 3, 4, 5].every(pos => {
     const r = audit.roles && audit.roles[pos];
     const confusion = r?.confusion;
@@ -21,7 +27,7 @@ function auditGate(audit) {
   });
 }
 
-function buildRoleMeta(matches, patch, known, audit, now = new Date()) {
+function buildRoleMeta(matches, patch, known, audit, now = new Date(), rankedIds = new Set()) {
   const patchFrom = Number(patch.timestamp);
   if (!patch.version || !Number.isInteger(patchFrom) || patchFrom <= 0) throw new Error('Invalid patch');
   const positions = Object.fromEntries([1, 2, 3, 4, 5].map(p => [p, { matches: 0, labeledSlots: 0, eligibleHeroes: 0, lowSampleHeroes: 0, hiddenHeroes: 0, hiddenAppearances: 0, heroes: [] }]));
@@ -32,7 +38,7 @@ function buildRoleMeta(matches, patch, known, audit, now = new Date()) {
     const id = String(m.matchId ?? m.id ?? '');
     if (!id || seen.has(id)) { exclusions.duplicateId = (exclusions.duplicateId || 0) + 1; continue; }
     seen.add(id);
-    const { reason, labels } = labelReplay(m, { patchFrom, known });
+    const { reason, labels } = labelReplay(m, { patchFrom, known, rankedIds });
     if (reason) { exclusions[reason] = (exclusions[reason] || 0) + 1; continue; }
     accepted++; players += 10;
     const start = startTime(m); from = Math.min(from, start); to = Math.max(to, start);
@@ -62,11 +68,11 @@ function buildRoleMeta(matches, patch, known, audit, now = new Date()) {
       from: accepted ? new Date(from * 1000).toISOString() : null, to: accepted ? new Date(to * 1000).toISOString() : null,
       matches: accepted, players, methodVersion: 1, exclusions,
       coverage: { labeledSlots: labeled, possibleSlots: players, share: Math.round(coverage * 10000) / 100, gatePassed,
-        audit: { teams: audit?.teams || 0, days: audit?.days?.length || 0, lineups: audit?.lineups || 0,
+        audit: { method: audit?.method || null, reference: audit?.reference || null, builtAt: audit?.builtAt || null, teams: audit?.teams || 0, days: audit?.days?.length || 0, lineups: audit?.lineups || 0,
           roles: audit?.roles || {}, ambiguous: audit?.ambiguous || 0 } } }, positions };
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2), arg = key => { const i = args.indexOf(key); return i < 0 ? null : args[i + 1]; };
   const fixture = args.includes('--fixture');
   if (fixture && !arg('--input-dir')) throw new Error('--fixture requires --input-dir');
@@ -77,10 +83,13 @@ function main() {
   const patch = read('patch-notes.json'), known = new Set(read('heroes.json').heroes.map(h => Number(h.id)));
   const auditPath = path.join(archive, 'positions-audit.json');
   const audit = fs.existsSync(auditPath) ? JSON.parse(fs.readFileSync(auditPath, 'utf8')) : null;
-  const result = buildRoleMeta(archiveMatches(archive), patch, known, audit);
+  const index = JSON.parse(fs.readFileSync(path.join(archive, 'index.json'), 'utf8'));
+  const wanted = new Set((index.matches || []).map(m => String(m.matchId)));
+  const rankedIds = await rankedReplayIds(path.join(input, 'steam-matches'), wanted, Number(patch.timestamp));
+  const result = buildRoleMeta(archiveMatches(archive), patch, known, audit, new Date(), rankedIds);
   fs.mkdirSync(output, { recursive: true });
   MS.writeJsonAtomic(path.join(output, 'role-meta.json'), JSON.stringify(result, null, 2) + '\n');
   console.log(`role-meta.json: ${result.status}, ${result.meta.matches} matches`);
 }
-if (require.main === module) { try { main(); } catch (e) { console.error(e.message); process.exitCode = 1; } }
+if (require.main === module) main().catch(e => { console.error(e.message); process.exitCode = 1; });
 module.exports = { auditGate, buildRoleMeta };

@@ -40,13 +40,16 @@ function readToken() {
 }
 
 async function gql(token, query) {
+  const quota = require('./lib/api-quota');
   for (let i = 1; i <= 4; i++) {
+    if (!await quota.take('stratz', { priority: 'fill' })) return null;
     const res = await fetch(ENDPOINT, {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json', 'User-Agent': 'STRATZ_API' },
       body: JSON.stringify({ query })
     });
-    if (res.status === 429) { await sleep(5000 * i); continue; }
+    await quota.observe('stratz', res.headers);
+    if (res.status === 429) { await quota.pause('stratz', res.headers.get('retry-after')); continue; }
     if (!res.ok) throw new Error('Stratz HTTP ' + res.status);
     const j = await res.json();
     if (j.errors) throw new Error('Stratz: ' + JSON.stringify(j.errors).slice(0, 300));
@@ -60,6 +63,7 @@ async function main() {
   const ranks = {}, all = {};
   for (const [g, br] of Object.entries(BRACKETS)) {
     const d = await gql(token, `{ heroStats { stats(bracketBasicIds:[${br}], groupByPosition:true) { heroId position matchCount winCount } } }`);
+    if (!d) return;
     const rows = d.heroStats.stats || [];
     if (!rows.length) throw new Error(`Пустой ответ для ${br} — снимок не трогаю`);
     const m = {};

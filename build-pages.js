@@ -233,7 +233,14 @@ const PAGES = [
     sections: ['me'],
     styles: ['/css/theme-dark.css'],
     bodyClass: 'd2-dark',
-    scripts: [{ src: '/js/me.js', defer: true }],
+    scripts: [{ src: '/js/score-popover.js', defer: true }, { src: '/js/me.js', defer: true }],
+  },
+  {
+    key: 'match', dir: 'match', crumb: 'Матч', noSitemap: true, noindex: true,
+    title: 'Подробности матча Dota 2 | Dota Mate',
+    desc: 'Результат и статистика игроков матча Dota 2.',
+    sections: ['match'], styles: ['/css/theme-dark.css', '/css/match.css'],
+    bodyClass: 'd2-dark', scripts: [{ src: '/js/score-popover.js', defer: true }, { src: '/js/match.js', defer: true }],
   },
   {
     // Страница ошибки 404: её отдаёт сервер на любой несуществующий адрес (ErrorDocument в deploy/.htaccess).
@@ -283,6 +290,8 @@ const HOME_CARDS = `<section class="section" id="home-cards">
 // Числа берём из data/home-meta.json (tools/build-home-meta.js, из data/stats.json) и из тех же
 // карт адресов, по которым собирается sitemap, — выдумывать тут нечего.
 const HOME_META = path.join(ROOT, 'data', 'home-meta.json');
+const HERO_TRENDS = path.join(ROOT, 'data', 'hero-trends.json');
+const MATCH_RECORDS = path.join(ROOT, 'data', 'match-records.json');
 
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -317,6 +326,63 @@ function metaColumn(title, hint, rows, link, linkText) {
   return `<div class="hm-col"><div class="hm-col-head"><h2>${title}</h2><span>${hint}</span></div>` +
     (rows.length ? rows.join('') : '<p class="hm-unavailable">Для списка пока недостаточно матчей текущего патча.</p>') +
     `<a class="hm-col-more" href="${link}">${linkText} →</a></div>`;
+}
+function homeRecords() {
+  let data;
+  try { data = JSON.parse(fs.readFileSync(MATCH_RECORDS, 'utf8')); } catch { /* first build */ }
+  const valid = data?.schemaVersion === 1 && data?.status === 'ok' &&
+    data.meta?.source === 'steam' && data.meta?.cohort === 'ranked-all-ranks' &&
+    data.meta?.patch === patchData()?.version && data.meta?.patchFrom === Number(patchData()?.timestamp) &&
+    Array.isArray(data.periods) && data.periods.length === 2;
+  const labels = { kills: 'Убийства', gpm: 'Золото в минуту', lastHits: 'Добивания', heroDamage: 'Урон героям' };
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
+  const names = new Map(catalog.map(h => [Number(h.id), h]));
+  const date = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') ? esc(value.slice(8, 10) + '.' + value.slice(5, 7)) : '—';
+  const column = (period, title) => {
+    const rows = Array.isArray(period?.records) ? period.records.filter(r => labels[r.metric] &&
+      Number.isSafeInteger(r.value) && r.value >= 0 && Number.isSafeInteger(r.matchId) && r.matchId > 0 &&
+      Number.isSafeInteger(r.heroId) && names.has(r.heroId) && period.eligiblePlayers?.[r.metric] > 0) : [];
+    return `<div class="hm-col hm-record-col"><div class="hm-col-head"><h3>${title}</h3></div><div class="hm-record-grid">` +
+      (rows.length ? rows.map(r => {
+        const hero = names.get(r.heroId);
+        const slug = String(hero.name || '').replace(/^npc_dota_hero_/, '');
+        if (!/^[a-z0-9_]+$/.test(slug)) return '';
+        return `<article class="hm-record-tile hm-record-${esc(r.metric)}"><img src="/assets/heroes/${slug}.webp" alt="" width="48" height="48" loading="lazy" decoding="async"><div class="hm-record-info"><span class="hm-record-label">${esc(labels[r.metric])}</span><strong>${ru(r.value).replace(/&nbsp;/g, '&thinsp;')}</strong><span class="hm-record-hero">${esc(hero.localized_name)}</span><a href="/match/?id=${r.matchId}" aria-label="Матч ${r.matchId}: ${esc(labels[r.metric])}, ${esc(hero.localized_name)}" title="Матч ${r.matchId}">Матч →</a></div></article>`;
+      }).join('') :
+        '<p class="hm-unavailable">За этот период рекордов пока нет.</p>') +
+      `</div><p class="hm-period-note">${date(period?.from)}–${date(period?.to)} UTC · Среди ${ru(period?.matches || 0)} матчей нашей выборки, не всей Dota</p></div>`;
+  };
+  return `<section class="container hm-trends" aria-labelledby="home-records-title"><h2 id="home-records-title">Рекорды</h2><div class="hm-trends-grid">` +
+    column(valid ? data.periods[0] : null, 'День') + column(valid ? data.periods[1] : null, 'Неделя') + '</div></section>';
+}
+function homeTrends() {
+  let trends;
+  try { trends = JSON.parse(fs.readFileSync(HERO_TRENDS, 'utf8')); } catch { /* no completed build yet */ }
+  const currentPatch = patchData()?.version;
+  const valid = trends?.schemaVersion === 1 && trends?.status === 'ok' &&
+    trends.meta?.source === 'steam' && trends.meta?.cohort === 'ranked-all-ranks' &&
+    trends.meta?.patch === currentPatch && trends.meta?.patchFrom === Number(patchData()?.timestamp) &&
+    Array.isArray(trends.windows) && trends.windows.length === 2 &&
+    Array.isArray(trends.heroes);
+  const date = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') ? esc(value.slice(8, 10) + '.' + value.slice(5, 7)) : '—';
+  const label = valid ? `${date(trends.windows[0].from)}–${date(trends.windows[0].to)} и ${date(trends.windows[1].from)}–${date(trends.windows[1].to)} UTC · ${ru(trends.windows[0].matches)} / ${ru(trends.windows[1].matches)} матчей` : '';
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'heroes.json'), 'utf8')).heroes;
+  const names = new Map(catalog.map(h => [Number(h.id), h]));
+  const render = (rows, title) => `<div class="hm-col hm-trend-col"><div class="hm-col-head"><h3>${title}</h3></div>` +
+    (rows.length ? rows.map(h => {
+      const hero = names.get(Number(h.id));
+      if (!hero || !Number.isFinite(h.deltaPp) || !Number.isFinite(h.rateBefore) || !Number.isFinite(h.rateAfter)) return '';
+      const slug = String(hero.name || '').replace(/^npc_dota_hero_/, '');
+      if (!/^[a-z0-9_]+$/.test(slug)) return '';
+      return `<a class="hm-trend-row" href="/hero/${slug}/"><img src="/assets/heroes/${slug}.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="hm-trend-main"><b>${esc(hero.localized_name)}</b><small>${pct(h.rateBefore)} → ${pct(h.rateAfter)} · ${ru(h.picksBefore)} / ${ru(h.picksAfter)} пиков</small></span><span class="hm-delta ${h.deltaPp > 0 ? 'hm-delta-up' : 'hm-delta-down'}">${h.deltaPp > 0 ? '▲ +' : '▼ −'}${String(Math.abs(h.deltaPp).toFixed(1)).replace('.', ',')} п.п.</span></a>`;
+    }).join('') : '<p class="hm-unavailable">Недостаточно данных.</p>') + '</div>';
+  const eligible = valid ? trends.heroes.filter(h => h.picksBefore >= 30 && h.picksAfter >= 30) : [];
+  const rising = eligible.filter(h => h.deltaPp > 0).sort((a, b) => b.deltaPp - a.deltaPp).slice(0, 5);
+  const falling = eligible.filter(h => h.deltaPp < 0).sort((a, b) => a.deltaPp - b.deltaPp).slice(0, 5);
+  return `<section class="container hm-trends" aria-labelledby="home-trends-title"><h2 id="home-trends-title">Набирают популярность</h2>` +
+    (valid ? `<p>${label}</p><div class="hm-trends-grid">${render(rising, 'Растут')}${render(falling, 'Снижаются')}</div>` :
+      '<p class="hm-unavailable">Для сравнения пока недостаточно матчей текущего патча.</p>') +
+    '<p>Рост популярности ≠ сила героя</p></section>';
 }
 function homeMeta() {
   const m = JSON.parse(fs.readFileSync(HOME_META, 'utf8'));
@@ -586,6 +652,8 @@ function build() {
     const content = page.sections.map(id => sections[id]).join('\n\n')
       .replace('{{HOME_SUMMARY}}', meta.summary)
       .replace('{{HOME_META_LISTS}}', meta.lists)
+      .replace('{{HOME_TRENDS}}', page.key === 'home' ? homeTrends() : '')
+      .replace('{{HOME_RECORDS}}', page.key === 'home' ? homeRecords() : '')
       .replace('{{HOME_META_COUNTERS}}', meta.counters)
       .replace('{{META_STAMP}}', meta.stamp)
       .replace('{{META_MATCHES}}', meta.matches)

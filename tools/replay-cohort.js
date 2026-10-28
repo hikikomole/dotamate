@@ -7,10 +7,13 @@ function startTime(m) {
   return Number.isFinite(m.startTime) ? m.startTime : Number.isFinite(m.endTime) && Number.isFinite(m.duration) ? m.endTime - m.duration : null;
 }
 
-function inspectReplay(m, { patchFrom, patchTo = Infinity, known }) {
+function inspectReplay(m, { patchFrom, patchTo = Infinity, known, rankedIds }) {
   if (!m || !Array.isArray(m.players) || m.players.length !== 10) return 'invalidPlayers';
   if (m.pro === true || m.isPro === true) return 'pro';
-  if (m.gameMode !== 22 || (m.lobbyType ?? m.lobby_type ?? m.lobby) !== 7) return 'notRanked';
+  if (m.gameMode !== 22) return 'notRanked';
+  const lobby = m.lobbyType ?? m.lobby_type ?? m.lobby ?? (rankedIds?.has(String(m.matchId ?? m.id)) ? 7 : null);
+  if (lobby == null) return 'lobbyUnknown';
+  if (lobby !== 7) return 'notRanked';
   if (!Number.isFinite(m.duration) || m.duration < 900) return 'short';
   const start = startTime(m);
   if (!Number.isFinite(start) || start < patchFrom || start >= patchTo) return 'outsidePatch';
@@ -52,7 +55,7 @@ function* archiveMatches(dir) {
     const m = JSON.parse(fs.readFileSync(path.join(dir, 'matches', id + '.json'), 'utf8'));
     m.pro = entry.pro === true || m.pro === true;
     m.matchId = m.matchId || id;
-    m.lobbyType = m.lobbyType ?? entry.lobbyType ?? entry.lobby;
+    m.lobbyType = m.lobbyType ?? m.lobby_type ?? m.lobby ?? entry.lobbyType ?? entry.lobby_type ?? entry.lobby;
     yield m;
   }
 }

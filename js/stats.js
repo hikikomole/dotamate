@@ -14,6 +14,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const num = n => Number(n || 0).toLocaleString('ru-RU');
   const pct = x => (x == null ? '—' : String(x).replace('.', ',') + '%');
+  const pluralRu = (n, one, few, many) => { const x = Math.abs(n) % 100, y = x % 10; return x > 10 && x < 20 ? many : y > 1 && y < 5 ? few : y === 1 ? one : many; };
   const sgn = x => (x > 0 ? '+' : x < 0 ? '−' : '') + String(Math.abs(x)).replace('.', ',');
   const mmss = t => (t == null ? '—' : (t < 0 ? '−' : '') + Math.floor(Math.abs(t) / 60) + ':' + String(Math.abs(t) % 60).padStart(2, '0'));
   const POS = { 1: 'Керри', 2: 'Мид', 3: 'Оффлейн', 4: 'Поддержка', 5: 'Полная поддержка' };
@@ -177,18 +178,23 @@
   // Steam (S.posSteam): позиции 1/2/3 и «Поддержка 4–5» по разметке матчей моделью; без него — Stratz 1–5.
   const POS_STEAM = { 1: 'Керри', 2: 'Мид', 3: 'Оффлейн', sup: 'Поддержка 4–5' };
   function positions() {
-    const method = note('Выборка рейтинговых реплеев Valve. Позиции определены по координатам и добиваниям к 10:00; оценка — нижняя граница 95% интервала Уилсона, не вероятность победы. Рейтинг доступен от 100 игр героя на позиции, 30–99 — малая выборка. Доля выборов считается среди размеченных игроков данной позиции. Ручная проверка разметки обязательна.');
+    const audit = roleMeta?.meta?.coverage?.audit;
+    const checked = Object.values(audit?.roles || {}).reduce((n, r) => n + r.total, 0);
+    const validation = audit?.method === 'auto-crosscheck' && audit.reference === 'stratz' && checked
+      ? ` Разметка автоматически сверена с позициями Stratz на ${num(checked)} игроках. Точность по позициям: ${[1, 2, 3, 4, 5].map(p => `${p} — ${audit.roles[p]?.total ? (100 * audit.roles[p].correct / audit.roles[p].total).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + '%' : '—'}`).join('; ')}. Stratz используется только для проверки.`
+      : ' Для публикации разметка должна пройти проверку точности.';
+    const method = note('Выборка рейтинговых реплеев Valve. Позиции определены по координатам и добиваниям к 10:00; оценка — нижняя граница 95% интервала Уилсона, не вероятность победы. Рейтинг доступен от 100 игр героя на позиции, 30–99 — малая выборка. Доля выборов считается среди размеченных игроков данной позиции.' + validation);
     if (roleError) return method + `<div class="st-empty" role="alert">Данные позиций не загрузились. <button type="button" id="stRoleRetry">Повторить</button></div>`;
     if (!roleMeta) return method + '<p class="st-loading" aria-live="polite">Загружаем позиции…</p>';
     const m = roleMeta.meta || {};
-    const date = m.to ? new Date(m.to).toLocaleDateString('ru-RU') : 'неизвестна';
-    const provenance = note(`Рейтинговые реплеи, патч ${esc(m.patch || '—')}, ${num(m.matches)} матчей, данные по ${esc(date)}. Размечено ${num(m.coverage?.labeledSlots)} из ${num(m.coverage?.possibleSlots)} игроков.`);
+    const date = m.to ? new Date(m.to).toLocaleDateString('ru-RU') : '—';
+    const provenance = note(`Рейтинговые реплеи, патч ${esc(m.patch || '—')}, ${num(m.matches)} ${pluralRu(m.matches, 'матч', 'матча', 'матчей')}, данные по ${esc(date)}. Разметка игроков: ${num(m.coverage?.labeledSlots)} из ${num(m.coverage?.possibleSlots)}.`);
     if (roleMeta.status !== 'ok' || !m.coverage?.gatePassed) return method + provenance + `<div class="st-empty">${m.coverage?.gatePassed ? 'Пока нет героев с 30 играми на позиции в этой выборке.' : 'Недостаточно проверенных реплеев для рейтинга позиций 1–5.'}</div>`;
     const blocks = Object.entries(POS).map(([p, name]) => {
       const q = roleMeta.positions?.[p];
       if (!q || !q.labeledSlots) return `<article class="st-card"><h3>${esc(name)}</h3><p>Нет размеченных игроков на этой позиции.</p></article>`;
-      const rows = (q.heroes || []).filter(h => h.n >= 30).map(h => `<tr><td>${hero(h.id)}</td><td>${num(h.n)}</td><td>${pct(h.wr)}</td><td>${h.rating == null ? '—' : h.rating}</td><td>${h.tier || (h.n < 100 ? 'Малая выборка' : 'Тир недоступен')}</td><td>${pct(h.pickShare)}</td></tr>`);
-      return `<article class="st-card"><h3>${roleIco(p, name)} ${esc(name)}</h3><p>${num(q.matches)} матчей, ${num(q.labeledSlots)} игроков; рейтинг у ${num(q.eligibleHeroes)} героев. Скрыто ${num(q.hiddenHeroes)} героев с менее чем 30 играми (${num(q.hiddenAppearances)} выборов).</p>${rows.length ? table(['Герой', 'Игр', 'Винрейт', 'Рейтинг', 'Тир', 'Доля выборов'], rows) : '<p>Пока нет героев с 30 играми на этой позиции.</p>'}</article>`;
+      const rows = (q.heroes || []).filter(h => h.n >= 30).slice().sort((a, b) => (a.rating == null) - (b.rating == null)).map(h => `<tr><td>${hero(h.id)}</td><td>${num(h.n)}</td><td>${pct(h.wr)}</td><td>${h.rating == null ? '—' : h.rating}</td><td>${h.tier || (h.n < 100 ? 'Малая выборка' : 'Тир недоступен')}</td><td>${pct(h.pickShare)}</td></tr>`);
+      return `<article class="st-card"><h3>${roleIco(p, name)} ${esc(name)}</h3><p>${num(q.matches)} ${pluralRu(q.matches, 'матч', 'матча', 'матчей')}, ${num(q.labeledSlots)} ${pluralRu(q.labeledSlots, 'игрок', 'игрока', 'игроков')}; рейтинг у ${num(q.eligibleHeroes)} героев. Скрыто ${num(q.hiddenHeroes)} ${pluralRu(q.hiddenHeroes, 'герой', 'героя', 'героев')} с менее чем 30 играми (${num(q.hiddenAppearances)} выборов).</p>${rows.length ? table(['Герой', 'Игр', 'Винрейт', 'Рейтинг', 'Тир', 'Доля выборов'], rows) : '<p>Пока нет героев с 30 играми на этой позиции.</p>'}</article>`;
     });
     const stale = m.to && Date.now() - new Date(m.to).getTime() > 36 * 3600e3 ? '<p class="st-stale">Данные старше 36 часов.</p>' : '';
     return method + provenance + stale + `<div class="st-role-grid">${blocks.join('')}</div>`;

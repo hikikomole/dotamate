@@ -71,7 +71,11 @@ async function currentPatch() {
 }
 
 async function main() {
+  const quota = require('./lib/api-quota');
+  if (!await quota.take('opendota', { priority: 'normal' })) return;
   const res = await fetch(API, { headers: { 'user-agent': 'dotamate/1.0 (+https://dotamate.ru)' } });
+  await quota.observe('opendota', res.headers);
+  if (res.status === 429) await quota.pause('opendota', res.headers.get('retry-after'));
   if (!res.ok) throw new Error(`OpenDota ответила ${res.status}`);
   const list = await res.json();
   if (!Array.isArray(list) || !list.length) throw new Error('OpenDota вернула пустой список героев');

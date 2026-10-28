@@ -41,7 +41,11 @@ if(Math.abs(wr-50)>1.5) bad('совокупный винрейт vs далёк �
   let raw=fs.readFileSync(path.join(ROOT,'stratz.capi.txt'),'utf8').trim();
   const token=(raw.includes('=')?raw.slice(raw.indexOf('=')+1):raw).replace(/\s/g,'');
   const probe=[1,26,114];
+  const quota=require('./lib/api-quota');
+  if(!await quota.take('stratz',{priority:'fill'})) return;
   const r=await fetch('https://api.stratz.com/graphql',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json','User-Agent':'STRATZ_API'},body:JSON.stringify({query:`{heroStats{matchUp(heroIds:[${probe}],bracketBasicIds:[${M.bracket}],take:140,matchLimit:0){heroId with{heroId2 matchCount winCount} vs{heroId2 matchCount winCount}}}}`})});
+  await quota.observe('stratz',r.headers);
+  if(r.status===429) await quota.pause('stratz',r.headers.get('retry-after'));
   const rows=(await r.json()).data.heroStats.matchUp;
   // Сверяем правило сведения: matchCount снимка = max(двух направлений),
   // доля побед снимка лежит между долями обоих направлений.

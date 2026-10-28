@@ -53,7 +53,11 @@ const fillPlaceholders = (text, attribMap) =>
 const hasUnresolved = t => /%[a-zA-Z0-9_]+%/.test(t);
 
 async function getJson(url) {
+  const quota = require('./lib/api-quota');
+  if (!await quota.take('opendota', { priority: 'normal' })) throw new Error('OpenDota daily quota exhausted');
   const r = await fetch(url, { headers: { Accept: 'application/json' } });
+  await quota.observe('opendota', r.headers);
+  if (r.status === 429) await quota.pause('opendota', r.headers.get('retry-after'));
   if (!r.ok) throw new Error(url.split('/').pop() + ' HTTP ' + r.status);
   return r.json();
 }

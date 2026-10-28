@@ -66,7 +66,7 @@ async function main() {
 
   // OpenDota с сервера сайта отвечает нестабильно: при сбое — локальные снимки (data/heroes.json, data/items-ru.json).
   const odota = async (url, fallback) => {
-    try { if(process.argv.includes('--offline')) throw new Error('offline'); const r = await fetch(url, { signal: AbortSignal.timeout(20000) }); if (!r.ok) throw new Error('HTTP ' + r.status); const j = await r.json(); if (!j || typeof j !== 'object') throw new Error('пустой ответ'); return j; }
+    try { if(process.argv.includes('--offline')) throw new Error('offline'); if (!await require('./tools/lib/api-quota').take('opendota', { priority: 'normal' })) throw new Error('QUOTA'); const r = await fetch(url, { signal: AbortSignal.timeout(20000) }); if (!r.ok) throw new Error('HTTP ' + r.status); const j = await r.json(); if (!j || typeof j !== 'object') throw new Error('пустой ответ'); return j; }
     catch (e) { console.warn('OpenDota недоступна (' + url.replace(/^.*\/api\//, '') + ': ' + e.message + ') — локальный снимок'); return fallback(); }
   };
   const heroes = await odota('https://api.opendota.com/api/heroStats', () => JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'heroes.json'), 'utf8')).heroes);

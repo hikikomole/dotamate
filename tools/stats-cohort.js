@@ -3,6 +3,14 @@
 const SOURCE = 'steam';
 const COHORT = 'ranked-all-ranks';
 
+function currentPatch(catalog, version) {
+  const patches = catalog?.patches;
+  const patch = Array.isArray(patches) && patches.find(p => p.version === version);
+  if (!patch || !Number.isSafeInteger(patch.timestamp) || patch.timestamp <= 0)
+    throw new Error('Current patch missing from Valve patch catalog');
+  return { version, timestamp: patch.timestamp };
+}
+
 function assertProvenance(meta, patch) {
   if (!meta || meta.source !== SOURCE || meta.cohort !== COHORT || meta.patch !== patch ||
       !Number.isInteger(meta.patchFrom) || meta.patchFrom <= 0) throw new Error('Invalid Steam ranked provenance or patch');
@@ -38,4 +46,4 @@ function count(coverage, reason) {
   else coverage.accepted++;
 }
 
-module.exports = { SOURCE, COHORT, assertProvenance, inspectSteamRow, createRowFilter, newCoverage, count };
+module.exports = { SOURCE, COHORT, currentPatch, assertProvenance, inspectSteamRow, createRowFilter, newCoverage, count };

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "builtAt": "2026-10-26T19:05:45.139Z",
+  "builtAt": "2026-10-28T02:03:42.176Z",
   "status": "insufficient",
   "meta": {
     "source": "valve-replay",
@@ -19,6 +19,9 @@
       "share": 100,
       "gatePassed": true,
       "audit": {
+        "method": null,
+        "reference": null,
+        "builtAt": null,
         "teams": 100,
         "days": 2,
         "lineups": 2,

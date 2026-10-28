@@ -1,0 +1,22 @@
+'use strict';
+const assert = require('node:assert/strict');
+const { normalize } = require('./gc-normalize');
+// CMsgDOTAMatch and CMsgDOTAMatch_Player, dota_gcmessages_common.d.ts.
+const players = Array.from({ length: 10 }, (_, i) => ({ accountId: i + 1, playerSlot: i < 5 ? i : 128 + i - 5, heroId: i + 10, item0: 100, item6: 200, kills: 2, deaths: 1, assists: 3, lastHits: 50, denies: 4, goldPerMin: 400, xpPerMin: 500, netWorth: 6000, heroDamage: 700, towerDamage: 80, heroHealing: 90, level: 12, playerName: i ? undefined : 'Player', abilityUpgrades: [{ ability: 123, time: 45 }], item7: 300, item9: 1601, goldSpent: 9000, partyId: i < 2 ? '777' : (i === 5 ? '888' : '0'), heroDamageDealt: [{ damageType: 1, postReduction: 55 }], proName: i === 3 ? 'Pro' : '' }));
+const match = { matchId: '1234567890', starttime: 1234, duration: 2000, gameMode: 1, matchOutcome: 3, players, radiantTeamName: 'R', direTeamName: 'D', radiantTeamScore: 39, direTeamScore: 12, towerStatus: [2047, 0], barracksStatus: [63, 63], picksBans: [{ isPick: true, team: 0, heroId: 121 }, { isPick: false, team: 1, heroId: 5 }] };
+const result = normalize(match, match.matchId);
+assert.equal(result.v, 3); assert.equal(result.radiantWin, false);
+assert.equal(result.players[0].leaverStatus, null);
+assert.equal(result.players[5].slot, 128); assert.equal(result.players[0].items.length, 6);
+assert.equal(result.players[0].name, 'Player'); assert.equal(result.players[1].name, null);
+assert.deepEqual(result.players[0].ab, [123]); assert.equal(result.players[0].nw, 6000);
+assert.throws(() => normalize({ ...match, matchId: 'wrong' }, match.matchId));
+const p0 = result.players[0].x;
+assert.deepEqual(p0.bp, [200, 300, 0]); assert.equal(p0.nt, 1601); assert.equal(p0.gs, 9000);
+assert.equal(p0.pt, 1); assert.equal(result.players[1].x.pt, 1); assert.equal(result.players[5].x.pt, 0); assert.equal(result.players[2].x.pt, 0);
+assert.deepEqual(p0.di, [0, 55, 0]); assert.deepEqual(p0.at, [45]);
+assert.equal(result.players[3].name, 'Pro');
+assert.deepEqual(result.x.score, [39, 12]); assert.deepEqual(result.x.draft, [[1, 0, 121], [0, 1, 5]]);
+assert.deepEqual(result.x.towers, [2047, 0]); assert.equal(result.x.src, 'gc');
+assert.equal(JSON.stringify(result).includes('777'), false);
+console.log('gc-normalize ok');

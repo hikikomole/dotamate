@@ -21,6 +21,8 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { writeJsonAtomic } = require('./tools/match-source.js');
+const quota = require('./tools/lib/api-quota');
 
 const ENDPOINT = 'https://api.stratz.com/graphql';
 const BRACKET = 'DIVINE_IMMORTAL';
@@ -58,6 +60,7 @@ function readToken() {
 async function gql(token, query, tries = 3) {
   for (let i = 0; i < tries; i++) {
     try {
+      if (!await quota.take('stratz', { priority: 'fill' })) throw new Error('QUOTA');
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'User-Agent': 'STRATZ_API' },
@@ -69,7 +72,7 @@ async function gql(token, query, tries = 3) {
       if (j.errors) throw new Error(JSON.stringify(j.errors).slice(0, 200));
       return j.data;
     } catch (e) {
-      if (i === tries - 1) throw e;
+      if (e.message === 'QUOTA' || i === tries - 1) throw e;
       await sleep(1200 * (i + 1));
     }
   }
@@ -290,10 +293,12 @@ async function steamBuilds() {
         }
       }
     }
-    fs.writeFileSync(path.join(outBuilds, h.id + '.json'), JSON.stringify({
+    const output = {
       heroId: h.id, heroName: h.localized_name, bracket: 'ALL', source: 'Steam Web API, ability_upgrades; позиции — модель U2',
       fetchedAt: builtAt, matches: a.n, positionOrder: order, positions: outPos
-    }));
+    };
+    if (!output.positionOrder.length || !Object.keys(output.positions).length || !JSON.stringify(output)) { console.warn('Empty hero build for hero ' + h.id + '; keeping previous file'); continue; }
+    writeJsonAtomic(path.join(outBuilds, h.id + '.json'), output);
     written++;
   }
   const pc = (x, y) => y ? Math.round(x / y * 1000) / 10 : null;
@@ -306,7 +311,8 @@ async function steamBuilds() {
   }
   const check = { builtAt, matches, firstMatchAt: new Date(first * 1000).toISOString(), lastMatchAt: new Date(last * 1000).toISOString(),
     heroes: written, positionsByKey: byPos, compare: Object.assign(cmp, { levelsPct: pc(cmp.levelsSame, cmp.levels), talentsPct: pc(cmp.talentsSame, cmp.talents) }) };
-  fs.writeFileSync(path.join(OUT, 'builds-check.json'), JSON.stringify(check, null, 1));
+  if (!check.heroes || !JSON.stringify(check)) throw new Error('Empty builds check');
+  writeJsonAtomic(path.join(OUT, 'builds-check.json'), JSON.stringify(check, null, 1));
   console.log(`Steam: ${matches} матчей, героев ${written}, позиций ${JSON.stringify(byPos)} → ${path.relative(ROOT, outBuilds)}/`);
   console.log(`Сверка со Stratz (та же позиция): уровни 1–10 ${cmp.levelsSame}/${cmp.levels} (${check.compare.levelsPct}%), таланты ${cmp.talentsSame}/${cmp.talents} (${check.compare.talentsPct}%)`);
 }
@@ -325,8 +331,9 @@ async function main() {
     abilityById[a.id] = { name: a.name, title: a.language?.displayName || a.name, isTalent: !!a.isTalent };
   }
   fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, 'data', 'ability-index.json'),
-    JSON.stringify({ fetchedAt: new Date().toISOString(), abilities: abilityById }));
+  const abilityIndex = { fetchedAt: new Date().toISOString(), abilities: abilityById };
+  if (!Object.keys(abilityById).length || !JSON.stringify(abilityIndex)) throw new Error('Empty ability index');
+  writeJsonAtomic(path.join(ROOT, 'data', 'ability-index.json'), abilityIndex);
 
   // Дерево талантов берём из своего справочника (tools/build-talent-tree.js):
   // у Stratz список talents дырявый — у Phantom Lancer там 3 слота из 8,
@@ -366,7 +373,7 @@ async function main() {
 
     let data;
     try { data = await gql(token, `{ heroStats { ${parts} } }`); }
-    catch (e) { skipped.push(h.localized_name + ' (' + e.message.slice(0, 60) + ')'); continue; }
+    catch (e) { if (e.message === 'QUOTA') break; skipped.push(h.localized_name + ' (' + e.message.slice(0, 60) + ')'); continue; }
 
     const s = data.heroStats;
     const byPosition = {};
@@ -379,14 +386,16 @@ async function main() {
       };
     });
 
-    fs.writeFileSync(path.join(OUT_DIR, h.id + '.json'), JSON.stringify({
+    const output = {
       heroId: h.id,
       heroName: h.localized_name,
       bracket: BRACKET,
       fetchedAt: new Date().toISOString(),
       positionOrder: top.map(p => p.id),
       positions: byPosition
-    }));
+    };
+    if (!output.positionOrder.length || !Object.keys(output.positions).length || !JSON.stringify(output)) { console.warn('Empty hero build for hero ' + h.id + '; keeping previous file'); continue; }
+    writeJsonAtomic(path.join(OUT_DIR, h.id + '.json'), output);
 
     done++;
     if (done % 25 === 0) console.log(`  ...${done}/${heroes.length}`);

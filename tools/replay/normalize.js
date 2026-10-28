@@ -16,6 +16,14 @@ const r1 = v => Math.round(v * 10) / 10;
 const heroesFile = path.join(__dirname, '..', '..', 'data', 'heroes.json');
 const HEROES = new Map(JSON.parse(fs.readFileSync(heroesFile, 'utf8')).heroes.map(h => [h.id, h]));
 const HERO_BY_NAME = new Map([...HEROES.values()].map(h => [h.name, h]));
+// Основные способности героя (data/hero-abilities.json): прокачку фильтруем по ним + таланты/атрибуты (special_bonus_*),
+// чтобы не попадали вспомогательные (phoenix_launch_fire_spirit) и украденные (Rubick) способности.
+// Нет файла (у ПК-помощника старая копия) — не фильтруем.
+let HERO_ABILS = null;
+try {
+  const ha = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'hero-abilities.json'), 'utf8')).heroes;
+  HERO_ABILS = new Map(Object.entries(ha).map(([id, list]) => [Number(id), new Set((list || []).map(a => a.key))]));
+} catch {}
 
 // Инвентарь по покупкам. Combat log пишет «покупку» и для собранного предмета (item_basher
 // приходит вместе с item_recipe_basher), поэтому при такой записи убираем из сумки его компоненты
@@ -42,6 +50,8 @@ async function normalize(input) {
   gaps = 0; foreign = 0;
   const iv = new Map();            // slot -> Map(time -> interval)
   const kills = [], buildings = [], wards = new Map(), purchases = [], roshan = [], runes = [], chat = [], chatwheel = [];
+  // 27.10.2026 (страница матча): прокачка, урон герой→герой, аегис, смоки/глифы/сканы/байбэки.
+  const abil = [], dmg = new Map(), aegis = [], acts = [];
   let epilogue = null, maxTime = 0;
   const rl = readline.createInterface({ input: fs.createReadStream(input), crlfDelay: Infinity });
   for await (const line of rl) {
@@ -60,6 +70,23 @@ async function normalize(input) {
         if (/_(tower|rax|fort)/.test(e.targetname)) buildings.push({ t: e.time, name: e.targetname.replace(/^npc_dota_/, '') });
         break;
       case 'DOTA_COMBATLOG_DEATH': if (e.targetname === 'npc_dota_roshan') roshan.push({ t: e.time }); break;
+      case 'DOTA_ABILITY_LEVEL':
+        if (e.abilitylevel > 0 && e.targetname && e.valuename) abil.push({ t: e.time, hero: e.targetname, ab: String(e.valuename).slice(0, 80), lvl: e.abilitylevel });
+        break;
+      case 'DOTA_COMBATLOG_DAMAGE':
+        // Урон героя по вражескому герою (без иллюзий и без урона по себе); значение — из combat log, после снижений.
+        if (e.attackerhero && e.targethero && !e.attackerillusion && !e.targetillusion && e.attackername !== e.targetname && e.value > 0) {
+          const k = e.attackername + '|' + e.targetname; dmg.set(k, (dmg.get(k) || 0) + e.value);
+        }
+        break;
+      case 'CHAT_MESSAGE_AEGIS': aegis.push({ t: e.time, slot: e.player1, kind: 'pick' }); break;
+      case 'CHAT_MESSAGE_AEGIS_STOLEN': aegis.push({ t: e.time, slot: e.player1, kind: 'stolen' }); break;
+      case 'CHAT_MESSAGE_DENIED_AEGIS': aegis.push({ t: e.time, slot: e.player1, kind: 'denied' }); break;
+      // [время, тип, слот игрока или -1, сторона 2/3 или -1]. Сканер — только сторона (value).
+      case 'CHAT_MESSAGE_SMOKE_ACTIVATED': if (e.player1 >= 0) acts.push([e.time, 'smoke', e.player1, -1]); break;
+      case 'CHAT_MESSAGE_GLYPH_USED': if (e.player1 >= 0) acts.push([e.time, 'glyph', e.player1, -1]); break;
+      case 'CHAT_MESSAGE_BUYBACK': if (e.player1 >= 0) acts.push([e.time, 'buyback', e.player1, -1]); break;
+      case 'CHAT_MESSAGE_SCAN_USED': if (e.value === 2 || e.value === 3) acts.push([e.time, 'scan', -1, e.value]); break;
       case 'CHAT_MESSAGE_RUNE_PICKUP': if (e.player1 >= 0) runes.push({ t: e.time, slot: e.player1, rune: e.value }); break;
       case 'obs': case 'sen':
         wards.set(e.ehandle, { t: e.time, slot: e.slot, kind: e.type, x: r1(e.x), y: r1(e.y), end: null });
@@ -133,10 +160,37 @@ async function normalize(input) {
   });
 
   const teamOf = slot => slot < 5 ? 'radiant' : 'dire';
+  // Ассисты: у союзников убийцы счётчик assists в interval вырос между t-1 и t+2 (прямого списка в выводе нет).
+  // Два убийства в одну секунду могут перепутать ассисты между ними — это приближение.
+  const assistAt = (slot, t) => { const m = iv.get(slot); for (let d = 0; d <= 3; d++) { const v = m && m.get(t + 2 - d); if (v && v.assists != null) return v.assists; } return null; };
+  const assistBefore = (slot, t) => { const m = iv.get(slot); for (let d = 1; d <= 4; d++) { const v = m && m.get(t - d); if (v && v.assists != null) return v.assists; } return null; };
   const deaths = kills.map(k => {
     const v = iv.get(k.victim)?.get(k.t);
-    return { t: k.t, victim: k.victim, killer: k.killer, gold: k.gold, x: v ? r1(v.x) : null, y: v ? r1(v.y) : null };
+    const assist = [];
+    if (k.killer >= 0 && k.killer <= 9) for (let s = 0; s < 10; s++) {
+      if (s === k.killer || (s < 5) !== (k.killer < 5)) continue;
+      const a0 = assistBefore(s, k.t), a1 = assistAt(s, k.t);
+      if (a0 != null && a1 != null && a1 > a0) assist.push(s);
+    }
+    return { t: k.t, victim: k.victim, killer: k.killer, gold: k.gold, x: v ? r1(v.x) : null, y: v ? r1(v.y) : null, assist };
   });
+  // Прокачка: по слоту героя; первая отметка героя (момент появления) — врождённые способности, не выбор игрока.
+  const firstAbil = new Map();
+  for (const a of abil) if (!firstAbil.has(a.hero) || a.t < firstAbil.get(a.hero)) firstAbil.set(a.hero, a.t);
+  for (const pl of players) pl.skills = [];
+  for (const a of abil) {
+    if (a.t === firstAbil.get(a.hero)) continue;
+    const s = slotByHero.get(flat(a.hero)); if (s == null) continue;
+    const own = HERO_ABILS && HERO_ABILS.get(players[s].heroId);
+    if (own && own.size && !own.has(a.ab) && !a.ab.startsWith('special_bonus')) continue;
+    players[s].skills.push([a.t, a.ab, a.lvl]);
+  }
+  // Урон: dmgTo[слот цели] — сколько этот игрок нанёс каждому герою.
+  for (const pl of players) pl.dmgTo = new Array(10).fill(0);
+  for (const [k, v] of dmg) {
+    const [a, b] = k.split('|'); const sa = slotByHero.get(flat(a)), sb = slotByHero.get(flat(b));
+    if (sa != null && sb != null) players[sa].dmgTo[sb] += v;
+  }
   // Счёт как у Valve/OpenDota: смерть героя засчитывается команде противника, в т.ч. от крипов/башен.
   // Не засчитываются смерти без убийцы и без награды (отказ/самоубийство). Сверено с OpenDota на 3 матчах.
   const score = { radiant: 0, dire: 0 };
@@ -149,13 +203,13 @@ async function normalize(input) {
   }
   return {
     schema: SCHEMA, source: 'odota/parser (Clarity)',
-    matchId: String(dota.matchId_), endTime: dota.endTime_, gameMode: dota.gameMode_,
+    matchId: String(dota.matchId_), endTime: dota.endTime_, gameMode: dota.gameMode_, lobbyType: dota.lobbyType_ ?? null,
     radiantWin: dota.gameWinner_ === 2, duration: t1, score,
     coords: 'cell', t0, t1, econStep: ECON_STEP, econFrom: Math.ceil(Math.max(t0, 0) / ECON_STEP) * ECON_STEP,
     players, deaths,
     killerTeamCheck: deaths.every(d => d.killer < 0 || d.killer > 9 || teamOf(d.killer) !== teamOf(d.victim)),
     wards: [...wards.values()].sort((a, b) => a.t - b.t),
-    buildings, roshan, runes, adv, chat, chatwheel,
+    buildings, roshan, runes, adv, chat, chatwheel, aegis, acts,
     qa: { gaps, foreign, unmatchedPurchases: qaPurch },
   };
 }

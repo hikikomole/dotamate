@@ -49,9 +49,10 @@ async function main() {
       const src = path.join(IN, 'matches', id + '.json');
       const match = readJson(src, null);
       if (!match || String(match.matchId) !== id || !Array.isArray(match.players)) continue;
+      match.lobbyType = match.lobbyType ?? match.lobby_type ?? match.lobby ?? e.lobbyType ?? e.lobby_type ?? e.lobby ?? null;
       writeJson(path.join(MATCHES, id + '.json'), match);
       fs.appendFileSync(PURCHASES, lines.get(id) + '\n');
-      index.matches.push({ ...e, matchId: id });
+      index.matches.push({ ...e, matchId: id, lobbyType: match.lobbyType });
       state[id] = { ...(state[id] || {}), tries: 0, rank: e.rank ?? null, done: new Date().toISOString(), remote: true };
       have.add(id); n++;
     }

@@ -16,6 +16,7 @@ const zlib = require('zlib');
 const { pipeline } = require('stream/promises');
 const { normalize, creepFrames } = require('./normalize');
 const { cellToUV } = require('./minimap');
+const gcAccounts = require('./gc-accounts');
 
 const ROOT = path.join(__dirname, '..', '..');
 const HOME = process.env.DOTAMATE_COLLECTOR || path.join(require('os').homedir(), 'dotamate-collector');
@@ -27,6 +28,12 @@ const ARCHIVE = path.join(HOME, 'archive');
 const MATCHES = path.join(ARCHIVE, 'matches');
 const STATE = path.join(ARCHIVE, '_state.json');
 const INDEX = path.join(ARCHIVE, 'index.json');
+// Разбор по запросу со страницы матча (/match/): задания <id>.job кладёт PHP API в REQUESTS,
+// результат — REQUESTED/<id>.json, отдельно от архива: такие матчи (любой режим и лобби) НЕ попадают
+// в index.json, purchases.jsonl и тепловую карту, то есть не влияют на статистику сайта.
+const REQUESTS = path.join(HOME, 'requests');
+const REQUESTED = path.join(ARCHIVE, 'requested');
+const REQUESTED_KEEP_S = 14 * 86400;
 // Короткая запись матча для статистики покупок (время каждой покупки) — одна строка JSON на матч, ~13 КБ (замер 09.10: 664 матча — 8,8 МБ).
 // Полный файл матча (~1,8 МБ) нужен эфиру и хранится KEEP_DAYS дней (про-матчи — без срока), запись покупок — всегда.
 const PURCHASES = path.join(ARCHIVE, 'purchases.jsonl');
@@ -90,7 +97,11 @@ function candidates(state) {
 async function proCandidates(state) {
   let rows;
   try {
+    const quota = require('../lib/api-quota');
+    if (!await quota.take('opendota', { priority: 'normal' })) return [];
     const r = await fetch('https://api.opendota.com/api/proMatches', { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(20000) });
+    await quota.observe('opendota', r.headers);
+    if (r.status === 429) await quota.pause('opendota', r.headers.get('retry-after'));
     if (!r.ok) throw new Error('HTTP ' + r.status);
     rows = await r.json();
     if (!Array.isArray(rows)) throw new Error('не массив');
@@ -125,7 +136,7 @@ function cleanup(id) {
   for (const f of [id + '.dem', id + '.jsonl', id + '.probe.jsonl']) rm(path.join(WORK, f));
 }
 
-async function processMatch(id, state) {
+async function processMatch(id, state, requested = false) {
   const meta = readJson(path.join(REPLAYS, id + '.json'), null);
   if (!meta) { state[id].lastError = 'нет salt'; return false; }
   if (SKIP_CLUSTERS.has(Number(meta.cluster))) { state[id].skip = 'cluster ' + meta.cluster; return false; }
@@ -146,6 +157,7 @@ async function processMatch(id, state) {
     return false;
   }
   const match = await normalize(jsonl);
+  match.lobbyType = meta.lobbyType ?? match.lobbyType ?? state[id].lobby ?? null;
   if (match.matchId !== id) throw new Error('в реплее другой match_id: ' + match.matchId);
   const probe = path.join(WORK, id + '.probe.jsonl');
   const q = spawnSync(JAVA, PROBE_FLAGS.concat([dem, '1']), { stdio: ['ignore', fs.openSync(probe, 'w'), 'pipe'], timeout: 5 * 60 * 1000 });
@@ -154,12 +166,18 @@ async function processMatch(id, state) {
     catch (e) { log(id, 'крипы: ' + e.message); }
   } else log(id, 'крипы: MapProbe exit ' + q.status + ' ' + String(q.stderr || '').trim().slice(-120));
   if (state[id].pro) match.pro = state[id].pro;
+  if (requested) {
+    match.requested = true;
+    writeJson(path.join(REQUESTED, id + '.json'), match);
+    log(id, 'по запросу готов за', Date.now() - t, 'мс');
+    return true;
+  }
   writeJson(path.join(MATCHES, id + '.json'), match);
   fs.appendFileSync(PURCHASES, JSON.stringify(compact(match, state[id].rank, state[id].lobby)) + '\n');
   const index = readJson(INDEX, { matches: [] });
   index.matches = index.matches.filter(m => m.matchId !== id);
   index.matches.push({ matchId: id, schema: match.schema, creeps: !!match.creeps, endTime: match.endTime, duration: match.duration, radiantWin: match.radiantWin,
-    score: match.score, heroes: match.players.map(pl => pl.heroId), rank: state[id].rank, pro: state[id].pro || null });
+    lobbyType: match.lobbyType, score: match.score, heroes: match.players.map(pl => pl.heroId), rank: state[id].rank, pro: state[id].pro || null });
   index.matches.sort((a, b) => b.endTime - a.endTime);
   index.updated = new Date().toISOString();
   writeJson(INDEX, index);
@@ -169,7 +187,7 @@ async function processMatch(id, state) {
 
 // Запись для статистики: исход, ранг, по слотам — герой, сторона, итоги и все покупки [секунда, предмет].
 function compact(m, rank, lobby) {
-  return { id: m.matchId, end: m.endTime, dur: m.duration, mode: m.gameMode, lobby: lobby ?? null, rw: m.radiantWin ? 1 : 0, rank: rank == null ? null : rank, pro: m.pro ? 1 : 0,
+  return { id: m.matchId, end: m.endTime, dur: m.duration, mode: m.gameMode, lobby: m.lobbyType ?? lobby ?? null, rw: m.radiantWin ? 1 : 0, rank: rank == null ? null : rank, pro: m.pro ? 1 : 0,
     p: m.players.map(pl => [pl.heroId, pl.slot < 5 ? 0 : 1, pl.k, pl.d, pl.a, pl.lh, pl.nw, pl.lvl, pl.obs, pl.sen, pl.items, pl.purchaseLogComplete === true]) };
 }
 function purchasesIds() {
@@ -245,8 +263,66 @@ function pickAccount(state, n) {
   return best;
 }
 
+function requestJobs() {
+  try { fs.mkdirSync(REQUESTS, { recursive: true }); } catch {}
+  // .taken — задание забрал домашний помощник (req.sh). Если он пропал (выключен посреди работы) — через 15 мин
+  // возвращаем задание в общую очередь. ctime меняется при переименовании .job -> .taken.
+  for (const n of fs.readdirSync(REQUESTS).filter(n => /^\d+\.taken$/.test(n))) {
+    const f = path.join(REQUESTS, n);
+    try { if (Date.now() - fs.statSync(f).ctimeMs > 15 * 60e3) fs.renameSync(f, f.replace(/\.taken$/, '.job')); } catch {}
+  }
+  return fs.readdirSync(REQUESTS).filter(n => /^\d+\.job$/.test(n))
+    .map(n => ({ id: n.slice(0, -4), t: fs.statSync(path.join(REQUESTS, n)).mtimeMs })).sort((a, b) => a.t - b.t);
+}
+function requestFinish(id, reason) {
+  if (reason) writeJson(path.join(REQUESTS, id + '.fail'), { reason: String(reason).slice(0, 80), at: new Date().toISOString() });
+  rm(path.join(REQUESTS, id + '.job'));
+}
+function pruneRequested() {
+  const border = Date.now() - REQUESTED_KEEP_S * 1000;
+  for (const dir of [REQUESTED, REQUESTS]) {
+    let names = []; try { names = fs.readdirSync(dir); } catch { continue; }
+    for (const n of names) if (/\.(json|fail)$/.test(n)) { const f = path.join(dir, n); try { if (fs.statSync(f).mtimeMs < border) rm(f); } catch {} }
+  }
+}
+// --requests: только задания со страницы матча, по LIMIT за запуск, самые старые первыми.
+async function runRequests(state, limit = LIMIT) {
+  pruneRequested();
+  const list = [];
+  for (const { id, t } of requestJobs()) {
+    if (fs.existsSync(path.join(MATCHES, id + '.json')) || fs.existsSync(path.join(REQUESTED, id + '.json'))) { requestFinish(id, null); continue; }
+    const s = state[id];
+    // Повторный запрос после отказа (PHP разрешает его через час): попытки скачать начинаются заново.
+    // Отказ разборщика (skip) постоянный — реплей тот же, повтор бесполезен.
+    if (s && s.reqFailAt && t > s.reqFailAt && !s.skip) { s.tries = 0; delete s.reqFailAt; delete s.lastError; }
+    if (s && (s.skip || s.tries >= MAX_TRIES)) { requestFinish(id, s.skip || s.lastError || 'нет реплея'); continue; }
+    list.push(id);
+    if (list.length >= limit) break;
+  }
+  if (!list.length) { log('заданий по запросу нет'); return; }
+  for (const id of list) { state[id] = state[id] || { tries: 0 }; state[id].tries++; }
+  // Salt/URL реплея обычно уже сохранил GC-воркер страницы матча (secrets/replays/<id>.json); у кого нет — спрашиваем GC.
+  const need = list.filter(id => !fs.existsSync(path.join(REPLAYS, id + '.json')));
+  if (need.length) {
+    const acc = gcAccounts.reserve(need.length);
+    if (acc === null) { log('все аккаунты Steam исчерпали суточный запас'); for (const id of list) state[id].tries--; return; }
+    const r = run(process.execPath, ['tools/replay-poc.js', ...need.slice(0, 5).flatMap(id => ['--match', id])], { timeout: 2 * 60 * 1000, env: { ...process.env, STEAM_ACCOUNT: String(acc) } });
+    if (/Steam Guard/.test(r.out)) { gcAccounts.guard(acc); for (const id of list) state[id].tries--; log('аккаунт Steam №' + acc + ' просит Steam Guard'); return; }
+  }
+  for (const id of list) {
+    try { if (await processMatch(id, state, true)) { state[id].done = new Date().toISOString(); delete state[id].lastError; } }
+    catch (e) { state[id].lastError = String(e.message).slice(0, 160); }
+    finally {
+      cleanup(id);
+      if (state[id].done) requestFinish(id, null);
+      else if (state[id].skip || state[id].tries >= MAX_TRIES) { state[id].reqFailAt = Date.now(); requestFinish(id, state[id].skip || state[id].lastError || 'нет реплея'); }
+      if (!state[id].done) log(id, 'по запросу не готов:', state[id].skip || state[id].lastError, '(попытка ' + state[id].tries + ')');
+    }
+  }
+}
+
 async function main() {
-  for (const d of [WORK, TMP, MATCHES, REPLAYS]) fs.mkdirSync(d, { recursive: true });
+  for (const d of [WORK, TMP, MATCHES, REPLAYS, REQUESTS, REQUESTED]) fs.mkdirSync(d, { recursive: true });
   for (const f of [JAVA, JAR]) if (!fs.existsSync(f)) throw new Error('нет ' + f);
   const lock = path.join(HOME, 'collect.lock');
   try { fs.writeFileSync(lock, String(process.pid), { flag: 'wx' }); }
@@ -254,7 +330,11 @@ async function main() {
   const state = readJson(STATE, {});
   if (process.argv.includes('--backfill-purchases')) { try { backfillPurchases(); } finally { rm(lock); } return; }
   if (process.argv.includes('--prune-only')) { try { pruneArchive(); } finally { rm(lock); } return; }
+  if (process.argv.includes('--requests')) { try { await runRequests(state); } finally { writeJson(STATE, state); rm(lock); } return; }
   try {
+    // Задания посетителей со страницы матча — первыми (до 3): плановый запуск и так держит heavy.lock,
+    // отдельное расписание --requests часто не может её получить.
+    if (!WORKER) { try { await runRequests(state, 3); } catch (e) { log('по запросу: сбой', e.message); } }
     const pros = WORKER ? [] : await proCandidates(state);
     const pub = candidates(state).filter(c => !pros.some(p => p.id === c.id));
     const list = pros.concat(pub).slice(0, LIMIT);
@@ -263,7 +343,7 @@ async function main() {
     for (const c of list) { state[c.id] = state[c.id] || { tries: 0 }; state[c.id].rank = c.rank; state[c.id].lobby = c.lobby ?? null; if (c.pro) state[c.id].pro = c.pro; state[c.id].tries++; }
     // Аккаунты Steam — пары строк в secrets/Steam.txt. Берём наименее загруженный сегодня;
     // у Valve около 100 запросов salt на аккаунт в сутки, держим запас — не больше 90.
-    const acc = pickAccount(state, list.length);
+    const acc = gcAccounts.reserve(list.length);
     if (acc === null) { log('все аккаунты Steam исчерпали суточный запас'); for (const c of list) state[c.id].tries--; return; }
     // tools/replay-poc.js принимает не больше 5 match_id за вызов (10.10.2026 при --limit 6 весь запуск остался без salt) —
     // пачку делим на части по 5, аккаунт тот же.
@@ -279,6 +359,7 @@ async function main() {
     // попытки матчей не тратим: в следующий запуск их возьмёт другой аккаунт.
     if (/Steam Guard/.test(salt.out)) {
       state._accOff = { ...(state._accOff || {}), [acc]: Date.now() };
+      gcAccounts.guard(acc);
       log('аккаунт Steam №' + acc + ' просит код Steam Guard — отключён на сутки');
       for (const c of list) state[c.id].tries--;
       return;

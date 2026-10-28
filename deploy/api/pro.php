@@ -344,7 +344,7 @@ function proMatch(string $id): void {
     . '<div class="pr-mgrid">' . $draft . $chart . $moments . '<div class="pr-side">' . $best . $series . '</div></div>'
     . '<section class="pr-card pr-wide"><h2 class="pr-h2">Игроки</h2>' . $ptab(0) . $ptab(1) . '</section>'
     . $buys
-    . '<p class="pr-src">Источник данных: <a href="https://www.opendota.com/matches/' . (int)$m['id'] . '" rel="noopener" target="_blank">OpenDota, матч ' . (int)$m['id'] . '</a>' . ($replay ? '; повтор на карте — из нашего разбора реплея' : '') . '.</p>';
+    . '<p class="pr-src">Источник данных: <a href="https://www.opendota.com/matches/' . (int)$m['id'] . '" rel="noopener" target="_blank">OpenDota, матч ' . (int)$m['id'] . '</a>' . ($replay ? '; повтор на карте — из нашего разбора реплея' : '') . '. <a href="/match/?id=' . (int)$m['id'] . '">Подробности матча</a></p>';
   $url = 'https://dotamate.ru/pro/match/' . (int)$m['id'] . '/';
   $heroes = implode(', ', array_map(fn($h) => proHero($h)['name'], array_merge(array_slice($picks[0], 0, 2), array_slice($picks[1], 0, 2))));
   proPage(200, $r . ' vs ' . $d . ' — ' . $lgName . ', ' . proDate((int)$m['start'], false) . ' | Dota Mate',

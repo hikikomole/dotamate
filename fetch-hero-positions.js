@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const { writeJsonAtomic } = require('./tools/match-source.js');
+const quota = require('./tools/lib/api-quota');
 
 const ENDPOINT = 'https://api.stratz.com/graphql';
 const BRACKET = 'DIVINE_IMMORTAL';        // верхний брекет — ближе всего к «7000+ MMR» у D2PT
@@ -31,6 +32,7 @@ function readToken() {
 }
 
 async function gql(token, query) {
+  if (!await quota.take('stratz', { priority: 'fill' })) throw new Error('QUOTA');
   const res = await fetch(ENDPOINT, {
     method: 'POST',
     headers: {

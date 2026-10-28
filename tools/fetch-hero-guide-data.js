@@ -28,10 +28,13 @@ const LIMIT = limitArg > -1 ? Number(process.argv[limitArg + 1]) : Infinity;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function getJson(url, tries = 3) {
+  const quota = require('./lib/api-quota');
   for (let i = 0; i < tries; i++) {
     try {
+      if (!await quota.take('opendota', { priority: 'normal' })) return null;
       const r = await fetch(url, { headers: { 'accept': 'application/json' } });
-      if (r.status === 429) { await sleep(5000 * (i + 1)); continue; }
+      await quota.observe('opendota', r.headers);
+      if (r.status === 429) { await quota.pause('opendota', r.headers.get('retry-after')); continue; }
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return await r.json();
     } catch (e) {

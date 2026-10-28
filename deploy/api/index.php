@@ -521,6 +521,7 @@ function handleLive(string $path): void {
   }
   if (preg_match('#^/api/live/match/(\d{6,12})$#', $path, $m)) {
     $f = liveMatchFile($m[1]);
+    if (!is_file($f)) $f = liveArchive() . '/requested/' . $m[1] . '.json';   // разбор по запросу со страницы матча
     if (!is_file($f)) send(['error' => 'match_not_found'], 404);
     // Файл матча не меняется: кешируем на сутки, отдаём сжатым, если браузер умеет.
     header('Cache-Control: public, max-age=86400, immutable');
@@ -811,13 +812,29 @@ function steamCall(SteamCtx $c, string $method, array $params): array {
   unset($url, $key);
   if ($errno === CURLE_OPERATION_TIMEDOUT) throw new SteamError('timeout');
   if ($code === 429) throw new SteamError('rate_limited');
+  if ($code === 404) throw new SteamError('not_found');
   if ($errno || $code !== 200 || !is_string($body)) throw new SteamError('upstream_error');
   $j = json_decode($body, true);
   if (!is_array($j) || !is_array($j['result'] ?? null)) throw new SteamError('upstream_error');
   return $j['result'];
 }
 
-// Список матчей: одним вызовом 100 последних, раскладываем в hist-<id>-<offset>.json.
+function steamMatchMissAllowed(): bool {
+  $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+  $f = steamDir() . '/miss-rate-' . hash('sha256', $ip) . '.json';
+  $h = @fopen($f, 'c+');
+  if (!$h || !flock($h, LOCK_EX)) { if ($h) fclose($h); return false; }
+  try {
+    $v = json_decode((string)stream_get_contents($h), true);
+    $now = time(); $start = is_array($v) ? (int)($v['start'] ?? 0) : 0;
+    $count = $now - $start < 60 ? (int)($v['count'] ?? 0) : 0;
+    if ($count >= 10) return false;
+    rewind($h); ftruncate($h, 0);
+    fwrite($h, json_encode(['start' => $count ? $start : $now, 'count' => $count + 1])); fflush($h);
+    return true;
+  } finally { flock($h, LOCK_UN); fclose($h); }
+}
+
 function meHistory(SteamCtx $c, int $id, string $offset): array {
   $f = steamDir() . "/hist-$id-$offset.json";
   if (is_file($f) && time() - filemtime($f) < STEAM_HIST_TTL) {
@@ -892,17 +909,21 @@ function meStoreMatch(int $matchId, array $m): array {
     for ($i = 0; $i < 6; $i++) $items[] = (int)($p["item_$i"] ?? 0);
     $players[] = [
       'id' => (int)($p['account_id'] ?? 0), 'slot' => (int)($p['player_slot'] ?? 0), 'hero' => (int)($p['hero_id'] ?? 0),
+      'leaverStatus' => isset($p['leaver_status']) ? (int)$p['leaver_status'] : null,
       'k' => (int)($p['kills'] ?? 0), 'd' => (int)($p['deaths'] ?? 0), 'a' => (int)($p['assists'] ?? 0),
       'gpm' => (int)($p['gold_per_min'] ?? 0), 'xpm' => (int)($p['xp_per_min'] ?? 0),
       'lh' => (int)($p['last_hits'] ?? 0), 'nw' => (int)($p['net_worth'] ?? 0), 'hd' => (int)($p['hero_damage'] ?? 0),
       'dn' => (int)($p['denies'] ?? 0), 'td' => (int)($p['tower_damage'] ?? 0), 'hh' => (int)($p['hero_healing'] ?? 0), 'lvl' => (int)($p['level'] ?? 0),
-      'items' => $items,
+      'items' => $items, 'name' => isset($p['personaname']) && is_string($p['personaname']) ? $p['personaname'] : null,
+      'missing' => array_values(array_filter(['kills', 'deaths', 'assists', 'gold_per_min', 'xp_per_min', 'last_hits', 'denies', 'net_worth', 'hero_damage', 'hero_healing'], fn($field) => !isset($p[$field]))),
       // Порядок прокачки (id способностей и талантов Valve) — первые 25 повышений.
       'ab' => array_slice(array_map(fn($u) => (int)($u['ability'] ?? 0), is_array($p['ability_upgrades'] ?? null) ? $p['ability_upgrades'] : []), 0, 25),
     ];
   }
-  $v = ['v' => ME_CACHE_V, 'duration' => (int)($m['duration'] ?? 0), 'gameMode' => (int)($m['game_mode'] ?? 0),
-        'radiantWin' => !empty($m['radiant_win']), 'players' => $players];
+  $v = ['v' => ME_CACHE_V, 'start' => (int)($m['start_time'] ?? 0), 'duration' => (int)($m['duration'] ?? 0), 'gameMode' => (int)($m['game_mode'] ?? 0), 'lobbyType' => isset($m['lobby_type']) ? (int)$m['lobby_type'] : null,
+        'radiantWin' => !empty($m['radiant_win']), 'players' => $players,
+        'radiantName' => is_string($m['radiant_name'] ?? null) ? $m['radiant_name'] : null,
+        'direName' => is_string($m['dire_name'] ?? null) ? $m['dire_name'] : null];
   writeJsonFile($f, $v);
   return $v;
 }
@@ -983,6 +1004,7 @@ function meSteamFail(SteamError $e): void {
   switch ($e->kind) {
     case 'busy': meError('busy', 429, 5);
     case 'rate_limited': meError('rate_limited', 429, 60);
+    case 'not_found': meError('not_found', 404);
     case 'budget': meError('rate_limited', 429, max(60, strtotime('tomorrow') - time()));
     case 'timeout': meError('timeout', 504);
     default: meError('upstream_error', 502);
@@ -1122,6 +1144,25 @@ function posTeam(array $team): ?array {
 
 // Строка матча контракта из записи истории и подробностей (или null).
 // Поля с «_» — служебные для сводки (союзники, соперники), в ответ не попадают.
+function scoreLeaverUnknown(array $d): bool {
+  foreach ($d['players'] ?? [] as $p) if (($p['leaverStatus'] ?? ($p['x']['lv'] ?? null)) === null) return true;
+  return false;
+}
+function scoreEligible(array $d): bool {
+  $lobby = $d['lobbyType'] ?? ($d['x']['lobby'] ?? null);
+  $mode = $d['gameMode'] ?? null;
+  if (!is_numeric($lobby) || (float)$lobby !== 7.0 || !is_numeric($mode) || (float)$mode !== 22.0 || ($d['duration'] ?? 0) < 900 || !is_array($d['players'] ?? null) || count($d['players']) !== 10) return false;
+  foreach ($d['players'] as $p) {
+    $lv = $p['leaverStatus'] ?? ($p['x']['lv'] ?? null);
+    if ($lv !== null && (!is_numeric($lv) || !in_array((float)$lv, [0.0, 1.0], true))) return false;
+    if (($p['hero'] ?? 0) <= 0) return false;
+    foreach (['kills', 'deaths', 'assists', 'gold_per_min', 'xp_per_min', 'last_hits', 'hero_damage'] as $key)
+      if (in_array($key, $p['missing'] ?? [], true)) return false;
+    foreach (['k', 'd', 'a', 'gpm', 'xpm', 'lh', 'hd'] as $key)
+      if (!isset($p[$key]) || !is_numeric($p[$key]) || $p[$key] < 0) return false;
+  }
+  return true;
+}
 function meRow(array $row, ?array $d, int $id): array {
   $p = null;
   if ($d) foreach ($d['players'] as $pp) {
@@ -1144,6 +1185,10 @@ function meRow(array $row, ?array $d, int $id): array {
     'matchId' => $row['matchId'], 'start' => $row['start'],
     'duration' => $ok ? $d['duration'] : null, 'gameMode' => $ok ? $d['gameMode'] : null,
     'lobbyType' => $row['lobbyType'], 'heroId' => $row['heroId'] ?? ($p['hero'] ?? null), 'radiant' => $radiant,
+    'leaverStatus' => $ok ? ($p['leaverStatus'] ?? ($p['x']['lv'] ?? null)) : null,
+    'scoreEligible' => $ok ? scoreEligible(array_replace($d, ['lobbyType' => $row['lobbyType'] ?? ($d['lobbyType'] ?? ($d['x']['lobby'] ?? null))])) : false,
+    'leaverUnknown' => $ok && scoreEligible(array_replace($d, ['lobbyType' => $row['lobbyType'] ?? ($d['lobbyType'] ?? ($d['x']['lobby'] ?? null))])) ? scoreLeaverUnknown($d) : false,
+    'missing' => $ok ? ($p['missing'] ?? []) : [],
     'win' => $ok && $radiant !== null ? ($d['radiantWin'] === $radiant) : null,
     'k' => $ok ? $p['k'] : null, 'd' => $ok ? $p['d'] : null, 'a' => $ok ? $p['a'] : null,
     'gpm' => $ok ? $p['gpm'] : null, 'xpm' => $ok ? $p['xpm'] : null, 'lastHits' => $ok ? $p['lh'] : null,
@@ -1480,11 +1525,117 @@ function meExtras(array $pl, array $chron, array $positions, array $by): array {
   return ['records' => $rec, 'week' => $week, 'heroCmp' => array_slice($cmp, 0, 12), 'similar' => $similar];
 }
 
-// --- /me: разбор матча по клику — только из кеша (матч уже загружали для чьего-то профиля), без Steam ID игроков ---
-function handleMatchDetail(string $raw): void {
-  $mid = (int)$raw;
+// --- Общие подробности матча для /me и /match/: кеш или очередь Game Coordinator. ---
+// Ставит матч в очередь GC. $strict=true — ошибки лимитов отдаются клиенту (промах кеша);
+// false — тихий пропуск (дозапрос расширенных данных для уже сохранённого матча).
+// Возвращает true, если задание есть в очереди (новое или уже стоявшее).
+function matchGcEnqueue(int $mid, bool $strict): bool {
+  $queue = steamDir() . '/gc-queue';
+  if (!is_dir($queue)) @mkdir($queue, 0700, true);
+  $failure = "$queue/$mid.fail";
+  if (is_file($failure) && time() - filemtime($failure) < 600) {
+    if (!$strict) return false;
+    $kind = trim((string)@file_get_contents($failure));
+    meError($kind === 'not_found' ? 'not_found' : 'gc_unavailable', $kind === 'not_found' ? 404 : 503, 600);
+  }
+  $job = "$queue/$mid.job"; $processing = "$queue/$mid.processing";
+  if (is_file($job) || is_file($processing)) return true;
+  if (!steamMatchMissAllowed()) { if ($strict) meError('rate_limited', 429, 60); return false; }
+  $counter = "$queue/daily-" . gmdate('Y-m-d') . '.txt';
+  $lock = @fopen("$queue/enqueue.lock", 'c');
+  if (!$lock || !flock($lock, LOCK_EX)) { if ($strict) meError('busy', 503, 5); return false; }
+  try {
+    if (is_file($job) || is_file($processing)) return true;
+    $used = (int)@file_get_contents($counter);
+    if ($used >= 600) { if ($strict) meError('rate_limited', 429, 3600); return false; }
+    $tmp = "$queue/$mid." . getmypid() . '.tmp';
+    if (@file_put_contents($tmp, (string)$mid) === false || !@rename($tmp, $job)) { if ($strict) meError('busy', 503, 5); return false; }
+    @file_put_contents($counter, (string)($used + 1));
+    return true;
+  } finally { flock($lock, LOCK_UN); fclose($lock); }
+}
+
+// Среднее по базе сайта (stats.json positions) для героя на оценённой позиции: только GPM/XPM —
+// величины «в минуту» сопоставимы между матчами разной длины; K/D/A, урон и добивания — нет.
+// Порог выборки 100 матчей; иначе null.
+function matchBench($pos, int $hero): ?array {
+  if ($pos === null || $hero <= 0) return null;
+  $b = mePosBase()[(string)$pos][$hero] ?? null;
+  if (!$b || ($b['n'] ?? 0) < 100) return null;
+  return ['n' => (int)$b['n'], 'gpm' => (int)$b['gpm'], 'xpm' => (int)$b['xpm']];
+}
+
+// --- Разбор реплея по запросу (/match/): статус и постановка в очередь сборщика (tools/replay/collect.js --requests). ---
+// Задания: ~/dotamate-collector/requests/<id>.job; результат: archive/matches/<id>.json (уже разобран сборщиком)
+// или archive/requested/<id>.json; отказ: requests/<id>.fail {reason}. GET без ?request=1 только сообщает статус.
+const PARSE_DAILY_LIMIT = 400;      // разбор теперь запускается автоматически при открытии матча
+const PARSE_MIN_AGE = 15 * 60;       // реплей появляется у Valve не сразу
+const PARSE_MAX_AGE = 7 * 86400;     // старые реплеи Valve удаляет
+function handleMatchParse(string $raw): void {
+  if (!preg_match('/^[1-9][0-9]{5,14}$/D', $raw)) meError('bad_id', 400);
+  $mid = (string)(int)$raw;
+  $arch = liveArchive();
+  $ready = ['status' => 'ready', 'url' => '/api/live/match/' . $mid];
+  if (is_file("$arch/matches/$mid.json") || is_file("$arch/requested/$mid.json")) send($ready);
+  $dir = dirname($arch) . '/requests';
+  if (!is_dir($dir)) @mkdir($dir, 0700, true);
+  $fail = readJsonFile("$dir/$mid.fail");
+  // Отказ показываем час: потом можно запросить снова (реплей у Valve иногда появляется позже — например, у турнирных матчей).
+  if (is_array($fail) && time() - (int)@filemtime("$dir/$mid.fail") < 3600) {
+    $reason = (string)($fail['reason'] ?? '');
+    if (strpos($reason, 'HTTP 404') !== false) $reason = 'Valve пока не отдаёт реплей этого матча';
+    elseif (preg_match('/^cluster \d+/', $reason)) $reason = 'Реплей хранится на китайских серверах Valve — оттуда он не скачивается за разумное время';
+    elseif (strpos($reason, 'parser') === 0) $reason = 'Не удалось разобрать файл реплея';
+    send(['status' => 'failed', 'reason' => $reason,
+          'retryAfter' => 3600 - (time() - (int)@filemtime("$dir/$mid.fail"))]);
+  }
+  $job = "$dir/$mid.job"; $taken = "$dir/$mid.taken";   // .taken — задание забрал домашний ПК-помощник (Claude outputs/lan/req.sh)
+  $queued = function () use ($dir, $job, $taken) {
+    if (is_file($taken)) send(['status' => 'queued', 'ahead' => 0, 'working' => true]);
+    $ahead = 0; $mine = (int)@filemtime($job);
+    foreach (glob("$dir/*.job") ?: [] as $j) if ((int)@filemtime($j) < $mine) $ahead++;
+    send(['status' => 'queued', 'ahead' => $ahead]);
+  };
+  if (is_file($job) || is_file($taken)) $queued();
+  if (!isset($_GET['request'])) send(['status' => 'none']);
+  // Возраст матча — по сохранённым подробностям (страница матча всегда загружает их раньше).
   $d = readJsonFile(steamDir() . "/m/$mid.json");
-  if (!is_array($d) || $mid <= 0) send(['error' => 'not_cached'], 404);
+  if (!is_array($d) || empty($d['start'])) meError('match_unknown', 409);
+  $end = (int)$d['start'] + (int)($d['duration'] ?? 0);
+  $age = time() - $end;
+  if ($age < PARSE_MIN_AGE) send(['status' => 'too_fresh', 'retryAfter' => PARSE_MIN_AGE - $age]);
+  if ($age > PARSE_MAX_AGE) send(['status' => 'expired']);
+  if (!steamMatchMissAllowed()) meError('rate_limited', 429, 60);
+  $counter = "$dir/daily-" . gmdate('Y-m-d') . '.txt';
+  $lock = @fopen("$dir/enqueue.lock", 'c');
+  if (!$lock || !flock($lock, LOCK_EX)) meError('busy', 503, 5);
+  try {
+    if (!is_file($job) && !is_file($taken)) {
+      $used = (int)@file_get_contents($counter);
+      if ($used >= PARSE_DAILY_LIMIT) meError('rate_limited', 429, 3600);
+      $tmp = "$dir/$mid." . getmypid() . '.tmp';
+      if (@file_put_contents($tmp, $mid) === false || !@rename($tmp, $job)) meError('busy', 503, 5);
+      @file_put_contents($counter, (string)($used + 1));
+    }
+  } finally { flock($lock, LOCK_UN); fclose($lock); }
+  $queued();
+}
+
+function handleMatchDetail(string $raw): void {
+  if (!preg_match('/^[1-9][0-9]{0,14}$/D', $raw)) meError('bad_id', 400);
+  $mid = (int)$raw;
+  $f = steamDir() . "/m/$mid.json";
+  $d = readJsonFile($f);
+  if (!is_array($d)) {
+    matchGcEnqueue($mid, true);
+    $d = readJsonFile($f);                       // мог появиться, пока ждали блокировку
+    if (!is_array($d)) send(['status' => 'queued'], 202);
+  }
+  // Страница матча (?full=1): матч сохранён без данных координатора (например, из Steam Web API для /me/) —
+  // отдаём что есть и тихо ставим дозапрос; страница повторит запрос, пока pending=true.
+  $pending = false;
+  if (isset($_GET['full']) && (($d['x']['src'] ?? '') !== 'gc')) $pending = matchGcEnqueue($mid, false);
+  if (!isset($d['players']) || !is_array($d['players'])) meError('upstream_error', 502);
   $me = isset($_GET['me']) ? parseAccountId((string)$_GET['me']) : null;
   $meta = meItemsMeta(); $im = []; $teams = [true => [], false => []];
   foreach ($d['players'] as $p) $teams[$p['slot'] < 128][] = $p;
@@ -1493,14 +1644,19 @@ function handleMatchDetail(string $raw): void {
     usort($teams[$rad], fn($a, $b) => $a['slot'] <=> $b['slot']);
     $lab = posTeam($teams[$rad]);
     foreach ($teams[$rad] as $i => $p) {
-      foreach ($p['items'] as $it) if ($it > 0 && isset($meta[$it])) $im[$it] = [$meta[$it][0], $meta[$it][1], $meta[$it][3]];
+      $px = is_array($p['x'] ?? null) ? $p['x'] : null;
+      $allItems = array_merge($p['items'], $px ? array_map('intval', (array)($px['bp'] ?? [])) : [], $px ? [(int)($px['nt'] ?? 0)] : []);
+      foreach ($allItems as $it) if ($it > 0 && isset($meta[$it])) $im[$it] = [$meta[$it][0], $meta[$it][1], $meta[$it][3]];
       $out[] = ['radiant' => $rad, 'hero' => $p['hero'], 'me' => $me !== null && $p['id'] === $me,
                 'k' => $p['k'], 'd' => $p['d'], 'a' => $p['a'], 'gpm' => $p['gpm'], 'xpm' => $p['xpm'], 'lh' => $p['lh'], 'dn' => $p['dn'] ?? null,
-                'nw' => $p['nw'], 'hd' => $p['hd'], 'td' => $p['td'] ?? null, 'hh' => $p['hh'] ?? null, 'lvl' => $p['lvl'] ?? null, 'items' => $p['items'],
-                'pos' => $lab ? $lab[$i]['pos'] : null, 'posP' => $lab ? round($lab[$i]['p'], 2) : null];
+                'nw' => $p['nw'], 'hd' => $p['hd'], 'td' => $p['td'] ?? null, 'hh' => $p['hh'] ?? null, 'lvl' => $p['lvl'] ?? null, 'items' => $p['items'], 'name' => $p['name'] ?? null, 'missing' => $p['missing'] ?? [],
+                'pos' => $lab ? $lab[$i]['pos'] : null, 'posP' => $lab ? round($lab[$i]['p'], 2) : null, 'x' => $px,
+                'leaverStatus' => $p['leaverStatus'] ?? ($px['lv'] ?? null),
+                'bm' => matchBench($lab ? $lab[$i]['pos'] : null, (int)$p['hero'])];
     }
   }
-  send(['matchId' => $mid, 'duration' => $d['duration'], 'gameMode' => $d['gameMode'], 'radiantWin' => $d['radiantWin'], 'players' => $out, 'itemMeta' => $im]);
+  send(['matchId' => $mid, 'duration' => $d['duration'], 'gameMode' => $d['gameMode'], 'lobbyType' => $d['lobbyType'] ?? ($d['x']['lobby'] ?? null), 'scoreEligible' => scoreEligible($d), 'leaverUnknown' => scoreEligible($d) && scoreLeaverUnknown($d), 'radiantWin' => $d['radiantWin'], 'players' => $out, 'itemMeta' => $im, 'radiantName' => $d['radiantName'] ?? null, 'direName' => $d['direName'] ?? null,
+        'start' => $d['start'] ?? null, 'x' => is_array($d['x'] ?? null) ? $d['x'] : null, 'pending' => $pending]);
 }
 
 // --- /me: карточка результата (только по нажатию «Поделиться»; без Steam ID и номеров матчей) ---
@@ -1804,7 +1960,8 @@ try {
   if (preg_match('#^/api/dota/card/([a-f0-9]{20})\.png$#', $path, $m)) handleCardImage($m[1]);
 
   if (preg_match('#^/api/dota/player/([^/]*)/matches$#', $path, $m)) handlePlayerMatches($m[1]);
-  if (preg_match('#^/api/dota/match/(\d{1,19})$#', $path, $m)) handleMatchDetail($m[1]);
+  if (preg_match('#^/api/dota/match/([^/]*)$#', $path, $m)) handleMatchDetail($m[1]);
+  if (preg_match('#^/api/dota/match/([^/]*)/parse$#', $path, $m)) handleMatchParse($m[1]);
   if (strpos($path, '/api/dota/player/') === 0) send(['error' => 'bad_id'], 400);
   if (preg_match('#^/api/dota/hero/(\d+)/items$#', $path, $m)) {
     try { send(cached('hero-items-' . $m[1], 43200, fn() => getJson(OPENDOTA . '/heroes/' . $m[1] . '/itemPopularity'))); }

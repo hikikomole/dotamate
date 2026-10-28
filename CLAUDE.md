@@ -989,7 +989,7 @@ build-guide-pages → sync-deploy → wrangler. Сбой контрпиков в
   `node tools/check-academy-analysis.js` и страницу разбора.
 - Сборка в облачной копии пересобирает и главную из устаревших `data/` — в коммит брать только страницы центра.
 - Turbo разбирается только против `posTurbo` (stats.json, `tools/build-stats.js`, последние 7 дней Turbo из Steam);
-  рейтинговый эталон — `posSteam`, затем Stratz `positions`. Не смешивать срезы.
+  рейтинговый эталон — `posSteam`, затем Stratz `positions`. Историческая заметка: правила источников обновлены 28.10.2026, см. `docs/architecture/data-independence.md`.
 - Связь маршрутов с разбором: `MATCH_CHECKS` (academy-content.js) и `REC[*].general` (js/academy-analysis.js);
   на прогресс маршрутов не влияет. Добавляешь этап — добавь его в `MATCH_CHECKS`, иначе сборка остановится.
 
@@ -1047,12 +1047,12 @@ build-guide-pages → sync-deploy → wrangler. Сбой контрпиков в
 - No deploy during daily-update 04:17 and 10:17 MSK; finish deploy if it fails after push-server
 - Server: s278486@ruvip72.hostiman.ru port 8228, key ~/.ssh/dotamate_hostiman (sshr.js); home /var/www/s278486/data; code ~/dotamate-src; collector ~/dotamate-collector
 - Helper PC: a1@192.168.0.7, key %USERPROFILE%\.ssh\dotamate_lan; main PC uses AmneziaVPN, LAN reachable via 'Ethernet 2'
-- Data-independence: OpenDota/Stratz not allowed for public stats
+- Data-independence (owner policy 2026-10-28): own Steam/replay data is primary; Stratz/OpenDota may be used within free limits (10–15% reserve, about 1 req/s), no paid keys or extra accounts. See `docs/architecture/data-independence.md`.
 - Russian replies to owner, short; owner is non-programmer; Codex prompts in English; Codex limits nearly exhausted
 
 ### Key Decisions
 - Decision: separate ranked-Steam matrix for pair/matchup search — Reason: keep our-matrix.json contract and consumers unchanged
-- Decision: item timings only from replays with verified per-player purchase-log flag; Stratz timings removed from item pages — Reason: data-independence rule, prevent wrong timings
+- Superseded 2026-10-28: item timings only from replays with verified per-player purchase-log flag; Stratz timings removed from item pages. Current block policy is in `docs/architecture/data-independence.md`.
 - Decision: no service labels on site; empty blocks hidden (.hm-summary/.hm-board :empty, 2-column board via :has when bans absent) — Reason: owner rule
 - Decision: D2PT builders run as optional steps in tools/daily-update.js after build-stats — Reason: failure keeps last file, never blocks daily
 - Decision: helper PC takes odd match_ids (DOTAMATE_WORKER=1), skips ids done/skipped in server _state.json synced as server-state.json; server takes only even ids while archive/remote-worker.heartbeat <20 min — Reason: avoid duplicate parsing, auto-fallback when PC off

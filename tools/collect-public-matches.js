@@ -25,6 +25,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const quota = require('./lib/api-quota');
 
 const ROOT = path.join(__dirname, '..');
 // Срезы базы. 0–4500 MMR — основной (Herald 1 … Ancient 5). верхний срез — отдельная папка,
@@ -65,13 +66,16 @@ function budgetLeft(s) {
 }
 
 async function page(lessThan) {
+  if (!await quota.take('opendota', { priority: 'normal' })) throw new Error('QUOTA');
   const url = API + '?min_rank=' + RANK_MIN + '&max_rank=' + RANK_MAX +
     (lessThan ? '&less_than_match_id=' + lessThan : '');
   const headers = { Accept: 'application/json' };
   if (process.env.OPENDOTA_KEY) headers['Authorization'] = 'Bearer ' + process.env.OPENDOTA_KEY;
   const r = await fetch(url, { headers });
+  await quota.observe('opendota', r.headers);
   if (r.status === 429) {
     const retry = Number(r.headers.get('retry-after'));
+    await quota.pause('opendota', retry);
     const err = new Error('RATE');
     err.waitMs = Number.isFinite(retry) && retry > 0 ? retry * 1000 : RATE_WAIT_MS;
     throw err;
@@ -162,7 +166,8 @@ async function main() {
   while (requests < budget && !stop) {
     let rows;
     try { rows = await page(lessThan); rateHits = 0; }
-    catch (e) {
+      catch (e) {
+        if (e.message === 'QUOTA') break;
       if (e.message === 'RATE') {
         rateHits++;
         if (rateHits > RATE_TRIES) {

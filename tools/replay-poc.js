@@ -75,7 +75,7 @@ async function main() {
         if (salt != null && cluster != null) {
           const dir = path.join(ROOT, 'secrets', 'replays');
           fs.mkdirSync(dir, { recursive: true });
-          fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify({ replayUrl: response.replayUrl, cluster }), { mode: 0o600 });
+          fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify({ replayUrl: response.replayUrl, cluster, lobbyType: match.lobbyType ?? match.lobby_type ?? null }), { mode: 0o600 });
           console.log(id + ': salt получен, cluster=' + cluster + '; URL сохранён локально в secrets/replays');
         }
         else console.log(id + ': GC ответил без replay salt');

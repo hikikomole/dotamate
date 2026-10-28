@@ -17,6 +17,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { writeJsonAtomic } = require('./match-source.js');
 const ROOT = path.join(__dirname, '..');
 const DIR = path.join(ROOT, 'data', 'meta-matches');
 const read = f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
@@ -68,9 +69,11 @@ for (const [key, a] of acc) {
     heroes: [...a.h].filter(([, v]) => v[0] >= MIN_HERO).sort((x, y) => y[1][0] - x[1][0]).slice(0, TOP_HEROES).map(([h, v]) => [h, v[0], v[1]])
   };
 }
-fs.writeFileSync(path.join(ROOT, 'data', 'item-stats.json'), JSON.stringify({
+const output = {
   builtAt: new Date().toISOString(),
   source: 'Детальные матчи Stratz из своей базы (data/meta-matches), текущий патч',
   matches, players, bins: BINS, minItem: MIN_ITEM, minHero: MIN_HERO, items
-}));
+};
+if (!matches || !players || !Object.keys(items).length || !JSON.stringify(output)) throw new Error('Empty item stats');
+writeJsonAtomic(path.join(ROOT, 'data', 'item-stats.json'), output);
 console.log(`item-stats: ${matches} матчей, ${players} игроков, ${Object.keys(items).length} предметов`);

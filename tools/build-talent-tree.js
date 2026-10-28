@@ -28,7 +28,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const clean = t => String(t || '').replace(/<[^>]*>/g, '').replace(/\\n/g, ' ').replace(/%%/g, '%').replace(/\s+/g, ' ').trim();
 
 async function getJson(url) {
+  const quota = require('./lib/api-quota');
+  if (!await quota.take('opendota', { priority: 'normal' })) throw new Error('OpenDota daily quota exhausted');
   const r = await fetch(url, { headers: { Accept: 'application/json' } });
+  await quota.observe('opendota', r.headers);
+  if (r.status === 429) await quota.pause('opendota', r.headers.get('retry-after'));
   if (!r.ok) throw new Error(url.split('/').pop() + ' HTTP ' + r.status);
   return r.json();
 }

@@ -49,9 +49,18 @@ async function buildSnapshot(rows, patch, next, known, now = new Date()) {
     days: Object.fromEntries([...days].sort(([a], [b]) => a.localeCompare(b))) };
 }
 
-async function* steamRows(dir) {
+function steamInputFiles(dir, today) {
+  return fs.readdirSync(dir).filter(n => /^\d{4}-\d\d-\d\d\.jsonl\.gz$/.test(n) && n.slice(0, 10) < today).sort();
+}
+
+function steamSignature(dir, today) {
+  return steamInputFiles(dir, today)
+    .map(n => { const s = fs.statSync(path.join(dir, n)); return `${n}:${s.size}:${s.mtimeMs}`; }).join('|');
+}
+
+async function* steamRows(dir, today = new Date().toISOString().slice(0, 10)) {
   if (!fs.existsSync(dir)) return;
-  for (const name of fs.readdirSync(dir).filter(n => /^\d{4}-\d\d-\d\d\.jsonl\.gz$/.test(n)).sort()) {
+  for (const name of steamInputFiles(dir, today)) {
     const stream = fs.createReadStream(path.join(dir, name)).pipe(zlib.createGunzip({ finishFlush: zlib.constants.Z_SYNC_FLUSH }));
     const rl = readline.createInterface({ input: stream, crlfDelay: Infinity });
     for await (const line of rl) {
@@ -82,10 +91,10 @@ async function main() {
   if (!known.size) throw new Error('Empty hero catalog');
   const patchDir = path.join(output, 'patch-stats');
   const steamDir = path.join(input, 'steam-matches');
+  const today = new Date().toISOString().slice(0, 10);
   if (!fixture && !fs.existsSync(steamDir)) throw new Error('Steam input directory missing');
   if (!fixture && !fs.readdirSync(steamDir).some(n => /^\d{4}-\d\d-\d\d\.jsonl\.gz$/.test(n))) throw new Error('No Steam input files');
-  const signature = () => fixture ? '' : fs.readdirSync(steamDir).filter(n => n.endsWith('.jsonl.gz')).sort()
-    .map(n => { const s = fs.statSync(path.join(steamDir, n)); return `${n}:${s.size}:${s.mtimeMs}`; }).join('|');
+  const signature = () => fixture ? '' : steamSignature(steamDir, today);
   for (let i = 0; i < catalog.length; i++) {
     const patch = catalog[i], next = catalog[i + 1] || null;
     const file = path.join(patchDir, patch.version + '.json');
@@ -97,7 +106,7 @@ async function main() {
     const before = signature();
     const sourceRows = fixture
       ? (async function* () { for (const row of JSON.parse(fs.readFileSync(path.join(input, 'rows.json'), 'utf8'))) yield row; })()
-      : steamRows(path.join(input, 'steam-matches'));
+      : steamRows(steamDir, today);
     const result = await buildSnapshot(sourceRows, patch, next, known);
     if (signature() !== before) throw new Error('Steam input changed during snapshot read');
     if (result.meta.matches !== Object.values(result.days).reduce((n, d) => n + d.matches, 0)) throw new Error('Snapshot count mismatch');
@@ -107,4 +116,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e.message); process.exitCode = 1; });
-module.exports = { boundaries, buildSnapshot, atomicJson, steamRows };
+module.exports = { boundaries, buildSnapshot, atomicJson, steamRows, steamInputFiles, steamSignature };

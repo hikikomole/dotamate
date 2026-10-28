@@ -1,5 +1,19 @@
 # Карта статистики и потоков данных DotaMate
 
+## Актуальная политика источников (решение владельца 2026-10-28)
+
+Обязательные правила, целевые источники блоков, лимиты и порядок перехода описаны в [data-independence.md](data-independence.md). Одна метрика — один источник; резервный источник применяется целым блоком. При ошибке остаётся предыдущий валидный файл. Сбор данных выполняется фоновыми задачами, без запросов к Stratz/OpenDota при загрузке страницы. Посетителям названия источников не показываются; методология допустима только в сворачиваемом блоке без названий сайтов.
+
+Исторические разделы ниже фиксируют прежние реализации и планы на даты их написания. Если их рекомендации по источникам расходятся с политикой 2026-10-28, действует новая политика; история не удаляется.
+
+## Оценка игры
+
+Перцентили рейтинговых матчей используют начало патча из `data/patch-catalog.json` (Valve), как и периоды героев. `patch-notes.json` задаёт только имя текущего патча. Шаг гистограммы и округления границ: K/D/A в минуту — 0,01; LH в минуту — 0,1; GPM/XPM и урон героям в минуту — 1. Для каждой метрики и героя выделяется не более 65 536 корзин.
+
+## Публичная страница матча
+
+`/match/?id=` requests `/api/dota/match/<id>?full=1`. Details come from the local Steam cache; cache misses enqueue a Valve GC job (202). Incomplete cached details carry pending=true. The `/api/dota/player/<id>/matches` contract is unchanged and summaries read only cached matches. The match page is excluded from sitemap and uses noindex,follow.
+
 ## Позиции 1–5 и сводка главной (26.10.2026, локальная реализация)
 
 `tools/stats-cohort.js` отбирает Steam Ranked All Pick: lobby=7, mode=22, длительность от 900 секунд, десять известных разных героев, определённый исход и начало матча не раньше границы патча Valve. Повторы match ID и причины исключения учитываются отдельно. Это более узкий срез, чем существующий `stats.json.base`; его нельзя смешивать со старыми локальными OpenDota/Stratz JSON.
@@ -434,6 +448,10 @@ without replacing the last valid file. The `builtAt` field describes build time;
 published by this stage.
 # Ranked pair search (D2PT stage D)
 
+## Match records
+
+`tools/build-match-records.js` streams ranked Steam archive gzip files for the previous full UTC day and the last seven full UTC days. It accepts only matches starting in the current patch, deduplicates match IDs, and records the highest kills, GPM, last hits and hero damage from the compact player fields. Missing player values are excluded from each metric's `eligiblePlayers`; zero is a valid value. As a records-only heuristic, a match is excluded when either team has at least three players each with zero kills, zero assists and at least 15 deaths, or when either team's total kills are at most 5 and total deaths are at least 50; `periods[].excludedFeedMatches` counts these matches in each period. This does not change the shared ranked cohort. `data/match-records.json` contains match counts, date bounds and a record per available metric. An empty archive produces `insufficient`; a read or validation failure preserves the previous file. The home page links records to `/match/?id=…` and labels the sample as our match collection.
+
 `tools/build-matchup-search.js` streams the ranked Steam cohort into separate
 `data/matchup-search.json` with full `with` and `vs` pair arrays. The ascending
 `a,b` orientation fixes `vs.w` as wins by `a`; reverse lookup uses `n-w`.
@@ -462,3 +480,45 @@ threshold is unmet and preserves the older duration section separately.
 `item-timings.json` is a separate Valve replay aggregate. It records first purchase per verified player and item, seconds from start, quartiles and histogram bins `[0,300,...,2700]`; negative seconds are the pregame bin. It does not replace historical `item-stats.json`. The item page renders timing only with at least 30 verified matches and 30 item buyers, otherwise shows the verified match count. `item-followups.json` records the first distinct completed item and immediately following different completed item; recipes and consumables do not qualify. A source needs 100 eligible sequences and a pair needs 30 before display. `eligibleSequences` excludes censored players with no later item and same-time ties. Outputs are fixture tested only; real replay event completeness and sample sizes are unverified.
 
 The live viewer uses the maintained PHP `/api/live/online` list (60-second cache) and `/api/live/online/<sid>` match route; `sid` is a string distinct from `matchId`. It shows provider delay and separates online games from archive replays. Empty and failed online lists are labeled separately. Historical matrix and item-impact prediction overlays are disabled pending independent replacement; no new live statistical feed is added.
+
+## On-demand match details
+
+Страница `/match/` запрашивает `?full=1` и показывает дополнительные поля `x` матча и игроков (драфт, постройки, инвентарь и подробную статистику) по мере их появления; пример ответа — `tests/fixtures/match-full.json`.
+
+`/api/dota/match/<id>` returns 202 while a Valve GC job is queued. The worker writes the existing v3 match cache and replay metadata. The page polls for at most 75 seconds. Install this cron entry on the server only after deployment:
+
+```cron
+* * * * * /bin/sh /var/www/s278486/data/dotamate-src/tools/match-gc-watchdog.sh
+```
+# Динамика популярности героев
+
+`tools/build-hero-periods.js` читает дневные Steam-снимки текущего патча из `private-archive/patch-stats/` и атомарно пишет `data/hero-periods.json`. Периоды 7 и 30 полных дней UTC обрезаются началом патча; период «Патч» начинается в дату выхода патча. `coverage` — доля дней со снимками в фактическом окне. Период доступен при покрытии не ниже 70% и не менее 1000 матчей. Пикрейт — число выборов героя на матч, винрейт — победы на выборы. Ошибка входных данных сохраняет предыдущий файл. На странице META общая таблица периодов загружается отдельно; при сбое остаётся прежнее содержимое страницы. Страницы позиций эти данные не используют.
+
+Схема `hero-periods.json` версии 3 хранит общие для периода наблюдаемые даты в `days`, а для героя — выровненные по ним массивы `series.n` и `series.w` (нули означают отсутствие пиков). JSON записывается без отступов; `pickRate`, `wr`, `low`, `high` округлены до двух знаков. Клиент принимает и старый ряд `series: [{d,n,w}]`. Поля `prevN`, `prevW`, `prevMatches` описывают предыдущее окно той же длины; 95% границы Уилсона — `low`/`high` в процентах. Предыдущее окно доступно только целиком внутри текущего патча и при наличии снимка за каждый день; иначе значения `prev*` равны `null`. Изменение пикрейта считается по `prevMatches`, изменение винрейта — по `prevW/prevN`; при нулевом знаменателе изменение не показывается. График пропускает дни с менее чем 30 пиками. Все показатели относятся к одному Steam-срезу `ranked-all-ranks`.
+
+`tools/build-hero-trends.js` читает дневные Steam-снимки текущего патча из `private-archive/patch-stats/` и атомарно обновляет `data/hero-trends.json`. Сравниваются последние три полных дня UTC с тремя предыдущими. Доля пиков равна числу пиков героя / числу матчей окна; разность выражена в процентных пунктах. Требуются минимум 300 матчей в каждом окне и 30 пиков героя в каждом окне. При недостатке данных выводится `insufficient`; при ошибке чтения или проверки предыдущий файл сохраняется. На главной показываются пять крупнейших ростов и спадов; популярность не означает силу героя.
+# Оценка игры: перцентили (шаг 1)
+
+### Lobby в реплейной статистике позиций (28.10.2026)
+
+Сборщик сохраняет необязательный `lobbyType` в полном матче, индексе и короткой записи покупок. Источник — подробности Valve GC (включая задания страницы матча), затем доступные метаданные реплея/отбора; импорт помощника сохраняет поле. Старые записи без поля остаются читаемыми.
+
+`build-role-meta.js` сверяет ID реплеев с локальными `data/steam-matches/*.jsonl.gz`: потоковое чтение gzip/JSONL, только текущий патч (`patch-notes.json.timestamp`), mode 22 и lobby 7. Set содержит лишь ID из реплейного индекса, поэтому память ограничена размером реплейного архива, а не всей Steam-базы. Подтверждение используется только при отсутствующем lobby, явно заданное значение не переопределяется. Исходные файлы архива не меняются; нет сетевых запросов. Отсутствие подтверждения учитывается как `lobbyUnknown`, известное неподходящее лобби/режим — `notRanked`. Остальные фильтры и ручной аудит обязательны по прежним правилам. При `meta.to=null` вкладка показывает «данные по —» и «Разметка игроков: N из M».
+
+Кеш подробностей матча остаётся v3: новые записи дополнительно хранят необязательные `lobbyType` и `leaverStatus`; старые v3 не перечитываются из Steam. Для оценки нужны подтверждённый lobby 7 (из строки списка или подробностей), mode 22, длительность ≥900 с, 10 игроков и все семь исходных показателей без подстановок. Известный `leaverStatus > 1` исключает матч. Если статус хотя бы одного игрока неизвестен, оценка сохраняется с `leaverUnknown: true` и пометкой «статус выхода игроков не проверен (старый кеш)»; неизвестный lobby исключает оценку. Счётчики кабинета используют прежний `scoreEligible`.
+
+`tools/build-performance-percentiles.js` читает поток `data/steam-matches/*.jsonl.gz` текущего патча Valve и пишет `data/performance-percentiles.json`. Используется общий фильтр `stats-cohort.js`: ranked lobby 7, mode 22, длительность от 900 секунд, известные десять разных героев, допустимый исход и уникальный match_id. Игроки с `leaver_status > 1` исключаются отдельно; отсутствующее поле показателя не считается нулём. Если вход повреждён или нет допустимых наблюдений, прежний файл сохраняется.
+
+Для каждого героя вычисляются K, D, A, LH и HD в минуту (`сырое значение × 60 / длительность`), GPM и XPM без пересчёта. По каждому показателю отдельно хранятся число наблюдений и 21 порог с шагом 5 процентных пунктов. Ранг одинаковых значений — середина группы `(число меньших + половина равных) / n × 100`; между соседними значениями пороги линейно интерполируются, концы равны минимуму и максимуму. Пороги не убывают. При `n < 500` показатель помечен `insufficient` и порогов нет; то же для героя с менее 500 игроками.
+
+Индекс: взвешенное среднее перцентильных оценок K 15%, D 20% (обратное направление), A 15%, LH 10%, GPM 10%, XPM 10%, HD 20%. Среднее перцентилей является **индексом**, а не перцентилем игроков. Роль и ранг пока не учитываются. При отсутствующем показателе его вес нельзя присваивать нулевому значению; потребитель должен явно обработать неполный набор. Клиент сверяет `patch` и `patchFrom` с `data/patch-notes.json`; при несовпадении оценка недоступна, чтобы оставшийся после сбоя сборки файл не оценивал матчи нового патча.
+
+Формат `performance-percentiles.json` использует `methodVersion="2"`; клиент принимает только эту версию. Для K, D и A шаг гистограммы — 0,01 в минуту, для LH — 0,1, для HD, GPM и XPM — 1. Основной диапазон содержит 65 536 корзин на героя и показатель; значения выше него хранятся в отдельной разреженной карте без ограничения верхней границы и участвуют в порогах. `totals.overflowMetrics` считает только значения, чей округлённый индекс не помещается в безопасное целое число JavaScript. Основные гистограммы занимают максимум около 223 МиБ для 127 героев; дополнительные значения и дедупликация ID матчей увеличивают расход памяти.
+
+## Automatic replay position audit
+
+Before `build-role-meta`, the optional server daily step runs `tools/audit-positions-stratz.js`; a same-method-version automatic audit younger than seven days is reused (use `--force` to rebuild). Both builders use `replay-cohort.js`, local Steam ranked-lobby evidence, and `archive-positions` labels. Rejected matches are excluded, IDs deduplicated, and players matched to the Stratz reference by hero and side. A team is compared only when Stratz has exactly five players matched to our heroes, with distinct valid positions 1–5. Incomplete reference teams and their players are reported separately as `referenceIncompleteTeams` and `referenceIncompletePlayers`; they do not enter team, role, or accuracy totals. On fully referenced teams, missing, duplicate, or invalid predictions from our labels count as `ambiguous`. Rows are predicted roles, columns reference roles. Matches without any complete reference team do not count as audited.
+
+The archive audit records source, methodVersion, method `auto-crosscheck`, reference `stratz`, builtAt, sample period `from`/`to`, teams, distinct matchIds, UTC days, distinct sorted team hero lineups, ambiguous players, reference incomplete teams/players and per-role total/correct/confusion. Minimums remain 100 fully referenced teams, 50 matches, two days, two lineups, 50 comparisons per role and 85% accuracy per role. Automatic comparisons additionally require 90% of players on fully referenced teams to have a usable prediction (`compared / (compared + ambiguous)`); reference coverage is reported and does not affect our accuracy. The builder still requires 90% replay label coverage. Existing manual audit documents remain valid. The public role output includes only aggregate audit metadata and accuracy; our replay labels alone produce the statistics.
+
+The job uses the shared `<collector>/heavy.lock` automatically on Linux (nonblocking), a 500 MiB Node heap for standalone runs, and at most 150 new matches per run (`--max 0` for cache only). The scheduler already holds that lock, so daily invokes `--lock-held`; use that flag only inside an existing heavy.lock. Reference requests reuse `collect-meta-matches` token handling, sequential pacing and rate-limit backoff. Failure preserves the previous audit and does not stop daily-update. Run once from `~/dotamate-src`: `node --max-old-space-size=500 tools/audit-positions-stratz.js --force`; then `node tools/build-role-meta.js`. No deploy is performed by these commands.

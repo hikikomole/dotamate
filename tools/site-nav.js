@@ -17,7 +17,10 @@ const NAV = [
     { key: 'streams', href: '/live/streams/', label: 'Стримы' },
     { key: 'words', href: '/live/words/', label: 'Частые слова' },
   ] },
-  { key: 'me',     href: '/me/',     label: 'Мой профиль' },
+  { key: 'me', href: '/me/', label: 'Мой профиль', keys: ['me', 'match'], sub: [
+    { key: 'me', href: '/me/', label: 'Мой профиль' },
+    { key: 'match', href: '/match/', label: 'Поиск матча' },
+  ] },
 ];
 function navHtml(activeKey) {
   const links = NAV.map(n => {

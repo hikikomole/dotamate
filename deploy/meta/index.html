@@ -38,8 +38,8 @@
 <header class="topbar">
   <div class="container nav">
     <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
-    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/" aria-current="page" class="active">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/streams/">Стримы</a><a href="/live/words/">Частые слова</a></div></div><a href="/me/">Мой профиль</a></nav>
-    <div class="nav-spacer"></div><a class="dm-patch" href="/patch/7.41f/">Патч 7.41f</a><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/" aria-current="page" class="active">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/streams/">Стримы</a><a href="/live/words/">Частые слова</a></div></div><div class="nav-dd"><a href="/me/">Мой профиль<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/me/">Мой профиль</a><a href="/match/">Поиск матча</a></div></div></nav>
+    <div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
   </div></header>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"META","item":"https://dotamate.ru/meta/"}]}</script>
@@ -49,18 +49,29 @@
   <div class="container">
     <div class="mx-head">
       <div>
-        <h1 class="mx-title">Последние билды</h1>
+        <h1 class="mx-title">META</h1>
         <p class="mx-lead">Сборки предметов, которые редко встречаются на этом герое и позиции, и нишевые герои, которые на своих позициях выигрывают. Только наш диапазон рангов.</p>
       </div>
       <div class="mx-stamp" id="mxStamp" aria-live="polite">Загружаем данные…</div>
     </div>
 
-    <div class="mx-tabs" role="tablist">
-      <button class="mx-tab on" role="tab" aria-selected="true" data-mx-tab="builds">Сборки предметов</button>
-      <button class="mx-tab" role="tab" aria-selected="false" data-mx-tab="niche">Нишевые герои</button>
+    <section class="mx-block" id="mxPeriods" hidden aria-label="Общая статистика героев">
+      <div class="mx-block-head"><h2>Общая статистика героев</h2><span id="mxPeriodInfo" aria-live="polite"></span></div>
+      <div class="mx-chips mx-period-chips" role="group" aria-label="Период статистики">
+        <button type="button" class="chip active" data-period="7d" aria-pressed="true">7 дней</button>
+        <button type="button" class="chip" data-period="30d" aria-pressed="false">30 дней</button>
+        <button type="button" class="chip" data-period="patch" aria-pressed="false">Патч</button>
+      </div>
+      <p class="mx-note" id="mxPeriodReason" role="status"></p>
+      <div class="mx-period-table" tabindex="0" aria-label="Таблица героев, прокрутка"><table class="mx-table"><thead><tr><th class="mx-period-rank" scope="col">#</th><th scope="col" aria-sort="none"><button type="button" data-period-sort="name">Герой</button></th><th scope="col" aria-sort="none"><button type="button" data-period-sort="n">Матчи</button></th><th scope="col" aria-sort="none"><button type="button" data-period-sort="pickRate">Пикрейт</button></th><th scope="col" aria-sort="descending"><button type="button" data-period-sort="wr">Винрейт</button></th><th class="mx-period-extra" scope="col" aria-sort="none"><button type="button" data-period-sort="pickDelta">Δ пикрейт</button></th><th class="mx-period-extra" scope="col" aria-sort="none"><button type="button" data-period-sort="wrDelta">Δ винрейт</button></th><th scope="col" aria-sort="none"><button type="button" data-period-sort="confidence">±</button></th><th class="mx-period-spark" scope="col">По дням</th></tr></thead><tbody id="mxPeriodBody"></tbody></table></div>
+    </section>
+
+    <div class="mx-tabs" role="tablist" aria-label="Разделы META">
+      <button id="mxTabBuilds" class="mx-tab on" role="tab" aria-controls="mxPaneBuilds" aria-selected="true" tabindex="0" data-mx-tab="builds">Сборки предметов</button>
+      <button id="mxTabNiche" class="mx-tab" role="tab" aria-controls="mxPaneNiche" aria-selected="false" tabindex="-1" data-mx-tab="niche">Нишевые герои</button>
     </div>
 
-    <div class="mx-pane" data-mx-pane="builds">
+    <div class="mx-pane" id="mxPaneBuilds" role="tabpanel" aria-labelledby="mxTabBuilds" data-mx-pane="builds">
       <div class="mx-block">
         <div class="mx-block-head"><h2>Последние билды</h2><span id="mxCount"></span></div>
         <div class="mx-filters">
@@ -94,7 +105,7 @@
       </div>
     </div>
 
-    <div class="mx-pane" data-mx-pane="niche" hidden>
+    <div class="mx-pane" id="mxPaneNiche" role="tabpanel" aria-labelledby="mxTabNiche" data-mx-pane="niche" hidden>
       <p class="mx-note" id="mxNicheNote"></p>
       <div class="mx-niche" id="mxNiche"></div>
     </div>

@@ -66,34 +66,28 @@ const skillChains = (() => {
 // уже подставлено), только если оно там одно и подстановка в русском тексте одна и та же. Иначе —
 // английское название, как раньше: неверное число хуже английского слова. data/talent-values.json
 // для этого не годится — у части героев там номера слотов, а не значения (Axe: 12, 17, 19…).
-const talentNames = (() => {
-  try {
-    const ru = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talents-ru.json'), 'utf8'));
-    const idx = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ability-index.json'), 'utf8')).abilities;
-    const tree = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talent-tree.json'), 'utf8')).heroes;
-    const out = {};
-    for (const lv of Object.values(tree)) for (const arr of Object.values(lv)) for (const t of arr) {
-      const key = idx[t.abilityId] && idx[t.abilityId].name;
-      // byAbilityId часто уже с числом («+150 к урону от Meat Hook») — берём его; иначе шаблон byKey.
-      const ready = ru.byAbilityId[t.abilityId];
-      let s = ready && /[А-Яа-яЁё]/.test(ready) && !/\{s:/.test(ready) ? ready : (key && ru.byKey[key]) || ready;
-      if (!s || !/[А-Яа-яЁё]/.test(s)) continue;
-      const ph = s.match(/\{s:[A-Za-z0-9_]+\}/g) || [];
-      if (ph.length) {
-        const n = String(t.title || '').match(/\d+(?:\.\d+)?/g) || [];
-        if (n.length !== 1 || new Set(ph).size !== 1) continue;
-        s = s.replace(/\{s:[A-Za-z0-9_]+\}/g, n[0]);
-      }
-      s = s.replace(/(\d)\.(\d)/g, '$1,$2');   // десятичная запятая, как на всём сайте
-      if (!/\{s:|%[a-z_]+%/i.test(s)) out[t.abilityId] = s;
-    }
-    return out;
-  } catch { return {}; }
-})();
+const { buildTalentNames } = require('./tools/talent-text');
+const talentNames = buildTalentNames();
 const abilityIndex = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ability-index.json'), 'utf8')).abilities; }
   catch { return {}; }
-})();
+})()
+const talentText = Object.fromEntries(Object.entries(talentNames).map(([id, label]) => [abilityIndex[id]?.name, label]).filter(([key]) => key));
+// Для страницы матча: таланты без готовой русской подписи — английское название из дерева талантов (как на
+// странице героя); нет и его — русский шаблон с «?» вместо неизвестного числа (число не выдумываем).
+try {
+  const tree = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talent-tree.json'), 'utf8')).heroes;
+  for (const lv of Object.values(tree)) for (const arr of Object.values(lv)) for (const t of arr) {
+    const key = abilityIndex[t.abilityId]?.name;
+    if (key && !talentText[key] && t.title) talentText[key] = String(t.title);
+  }
+  const ru = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'talents-ru.json'), 'utf8')).byKey || {};
+  for (const [key, tpl] of Object.entries(ru)) {
+    if (talentText[key] || typeof tpl !== 'string' || !/[А-Яа-яЁё]/.test(tpl)) continue;
+    talentText[key] = tpl.replace(/\{s:[A-Za-z0-9_]+\}/g, '?').replace(/%[a-z_]+%/gi, '?');
+  }
+} catch {}
+fs.writeFileSync(path.join(__dirname, 'data', 'talents-text.json'), JSON.stringify({ byKey: talentText }) + '\n');
 const positionSnapshot = (() => {
   try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'hero-positions.json'), 'utf8')); }
   catch { return { heroes: {} }; }
@@ -139,6 +133,7 @@ async function main(){
   let heroes;
   try{
     if(process.argv.includes('--offline')) throw new Error('offline');
+    if(!await require('./tools/lib/api-quota').take('opendota',{priority:'normal'})) throw new Error('QUOTA');
     const res=await fetch('https://api.opendota.com/api/heroStats',{signal:AbortSignal.timeout(20000)});
     if(!res.ok) throw new Error('HTTP '+res.status);
     heroes=await res.json();
@@ -163,7 +158,7 @@ async function main(){
 
   // Способности: ключи по героям и их названия. Иконки и ролики лежат на том
   // же Steam CDN, откуда сайт уже берёт портреты, и собираются по ключу.
-  async function grab(url){if(process.argv.includes('--offline')) throw new Error('offline');const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
+  async function grab(url){if(process.argv.includes('--offline')) throw new Error('offline');if(url.startsWith('https://api.opendota.com/')&&!await require('./tools/lib/api-quota').take('opendota',{priority:'normal'}))throw new Error('QUOTA');const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(url+' -> '+r.status);return r.json();}
   let heroAbilities,abilityMeta;
   try{
     heroAbilities=await grab('https://api.opendota.com/api/constants/hero_abilities');

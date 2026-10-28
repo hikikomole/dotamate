@@ -18,6 +18,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const quota = require('./tools/lib/api-quota');
 
 const ENDPOINT = 'https://api.stratz.com/graphql';
 const BRACKET = 'DIVINE_IMMORTAL';
@@ -39,6 +40,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function gql(token, query, tries = 4) {
   for (let a = 1; a <= tries; a++) {
     try {
+      if (!await quota.take('stratz', { priority: 'fill' })) throw new Error('QUOTA');
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'User-Agent': 'STRATZ_API' },
@@ -50,7 +52,7 @@ async function gql(token, query, tries = 4) {
       if (j.errors) throw new Error(JSON.stringify(j.errors).slice(0, 200));
       return j.data;
     } catch (e) {
-      if (a === tries) throw e;
+      if (e.message === 'QUOTA' || a === tries) throw e;
       await sleep(2000 * a);
     }
   }

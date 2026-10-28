@@ -1,5 +1,31 @@
 # Собственная статистика и зависимость от внешних источников
 
+## Политика источников (решение владельца 2026-10-28)
+
+Собственные матчи Steam и свои реплеи — основные данные. Stratz и OpenDota разрешены в пределах бесплатных лимитов: оставлять резерв 10–15%, выдерживать около 1 запроса/с; платные ключи и дополнительные аккаунты запрещены. Dotabuff и D2PT не скрейпить.
+
+Одна метрика использует один источник: источники нельзя смешивать внутри показателя. Разные блоки страницы могут использовать разные источники; переключение на резервный источник выполняется только для блока целиком. При сбое сохраняется предыдущий валидный файл. Сторонние запросы при загрузке страницы посетителем запрещены — сбор идёт только фоновыми задачами.
+
+Посетителям не показываются названия источников и сайтов. Методология доступна только в сворачиваемом блоке и без названий сайтов.
+
+| Блок | Целевой источник и правило |
+|---|---|
+| WR, пикрейт, тиры, связки, контрпики, стороны, тренды, рекорды, Turbo, прокачка навыков | Steam |
+| Позиции и роли | Steam с моделью позиций (обучена на деталях матчей Stratz, проверена на своих реплеях); резерв — реплеи |
+| Покупки по фазам и тайминги | Детали матчей Stratz до примерно 300 своих реплеев героя на позицию, затем реплеи; переключать блок целиком |
+| Линии | Детали Stratz; при отказе источника скрывать блок |
+| Срезы рангов | Steam + средний ранг из публичной ленты OpenDota (`fill-ranks`) |
+| Профессиональная статистика | OpenDota |
+| `/match/` | Свои реплеи |
+
+Бюджеты: около 1800 запросов OpenDota/сутки уже расходуются публичной лентой для рангового источника — сохранить этот расход. Цель Stratz — около 13000/сутки, только одиночные запросы матчей; пакетный `matches(ids)` разрешён только для администрирования.
+
+Переход: новый конвейер пишет в отдельные файлы; 1–2 недели параллельно сравнивать результаты, затем переключать блоки по одному. Старые сборщики удалять после недели стабильной работы.
+
+**История.** Решение владельца от 09.10.2026 «не делать новые запросы Stratz и не использовать его как основу статистики» superseded решением 28.10.2026 выше. Исторические описания прежних сборщиков и решений далее сохранены.
+
+`/match/` reads the local Steam cache; a background Valve GC worker supplies missing details. The new hero-trends.json, hero-periods.json and match-records.json use local Steam archives only. These features do not use OpenDota or Stratz. private-archive/ is outside the sync-deploy publication roots.
+
 ## Новые срезы позиций и главной (26.10.2026)
 
 `stats.json.rankedSummary` и `home-meta.json.summary` вычисляются только из записей Steam Ranked All Pick текущего патча с явно проверенными lobby=7, mode=22, исходом и десятью разными героями. Бан считается известным только при наличии поля банов в каждом принятом матче; отсутствие поля не равно нулю. Старые локально вычисленные измерения Stratz остаются внешними измерениями и не могут заполнять эти поля. Контракт `home-meta.json` сохраняет `carry/picked/banned`; при неверном происхождении сводка скрывается.
@@ -263,8 +289,20 @@ Hero Grid export uses the independently gated Valve replay `role-meta.json`; it 
 
 ## Replay purchase evidence
 
+Replay role lobby recovery uses only our local Steam match archive: streamed rows from the current patch with lobby 7 and mode 22 confirm missing lobby metadata by match ID. Explicit lobby values are never overridden, and unmatched IDs remain excluded as `lobbyUnknown`. No archive backfill writes or external API calls are made. New replay/GC collection and remote import preserve optional `lobbyType`; this metadata does not bypass replay evidence or the independent manual audit gate.
+
 New normalized replays and compact purchase rows carry an additive per-player `purchaseLogComplete` flag. It is true only after an epilogue, ten player interval streams, assignable purchase owners and valid mapped item events. Older archive rows lack the flag and remain unverified. `tools/build-item-timings.js` and `tools/build-item-followups.js` use only true flags from ranked Valve replays; neither changes `item-stats.json` or its existing consumers. The separate timing output requires 30 verified buyers and 30 verified matches for the item page. Below that, pages show the verified match count. Follow-up output excludes recipes, consumables, same-time ties and players without a later distinct completed item. A replay parser's event coverage still needs independent audit before publication; the flag certifies local parse completeness, not upstream event exhaustiveness.
 
 ## Live viewer source boundary
 
 The online list and match views use the existing Steam live endpoints. Archive playback remains a separate replay mode. The viewer no longer requests the historical `our-matrix-top.json` draft model or `item-impact.json` for live overlays because their provenance does not meet the new independent source policy. This does not establish current Steam availability or a complete tournament calendar.
+
+## On-demand match details (Valve GC)
+
+`/match/` now requests details from Valve's Dota 2 Game Coordinator. GC is a Valve source and is allowed by the data-independence rule. Cache: `~/dotamate-data/cache/steam/m/<id>.json`; pending jobs: `~/dotamate-data/cache/steam/gc-queue/`.
+
+## Third-party data used for validation
+
+Owner decision (2026-10-28): Stratz positions may serve as an audit reference for our replay position labels. They never replace labels, contribute hero statistics, or appear as player data on the site. The public method note may report the audit sample size and accuracy per role.
+
+`tools/audit-positions-stratz.js` first reads existing `data/meta-matches/*.jsonl` (`p[].pos`). If the overlap is below sample minimums, it reuses the existing Stratz client/token handling for at most 150 missing matches, sequentially with the existing pause and 429 backoff. Only match IDs are sent; no replay files or player identities are uploaded. Reference responses stay in `<collector>/positions-audit-stratz/`, outside published data. `<collector>/archive/positions-audit.json` contains aggregate validation evidence. Manual audits remain supported. This explicit validation exception supersedes earlier statements requiring exclusively manual position audits; it does not permit third-party public statistics.

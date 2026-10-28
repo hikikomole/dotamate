@@ -7,8 +7,28 @@
 // ответа покрывает все загруженные страницы 0..offset. Карточка для публикации — POST …/card (по кнопке).
 // Steam ID хранится только в браузере (localStorage dmSteamId).
 // Средний винрейт героя — data/stats.json (своя база рейтинговых матчей), имена — data/heroes.json.
+const meDashboard = (() => {
+  const median = values => { const a = values.slice().sort((x, y) => x - y); return a.length % 2 ? a[(a.length - 1) / 2] : (a[a.length / 2 - 1] + a[a.length / 2]) / 2; };
+  function aggregate(matches, patchFrom) {
+    const window = matches.filter(m => m.scoreEligible === true && Number(m.start) >= patchFrom).slice(0, 50).reverse();
+    const scored = window.filter(m => Number.isFinite(m.perf?.score));
+    const trend = window.map((m, i) => ({ matchId: m.matchId, heroId: m.heroId, start: m.start, win: m.win, score: Number.isFinite(m.perf?.score) ? m.perf.score : null,
+      average: (() => { const a = window.slice(Math.max(0, i - 9), i + 1).map(x => x.perf?.score).filter(Number.isFinite); return a.length ? a.reduce((s, x) => s + x, 0) / a.length : null; })() }));
+    const complete = window.filter(m => m.details === true && typeof m.win === 'boolean' && [m.k, m.d, m.a].every(Number.isFinite));
+    const totals = complete.reduce((a, m) => { a.wins += Number(m.win); a.k += m.k; a.d += m.d; a.a += m.a; return a; }, { wins: 0, k: 0, d: 0, a: 0 });
+    const groups = new Map();
+    scored.forEach(m => { const id = Number(m.heroId); if (!groups.has(id)) groups.set(id, []); groups.get(id).push(m); });
+    const heroes = [...groups].filter(([, a]) => a.length >= 10).map(([heroId, a]) => ({ heroId, n: a.length, average: a.reduce((s, m) => s + m.perf.score, 0) / a.length, matches: a })).sort((a, b) => b.average - a.average || b.n - a.n);
+    const played = heroes.slice().sort((a, b) => b.n - a.n || b.average - a.average).slice(0, 3).map(h => ({ heroId: h.heroId, n: h.n,
+      weak: ['k', 'd', 'a', 'lh', 'gpm', 'xpm', 'hd'].map(key => ({ key, percentile: median(h.matches.map(m => m.perf.perMetric?.[key]).filter(Number.isFinite)) })).filter(x => Number.isFinite(x.percentile) && x.percentile < 50).sort((a, b) => a.percentile - b.percentile).slice(0, 2) }));
+    return { window, scored: scored.length, trend, complete: complete.length, winrate: complete.length >= 10 ? totals.wins / complete.length * 100 : null, kda: complete.length >= 10 ? (totals.k + totals.a) / Math.max(1, totals.d) : null, heroes, played };
+  }
+  return { aggregate };
+})();
+if (typeof module !== 'undefined') module.exports = meDashboard;
 (function () {
   'use strict';
+  if (typeof document === 'undefined') return;
   const form = document.getElementById('meForm');
   if (!form) return;
   const input = document.getElementById('meId');
@@ -139,6 +159,23 @@
 
   // ---------- состояние ----------
   let run = null; // { id, ctl, matches, total, cachedAt, shown, bgError, done }
+  let perfModule;
+  function perfApi() {
+    if (!perfModule) perfModule = new Promise((resolve, reject) => {
+      const script = document.createElement('script'); const version = document.querySelector('meta[name="dotamate-version"]')?.content;
+      script.src = '/js/perf-score.js' + (version ? '?v=' + encodeURIComponent(version) : '');
+      script.onload = () => resolve(window.perfScore); script.onerror = reject; document.head.append(script);
+    });
+    return perfModule;
+  }
+  async function fillScores(R, matches) {
+    const module = await perfApi().catch(() => null);
+    if (R !== run) return;
+    if (module) { const data = await module.load().catch(() => null); if (R !== run) return; R.patchFrom = Number(data?.patchFrom) || null; }
+    R.scoreError = !R.patchFrom;
+    for (const m of matches) m.perf = module ? await module.evaluate(m, m) : { score: null, reason: 'jsonUnavailable' };
+    if (R === run) render();
+  }
 
   function setMsg(html, kind) {
     msg.innerHTML = html || '';
@@ -192,11 +229,13 @@
   function matchRow(m) {
     const det = played(m);
     const res = det ? (m.win ? '<b class="me-win">Победа</b>' : '<b class="me-loss">Поражение</b>') : `<span class="me-na">${m.details === true ? 'не сыгран' : 'нет данных'}</span>`;
-    const kda = det && m.k != null ? `${m.k}/${m.d}/${m.a}` : '—';
+    const perf = m.perf;
+    const scoreHtml = `<details class="me-perf"><summary aria-expanded="false">Оценка: ${perf?.score ?? '—'}</summary><span>${esc(perf ? (window.perfScore?.reasons[perf.reason] || window.perfScore?.tooltip(m, perf) || 'Индекс по 7 показателям') : 'Загрузка оценки')}</span></details>`;
+    const kda = (det && m.k != null ? `${m.k}/${m.d}/${m.a}` : '—') + scoreHtml;
     const open = run && run.open && run.open.has(String(m.matchId));
     return `<tr class="me-mrow${det ? ' is-click' : ''}${open ? ' is-open' : ''}"${det ? ` data-mid="${esc(m.matchId)}" tabindex="0" aria-expanded="${open ? 'true' : 'false'}" title="Нажмите — разбор матча"` : ''}><td>${res}</td><td>${heroCell(m.heroId)}</td><td>${det ? posBadge(m) : '<span class="me-na">—</span>'}</td><td class="me-num">${kda}</td><td class="me-num">${det ? dur(m.duration) : '—'}</td>` +
       `<td class="me-num">${det && m.gpm != null ? nf.format(m.gpm) : '—'}</td><td title="${esc(fullDate(m.start))}">${ago(m.start)}</td>` +
-      `<td class="me-c-id"><span class="me-mid">${esc(m.matchId)}</span></td></tr>`;
+      `<td class="me-c-id"><a class="me-mid" href="/match/?id=${esc(m.matchId)}">${esc(m.matchId)}</a></td></tr>`;
   }
 
   // ---------- герои, тенденция, выводы (по summary с сервера) ----------
@@ -352,6 +391,34 @@
   }
   function section(title, sub, body, cls) {
     return `<section class="me-sec${cls ? ' ' + cls : ''}"><h2 class="me-h2">${title}</h2>${sub ? `<p class="me-sub">${sub}</p>` : ''}${body}</section>`;
+  }
+  function dashboardBlock(R) {
+    if (!R.patchFrom) return section('Личный обзор', '', `<p class="me-na">${R.scoreError ? 'Не удалось загрузить данные оценки текущего патча.' : 'Загружаем оценки текущего патча…'}</p>`);
+    const a = meDashboard.aggregate(R.matches, R.patchFrom);
+    if (!a.window.length) return section('Личный обзор', '', `<p class="me-na">${R.done ? 'Пока нет рейтинговых матчей текущего патча.' : 'Ищем рейтинговые матчи текущего патча…'}</p>`);
+    const name = id => esc(refs?.heroes.get(Number(id))?.name || `Герой #${id}`);
+    const portrait = id => { const slug = refs?.heroes.get(Number(id))?.slug; return slug ? `<img src="/assets/heroes/${esc(slug)}.webp" alt="" width="64" height="36" loading="lazy">` : '<span class="me-dash-portrait-ph"></span>'; };
+    const x = i => 35 + i * 660 / Math.max(1, a.trend.length - 1);
+    const y = v => 14 + (100 - Math.max(0, Math.min(100, v))) * 1.46;
+    const segments = key => { const paths = []; let part = []; a.trend.forEach((p, i) => { if (p[key] == null || (key === 'average' && p.score == null)) { if (part.length) paths.push(part.join(' ')); part = []; } else part.push(`${x(i).toFixed(1)},${y(p[key]).toFixed(1)}`); }); if (part.length) paths.push(part.join(' ')); return paths.map(p => `<polyline points="${p}"/>`).join(''); };
+    const points = a.trend.map((p, i) => {
+      if (p.score == null) return `<circle class="me-dash-gap" cx="${x(i).toFixed(1)}" cy="160" r="2.5"/>`;
+      const label = `${name(p.heroId)}, ${esc(fullDate(p.start))}, оценка ${p.score}, ${p.win === true ? 'победа' : p.win === false ? 'поражение' : 'результат неизвестен'}`;
+      return `<g class="me-dash-point ${p.win === true ? 'is-win' : 'is-loss'}" tabindex="0" role="img" aria-label="${label}"><title>${label}</title>${p.win === true ? `<circle cx="${x(i).toFixed(1)}" cy="${y(p.score).toFixed(1)}" r="4"/>` : `<rect x="${(x(i)-4).toFixed(1)}" y="${(y(p.score)-4).toFixed(1)}" width="8" height="8" transform="rotate(45 ${x(i).toFixed(1)} ${y(p.score).toFixed(1)})"/>`}</g>`;
+    }).join('');
+    const grid = [0, 25, 50, 75, 100].map(v => `<g class="me-dash-gridline"><line x1="35" x2="695" y1="${y(v)}" y2="${y(v)}"/><text x="28" y="${y(v) + 3}" text-anchor="end">${v}</text></g>`).join('');
+    const rows = a.trend.map((p, i) => `<tr><td>${i + 1}</td><td>${name(p.heroId)}</td><td>${esc(fullDate(p.start))}</td><td>${p.score ?? 'нет оценки'}</td><td>${p.average == null ? '—' : n1(p.average)}</td></tr>`).join('');
+    const trend = `<figure class="me-dash-chart me-dash-panel"><figcaption>Оценка по матчам</figcaption><div class="me-dash-legend"><span class="me-dash-key is-score">Оценка матча</span><span class="me-dash-key is-average">Среднее за 10</span><span class="me-dash-key is-win">○ победа</span><span class="me-dash-key is-loss">◇ поражение</span><span class="me-dash-key is-gap">· без оценки — разрыв</span></div><svg viewBox="0 0 710 180" role="img" aria-label="Оценка матчей от старых к новым, шкала от 0 до 100">${grid}<g class="me-dash-raw">${segments('score')}</g><g class="me-dash-avg">${segments('average')}</g>${points}</svg><div class="me-dash-axis">старые → новые</div><details><summary>Таблица значений графика</summary><div class="me-dash-table-scroll"><table><thead><tr><th>№</th><th>Герой</th><th>Дата</th><th>Оценка</th><th>Среднее за 10</th></tr></thead><tbody>${rows}</tbody></table></div></details></figure>`;
+    const recent = a.window.slice(-25).filter(m => Number.isFinite(m.perf?.score));
+    const previous = a.window.slice(-50, -25).filter(m => Number.isFinite(m.perf?.score));
+    const avg = list => list.reduce((s, m) => s + m.perf.score, 0) / list.length;
+    const delta = recent.length === 25 && previous.length === 25 ? avg(recent) - avg(previous) : null;
+    const kpi = (label, value, note) => `<div class="me-dash-kpi"><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`;
+    const kpis = `<div class="me-dash-kpis">${kpi('Средняя оценка', a.scored ? n1(avg(a.window.filter(m => Number.isFinite(m.perf?.score)))) : '—', delta == null ? 'за оценённые матчи' : `${delta > 0 ? '+' : ''}${n1(delta)} к предыдущим 25`)}${kpi('Винрейт', a.winrate == null ? '—' : n1(a.winrate) + ' %', a.complete >= 10 ? `${a.complete} полных матчей` : `нужно 10 полных матчей · ${a.complete} есть`)}${kpi('KDA', a.kda == null ? '—' : n1(a.kda), a.complete >= 10 ? `${a.complete} полных матчей` : 'нужно 10 полных матчей')}${kpi('Оценено', `${a.scored} из ${a.window.length}`, 'матчей текущего патча')}</div>`;
+    const ranking = a.heroes.length >= 2 ? `<div class="me-dash-ranks">${[[a.heroes[0], 'Лучший'], [a.heroes[a.heroes.length - 1], 'Худший']].map(([h, title]) => `<div class="me-dash-rank me-dash-panel"><span class="me-dash-overline">${title}</span><div class="me-dash-hero">${portrait(h.heroId)}<strong>${name(h.heroId)}</strong><b>${n1(h.average)}</b></div><small>${h.n} игр</small></div>`).join('')}</div>` : '<p class="me-na">Нужны хотя бы два героя с 10 оценёнными матчами каждый.</p>';
+    const labels = { k: 'Убийства в минуту', d: 'Смерти в минуту', a: 'Помощь в минуту', lh: 'Добивания в минуту', gpm: 'Золото в минуту', xpm: 'Опыт в минуту', hd: 'Урон героям в минуту' };
+    const weak = a.played.length ? `<div class="me-dash-weak-list">${a.played.map(h => `<article class="me-dash-weak me-dash-panel"><div class="me-dash-hero">${portrait(h.heroId)}<strong>${name(h.heroId)}</strong><small>${h.n} игр</small></div>${h.weak.length ? h.weak.map(m => `<div class="me-dash-metric"><span>${labels[m.key]}</span><div class="me-dash-bar" role="img" aria-label="${labels[m.key]}: примерно ${Math.round(m.percentile)}-й перцентиль"><i style="width:${Math.max(0, Math.min(100, m.percentile))}%"></i></div><b>~${Math.round(m.percentile)}-й перцентиль</b></div>`).join('') : '<p class="me-na">Показателей ниже медианы нет.</p>'}</article>`).join('')}</div>` : '<p class="me-na">Для сравнения нужны хотя бы 10 оценённых матчей на герое.</p>';
+    return section('Личный обзор', `Последние ${a.window.length} рейтинговых матчей текущего патча из загруженной истории${R.done ? '.' : ' · история догружается…'}`, `${kpis}${trend}<h3 class="me-dash-heading">Герои по средней оценке</h3>${ranking}<h3 class="me-dash-heading">Слабые места</h3>${weak}<footer class="me-dash-footer">Оценка и процентили сравнивают статистику с нашей выборкой на том же герое. <details id="me-score-method"><summary>Пояснение к оценке</summary><p>Индекс игры — взвешенное среднее семи показателей относительно рейтинговых матчей нашей выборки на этом герое. Процентиль показывает долю результатов ниже вашего; для смертей шкала обратная. Это сравнение статистики, а не объяснение причин победы или поражения.</p></details></footer>`, 'me-dashboard');
   }
 
   // Динамика: скользящий винрейт (окно 20) и GPM по матчам, старые слева.
@@ -581,59 +648,62 @@
 
   // ---------- сравнение с другом ----------
   const FRIEND_KEY = 'dmFriendId';
+  const friendCss = document.createElement('link');
+  friendCss.rel = 'stylesheet'; friendCss.href = '/css/me.css'; document.head.appendChild(friendCss);
   function friendBlock(R) {
     const F = R.friend || {};
     const val = esc(F.draft != null ? F.draft : (F.id || ''));
-    const form = `<form class="me-fr-form" data-friend><input id="meFriend" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Steam ID друга или ссылка на профиль" value="${val}"><button type="submit" class="me-btn me-btn--go">Сравнить</button>${F.id ? '<button type="button" class="me-btn" data-friend-clear>Убрать</button>' : ''}</form>`;
+    const form = `<form class="me-fr-form" data-friend><label for="meFriend">Steam ID второго игрока</label><input id="meFriend" type="text" autocomplete="off" spellcheck="false" placeholder="Steam ID или ссылка на профиль" value="${val}"><button type="submit" class="me-btn me-btn--go">Сравнить</button>${F.id ? '<button type="button" class="me-btn" data-friend-clear>Убрать</button>' : ''}</form>`;
     let body = '';
-    if (F.error) body = `<p class="me-warn">${esc(F.error)}</p>`;
-    else if (F.loading) body = `<p class="me-na">Загружаем матчи друга… ${F.matches ? F.matches.length : 0} из 100</p>`;
+    if (F.error) body = `<p class="me-warn" role="alert">${esc(F.error)}</p>`;
+    else if (F.loading) body = `<p class="me-na" role="status">Загружаем матчи второго игрока… ${F.matches ? F.matches.length : 0} из 100</p>`;
     else if (F.summary && R.summary) body = friendCompare(R, F);
-    return section('Сравнение с другом', 'По 100 последним матчам друга и вашим загруженным, все режимы. Steam ID друга хранится только в этом браузере.', `<div class="me-panel">${form}${body}</div>`);
+    return section('Сравнение игроков', 'Вы — по загруженной истории, второй игрок — максимум по 100 последним матчам. Выбранный выше режим применяется к обоим. Steam ID второго игрока хранится только в этом браузере.', `<div class="me-panel">${form}${body}</div>`);
   }
   function friendCompare(R, F) {
-    const A = R.summary, B = F.summary;
-    const mainPos = S => { const p = S.positions || []; if (!p.length) return '—'; const m = p.reduce((a, x) => x.games > a.games ? x : a); const t = p.reduce((a, x) => a + x.games, 0); return `<span class="me-pos me-pos--${m.pos}">${POS_NUM[m.pos]}</span> ${POS_NAME[m.pos]} · ${Math.round(m.games / t * 100)}%`; };
-    const top = S => (S.heroes || []).slice(0, 3).map(h => heroMini(h.heroId)).join('');
-    const row = (t, a, b, better) => `<tr><td>${t}</td><td class="${better === 1 ? 'is-best' : ''}">${a}</td><td class="${better === 2 ? 'is-best' : ''}">${b}</td></tr>`;
-    const cmpN = (a, b) => a == null || b == null || a === b ? 0 : a > b ? 1 : 2;
-    const a = A.all, b = B.all;
-    const mine = new Set((A.heroes || []).map(h => h.heroId));
-    const common = (B.heroes || []).filter(h => mine.has(h.heroId)).slice(0, 5);
-    const commonHtml = common.length ? common.map(h => { const x = A.heroes.find(y => y.heroId === h.heroId); return `<div class="me-cmn"><span>${heroMini(h.heroId)}</span><span><small>вы</small> <b>${f1(x.wr)}&nbsp;%</b> · ${x.games} ${plural(x.games, 'игра', 'игры', 'игр')}</span><span><small>друг</small> <b>${f1(h.wr)}&nbsp;%</b> · ${h.games} ${plural(h.games, 'игра', 'игры', 'игр')}</span></div>`; }).join('') : '<p class="me-na">Общих героев нет.</p>';
-    const T = A.friend;
-    const tog = T && T.together.games ? `<div class="me-fr-tog"><b>${T.together.games}</b> ${plural(T.together.games, 'игра', 'игры', 'игр')} вместе · винрейт <b>${f1(T.together.wr)}&nbsp;%</b>${ci(T.together.ci)} против вашего общего ${f1(a.wr)}&nbsp;%${T.against.games ? ` · друг против друга: ${T.against.games} (ваши победы ${T.against.wins})` : ''}</div>`
-      : '<div class="me-fr-tog me-na">Среди загруженных матчей вы не играли вместе.</div>';
-    return tog + `<div class="me-table-wrap"><table class="me-table me-fr-t"><thead><tr><th></th><th>Вы</th><th>Друг</th></tr></thead><tbody>` +
-      row('Матчей', a.games, b.games, 0) +
-      row('Винрейт', wrCell(a), wrCell(b), cmpN(a.wr, b.wr)) +
-      row('KDA', String(a.kda).replace('.', ','), String(b.kda).replace('.', ','), cmpN(a.kda, b.kda)) +
-      row('GPM', nf.format(a.gpm), nf.format(b.gpm), cmpN(a.gpm, b.gpm)) +
-      row('XPM', nf.format(a.xpm), nf.format(b.xpm), cmpN(a.xpm, b.xpm)) +
-      row('Основная позиция', mainPos(A), mainPos(B), 0) +
-      row('Частые герои', `<span class="me-fr-h">${top(A)}</span>`, `<span class="me-fr-h">${top(B)}</span>`, 0) +
-      `</tbody></table></div><h3 class="me-h3 me-fr-h3">Общие герои</h3>${commonHtml}`;
+    const scope = S => R.mode === 'all' ? S : S.scopes && S.scopes[R.mode];
+    const A = scope(R.summary), B = scope(F.summary);
+    if (!A || !B) return '<p class="me-na">Сводка выбранного режима недоступна.</p>';
+    const fmt = v => typeof v === 'number' && Number.isFinite(v) ? esc(nf.format(v)) : '—';
+    const mode = (MODES.find(x => x[0] === R.mode) || MODES[0])[1];
+    const range = ms => { const dates = ms.map(m => m.start).filter(x => typeof x === 'number' && x > 0); return dates.length ? `${esc(new Date(Math.min(...dates) * 1000).toLocaleDateString('ru-RU'))} — ${esc(new Date(Math.max(...dates) * 1000).toLocaleDateString('ru-RU'))}` : '—'; };
+    const top = S => (S.heroes || []).slice(0, 3).map(h => `<span>${heroMini(h.heroId)} <small>${fmt(h.games)} игр</small></span>`).join('') || '—';
+    const row = (label, a, b) => `<tr><th scope="row">${label}</th><td data-label="Вы">${a}</td><td data-label="Друг">${b}</td></tr>`;
+    const a = A.all || {}, b = B.all || {};
+    return `<p class="me-sub">Режим: <b>${esc(mode)}</b>. Период и число матчей относятся ко всей загруженной истории; показатели ниже — к выбранному режиму и матчам с подробностями.</p>` +
+      ((!a.games || !b.games) ? '<p class="me-na">У одного или обоих игроков нет матчей с подробностями в выбранном режиме.</p>' : '') +
+      `<table class="me-fr-t"><caption class="me-sr-only">Сравнение игроков в режиме ${esc(mode)}</caption><thead><tr><th scope="col">Показатель</th><th scope="col">Вы · ${esc(R.id)}</th><th scope="col">Друг · ${esc(F.id)}</th></tr></thead><tbody>` +
+      row('Период', range(R.matches), range(F.matches || [])) +
+      row('Загружено матчей', fmt(R.matches.length), fmt((F.matches || []).length)) +
+      (R.matches.length !== (F.matches || []).length
+        ? `<tr><td colspan="3" class="me-sub">Друг сравнивается по меньшему числу последних матчей (${fmt(Math.min(R.matches.length, (F.matches || []).length))} против ${fmt(Math.max(R.matches.length, (F.matches || []).length))}).</td></tr>`
+        : '') +
+      row('Матчей с подробностями', fmt(a.games), fmt(b.games)) +
+      row('Винрейт', a.wr == null ? '—' : `${fmt(a.wr)} %`, b.wr == null ? '—' : `${fmt(b.wr)} %`) +
+      row('KDA', fmt(a.kda), fmt(b.kda)) + row('GPM', fmt(a.gpm), fmt(b.gpm)) + row('XPM', fmt(a.xpm), fmt(b.xpm)) +
+      row('Частые герои', `<span class="me-fr-h">${top(A)}</span>`, `<span class="me-fr-h">${top(B)}</span>`) +
+      `</tbody></table><p class="me-sub">Средние добивания и длительность матча отсутствуют в сводке API.</p>`;
   }
   async function loadFriend(R, fid) {
-    R.friend = { id: fid, loading: true, matches: [] }; render();
+    const current = R.friend = { id: fid, loading: true, matches: [] }; render();
     try { localStorage.setItem(FRIEND_KEY, fid); } catch (_) {}
     let summary = null;
     for (let off = 0; off < 100; off += PAGE) {
-      const last = off + PAGE >= 100;
+      const last = off + PAGE >= 100 || (off + PAGE) % 100 === 0;
       const res = await fetchPage({ id: fid, ctl: R.ctl }, off, null, last);
-      if (R !== run || R.ctl.signal.aborted || !R.friend || R.friend.id !== fid) return;
+      if (R !== run || R.ctl.signal.aborted || R.friend !== current) return;
       if (!res.ok) { R.friend = { id: fid, error: errorInfo(res).title + (res.code === 'history_unavailable' ? ': у друга закрыта история матчей.' : '.') }; render(); return; }
       R.friend.matches = R.friend.matches.concat(res.data.matches);
       if (res.data.summary) summary = res.data.summary;
-      if (res.data.matches.length < PAGE) { if (!summary) { const again = await fetchPage({ id: fid, ctl: R.ctl }, off, null, true); if (again.ok) summary = again.data.summary; } break; }
+      if (res.data.matches.length < PAGE || R.friend.matches.length >= Math.min(MAX, res.data.total || 0)) {
+        if (!res.data.summary) { const again = await fetchPage({ id: fid, ctl: R.ctl }, off, null, true); if (R !== run || R.friend !== current) return; if (again.ok) summary = again.data.summary; }
+        break;
+      }
       render();
     }
-    // Ваша сводка с отметкой игр вместе: тот же последний загруженный offset, параметр friend.
-    const myOff = Math.max(0, Math.floor((R.matches.length - 1) / PAGE) * PAGE);
-    const mine = await api(R.id, myOff, R.ctl.signal, true, '&friend=' + encodeURIComponent(fid));
-    if (R !== run || !R.friend || R.friend.id !== fid) return;
-    if (mine.ok && mine.data.summary) R.summary = mine.data.summary;
-    R.friend = { id: fid, summary: summary || null, error: summary ? null : 'Не удалось получить сводку друга.' };
+    if (R !== run || R.friend !== current) return;
+    R.friend = { id: fid, matches: R.friend.matches, summary: summary || null,
+      error: summary ? null : 'Не удалось получить сводку второго игрока.' };
     render();
   }
   // Прокачка: ваш самый частый выбор на каждом из 10 уровней против популярного порядка сайта.
@@ -694,14 +764,14 @@
     const S = scopeOf(R);
     const hr = S ? heroRows(S, R.mode) : [];
     const ae = document.activeElement, keep = ae && ae.id === 'meFriend' ? [ae.selectionStart, ae.selectionEnd] : null;
-    out.innerHTML = summary + refsNote + `<h2 class="me-h2">Последние матчи</h2>` + table +
+    out.innerHTML = summary + refsNote + dashboardBlock(R) + `<h2 class="me-h2">Последние матчи</h2>` + table +
       (m.length ? bg + (S ? modeSwitch(R) + weekBlock(S) + chartBlock(S) + recordsBlock(S) + topBlock(S, hr) + heroCmpBlock(S, R.mode) + skillsBlock(S, R.summary) + posBlock(S, R.summary) + similarBlock(S) +
         trendBlock(S) + streakBlock(S) + pairsBlock(S) + durBlock(S, R.mode) + timeBlock(S) + itemsBlock(S, R.summary, R) + (R.done ? friendBlock(R) : '') + adviceBlock(S, hr) + shareBlock(R) : '') : '');
     if (keep) { const fi = document.getElementById('meFriend'); if (fi) { fi.focus({ preventScroll: true }); try { fi.setSelectionRange(keep[0], keep[1]); } catch (_) {} } }
     out.querySelectorAll('tr[data-mid]').forEach(tr => {
       const toggle = () => { const id = tr.dataset.mid; if (R.open.has(id)) R.open.delete(id); else { R.open.add(id); if (!R.details[id]) { loadDetail(R, id); return; } } render(); };
-      tr.addEventListener('click', e => { if (!e.target.closest('a')) toggle(); });
-      tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+      tr.addEventListener('click', e => { if (!e.target.closest('a, details')) toggle(); });
+      tr.addEventListener('keydown', e => { if (e.target === tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(); } });
     });
     const ff = out.querySelector('[data-friend]');
     if (ff) {
@@ -770,7 +840,7 @@
         if (R !== run || R.ctl.signal.aborted) return;
         if (again.ok) res = again;
       }
-      R.matches = R.matches.concat(res.data.matches);
+      R.matches = R.matches.concat(res.data.matches); fillScores(R, res.data.matches);
       if (res.data.summary) R.summary = res.data.summary;
       if (typeof res.data.total === 'number') R.total = res.data.total;
       if (add.length < PAGE) { render(); break; }
@@ -795,7 +865,7 @@
     if (R !== run) return;
     setMsg('');
     if (!res.ok) { if (res.code !== 'aborted') showError(res, id); return; }
-    R.matches = res.data.matches.slice(0, PAGE);
+    R.matches = res.data.matches.slice(0, PAGE); fillScores(R, R.matches);
     R.summary = res.data.summary || null;
     R.total = typeof res.data.total === 'number' ? res.data.total : R.matches.length;
     R.cachedAt = typeof res.data.cachedAt === 'number' ? res.data.cachedAt : null;

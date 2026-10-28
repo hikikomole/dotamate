@@ -43,6 +43,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function query(sql, tries = 4) {
   const url = API + '?sql=' + encodeURIComponent(sql);
   for (let i = 0; i < tries; i++) {
+    if (!await require('./tools/lib/api-quota').take('opendota', { priority: 'normal' })) throw new Error('QUOTA');
     const res = await fetch(url, { headers: { Accept: 'application/json' } });
     // 429 — упёрлись в минутный лимит: ждём и повторяем, а не теряем связку
     if (res.status === 429) { await sleep(4000 * (i + 1)); continue; }
@@ -107,6 +108,7 @@ async function main() {
       store.heroes[job.id][job.pos] = pickChains(rows); // null, если данных нет
       done++;
     } catch (e) {
+      if (e.message === 'QUOTA') break;
       failed++;
       console.log('  сбой:', job.name, job.pos, '-', e.message);
     }
@@ -118,8 +120,10 @@ async function main() {
     await sleep(PAUSE_MS);
   }
 
-  store.updatedAt = new Date().toISOString();
-  fs.writeFileSync(OUT, JSON.stringify(store));
+  if (done) {
+    store.updatedAt = new Date().toISOString();
+    fs.writeFileSync(OUT, JSON.stringify(store));
+  }
   const left = jobs.length - done;
   console.log(`Выгружено за запуск: ${done}, сбоев: ${failed}, осталось: ${left}`);
 }

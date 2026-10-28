@@ -13,6 +13,7 @@ const ROOT = path.join(__dirname, '..', '..');
 const DIR = process.env.PRO_DIR || path.join(os.homedir(), 'dotamate-data', 'pro');
 const MATCHES = path.join(DIR, 'matches');
 const API = 'https://api.opendota.com/api';
+const quota = require('../lib/api-quota');
 const UA = 'dotamate.ru pro-sync (+https://dotamate.ru/pro/)';
 const DAY_CAP = Number(process.env.PRO_DAY_CAP) || 300;     // своих запросов в сутки (UTC)
 const RESERVE = 800;               // остаток суточного лимита OpenDota (общий IP со сборщиком эфира и базой), ниже — стоп
@@ -43,12 +44,14 @@ async function od(pathq) {
   if (remainingDay !== null && remainingDay < RESERVE) { stopReason = 'у OpenDota осталось ' + remainingDay + ' запросов на сутки'; return null; }
   state.calls++;
   await sleep(PAUSE_MS);
+  if (!await quota.take('opendota', { priority: 'critical' })) { stopReason = 'shared OpenDota quota'; return null; }
   let r;
   try { r = await fetch(API + pathq, { headers: { Accept: 'application/json', 'User-Agent': UA }, signal: AbortSignal.timeout(25000) }); }
   catch (e) { throw new Error('сеть: ' + (e.cause && e.cause.code || e.name || e.message)); }
+  await quota.observe('opendota', r.headers);
   const rd = r.headers.get('x-rate-limit-remaining-day');
   if (rd !== null && rd !== '') remainingDay = Number(rd);
-  if (r.status === 429) { stopReason = 'OpenDota 429'; return null; }
+  if (r.status === 429) { await quota.pause('opendota', r.headers.get('retry-after')); stopReason = 'OpenDota 429'; return null; }
   if (r.status === 404) return { notFound: true };
   if (!r.ok) throw new Error('HTTP ' + r.status + ' ' + pathq);
   const j = await r.json().catch(() => { throw new Error('не JSON ' + pathq); });

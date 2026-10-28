@@ -1,0 +1,24 @@
+{
+  "matchId": 1234567890,
+  "start": 1793059200,
+  "duration": 2345,
+  "gameMode": 22,
+  "radiantWin": true,
+  "radiantName": "Radiant Test",
+  "direName": "Dire Test",
+  "pending": false,
+  "x": {
+    "src": "gc",
+    "score": [39, 12],
+    "fb": 95,
+    "lobby": 7,
+    "towers": [2047, 511],
+    "rax": [63, 31],
+    "draft": [[1, 0, 1], [0, 1, 2]],
+    "teams": [{"id": 1, "tag": "RAD", "logo": null}, {"id": 2, "tag": "DIRE", "logo": null}]
+  },
+  "players": [
+    {"radiant": true, "hero": 1, "name": "Player", "pos": 1, "lvl": 25, "td": 1234, "items": [1, 2, 0, 0, 0, 0], "x": {"bp": [3, 0, 0], "nt": 4, "gs": 22000, "g": 500, "sd": 120, "gl": 800, "br": 3, "op": 1, "sg": 200, "pt": 1, "lv": 0, "di": [12000, 3000, 1000], "dr": [6000, 4000, 500]}},
+    {"radiant": false, "hero": 2, "name": "Leaver", "pos": null, "lvl": 20, "td": 0, "items": [0, 0, 0, 0, 0, 0], "x": {"bp": [0, 0, 0], "nt": 0, "gs": 9000, "g": 0, "sd": 600, "gl": 1800, "br": 0, "op": 0, "sg": 0, "pt": 0, "lv": 2, "di": [2000, 1000, 0], "dr": [9000, 2000, 0]}}
+  ]
+}

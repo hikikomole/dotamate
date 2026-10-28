@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('dotamate-theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подробности матча Dota 2 | Dota Mate</title>
+<meta name="robots" content="noindex, follow">
+<meta name="description" content="Результат и статистика игроков матча Dota 2.">
+<link rel="canonical" href="https://dotamate.ru/match/">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192.png"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Подробности матча Dota 2 | Dota Mate">
+<meta property="og:description" content="Результат и статистика игроков матча Dota 2.">
+<meta property="og:image" content="https://dotamate.ru/assets/dotamate-og.jpg">
+<meta property="og:url" content="https://dotamate.ru/match/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Подробности матча Dota 2 | Dota Mate">
+<meta name="twitter:description" content="Результат и статистика игроков матча Dota 2.">
+<!-- Шрифты — свои копии (css/fonts.css, assets/fonts/), не Google Fonts: из РФ Google отвечал до 1,5 с.
+     Inter/Manrope — font-display:optional, Oswald (заголовки, логотип) — swap, как было. -->
+<link rel="preload" href="/assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/security.js"></script>
+<link rel="stylesheet" href="/css/theme-dark.css">
+<link rel="stylesheet" href="/css/match.css">
+
+
+  
+<link rel="stylesheet" href="/css/v43-platform.css">
+<link rel="stylesheet" href="/css/tokens.css"><script src="/js/theme.js" defer></script>
+<!-- Yandex.RTB --><script>window.yaContextCb=window.yaContextCb||[]</script><script type="text/plain" data-consent="ads" data-src="https://yandex.ru/ads/system/context.js"></script><!-- End Yandex.RTB -->
+<!-- Yandex.Metrika counter --><script type="text/plain" data-consent="analytics">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.webvisor.org/metrika/tag_ww.js?id=112755250', 'ym');ym(112755250, 'init', {ssr:true, webvisor:true, trackHash:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><!-- /Yandex.Metrika counter -->
+</head>
+<body id="top" class="d2-dark">
+<div class="bg"></div>
+
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Dota Mate — помощник по Dota 2"><span class="dm-dot" aria-hidden="true"></span><span class="dm-word">Dotamate</span></a>
+    <nav id="navMenu"><a href="/heroes/">Герои</a><a href="/items/">Предметы</a><a href="/stats/">Статистика</a><a href="/guides/">Гайды</a><a href="/academy/">Учебный центр</a><a href="/games/">Игры</a><a href="/meta/">META</a><div class="nav-dd"><a href="/live/">Эфир<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/live/">Трансляция</a><a href="/pro/">Про-матчи</a><a href="/live/streams/">Стримы</a><a href="/live/words/">Частые слова</a></div></div><div class="nav-dd"><a href="/me/" class="active">Мой профиль<span class="nav-dd-arrow" aria-hidden="true">▾</span></a><div class="nav-dd-menu"><a href="/me/">Мой профиль</a><a href="/match/" aria-current="page" class="active">Поиск матча</a></div></div></nav>
+    <div class="nav-spacer"></div><button class="theme-toggle" type="button" aria-label="Включить светлую тему" aria-pressed="false">☼</button><button class="menu" id="menu" aria-expanded="false" aria-controls="navMenu" aria-label="Открыть меню">☰</button>
+  </div></header>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://dotamate.ru/"},{"@type":"ListItem","position":2,"name":"Матч","item":"https://dotamate.ru/match/"}]}</script>
+<div class="container breadcrumbs"><a href="/">Главная</a> <span>›</span> <span aria-current="page">Матч</span></div>
+<main>
+<section class="section me match-page" id="match"><div class="container">
+  <h1 class="page-title">Подробности матча</h1>
+  <form class="me-form" id="matchForm" novalidate><label class="me-label" for="matchId">ID матча Dota 2</label>
+    <div class="me-row"><input id="matchId" name="id" inputmode="numeric" autocomplete="off" placeholder="Номер матча"><button class="me-btn me-btn--go" type="submit">Показать</button></div>
+  </form>
+  <p id="matchStatus" role="status" aria-live="polite"></p><div id="matchOut"></div>
+</div></section>
+<div class="ad-slot ad-active" id="yandex_rtb_R-A-20064201-1" data-ad-slot="home-mid"></div>
+<script>window.yaContextCb.push(()=>{Ya.Context.AdvManager.render({"blockId":"R-A-20064201-1","renderTo":"yandex_rtb_R-A-20064201-1"})})</script>
+
+</main>
+
+<footer><div class="container footer-row"><span class="footer-brand">© 2026 DotaMate.ru. Dota 2 и логотип Dota 2 являются зарегистрированными товарными знаками корпорации Valve.</span><nav class="footer-links" aria-label="Информация"><a href="/contact/">Обратная связь</a><a href="/privacy/">Конфиденциальность</a><a href="https://t.me/Dotamate_ru" target="_blank" rel="noopener">Telegram-канал</a><a href="#" data-consent-revoke>Отключить cookies</a></nav></div></footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalContent"><div class="modal-bg" id="modalBg"></div><div class="modal-card"><button class="close" id="close" aria-label="Закрыть">×</button><div id="modalContent"></div></div></div>
+<script src="/js/local-preview.js" defer></script>
+<script src="/js/reliable-data.js" defer></script>
+<script src="/js/item-variants.js" defer></script>
+<script src="/js/hero-roles.js" defer></script>
+<script src="/js/search.js" defer></script>
+<script src="/js/app.js" defer></script>
+<script src="/js/score-popover.js" defer></script>
+<script src="/js/match.js" defer></script>
+<script src="/js/v43-features.js" defer></script>
+</body>
+</html>

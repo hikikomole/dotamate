@@ -100,7 +100,9 @@ function pack(m, publicRow) {
 }
 
 async function ask(token, id, query = Q) {
+  const quota = require('./lib/api-quota');
   for (let t = 1; t <= RATE_TRIES; t++) {
+    if (!await quota.take('stratz', { priority: 'fill' })) return undefined;
     let res;
     try {
       res = await fetch(ENDPOINT, {
@@ -109,7 +111,8 @@ async function ask(token, id, query = Q) {
         body: JSON.stringify({ query, variables: { id } })
       });
     } catch (e) { await sleep(3000 * t); continue; }
-    if (res.status === 429) { console.log('Stratz просит остыть, ждём', RATE_WAIT_MS / 1000, 'с'); await sleep(RATE_WAIT_MS); continue; }
+    await quota.observe('stratz', res.headers);
+    if (res.status === 429) { await quota.pause('stratz', res.headers.get('retry-after')); continue; }
     if (!res.ok) throw new Error('Stratz HTTP ' + res.status);
     const j = await res.json();
     if (j.errors) throw new Error('Stratz: ' + JSON.stringify(j.errors).slice(0, 200));
@@ -167,6 +170,7 @@ async function backfill(token) {
         const m = todo[next++];
         asked++;
         const got = await ask(token, m.id, QB);
+        if (got === undefined) return;
         const pl = got && got.players || [];
         for (const p of m.p) {
           const g = pl.find(x => x.heroId === p.h && (x.isRadiant ? 1 : 0) === p.r);
@@ -210,6 +214,7 @@ async function main() {
       const m = list[next++];
       asked++;
       const got = await ask(token, m[0]);
+      if (got === undefined) return;
       tried.add(m[0]);
       if (got && got.players && got.players.length === 10) {
         const day = new Date(got.startDateTime * 1000).toISOString().slice(0, 10);
@@ -227,4 +232,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e.message); process.exit(1); });
-module.exports = { pack };
+module.exports = { pack, readToken, ask, PAUSE_MS };
